@@ -82,6 +82,18 @@ nav.main a:hover{color:var(--accent)}
 .hero figure img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 0 var(--line),0 24px 60px rgba(0,0,0,.18)}
 .hero figcaption{font-size:14px;color:var(--muted);margin-top:10px}
 .tag{position:absolute;left:12px;top:12px;background:rgba(13,18,32,.84);color:#fff;font-size:13px;font-weight:600;padding:6px 10px;border-radius:999px}
+/* zoom demo */
+#demo .demo{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;margin-top:34px}
+@media (max-width:860px){#demo .demo{grid-template-columns:minmax(0,1fr)}}
+.demo-stage{aspect-ratio:4/5;overflow:hidden;border-radius:8px;border:1px solid var(--line);background:#fff;position:relative;box-shadow:0 14px 40px rgba(0,0,0,.14)}
+.demo-stage svg{position:absolute;left:0;top:0;width:100%;height:auto;transform-origin:0 0}
+.demo-stage.animate svg{transition:transform .25s ease-out}
+.demo-view figcaption{display:flex;gap:12px;align-items:center;margin-top:14px}
+.demo-view input[type=range]{flex:1;accent-color:var(--accent)}
+.demo-view button{font:inherit;font-weight:700;font-size:14px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap}
+.demo-text #demoSentence{font:16px/1.65 var(--f-mono);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:16px;margin:0}
+.demo-text .src{font-size:14px;color:var(--muted);margin:14px 0 0;max-width:60ch}
+.demo-zoomlabel{font:13px var(--f-mono);color:var(--muted);min-width:3.2em;text-align:right;font-variant-numeric:tabular-nums}
 /* numbers */
 .numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:36px}
 .num{background:var(--band);padding:22px 20px}
@@ -186,6 +198,30 @@ footer a{color:inherit}
       <span class="tag" data-i18n="hero.tag">The whole book: 1.2 million characters</span>
       <figcaption data-i18n="hero.cap">Moby-Dick, all 135 chapters on one 2 × 3 m poster. Zoom in and read it, or let a machine read it back: the text is complete.</figcaption>
     </figure>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <p class="kicker" data-i18n="demo.kicker">See it for yourself</p>
+    <h2 data-i18n="demo.h">Zoom in, and the picture turns into words.</h2>
+    <p class="lead" data-i18n="demo.lead">The same work, far and near. From across the room it is a portrait; up close, every shape is a letter — the real text, in reading order. Drag the slider, or press play.</p>
+    <div class="demo">
+      <figure class="demo-view" style="margin:0">
+        <div class="demo-stage" id="demoStage"></div>
+        <figcaption>
+          <input type="range" id="demoZoom" min="1" max="12" step="0.1" value="1" aria-label="Zoom">
+          <span class="demo-zoomlabel" id="demoZoomV">1×</span>
+          <button type="button" id="demoPlay" data-i18n="demo.play">Play</button>
+        </figcaption>
+      </figure>
+      <div class="demo-text">
+        <h3 data-i18n="demo.read">What a machine reads at the top</h3>
+        <p id="demoSentence">…</p>
+        <p class="src" data-i18n="demo.src">The opening of Frederick Douglass's Narrative of 1845, set as his portrait. This text is read straight from the artwork's SVG, in order from the top-left.</p>
+        <p style="margin-top:18px"><a class="cta ghost" href="work.html?art=gallery/douglass.svg&title=Learning%20to%20Read&back=./" data-i18n="demo.open">Open all three views →</a></p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -388,6 +424,7 @@ node cli/onepage.mjs law.pdf --title "Short title" -o onepage.pdf</pre>
 </footer>
 
 <script type="module">
+import { canonicalText, markupText } from './src/index.js';
 const $ = (s) => document.querySelector(s);
 // Wordmark: the technique in one word, one weight per letter.
 {
@@ -400,6 +437,11 @@ const DE = {
   'hero.kicker': 'Typographics Art · Open Source', 'hero.h1a': 'ASCII-Art', 'hero.h1b': 'für das Zeitalter der KI.',
   'hero.lead': 'Jeder Text wird zum Bild deines Fotos und bleibt Text. Jeder Buchstabe behält seinen Platz; nur Strichstärke, Breite, Grösse und Farbe ändern sich. Menschen sehen das Bild. Maschinen lesen jedes Wort.',
   'hero.tag': 'Das ganze Buch: 1,2 Millionen Zeichen', 'hero.cap': 'Moby-Dick, alle 135 Kapitel auf einem Poster von 2 × 3 m. Zoome hinein und lies es, oder lass es eine Maschine zurücklesen: Der Text ist vollständig.',
+  'demo.kicker': 'Selbst ansehen', 'demo.h': 'Zoom hinein, und das Bild wird zu Wörtern.',
+  'demo.lead': 'Dasselbe Werk, fern und nah. Aus der Entfernung ein Porträt; aus der Nähe ist jede Form ein Buchstabe — der echte Text, in Lesereihenfolge. Zieh den Regler oder drück auf Abspielen.',
+  'demo.read': 'Was eine Maschine oben liest', 'demo.play': 'Abspielen',
+  'demo.src': 'Der Anfang von Frederick Douglass’ Narrative von 1845, gesetzt als sein Porträt. Dieser Text wird direkt aus dem SVG des Werks gelesen, von links oben an.',
+  'demo.open': 'Alle drei Ansichten öffnen →',
   'proof.kicker': 'Gemessen, nicht behauptet', 'proof.h': 'Der Text überlebt. Wir haben jedes Zeichen geprüft.',
   'n.exact': 'des Textes kommen aus HTML, SVG und PDF zurück', 'n.chars': 'Zeichen Moby-Dick auf einem Bogen, SHA-256 identisch', 'n.tests': 'Tests im erzeugten Nachweisbericht bestanden',
   'n.ex': 'One-Pager zurückgelesen und geprüft', 'n.vlm': 'Wörter von einem Bildmodell gelesen, wo klassische Texterkennung 5 % schaffte',
@@ -475,6 +517,38 @@ function fillNumbers() {
 Promise.all([fetch('demo/moby-dick/proof.json').then((r) => r.json()).catch(() => null), fetch('examples/index.json').then((r) => r.json()).catch(() => null)])
   .then(([p, e]) => { proof = p; examples = e; fillNumbers(); });
 setLang(lang);
+
+// Zoom demo: the Douglass work (2.6 MB SVG) is inlined only when the section scrolls into view, so it
+// never slows the first paint. Zooming reveals the top-left, which is the start of the text in reading order.
+function initDemo() {
+  const stage = $('#demoStage'); if (!stage) return;
+  fetch('gallery/douglass.svg').then((r) => (r.ok ? r.text() : Promise.reject(new Error('fetch')))).then((raw) => {
+    const svg = new DOMParser().parseFromString(raw, 'image/svg+xml').documentElement;
+    if (svg.nodeName.toLowerCase() !== 'svg') throw new Error('not svg');
+    svg.querySelectorAll('script,foreignObject').forEach((n) => n.remove());
+    svg.querySelectorAll('*').forEach((el) => [...el.attributes].forEach((a) => { if (a.name.toLowerCase().startsWith('on')) el.removeAttribute(a.name); }));
+    svg.removeAttribute('width'); svg.removeAttribute('height'); svg.style.width = '100%';
+    stage.appendChild(document.importNode(svg, true));
+    const s = stage.querySelector('svg');
+    const opening = canonicalText(markupText(raw, 'svg')).slice(0, 240).replace(/\s+\S*$/, '');
+    $('#demoSentence').textContent = opening + ' …';
+    const setZoom = (z) => { s.style.transform = `scale(${z})`; $('#demoZoomV').textContent = (z < 9.95 ? z.toFixed(1) : Math.round(z)) + '×'; };
+    let raf = null;
+    $('#demoZoom').addEventListener('input', (e) => { if (raf) { cancelAnimationFrame(raf); raf = null; } setZoom(+e.target.value); });
+    $('#demoPlay').addEventListener('click', () => {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { $('#demoZoom').value = 8; setZoom(8); return; }
+      const t0 = performance.now(), ms = 3200;
+      const step = (now) => { const k = Math.min(1, (now - t0) / ms); const z = 1 + 7 * (0.5 - 0.5 * Math.cos(Math.PI * k)); $('#demoZoom').value = z; setZoom(z); if (k < 1) raf = requestAnimationFrame(step); else raf = null; };
+      raf = requestAnimationFrame(step);
+    });
+    setZoom(1);
+  }).catch(() => { const sec = $('#demo'); if (sec) sec.hidden = true; });
+}
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); initDemo(); } }, { rootMargin: '300px' });
+  io.observe($('#demoStage'));
+} else initDemo();
 </script>
 </body>
 </html>
