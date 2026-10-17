@@ -10,7 +10,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://typographics-art.org/demo/moby-dick/">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
 <style>
 /* Layout: zoom viewer fills the left, proof column on the right; stacked on narrow screens. */
 :root{
@@ -87,7 +87,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js" integrity="sha384-4BsIv4BUV37POdA1NZ6UcVAsFk96MQXmFLog7pWs+JP+a8k2XjilfManEVdWDxTe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../../assets/vendor/openseadragon/openseadragon.min.js"></script>
 <script type="module">
 const T = {
   en: {},
@@ -150,7 +150,7 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
 renderAll();
 
 const viewer = OpenSeadragon({
-  id: 'viewer', tileSources: 'out/zoom/moby-dick.dzi', prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
+  id: 'viewer', tileSources: 'out/zoom/moby-dick.dzi', prefixUrl: '../../assets/vendor/openseadragon/images/',
   showNavigator: true, navigatorPosition: 'TOP_RIGHT', maxZoomPixelRatio: 3, visibilityRatio: 0.6, gestureSettingsMouse: { clickToZoom: false },
 });
 viewer.addHandler('canvas-click', (e) => {

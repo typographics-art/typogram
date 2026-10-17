@@ -11,7 +11,9 @@
   "files": [
     "src",
     "cli",
-    "gallery/recipes.js"
+    "gallery/recipes.js",
+    "assets/fonts",
+    "assets/vendor/pdfjs"
   ],
   "scripts": {
     "test": "node --test test/*.test.js",

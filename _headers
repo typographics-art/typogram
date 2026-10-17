@@ -1,0 +1,25 @@
+# Cloudflare Workers static assets: headers for the website (copied to _site/ by scripts/build-site.mjs).
+# The Content-Security-Policy makes the claim "the site loads nothing from third parties" a rule the browser enforces:
+# scripts, styles, images, fonts and requests may only come from this site (inline script and style are used by the pages).
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+
+# Exported SVG and HTML files import this stylesheet from other places, so the fonts may be used cross-origin.
+/assets/fonts/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=604800
+
+/assets/vendor/*
+  Cache-Control: public, max-age=604800
+
+/gallery/*
+  Cache-Control: public, max-age=86400
+
+/examples/*
+  Cache-Control: public, max-age=86400
+
+/samples/*
+  Cache-Control: public, max-age=86400

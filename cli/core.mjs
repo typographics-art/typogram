@@ -9,7 +9,7 @@ import { join, normalize, extname, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json', '.css': 'text/css' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json', '.css': 'text/css', '.woff2': 'font/woff2' };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function findChrome() {
@@ -26,9 +26,12 @@ export function findChrome() {
 /** Serves the repository read-only on a random local port. */
 function serveRoot() {
   const server = createServer(async (req, res) => {
-    const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^([/\\])+/, '');
+    let path;
+    try { path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^([/\\])+/, ''); } catch { res.writeHead(400); res.end(); return; } // a malformed %-escape must not end the process
     const file = join(ROOT, path);
     if (!(file + sep).startsWith(ROOT + sep) && file !== ROOT) { res.writeHead(403); res.end(); return; }
+    // The pages render from src/, cli/ and the fonts; nothing else of the repository has to be reachable.
+    if (/^(\.|api[/\\]|test[/\\]|node_modules[/\\])/.test(path)) { res.writeHead(403); res.end(); return; }
     try {
       const body = await readFile(file);
       res.writeHead(200, { 'content-type': TYPES[extname(file)] || 'application/octet-stream' });

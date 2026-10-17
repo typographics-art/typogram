@@ -9,6 +9,7 @@ COPY package.json ./
 COPY src ./src
 COPY cli ./cli
 COPY gallery/recipes.js ./gallery/recipes.js
+COPY assets/fonts ./assets/fonts
 COPY api ./api
 ENV CHROME_PATH=/usr/bin/chromium CHROME_NO_SANDBOX=1 DATA_DIR=/data PORT=8080 NODE_ENV=production
 RUN useradd --uid 10001 --create-home api && mkdir -p /data && chown api /data

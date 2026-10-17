@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://typographics-art.org/assets/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
 :root{
   --bg:#f4f4f1; --band:#ffffff; --ink:#15171c; --muted:#5a6070; --line:#dcdfe5; --soft:#eceef2;
@@ -197,7 +197,7 @@ footer a{color:inherit}
 import { canonicalText, markupText, pdfItemsText, structuredText, sha256Hex } from './src/index.js';
 
 const $ = (s) => document.querySelector(s);
-const PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/';
+const PDFJS = new URL('assets/vendor/pdfjs/', location.href).href; // pdf.js 4.4.168, Apache-2.0, hosted with the project
 
 /* ---------- tiny i18n ---------- */
 const DE = {
@@ -290,7 +290,8 @@ function sanitizeSvg(raw) {
         if (!(v.startsWith('#') || /^https?:/i.test(v) || /^data:image\/(png|jpe?g|gif|webp);/i.test(v))) el.removeAttribute(a.name);
       }
     }
-    if (el.localName === 'style') el.textContent = el.textContent.replace(/expression\s*\(|javascript:/gi, '');
+    // The page already has the fonts; an @import in the artwork's own style would fetch them again (and a content security policy would refuse it).
+    if (el.localName === 'style') el.textContent = el.textContent.replace(/@import[^;]*;?/gi, '').replace(/expression\s*\(|javascript:/gi, '');
   });
   return document.importNode(svg, true);
 }
