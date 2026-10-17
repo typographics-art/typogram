@@ -19,16 +19,22 @@ import { openStore } from './store.mjs';
 import { runJob } from './pipeline.mjs';
 
 const env = process.env;
+// Everything that identifies a deployment is required: there are no defaults pointing at anybody's
+// infrastructure, and the receive address must be the operator's own.
+const need = (name) => {
+  if (!env[name]) { console.error(`Missing required environment variable ${name} (see api/README.md, "Configuration").`); process.exit(1); }
+  return env[name];
+};
 const CFG = {
   port: Number(env.PORT || 8080),
   dataDir: env.DATA_DIR || '/data',
-  address: env.RECEIVE_ADDRESS || 'DT6eHuhe5Bvh2yKnVvt6EFLjURK7vad1CC',
+  address: need('RECEIVE_ADDRESS'),
   minDgb: Number(env.MIN_DGB || 10),
   minConfirmations: Number(env.MIN_CONFIRMATIONS || 2),
   maxBytes: Number(env.MAX_UPLOAD_MB || 20) * 1048576,
-  dgb: { url: env.DGB_RPC_URL || 'http://digibyte.astrion-core.svc.cluster.local:12025', user: env.DGB_RPC_USER, password: env.DGB_RPC_PASS },
-  llm: { url: env.LLM_URL || 'http://vllm-chat.astrion-ai.svc.cluster.local:8009', apiKey: env.LLM_API_KEY, model: env.LLM_MODEL || undefined },
-  image: { url: env.IMAGE_URL || 'http://imagegen-james.astrion-ai.svc.cluster.local:7860', model: env.IMAGE_MODEL || 'Qwen/Qwen-Image-2.1' },
+  dgb: { url: need('DGB_RPC_URL'), user: env.DGB_RPC_USER, password: env.DGB_RPC_PASS },
+  llm: { url: need('LLM_URL'), apiKey: env.LLM_API_KEY, model: env.LLM_MODEL || undefined },
+  image: { url: need('IMAGE_URL'), model: env.IMAGE_MODEL || 'Qwen/Qwen-Image-2.1' },
 };
 mkdirSync(join(CFG.dataDir, 'jobs'), { recursive: true });
 const store = openStore(join(CFG.dataDir, 'api.sqlite'));

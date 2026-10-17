@@ -52,4 +52,19 @@ Transaction hashes are public on the chain, so the job and its PDF are only reac
 4. The whole text is set on one A4 page with that picture as motif and read back with MuPDF: the PDF holds every character of the document.
 5. The hash is burned, and the image is booked in the service's own ledger (append-only), separately from any account.
 
-Code: `api/server.mjs` (HTTP and queue), `api/dgb.mjs` (payment check), `api/store.mjs` (SQLite: payments, jobs, ledger), `api/pipeline.mjs` (prompt, image, one-pager). Tests: `test/api.test.js`. Deployment: namespace `typographics` in the AstrionCore home cluster.
+Code: `api/server.mjs` (HTTP and queue), `api/dgb.mjs` (payment check), `api/store.mjs` (SQLite: payments, jobs, ledger), `api/pipeline.mjs` (prompt, image, one-pager). Tests: `test/api.test.js`. ## Configuration
+
+All settings are environment variables. The first four have no default on purpose; the service refuses to start without them.
+
+| Variable | Required | Meaning |
+|---|---|---|
+| `RECEIVE_ADDRESS` | yes | The DigiByte address that payments go to. Use one whose key you hold. |
+| `DGB_RPC_URL` | yes | A DigiByte node with `txindex=1` (payments are checked with `getrawtransaction`, no wallet needed). |
+| `LLM_URL` | yes | OpenAI-compatible chat endpoint that writes the image prompt. |
+| `IMAGE_URL` | yes | Image endpoint that draws the picture. |
+| `DGB_RPC_USER`, `DGB_RPC_PASS` | if the node needs them | RPC credentials. |
+| `LLM_API_KEY`, `LLM_MODEL`, `IMAGE_MODEL` | no | Credentials and model names for the two endpoints. |
+| `MIN_DGB`, `MIN_CONFIRMATIONS` | no | Price (default 10) and confirmations (default 2). |
+| `MAX_UPLOAD_MB`, `DATA_DIR`, `PORT` | no | Upload limit (20), data directory with the SQLite ledger (`/data`), port (8080). |
+
+Build the image from the repository root with `docker build -f api/Dockerfile -t typographics-api .`.
