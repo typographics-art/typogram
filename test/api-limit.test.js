@@ -18,6 +18,13 @@ test('limiter: everybody together is limited, however many addresses they use', 
   assert.deepEqual(results, [false, false, false, false, false, true, true, true]);
 });
 
+test('limiter: one client cannot spend the shared budget, so it cannot lock the others out', () => {
+  const c = clock(), l = createLimiter({ perClient: 3, global: 10, now: c.now });
+  for (let i = 0; i < 100; i++) l.tooMany('attacker');
+  assert.equal(l.tooMany('payer-1'), false);
+  assert.equal(l.tooMany('payer-2'), false, 'the attacker used 3 of the 10, everybody else still has 7');
+});
+
 test('limiter: memory is bounded however many addresses are made up', () => {
   const c = clock(), l = createLimiter({ perClient: 5, global: 1_000_000, maxClients: 100, now: c.now });
   for (let i = 0; i < 5000; i++) l.tooMany(`spoof-${i}`);

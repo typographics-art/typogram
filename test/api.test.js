@@ -116,3 +116,12 @@ test('runJob refuses an empty or over-long document before any model or browser 
   await assert.rejects(runJob({ inputFile: long }, cfg), (e) => e.refused === true && /at most 5000/.test(e.message));
   await assert.rejects(runJob({ inputFile: empty }, cfg), (e) => e.refused === true && /no text/.test(e.message));
 });
+
+test('runJob stops at an aborted signal before any model or browser work', async () => {
+  const { runJob } = await import('../api/pipeline.mjs');
+  const dir = mkdtempSync(join(tmpdir(), 'tg-job-'));
+  const { writeFileSync } = await import('node:fs');
+  const f = join(dir, 'doc.txt'); writeFileSync(f, 'some text to set '.repeat(20));
+  const ac = new AbortController(); ac.abort();
+  await assert.rejects(runJob({ inputFile: f, signal: ac.signal }, { maxCharacters: 5000, llm: { url: 'http://127.0.0.1:1' }, image: { url: 'http://127.0.0.1:1' } }), (e) => e.name === 'AbortError');
+});

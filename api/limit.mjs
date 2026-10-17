@@ -10,9 +10,10 @@ export function createLimiter({ perClient, global, windowMs = 60000, maxClients 
     tooMany(client) {
       const t = now();
       while (all.length && t - all[0] >= windowMs) all.shift();
-      if (all.length >= global) return true;
+      // The client's own limit first: one client can never spend more than `perClient` of the shared budget.
       const recent = (clients.get(client) || []).filter((x) => t - x < windowMs);
       if (recent.length >= perClient) { clients.delete(client); clients.set(client, recent); return true; }
+      if (all.length >= global) return true;
       recent.push(t); all.push(t);
       clients.delete(client); clients.set(client, recent);
       while (clients.size > maxClients) clients.delete(clients.keys().next().value);

@@ -61,9 +61,18 @@ test('api: an unknown transaction is 402 and is checked BEFORE the body is read'
 
 test('api: too many payment checks from one client get 429', { skip: !sqlite }, async () => {
   let last;
-  for (let i = 0; i < 8; i++) last = await post('hello', { 'cf-connecting-ip': '203.0.113.9' });
+  // Different hashes: the same unknown hash is answered from a short cache and costs no check.
+  for (let i = 0; i < 8; i++) last = await post('hello', { 'x-dgb-tx': i.toString(16).padStart(64, 'c'), 'cf-connecting-ip': '203.0.113.9' });
   assert.equal(last.status, 429);
   assert.equal(last.headers.get('retry-after'), '60');
+});
+
+test('api: asking again for the same unknown hash is answered from a short cache, without a call to the node', { skip: !sqlite }, async () => {
+  const id = 'd'.repeat(64);
+  assert.equal((await post('hello', { 'x-dgb-tx': id, 'cf-connecting-ip': '203.0.113.20' })).status, 402);
+  const before = rpcCalls;
+  for (let i = 0; i < 5; i++) assert.equal((await post('hello', { 'x-dgb-tx': id, 'cf-connecting-ip': '203.0.113.20' })).status, 402);
+  assert.equal(rpcCalls, before);
 });
 
 test('api: an underpaying transaction is 402 with the reason, a failed job exposes no internals', { skip: !sqlite }, async () => {

@@ -72,6 +72,11 @@ const readBody = (req) => new Promise((resolve, reject) => {
 // Payment checks cost a call to the node: a limit per client and one for everybody (api/limit.mjs).
 const limiter = createLimiter({ perClient: CFG.checksPerMinute, global: CFG.globalChecksPerMinute });
 const tooManyChecks = (req) => limiter.tooMany(clientAddress(req, CFG));
+// A hash the node does not know yet is remembered for a few seconds: asking again costs nothing and uses no budget.
+const unknownTx = new Map();
+const NOT_FOUND_TTL_MS = 10000;
+const recentlyUnknown = (txid) => { const until = unknownTx.get(txid); if (until && until > Date.now()) return true; unknownTx.delete(txid); return false; };
+const rememberUnknown = (txid) => { unknownTx.set(txid, Date.now() + NOT_FOUND_TTL_MS); while (unknownTx.size > 5000) unknownTx.delete(unknownTx.keys().next().value); };
 const jobDir = (id) => join(CFG.dataDir, 'jobs', id);
 // The reason a job failed stays in the server log and the ledger; the client learns only what it can act on.
 const publicJob = (j) => ({
@@ -89,6 +94,7 @@ async function createJob(req, res, url) {
   if (Number(req.headers['content-length'] || 0) > CFG.maxBytes) return send(res, 413, { error: 'too_large', detail: `At most ${Math.floor(CFG.maxBytes / 1048576)} MB.` }); // no `connection: close`: Node then discards the unread body after answering, and the client still receives the 413
   const used = store.payment(txid);
   if (used && used.status !== 'released') return send(res, 409, { error: 'tx_already_used' }); // nothing about the job: hashes are public
+  if (recentlyUnknown(txid)) return send(res, 402, { error: 'tx_not_found', detail: 'Our node does not know this transaction yet. Wait a minute and try again.' });
   if (tooManyChecks(req)) return send(res, 429, { error: 'slow_down', detail: 'Too many payment checks from your address. Wait a minute.' }, { 'retry-after': '60' });
   let tx;
   try {
@@ -97,7 +103,7 @@ async function createJob(req, res, url) {
     console.error(`[payment check] ${e.message}`);
     return send(res, 503, { error: 'payment_check_unavailable', detail: 'Our DigiByte node cannot be reached right now. Your transaction is not used; try again later.' });
   }
-  if (!tx) return send(res, 402, { error: 'tx_not_found', detail: 'Our node does not know this transaction yet. Wait a minute and try again.' });
+  if (!tx) { rememberUnknown(txid); return send(res, 402, { error: 'tx_not_found', detail: 'Our node does not know this transaction yet. Wait a minute and try again.' }); }
   const pay = evaluatePayment(tx, CFG);
   if (!pay.ok) {
     return send(res, 402, { error: pay.reason, paid_dgb: pay.paidDgb, confirmations: pay.confirmations, required_dgb: CFG.minDgb, required_confirmations: CFG.minConfirmations, address: CFG.address });
@@ -157,23 +163,30 @@ async function work() {
     for (let j = store.nextQueued(); j; j = store.nextQueued()) {
       store.setJob(j.id, { status: 'running' });
       const pdf = join(jobDir(j.id), 'onepage.pdf');
-      let imageMade = false, timer, session = null;
+      let imageMade = false, timer, session = null, stopped = false, run;
+      const abort = new AbortController();
       try {
-        const run = runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), onImage: () => { imageMade = true; store.setJob(j.id, { image_made: 1 }); }, onSession: (x) => { session = x; } }, CFG);
-        // On a timeout the browser is shut down, which also ends whatever the job was waiting for; the service goes on.
-        const timeout = new Promise((_, reject) => { timer = setTimeout(() => { session?.close().catch(() => {}); reject(new Error(`job exceeded ${CFG.jobTimeoutMs / 60000} minutes`)); }, CFG.jobTimeoutMs); });
+        run = runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), signal: abort.signal, onImage: () => { imageMade = true; store.setJob(j.id, { image_made: 1 }); }, onSession: (x) => { session = x; } }, CFG);
+        run.then(() => { stopped = true; }, () => { stopped = true; });
+        // On a timeout the job is aborted (model requests end, the browser is shut down) and the service goes on.
+        const timeout = new Promise((_, reject) => { timer = setTimeout(() => { abort.abort(); session?.close().catch(() => {}); reject(Object.assign(new Error(`job exceeded ${CFG.jobTimeoutMs / 60000} minutes`), { timedOut: true })); }, CFG.jobTimeoutMs); });
         const r = await Promise.race([run, timeout]);
         store.setJob(j.id, { status: 'done', result: pdf, finished_at: new Date().toISOString() });
         store.burn(j.txid, { job: j.id, prompt: r.prompt, characters: r.characters, pdfBytes: r.pdfBytes, imageModel: CFG.image.model });
         console.log(`[job ${j.id}] done: ${r.characters} characters, ${r.pdfBytes} bytes`);
       } catch (e) {
+        // After a timeout, wait (at most 30 s) until the run has really stopped: the transaction is only released
+        // while nothing can still be using the image model for it.
+        if (e.timedOut) await Promise.race([run.catch(() => {}), new Promise((r) => setTimeout(r, 30000))]);
+        const stillRunning = e.timedOut && !stopped;
         const reason = (e.refused ? 'refused: ' : '') + String(e.message || e).slice(0, 300);
         store.setJob(j.id, { status: 'failed', error: reason, finished_at: new Date().toISOString() });
         // Released only if the failure came before the picture was made (our outage); once the image model has
         // worked for this payment, it is spent even if the layout failed.
-        if (imageMade) store.burn(j.txid, { job: j.id, failedAfterImage: reason });
+        const spent = imageMade || stillRunning;
+        if (spent) store.burn(j.txid, { job: j.id, failedAfterImage: reason, stillRunningAfterTimeout: stillRunning || undefined });
         else store.release(j.txid, reason);
-        console.error(`[job ${j.id}] failed (${imageMade ? 'after the image, transaction burned' : 'transaction released'}): ${reason}`);
+        console.error(`[job ${j.id}] failed (${spent ? 'after the image or still running, transaction burned' : 'transaction released'}): ${reason}`);
       } finally {
         clearTimeout(timer);
         rmSync(j.input, { force: true });
