@@ -103,6 +103,21 @@ export async function openSession({ chrome = findChrome() } = {}) {
       if (format === 'png' || format === 'jpg') return { meta, data: Buffer.from(data.split(',')[1], 'base64') };
       return { meta, data };
     },
+    /** Calls window[name](...args) in the render page and returns its (JSON) result. */
+    async call(name, ...args) {
+      const expr = `window[${JSON.stringify(name)}](...${JSON.stringify(args)})`;
+      const r = await cdp.send('Runtime.evaluate', { expression: expr, awaitPromise: true, returnByValue: true });
+      if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text);
+      return r.result.value;
+    },
+    /** Prints the current page to a PDF of the given size in millimetres (no margins, backgrounds on). */
+    async pdf(widthMm, heightMm) {
+      const r = await cdp.send('Page.printToPDF', {
+        paperWidth: widthMm / 25.4, paperHeight: heightMm / 25.4, printBackground: true, preferCSSPageSize: true,
+        marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0, transferMode: 'ReturnAsBase64',
+      });
+      return Buffer.from(r.data, 'base64');
+    },
     /** Screenshot of a repository page (path relative to the repo root) at the given viewport size. */
     async screenshot(path, width, height) {
       await cdp.send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });

@@ -1,0 +1,44 @@
+{
+  "source": {
+    "title": "Moby-Dick; or, The Whale",
+    "author": "Herman Melville",
+    "year": 1851,
+    "status": "public domain",
+    "origin": "Project Gutenberg eBook #2701",
+    "url": "https://www.gutenberg.org/cache/epub/2701/pg2701.txt",
+    "rawSha256": "b5e88b71a1cda068e9ab1d94344c9d932338ba6da1a66def97a1aecd9cfcc87d",
+    "sha256": "b8d4a465cfb1eb0c7c8a3bd597f0af7666d00caa5d3a40aa52f7af9819e31d7b",
+    "characters": 1218974,
+    "chapters": 135,
+    "epilogueAt": 1217466
+  },
+  "parts": [
+    {
+      "id": "land",
+      "title": "Part I – Ashore and out to sea",
+      "from": 0,
+      "to": 411374,
+      "firstChapter": "Etymology",
+      "motif": "harbour",
+      "characters": 411374
+    },
+    {
+      "id": "voyage",
+      "title": "Part II – The whaling voyage",
+      "from": 411374,
+      "to": 812977,
+      "firstChapter": "Chapter 42",
+      "motif": "hunt",
+      "characters": 401603
+    },
+    {
+      "id": "chase",
+      "title": "Part III – The white whale",
+      "from": 812977,
+      "to": 1218974,
+      "firstChapter": "Chapter 86",
+      "motif": "whiteWhale",
+      "characters": 405997
+    }
+  ]
+}

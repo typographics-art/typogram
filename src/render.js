@@ -14,12 +14,16 @@ export const GLYPH_CSS = 'font-variant-ligatures:none;font-kerning:none;font-fea
 
 export const escapeXml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/** Inner HTML: one block per line, one span per run of identically styled glyphs. */
-export function toHtml(sheet) {
+/**
+ * Inner HTML: one block per line, one span per run of identically styled glyphs.
+ * `from`/`to` render a range of lines (for very large sheets that are output in parts).
+ */
+export function toHtml(sheet, from = 0, to = sheet.result.lines.length) {
   const { result, W, colorOf, weights, font } = sheet, { lines, L, fs } = result;
   const nw = normalWidthIndex(font);
   let html = '';
-  lines.forEach((ln, i) => {
+  for (let i = from; i < to; i++) {
+    const ln = lines[i];
     const { ws } = justify(ln, i === lines.length - 1, W, fs);
     html += `<div style="height:${L.toFixed(2)}px;line-height:${L.toFixed(2)}px;font-size:${fs.toFixed(2)}px;white-space:pre;word-spacing:${ws.toFixed(2)}px">`;
     let run = '', key = null, style = '';
@@ -37,7 +41,7 @@ export function toHtml(sheet) {
     }
     flush();
     html += '</div>';
-  });
+  }
   return html;
 }
 
@@ -51,10 +55,11 @@ export function toStandaloneHtml(sheet) {
     toHtml(sheet) + '</div>';
 }
 
-/** Calls fn(item, x, baselineY, lineIndex) for every glyph, in reading order, in sheet coordinates. */
-export function forEachGlyph(sheet, fn) {
+/** Calls fn(item, x, baselineY, lineIndex) for every glyph of lines [from, to), in reading order, in sheet coordinates. */
+export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length) {
   const { result, W, pad } = sheet, { lines, L, fs } = result;
-  lines.forEach((ln, i) => {
+  for (let i = from; i < to; i++) {
+    const ln = lines[i];
     const { ws, lastInner } = justify(ln, i === lines.length - 1, W, fs);
     const y = pad + i * L + L * 0.5 + fs * 0.35;
     let x = pad;
@@ -62,17 +67,25 @@ export function forEachGlyph(sheet, fn) {
       fn(it, x, y, i);
       x += it.adv + (it.ch === ' ' && q <= lastInner ? ws : 0);
     });
-  });
+  }
 }
 
-export function toSvg(sheet) {
-  const { outW, outH, font, paper, colorOf, weights, result } = sheet, fs = result.fs;
-  const nw = normalWidthIndex(font);
-  let out = `<svg xmlns="http://www.w3.org/2000/svg" width="${outW}" height="${outH}" viewBox="0 0 ${outW} ${outH}">` +
+/** Opening of an SVG document for the sheet (paper, font, the <text> element). */
+export function svgHead(sheet) {
+  const { outW, outH, font, paper } = sheet;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${outW}" height="${outH}" viewBox="0 0 ${outW} ${outH}">` +
     `<style>@import url('${escapeXml(googleFontsUrl(font))}');</style>` +
     `<rect width="100%" height="100%" fill="${rgbCss(paper.paper)}"/>` +
     `<text xml:space="preserve" font-family="${escapeXml(font.css)}" style="font-variation-settings:${escapeXml(font.variations)};${escapeXml(GLYPH_CSS)}" fill="${rgbCss(paper.ink)}">`;
-  let open = false, key = null, needX = true;
+}
+
+export const SVG_TAIL = '</text></svg>';
+
+/** The glyphs of lines [from, to) as SVG tspans. Parts concatenate to the same document as toSvg. */
+export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
+  const { font, colorOf, weights, result } = sheet, fs = result.fs;
+  const nw = normalWidthIndex(font);
+  let out = '', open = false, key = null, needX = true;
   forEachGlyph(sheet, (it, x, y, i) => {
     const col = it.ch === ' ' ? '' : colorOf(it, i), k = it.wi + '|' + it.wd + '|' + it.s + '|' + col + '|' + i;
     if (k !== key || needX) {
@@ -84,7 +97,11 @@ export function toSvg(sheet) {
     }
     out += escapeXml(it.ch);
     if (it.ch === ' ') needX = true; // justified lines: position the next run explicitly
-  });
+  }, from, to);
   if (open) out += '</tspan>';
-  return out + '</text></svg>';
+  return out;
+}
+
+export function toSvg(sheet) {
+  return svgHead(sheet) + svgLines(sheet) + SVG_TAIL;
 }

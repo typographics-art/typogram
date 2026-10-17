@@ -1,0 +1,10 @@
+[
+  { "id": "narrator", "question": "Who narrates the book?", "answer": "Ishmael", "evidence": "Call me Ishmael." },
+  { "id": "ship", "question": "What is the name of the whaling ship?", "answer": "the Pequod", "evidence": "the Pequod" },
+  { "id": "captain", "question": "Who is the captain of the ship?", "answer": "Ahab", "evidence": "Captain Ahab" },
+  { "id": "harpooneer", "question": "Which harpooneer shares a bed with the narrator at the Spouter-Inn?", "answer": "Queequeg", "evidence": "Queequeg" },
+  { "id": "first-mate", "question": "What is the name of the first mate?", "answer": "Starbuck", "evidence": "Starbuck" },
+  { "id": "inn", "question": "What is the name of the inn where the narrator first stays in New Bedford?", "answer": "the Spouter-Inn", "evidence": "The Spouter-Inn" },
+  { "id": "rescue", "question": "Which ship picks up the narrator at the end?", "answer": "the Rachel", "evidence": "devious-cruising Rachel" },
+  { "id": "last-words", "question": "With which words does the epilogue end?", "answer": "only found another orphan", "evidence": "only found another orphan." }
+]

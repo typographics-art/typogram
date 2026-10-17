@@ -20,4 +20,7 @@ First public version.
 - "What the AI reads" panel in the app: shows the text exactly as machines receive it.
 - First vision-language-model measurement (Claude, 217 words, 100 %).
 - Brand assets: wordmark and social preview (`npm run assets`), Open Graph tags, press kit.
+- Panels: `typesetSections` sets one continuous text across several images (one picture per part) at a single type size.
+- Demonstrator: the complete *Moby-Dick* as a 2 × 3 m poster in three panels, with SVG master, print PDF in strips, zoom viewer with "text at this spot", and a generated proof report (`demo/moby-dick/`).
+- Finding: Poppler's `pdftotext` drops letters from Chrome's Type 3 fonts in light passages of large PDFs; MuPDF extracts the same files exactly. The proof uses MuPDF.
 - Definition of the technique in `docs/technique.md`.

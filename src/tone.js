@@ -86,3 +86,18 @@ export function buildToneMap(img, outW, outH, { brightIsInk = false, contrast = 
     },
   };
 }
+
+/**
+ * Centre-crops pixels to height/width = aspect (pure, returns a copy). Lets panels of any size
+ * take their slice of an image without the browser re-reading it.
+ */
+export function cropToAspect(img, aspect) {
+  const { width: W, height: H, data } = img;
+  let w = W, h = Math.round(W * aspect);
+  if (h > H) { h = H; w = Math.max(1, Math.round(H / aspect)); }
+  h = Math.max(1, h);
+  const x0 = Math.floor((W - w) / 2), y0 = Math.floor((H - h) / 2);
+  const out = new Uint8ClampedArray(w * h * 4);
+  for (let y = 0; y < h; y++) out.set(data.subarray(((y0 + y) * W + x0) * 4, ((y0 + y) * W + x0 + w) * 4), y * w * 4);
+  return { width: w, height: h, data: out };
+}

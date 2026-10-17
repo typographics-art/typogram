@@ -46,6 +46,10 @@ From [docs/ai-readability.md](ai-readability.md), measured 17 October 2026:
 - Only the image, classic OCR (Tesseract 5.5): **about 99 %** of the words at the highest legibility.
 - Only the image, a vision-language model (first sample, 217 words): **100 %**, even at the most artistic setting.
 
+## Demonstrator
+
+The complete text of *Moby-Dick* (1.2 million characters) set as one 2 × 3 m poster in three panels, with a generated proof that every character survives and can be read back: https://tg-art.org/demo/moby-dick/ (report: `demo/moby-dick/proof.md`).
+
 ## Images
 
 | File | Use |
@@ -54,6 +58,7 @@ From [docs/ai-readability.md](ai-readability.md), measured 17 October 2026:
 | [`assets/logo.png`](../assets/logo.png) (1200 × 300) | wordmark; each letter set in a heavier weight, the technique in one word |
 | [`gallery/*.jpg`](../gallery) | works: Erlkönig, Sonnet 18, Let there be light, Article 1, Waves |
 | [`gallery/*.svg`](../gallery) | the same works as real text |
+| [`demo/moby-dick/preview.jpg`](../demo/moby-dick/preview.jpg) | the Moby-Dick poster |
 
 Credit: *Typographic Art, tg-art.org*. The gallery works are generated from public-domain texts and procedural motifs and may be reproduced.
 

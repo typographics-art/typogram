@@ -206,9 +206,12 @@ export function layoutAt(words, L, ctx, unbounded = false) {
   return { ok: true, lines, L, fs };
 }
 
-/** Largest line height at which the whole text fits the block; grows the block if even 3 px is too big. */
-export function fit(words, ctx, minLine = 3) {
-  let a = minLine, b = ctx.H, best = null;
+/**
+ * Largest line height at which the whole text fits the block; grows the block if even `minLine` is
+ * too big. A narrower [minLine, maxLine] window speeds up refits when the answer is roughly known.
+ */
+export function fit(words, ctx, minLine = 3, maxLine = ctx.H) {
+  let a = minLine, b = Math.min(maxLine, ctx.H), best = null;
   for (let i = 0; i < 26 && b - a >= 0.05; i++) {
     const L = (a + b) / 2, r = layoutAt(words, L, ctx);
     if (r.ok) { best = r; a = L; } else b = L;

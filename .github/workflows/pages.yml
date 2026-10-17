@@ -1,4 +1,4 @@
-# Publishes the app and the gallery (index.html, gallery.html, src/, gallery/) to GitHub Pages; CNAME points it at tg-art.org.
+# Publishes the app, the gallery and the Moby-Dick demonstrator to GitHub Pages; CNAME points it at tg-art.org.
 name: Pages
 
 on:
@@ -27,11 +27,17 @@ jobs:
         with:
           node-version: 22
       - run: npm test
+      # The Moby-Dick demonstrator's zoom tiles (~600 images) are generated here instead of living in git.
+      # Ubuntu runners ship Google Chrome; the build script finds it on PATH.
+      - name: Build demonstrator zoom tiles
+        run: node demo/moby-dick/build.mjs zoom
       - name: Assemble site
         run: |
-          mkdir -p _site
+          mkdir -p _site/demo/moby-dick/out
           cp -r index.html gallery.html src gallery assets CNAME docs _site/
           rm _site/gallery/works.config.json
+          cp demo/moby-dick/index.html demo/moby-dick/source.txt demo/moby-dick/proof.json demo/moby-dick/lines.json demo/moby-dick/preview.jpg _site/demo/moby-dick/
+          cp -r demo/moby-dick/out/zoom _site/demo/moby-dick/out/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
