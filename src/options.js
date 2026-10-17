@@ -35,6 +35,7 @@ export const DEFAULTS = {
   margin: 0.025, // paper margin as a fraction of the width
   colorStep: 6, // photo colours are quantised to multiples of this (coarser = smaller files)
   weightCount: null, // at most this many weight steps (null: all the legibility level allows); fewer = fewer fonts in the PDF
+  gaps: 'off', // off | auto | on: short texts only where the picture is dark, blank elsewhere (whitespace is layout, not text)
   sizeCount: 1, // type sizes per line; one size gives the sharpest picture (measured), null: all the level allows
 };
 

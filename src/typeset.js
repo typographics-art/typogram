@@ -4,7 +4,7 @@ import { PAPERS, DEFAULTS, levelFor } from './options.js';
 import { buildToneMap, cropToAspect } from './tone.js';
 import { inkFor, mix, rgbCss } from './color.js';
 import {
-  REF_RATIO, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange, fit, layoutAt, toneFidelity, quantizeLine,
+  REF_RATIO, SPARSE_LINES, GAP_INK, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange, fit, layoutAt, toneFidelity, quantizeLine,
 } from './layout.js';
 
 /**
@@ -45,7 +45,14 @@ export function typesetWith({ text, metric, image, options = {} }) {
     sizeCount: level.sizes.length, wordMode: o.unit === 'word', wordAvg: new Map(),
     normalWidth, shape: o.shape,
   };
-  const result = fit(tokenize(source), ctx);
+  const words = tokenize(source);
+  let result = fit(words, ctx);
+  // Short texts: too few glyphs to cover the page, so they would be spread thin and the picture dissolves.
+  // Set them only where the picture is dark and leave the rest blank (layout only, see layoutAt).
+  if (o.gaps === 'on' || (o.gaps === 'auto' && result.lines.length <= SPARSE_LINES)) {
+    const masked = fit(words, { ...ctx, mask: { thr: o.gapInk ?? GAP_INK, stretch: o.gapStretch } });
+    if (!masked.overflow) result = masked;
+  }
 
   let colorOf;
   if (o.color === 'photo') {

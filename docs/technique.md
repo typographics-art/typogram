@@ -13,6 +13,7 @@ A work is Typographics Art when it follows all three rules.
 - Every character of the source text appears exactly once, in reading order.
 - No character is replaced, inserted, reordered or dropped.
 - Whitespace may be normalised: runs of spaces, tabs and line breaks become a single space, and line breaks may fall at any space.
+- Whitespace is layout, not text: a work may leave areas blank and widen the gap at a space (or indent a line) so that glyphs stand only where the picture needs ink. Only an existing space may grow; no character, not even a space, is inserted, and the normalised text stays identical.
 - A word longer than a line may be broken between two characters. No hyphen is added.
 - **Filler** (for example Lorem ipsum to reach a higher resolution) is allowed only when it is declared: it follows the source text, and the work states how many characters are filler.
 
@@ -30,7 +31,7 @@ Per character, a work may vary:
 - font weight and other axes of a variable font (width, optical size, slant),
 - typeface,
 - colour and opacity,
-- horizontal spacing (letter and word spacing).
+- horizontal spacing (letter and word spacing), including wide gaps at spaces and indents that leave parts of the page blank.
 
 It may not add shapes, strokes, backgrounds behind individual characters, or images. A single uniform paper colour is allowed.
 

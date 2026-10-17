@@ -12,6 +12,8 @@ Typographics Art keeps the text. That claim is worth stating precisely, because 
 
 Everything else is kept: **every visible character, every word, in reading order**, grapheme by grapheme (a letter with its accents, an emoji sequence, or a syllable in scripts like Devanagari stays one unit).
 
+Blank space is not text. A work may widen the gap at a space or indent a line so that glyphs stand only on the dark parts of the picture (`gaps`, see [algorithm.md](algorithm.md)); because the canonical text collapses whitespace, the canonical text of such a work is still identical to that of the source, and the read-back from the PDF text layer, HTML and SVG is compared against it exactly as before. No character is substituted for a space, and no visible or invisible character is added to create a gap.
+
 So the guarantee is at the level of the **canonical text**: what is preserved 1:1 is the sequence of characters and words. What is **not** preserved inside the artwork is the source's own layout — its line breaks, paragraph breaks and runs of spaces. That layout lives in the source document, which is why the [Read and Machine views](../work.html) take their paragraphs and sections from the source, while the artwork carries the same text as one normalised flow.
 
 ## Declared filler

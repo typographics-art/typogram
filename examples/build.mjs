@@ -107,7 +107,7 @@ What is done about it, each step measured in [docs/file-size.md](../docs/file-si
 `;
 md += `## Limits
 
-- **Short texts make coarse pictures.** The letters are the pixels: 3 500 characters give about 50 lines of 70 letters, too few for a recognisable title or image (see the AI instruction examples). From about 20 000 characters on, titles and motifs read well.
+- **Short texts make coarse pictures.** The letters are the pixels. Up to about 100 lines of plain type (roughly 15 000 characters) the title is therefore set only where it is dark, with blank space between the words elsewhere (whitespace is layout, not text; see [docs/algorithm.md](../docs/algorithm.md)): the letters get smaller and the title readable, at the price of tiny type (1 to 3 mm). Photo motifs still need from about 20 000 characters on.
 - **Motifs need rights.** Only public-domain images and motifs drawn for this project are used; see [motifs/](motifs/).
 
 ## How the text is taken
