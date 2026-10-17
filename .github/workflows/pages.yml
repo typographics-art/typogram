@@ -1,9 +1,9 @@
 # Publishes the app, the gallery and the Moby-Dick demonstrator to GitHub Pages; CNAME points it at typographics-art.org.
 name: Pages
 
+# Manual only: the live site is served by Cloudflare (wrangler.jsonc). This workflow is the
+# alternative host on GitHub Pages and needs Pages enabled for the repository.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
