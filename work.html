@@ -246,7 +246,31 @@ async function fetchText(path) {
   return r.text();
 }
 const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
-const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+// All parameters come from the URL, so a crafted link must not become script. Work files must be
+// same-origin relative paths (no scheme, no //), the external source link must be http(s), and the
+// artwork SVG is sanitised before it touches the DOM.
+function sameOrigin(p) {
+  if (!p || typeof p !== 'string' || /^[a-z][a-z0-9+.-]*:/i.test(p) || p.startsWith('//')) return null;
+  try { const url = new URL(p, location.href); return url.origin === location.origin ? url.href : null; } catch { return null; }
+}
+function httpUrl(p) {
+  try { const url = new URL(p, location.href); return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : null; } catch { return null; }
+}
+function sanitizeSvg(raw) {
+  const doc = new DOMParser().parseFromString(raw, 'image/svg+xml');
+  const svg = doc.documentElement;
+  if (!svg || svg.nodeName.toLowerCase() !== 'svg' || doc.querySelector('parsererror')) return null;
+  svg.querySelectorAll('script,foreignObject').forEach((n) => n.remove());
+  svg.querySelectorAll('*').forEach((el) => {
+    for (const a of [...el.attributes]) {
+      const n = a.name.toLowerCase();
+      if (n.startsWith('on') || ((n === 'href' || n === 'xlink:href') && /^\s*javascript:/i.test(a.value))) el.removeAttribute(a.name);
+    }
+  });
+  return document.importNode(svg, true);
+}
 
 async function pdfToText(path) {
   const pdfjs = await import(PDFJS + 'pdf.min.mjs');
@@ -272,39 +296,46 @@ async function load() {
       Object.assign(meta, { document: e.document, url: e.url, licence: e.licence, pages: e.sourcePages, version: e.version, label: e.title });
     }
   }
-  for (const k of ['document', 'url', 'version', 'retrieved', 'licence']) if (P.get(k)) meta[k] = P.get(k);
+  for (const k of ['document', 'version', 'retrieved', 'licence']) if (P.get(k)) meta[k] = P.get(k);
+  if (P.get('url')) meta.url = httpUrl(P.get('url'));
   state.meta = meta;
-  if (!art) { fail(u('badArt')); return; }
-  meta.artFile = art; meta.textFile = textPath || null;
+  const artUrl = sameOrigin(art);
+  const textUrl = sameOrigin(textPath);
+  if (!artUrl) { fail(u('badArt')); return; }
+  meta.artFile = art; meta.textFile = textPath && textUrl ? textPath : null;
 
   document.title = (title || 'work') + ' — Typographics Art';
   $('#title').textContent = title || art.split('/').pop();
   $('#subtitle').textContent = meta.document && meta.document !== title ? meta.document : '';
-  const back = P.get('back'); if (back) { $('#back').href = back; }
+  const back = sameOrigin(P.get('back')); if (back) $('#back').href = back;
 
   const ext = art.toLowerCase().split('.').pop();
   state.artKind = ext === 'svg' ? 'svg' : ext === 'pdf' ? 'pdf' : 'img';
 
-  // Art view + the text behind it.
+  // Art view + the text behind it. The artwork path is same-origin (validated above).
   try {
     if (state.artKind === 'svg') {
-      const raw = await fetchText(art);
+      const raw = await fetchText(artUrl);
       renderSvg(raw);
-      if (!textPath) state.canonical = canonicalText(markupText(raw, 'svg'));
+      if (!textUrl) state.canonical = canonicalText(markupText(raw, 'svg'));
       $('#arthint').textContent = u('artZoomHint');
     } else if (state.artKind === 'pdf') {
-      $('#artbox').innerHTML = `<iframe src="${esc(art)}#view=FitH" title="${esc(title || 'PDF')}"></iframe>`;
+      const fr = document.createElement('iframe');
+      fr.src = artUrl + '#view=FitH'; fr.title = title || 'PDF';
+      $('#artbox').replaceChildren(fr);
       $('#arthint').textContent = u('artPdfHint');
-      if (!textPath) { const r = await pdfToText(art); state.canonical = canonicalText(r.text); if (!meta.pages) meta.pages = r.pages; }
+      if (!textUrl) { const r = await pdfToText(artUrl); state.canonical = canonicalText(r.text); if (!meta.pages) meta.pages = r.pages; }
     } else {
-      $('#artbox').innerHTML = `<img src="${esc(art)}" alt="${esc(title || '')}">`;
+      const im = document.createElement('img');
+      im.src = artUrl; im.alt = title || '';
+      $('#artbox').replaceChildren(im);
       $('#arthint').textContent = u('artImgHint');
     }
-  } catch (e) { $('#artbox').innerHTML = `<p class="err" style="padding:16px">${esc(u('badArt'))} (${esc(e.message)})</p>`; }
+  } catch (e) { $('#artbox').replaceChildren(Object.assign(document.createElement('p'), { className: 'err', style: 'padding:16px', textContent: `${u('badArt')} (${e.message})` })); }
 
   // Structured source overrides the artwork text where available.
-  if (textPath) {
-    const raw = await fetchText(textPath);
+  if (textUrl) {
+    const raw = await fetchText(textUrl);
     const sext = textPath.toLowerCase().split('.').pop();
     const src = sext === 'svg' || sext === 'html' || sext === 'htm' ? markupText(raw, sext === 'svg' ? 'svg' : 'html') : raw;
     state.structured = structuredText(src);
@@ -323,9 +354,9 @@ function fail(msg) { $('#title').textContent = 'Typographics Art'; $('#artbox').
 /* ---------- Art: svg zoom/pan + line marking ---------- */
 function renderSvg(raw) {
   const box = $('#artbox');
-  box.innerHTML = raw;
-  const svg = box.querySelector('svg');
-  if (!svg) { box.innerHTML = `<p class="err" style="padding:16px">${esc(u('badArt'))}</p>`; return; }
+  const svg = sanitizeSvg(raw);
+  if (!svg) { box.replaceChildren(Object.assign(document.createElement('p'), { className: 'err', style: 'padding:16px', textContent: u('badArt') })); return; }
+  box.replaceChildren(svg);
   state.svg = svg;
   const vb = (svg.getAttribute('viewBox') || '').split(/[ ,]+/).map(Number);
   const w = vb[2] || +svg.getAttribute('width') || 1000;

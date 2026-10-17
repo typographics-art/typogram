@@ -85,11 +85,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
 <script type="module">
 const T = {
-  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview', original: 'Original', image: 'Image' },
+  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview', original: 'Original', image: 'Image', views: 'Three views' },
   de: {
     intro: 'Jedes Werk ist echter Text: Öffne das SVG und markiere, kopiere oder durchsuche ihn. Das Bild entsteht nur aus Grösse, Stärke und Farbe der Buchstaben.',
     'nav.make': 'Selbst gestalten', 'submit.h': 'Zeig dein Werk', 'submit.p': 'Etwas mit Typographics Art gemacht? Reiche das SVG über ein', 'submit.link': 'Werk-Issue ein',
-    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau', original: 'Original', image: 'Bild',
+    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau', original: 'Original', image: 'Bild', views: 'Drei Ansichten',
     'view.tg': 'Typographics', 'view.orig': 'Originale', 'view.hint': 'oder ein einzelnes Werk mit dem Knopf auf seinem Bild umschalten',
   },
 };
@@ -105,7 +105,7 @@ function render() {
   document.getElementById('grid').innerHTML = works.map((w) => `
     <article class="card">
       <div class="pic">
-        <a class="preview" href="${esc(orig(w) ? w.original : w.svg)}"><img src="${esc(orig(w) ? w.original : w.preview)}" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy"></a>
+        <a class="preview" href="${orig(w) ? esc(w.original) : `work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery`}"><img src="${esc(orig(w) ? w.original : w.preview)}" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy"></a>
         <button type="button" class="flip" data-id="${esc(w.id)}" aria-pressed="${orig(w)}">${orig(w) ? 'Typographics' : t('original')}</button>
       </div>
       <div class="body">
@@ -118,7 +118,7 @@ function render() {
           <span>${t('fidelity')} ${w.meta.toneFidelity.toFixed(2)}</span>
           <span>${esc(w.options.font)} · ${esc(w.options.legibility)} · ${esc(w.options.color)} · ${esc(w.options.paper || 'light')}</span>
         </div>
-        <div class="links"><a href="${esc(w.svg)}">${t('svg')}</a><a href="${esc(w.original)}">${t('original')}</a></div>
+        <div class="links"><a href="work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery">${t('views')}</a><a href="${esc(w.svg)}">${t('svg')}</a><a href="${esc(w.original)}">${t('original')}</a></div>
       </div>
     </article>`).join('');
 }
