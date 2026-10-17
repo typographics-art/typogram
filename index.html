@@ -68,8 +68,18 @@ nav.main a:hover{color:var(--accent)}
 .lang{display:flex;gap:4px}
 .lang button{font:inherit;font-size:13px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--band);color:var(--ink);cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-@media (max-width:980px){nav.main{display:none}.top .cta{margin-left:auto}}
+.navtry{display:none}
+/* Small screens keep the navigation: a row of links under the brand that scrolls sideways, tap targets of 44 px. */
+@media (max-width:980px){
+  header.top{position:static}
+  header.top .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:4px;row-gap:2px}
+  nav.main{display:flex;order:3;flex:1 0 100%;margin:0;gap:2px;overflow-x:auto;scrollbar-width:none}
+  nav.main a{padding:12px 12px;white-space:nowrap}
+  .navtry{display:block;color:var(--accent)!important}
+  .top .cta{margin-left:auto}
+}
 @media (max-width:560px){.top .cta{display:none}.lang{margin-left:auto}.brand{font-size:19px}}
+@media (pointer:coarse),(max-width:980px){.lang button{min-height:44px;min-width:44px}}
 /* hero */
 .hero{padding-block:56px 64px}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
@@ -139,7 +149,8 @@ nav.main a:hover{color:var(--accent)}
 /* ai uses */
 .night{background:var(--night);color:var(--night-ink)}
 .night .lead,.night .muted{color:#aeb6c6}
-.night a{color:#ff7fb2}
+.night a:not(.cta){color:#ff7fb2}
+.night .cta.ghost{background:transparent;color:var(--night-ink);border-color:var(--night-ink)}
 .uses{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:36px}
 .use{border:1px solid #273048;border-radius:12px;padding:20px;background:#121a2e}
 .use h3{color:#fff;margin-bottom:8px}
@@ -168,6 +179,7 @@ footer a{color:inherit}
   <div class="wrap">
     <a class="brand" href="./" aria-label="Typographics Art home" id="brand"></a>
     <nav class="main" aria-label="Sections">
+      <a class="navtry" href="app" data-i18n="cta.try">Try it free</a>
       <a href="#idea" data-i18n="nav.idea">The idea</a>
       <a href="#how" data-i18n="nav.how">How it works</a>
       <a href="demo/moby-dick/">Moby-Dick</a>

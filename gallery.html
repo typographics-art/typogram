@@ -149,7 +149,7 @@ for (const [id, value] of [['show-tg', false], ['show-orig', true]]) {
   });
 }
 let initial = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
-try { initial = JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || localStorage.getItem('tg-art.lang') || initial; } catch { /* default */ }
+try { initial = localStorage.getItem('tg-art.lang') || JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || initial; } catch { /* default */ }
 works = await (await fetch('gallery/works.json')).json();
 setLang(initial);
 </script>

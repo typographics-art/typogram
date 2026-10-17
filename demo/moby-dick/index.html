@@ -106,7 +106,7 @@ const D = {
 };
 const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
 let lang = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
-try { lang = JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || localStorage.getItem('tg-art.lang') || lang; } catch { /* default */ }
+try { lang = localStorage.getItem('tg-art.lang') || JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || lang; } catch { /* default */ }
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
 

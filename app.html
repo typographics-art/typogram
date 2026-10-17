@@ -688,7 +688,10 @@ const applyMode = () => { $('#form').classList.toggle('simple', radio('mode') ==
 document.querySelectorAll('input[name="mode"]').forEach((el) => el.addEventListener('change', () => { applyMode(); save(); }));
 $('#target').addEventListener('input', showValues);
 $('#overlayR').addEventListener('input', applyOverlay);
-document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { setLang(b.dataset.lang); showValues(); run(); }));
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => {
+  setLang(b.dataset.lang); showValues(); run();
+  try { localStorage.setItem('tg-art.lang', b.dataset.lang); } catch { /* not remembered */ } // one key for every page of the site
+}));
 
 document.querySelectorAll('[data-preset]').forEach((b) => b.addEventListener('click', () => {
   const p = PRESETS[b.dataset.preset];
@@ -818,7 +821,8 @@ new ResizeObserver(() => {
 }).observe($('#wrap'));
 
 const saved = restore();
-setLang(saved?.lang || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'));
+const siteLang = (() => { try { const v = localStorage.getItem('tg-art.lang'); return v === 'de' || v === 'en' ? v : null; } catch { return null; } })();
+setLang(siteLang || saved?.lang || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'));
 if (!saved || typeof saved.text !== 'string') $('#text').value = SAMPLES[lang];
 applyMode();
 showValues();
