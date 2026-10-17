@@ -54,6 +54,11 @@ try {
       sizeFactor: r.pdfBytes ? +(r.pdfBytes / bytes.length).toFixed(2) : null,
       motif: ex.motif || null, motifCredit: ex.motifCredit || null,
     };
+    // Publish the raw source text (with its line breaks, which the picture cannot carry) so that
+    // work.html can show the structured Read view and the Machine checksum for this one-pager.
+    // scripts/publish-sources.mjs re-verifies the binding and stamps textSha256 into index.json.
+    writeFileSync(join(out, 'source.txt'), doc.text);
+    record.text = 'source.txt';
     writeFileSync(join(out, 'check.json'), JSON.stringify(record, null, 2) + '\n');
     log(`${ex.id}: ${r.characters.toLocaleString('en-US')} characters, type ${r.fontSizeMm} mm, PDF ${(r.pdfBytes / 1048576).toFixed(2)} MB ` +
       `(source ${(bytes.length / 1048576).toFixed(2)} MB, unoptimized ${(r.pdfBytesUnoptimized / 1048576).toFixed(2)} MB), read back: ${r.check.pages} page, ` +
@@ -133,7 +138,7 @@ writeFileSync(join(DIR, 'README.md'), md);
 writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
   id: r.id, document: r.document, category: r.category, licence: r.licence, url: r.url, sourcePages: r.sourcePages,
   words: r.words, characters: r.characters, fontSizeMm: r.fontSizeMm, readBack: r.check,
-  pdfBytes: r.pdfBytes, sourceBytes: r.sourceBytes, motifCredit: r.motifCredit,
+  pdfBytes: r.pdfBytes, sourceBytes: r.sourceBytes, motifCredit: r.motifCredit, text: r.text || null,
   motifFile: r.motif ? (r.motif.startsWith('recipe:') ? 'motifs/eu-ai-act-network.png' : r.motif) : null,
   title: (all.find((x) => x.id === r.id) || {}).title?.replace(/\u00ad/g, ''),
 })), null, 2) + '\n');

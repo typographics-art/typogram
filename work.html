@@ -292,6 +292,7 @@ async function load() {
     const e = list.find((x) => x.id === example);
     if (e) {
       art = art || `examples/${e.id}/onepage.pdf`;
+      if (e.text) textPath = textPath || `examples/${e.id}/${e.text}`;
       title = title || e.document || e.title;
       Object.assign(meta, { document: e.document, url: e.url, licence: e.licence, pages: e.sourcePages, version: e.version, label: e.title });
     }
