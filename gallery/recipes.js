@@ -249,4 +249,32 @@ export const RECIPES = {
     for (const [x, y, a] of [[420, 560, 0.9], [250, 640, -0.4], [480, 630, 0.2]]) { g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * 90, y + Math.sin(a) * 90); g.stroke(); }
     return c;
   },
+
+  // ---- one-pager motifs drawn for this project (free to publish) ----
+
+  /** AI Act: a ring of nodes around a layered network, on dark blue. */
+  aiActNetwork() {
+    const [c, g] = canvas(1000, 1000);
+    const bg = g.createRadialGradient(500, 470, 60, 500, 500, 720);
+    bg.addColorStop(0, '#1f4f9a'); bg.addColorStop(0.55, '#10285a'); bg.addColorStop(1, '#060f26');
+    g.fillStyle = bg; g.fillRect(0, 0, 1000, 1000);
+    const layers = [[3, 300], [5, 410], [6, 500], [5, 590], [3, 700]].map(([n, x]) =>
+      Array.from({ length: n }, (_, i) => [x, 500 + (i - (n - 1) / 2) * 92]));
+    g.lineWidth = 3;
+    for (let l = 0; l + 1 < layers.length; l++) for (const a of layers[l]) for (const b of layers[l + 1]) {
+      g.strokeStyle = 'rgba(140,200,255,0.28)'; g.beginPath(); g.moveTo(...a); g.lineTo(...b); g.stroke();
+    }
+    for (const layer of layers) for (const [x, y] of layer) {
+      g.fillStyle = '#e8f3ff'; g.beginPath(); g.arc(x, y, 17, 0, 7); g.fill();
+      g.fillStyle = '#4fa3ff'; g.beginPath(); g.arc(x, y, 9, 0, 7); g.fill();
+    }
+    const ring = 330;
+    g.strokeStyle = 'rgba(255,214,90,0.55)'; g.lineWidth = 6; g.beginPath(); g.arc(500, 500, ring, 0, 7); g.stroke();
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2, x = 500 + Math.cos(a) * ring, y = 500 + Math.sin(a) * ring;
+      g.fillStyle = '#ffd65a'; g.beginPath(); g.arc(x, y, i % 2 ? 9 : 15, 0, 7); g.fill();
+    }
+    return c;
+  },
+
 };

@@ -6,6 +6,7 @@
   "url": "https://www.gesetze-im-internet.de/gg/GG.pdf",
   "sourceSha256": "bf6bda4ee99a3f3d260455cadb7941eaaee9dae4518e37f98de4887f18f1ebe2",
   "sourcePages": 51,
+  "sourceBytes": 271974,
   "extractor": "mutool draw -F txt",
   "characters": 190286,
   "words": 26180,
@@ -14,7 +15,7 @@
   "fontSizeMm": 0.844,
   "overflow": false,
   "toneFidelity": 0.973,
-  "layoutMs": 4529,
+  "layoutMs": 3969,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -23,5 +24,10 @@
     "visibleCharacters": 164107,
     "sha256Source": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6",
     "sha256ReadBack": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6"
-  }
+  },
+  "pdfBytes": 1478325,
+  "pdfBytesUnoptimized": 7471317,
+  "sizeFactor": 5.44,
+  "motif": null,
+  "motifCredit": null
 }

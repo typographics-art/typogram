@@ -4,24 +4,30 @@
   "category": "ai-instructions",
   "licence": "MIT, Typographics Art contributors",
   "url": null,
-  "sourceSha256": "0aefdef21e8a37537ab66dae5ff9dd70ccb128cca506b1264c77741eb1d9a085",
+  "sourceSha256": "1504d4d9b76e5d99f0964465b6e3219ec799003c0230d7482bf4c3db025c40f0",
   "sourcePages": null,
+  "sourceBytes": 3076,
   "extractor": "utf-8",
-  "characters": 2967,
+  "characters": 2969,
   "words": 462,
   "lines": 42,
   "paper": "a4",
   "fontSizeMm": 6.785,
   "overflow": false,
   "toneFidelity": 0.956,
-  "layoutMs": 606,
+  "layoutMs": 645,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
     "exact": true,
     "visibleIdentical": true,
-    "visibleCharacters": 2506,
-    "sha256Source": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1",
-    "sha256ReadBack": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1"
-  }
+    "visibleCharacters": 2508,
+    "sha256Source": "5b15e917dc1bccec955d45265e6a9168b0d8495586a0c5885f38ee76c8c0a699",
+    "sha256ReadBack": "5b15e917dc1bccec955d45265e6a9168b0d8495586a0c5885f38ee76c8c0a699"
+  },
+  "pdfBytes": 115426,
+  "pdfBytesUnoptimized": 243763,
+  "sizeFactor": 37.52,
+  "motif": null,
+  "motifCredit": null
 }

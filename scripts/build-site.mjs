@@ -23,6 +23,7 @@ copy('assets', 'assets', (p) => !p.endsWith('brand.html'));
 copy('gallery', 'gallery', (p) => !p.endsWith('works.config.json'));
 copy('docs');
 copy('examples/index.json');
+copy('examples/motifs', 'examples/motifs', (p) => !p.endsWith('.md'));
 for (const id of readdirSync(join(ROOT, 'examples'))) {
   if (!existsSync(join(ROOT, 'examples', id, 'onepage.pdf'))) continue;
   for (const f of ['onepage.pdf', 'preview.jpg']) copy(`examples/${id}/${f}`);

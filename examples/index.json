@@ -8,7 +8,7 @@
     "sourcePages": 102,
     "words": 31129,
     "characters": 228576,
-    "fontSizeMm": 0.789,
+    "fontSizeMm": 0.885,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -18,6 +18,10 @@
       "sha256Source": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964",
       "sha256ReadBack": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964"
     },
+    "pdfBytes": 4760559,
+    "sourceBytes": 1096229,
+    "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
+    "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung"
   },
   {
@@ -39,6 +43,10 @@
       "sha256Source": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6",
       "sha256ReadBack": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6"
     },
+    "pdfBytes": 1478325,
+    "sourceBytes": 271974,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "Grundgesetz"
   },
   {
@@ -50,7 +58,7 @@
     "sourcePages": 85,
     "words": 44527,
     "characters": 303928,
-    "fontSizeMm": 0.709,
+    "fontSizeMm": 0.775,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -60,6 +68,10 @@
       "sha256Source": "2018c0b7bc30a6d304340780e9e6d202903f09fde7f9e7d9b63a0363bce22ba9",
       "sha256ReadBack": "2018c0b7bc30a6d304340780e9e6d202903f09fde7f9e7d9b63a0363bce22ba9"
     },
+    "pdfBytes": 4460861,
+    "sourceBytes": 4020598,
+    "motifCredit": "Henry Hintermeister, \"The Foundation of American Government\" (1925), Library of Congress. Public domain in the United States (published 1925).",
+    "motifFile": "motifs/us-constitution-hintermeister-1925.jpg",
     "title": "Constitution"
   },
   {
@@ -71,16 +83,20 @@
     "sourcePages": 144,
     "words": 91421,
     "characters": 595706,
-    "fontSizeMm": 0.488,
+    "fontSizeMm": 0.492,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
-      "exact": false,
+      "exact": true,
       "visibleIdentical": true,
       "visibleCharacters": 504285,
       "sha256Source": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0",
-      "sha256ReadBack": "c50683aae1982de735acf2486b96406ad40ee1710e49941c2c3386a7cc1bdba6"
+      "sha256ReadBack": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0"
     },
+    "pdfBytes": 6009056,
+    "sourceBytes": 2583319,
+    "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
+    "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AI Act"
   },
   {
@@ -102,6 +118,10 @@
       "sha256Source": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb",
       "sha256ReadBack": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb"
     },
+    "pdfBytes": 240856,
+    "sourceBytes": 195195,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "Human Rights"
   },
   {
@@ -123,6 +143,10 @@
       "sha256Source": "e1778526123f3ec57706806ab6effdafc87a6fc2e92a300b14f3bfdd85f12122",
       "sha256ReadBack": "e1778526123f3ec57706806ab6effdafc87a6fc2e92a300b14f3bfdd85f12122"
     },
+    "pdfBytes": 634365,
+    "sourceBytes": 50796,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "PEP 8"
   },
   {
@@ -144,6 +168,10 @@
       "sha256Source": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3",
       "sha256ReadBack": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3"
     },
+    "pdfBytes": 165516,
+    "sourceBytes": 3531,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "Code Review"
   },
   {
@@ -165,6 +193,10 @@
       "sha256Source": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533",
       "sha256ReadBack": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533"
     },
+    "pdfBytes": 129676,
+    "sourceBytes": 3183,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "Support"
   },
   {
@@ -186,6 +218,10 @@
       "sha256Source": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
       "sha256ReadBack": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9"
     },
+    "pdfBytes": 108997,
+    "sourceBytes": 2640,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "Research"
   },
   {
@@ -196,17 +232,21 @@
     "url": null,
     "sourcePages": null,
     "words": 462,
-    "characters": 2967,
+    "characters": 2969,
     "fontSizeMm": 6.785,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 2506,
-      "sha256Source": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1",
-      "sha256ReadBack": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1"
+      "visibleCharacters": 2508,
+      "sha256Source": "5b15e917dc1bccec955d45265e6a9168b0d8495586a0c5885f38ee76c8c0a699",
+      "sha256ReadBack": "5b15e917dc1bccec955d45265e6a9168b0d8495586a0c5885f38ee76c8c0a699"
     },
+    "pdfBytes": 115426,
+    "sourceBytes": 3076,
+    "motifCredit": null,
+    "motifFile": null,
     "title": "AGENTS.md"
   }
 ]

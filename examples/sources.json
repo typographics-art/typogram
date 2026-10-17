@@ -7,7 +7,10 @@
     "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
     "file": "ch-bundesverfassung.pdf",
     "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
-    "category": "law"
+    "category": "law",
+    "motif": "motifs/ch-bundesverfassung-1874.jpg",
+    "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
+    "color": "photo"
   },
   {
     "id": "de-grundgesetz",
@@ -27,7 +30,10 @@
     "url": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
     "file": "us-constitution.pdf",
     "licence": "Public domain (work of the United States Government)",
-    "category": "law"
+    "category": "law",
+    "motif": "motifs/us-constitution-hintermeister-1925.jpg",
+    "motifCredit": "Henry Hintermeister, \"The Foundation of American Government\" (1925), Library of Congress. Public domain in the United States (published 1925).",
+    "color": "photo"
   },
   {
     "id": "eu-ai-act",
@@ -37,7 +43,10 @@
     "url": "http://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
     "file": "eu-ai-act.pdf",
     "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
-    "category": "law"
+    "category": "law",
+    "motif": "recipe:aiActNetwork",
+    "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
+    "color": "photo"
   },
   {
     "id": "un-human-rights",

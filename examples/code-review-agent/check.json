@@ -6,6 +6,7 @@
   "url": null,
   "sourceSha256": "3c97f8eaa214c237c2b21ef1b9d2dfb544281e1579065bfa3226e74ac3084cb0",
   "sourcePages": null,
+  "sourceBytes": 3531,
   "extractor": "utf-8",
   "characters": 3514,
   "words": 594,
@@ -14,7 +15,7 @@
   "fontSizeMm": 6.265,
   "overflow": false,
   "toneFidelity": 0.96,
-  "layoutMs": 664,
+  "layoutMs": 588,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -23,5 +24,10 @@
     "visibleCharacters": 2921,
     "sha256Source": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3",
     "sha256ReadBack": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3"
-  }
+  },
+  "pdfBytes": 165516,
+  "pdfBytesUnoptimized": 336521,
+  "sizeFactor": 46.88,
+  "motif": null,
+  "motifCredit": null
 }

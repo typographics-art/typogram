@@ -27,6 +27,9 @@ First public version.
 - One-pagers (`cli/onepage.mjs`): a whole PDF or text file on one page, its title formed by the text; ten examples in `examples/` (laws of CH, DE, US and the EU, the UDHR, PEP 8, AI agent instructions), each read back and checked.
 - Fix: glyphs are grapheme clusters, not code points. Letters with combining accents, emoji sequences and syllables of complex scripts stay one unit; before, separate marks could be dropped from PDF text layers (found with PEP 8's "Zalgo" example).
 - Visible-character checks ignore all Unicode default-ignorable characters (soft hyphens, direction marks), which PDF text layers do not carry; exact equality is still reported separately.
+- Picture one-pagers: `--motif <image>` forms a picture above the title (Swiss constitution with the 1874 lithograph, US Constitution with Hintermeister's 1925 painting, EU AI Act with a motif drawn for the project); the original images are in `examples/motifs/` with sources and licences.
+- Smaller PDFs: every printed PDF is repacked losslessly with qpdf when that makes it smaller (Basic Law one-pager 7.1 → 1.4 MB); colours can be rounded with the `colorStep` option (one-pagers: 24).
+- File sizes are published honestly: `examples/README.md` lists original and one-pager size for every example and explains why one-pagers grow.
 - Main domain: typographics-art.org.
 - Finding: Poppler's `pdftotext` drops letters from Chrome's Type 3 fonts in light passages of large PDFs; MuPDF extracts the same files exactly. The proof uses MuPDF.
 - Definition of the technique in `docs/technique.md`.

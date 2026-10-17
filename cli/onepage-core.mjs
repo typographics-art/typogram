@@ -30,6 +30,15 @@ export function readDocument(path) {
  * @param {object} session  from openSession()
  * @param {object} job  { text, title, subtitle, paper:'a4'|…, options, pdf, preview, previewWidth }
  */
+// Motif for the picture one-pager: an image file becomes a data URL; `recipe:<name>` (a drawing from
+// gallery/recipes.js) is passed through.
+export function motifSource(spec) {
+  if (spec.startsWith('recipe:')) return spec;
+  const type = { '.jpg': 'jpeg', '.jpeg': 'jpeg', '.png': 'png', '.webp': 'webp' }[extname(spec).toLowerCase()];
+  if (!type) throw new Error(`Motif must be a JPEG, PNG or WebP image: ${spec}`);
+  return `data:image/${type};base64,${readFileSync(spec).toString('base64')}`;
+}
+
 export async function makeOnePage(session, job) {
   const [pw, ph] = PAPERS_MM[job.paper || 'a4'];
   const source = normalizeText(job.text);
@@ -39,14 +48,15 @@ export async function makeOnePage(session, job) {
   const width = Math.round(outW / (1 + 2 * margin)), pad = Math.round(width * margin);
   const options = {
     font: 'roboto', legibility: 'free', color: 'gray', paper: 'light', unit: 'char', contrast: 2.6, brightness: 0,
-    edges: 0.4, lineSpacing: 1.0, stretch: true, shape: true, margin, ...job.options,
+    edges: 0.4, lineSpacing: 1.0, stretch: true, shape: true, margin, colorStep: 24, ...job.options,
     width, aspect: ((ph / pw) * (width + 2 * pad) - 2 * pad) / width,
   };
-  const info = await session.call('tgOnePage', { text: source, title: job.title, subtitle: job.subtitle || '', options });
+  const info = await session.call('tgOnePage', { text: source, title: job.title, subtitle: job.subtitle || '', options, motif: job.motif || null });
   if (!info.faithful) throw new Error('Layout does not preserve the text');
   const mmPerPx = pw / info.width;
 
-  if (job.pdf) await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx });
+  let printed = null;
+  if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx });
   if (job.preview) {
     // Render at twice the layout scale: at ~9 px per glyph the browser draws hairlines darker than their ink.
     await session.call('tgBase', Math.min(2, 6000 / info.width));
@@ -68,5 +78,6 @@ export async function makeOnePage(session, job) {
     characters: source.length, words: source.split(' ').length, lines: info.lines, paper: job.paper || 'a4',
     fontSizeMm: +(info.fontSize * mmPerPx).toFixed(3), overflow: info.overflow, toneFidelity: +info.toneFidelity.toFixed(3),
     layoutMs: info.ms, check,
+    pdfBytes: printed ? printed.bytesAfter : null, pdfBytesUnoptimized: printed ? printed.bytesBefore : null,
   };
 }

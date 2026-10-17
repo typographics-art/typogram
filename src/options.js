@@ -33,4 +33,5 @@ export const DEFAULTS = {
   aspect: null, // height / width; null keeps the image's own aspect ratio
   width: 960, // text block width in px
   margin: 0.025, // paper margin as a fraction of the width
+  colorStep: 6, // photo colours are quantised to multiples of this (coarser = smaller files)
 };

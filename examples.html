@@ -56,7 +56,7 @@ footer a{color:inherit}
     <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div>
   </header>
   <h1 data-i18n="h1">Whole documents on one page</h1>
-  <p class="lead" data-i18n="lead">Each one-pager holds the complete text of a document. The letters are tiny; together they form the title. Every page below was read back with MuPDF and compared with its source.</p>
+  <p class="lead" data-i18n="lead">Each one-pager holds the complete text of a document. The letters are tiny; together they form the title, or a picture above it (the original images are linked as “Motif”). Every page below was read back with MuPDF and compared with its source. A one-pager is larger than its source file; each card shows both sizes.</p>
   <p class="warn" data-i18n="warn">Share the PDF, not a picture of it: at this size a plain image is grey texture to OCR and vision models. The text lives in the PDF's text layer.</p>
   <div id="list"></div>
   <h2 data-i18n="make.h">Make your own</h2>
@@ -65,10 +65,10 @@ footer a{color:inherit}
 </div>
 <script type="module">
 const T = {
-  en: { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions', pages: 'pages', words: 'words', chars: 'characters', type: 'type', pdf: 'Open PDF', original: 'Original', ok: '✓ text read back identical', okv: '✓ every visible character identical', bad: '✗ differs' },
-  de: { law: 'Gesetze', declaration: 'Erklärungen', 'ai-instructions': 'KI-Anweisungen', pages: 'Seiten', words: 'Wörter', chars: 'Zeichen', type: 'Schrift', pdf: 'PDF öffnen', original: 'Original', ok: '✓ Text identisch zurückgelesen', okv: '✓ jedes sichtbare Zeichen identisch', bad: '✗ weicht ab',
+  en: { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions', pages: 'pages', words: 'words', chars: 'characters', type: 'type', pdf: 'Open PDF', original: 'Original', orig: 'original', motif: 'Motif', ok: '✓ text read back identical', okv: '✓ every visible character identical', bad: '✗ differs' },
+  de: { law: 'Gesetze', declaration: 'Erklärungen', 'ai-instructions': 'KI-Anweisungen', pages: 'Seiten', words: 'Wörter', chars: 'Zeichen', type: 'Schrift', pdf: 'PDF öffnen', original: 'Original', orig: 'Original', motif: 'Motiv', ok: '✓ Text identisch zurückgelesen', okv: '✓ jedes sichtbare Zeichen identisch', bad: '✗ weicht ab',
     'nav.make': 'Selbst gestalten', 'nav.gallery': 'Galerie', h1: 'Ganze Dokumente auf einer Seite',
-    lead: 'Jeder One-Pager enthält den vollständigen Text eines Dokuments. Die Buchstaben sind winzig und bilden zusammen den Titel. Jede Seite unten wurde mit MuPDF zurückgelesen und mit ihrer Quelle verglichen.',
+    lead: 'Jeder One-Pager enthält den vollständigen Text eines Dokuments. Die Buchstaben sind winzig und bilden zusammen den Titel oder ein Bild darüber (die Originalbilder sind als „Motiv“ verlinkt). Jede Seite unten wurde mit MuPDF zurückgelesen und mit ihrer Quelle verglichen. Ein One-Pager ist grösser als seine Quelldatei; jede Karte nennt beide Grössen.',
     warn: 'Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Der Text steckt in der Textebene des PDFs.', 'make.h': 'Selbst erstellen' },
 };
 const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
@@ -77,6 +77,7 @@ let lang = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'e
 try { lang = localStorage.getItem('tg-art.lang') || lang; } catch { /* default */ }
 const t = (k) => T[lang][k] ?? T.en[k];
 const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
+const size = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
 function render() {
   let html = '';
   for (const cat of ['law', 'declaration', 'ai-instructions']) {
@@ -89,8 +90,9 @@ function render() {
           <h3>${esc(x.document)}</h3>
           <div class="facts">${x.sourcePages ? `<span>${x.sourcePages} ${t('pages')} → 1</span>` : ''}<span>${fmt(x.words)} ${t('words')}</span><span>${fmt(x.characters)} ${t('chars')}</span><span>${t('type')} ${x.fontSizeMm} mm</span></div>
           <div class="ok">${x.readBack && x.readBack.visibleIdentical ? (x.readBack.exact ? t('ok') : t('okv')) : t('bad')}</div>
-          <div class="lic">${esc(x.licence)}</div>
-          <div class="links"><a href="examples/${esc(x.id)}/onepage.pdf">${t('pdf')}</a>${x.url ? `<a href="${esc(x.url)}">${t('original')}</a>` : ''}</div>
+          ${x.pdfBytes ? `<div class="facts"><span>PDF ${size(x.pdfBytes)}</span><span>${t('orig')} ${size(x.sourceBytes)}</span></div>` : ''}
+          <div class="lic">${esc(x.licence)}${x.motifCredit ? ` · ${t('motif')}: ${esc(x.motifCredit)}` : ''}</div>
+          <div class="links"><a href="examples/${esc(x.id)}/onepage.pdf">${t('pdf')}</a>${x.url ? `<a href="${esc(x.url)}">${t('original')}</a>` : ''}${x.motifFile ? `<a href="examples/${esc(x.motifFile)}">${t('motif')}</a>` : ''}</div>
         </div>
       </article>`).join('') + '</div>';
   }

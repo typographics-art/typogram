@@ -13,9 +13,11 @@ const luminance = (c) => (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
  * @param {number[]} paper
  * @param {number} maxInk   0..1; lower = more contrast to the paper
  * @param {boolean} darkPaper
- * @returns {number[]} RGB, quantised to steps of 6 so neighbouring glyphs can share a span
+ * @param {number} [step=6]  colour quantisation: coarser steps let neighbouring glyphs share a run, which keeps
+ *        HTML and PDF output small (one-pagers use 24: at sub-millimetre type the difference is invisible)
+ * @returns {number[]} RGB, quantised to multiples of `step`
  */
-export function inkFor(target, coverage, paper, maxInk, darkPaper) {
+export function inkFor(target, coverage, paper, maxInk, darkPaper, step = 6) {
   const e = Math.max(coverage, 0.05);
   const D = target.map((c, q) => (c - paper[q]) / e);
   let f = 1;
@@ -27,5 +29,5 @@ export function inkFor(target, coverage, paper, maxInk, darkPaper) {
   const lum = luminance(I);
   if (!darkPaper && lum > maxInk) { const k = maxInk / lum; I = I.map((v) => v * k); }
   if (darkPaper && lum < 1 - maxInk) { const k = maxInk / (1 - lum); I = I.map((v) => 255 - (255 - v) * k); }
-  return I.map((v) => Math.max(0, Math.min(255, Math.round(v / 6) * 6)));
+  return I.map((v) => Math.max(0, Math.min(255, Math.round(v / step) * step)));
 }

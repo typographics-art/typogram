@@ -75,7 +75,7 @@ Click anywhere on the poster and the page shows the text at that spot, read from
 
 ## One-pagers: a whole document on one page
 
-`cli/onepage.mjs` puts the complete text of a multi-page PDF (or any text file) on a single page. The letters are tiny; together they form the document's title in large type. A person sees at a glance what the page is. A model reads every word from the PDF's text layer: the type size does not matter to it.
+`cli/onepage.mjs` puts the complete text of a multi-page PDF (or any text file) on a single page. The letters are tiny; together they form the document's title in large type, or, with `--motif`, a picture above the title. A person sees at a glance what the page is. A model reads every word from the PDF's text layer: the type size does not matter to it.
 
 | | | |
 |---|---|---|
@@ -85,7 +85,10 @@ Every example is read back with MuPDF and compared with its source; all of them 
 
 ```sh
 node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png preview.jpg
+node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o onepage.pdf
 ```
+
+**File size.** A one-pager is larger than its source: every glyph carries its own weight, width, size and colour, and the PDF embeds a font for each style group. Measured after lossless repacking with qpdf: PDF sources grow by 1.1× to 5.3×, short plain-text sources much more (3 KB of instructions → about 110 KB). The [examples table](examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](examples/motifs/).
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 

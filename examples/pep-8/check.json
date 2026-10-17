@@ -6,6 +6,7 @@
   "url": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst",
   "sourceSha256": "6028935c6cb2c674d5f4d512c7ba6ce2923713b1c47ce1a78adc690db817fc5d",
   "sourcePages": null,
+  "sourceBytes": 50796,
   "extractor": "utf-8",
   "characters": 47423,
   "words": 7153,
@@ -14,7 +15,7 @@
   "fontSizeMm": 1.712,
   "overflow": false,
   "toneFidelity": 0.96,
-  "layoutMs": 2370,
+  "layoutMs": 2233,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -23,5 +24,10 @@
     "visibleCharacters": 40271,
     "sha256Source": "e1778526123f3ec57706806ab6effdafc87a6fc2e92a300b14f3bfdd85f12122",
     "sha256ReadBack": "e1778526123f3ec57706806ab6effdafc87a6fc2e92a300b14f3bfdd85f12122"
-  }
+  },
+  "pdfBytes": 634365,
+  "pdfBytesUnoptimized": 2531324,
+  "sizeFactor": 12.49,
+  "motif": null,
+  "motifCredit": null
 }

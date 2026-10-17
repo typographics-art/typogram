@@ -6,6 +6,7 @@
   "url": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
   "sourceSha256": "e75f479c5cc632e88dcf3da247bbef96b093462610c0eee53d281f1fe379661c",
   "sourcePages": 8,
+  "sourceBytes": 195195,
   "extractor": "mutool draw -F txt",
   "characters": 10733,
   "words": 1779,
@@ -14,7 +15,7 @@
   "fontSizeMm": 3.648,
   "overflow": false,
   "toneFidelity": 0.971,
-  "layoutMs": 828,
+  "layoutMs": 853,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -23,5 +24,10 @@
     "visibleCharacters": 8955,
     "sha256Source": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb",
     "sha256ReadBack": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb"
-  }
+  },
+  "pdfBytes": 240856,
+  "pdfBytesUnoptimized": 689803,
+  "sizeFactor": 1.23,
+  "motif": null,
+  "motifCredit": null
 }

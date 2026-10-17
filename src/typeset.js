@@ -50,7 +50,7 @@ export function typesetWith({ text, metric, image, options = {} }) {
   let colorOf;
   if (o.color === 'photo') {
     const L = result.L;
-    colorOf = (it, i) => rgbCss(inkFor(map.rgb(it.x, i * L, it.x + it.adv, (i + 1) * L), it.eff, paper.paper, level.maxInk, darkPaper));
+    colorOf = (it, i) => rgbCss(inkFor(map.rgb(it.x, i * L, it.x + it.adv, (i + 1) * L), it.eff, paper.paper, level.maxInk, darkPaper, o.colorStep));
   } else if (o.color === 'gray') {
     colorOf = (it) => (it.g ? rgbCss(mix(paper.ink, paper.paper, it.g)) : '');
   } else {
@@ -150,7 +150,7 @@ export function typesetSections({ sections, metric, options = {} }) {
   if (o.color === 'photo') {
     colorOf = (it, i) => {
       const pn = panelOf(i), li = i - pn.firstLine;
-      return rgbCss(inkFor(pn.map.rgb(it.x, li * L, it.x + it.adv, (li + 1) * L), it.eff, paper.paper, level.maxInk, darkPaper));
+      return rgbCss(inkFor(pn.map.rgb(it.x, li * L, it.x + it.adv, (li + 1) * L), it.eff, paper.paper, level.maxInk, darkPaper, o.colorStep));
     };
   } else if (o.color === 'gray') {
     colorOf = (it) => (it.g ? rgbCss(mix(paper.ink, paper.paper, it.g)) : '');

@@ -75,13 +75,15 @@ Ein Klick auf das Poster zeigt den Text an genau dieser Stelle, gelesen aus den 
 
 ## One-Pager: ein ganzes Dokument auf einer Seite
 
-`cli/onepage.mjs` setzt den vollständigen Text eines mehrseitigen PDFs (oder einer Textdatei) auf eine einzige Seite. Die Buchstaben sind winzig und formen zusammen den Titel des Dokuments in grosser Schrift. Ein Mensch erkennt sofort, was die Seite enthält. Ein Modell liest jedes Wort aus der Textebene des PDFs, die Schriftgrösse spielt dafür keine Rolle.
+`cli/onepage.mjs` setzt den vollständigen Text eines mehrseitigen PDFs (oder einer Textdatei) auf eine einzige Seite. Die Buchstaben sind winzig und formen zusammen den Titel des Dokuments in grosser Schrift oder, mit `--motif`, ein Bild über dem Titel. Ein Mensch erkennt sofort, was die Seite enthält. Ein Modell liest jedes Wort aus der Textebene des PDFs, die Schriftgrösse spielt dafür keine Rolle.
 
 | | | |
 |---|---|---|
 | [<img src="examples/ch-bundesverfassung/preview.jpg" width="220" alt="Bundesverfassung auf einer Seite">](examples/ch-bundesverfassung/onepage.pdf)<br>**Bundesverfassung**<br>102 Seiten, 228 576 Zeichen | [<img src="examples/eu-ai-act/preview.jpg" width="220" alt="EU AI Act auf einer Seite">](examples/eu-ai-act/onepage.pdf)<br>**EU AI Act**<br>144 Seiten, 595 706 Zeichen | [<img src="examples/code-review-agent/preview.jpg" width="220" alt="Anweisungen für einen Code-Review-Agenten auf einer Seite">](examples/code-review-agent/onepage.pdf)<br>**KI-Anweisungen**<br>Regeln eines Code-Review-Agenten |
 
 Jedes Beispiel wird mit MuPDF zurückgelesen und mit der Quelle verglichen; alle stimmen überein. Zehn Beispiele (Gesetze, Erklärungen, PEP 8, Anweisungen für KI-Agenten, die [AGENTS.md](AGENTS.md) dieses Repos) liegen in [examples/](examples/).
+
+**Dateigrösse.** Ein One-Pager ist grösser als seine Quelle: Jedes Zeichen trägt eigene Stärke, Breite, Grösse und Farbe, und das PDF bettet je Stilgruppe eine Schrift ein. Gemessen nach verlustfreiem Umpacken mit qpdf: PDF-Quellen wachsen um das 1,1- bis 5,3-Fache, kurze reine Textquellen deutlich mehr (3 KB Anweisungen → rund 110 KB). Die [Beispieltabelle](examples/README.md#file-size-honestly) nennt jede Grösse; die Original-Motive liegen in [examples/motifs/](examples/motifs/).
 
 Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Und bleib ehrlich: Der sichtbare Titel muss das Dokument benennen, und winziger Text darf nie Anweisungen vor den Menschen verstecken, die die Seite sehen.
 

@@ -6,15 +6,16 @@
   "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
   "sourceSha256": "5107fa5a37afa7a75486a1c8f3beac00cf1aeacdbf835fd73398ead4f724d164",
   "sourcePages": 102,
+  "sourceBytes": 1096229,
   "extractor": "mutool draw -F txt",
   "characters": 228576,
   "words": 31129,
-  "lines": 360,
+  "lines": 321,
   "paper": "a4",
-  "fontSizeMm": 0.789,
+  "fontSizeMm": 0.885,
   "overflow": false,
-  "toneFidelity": 0.969,
-  "layoutMs": 4564,
+  "toneFidelity": 0.96,
+  "layoutMs": 3876,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -23,5 +24,10 @@
     "visibleCharacters": 197448,
     "sha256Source": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964",
     "sha256ReadBack": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964"
-  }
+  },
+  "pdfBytes": 4760559,
+  "pdfBytesUnoptimized": 5228968,
+  "sizeFactor": 4.34,
+  "motif": "motifs/ch-bundesverfassung-1874.jpg",
+  "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old)."
 }

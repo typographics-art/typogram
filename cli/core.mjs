@@ -2,7 +2,7 @@
 // browser UI. No dependencies: Node's http server serves the repository, Node's WebSocket talks to Chrome.
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync, rmSync, existsSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, rmSync, existsSync, statSync, renameSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, normalize, extname, sep, dirname } from 'node:path';
@@ -128,7 +128,11 @@ export async function openSession({ chrome = findChrome() } = {}) {
      * are printed in strips of at most `glyphsPerStrip` glyphs and assembled onto one page with MuPDF
      * (cli/pdf-assemble.js), keeping vectors and the text layer. Returns { widthMm, heightMm, strips }.
      */
-    async printPoster(file, { lines, characters, mmPerPx, glyphsPerStrip = 220000 }) {
+    async printPoster(file, opts) {
+      const size = await this.printPosterRaw(file, opts);
+      return { ...size, ...optimizePdf(file) };
+    },
+    async printPosterRaw(file, { lines, characters, mmPerPx, glyphsPerStrip = 220000 }) {
       const strips = Math.max(1, Math.ceil(characters / glyphsPerStrip));
       if (strips === 1) {
         const size = await this.call('tgPrintStrip', 0, lines, mmPerPx);
@@ -176,6 +180,22 @@ export async function openSession({ chrome = findChrome() } = {}) {
       rmSync(profile, { recursive: true, force: true });
     },
   };
+}
+
+/**
+ * Chrome writes PDFs with weak compression. qpdf repacks them losslessly (object streams, recompressed
+ * streams): measured 7.5 MB -> 1.5 MB for a one-pager. Content and text layer are unchanged. Skipped
+ * when qpdf is not installed. Returns { bytesBefore, bytesAfter }.
+ */
+export function optimizePdf(file) {
+  const before = statSync(file).size;
+  if (spawnSync('which', ['qpdf']).status !== 0) return { bytesBefore: before, bytesAfter: before, optimized: false };
+  const tmp = file + '.qpdf';
+  const r = spawnSync('qpdf', ['--object-streams=generate', '--compress-streams=y', '--recompress-flate', '--compression-level=9', file, tmp]);
+  if (r.status !== 0 && r.status !== 3) { rmSync(tmp, { force: true }); return { bytesBefore: before, bytesAfter: before, optimized: false }; }
+  const after = statSync(tmp).size;
+  if (after < before) renameSync(tmp, file); else rmSync(tmp, { force: true });
+  return { bytesBefore: before, bytesAfter: Math.min(before, after), optimized: after < before };
 }
 
 export const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.bmp': 'image/bmp', '.svg': 'image/svg+xml' };

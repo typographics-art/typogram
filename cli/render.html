@@ -197,10 +197,11 @@ window.tgPrintStrip = async (from, to, mmPerPx) => {
 // ---------- One-pagers: a whole document on one page, its title formed by the text ----------
 
 /** Title card: the title in heavy type, as large as fits, a smaller subtitle below. */
-function titleCard(title, subtitle, w, h, family) {
+function titleCard(title, subtitle, w, h, family, image) {
   const c = document.createElement('canvas'); c.width = w; c.height = h;
   const g = c.getContext('2d');
   g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+  if (image) return imageCard(c, g, title, subtitle, w, h, family, image);
   g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
   // Pieces: words, further split at soft hyphens (U+00AD) where the title may break with a visible hyphen.
   const pieces = [];
@@ -255,14 +256,45 @@ window.tgCoverageMap = (width) => {
 /** The title card alone, for inspection. */
 window.tgTitleCard = async (title, subtitle, w, h, fontKey = 'roboto') => { await ensureFont(FONTS[fontKey]); return titleCard(title, subtitle, w, h, FONTS[fontKey].canvas).toDataURL('image/png'); };
 
+/** Image card: the motif fills the upper part of the page, a light band below carries the title. */
+function imageCard(c, g, title, subtitle, w, h, family, img) {
+  const bandH = Math.round(h * 0.2), ih = h - bandH;
+  const iw0 = img.naturalWidth || img.width, ih0 = img.naturalHeight || img.height;
+  // Fit the whole motif (no cropping of figures); fill the rest with the motif's average colour.
+  const px = document.createElement('canvas'); px.width = px.height = 1;
+  const pg = px.getContext('2d'); pg.drawImage(img, 0, 0, 1, 1);
+  const [r0, g0, b0] = pg.getImageData(0, 0, 1, 1).data;
+  g.fillStyle = `rgb(${r0},${g0},${b0})`; g.fillRect(0, 0, w, ih);
+  const s = Math.min(w / iw0, ih / ih0), dw = iw0 * s, dh = ih0 * s;
+  g.drawImage(img, (w - dw) / 2, (ih - dh) / 2, dw, dh);
+  g.fillStyle = '#fff'; g.fillRect(0, ih, w, bandH);
+  g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  const plain = title.replace(/\u00ad/g, '');
+  let size = bandH * 0.62;
+  g.font = `900 ${size}px ${family}`;
+  while (g.measureText(plain).width > w * 0.92 && size > 8) { size *= 0.95; g.font = `900 ${size}px ${family}`; }
+  const sub = subtitle ? Math.min(bandH * 0.16, size * 0.3) : 0;
+  const block = size * 0.78 + (subtitle ? sub * 1.5 : 0);
+  const top = ih + (bandH - block) / 2;
+  g.fillText(plain, w / 2, top + size * 0.78);
+  if (subtitle) { g.font = `600 ${sub}px ${family}`; g.fillText(subtitle, w / 2, top + size * 0.78 + sub * 1.45, w * 0.92); }
+  return c;
+}
+async function loadMotif(src) {
+  if (!src) return null;
+  if (src.startsWith('recipe:')) return RECIPES[src.slice(7)]();
+  const img = new Image(); img.src = src; await img.decode(); return img;
+}
+
 /** Sets a whole document on one page. Afterwards tgPrintStrip / tgBase / tgBaseImage work on it. */
-window.tgOnePage = async ({ text, title, subtitle, options }) => {
+window.tgOnePage = async ({ text, title, subtitle, options, motif }) => {
   const fontKey = options.font || 'roboto', font = FONTS[fontKey];
   await ensureFont(font);
+  document.title = title.replace(/\u00ad/g, ''); // becomes the PDF's Title metadata
   const source = normalizeText(text);
   const metric = measureGlyphs(fontKey, new Set(graphemes(source)));
   const pad = Math.round(options.width * (options.margin ?? 0.025));
-  const card = titleCard(title, subtitle, 1400, Math.round(1400 * options.aspect), font.canvas);
+  const card = titleCard(title, subtitle, 1400, Math.round(1400 * options.aspect), font.canvas, await loadMotif(motif));
   const image = card.getContext('2d').getImageData(0, 0, card.width, card.height);
   const t0 = performance.now();
   poster = typesetWith({ text: source, metric, image, options });
@@ -272,6 +304,9 @@ window.tgOnePage = async ({ text, title, subtitle, options }) => {
     pad, overflow: poster.result.overflow, toneFidelity: poster.toneFidelity,
   };
 };
+
+/** A procedural motif as PNG (for publishing the motif next to its artwork). */
+window.tgRecipe = (name) => RECIPES[name]().toDataURL('image/png');
 
 window.tgReady = true;
 </script>

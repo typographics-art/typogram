@@ -32,7 +32,7 @@ npm run dev                            # app at http://localhost:8080
 node cli/tg-art.mjs img.jpg --text t.txt -o out.pdf
 node cli/onepage.mjs doc.pdf --title "Title" -o onepage.pdf
 npm run gallery                        # re-render gallery (needs Chrome)
-node examples/build.mjs                # re-render examples (needs Chrome and MuPDF)
+node examples/build.mjs                # re-render examples (needs Chrome and MuPDF; qpdf optional, shrinks the PDFs)
 ```
 
 ## Before you open a pull request

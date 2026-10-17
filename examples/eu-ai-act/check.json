@@ -6,22 +6,28 @@
   "url": "http://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
   "sourceSha256": "bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e",
   "sourcePages": 144,
+  "sourceBytes": 2583319,
   "extractor": "mutool draw -F txt",
   "characters": 595706,
   "words": 91421,
-  "lines": 581,
+  "lines": 577,
   "paper": "a4",
-  "fontSizeMm": 0.488,
+  "fontSizeMm": 0.492,
   "overflow": false,
-  "toneFidelity": 0.975,
-  "layoutMs": 13522,
+  "toneFidelity": 0.942,
+  "layoutMs": 12787,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
-    "exact": false,
+    "exact": true,
     "visibleIdentical": true,
     "visibleCharacters": 504285,
     "sha256Source": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0",
-    "sha256ReadBack": "c50683aae1982de735acf2486b96406ad40ee1710e49941c2c3386a7cc1bdba6"
-  }
+    "sha256ReadBack": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0"
+  },
+  "pdfBytes": 6009056,
+  "pdfBytesUnoptimized": 6488946,
+  "sizeFactor": 2.33,
+  "motif": "recipe:aiActNetwork",
+  "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT."
 }
