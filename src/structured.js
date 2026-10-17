@@ -25,9 +25,12 @@ const READ_NOTE = 'TGD 1: JSON, each middle dot stands for one space, \\uXXXX is
 export const DEFAULT_LIMITS = { maxInputBytes: 16 * 1024 * 1024, maxBlockChars: 64 * 1024 * 1024, maxBlocks: 64 };
 
 // ---- text helpers -----------------------------------------------------------------------------------------------
-const STRIP_ONE = /^[\p{White_Space}\p{Default_Ignorable_Code_Point}\p{Cc}]$/u;
-/** What a decoder deletes before parsing: whitespace, invisible format characters, control characters. */
-export const stripText = (t) => String(t).replace(/[\p{White_Space}\p{Default_Ignorable_Code_Point}\p{Cc}]/gu, '');
+// The normative set of characters a decoder deletes before parsing (docs/structured-data.md §Transport form): whitespace,
+// invisible format characters and controls, as ranges, so that the set cannot drift with a Unicode update.
+const STRIP_CLASS = '[\\u0000-\\u0020\\u007f-\\u00a0\\u00ad\\u034f\\u061c\\u115f\\u1160\\u1680\\u17b4\\u17b5\\u180b-\\u180f\\u2000-\\u200f\\u2028-\\u202f\\u205f-\\u206f\\u3000\\u3164\\ufe00-\\ufe0f\\ufeff\\uffa0\\ufff0-\\ufff8\\u{1bca0}-\\u{1bca3}\\u{1d173}-\\u{1d17a}\\u{e0000}-\\u{e0fff}]';
+export const STRIP_RE = new RegExp(STRIP_CLASS, 'gu');
+const STRIP_ONE = new RegExp(`^${STRIP_CLASS}$`, 'u');
+export const stripText = (t) => String(t).replace(STRIP_RE, '');
 
 /** The characters that may stand literally in a TGD payload, by mode: 'safe' (default), 'plain', 'ascii'. */
 const SAFE_RANGES = [

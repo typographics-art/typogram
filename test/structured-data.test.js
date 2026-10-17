@@ -5,7 +5,7 @@ import { readFileSync, mkdtempSync, writeFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { encode, decode, decodeAll, toFile, verify, findBlocks, stripBlocks, seal, keepLiteral, TgdError } from '../src/structured.js';
+import { STRIP_RE, encode, decode, decodeAll, toFile, verify, findBlocks, stripBlocks, seal, keepLiteral, TgdError } from '../src/structured.js';
 import { parseJson, Dec, stringifyJson } from '../src/structured-json.js';
 import { parseYaml } from '../src/structured-yaml.js';
 import { parseXml } from '../src/structured-xml.js';
@@ -102,6 +102,16 @@ test('findBlocks finds blocks in prose with their offsets; stripBlocks leaves th
 test('a space inside the opening marker (an extractor artefact) does not hide the block', async () => {
   const { r } = await roundtrip('table.tsv');
   assert.equal((await decode(r.text.replace('TGD1[', 'TGD 1 ['))).name, 'table.tsv');
+});
+
+test('the normative strip set equals whitespace + Default_Ignorable_Code_Point + controls (Unicode as built into this Node)', () => {
+  const prop = /^[\p{White_Space}\p{Default_Ignorable_Code_Point}\p{Cc}]$/u;
+  const one = new RegExp(STRIP_RE.source, 'u');
+  for (let c = 0; c <= 0x10ffff; c++) {
+    if (c >= 0xd800 && c <= 0xdfff) continue;
+    const ch = String.fromCodePoint(c);
+    if (prop.test(ch) !== new RegExp(`^(?:${one.source})$`, 'u').test(ch)) assert.fail(`U+${c.toString(16)} differs`);
+  }
 });
 
 // ---- integrity ---------------------------------------------------------------------------------------------------
