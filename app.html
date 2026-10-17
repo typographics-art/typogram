@@ -87,6 +87,7 @@ button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-vis
   .nav a,footer a{display:inline-block;padding:11px 8px}
   .lang button{min-height:44px;min-width:44px}
 }
+@media (pointer:coarse),(max-width:900px){button,.btn{min-height:44px}.nav a,footer a{min-height:44px;display:inline-flex;align-items:center}}
 .hint.bad{color:var(--warn);font-weight:600;font-size:13.5px;border-left:3px solid var(--warn);padding:2px 0 2px 10px}
 .hint.good{color:var(--ok);font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -446,7 +447,7 @@ const MSG = {
     chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
     cutsN: '{n} Stärken', cuts1: '1 Stärke', cutsAll: 'alle Stärken',
     jumpResult: '↓ Ergebnis', jumpSettings: '↑ Einstellungen', secretCopied: 'Schlüssel kopiert.', secretCopyFail: 'Kopieren nicht möglich: Schlüssel markieren und von Hand kopieren.', secretEmpty: 'Zuerst die Nachricht eintippen, die versteckt werden soll.', secretNoKey: 'Zuerst den Schlüssel einfügen (er beginnt mit „tg1.“).', secretBadKey: 'Das ist kein Schlüssel: Ein Schlüssel beginnt mit „tg1.“.', secretDamaged: 'Der Schlüssel ist beschädigt oder unvollständig. Bitte noch einmal ganz kopieren.',
-    sampleLoaded: 'Beispieltext geladen: {title}. Quelle: {source} ({licence}).', sampleBig: 'groß, braucht einige Sekunden', sampleNo: 'ohne {c}', sampleGroupWorks: 'Gemeinfreie Werke', sampleGroupLaws: 'Gesetze und Erklärungen', sampleGroupTech: 'Technik', sampleGroupAi: 'KI-Anweisungen', secretSuggest: 'Texte, die ihn enthalten:', secretSuggested: 'Text geladen. Jetzt den Schlüssel noch einmal erzeugen.',
+    sampleLoaded: 'Beispieltext geladen: {title}. Quelle: {source} ({licence}).', sampleBig: 'gross, braucht einige Sekunden', sampleNo: 'ohne {c}', sampleGroupWorks: 'Gemeinfreie Werke', sampleGroupLaws: 'Gesetze und Erklärungen', sampleGroupTech: 'Technik', sampleGroupAi: 'KI-Anweisungen', secretSuggest: 'Texte, die ihn enthalten:', secretSuggested: 'Text geladen. Jetzt den Schlüssel noch einmal erzeugen.',
     secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Das Werk ebenfalls speichern oder kopieren (siehe „Kopieren & speichern“).', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
     secretMissing: 'So noch nicht möglich: Im Text fehlt {c}. Andere Wörter wählen oder ein Wort mit diesem Buchstaben in den Text aufnehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
