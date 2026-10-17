@@ -30,7 +30,10 @@ export function dateKind(fmtId, code) {
 }
 
 const pad = (n, w = 2) => String(n).padStart(w, '0');
-/** Excel serial -> ISO text, or null when no date can stand for it (before 1900-03-01 in the 1900 system, negatives). */
+/**
+ * Excel serial -> ISO text, or null when no date can stand for it: serial 60 (the 1900-02-29 that never existed;
+ * Excel's 1900 system counts it, so 1-59 are 1900-01-01..02-28 and 61 on is 1900-03-01 on), zero, negatives.
+ */
 export function serialToIso(serial, kind, date1904 = false) {
   if (!Number.isFinite(serial)) return null;
   if (kind === 'time') {
@@ -39,8 +42,8 @@ export function serialToIso(serial, kind, date1904 = false) {
     if (ms >= 86400000) return null;
     return `${pad(Math.floor(ms / 3600000))}:${pad(Math.floor(ms / 60000) % 60)}:${pad(Math.floor(ms / 1000) % 60)}${ms % 1000 ? '.' + pad(ms % 1000, 3) : ''}`;
   }
-  if (serial < (date1904 ? 0 : 61) || serial >= 2958466) return null;
-  const epoch = date1904 ? Date.UTC(1904, 0, 1) : Date.UTC(1899, 11, 30);
+  if (serial < (date1904 ? 0 : 1) || serial >= 2958466 || (!date1904 && serial >= 60 && serial < 61)) return null;
+  const epoch = date1904 ? Date.UTC(1904, 0, 1) : serial < 60 ? Date.UTC(1899, 11, 31) : Date.UTC(1899, 11, 30);
   const d = new Date(epoch + Math.round(serial * 86400000));
   const day = `${pad(d.getUTCFullYear(), 4)}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
   const ms = d.getUTCHours() * 3600000 + d.getUTCMinutes() * 60000 + d.getUTCSeconds() * 1000 + d.getUTCMilliseconds();
@@ -51,7 +54,7 @@ export function isoToSerial(iso, date1904 = false) {
   let m = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?)?$/.exec(iso);
   if (m) {
     const ms = Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0), m[7] ? +m[7].padEnd(3, '0') : 0);
-    const epoch = date1904 ? Date.UTC(1904, 0, 1) : Date.UTC(1899, 11, 30);
+    const epoch = date1904 ? Date.UTC(1904, 0, 1) : ms < Date.UTC(1900, 2, 1) ? Date.UTC(1899, 11, 31) : Date.UTC(1899, 11, 30);
     return (ms - epoch) / 86400000;
   }
   m = /^(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/.exec(iso);
@@ -153,7 +156,20 @@ export async function readXlsx(bytes, { limits } = {}) {
         ((grid[rowNo] ||= [])[colNo] = val);
       }
     }
-    for (let r = 0; r < grid.length; r++) grid[r] = grid[r] ? Array.from(grid[r], (v) => (v === undefined ? null : v)) : [];
+    // Rows are still holey arrays here. The dense size is computed from their lengths before anything is allocated:
+    // a few cells far out (XFD1048576) would otherwise become gigabytes of nulls.
+    let dense = 0;
+    grid.forEach((row) => { dense += row.length; });
+    const maxDense = limits?.maxDense ?? 10_000_000;
+    let layout;
+    if (dense > maxDense) {
+      const cells = {};
+      grid.forEach((row, r) => row.forEach((v, c) => { cells[addr(r, c)] = v; }));
+      layout = { cells };
+    } else {
+      for (let r = 0; r < grid.length; r++) grid[r] = grid[r] ? Array.from(grid[r], (v) => (v === undefined ? null : v)) : [];
+      layout = layoutGrid(grid);
+    }
     const comments = {};
     const sheetRels = zip.has(path.replace(/([^/]*)$/, '_rels/$1.rels')) ? relsOf(await xml(path.replace(/([^/]*)$/, '_rels/$1.rels'))) : new Map();
     for (const rel2 of sheetRels.values()) {
@@ -162,10 +178,10 @@ export async function readXlsx(bytes, { limits } = {}) {
       for (const cm of xmlElems(xmlElems(cx.root, 'commentList')[0] || ['x'], 'comment')) comments[xmlAttr(cm, 'ref')] = unx(xmlElems(xmlElems(cm, 'text')[0] || ['x'], 't').map(xmlText).join('') + xmlElems(xmlElems(cm, 'text')[0] || ['x'], 'r').flatMap((r) => xmlElems(r, 't')).map(xmlText).join(''));
     }
     const state = xmlAttr(sh, 'state');
-    const hdr = looksLikeHeader(grid);
+    const hdr = dense <= maxDense && looksLikeHeader(grid);
     sheets.push({
       name: xmlAttr(sh, 'name'), ...(state === 'hidden' || state === 'veryHidden' ? { state } : {}), ...(hdr ? { header: true } : {}),
-      ...layoutGrid(grid), ...(merges.length ? { merges } : {}), ...(Object.keys(comments).length ? { comments } : {}),
+      ...layout, ...(merges.length ? { merges } : {}), ...(Object.keys(comments).length ? { comments } : {}),
     });
     notes.sheets++;
   }
@@ -174,7 +190,7 @@ export async function readXlsx(bytes, { limits } = {}) {
     'data validation, conditional formatting, filters, tables, pivot tables', 'charts, images, drawings, macros'];
   if (notes.sharedFormulaValues) lossy.push(`shared formulas: ${notes.sharedFormulaValues} cells keep their value only (the first cell of each group keeps the formula)`);
   if (notes.arrayFormulas) lossy.push(`array formulas: ${notes.arrayFormulas} are kept as single-cell formulas`);
-  if (notes.early) lossy.push(`${notes.early} date-formatted cells hold numbers a date cannot stand for (before 1900-03-01, negative, or a duration over 24 hours); they stay numbers`);
+  if (notes.early) lossy.push(`${notes.early} date-formatted cells hold numbers a date cannot stand for (serial 60 = the non-existent 1900-02-29, zero, negative, or a duration over 24 hours); they stay numbers`);
   lossy.push('date and time values are rounded to the millisecond and carry no time zone (Excel stores none)');
   return { data: { kind: 'workbook', ...(date1904 ? { date1904: true } : {}), ...(Object.keys(names).length ? { names } : {}), sheets }, lossy };
 }
@@ -218,6 +234,7 @@ export async function writeXlsx(block, { formulas = false } = {}) {
     const grid = gridOf(sheet);
     const rowsXml = [];
     grid.forEach((row, r) => {
+      if (!row) return;
       const cells = [];
       row.forEach((v, c) => {
         if (v === null || v === undefined) return;

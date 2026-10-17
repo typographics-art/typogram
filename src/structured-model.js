@@ -63,7 +63,7 @@ export function layoutGrid(grid, { trim = true } = {}) {
 
 /** The grid (array of rows) of a decoded sheet (plain object), whichever layout it uses. */
 export function gridOf(sheet, limits = {}) {
-  const maxCells = limits.maxCells ?? 20_000_000;
+  const maxCells = limits.maxCells ?? 20_000_000, maxDense = limits.maxDense ?? 20_000_000;
   if (Array.isArray(sheet.rows)) {
     if (sheet.cells) throw new TgdError('shape', `Sheet ${JSON.stringify(sheet.name)} has both "rows" and "cells"`);
     return sheet.rows.map((r) => { if (!Array.isArray(r)) throw new TgdError('shape', 'A row is not an array'); return r; });
@@ -76,7 +76,10 @@ export function gridOf(sheet, limits = {}) {
     if (++n > maxCells) throw new TgdError('limit', 'Too many cells');
     (grid[r] ||= [])[c] = v;
   }
-  for (let r = 0; r < grid.length; r++) grid[r] = grid[r] ? Array.from(grid[r], (v) => (v === undefined ? null : v)) : [];
+  let dense = 0;
+  grid.forEach((row) => { dense += row.length; });
+  if (dense > maxDense) throw new TgdError('limit', `The sheet would need ${dense} cells as a table; writing it as a file is limited to ${maxDense}`);
+  for (let r = 0; r < grid.length; r++) if (grid[r]) grid[r] = Array.from(grid[r], (v) => (v === undefined ? null : v));
   return grid;
 }
 

@@ -82,11 +82,13 @@ export function writeCsv(block, { safe = true, sheet: pick, delimiter: forced } 
   let guarded = 0;
   const q = (v) => {
     let s = cellText(v);
-    if (safe && typeof v === 'string' && guardCell(s) !== s) { s = guardCell(s); guarded++; }
+    // The guard looks at the FINAL text of every cell, whatever type the model says (text, date, boolean, formula, error).
+    // Only text that is entirely a plain decimal number is exempt: a spreadsheet reads that as a number, never as a formula.
+    if (safe && guardCell(s) !== s) { s = guardCell(s); guarded++; }
     return s.includes(d) || s.includes('"') || /[\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const grid = gridOf(sheet);
-  const lines = grid.map((row) => row.map(q).join(d));
+  const grid = gridOf(sheet, { maxDense: 50_000_000 });
+  const lines = Array.from(grid, (row) => (row || []).map(q).join(d));
   const body = lines.join(eol) + (dia.final === false ? '' : eol);
   const notes = [];
   if (sheets.length > 1 && pick == null) notes.push(`The workbook has ${sheets.length} sheets; only the first (${sheets[0].name}) was written. Use sheet to choose.`);

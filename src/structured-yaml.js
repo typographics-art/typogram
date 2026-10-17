@@ -76,6 +76,8 @@ export function parseYaml(input, limits = {}) {
   }
 
   function flow(s, i, n, depth) {
+    if (depth > maxDepth) throw new TgdError('limit', 'YAML nesting is too deep');
+    count();
     const skip = () => { while (/\s/.test(s[i] || '')) i++; };
     const open = s[i];
     i++;
@@ -85,6 +87,7 @@ export function parseYaml(input, limits = {}) {
     if (s[i] === close) return { value: open === '[' ? arr : map, end: i + 1 };
     for (;;) {
       skip();
+      count();
       let item;
       if (s[i] === '[' || s[i] === '{') { const r = flow(s, i, n, depth + 1); item = r.value; i = r.end; }
       else if (s[i] === '"' || s[i] === "'") { const r = quoted(s.slice(i), n); item = r.value; i += r.end; }
@@ -210,7 +213,6 @@ const plainSafe = (s) => s !== '' && /^[A-Za-z_\u00a1-\uffff][\w\u00a1-\uffff ./
 const scalar = (s) => (plainSafe(s) ? s : quote(s, KEEP));
 
 export function stringifyYaml(ast) {
-  const out = [];
   const isLeaf = (v) => !(Array.isArray(v) ? v.length : v instanceof Map ? v.size : false);
   const leaf = (v) => {
     if (v === null) return 'null';
@@ -221,22 +223,23 @@ export function stringifyYaml(ast) {
     if (v instanceof Map) return '{}';
     throw new TgdError('syntax', 'YAML: cannot write this value');
   };
-  const go = (v, ind) => {
-    const sp = ' '.repeat(ind);
-    if (Array.isArray(v) && v.length) {
+  /** Lines of a non-empty collection, indented by `ind` spaces. */
+  const lines = (v, ind) => {
+    const sp = ' '.repeat(ind), out = [];
+    if (Array.isArray(v)) {
       for (const x of v) {
         if (isLeaf(x)) out.push(`${sp}- ${leaf(x)}`);
-        else { out.push(`${sp}-`); go(x, ind + 2); }
+        else { const sub = lines(x, ind + 2); out.push(`${sp}- ${sub[0].trimStart()}`, ...sub.slice(1)); }
       }
-    } else if (v instanceof Map && v.size) {
+    } else {
       for (const [k, x] of v) {
         if (isLeaf(x)) out.push(`${sp}${scalar(k)}: ${leaf(x)}`);
-        else { out.push(`${sp}${scalar(k)}:`); go(x, ind + 2); }
+        else out.push(`${sp}${scalar(k)}:`, ...lines(x, ind + 2));
       }
-    } else out.push(sp + leaf(v));
+    }
+    return out;
   };
-  go(ast, 0);
-  return out.join('\n') + '\n';
+  return (isLeaf(ast) ? leaf(ast) : lines(ast, 0).join('\n')) + '\n';
 }
 
 export function readYaml(bytes) {

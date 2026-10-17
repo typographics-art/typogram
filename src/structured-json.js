@@ -139,6 +139,8 @@ export function fromPlain(v) {
   throw new TgdError('syntax', `Cannot represent a ${typeof v}`);
 }
 
+// Written as \\uXXXX in files too, so that an invisible character is visible in the text of the file.
+const INVISIBLE = /^[\p{Default_Ignorable_Code_Point}\p{Zl}\p{Zp}\p{Cn}]$/u;
 const ESC = { '"': '\\"', '\\': '\\\\', '\b': '\\b', '\f': '\\f', '\n': '\\n', '\r': '\\r', '\t': '\\t' };
 const u4 = (n) => '\\u' + n.toString(16).padStart(4, '0');
 
@@ -164,7 +166,7 @@ export function stringifyJson(ast, { indent = 2 } = {}) {
   const go = (v, d) => {
     if (v === null) return 'null';
     if (typeof v === 'boolean') return String(v);
-    if (typeof v === 'string') return quote(v, (cp) => cp >= 0x20 && cp !== 0x7f && !(cp >= 0x80 && cp <= 0x9f) && cp !== 0x2028 && cp !== 0x2029);
+    if (typeof v === 'string') return quote(v, (cp) => cp >= 0x20 && cp !== 0x7f && !(cp >= 0x80 && cp <= 0x9f) && !INVISIBLE.test(String.fromCodePoint(cp)));
     if (typeof v === 'number' || v instanceof Dec) return numberText(v);
     if (Array.isArray(v)) return v.length ? '[' + v.map((x) => pad(d + 1) + go(x, d + 1)).join(',') + pad(d) + ']' : '[]';
     if (isMap(v)) return v.size ? '{' + [...v].map(([k, x]) => pad(d + 1) + quote(k) + (indent ? ': ' : ':') + go(x, d + 1)).join(',') + pad(d) + '}' : '{}';

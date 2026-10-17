@@ -42,6 +42,18 @@ function startsBlock(l, next, inParagraph) {
   return !!(l.includes('|') && next !== undefined && TABLE_SEP.test(next) && splitRow(l).length === splitRow(next).length);
 }
 
+/** True if a blank line separates two things in the item (blank lines inside a fenced code block do not count). */
+function blankOutsideFence(body) {
+  let fence = null;
+  for (const l of body) {
+    const m = FENCE.exec(l);
+    if (fence) { if (new RegExp(`^ {0,3}${fence[0]}{${fence.length},}[ \\t]*$`).test(l)) fence = null; continue; }
+    if (m) { fence = m[2]; continue; }
+    if (l === '') return true;
+  }
+  return false;
+}
+
 export function parseBlocks(lines, depth = 0, limits = {}) {
   if (depth > (limits.maxDepth ?? 32)) throw new TgdError('limit', 'Markdown nesting is too deep');
   const blocks = [];
@@ -91,12 +103,12 @@ export function parseBlocks(lines, depth = 0, limits = {}) {
           const nl = lines[i];
           if (isBlank(nl)) { body.push(''); i++; blankBefore = true; continue; }
           if (indentOf(nl) >= contentIndent) { body.push(nl.slice(contentIndent)); i++; blankBefore = false; continue; }
-          if (!blankBefore && !startsBlock(nl, lines[i + 1], true) && body.some((b) => b !== '') && !isBlank(body.at(-1))) { body.push(nl.trimStart()); i++; continue; } // lazy continuation
+          if (!blankBefore && !BULLET.test(nl) && !ORDERED.test(nl) && !startsBlock(nl, lines[i + 1], true) && body.some((b) => b !== '') && !isBlank(body.at(-1))) { body.push(nl.trimStart()); i++; continue; } // lazy continuation
           break;
         }
         let trailingBlank = 0;
         while (body.length && body.at(-1) === '') { body.pop(); trailingBlank++; }
-        if (body.some((b, k) => b === '' && k < body.length - 1 && body.slice(k).some((x) => x !== '')) ) tight = false;
+        if (blankOutsideFence(body)) tight = false;
         if (trailingBlank && i < n && (ordered ? ORDERED.exec(lines[i]) : BULLET.exec(lines[i])) && (ordered ? ORDERED.exec(lines[i])[3] : BULLET.exec(lines[i])[2]) === marker) sawBlank = true;
         items.push(parseBlocks(body, depth + 1, limits));
       }
@@ -162,9 +174,12 @@ export function readMarkdown(bytes, { limits } = {}) {
 // ---- writer -------------------------------------------------------------------------------------------------------
 const fenceFor = (x, ch = '`') => { let n = 3; for (const m of x.matchAll(new RegExp(`${ch === '`' ? '`' : '~'}+`, 'g'))) n = Math.max(n, m[0].length + 1); return ch.repeat(n); };
 
-export function writeBlocks(blocks, depth = 0) {
+export function writeBlocks(blocks, depth = 0, tight = false) {
   const out = [];
+  let prev = null;
   for (const b of blocks) {
+    const alt = prev && prev.t === b.t && (b.t === 'ul' || b.t === 'ol'); // two lists in a row stay two lists: use the other marker
+    prev = b;
     switch (b.t) {
       case 'h': out.push('#'.repeat(b.l) + (b.x ? ' ' + b.x : '')); break;
       case 'p': out.push(b.x); break;
@@ -180,9 +195,9 @@ export function writeBlocks(blocks, depth = 0) {
       case 'ul': case 'ol': {
         const loose = b.tight === false;
         const parts = b.items.map((item, k) => {
-          const marker = b.t === 'ul' ? '-' : `${(b.start ?? 1) + k}.`;
+          const marker = b.t === 'ul' ? (alt ? '*' : '-') : `${(b.start ?? 1) + k}${alt ? ')' : '.'}`;
           const pad = ' '.repeat(marker.length + 1);
-          const body = writeBlocks(item, depth + 1).split('\n');
+          const body = writeBlocks(item, depth + 1, !loose).split('\n');
           return body.map((l, j) => (j === 0 ? `${marker} ${l}` : l ? pad + l : '')).join('\n').replace(/^(-|\d+\.) $/, '$1');
         });
         out.push(parts.join(loose ? '\n\n' : '\n'));
@@ -192,7 +207,7 @@ export function writeBlocks(blocks, depth = 0) {
     }
   }
   // two adjacent lists or a list after a paragraph need a separator that cannot merge them: a blank line is enough here
-  return out.join('\n\n');
+  return out.join(tight ? '\n' : '\n\n');
 }
 
 export function writeMarkdown(block) {
