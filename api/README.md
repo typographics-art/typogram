@@ -27,20 +27,22 @@ Plain text (`text/plain`) and Markdown (`text/markdown`) work too; up to 20 MB.
 
 | Answer | Meaning |
 |---|---|
-| `202` `{ job, status_url }` | paid and queued |
+| `202` `{ job, token, status_url }` | paid and queued; keep the token, it is the only way to fetch the result |
 | `400` `missing_or_invalid_tx` | no transaction hash (64 hex characters) |
 | `402` `tx_not_found` | our node does not know the transaction yet: wait a minute |
 | `402` `not_confirmed` / `amount_too_low` / `no_output_to_address` | the payment is not (yet) enough; the answer says what was paid and what is needed |
-| `409` `tx_already_used` | this transaction already paid for a one-pager |
+| `409` `tx_already_used` | this transaction already paid for a one-pager (the answer says nothing about that job) |
 | `503` `payment_check_unavailable` | our node cannot be reached; the transaction is not used |
 
 ## 3. Fetch the one-pager
 
 ```sh
-curl -o onepage.pdf "https://api.typographics-art.org/v1/jobs/<job>?wait=60"
+curl -o onepage.pdf "https://api.typographics-art.org/v1/jobs/<job>?token=<token>&wait=60"
 ```
 
-`202` while it runs (the image takes about a minute, the layout up to another), `200` with the PDF when done. If a job fails, the transaction is **released** and can be sent again.
+`202` while it runs (the image takes about a minute, the layout up to another), `200` with the PDF when done. If a job fails **before** the picture is made (an outage on our side), the transaction is **released** and can be sent again, up to three times. Once the picture is made, the payment is used even if a later step fails.
+
+Transaction hashes are public on the chain, so the job and its PDF are only reachable with the token from the `202` answer.
 
 ## What happens
 

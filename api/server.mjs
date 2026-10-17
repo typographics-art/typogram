@@ -12,7 +12,7 @@
 // Cloudflare ends requests after 100 s, an image plus the layout take longer — hence job + poll.
 import { createServer } from 'node:http';
 import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from 'node:fs';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, randomBytes, createHash, timingSafeEqual } from 'node:crypto';
 import { join } from 'node:path';
 import { TXID, evaluatePayment, fetchTransaction } from './dgb.mjs';
 import { openStore } from './store.mjs';
@@ -58,7 +58,7 @@ async function createJob(req, res, url) {
   if (!body.length) return send(res, 400, { error: 'empty_body' });
 
   const used = store.payment(txid);
-  if (used && used.status !== 'released') return send(res, 409, { error: 'tx_already_used', status: used.status, job: used.job_id });
+  if (used && used.status !== 'released') return send(res, 409, { error: 'tx_already_used' }); // nothing about the job: hashes are public
   let tx;
   try {
     tx = await fetchTransaction(txid, CFG.dgb);
@@ -77,14 +77,23 @@ async function createJob(req, res, url) {
   const input = join(jobDir(id), `input.${ext}`);
   writeFileSync(input, body);
   const title = (url.searchParams.get('title') || '').slice(0, 80) || null;
-  store.addJob(id, txid, title, input);
+  // The job is fetched with a secret only this answer carries; the transaction hash alone is public on the chain.
+  const token = randomBytes(24).toString('base64url');
+  store.addJob(id, txid, sha256(token), title, input);
   queueMicrotask(work);
-  return send(res, 202, { job: id, status: 'queued', status_url: `/v1/jobs/${id}`, paid_dgb: pay.paidDgb, confirmations: pay.confirmations });
+  return send(res, 202, { job: id, token, status: 'queued', status_url: `/v1/jobs/${id}?token=${token}`, paid_dgb: pay.paidDgb, confirmations: pay.confirmations });
 }
 
-async function getJob(res, id, url) {
+const sha256 = (s) => createHash('sha256').update(s).digest('hex');
+const tokenOk = (j, token) => {
+  const a = Buffer.from(sha256(token || '')), b = Buffer.from(j.token_hash);
+  return a.length === b.length && timingSafeEqual(a, b);
+};
+
+async function getJob(req, res, id, url) {
   const wait = Math.min(Number(url.searchParams.get('wait') || 0), 90) * 1000, t0 = Date.now();
   let j = store.job(id);
+  if (!j || !tokenOk(j, url.searchParams.get('token') || req.headers['x-job-token'])) return send(res, 404, { error: 'unknown_job' });
   while (j && (j.status === 'queued' || j.status === 'running') && Date.now() - t0 < wait) {
     await new Promise((r) => setTimeout(r, 2000));
     j = store.job(id);
@@ -105,15 +114,20 @@ async function work() {
     for (let j = store.nextQueued(); j; j = store.nextQueued()) {
       store.setJob(j.id, { status: 'running' });
       const pdf = join(jobDir(j.id), 'onepage.pdf');
+      let imageMade = false;
       try {
-        const r = await runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg') }, CFG);
+        const r = await runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), onImage: () => { imageMade = true; } }, CFG);
         store.setJob(j.id, { status: 'done', result: pdf, finished_at: new Date().toISOString() });
         store.burn(j.txid, { job: j.id, prompt: r.prompt, characters: r.characters, pdfBytes: r.pdfBytes, imageModel: CFG.image.model });
         console.log(`[job ${j.id}] done: ${r.characters} characters, ${r.pdfBytes} bytes`);
       } catch (e) {
-        store.setJob(j.id, { status: 'failed', error: String(e.message || e).slice(0, 300), finished_at: new Date().toISOString() });
-        store.release(j.txid, String(e.message || e).slice(0, 300));
-        console.error(`[job ${j.id}] failed, transaction released: ${e.message}`);
+        const reason = String(e.message || e).slice(0, 300);
+        store.setJob(j.id, { status: 'failed', error: reason, finished_at: new Date().toISOString() });
+        // Released only if the failure came before the picture was made (our outage); once the image model has
+        // worked for this payment, it is spent even if the layout failed.
+        if (imageMade) store.burn(j.txid, { job: j.id, failedAfterImage: reason });
+        else store.release(j.txid, reason);
+        console.error(`[job ${j.id}] failed (${imageMade ? 'after the image, transaction burned' : 'transaction released'}): ${reason}`);
       } finally {
         rmSync(j.input, { force: true });
       }
@@ -136,7 +150,7 @@ createServer(async (req, res) => {
     }
     if (req.method === 'POST' && url.pathname === '/v1/onepage') return await createJob(req, res, url);
     const m = url.pathname.match(/^\/v1\/jobs\/([0-9a-f-]{36})$/);
-    if (req.method === 'GET' && m) return await getJob(res, m[1], url);
+    if (req.method === 'GET' && m) return await getJob(req, res, m[1], url);
     return send(res, 404, { error: 'not_found' });
   } catch (e) {
     console.error(`[${req.method} ${url.pathname}]`, e.message);

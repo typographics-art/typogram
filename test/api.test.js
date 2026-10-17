@@ -41,3 +41,18 @@ test('store: a transaction is burned once; a failed job releases it for another 
   assert.equal(s.reserve(id, 10, 3, 'job-4'), false, 'burned: never again');
   s.close();
 });
+
+test('store: a released payment may start at most MAX_RELEASES further jobs', async (t) => {
+  let store;
+  try { store = await import('../api/store.mjs'); } catch { return t.skip('node:sqlite needs Node 22.5+'); }
+  const s = store.openStore(join(mkdtempSync(join(tmpdir(), 'tg-api-')), 'api.sqlite'));
+  const id = 'c'.repeat(64);
+  assert.equal(s.reserve(id, 10, 2, 'job-0'), true);
+  for (let i = 1; i <= store.MAX_RELEASES; i++) {
+    s.release(id, 'outage');
+    assert.equal(s.reserve(id, 10, 2, `job-${i}`), true, `retry ${i} allowed`);
+  }
+  s.release(id, 'outage');
+  assert.equal(s.reserve(id, 10, 2, 'job-x'), false, 'no more retries');
+  s.close();
+});
