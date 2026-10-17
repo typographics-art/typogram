@@ -5,8 +5,8 @@
 //
 //   POST /v1/onepage   body: the PDF (application/pdf) or text (text/plain, text/markdown)
 //                      header X-DGB-Tx: <transaction hash>   optional: ?title=…
-//     → 202 { job, status_url }   402 payment not (yet) sufficient   409 hash already used
-//   GET  /v1/jobs/<id>[?wait=60]  → 202 while it runs, 200 application/pdf when done, 500 if it failed
+//     → 202 { job, status_url }   402 payment not (yet) sufficient   409 hash already used   413 too large   429 slow down
+//   GET  /v1/jobs/<id>[?wait=60]  → 202 while it runs, 200 application/pdf when done, 500 if it failed, 410 once the result was removed
 //   GET  /                        → how to pay (address, price, confirmations)
 //
 // Cloudflare ends requests after 100 s, an image plus the layout take longer — hence job + poll.
@@ -15,6 +15,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from 'node
 import { randomUUID, randomBytes, createHash, timingSafeEqual } from 'node:crypto';
 import { join } from 'node:path';
 import { TXID, evaluatePayment, fetchTransaction } from './dgb.mjs';
+import { numberFrom } from './config.mjs';
 import { openStore } from './store.mjs';
 import { runJob } from './pipeline.mjs';
 
@@ -25,17 +26,24 @@ const need = (name) => {
   if (!env[name]) { console.error(`Missing required environment variable ${name} (see api/README.md, "Configuration").`); process.exit(1); }
   return env[name];
 };
-const CFG = {
-  port: Number(env.PORT || 8080),
-  dataDir: env.DATA_DIR || '/data',
-  address: need('RECEIVE_ADDRESS'),
-  minDgb: Number(env.MIN_DGB || 10),
-  minConfirmations: Number(env.MIN_CONFIRMATIONS || 2),
-  maxBytes: Number(env.MAX_UPLOAD_MB || 20) * 1048576,
-  dgb: { url: need('DGB_RPC_URL'), user: env.DGB_RPC_USER, password: env.DGB_RPC_PASS },
-  llm: { url: need('LLM_URL'), apiKey: env.LLM_API_KEY, model: env.LLM_MODEL || undefined },
-  image: { url: need('IMAGE_URL'), model: env.IMAGE_MODEL || 'Qwen/Qwen-Image-2.1' },
-};
+let CFG;
+try {
+  CFG = {
+    port: numberFrom(env, 'PORT', 8080, { min: 1, max: 65535, integer: true }),
+    dataDir: env.DATA_DIR || '/data',
+    address: need('RECEIVE_ADDRESS'),
+    minDgb: numberFrom(env, 'MIN_DGB', 10, { min: 0, minExclusive: true }),
+    minConfirmations: numberFrom(env, 'MIN_CONFIRMATIONS', 2, { min: 0, integer: true }),
+    maxBytes: numberFrom(env, 'MAX_UPLOAD_MB', 20, { min: 0, minExclusive: true }) * 1048576,
+    jobTimeoutMs: numberFrom(env, 'JOB_TIMEOUT_MINUTES', 20, { min: 1 }) * 60000,
+    keepDays: numberFrom(env, 'KEEP_RESULTS_DAYS', 7, { min: 1 }),
+    checksPerMinute: numberFrom(env, 'PAYMENT_CHECKS_PER_MINUTE', 30, { min: 1, integer: true }),
+    dgb: { url: need('DGB_RPC_URL'), user: env.DGB_RPC_USER, password: env.DGB_RPC_PASS },
+    llm: { url: need('LLM_URL'), apiKey: env.LLM_API_KEY, model: env.LLM_MODEL || undefined },
+    image: { url: need('IMAGE_URL'), model: env.IMAGE_MODEL || 'Qwen/Qwen-Image-2.1' },
+  };
+} catch (e) { console.error(e.message); process.exit(1); }
+process.on('unhandledRejection', (e) => console.error('[unhandled rejection]', e?.message || e));
 mkdirSync(join(CFG.dataDir, 'jobs'), { recursive: true });
 const store = openStore(join(CFG.dataDir, 'api.sqlite'));
 store.recover();
@@ -45,14 +53,34 @@ const send = (res, status, body, headers = {}) => {
   res.writeHead(status, { 'content-type': json ? 'application/json' : 'application/pdf', 'cache-control': 'no-store', ...headers });
   res.end(json ? JSON.stringify(body, null, 2) + '\n' : body);
 };
+// Reads the body up to the limit. Past the limit it stops storing but keeps draining (up to 4 times the limit),
+// so the client gets a proper 413 instead of a reset connection.
 const readBody = (req) => new Promise((resolve, reject) => {
-  const chunks = []; let n = 0;
-  req.on('data', (c) => { n += c.length; if (n > CFG.maxBytes) { reject(Object.assign(new Error('too large'), { status: 413 })); req.destroy(); } else chunks.push(c); });
-  req.on('end', () => resolve(Buffer.concat(chunks)));
+  const chunks = []; let n = 0, over = false;
+  req.on('data', (c) => {
+    n += c.length;
+    if (n > CFG.maxBytes) { over = true; if (n > CFG.maxBytes * 4) req.destroy(); } else if (!over) chunks.push(c);
+  });
+  req.on('end', () => (over ? reject(Object.assign(new Error('too large'), { status: 413 })) : resolve(Buffer.concat(chunks))));
   req.on('error', reject);
+  req.on('close', () => { if (!req.complete) reject(Object.assign(new Error('upload aborted'), { status: 400 })); });
 });
+// Payment checks cost a call to the node: a small per-client limit, in memory. Behind a proxy the client address
+// comes from its header; a spoofed header only avoids this limit, it never skips the payment check.
+const checks = new Map();
+const tooManyChecks = (req) => {
+  const who = String(req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  const now = Date.now(), recent = (checks.get(who) || []).filter((t) => now - t < 60000);
+  recent.push(now); checks.set(who, recent);
+  if (checks.size > 5000) for (const [k, v] of checks) if (!v.some((t) => now - t < 60000)) checks.delete(k);
+  return recent.length > CFG.checksPerMinute;
+};
 const jobDir = (id) => join(CFG.dataDir, 'jobs', id);
-const publicJob = (j) => ({ job: j.id, status: j.status, title: j.title, error: j.error || undefined, created: j.created_at, finished: j.finished_at || undefined });
+// The reason a job failed stays in the server log and the ledger; the client learns only what it can act on.
+const publicJob = (j) => ({
+  job: j.id, status: j.status, title: j.title, created: j.created_at, finished: j.finished_at || undefined,
+  ...(j.status === 'failed' ? j.image_made ? { error: 'failed_after_the_picture_was_made', transaction_released: false } : { error: 'failed_before_the_picture_was_made', transaction_released: true, detail: 'Our side failed. Your transaction is released: send the same hash again.' } : {}),
+});
 
 async function createJob(req, res, url) {
   const txid = String(req.headers['x-dgb-tx'] || url.searchParams.get('tx') || '').trim().toLowerCase();
@@ -60,11 +88,11 @@ async function createJob(req, res, url) {
   const type = String(req.headers['content-type'] || '').split(';')[0].trim();
   const ext = type === 'application/pdf' ? 'pdf' : type === 'text/markdown' ? 'md' : type === 'text/plain' ? 'txt' : null;
   if (!ext) return send(res, 415, { error: 'unsupported_type', detail: 'Send application/pdf, text/plain or text/markdown.' });
-  const body = await readBody(req);
-  if (!body.length) return send(res, 400, { error: 'empty_body' });
-
+  // Nothing is read, and the node is not asked, before the cheap checks have passed.
+  if (Number(req.headers['content-length'] || 0) > CFG.maxBytes) return send(res, 413, { error: 'too_large', detail: `At most ${Math.floor(CFG.maxBytes / 1048576)} MB.` }); // no `connection: close`: Node then discards the unread body after answering, and the client still receives the 413
   const used = store.payment(txid);
   if (used && used.status !== 'released') return send(res, 409, { error: 'tx_already_used' }); // nothing about the job: hashes are public
+  if (tooManyChecks(req)) return send(res, 429, { error: 'slow_down', detail: 'Too many payment checks from your address. Wait a minute.' }, { 'retry-after': '60' });
   let tx;
   try {
     tx = await fetchTransaction(txid, CFG.dgb);
@@ -77,16 +105,27 @@ async function createJob(req, res, url) {
   if (!pay.ok) {
     return send(res, 402, { error: pay.reason, paid_dgb: pay.paidDgb, confirmations: pay.confirmations, required_dgb: CFG.minDgb, required_confirmations: CFG.minConfirmations, address: CFG.address });
   }
+  const body = await readBody(req); // only a paying request gets to upload
+  if (!body.length) return send(res, 400, { error: 'empty_body' });
   const id = randomUUID();
   if (!store.reserve(txid, pay.paidDgb, pay.confirmations, id)) return send(res, 409, { error: 'tx_already_used' });
-  mkdirSync(jobDir(id), { recursive: true });
-  const input = join(jobDir(id), `input.${ext}`);
-  writeFileSync(input, body);
-  const title = (url.searchParams.get('title') || '').slice(0, 80) || null;
-  // The job is fetched with a secret only this answer carries; the transaction hash alone is public on the chain.
-  const token = randomBytes(24).toString('base64url');
-  store.addJob(id, txid, sha256(token), title, input);
-  queueMicrotask(work);
+  // From here on a failure must give the payment back, or it stays reserved with no job.
+  let token;
+  try {
+    mkdirSync(jobDir(id), { recursive: true });
+    const input = join(jobDir(id), `input.${ext}`);
+    writeFileSync(input, body);
+    const title = (url.searchParams.get('title') || '').slice(0, 80) || null;
+    // The job is fetched with a secret only this answer carries; the transaction hash alone is public on the chain.
+    token = randomBytes(24).toString('base64url');
+    store.addJob(id, txid, sha256(token), title, input);
+  } catch (e) {
+    console.error(`[job ${id}] could not be queued: ${e.message}`);
+    rmSync(jobDir(id), { recursive: true, force: true });
+    store.release(txid, 'could not be queued');
+    return send(res, 500, { error: 'internal_error', detail: 'The job could not be queued. Your transaction is released: send the same hash again.' });
+  }
+  work().catch((e) => console.error('[queue]', e.message));
   return send(res, 202, { job: id, token, status: 'queued', status_url: `/v1/jobs/${id}?token=${token}`, paid_dgb: pay.paidDgb, confirmations: pay.confirmations });
 }
 
@@ -105,6 +144,7 @@ async function getJob(req, res, id, url) {
     j = store.job(id);
   }
   if (!j) return send(res, 404, { error: 'unknown_job' });
+  if (j.status === 'done' && !j.result) return send(res, 410, { error: 'result_removed', detail: `Results are kept for ${CFG.keepDays} days.` });
   if (j.status === 'done' && j.result && existsSync(j.result)) {
     return send(res, 200, readFileSync(j.result), { 'content-disposition': `attachment; filename="onepage-${id.slice(0, 8)}.pdf"` });
   }
@@ -120,9 +160,11 @@ async function work() {
     for (let j = store.nextQueued(); j; j = store.nextQueued()) {
       store.setJob(j.id, { status: 'running' });
       const pdf = join(jobDir(j.id), 'onepage.pdf');
-      let imageMade = false;
+      let imageMade = false, timer;
       try {
-        const r = await runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), onImage: () => { imageMade = true; } }, CFG);
+        const run = runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), onImage: () => { imageMade = true; store.setJob(j.id, { image_made: 1 }); } }, CFG);
+        const timeout = new Promise((_, reject) => { timer = setTimeout(() => reject(Object.assign(new Error(`job exceeded ${CFG.jobTimeoutMs / 60000} minutes`), { timedOut: true })), CFG.jobTimeoutMs); });
+        const r = await Promise.race([run, timeout]);
         store.setJob(j.id, { status: 'done', result: pdf, finished_at: new Date().toISOString() });
         store.burn(j.txid, { job: j.id, prompt: r.prompt, characters: r.characters, pdfBytes: r.pdfBytes, imageModel: CFG.image.model });
         console.log(`[job ${j.id}] done: ${r.characters} characters, ${r.pdfBytes} bytes`);
@@ -134,14 +176,32 @@ async function work() {
         if (imageMade) store.burn(j.txid, { job: j.id, failedAfterImage: reason });
         else store.release(j.txid, reason);
         console.error(`[job ${j.id}] failed (${imageMade ? 'after the image, transaction burned' : 'transaction released'}): ${reason}`);
+        // A timed-out job may still hold Chrome and the image request. The process ends so its supervisor
+        // (Docker, systemd, Kubernetes) restarts it clean; recover() settles whatever was running.
+        if (e.timedOut) { console.error('[queue] timeout: exiting so that the supervisor restarts the service'); process.exit(1); }
       } finally {
+        clearTimeout(timer);
         rmSync(j.input, { force: true });
       }
     }
+  } catch (e) {
+    console.error('[queue]', e.message);
   } finally {
     working = false;
   }
 }
+
+// Finished results are kept for KEEP_RESULTS_DAYS, then the files go and the job answers 410.
+function sweep() {
+  try {
+    for (const j of store.expired(CFG.keepDays)) {
+      rmSync(jobDir(j.id), { recursive: true, force: true });
+      store.setJob(j.id, { result: null });
+    }
+  } catch (e) { console.error('[sweep]', e.message); }
+}
+sweep();
+setInterval(sweep, 3600000).unref();
 
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
@@ -164,5 +224,5 @@ createServer(async (req, res) => {
   }
 }).listen(CFG.port, () => {
   console.log(`typographics-art api on :${CFG.port}, address ${CFG.address}, ${CFG.minDgb} DGB, ${CFG.minConfirmations} confirmations`);
-  work();
+  work().catch((e) => console.error('[queue]', e.message));
 });

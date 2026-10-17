@@ -19,7 +19,7 @@ export function openStore(file) {
       job_id TEXT NOT NULL, releases INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL DEFAULT (datetime('now')));
     CREATE TABLE IF NOT EXISTS jobs (
       id TEXT PRIMARY KEY, txid TEXT NOT NULL, token_hash TEXT NOT NULL, status TEXT NOT NULL CHECK (status IN ('queued', 'running', 'done', 'failed')),
-      title TEXT, input TEXT NOT NULL, result TEXT, error TEXT,
+      title TEXT, input TEXT NOT NULL, result TEXT, error TEXT, image_made INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL DEFAULT (datetime('now')), finished_at TEXT);
     CREATE TABLE IF NOT EXISTS ledger (
       id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -30,6 +30,7 @@ export function openStore(file) {
   // Files from an earlier version lack later columns.
   const has = (table, col) => db.prepare(`PRAGMA table_info(${table})`).all().some((c) => c.name === col);
   if (!has('payments', 'releases')) db.exec('ALTER TABLE payments ADD COLUMN releases INTEGER NOT NULL DEFAULT 0');
+  if (!has('jobs', 'image_made')) db.exec('ALTER TABLE jobs ADD COLUMN image_made INTEGER NOT NULL DEFAULT 0');
   if (!has('jobs', 'token_hash')) db.exec("ALTER TABLE jobs ADD COLUMN token_hash TEXT NOT NULL DEFAULT ''");
   const q = (sql) => db.prepare(sql);
   const book = q('INSERT INTO ledger (txid, event, paid_dgb, detail) VALUES (?, ?, ?, ?)');
@@ -66,12 +67,24 @@ export function openStore(file) {
       const keys = Object.keys(fields);
       q(`UPDATE jobs SET ${keys.map((k) => `${k} = ?`).join(', ')} WHERE id = ?`).run(...keys.map((k) => fields[k]), id);
     },
-    /** After a restart: jobs that were running did not finish — fail them and release their payments. */
+    /**
+     * After a restart: jobs that were running did not finish. If the picture was already made for the payment,
+     * the payment is spent (burned); otherwise it is released. Reservations without any job (the process died
+     * between reserving and queueing) are released too, so no payment stays stuck.
+     */
     recover() {
-      for (const j of q(`SELECT id, txid FROM jobs WHERE status = 'running'`).all()) {
+      for (const j of q(`SELECT id, txid, image_made FROM jobs WHERE status = 'running'`).all()) {
         q(`UPDATE jobs SET status = 'failed', error = 'interrupted by a restart', finished_at = datetime('now') WHERE id = ?`).run(j.id);
-        this.release(j.txid, 'interrupted by a restart');
+        if (j.image_made) this.burn(j.txid, { job: j.id, failedAfterImage: 'interrupted by a restart' });
+        else this.release(j.txid, 'interrupted by a restart');
       }
+      for (const p of q(`SELECT txid FROM payments WHERE status = 'reserved' AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.id = payments.job_id)`).all()) {
+        this.release(p.txid, 'reserved but no job was queued');
+      }
+    },
+    /** Finished jobs older than `days`: their files can go. Returns [{ id, dir-relevant fields }]. */
+    expired(days) {
+      return q(`SELECT id, result FROM jobs WHERE status IN ('done', 'failed') AND result IS NOT NULL AND finished_at < datetime('now', ?)`).all(`-${Number(days)} days`);
     },
     close: () => db.close(),
   };
