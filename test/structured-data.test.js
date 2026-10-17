@@ -528,6 +528,22 @@ test('the layout choice changes looks only: compact, rows and cells decode to th
   assert.ok(keepLiteral(0x65e5, 'plain'));
 });
 
+test('the conformance vectors: the reference decoder passes them and the reference encoder reproduces them', async () => {
+  const suite = JSON.parse(readFileSync(FX + 'conformance/vectors.json', 'utf8'));
+  assert.equal(suite.standard, 'TGD');
+  for (const v of suite.vectors) {
+    if (v.expect.error) { await rejects(decode(canonicalText(v.text)), v.expect.error); continue; }
+    const d = await decode(canonicalText(v.text));
+    assert.deepEqual(d.model, v.expect.model, v.name);
+    assert.equal(d.name, v.expect.name);
+    if (!['whitespace-noise', 'prose-around'].includes(v.name)) {
+      const again = await seal(v.expect.model, { format: v.expect.format, name: v.expect.name, created: v.expect.created }, { layout: 'rows' });
+      assert.equal(again, v.text, `${v.name}: the encoder is deterministic`);
+    }
+  }
+  assert.ok(suite.vectors.length >= 12);
+});
+
 // ---- end to end through a real PDF ------------------------------------------------------------------------------------
 test('end to end: a sheet becomes a one-page PDF and comes back out of its text layer (MuPDF)', async (t) => {
   if (!findChrome()) return t.skip('Chrome/Chromium not found (set CHROME_PATH)');

@@ -133,7 +133,8 @@ export function toPlain(ast) {
 export function fromPlain(v) {
   if (v === null || typeof v === 'string' || typeof v === 'boolean') return v;
   if (typeof v === 'number') { if (!Number.isFinite(v)) throw new TgdError('syntax', 'Not a finite number'); return Object.is(v, -0) ? new Dec('-0') : v; }
-  if (v instanceof Dec || isMap(v)) return v;
+  if (v instanceof Dec) return v;
+  if (isMap(v)) { const m = new Map(); for (const [k, x] of v) m.set(k, fromPlain(x)); return m; }
   if (Array.isArray(v)) return v.map(fromPlain);
   if (typeof v === 'object') { const m = new Map(); for (const [k, x] of Object.entries(v)) if (x !== undefined) m.set(k, fromPlain(x)); return m; }
   throw new TgdError('syntax', `Cannot represent a ${typeof v}`);
