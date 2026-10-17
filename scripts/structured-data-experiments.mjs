@@ -69,7 +69,7 @@ async function delimiters() {
       const src = canonicalText(text);
       const row = {
         char: [...c].map((x) => 'U+' + x.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')).join(' '), name,
-        survivesCanonicalText: src === text.replace(/\s+/g, ' ').trim(), pipelineGate: 0, mupdf: 0, pdfjs: 0, runs: TITLES.length,
+        survivesCanonicalText: src.includes(c), pipelineGate: 0, mupdf: 0, pdfjs: 0, runs: TITLES.length,
       };
       for (const title of TITLES) {
         const pdf = join(work, `d${i}.pdf`);

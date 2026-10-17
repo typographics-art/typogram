@@ -153,6 +153,14 @@ test('non-canonical numbers in a block are refused (they would be rounded by a p
   assert.equal(v.ok, false);
 });
 
+test('a middle dot outside a string is a syntax error, inside it is a space; encode returns the model', async () => {
+  throwsCode(() => parseJson('{"a"\u00b7:1}', { marker: true }), 'syntax');
+  assert.equal(parseJson('"a\u00b7b"', { marker: true }), 'a b');
+  assert.equal(parseJson('"a\\u00b7b"', { marker: true }), 'a\u00b7b');
+  const { r } = await roundtrip('table.tsv');
+  assert.equal(r.model.kind, 'workbook');
+});
+
 // ---- the nasty cells -----------------------------------------------------------------------------------------------
 test('CSV: leading zeros, 20-digit IDs, quotes, newlines, empty cells, unicode, formulas survive byte for byte', async () => {
   const { d } = await roundtrip('people.csv');

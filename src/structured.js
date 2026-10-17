@@ -264,7 +264,7 @@ export async function encode(input, opts = {}) {
   const r = await f.read(bytes, { name: input.name, encoding: opts.encoding, limits });
   const attach = opts.attach ? [{ name: input.name || `data.${format}`, media: f.mime, bytes }] : [];
   const text = await seal(r.data, { format, name: input.name, created: opts.created === undefined ? new Date() : opts.created, lossy: r.lossy, attach }, opts);
-  return { text, format, lossy: r.lossy, warnings: r.warnings || [], stats: { inputBytes: bytes.length, characters: text.length } };
+  return { text, format, model: toPlain(fromPlain(r.data)), lossy: r.lossy, warnings: r.warnings || [], stats: { inputBytes: bytes.length, characters: text.length } };
 }
 
 /**
