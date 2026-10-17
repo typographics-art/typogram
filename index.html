@@ -133,6 +133,9 @@ nav.main a:hover{color:var(--accent)}
 .use h3{color:#fff;margin-bottom:8px}
 .use p{margin:0;color:#c3cad8;font-size:16px}
 .note{margin-top:28px;border-left:3px solid #ff7fb2;padding:4px 0 4px 16px;color:#d5dbe6;max-width:72ch}
+.askai{margin-top:28px;border:1px solid #ff7fb2;border-radius:12px;padding:22px;background:#1a1430;display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between}
+.askai h3{margin:0 0 6px}.askai p{margin:0;color:#d5dbe6;max-width:60ch}
+.askai-links{display:flex;flex-wrap:wrap;gap:10px}
 /* code + footer */
 pre.code{background:var(--night);color:#e9ecf3;border-radius:10px;padding:18px;overflow-x:auto;font:14px/1.6 var(--f-mono);margin:22px 0 0}
 .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin-top:32px}
@@ -209,13 +212,13 @@ footer a{color:inherit}
     <div class="duo">
       <div class="panel">
         <h3 data-i18n="duo.see">What a person sees</h3>
-        <img src="gallery/erlkoenig.jpg" width="900" height="1148" alt="A crescent moon over dark hills, set from the full text of Goethe's poem Erlkönig" loading="lazy">
+        <img src="gallery/douglass.jpg" width="1470" height="1935" alt="A portrait of Frederick Douglass, set from his own Narrative of 1845" loading="lazy">
       </div>
       <div class="panel">
         <h3 data-i18n="duo.read">What an AI reads</h3>
-        <pre id="readText">Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; Er hat den Knaben wohl in dem Arm, Er faßt ihn sicher, er hält ihn warm. Mein Sohn, was birgst du so bang dein Gesicht? – Siehst, Vater, du den Erlkönig nicht? Den Erlenkönig mit Kron und Schweif? – Mein Sohn, es ist ein Nebelstreif. – …</pre>
+        <pre id="readText">As to my own treatment while I lived on Colonel Lloyd’s plantation, it was very similar to that of the other slave children. I was not old enough to work in the field, and there being little else than field work to do, I had a great deal of leisure time. The most I had to do was to drive up the cows at evening, keep the fowls …</pre>
         <p class="ascii" aria-label="What a machine would read from ASCII art">ASCII art: @@%%##**++==--::..@@%#*+=-:.</p>
-        <p style="margin:0;font-size:15px;color:var(--muted)" data-i18n="duo.note">Read straight from the artwork's SVG: Goethe's Erlkönig, every word in order.</p>
+        <p style="margin:0;font-size:15px;color:var(--muted)" data-i18n="duo.note">Read straight from the artwork's SVG: Douglass's own words, every one in order.</p>
       </div>
     </div>
     <div class="table-wrap">
@@ -292,6 +295,10 @@ footer a{color:inherit}
       <div class="use"><h3 data-i18n="u3.h">Findable art</h3><p data-i18n="u3.p">Search engines and AI crawlers index the words, not just a file name.</p></div>
       <div class="use"><h3 data-i18n="u4.h">Provenance</h3><p data-i18n="u4.p">A statement, a licence or a signature inside the work survives copy and paste.</p></div>
     </div>
+    <div class="askai">
+      <div><h3 data-i18n="ask.h">Ask your AI what this is</h3><p data-i18n="ask.p">The whole project, README and documents, in one file. Drop it into any assistant and ask what Typographics Art is. The PDF is the same text as a one-pager, set with the technique itself.</p></div>
+      <div class="askai-links"><a class="cta" href="about/typographics-art.md" download data-i18n="ask.md">Download as text (.md)</a><a class="cta ghost" href="about/typographics-art.pdf" download data-i18n="ask.pdf">Download as one-pager (.pdf)</a></div>
+    </div>
     <p class="note" data-i18n="ai.note">Honest by design: the visible title always names the document, and the full text is the declared document. Tiny text must never hide instructions from the people who see the page.</p>
   </div>
 </section>
@@ -299,13 +306,13 @@ footer a{color:inherit}
 <section id="gallery">
   <div class="wrap">
     <p class="kicker" data-i18n="g.kicker">Gallery</p>
-    <h2 data-i18n="g.h">Poems, scripture, declarations: every work is real text.</h2>
+    <h2 data-i18n="g.h">Portraits, paintings, space: every picture is set from real text.</h2>
     <div class="gallery">
-      <a href="gallery/erlkoenig.svg"><img src="gallery/erlkoenig.jpg" alt="Erlkönig" loading="lazy"></a>
-      <a href="gallery/sonnet-18.svg"><img src="gallery/sonnet-18.jpg" alt="Sonnet 18" loading="lazy"></a>
-      <a href="gallery/let-there-be-light.svg"><img src="gallery/let-there-be-light.jpg" alt="Let there be light" loading="lazy"></a>
-      <a href="gallery/article-1.svg"><img src="gallery/article-1.jpg" alt="Article 1 of the Universal Declaration of Human Rights" loading="lazy"></a>
-      <a href="gallery/waves.svg"><img src="gallery/waves.jpg" alt="Waves" loading="lazy"></a>
+      <a href="gallery/tesla.svg"><img src="gallery/tesla.jpg" alt="My Inventions" loading="lazy"></a>
+      <a href="gallery/wanderer.svg"><img src="gallery/wanderer.jpg" alt="The Wanderer" loading="lazy"></a>
+      <a href="gallery/mona-lisa.svg"><img src="gallery/mona-lisa.jpg" alt="La Gioconda" loading="lazy"></a>
+      <a href="gallery/great-wave.svg"><img src="gallery/great-wave.jpg" alt="The Great Wave" loading="lazy"></a>
+      <a href="gallery/douglass.svg"><img src="gallery/douglass.jpg" alt="Learning to Read" loading="lazy"></a>
     </div>
     <p style="margin-top:22px"><a href="gallery" data-i18n="g.all">Open the gallery →</a></p>
   </div>
@@ -384,7 +391,7 @@ const DE = {
   'proof.src': 'Jede Zahl stammt aus einem Skript im Repository:', 'proof.ex': 'One-Pager-Prüfungen',
   'idea.kicker': 'Die Idee', 'idea.h': 'ASCII-Art wirft die Wörter weg. Wir behalten sie.',
   'idea.lead': 'ASCII-Art wählt für jede Zelle eines Rasters ein Zeichen; die Zeichen sind nur Schattierung. Typographics Art dreht das um: Der Text gibt die Zeichen vor, gewählt wird nur ihre Typografie. Das Bild ist für Menschen. Der Text bleibt für Maschinen.',
-  'duo.see': 'Was ein Mensch sieht', 'duo.read': 'Was eine KI liest', 'duo.note': 'Direkt aus dem SVG des Kunstwerks gelesen: Goethes Erlkönig, jedes Wort in Reihenfolge.',
+  'duo.see': 'Was ein Mensch sieht', 'duo.read': 'Was eine KI liest', 'duo.note': 'Direkt aus dem SVG des Kunstwerks gelesen: Douglass’ eigene Worte, jedes in Reihenfolge.',
   'c.chosen': 'Was gewählt wird', 'c.chosen.a': 'ein Zeichen je Zelle', 'c.chosen.t': 'die Typografie jedes Zeichens', 'c.text': 'Der Text', 'c.text.a': 'verloren', 'c.text.t': '1:1 erhalten, in Lesereihenfolge',
   'c.machine': 'Eine Maschine liest', 'c.machine.t': 'den Originaltext', 'c.format': 'Formate', 'c.format.a': 'reiner Text',
   'how.kicker': 'So geht es', 'how.h': 'Vier Schritte von Text und Foto zu einem Kunstwerk, das zugleich ein Dokument ist.',
@@ -405,8 +412,9 @@ const DE = {
   'u2.h': 'Barrierefreie Bilder', 'u2.p': 'Der Inhalt ist die Beschreibung. Screenreader lesen den Text vor, kein separater Alt-Text nötig.',
   'u3.h': 'Auffindbare Kunst', 'u3.p': 'Suchmaschinen und KI-Crawler indexieren die Wörter, nicht nur einen Dateinamen.',
   'u4.h': 'Herkunft', 'u4.p': 'Eine Aussage, eine Lizenz oder eine Signatur im Werk übersteht Kopieren und Einfügen.',
+  'ask.h': 'Frag deine KI, was das ist', 'ask.p': 'Das ganze Projekt, README und Dokumente, in einer Datei. Gib sie einem beliebigen Assistenten und frag, was Typographics Art ist. Das PDF ist derselbe Text als One-Pager, gesetzt mit der Technik selbst.', 'ask.md': 'Als Text laden (.md)', 'ask.pdf': 'Als One-Pager laden (.pdf)',
   'ai.note': 'Ehrlich gebaut: Der sichtbare Titel benennt immer das Dokument, und der vollständige Text ist das angegebene Dokument. Winziger Text darf nie Anweisungen vor den Menschen verstecken, die die Seite sehen.',
-  'g.kicker': 'Galerie', 'g.h': 'Gedichte, Schrift, Erklärungen: Jedes Werk ist echter Text.', 'g.all': 'Zur Galerie →',
+  'g.kicker': 'Galerie', 'g.h': 'Porträts, Gemälde, Weltraum: Jedes Bild ist aus echtem Text gesetzt.', 'g.all': 'Zur Galerie →',
   'os.kicker': 'Open Source', 'os.h': 'Eine Technik für alle, wie ASCII-Art.',
   'os.lead': 'Verfahren, Web-App, Bibliothek und Befehlszeile stehen unter der MIT-Lizenz. Keine Abhängigkeiten, kein Build-Schritt, einfaches JavaScript. Schriften, Algorithmen, Übersetzungen, Messungen und Werke sind willkommen.',
   'os.gh': 'GitHub-Repository', 'os.contrib': 'Mitmachen',

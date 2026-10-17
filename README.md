@@ -1,11 +1,11 @@
-<p align="center">
-  <img src="gallery/erlkoenig.jpg" width="24%" alt="Erlkönig: a crescent moon set from Goethe's poem">
-  <img src="gallery/sonnet-18.jpg" width="24%" alt="Sonnet 18: a sunset set from Shakespeare's sonnet">
-  <img src="gallery/let-there-be-light.jpg" width="24%" alt="Let there be light: rays of light set from Genesis">
-  <img src="gallery/article-1.jpg" width="24%" alt="Article 1: a globe set from the Universal Declaration of Human Rights">
-</p>
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.jpg">
+    <img src="assets/wordmark-light.jpg" width="640" alt="Typographics Art">
+  </picture>
+</h1>
 
-<h1 align="center"><img src="assets/logo.png" width="560" alt="Typographics Art"></h1>
+<p align="center"><a href="gallery.html"><img src="assets/intro.jpg" width="100%" alt="Four works: Nikola Tesla, The Great Wave, The Wanderer above the Sea of Fog and Frederick Douglass, each set from a whole text; the original image is the small inset"></a></p>
 
 <p align="center">
   <b>ASCII art for the age of AI.</b><br>
@@ -21,6 +21,10 @@
 </p>
 
 ---
+
+## Ask your AI what this is
+
+Everything in this repository, README and documents, in one file: **[about/typographics-art.md](about/typographics-art.md)** (44 000 characters, also at [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt)). Or hand it the same text as a one-pager, made with the technique itself: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Then ask: *What is Typographics Art, and can you still read this page?*
 
 ## The idea
 
@@ -38,12 +42,12 @@
 
 ### What a person sees, and what an AI reads
 
-The moon above is set from Goethe's *Erlkönig*. Open [`gallery/erlkoenig.svg`](gallery/erlkoenig.svg), select all and copy, or hand the file to any model:
+The portrait of Frederick Douglass above is set from his own *Narrative* (1845), chapters V–VIII. Open [`gallery/douglass.svg`](gallery/douglass.svg), select all and copy, or hand the file to any model:
 
 ```text
-Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; Er hat den Knaben
-wohl in dem Arm, Er faßt ihn sicher, er hält ihn warm. Mein Sohn, was birgst du so bang dein
-Gesicht? – Siehst, Vater, du den Erlkönig nicht? …
+As to my own treatment while I lived on Colonel Lloyd’s plantation, it was very similar to that
+of the other slave children. I was not old enough to work in the field, and there being little
+else than field work to do, I had a great deal of leisure time. …
 ```
 
 That is the whole point: **the artwork is also the document.** No alt text needed; the content *is* the alt text.
@@ -169,8 +173,11 @@ The output format follows the file extension: `.svg`, `.html`, `.pdf` (text stay
 
 | | | |
 |---|---|---|
-| [<img src="gallery/erlkoenig.jpg" width="260" alt="Erlkönig">](gallery/erlkoenig.svg)<br>**Erlkönig** · Goethe | [<img src="gallery/sonnet-18.jpg" width="260" alt="Sonnet 18">](gallery/sonnet-18.svg)<br>**Sonnet 18** · Shakespeare | [<img src="gallery/let-there-be-light.jpg" width="260" alt="Let there be light">](gallery/let-there-be-light.svg)<br>**Let there be light** · Genesis 1:1–3 |
-| [<img src="gallery/article-1.jpg" width="260" alt="Article 1">](gallery/article-1.svg)<br>**Article 1** · Universal Declaration of Human Rights | [<img src="gallery/waves.jpg" width="260" alt="Waves">](gallery/waves.svg)<br>**Waves** · Lorem ipsum | **Yours?**<br>[Submit an artwork](https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml) |
+| [<img src="gallery/douglass.jpg" width="260" alt="Learning to Read">](gallery/douglass.svg)<br>**Learning to Read** · Frederick Douglass | [<img src="gallery/tesla.jpg" width="260" alt="My Inventions">](gallery/tesla.svg)<br>**My Inventions** · Nikola Tesla | [<img src="gallery/wanderer.jpg" width="260" alt="The Wanderer">](gallery/wanderer.svg)<br>**The Wanderer** · Nietzsche · C. D. Friedrich |
+| [<img src="gallery/great-wave.jpg" width="260" alt="The Great Wave">](gallery/great-wave.svg)<br>**The Great Wave** · Melville · Hokusai | [<img src="gallery/mona-lisa.jpg" width="260" alt="La Gioconda">](gallery/mona-lisa.svg)<br>**La Gioconda** · Walter Pater · Leonardo | [<img src="gallery/poe.jpg" width="260" alt="The House of Usher">](gallery/poe.svg)<br>**The House of Usher** · Edgar Allan Poe |
+| [<img src="gallery/red-fuji.jpg" width="260" alt="Fuji-no-Yama">](gallery/red-fuji.svg)<br>**Fuji-no-Yama** · Lafcadio Hearn · Hokusai | [<img src="gallery/pillars-of-creation.jpg" width="260" alt="The Star">](gallery/pillars-of-creation.svg)<br>**The Star** · H. G. Wells · Hubble | [<img src="gallery/earthrise.jpg" width="260" alt="Earthrise">](gallery/earthrise.svg)<br>**Earthrise** · Genesis · Apollo 8 |
+
+All fifteen works, each switchable to its original image: [typographics-art.org/gallery](https://typographics-art.org/gallery). Every image is in the public domain ([sources](gallery/photos/README.md)); every text is a contiguous passage of a public-domain work, without filler. **Yours?** [Submit an artwork](https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml).
 
 Each preview links to the SVG, which is the work itself: open it and search the text. All works are reproducible from [`gallery/works.config.json`](gallery/works.config.json) with `npm run gallery`.
 

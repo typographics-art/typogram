@@ -1,164 +1,5 @@
 [
   {
-    "id": "sonnet-18",
-    "title": "Sonnet 18",
-    "source": "William Shakespeare, Sonnet 18 (1609), public domain",
-    "motif": "sunset",
-    "options": {
-      "font": "roboto",
-      "legibility": "free",
-      "color": "photo",
-      "paper": "light",
-      "contrast": 2,
-      "edges": 1.2,
-      "width": 900,
-      "fill": 14000,
-      "brightness": 0.06
-    },
-    "textLength": 620,
-    "meta": {
-      "faithful": true,
-      "toneFidelity": 0.9110843299417528,
-      "lines": 82,
-      "baseSize": 12.356651376146788,
-      "width": 946,
-      "height": 1171,
-      "characters": 14000,
-      "filler": 13380,
-      "overflow": false
-    },
-    "svg": "gallery/sonnet-18.svg",
-    "preview": "gallery/sonnet-18.jpg",
-    "original": "gallery/sonnet-18-original.png"
-  },
-  {
-    "id": "erlkoenig",
-    "title": "Erlkönig",
-    "source": "Johann Wolfgang von Goethe, Erlkönig (1782), public domain",
-    "motif": "moonNight",
-    "options": {
-      "font": "fraunces",
-      "legibility": "free",
-      "color": "photo",
-      "paper": "dark",
-      "contrast": 2.1,
-      "edges": 0.7,
-      "width": 900,
-      "fill": 14000,
-      "brightness": -0.08
-    },
-    "textLength": 1281,
-    "meta": {
-      "faithful": true,
-      "toneFidelity": 0.9339274748453558,
-      "lines": 60,
-      "baseSize": 17.001146788990823,
-      "width": 946,
-      "height": 1171,
-      "characters": 13998,
-      "filler": 12717,
-      "overflow": false
-    },
-    "svg": "gallery/erlkoenig.svg",
-    "preview": "gallery/erlkoenig.jpg",
-    "original": "gallery/erlkoenig-original.png"
-  },
-  {
-    "id": "let-there-be-light",
-    "title": "Let there be light",
-    "source": "Genesis 1:1–3, King James Version (1611), public domain",
-    "motif": "lightBurst",
-    "options": {
-      "font": "recursive",
-      "legibility": "free",
-      "color": "gray",
-      "paper": "dark",
-      "contrast": 1.8,
-      "edges": 0.8,
-      "width": 900,
-      "fill": 16000
-    },
-    "textLength": 252,
-    "meta": {
-      "faithful": true,
-      "toneFidelity": 0.9673522972826355,
-      "lines": 83,
-      "baseSize": 9.934059633027521,
-      "width": 946,
-      "height": 946,
-      "characters": 15997,
-      "filler": 15745,
-      "overflow": false
-    },
-    "svg": "gallery/let-there-be-light.svg",
-    "preview": "gallery/let-there-be-light.jpg",
-    "original": "gallery/let-there-be-light-original.png"
-  },
-  {
-    "id": "article-1",
-    "title": "Article 1",
-    "source": "Universal Declaration of Human Rights, Article 1 (1948)",
-    "motif": "globe",
-    "options": {
-      "font": "roboto",
-      "legibility": "medium",
-      "unit": "word",
-      "color": "photo",
-      "paper": "light",
-      "contrast": 2.3,
-      "edges": 0.7,
-      "width": 900,
-      "fill": 9000,
-      "brightness": 0.05
-    },
-    "textLength": 170,
-    "meta": {
-      "faithful": true,
-      "toneFidelity": 0.92108913329695,
-      "lines": 55,
-      "baseSize": 14.99426605504587,
-      "width": 946,
-      "height": 946,
-      "characters": 8997,
-      "filler": 8827,
-      "overflow": false
-    },
-    "svg": "gallery/article-1.svg",
-    "preview": "gallery/article-1.jpg",
-    "original": "gallery/article-1-original.png"
-  },
-  {
-    "id": "waves",
-    "title": "Waves",
-    "source": "Lorem ipsum (generated filler only)",
-    "motif": "waves",
-    "options": {
-      "font": "mono",
-      "legibility": "free",
-      "color": "mono",
-      "paper": "light",
-      "contrast": 2.2,
-      "edges": 0.5,
-      "width": 1000,
-      "fill": 18000
-    },
-    "textLength": 0,
-    "meta": {
-      "faithful": true,
-      "toneFidelity": 0.9206497852014034,
-      "lines": 75,
-      "baseSize": 8.514908256880734,
-      "width": 1050,
-      "height": 750,
-      "characters": 18000,
-      "filler": 18000,
-      "overflow": false
-    },
-    "svg": "gallery/waves.svg",
-    "preview": "gallery/waves.jpg",
-    "original": "gallery/waves-original.png"
-  },
-  {
     "id": "earthrise",
     "title": "Earthrise",
     "source": "Genesis 1–11, King James Version (1611), public domain; the Apollo 8 crew read Genesis 1:1–10 on 24 December 1968",
@@ -284,7 +125,7 @@
   },
   {
     "id": "lincoln",
-    "title": "Gettysburg",
+    "title": "Cooper Institute",
     "source": "Abraham Lincoln, Address at Cooper Institute, New York, 27 February 1860, as printed in Speeches & Letters of Abraham Lincoln (1907), public domain",
     "photo": "gallery/photos/lincoln.jpg",
     "photoCredit": "Abraham Lincoln, 8 November 1863, photo by Alexander Gardner (O-77). Public domain.",
@@ -374,5 +215,257 @@
     "svg": "gallery/darwin.svg",
     "preview": "gallery/darwin.jpg",
     "original": "gallery/photos/darwin.jpg"
+  },
+  {
+    "id": "pillars-of-creation",
+    "title": "The Star",
+    "source": "H. G. Wells, The Star (1897), the complete story, from Tales of Space and Time (Project Gutenberg eBook #27365), public domain",
+    "photo": "gallery/photos/pillars-of-creation.jpg",
+    "photoCredit": "Pillars of Creation, Eagle Nebula (M16), Hubble Space Telescope, 1995; NASA, Jeff Hester and Paul Scowen. Public domain.",
+    "options": {
+      "font": "roboto",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "dark",
+      "contrast": 2.2,
+      "edges": 0.8,
+      "width": 1400
+    },
+    "textLength": 25226,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9443305172755482,
+      "lines": 72,
+      "baseSize": 17.545871559633028,
+      "width": 1470,
+      "height": 1450,
+      "characters": 25226,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/pillars-of-creation.svg",
+    "preview": "gallery/pillars-of-creation.jpg",
+    "original": "gallery/photos/pillars-of-creation.jpg"
+  },
+  {
+    "id": "wanderer",
+    "title": "The Wanderer",
+    "source": "Friedrich Nietzsche, Thus Spake Zarathustra (1883), Zarathustra's Prologue, translated by Thomas Common (Project Gutenberg eBook #1998), public domain",
+    "photo": "gallery/photos/wanderer.jpg",
+    "photoCredit": "Caspar David Friedrich, Wanderer above the Sea of Fog (c. 1817), Hamburger Kunsthalle. Public domain.",
+    "options": {
+      "font": "notoserif",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "dark",
+      "contrast": 2,
+      "edges": 0.7,
+      "width": 1400
+    },
+    "textLength": 25945,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9424439283164426,
+      "lines": 110,
+      "baseSize": 14.922591743119265,
+      "width": 1470,
+      "height": 1863,
+      "characters": 25945,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/wanderer.svg",
+    "preview": "gallery/wanderer.jpg",
+    "original": "gallery/photos/wanderer.jpg"
+  },
+  {
+    "id": "red-fuji",
+    "title": "Fuji-no-Yama",
+    "source": "Lafcadio Hearn, Fuji-no-Yama, in Exotics and Retrospectives (1898), the essay after its epigraph (Project Gutenberg eBook #42735), public domain",
+    "photo": "gallery/photos/red-fuji.jpg",
+    "photoCredit": "Katsushika Hokusai, Fine Wind, Clear Morning (Red Fuji), from Thirty-six Views of Mount Fuji (c. 1830–1832); Google Art Project. Public domain.",
+    "options": {
+      "font": "archivo",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "light",
+      "contrast": 2.3,
+      "edges": 0.8,
+      "width": 1400,
+      "brightness": 0.1
+    },
+    "textLength": 36594,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.8830837049076632,
+      "lines": 96,
+      "baseSize": 9.016628440366972,
+      "width": 1470,
+      "height": 1015,
+      "characters": 36594,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/red-fuji.svg",
+    "preview": "gallery/red-fuji.jpg",
+    "original": "gallery/photos/red-fuji.jpg"
+  },
+  {
+    "id": "douglass",
+    "title": "Learning to Read",
+    "source": "Frederick Douglass, Narrative of the Life of Frederick Douglass, an American Slave (1845), chapters V–VIII (Project Gutenberg eBook #23), public domain",
+    "photo": "gallery/photos/douglass.jpg",
+    "photoCredit": "Frederick Douglass, c. 1879, photo by George Kendall Warren. Public domain.",
+    "options": {
+      "font": "notoserif",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "dark",
+      "contrast": 2.4,
+      "edges": 0.9,
+      "width": 1400
+    },
+    "textLength": 38871,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9431656721243309,
+      "lines": 148,
+      "baseSize": 11.525229357798164,
+      "width": 1470,
+      "height": 1935,
+      "characters": 38871,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/douglass.svg",
+    "preview": "gallery/douglass.jpg",
+    "original": "gallery/photos/douglass.jpg"
+  },
+  {
+    "id": "twain",
+    "title": "The Boys' Ambition",
+    "source": "Mark Twain, Life on the Mississippi (1883), chapters 4–6 (Project Gutenberg eBook #245), public domain",
+    "photo": "gallery/photos/twain.jpg",
+    "photoCredit": "Mark Twain, 1907, photo by A. F. Bradley, New York; Library of Congress. Public domain.",
+    "options": {
+      "font": "roboto",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "dark",
+      "contrast": 1.8,
+      "edges": 0.9,
+      "width": 1400,
+      "brightness": 0.2
+    },
+    "textLength": 31620,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.963098317604136,
+      "lines": 119,
+      "baseSize": 12.973050458715596,
+      "width": 1470,
+      "height": 1765,
+      "characters": 31620,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/twain.svg",
+    "preview": "gallery/twain.jpg",
+    "original": "gallery/photos/twain.jpg"
+  },
+  {
+    "id": "poe",
+    "title": "The House of Usher",
+    "source": "Edgar Allan Poe, The Fall of the House of Usher (1839), from the second paragraph to the end (Project Gutenberg eBook #932), public domain",
+    "photo": "gallery/photos/poe.jpg",
+    "photoCredit": "Edgar Allan Poe, daguerreotype, June 1849, photographer unknown; restored by Yann Forget and Adam Cuerden. Public domain.",
+    "options": {
+      "font": "notoserif",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "dark",
+      "contrast": 2.4,
+      "edges": 0.9,
+      "width": 1400
+    },
+    "textLength": 38937,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9588804557827003,
+      "lines": 150,
+      "baseSize": 11.940940366972477,
+      "width": 1470,
+      "height": 2039,
+      "characters": 38937,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/poe.svg",
+    "preview": "gallery/poe.jpg",
+    "original": "gallery/photos/poe.jpg"
+  },
+  {
+    "id": "tesla",
+    "title": "My Inventions",
+    "source": "Nikola Tesla, My Inventions (Electrical Experimenter, 1919), chapter III, My Later Endeavors (Wikisource, My Inventions, revision 15728285), public domain",
+    "photo": "gallery/photos/tesla.jpg",
+    "photoCredit": "Nikola Tesla, c. 1895, photo by Napoleon Sarony. Public domain.",
+    "options": {
+      "font": "notoserif",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "light",
+      "contrast": 2.4,
+      "edges": 0.9,
+      "width": 1400,
+      "brightness": 0.1
+    },
+    "textLength": 21232,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9009316554709731,
+      "lines": 111,
+      "baseSize": 15.266628440366972,
+      "width": 1470,
+      "height": 1936,
+      "characters": 21232,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/tesla.svg",
+    "preview": "gallery/tesla.jpg",
+    "original": "gallery/photos/tesla.jpg"
+  },
+  {
+    "id": "herschel",
+    "title": "Preliminary Discourse",
+    "source": "John F. W. Herschel, A Preliminary Discourse on the Study of Natural Philosophy (1831), §§ 77–101 (Project Gutenberg eBook #54897), public domain",
+    "photo": "gallery/photos/herschel.jpg",
+    "photoCredit": "Sir John Herschel, April 1867, photo by Julia Margaret Cameron; Metropolitan Museum of Art copy, restored by Adam Cuerden. Public domain.",
+    "options": {
+      "font": "notoserif",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "dark",
+      "contrast": 1.8,
+      "edges": 0.9,
+      "width": 1400,
+      "brightness": 0.2
+    },
+    "textLength": 37480,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9548021258113963,
+      "lines": 138,
+      "baseSize": 11.654243119266054,
+      "width": 1470,
+      "height": 1865,
+      "characters": 37480,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/herschel.svg",
+    "preview": "gallery/herschel.jpg",
+    "original": "gallery/photos/herschel.jpg"
   }
 ]

@@ -24,6 +24,9 @@ copy('gallery', 'gallery', (p) => !p.endsWith('works.config.json'));
 copy('docs');
 copy('examples/index.json');
 copy('examples/motifs', 'examples/motifs', (p) => !p.endsWith('.md'));
+// Everything about the project in one file, for AI assistants (scripts/build-about.mjs); /llms-full.txt is the usual address.
+for (const f of ['typographics-art.md', 'typographics-art.pdf', 'preview.jpg']) copy(`about/${f}`);
+copy('about/typographics-art.md', 'llms-full.txt');
 for (const id of readdirSync(join(ROOT, 'examples'))) {
   if (!existsSync(join(ROOT, 'examples', id, 'onepage.pdf'))) continue;
   for (const f of ['onepage.pdf', 'preview.jpg']) copy(`examples/${id}/${f}`);

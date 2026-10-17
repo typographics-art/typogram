@@ -2,17 +2,22 @@
 // Renders every work in gallery/works.config.json to gallery/<id>.svg (the work, text kept as text)
 // and gallery/<id>.jpg (preview), and writes gallery/works.json for gallery.html. A work's image is a
 // photo (gallery/photos/, shown as the original) or a procedural recipe (drawn to gallery/<id>-original.png).
-import { readFileSync, writeFileSync } from 'node:fs';
+//
+//   node cli/build-gallery.mjs            # every work
+//   node cli/build-gallery.mjs aldrin     # only these works; the other entries of works.json stay
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openSession } from './core.mjs';
 
 const DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'gallery');
 const works = JSON.parse(readFileSync(join(DIR, 'works.config.json'), 'utf8'));
+const only = process.argv.slice(2);
 const session = await openSession();
 const out = [];
 try {
   for (const w of works) {
+    if (only.length && !only.includes(w.id)) continue;
     let image = `recipe:${w.motif}`, original = `gallery/${w.id}-original.png`;
     if (w.photo) {
       image = `data:image/jpeg;base64,${readFileSync(join(DIR, '..', w.photo)).toString('base64')}`;
@@ -33,4 +38,7 @@ try {
 } finally {
   await session.close();
 }
-writeFileSync(join(DIR, 'works.json'), JSON.stringify(out, null, 2) + '\n');
+// Keep config order; works not built this time keep their previous entry.
+const previous = only.length && existsSync(join(DIR, 'works.json')) ? JSON.parse(readFileSync(join(DIR, 'works.json'), 'utf8')) : [];
+const merged = works.map((w) => out.find((o) => o.id === w.id) || previous.find((p) => p.id === w.id)).filter(Boolean);
+writeFileSync(join(DIR, 'works.json'), JSON.stringify(merged, null, 2) + '\n');

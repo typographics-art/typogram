@@ -1,11 +1,11 @@
-<p align="center">
-  <img src="gallery/erlkoenig.jpg" width="24%" alt="Erlkönig: eine Mondsichel aus Goethes Gedicht gesetzt">
-  <img src="gallery/sonnet-18.jpg" width="24%" alt="Sonnet 18: ein Sonnenuntergang aus Shakespeares Sonett gesetzt">
-  <img src="gallery/let-there-be-light.jpg" width="24%" alt="Let there be light: Lichtstrahlen aus der Genesis gesetzt">
-  <img src="gallery/article-1.jpg" width="24%" alt="Article 1: ein Globus aus der Allgemeinen Erklärung der Menschenrechte gesetzt">
-</p>
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.jpg">
+    <img src="assets/wordmark-light.jpg" width="640" alt="Typographics Art">
+  </picture>
+</h1>
 
-<h1 align="center"><img src="assets/logo.png" width="560" alt="Typographics Art"></h1>
+<p align="center"><a href="gallery.html"><img src="assets/intro.jpg" width="100%" alt="Vier Werke: Nikola Tesla, Die grosse Welle, Der Wanderer über dem Nebelmeer und Frederick Douglass, jedes aus einem ganzen Text gesetzt; das Originalbild ist der kleine Einschub"></a></p>
 
 <p align="center">
   <b>ASCII-Art für das Zeitalter der KI.</b><br>
@@ -21,6 +21,10 @@
 </p>
 
 ---
+
+## Frag deine KI, was das ist
+
+Alles aus diesem Repository, README und Dokumente, in einer Datei: **[about/typographics-art.md](about/typographics-art.md)** (44 000 Zeichen, auch unter [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt)). Oder gib ihr denselben Text als One-Pager, gesetzt mit der Technik selbst: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Dann frag: *Was ist Typographics Art, und kannst du diese Seite noch lesen?*
 
 ## Die Idee
 
@@ -38,12 +42,12 @@
 
 ### Was ein Mensch sieht und was eine KI liest
 
-Der Mond oben ist aus Goethes *Erlkönig* gesetzt. Öffne [`gallery/erlkoenig.svg`](gallery/erlkoenig.svg), markiere alles und kopiere es, oder gib die Datei einem beliebigen Modell:
+Das Porträt von Frederick Douglass oben ist aus seiner eigenen *Narrative* (1845) gesetzt, Kapitel V–VIII. Öffne [`gallery/douglass.svg`](gallery/douglass.svg), markiere alles und kopiere es, oder gib die Datei einem beliebigen Modell:
 
 ```text
-Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; Er hat den Knaben
-wohl in dem Arm, Er faßt ihn sicher, er hält ihn warm. Mein Sohn, was birgst du so bang dein
-Gesicht? – Siehst, Vater, du den Erlkönig nicht? …
+As to my own treatment while I lived on Colonel Lloyd’s plantation, it was very similar to that
+of the other slave children. I was not old enough to work in the field, and there being little
+else than field work to do, I had a great deal of leisure time. …
 ```
 
 Darum geht es: **Das Kunstwerk ist zugleich das Dokument.** Kein Alt-Text nötig, der Inhalt *ist* der Alt-Text.
