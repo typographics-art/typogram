@@ -240,6 +240,17 @@ footer a{color:inherit}
   </div>
 </section>
 
+<section id="benefit">
+  <div class="wrap">
+    <p class="kicker" data-i18n="bn.kicker">Does it reach the machine?</p>
+    <h2 data-i18n="bn.h">One document, four ways. Only a picture of it loses the words.</h2>
+    <p class="lead" data-i18n="bn.lead">We took one invented document — fictional, so nothing can be answered from memory — and shared it as Markdown, an ordinary PDF, a Typographics Art one-pager, and a flat image of that one-pager. Then we read each back the way a machine would and checked whether planted facts (an exact number, a negation, a clause id) survived.</p>
+    <div class="table-wrap"><table class="compare" id="benefitTable"><tbody><tr><td data-i18n="bn.loading">Measuring …</td></tr></tbody></table></div>
+    <p class="source"><span data-i18n="bn.src">The Typographics Art PDF reaches a machine like an ordinary PDF; only flattening the work to a picture loses the text — so share the PDF, not a screenshot.</span></p>
+    <p class="source"><span data-i18n="bn.repro">Measured and reproducible:</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-benefit.md">ai-benefit.md</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/scripts/ai-benefit.mjs" data-i18n="bn.script">the script</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/benchmark/testdoc.md" data-i18n="bn.doc">the test document</a></p>
+  </div>
+</section>
+
 <section id="idea">
   <div class="wrap">
     <p class="kicker" data-i18n="idea.kicker">The idea</p>
@@ -448,6 +459,11 @@ const DE = {
   'n.exact': 'des Textes kommen aus HTML, SVG und PDF zurück', 'n.chars': 'Zeichen Moby-Dick auf einem Bogen, SHA-256 identisch', 'n.tests': 'Tests im erzeugten Nachweisbericht bestanden',
   'n.ex': 'One-Pager zurückgelesen und geprüft', 'n.vlm': 'Wörter von einem Bildmodell gelesen, wo klassische Texterkennung 5 % schaffte',
   'proof.src': 'Jede Zahl stammt aus einem Skript im Repository:', 'proof.ex': 'One-Pager-Prüfungen',
+  'bn.kicker': 'Kommt es bei der Maschine an?', 'bn.h': 'Ein Dokument, vier Wege. Nur ein Bild davon verliert die Wörter.',
+  'bn.lead': 'Wir haben ein erfundenes Dokument — fiktiv, damit nichts aus dem Gedächtnis beantwortet werden kann — als Markdown, als gewöhnliches PDF, als Typographics-Art-One-Pager und als flaches Bild dieses One-Pagers geteilt. Dann haben wir jedes zurückgelesen wie eine Maschine und geprüft, ob eingebaute Fakten (eine genaue Zahl, eine Verneinung, eine Klausel-Nummer) überleben.',
+  'bn.loading': 'Wird gemessen …',
+  'bn.src': 'Das Typographics-Art-PDF kommt bei der Maschine an wie ein gewöhnliches PDF; erst das Flachdrücken des Werks zu einem Bild verliert den Text — teile also das PDF, nicht einen Screenshot.',
+  'bn.repro': 'Gemessen und nachvollziehbar:', 'bn.script': 'das Skript', 'bn.doc': 'das Testdokument',
   'idea.kicker': 'Die Idee', 'idea.h': 'ASCII-Art wirft die Wörter weg. Wir behalten sie.',
   'idea.lead': 'ASCII-Art wählt für jede Zelle eines Rasters ein Zeichen; die Zeichen sind nur Schattierung. Typographics Art dreht das um: Der Text gibt die Zeichen vor, gewählt wird nur ihre Typografie. Das Bild ist für Menschen. Der Text bleibt für Maschinen.',
   'duo.see': 'Was ein Mensch sieht', 'duo.read': 'Was eine KI liest', 'duo.note': 'Direkt aus dem SVG des Kunstwerks gelesen: Douglass’ eigene Worte, jedes in Reihenfolge.',
@@ -504,11 +520,23 @@ function setLang(l) {
   document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
   try { localStorage.setItem('tg-art.lang', l); } catch { /* not remembered */ }
   fillNumbers();
+  renderBenefit();
 }
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
 
 // Numbers come from the generated reports; the values in the HTML are only a fallback.
-let proof = null, examples = null;
+let proof = null, examples = null, benefit = null;
+function renderBenefit() {
+  if (!benefit) return;
+  const h = lang === 'de'
+    ? { format: 'Format', size: 'Grösse', recall: 'Wörter erkannt', facts: 'Fakten erhalten' }
+    : { format: 'Format', size: 'Size', recall: 'Word recall', facts: 'Facts kept' };
+  const names = lang === 'de'
+    ? { 'Markdown': 'Markdown', 'Ordinary PDF': 'Gewöhnliches PDF', 'Typographics Art PDF': 'Typographics-Art-PDF', 'Typographics Art as a flat image (OCR)': 'Typographics Art als flaches Bild (OCR)' } : {};
+  const kb = (b) => (b >= 1048576 ? (b / 1048576).toFixed(2) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB');
+  const rows = benefit.results.map((r) => `<tr><td style="color:var(--ink)">${names[r.name] || r.name}</td><td>${kb(r.bytes)}</td><td>${(r.wordRecall * 100).toFixed(r.wordRecall === 1 ? 0 : 1)}%</td><td>${r.factsFound}/${r.factsTotal}</td></tr>`).join('');
+  document.querySelector('#benefitTable').innerHTML = `<thead><tr><th>${h.format}</th><th>${h.size}</th><th>${h.recall}</th><th>${h.facts}</th></tr></thead><tbody>${rows}</tbody>`;
+}
 const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
 function fillNumbers() {
   if (proof) {
@@ -520,6 +548,7 @@ function fillNumbers() {
 }
 Promise.all([fetch('demo/moby-dick/proof.json').then((r) => r.json()).catch(() => null), fetch('examples/index.json').then((r) => r.json()).catch(() => null)])
   .then(([p, e]) => { proof = p; examples = e; fillNumbers(); });
+fetch('docs/ai-benefit.json').then((r) => r.json()).then((b) => { benefit = b; renderBenefit(); }).catch(() => { const s = $('#benefit'); if (s) s.hidden = true; });
 setLang(lang);
 
 // Zoom demo: the Douglass work (2.6 MB SVG) is inlined only when the section scrolls into view, so it

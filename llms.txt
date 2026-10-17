@@ -22,6 +22,7 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 - [How the algorithm works](https://github.com/typ0graphic5/tg-art/blob/main/docs/algorithm.md)
 - [AI readability: method and measurements](https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-readability.md)
 - [Text fidelity: what "preserved" means, source vs canonical text, the checksum](https://github.com/typ0graphic5/tg-art/blob/main/docs/text-fidelity.md)
+- [Does it reach a machine? A measured comparison of Markdown, ordinary PDF, Typographics Art PDF and a flat image](https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-benefit.md)
 - [Prior art: micrography, calligrams, ASCII art, and what is new](https://github.com/typ0graphic5/tg-art/blob/main/docs/prior-art.md)
 - [Hidden messages](https://github.com/typ0graphic5/tg-art/blob/main/docs/hidden-messages.md): a key (book cipher over the public text) reveals a secret; the work itself is not changed
 - [File size, measured](https://github.com/typ0graphic5/tg-art/blob/main/docs/file-size.md)
