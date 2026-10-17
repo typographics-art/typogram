@@ -11,6 +11,8 @@ The document is fictional on purpose: a model cannot fill gaps from prior knowle
 | Typographics Art PDF | 71 KB | 99.6% | 6/6 | 365 | MuPDF text layer |
 | Typographics Art as a flat image (OCR) | 219 KB | 21.9% | 0/6 | 62 | Tesseract OCR |
 
+The flat-image row is far lower than the OCR results in [ai-readability.md](ai-readability.md) (68.8 to 99.6 % of the words) because the conditions differ: here Tesseract reads the one-pager's preview PNG, which puts the whole document (1 459 characters) on one A4 page in tiny type, while ai-readability.md reads a render at 2× of a picture set at a legible size.
+
 ## The planted facts, per format
 
 | Fact | Markdown | Ordinary PDF | Typographics Art PDF | Typographics Art as a flat image (OCR) |
