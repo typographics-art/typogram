@@ -64,28 +64,68 @@ Cause: when a glyph comes from a fallback font, MuPDF reports no space next to i
 
 A word longer than a line is broken between two characters (`docs/technique.md`, rule 1). A text extractor reports a line break there, and the canonical text then has a space inside the token:
 
-| Characters in the work | Characters per line (measured) | Longest space-free token that stayed exact |
-|---|---|---|
-| 150 | 14 | 12 |
-| 400 | 24 | 20 |
-| 1,000 | 37 | 32 |
-| 3,000 | 65 | 48 |
-| 10,000 | 125 | 64 |
-| 40,000 | 250 | 64 (largest tried) |
+| Characters in the work | Characters per line | Longest token that stayed exact | First length that was cut |
+|---|---|---|---|
+| 150 | 14 | 12 | 16 |
+| 400 | 24 | 20 | 24 |
+| 1,000 | 35 to 39 | 32 | 48 |
+| 3,000 | 52 to 68 | 48 | 64 |
+| 10,000 | 109 to 125 | 64 (largest tried) | none |
+| 40,000 | 238 to 252 | 64 (largest tried) | none |
 
-(`TOKENS_FILL`; `scripts/structured-data-experiments.mjs tokens`.) Lines hold about 1.2·√N characters, so no fixed token length is safe for every work. A decoder must therefore treat a space **anywhere** as insignificant, including inside a token.
+(`scripts/structured-data-experiments.mjs tokens`: tokens of random letters and digits separated by single spaces, 6 sizes of work, 8 token lengths. The numbers are the largest length that read back exact; results near the limit are noisy because the tone planner changes the line length from run to run.) Lines hold about 1.2·√N characters, so no fixed token length is safe for every work. A decoder must therefore treat a space **anywhere** as insignificant, including inside a token.
 
 ### 1.3 Characters that the font or the extractor changes
 
 Measured one character at a time (chunk of one character, each between ASCII sentinels, whitespace ignored, NFC applied as `canonicalText` does):
 
-`SCRIPTS_FILL`
+| Block (all assigned letters, digits, punctuation, symbols, NFC-stable) | Characters | MuPDF exact | pdf.js 4.4.168 exact |
+|---|---|---|---|
+| Basic Latin | 92 | 92/92 | 92/92 |
+| Latin-1 | 93 | 93/93 | 92/93 |
+| Latin Extended-A | 128 | 128/128 | 128/128 |
+| Latin Extended-B | 208 | 208/208 | 208/208 |
+| Latin Extended Additional (Vietnamese) | 256 | 256/256 | 256/256 |
+| Greek | 132 | 132/132 | 132/132 |
+| Cyrillic | 249 | 249/249 | 249/249 |
+| Hebrew | 27 | 27/27 | 27/27 |
+| Arabic | 43 | layout refuses or crashes | – |
+| Devanagari | 54 | 54/54 | 52/54 |
+| Thai | 50 | layout refuses or crashes | – |
+| Hangul Syllables (sample) | 401 | 401/401 | 401/401 |
+| Hiragana | 86 | 86/86 | 86/86 |
+| Katakana | 90 | 90/90 | 90/90 |
+| CJK Unified (sample) | 801 | 801/801 | 787/801 |
+| General Punctuation | 71 | 71/71 | 71/71 |
+| Currency Symbols | 32 | 32/32 | 32/32 |
+| Letterlike Symbols | 77 | 77/77 | 77/77 |
+| Number Forms | 60 | 60/60 | 60/60 |
+| Arrows | 112 | 112/112 | 112/112 |
+| Mathematical Operators | 256 | 256/256 | 256/256 |
+| Box Drawing | 128 | 128/128 | 128/128 |
+| Geometric Shapes | 96 | 96/96 | 96/96 |
+| Misc Symbols | 256 | 256/256 | 256/256 |
+| Dingbats | 192 | 192/192 | 192/192 |
+| Emoji (Misc Symbols and Pictographs) | 763 | 763/763 | 763/763 |
+| Emoji (Emoticons) | 80 | 80/80 | 80/80 |
+| Control Pictures | 39 | 39/39 | 39/39 |
+| CJK Unified (all) | 20992 | 20992/20992 | 20718/20992 |
+| Hangul Syllables (all) | 11172 | 11172/11172 | 11172/11172 |
+| CJK Symbols and Punctuation | 57 | layout refuses or crashes | – |
+| Fullwidth Forms | 94 | 94/94 | 91/94 |
+| Emoji (Transport and Map) | 119 | 119/119 | 119/119 |
+| Emoji (Supplemental Symbols) | 256 | 256/256 | 256/256 |
+| Misc Technical | 254 | 254/254 | 254/254 |
+| IPA Extensions | 96 | 96/96 | 96/96 |
+
+The 274 CJK ideographs pdf.js changes are the ones whose glyph is shared with a CJK radical (一 U+4E00 comes back as ⼀ U+2F00); the 3 fullwidth forms, µ (U+00B5 comes back as Greek μ U+03BC) and Devanagari U+0908 and U+0910 are the same kind of problem. The measurement is of this environment's fonts: another font can share other glyphs, which is why the creation-time read-back check exists (§12).
 
 Also: U+0085 and the C0 controls (U+001E/U+001F as record/unit separators) are refused by the layout's own read-back check ("Line 0 does not read back from the PDF"). `canonicalText` removes U+2063 (invisible separator), U+200B, U+00AD and every other default-ignorable character, and turns U+00A0 and U+2028 into spaces.
 
 ### 1.4 Findings that outside this feature are worth knowing
 
 - `src/layout.js` crashes (`Cannot read properties of undefined (reading 'adv')`) on text in which a combining spacing mark follows a space, for example Thai U+0E33 and emoji skin-tone modifiers: the metrics are measured on `graphemes(wholeText)`, where " ำ" is **one** cluster, while the layout looks up `graphemes(token)`, where "ำ" is its own cluster (`src/browser.js:117`, `cli/render.html:66`, `src/layout.js:217`). TGD never writes such characters literally (they are escapes), but ordinary text with them cannot be set. Not changed here (another change is editing the layout).
+- **Blank-space layout and data.** Since the layout for short texts (`gaps: 'auto'` in `cli/onepage-core.mjs`, used up to `SPARSE_LINES` lines) sets glyphs only where the picture is dark, a data block of about 1,400 characters made `makeOnePage` fail with `Line 36 does not read back from the PDF even when printed on its own` (reproduced on `test/fixtures/people.csv` with a one-sentence prefix; with `options: { gaps: 'off' }` the same text is set and decodes). Data one-pagers therefore pass `gaps: 'off'` (§12.2); the cause inside the gap layout is in code that another change is editing and was not touched. TGD blocks are not "short texts" in the sense of that feature: their text is the carrier of the data, not of a motif.
 - Roboto Flex is loaded from Google Fonts; in an environment without network the page falls back to a system font. The measurements here were made in that environment. TGD's safety net against any difference is the read-back check at creation (§12) and the checksum.
 
 ## 2. Design questions and the evidence
@@ -96,13 +136,77 @@ The first design, before the measurements, was a typed table with explicit visib
 
 Candidates for delimiters, each tested in all positions data uses it (between words, before and after a space, doubled, alone), 2 runs through the real layout with different tone targets:
 
-`DELIM_FILL`
+| Character | Name | Stays in `canonicalText` | MuPDF exact runs | pdf.js exact runs |
+|---|---|---|---|---|
+| U+007C | VERTICAL LINE | kept | 2/2 | 2/2 |
+| U+00A6 | BROKEN BAR | kept | 2/2 | 2/2 |
+| U+2016 | DOUBLE VERTICAL LINE | kept | 2/2 | 2/2 |
+| U+00B6 | PILCROW | kept | 2/2 | 2/2 |
+| U+003B | SEMICOLON | kept | 2/2 | 2/2 |
+| U+002C | COMMA | kept | 2/2 | 2/2 |
+| U+23CE | RETURN SYMBOL | kept | 0/2 | 2/2 |
+| U+241E | SYMBOL FOR RECORD SEPARATOR | kept | 0/2 | 2/2 |
+| U+241F | SYMBOL FOR UNIT SEPARATOR | kept | 0/2 | 2/2 |
+| U+240A | SYMBOL FOR LINE FEED | kept | 0/2 | 2/2 |
+| U+2063 | INVISIBLE SEPARATOR | removed or changed | 1/2 | 2/2 |
+| U+2064 | INVISIBLE PLUS | removed or changed | 2/2 | 2/2 |
+| U+001E | RECORD SEPARATOR | kept | refused | - |
+| U+001F | UNIT SEPARATOR | kept | refused | - |
+| U+200B | ZERO WIDTH SPACE | removed or changed | 1/2 | 2/2 |
+| U+2028 | LINE SEPARATOR | removed or changed | 2/2 | 2/2 |
+| U+0085 | NEXT LINE | kept | refused | - |
+| U+00A0 | NO-BREAK SPACE | removed or changed | 2/2 | 2/2 |
+| U+00B7 | MIDDLE DOT | kept | 2/2 | 2/2 |
+| U+2022 | BULLET | kept | 2/2 | 2/2 |
+| U+00A7 | SECTION SIGN | kept | 2/2 | 2/2 |
+| U+00A4 | CURRENCY SIGN | kept | 2/2 | 2/2 |
+| U+00AC | NOT SIGN | kept | 2/2 | 2/2 |
+| U+2192 | RIGHTWARDS ARROW | kept | 0/2 | 2/2 |
+| U+21B5 | DOWNWARDS ARROW WITH CORNER LEFTWARDS | kept | 0/2 | 2/2 |
+| U+25AA | BLACK SMALL SQUARE | kept | 0/2 | 2/2 |
+| U+2219 | BULLET OPERATOR | kept | 0/2 | 2/2 |
+| U+2502 | BOX DRAWINGS LIGHT VERTICAL | kept | 0/2 | 2/2 |
+| U+007E | TILDE | kept | 2/2 | 2/2 |
+| U+005E | CIRCUMFLEX | kept | 2/2 | 2/2 |
+| U+0060 | GRAVE | kept | 2/2 | 2/2 |
+| U+005C | BACKSLASH | kept | 2/2 | 2/2 |
+| U+0022 | QUOTATION MARK | kept | 2/2 | 2/2 |
+| U+0027 | APOSTROPHE | kept | 2/2 | 2/2 |
+| U+007B | BRACE | kept | 2/2 | 2/2 |
+| U+007D | BRACE | kept | 2/2 | 2/2 |
+| U+005B | BRACKET | kept | 2/2 | 2/2 |
+| U+005D | BRACKET | kept | 2/2 | 2/2 |
+| U+003C | LESS-THAN | kept | 2/2 | 2/2 |
+| U+003E | GREATER-THAN | kept | 2/2 | 2/2 |
+| U+0026 | AMPERSAND | kept | 2/2 | 2/2 |
+| U+003A | COLON | kept | 2/2 | 2/2 |
+| U+002F | SOLIDUS | kept | 2/2 | 2/2 |
+| U+0023 | NUMBER SIGN | kept | 2/2 | 2/2 |
+| U+003D | EQUALS | kept | 2/2 | 2/2 |
+| U+005F | LOW LINE | kept | 2/2 | 2/2 |
+| U+002D | HYPHEN-MINUS | kept | 2/2 | 2/2 |
+| U+002E | FULL STOP | kept | 2/2 | 2/2 |
+| U+00AD | SOFT HYPHEN | removed or changed | 1/2 | 2/2 |
+
+"Refused": the layout's own read-back check rejects the text ("Line 0 does not read back from the PDF"). "Removed or changed": `canonicalText` deletes or rewrites the character (so it cannot carry data); the run counts then only compare the text after that.
 
 Reading the table: every ASCII punctuation character and every Latin-1 symbol survives both extractors exactly. The symbols from other blocks (⏎ ␞ ␟ ␊ → ↵ ▪ ∙ │) survive in pdf.js but MuPDF drops the spaces around them, which only matters for formats with meaningful spaces (the first design). The invisible separators, U+200B and the soft hyphen are removed by `canonicalText` (they cannot be data). The controls are refused by the layout. The choice: **only ASCII structure characters** (`[ ] { } , : "`), so the structure needs nothing from the font at all.
 
 Encodings compared on the same typed sample sheet (6 columns: name, region, units, price, 16-digit order ID, ISO date; 200 rows; 11,710 bytes as CSV). All variants write a space as `·` so they are all whitespace-independent; "tokens" is a rough proxy (words, groups of up to three digits, and every punctuation character counted once; **an estimate, not a real tokenizer**):
 
-`SIZES_FILL`
+| Encoding of the 200-row sheet | Characters | Times the CSV | Tokens (estimate) | Times the CSV |
+|---|---|---|---|---|
+| A  TGD: rows as arrays (the chosen design), compact | 13,337 | 1.14 | 7,544 | 1.47 |
+| B  JSON: one object per row (JCS-like, compact) | 23,285 | 1.99 | 12,716 | 2.48 |
+| C  JSON Lines: one array per line + header line | 13,335 | 1.14 | 7,342 | 1.43 |
+| D  delimiter table: \| between cells, ¶ ends a row (untyped) | 11,321 | 0.97 | 5,528 | 1.08 |
+| E  A + value dictionary (repeated strings as {"$":"r","i":n}) | 15,345 | 1.31 | 11,471 | 2.24 |
+| TGD block, full envelope, layout compact | 13,649 | 1.17 | 7,719 | 1.51 |
+| TGD block, full envelope, layout rows | 13,858 | 1.18 | 7,719 | 1.51 |
+| TGD block, full envelope, layout cells | 14,863 | 1.27 | 7,719 | 1.51 |
+| base64 of the CSV file (not readable, for comparison) | 15,614 | 1.33 | – | – |
+
+The same at 20 and 2,000 rows differs by less than 0.02 in every ratio, except the fixed envelope (about 310 characters), which is 40 % of a 20-row sheet and 0.2 % of a 2,000-row one.
 
 Decision: **A, rows as arrays inside JSON syntax**.
 
@@ -346,13 +450,20 @@ One A4 page. Measured on this repository's one-pager (`makeOnePage`, A4, same la
 | ≈ 120,000 | ≈ 1.0 mm | `size_mm ≈ 345/√N`, fitted to the two measurements |
 | 600,000 | ≈ 0.45 mm | machine-readable only; `docs/file-size.md` and `examples/index.json` have set 600,000 characters (EU AI Act) on one page |
 
-Data capacity of a page, from the measured block sizes (`SIZES_CAP`): the sample sheet (6 columns, 68 characters per row in TGD) gives about 8,800 rows at 600,000 characters, about 1,700 rows at 120,000 characters (1 mm type, still legible with zoom). Wider sheets give proportionally fewer rows.
+Data capacity of a page, from the measured block sizes (`scripts/structured-data-experiments.mjs sizes`): the sample sheet (6 columns, 68 characters per row in TGD) gives about 8,800 rows at 600,000 characters, about 1,700 rows at 120,000 characters (1 mm type, still legible with zoom). Wider sheets give proportionally fewer rows.
 
 **More than one page.** The one-pager tool puts one text on one page (`docs/file-size.md`: large sheets are printed in strips and assembled to one page). Data larger than a page is, in 1.0, **split into several works**, each with its own block (a sheet per work, or row ranges of one sheet as `rows` of consecutive blocks with `name` `budget.xlsx (2/3)`); a decoder concatenates blocks of the same `name` only when asked. The envelope has no cross-block reference in 1.0, deliberately: each block verifies on its own. The tool does not do the splitting yet (design only); `encode` already reports the character count so the caller can plan.
 
 **Picture.** Tone planning works on characters, and a data text is punctuation-heavy: quotes, brackets and digits. Measured on the same page, same title, 11,000 characters (`scripts/structured-data-experiments.mjs visual`, `docs/structured-data/*.jpg`):
 
-`VISUAL_FILL`
+| Page text | Characters | Lines | Type size | Tone fidelity | Read back exact | Visible text identical |
+|---|---|---|---|---|---|---|
+| tgd-compact | 11000 | 81 | 3.487 mm | 0.947 | False | True |
+| tgd-rows | 11169 | 88 | 3.217 mm | 0.951 | True | True |
+| tgd-cells | 11974 | 85 | 3.345 mm | 0.95 | True | True |
+| prose | 11167 | 80 | 3.56 mm | 0.978 | True | True |
+
+Images: [`structured-data/tgd-rows.jpg`](structured-data/tgd-rows.jpg) (data) and [`structured-data/prose.jpg`](structured-data/prose.jpg) (Lorem ipsum of the same length), same title and paper. `compact` (no line breaks) reads back with whitespace inside tokens (`exact: false`) and still decodes, because the decoder ignores whitespace; `rows` is the default because it is exact as text, the smallest of the readable layouts and has the best tone fidelity.
 
 The data page forms its picture as well as prose does (tone fidelity 0.95 against 0.98), with heavier quotation marks and brackets and lighter digit runs. A person sees an ordinary Typographics Art page; the text is the data. At about 1,400 characters the picture is coarse, as for any short text (`cli/onepage.mjs --motif` says motifs work from about 20,000 characters); data pages should be at least a few thousand characters if the picture matters.
 
@@ -418,7 +529,7 @@ tg-data decode <work.pdf|.svg|.html|.txt> [--format model|xlsx|csv|tsv|json|md|y
 tg-data verify <work>        # exit 1 if a block is damaged or there is none
 ```
 
-Worked through a real PDF: `tg-data encode basic.xlsx -o basic.tgd --no-date`, `onepage.mjs basic.tgd --title Sales -o basic.pdf` (MuPDF read-back identical), `tg-data verify basic.pdf` (`block 1: ok, xlsx basic.xlsx sha256 d448af67…`), `tg-data decode basic.pdf --format xlsx -o back.xlsx`.
+Worked through a real PDF (before the merge of the short-text layout, with `onepage.mjs` as it was then): `tg-data encode basic.xlsx -o basic.tgd --no-date`, `onepage.mjs basic.tgd --title Sales -o basic.pdf` (MuPDF read-back identical), `tg-data verify basic.pdf` (`block 1: ok, xlsx basic.xlsx sha256 d448af67…`), `tg-data decode basic.pdf --format xlsx -o back.xlsx`. **With the current `cli/onepage.mjs` the second step fails** (`Line N does not read back`, §1.4) until the patch of §12.2 passes `gaps: 'off'`; the end-to-end test in `test/structured-data.test.js` calls `makeOnePage` with that option and passes (sheet to PDF to MuPDF to decode to the original CSV, byte for byte).
 
 ## 11. Conformance
 
@@ -456,7 +567,7 @@ export async function readAnyDocument(path, { data = false } = {}) {
 }
 ```
 
-In `onepage.mjs` (which is already top level, so `await readAnyDocument(input)` works there): the default `subtitle` for data becomes `"<file name> · <n> rows"` (not "N words on one page"); add `--data` (treat a `.md`/`.txt` as the format by extension) and `--prose <file>` (text placed before the block). After `makeOnePage`, call `verify(canonicalText(back))` on the text read back with MuPDF and **fail with exit code 2 if the block does not verify** (§12.5 of the UI doc: the safety net). `makeOnePage` is not changed.
+In `onepage.mjs` (which is already top level, so `await readAnyDocument(input)` works there): the default `subtitle` for data becomes `"<file name> · <n> rows"` (not "N words on one page"); add `--data` (treat a `.md`/`.txt` as the format by extension) and `--prose <file>` (text placed before the block). `makeOnePage` is called with `options: { gaps: 'off' }` for data (§1.4). After `makeOnePage`, call `verify(canonicalText(back))` on the text read back with MuPDF and **fail with exit code 2 if the block does not verify** (§12.5 of the UI doc: the safety net). `makeOnePage` is not changed.
 
 ### 12.3 `app.html` (generator)
 

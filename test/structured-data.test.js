@@ -571,7 +571,7 @@ test('end to end: a sheet becomes a one-page PDF and comes back out of its text 
   const dir = mkdtempSync(join(tmpdir(), 'tgd-pdf-'));
   const pdf = join(dir, 'work.pdf');
   const session = await openSession();
-  try { await makeOnePage(session, { text: prose, title: 'People', paper: 'a4', pdf }); } finally { await session.close(); }
+  try { await makeOnePage(session, { text: prose, title: 'People', paper: 'a4', options: { gaps: 'off' }, pdf }); } finally { await session.close(); }
   const back = spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', pdf], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout;
   const d = await decode(canonicalText(back));
   assert.equal(d.verified, true);
