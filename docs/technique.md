@@ -38,6 +38,10 @@ It may not add shapes, strokes, backgrounds behind individual characters, or ima
 
 The technique does not require every character to be legible to the eye at viewing size. Very fine works (tens of thousands of characters) are read by zooming in or by machines. Implementations should offer a legibility setting that limits how thin, small or faint a character may become.
 
+## Hidden messages
+
+A work may be paired with a key that selects characters of its public text in a secret order (a book cipher, `src/secret.js`). This does not touch the rules above: the work still contains exactly its declared text and nothing invisible; the message lives only in the key. Tiny or invisible text must never be used to hide anything in the work itself.
+
 ## Naming
 
 - Technique: *Typographics Art*, short *TG Art*.

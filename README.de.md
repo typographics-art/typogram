@@ -91,6 +91,17 @@ Jedes Beispiel wird mit MuPDF zurückgelesen und mit der Quelle verglichen; alle
 
 Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Und bleib ehrlich: Der sichtbare Titel muss das Dokument benennen, und winziger Text darf nie Anweisungen vor den Menschen verstecken, die die Seite sehen.
 
+## Versteckte Nachrichten
+
+Ein Werk kann eine Nachricht tragen, die nur lesen kann, wer den Schlüssel hat. Das Werk selbst ändert sich nicht: Es enthält nur seinen öffentlichen Text, nichts Unsichtbares. Der Schlüssel merkt sich für jedes Zeichen der Nachricht eine Stelle im Text, an der dasselbe Zeichen steht, zufällig unter allen Vorkommen gewählt (eine Buch-Chiffre). Mit Schlüssel und dem richtigen Werk kommt die Nachricht zurück; bei jedem anderen Werk passt der Text-Fingerabdruck des Schlüssels nicht.
+
+```sh
+node cli/tg-secret.mjs hide   werk.pdf --secret "Treffpunkt Hafen, 18 Uhr."   # gibt den Schlüssel aus: tg1.…
+node cli/tg-secret.mjs reveal werk.pdf --key tg1.…                            # gibt die Nachricht aus
+```
+
+Funktioniert mit PDF (gelesen mit MuPDF), SVG, HTML und Text; im Web-Generator unter *Versteckte Nachricht*. Bewahre den Schlüssel wie ein Passwort auf: Mit Schlüssel und Werk kann jeder die Nachricht lesen. Zeichen, die im öffentlichen Text nicht vorkommen, lassen sich nicht verstecken; das Werkzeug nennt sie.
+
 ## Die drei Regeln
 
 1. **Treue.** Der Text wird nie verändert, umgestellt oder gekürzt. Fülltext (etwa Lorem ipsum für ein feineres Bild) ist nur erlaubt, wenn er ausgewiesen ist.

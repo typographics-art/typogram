@@ -15,3 +15,4 @@ export { typesetWith, typesetSections, plainText, isFaithful } from './typeset.j
 export {
   toHtml, toStandaloneHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS, pdfStats, estimatePdfBytes,
 } from './render.js';
+export { hideSecret, revealSecret, canonicalText } from './secret.js';

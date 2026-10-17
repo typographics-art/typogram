@@ -43,6 +43,8 @@ First public version.
 - Agent library (German): a knowledge and task library for AI agents in `examples/agent-library/` — knowledge guide, eight rule files, ten task families with 49 prompts in a fixed eight-field format — and 21 one-pagers of it, including the whole library (226 524 characters) on one page.
 - One typeface: Roboto Flex only (operator decision). The font menu, the width checkbox and `--font` are gone; defaults are one type size and no width variants, all weights. The gallery is re-rendered with it and is sharper.
 - Fix (web generator): line ends wandered by up to 15 px in desktop browsers at small type, which round glyph widths at tiny sizes; the view is now laid out at about the measuring size (40 px) and scaled down for display.
+- Hidden messages: a key (book cipher over the work's public text, random positions, SHA-256 text fingerprint) hides a message without changing the work; `cli/tg-secret.mjs hide|reveal` for PDF/SVG/HTML/text, panel *Hidden message* in the web generator, `hideSecret`/`revealSecret` in the library.
+- Paid one-pager API (`api/`, live at api.typographics-art.org): document plus DigiByte transaction hash, no API key; picture from our image model.
 - CI: tests run by file glob; Node 22 took `node --test test/` as a module path.
 - Fix: pypdf read only 56 % of the EU AI Act one-pager: it stops at 2 000 000 tokens per content stream. Print strips are now split until every stream stays below 1 800 000 (`cli/pdf-tokens.js`).
 - Fix: one-pagers have their exact paper size (A4 = 210 × 297 mm; before 209.89 × 293.9–297.0 mm). The last strip reaches the sheet's full height and every PDF is assembled by MuPDF, which is now required for PDF output.

@@ -293,6 +293,16 @@ footer a{color:inherit}
         <p class="hint" data-i18n="ai.p">This is the text inside the picture, read straight from the page. A language model, a search engine or a screen reader receives exactly this, in this order. ASCII art would give it only shading characters.</p>
         <pre id="aiText" tabindex="0"></pre>
       </section>
+      <details id="secretBox">
+        <summary data-i18n="secret.summary">Hidden message</summary>
+        <p class="hint" data-i18n="secret.p">Hide a message in this work: the work keeps only its public text, and a key records where the message's letters stand in it, at random. With the key and this work the message comes back. Keep the key like a password.</p>
+        <label class="lbl" for="secretIn" data-i18n="secret.in">Message to hide</label>
+        <textarea id="secretIn" rows="2"></textarea>
+        <div class="row2"><button type="button" id="secretHide" data-i18n="secret.hide">Create key</button><button type="button" id="secretReveal" data-i18n="secret.reveal">Read message from key</button></div>
+        <label class="lbl" for="secretKey" data-i18n="secret.key">Key</label>
+        <textarea id="secretKey" rows="3" spellcheck="false"></textarea>
+        <p class="hint" id="secretMsg" role="status"></p>
+      </details>
       <details>
         <summary data-i18n="export.summary">Use the result</summary>
         <div class="row2">
@@ -338,7 +348,7 @@ footer a{color:inherit}
 </div>
 
 <script type="module">
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE } from './src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret } from './src/index.js';
 import { typeset, toPng } from './src/browser.js';
 
 const $ = (s) => document.querySelector(s);
@@ -375,6 +385,8 @@ const I18N = {
     'ai.toggle': 'Was die KI liest', 'ai.h': 'Was die KI liest',
     'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
     'label.cuts': 'Schriftschnitte',
+    'secret.summary': 'Versteckte Nachricht', 'secret.p': 'Verstecke eine Nachricht in diesem Werk: Das Werk behält nur seinen öffentlichen Text, und ein Schlüssel merkt sich, wo die Buchstaben der Nachricht darin stehen, zufällig gewählt. Mit Schlüssel und diesem Werk kommt die Nachricht zurück. Bewahre den Schlüssel wie ein Passwort auf.',
+    'secret.in': 'Zu versteckende Nachricht', 'secret.hide': 'Schlüssel erzeugen', 'secret.reveal': 'Nachricht aus Schlüssel lesen', 'secret.key': 'Schlüssel',
     'hint.cuts': 'Jede Stärke, Breite und Schriftgrösse wird im PDF eine eigene Schrift. Weniger Stärken geben eine viel kleinere Datei; Grösse und Farbe zeichnen das Bild weiter.',
     'hint.export': 'HTML, SVG und PDF enthalten den Text als echte Zeichen. PNG ist ein reines Bild. Für ein PDF im Druckdialog „Als PDF sichern“ wählen.',
   },
@@ -383,6 +395,8 @@ const MSG = {
   en: {
     chars: '{n} characters', faithful: 'Text 1:1 preserved · {n} characters', notFaithful: 'Text differs from the source', filler: 'of which Lorem ipsum <b>{n}</b>',
     cutsN: '{n} weights', cuts1: '1 weight', cutsAll: 'all weights',
+    secretMade: 'Key created. It only works with this exact work: download or copy the work too.', secretRead: 'Message read from the key.',
+    secretMissing: 'These characters do not occur in the text: {c}. Rephrase, or use a longer text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} fonts', pdfTitle: 'Estimate for a PDF printed from Chrome ({fonts} fonts, {runs} style runs), measured within 3 %. The command-line tool makes the file 20–40 % smaller (measured).',
     lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
     tooShort: 'Your text is already as long as the target. Raise the target.', filled: '{n} characters of Lorem ipsum appended.', noFill: 'No filler found that could be removed.',
@@ -393,6 +407,8 @@ const MSG = {
   de: {
     chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
     cutsN: '{n} Stärken', cuts1: '1 Stärke', cutsAll: 'alle Stärken',
+    secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Werk ebenfalls laden oder kopieren.', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
+    secretMissing: 'Diese Zeichen kommen im Text nicht vor: {c}. Anders formulieren oder einen längeren Text nehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
     lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
     tooShort: 'Dein Text ist schon so lang wie das Ziel. Stell das Ziel höher.', filled: '{n} Zeichen Lorem ipsum angehängt.', noFill: 'Keine Füllung gefunden, die sich entfernen lässt.',
@@ -705,6 +721,19 @@ $('#makePng').addEventListener('click', () => {
 });
 
 $('#printPdf').addEventListener('click', () => sheet && window.print());
+// Hidden message: a book cipher over the work's public text (src/secret.js). The work itself is not changed.
+$('#secretHide').addEventListener('click', async () => {
+  try {
+    $('#secretKey').value = await hideSecret($('#aiText').textContent, $('#secretIn').value);
+    $('#secretMsg').textContent = t('secretMade');
+  } catch (e) { $('#secretMsg').textContent = e.missing ? t('secretMissing', { c: e.missing.join(' ') }) : e.message; }
+});
+$('#secretReveal').addEventListener('click', async () => {
+  try {
+    $('#secretIn').value = await revealSecret($('#aiText').textContent, $('#secretKey').value);
+    $('#secretMsg').textContent = t('secretRead');
+  } catch (e) { $('#secretMsg').textContent = e.wrongText ? t('secretWrong') : e.message; }
+});
 $('#aiToggle').addEventListener('click', () => {
   const open = $('#aiPanel').hidden;
   $('#aiPanel').hidden = !open;

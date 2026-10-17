@@ -96,6 +96,17 @@ node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o one
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
+## Hidden messages
+
+A work can carry a message that only the holder of a key can read. The work itself does not change: it holds only its public text, nothing invisible. The key records, for every character of the message, one position in that text where the same character stands, chosen at random among all its occurrences (a book cipher). With the key and the right work, the message comes back; with any other work, the key's text fingerprint does not match.
+
+```sh
+node cli/tg-secret.mjs hide   work.pdf --secret "Meet at the harbour, 6 pm."   # prints the key: tg1.…
+node cli/tg-secret.mjs reveal work.pdf --key tg1.…                             # prints the message
+```
+
+Works for PDF (read with MuPDF), SVG, HTML and text; the web generator has the same under *Hidden message*. Keep the key like a password: with key and work, anyone can read the message. Characters that do not occur in the public text cannot be hidden; the tool names them.
+
 ## The three rules
 
 1. **Fidelity.** The text is never changed, reordered or shortened. Filler text (for example Lorem ipsum for a finer picture) is allowed only if it is declared.
