@@ -14,7 +14,7 @@
     "gallery/recipes.js"
   ],
   "scripts": {
-    "test": "node --test test/",
+    "test": "node --test test/*.test.js",
     "dev": "python3 -m http.server 8080",
     "gallery": "node cli/build-gallery.mjs",
     "render": "node cli/tg-art.mjs",
