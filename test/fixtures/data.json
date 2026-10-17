@@ -1,0 +1,11 @@
+{
+  "name": "Müller",
+  "id": 12345678901234567890,
+  "ratio": 1.10,
+  "big": 1E+21,
+  "list": [1, 2.5, -0, "a  b", null, true],
+  "10": "ten",
+  "2": "two",
+  "$": "dollar",
+  "nested": {"empty": {}, "arr": [], "emoji": "😀 \u0001 \u200d"}
+}

@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:4.0
+FN:Anna Müller
+N:Müller;Anna;;;
+TEL;TYPE=work,voice;VALUE=uri:tel:+41-44-123-45-67
+EMAIL:anna@example.org
+NOTE:Line one\nLine two with a comma\, and a semicolon\;
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Zoë 😀
+item1.EMAIL:zoe@example.org
+END:VCARD

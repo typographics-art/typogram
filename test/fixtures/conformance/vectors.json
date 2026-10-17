@@ -1,0 +1,331 @@
+{
+ "standard": "TGD",
+ "version": "1.0",
+ "note": "text -> expect.model (compare as JSON) or expect.error (the code of the failure)",
+ "vectors": [
+  {
+   "name": "minimal",
+   "about": "The smallest useful block: one sheet, three cells.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"29aae02e5a22b95c47462a68746c23160d4e6a1cd5a6e906e8349c2a0ae16691\",\n\"format\":\"csv\",\n\"name\":\"minimal.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"a\",1,null]]}]}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         "a",
+         1,
+         null
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "minimal.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "spaces-and-middle-dot",
+   "about": "A space inside a string is a middle dot; a real middle dot is \\u00b7.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"1d17c17fad6aa1d10f8a67616a9d635791be5102d2b72f4b837faa9e808a5cca\",\n\"format\":\"csv\",\n\"name\":\"spaces-and-middle-dot.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"New·York\",\"l\\u00b7l\",\"·lead·and··double·\"]]}]}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         "New York",
+         "l·l",
+         " lead and  double "
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "spaces-and-middle-dot.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "typed-cells",
+   "about": "Number as exact decimal, date, datetime, time, error, formula with cached value, boolean.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"5e579cd6ba95abfcd31ce9a972f7b27efb8b97dd8e8a3e418d3766b6302db08a\",\n\"format\":\"csv\",\n\"name\":\"typed-cells.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[{\"$\":\"n\",\n\"v\":\"12345678901234567890\"},{\"$\":\"n\",\n\"v\":\"1.10\"},{\"$\":\"d\",\n\"v\":\"2024-03-05\"},{\"$\":\"dt\",\n\"v\":\"2024-03-05T14:30:00\"},{\"$\":\"t\",\n\"v\":\"09:05:30\"},{\"$\":\"e\",\n\"v\":\"#DIV/0!\"},{\"$\":\"f\",\n\"f\":\"SUM(A1:A2)\",\n\"v\":3},true,false,0.1,-7]]}]}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         {
+          "$": "n",
+          "v": "12345678901234567890"
+         },
+         {
+          "$": "n",
+          "v": "1.10"
+         },
+         {
+          "$": "d",
+          "v": "2024-03-05"
+         },
+         {
+          "$": "dt",
+          "v": "2024-03-05T14:30:00"
+         },
+         {
+          "$": "t",
+          "v": "09:05:30"
+         },
+         {
+          "$": "e",
+          "v": "#DIV/0!"
+         },
+         {
+          "$": "f",
+          "f": "SUM(A1:A2)",
+          "v": 3
+         },
+         true,
+         false,
+         0.1,
+         -7
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "typed-cells.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "unicode-and-escapes",
+   "about": "Characters outside the safe set are \\u escapes: combining mark, zero width joiner, a CJK character, an emoji (measured safe, stays literal), a character outside the BMP that is escaped as a surrogate pair, a control character, a quote and a backslash.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"fdcd19b2b698480abd7b227ca5e8d9ee2e83f482e506f0085cfcde099dd7cc1b\",\n\"format\":\"csv\",\n\"name\":\"unicode-and-escapes.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"e\\u0301\",\"a\\u200db\",\"\\u65e5\\u672c\",\"😀\",\"x\\u0001y\",\"say·\\\"hi\\\"\",\"back\\\\slash\",\"line1\\nline2\\ttab\"]]}]}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         "é",
+         "a‍b",
+         "日本",
+         "😀",
+         "x\u0001y",
+         "say \"hi\"",
+         "back\\slash",
+         "line1\nline2\ttab"
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "unicode-and-escapes.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "frame-markers-in-data",
+   "about": "The frame markers inside a string are broken by an escape.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"140c6ec308f78923b69cb72c298abd47283379bab492d3207933d19682926ece\",\n\"format\":\"csv\",\n\"name\":\"frame-markers-in-data.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"x]\\u0054GD1·and·\\u0054GD1[·y\"]]}]}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         "x]TGD1 and TGD1[ y"
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "frame-markers-in-data.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "sparse-cells",
+   "about": "The sparse layout: cells by address.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"9e734e05b2983dfb23647ef435e11284eaf7eaa5f22b07aba0c363758f6148a6\",\n\"format\":\"csv\",\n\"name\":\"sparse-cells.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"Wide\",\n\"cells\":{\"A1\":\"x\",\n\"Z100\":\"far\",\n\"AA2\":2},\n\"merges\":[\"A1:B1\"],\n\"comments\":{\"A1\":\"a·note\"}}]}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "Wide",
+       "cells": {
+        "A1": "x",
+        "Z100": "far",
+        "AA2": 2
+       },
+       "merges": [
+        "A1:B1"
+       ],
+       "comments": {
+        "A1": "a note"
+       }
+      }
+     ]
+    },
+    "name": "sparse-cells.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "json-document",
+   "about": "A JSON document: key order, a typed big number, the \"$\" key escape.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"ed1c6b47b15cb991f98c9bce2414309f6a117046ff128e2a7f463cd3f86b5a53\",\n\"format\":\"json\",\n\"name\":\"json-document.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"json\",\n\"value\":{\"b\":1,\n\"a\":[{\"$\":\"n\",\n\"v\":\"12345678901234567890\"},null,true],\n\"$$\":\"was·the·key·$\"}}}]TGD1",
+   "expect": {
+    "model": {
+     "kind": "json",
+     "value": {
+      "b": 1,
+      "a": [
+       {
+        "$": "n",
+        "v": "12345678901234567890"
+       },
+       null,
+       true
+      ],
+      "$$": "was the key $"
+     }
+    },
+    "name": "json-document.csv",
+    "format": "json",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "whitespace-noise",
+   "about": "The typed-cells block with spaces and line breaks inserted at random places (an extractor may do this).",
+   "text": "TG D1[{\" tgd \":\"1.0\" ,\"sum\":\"5e5 79c d6ba95abfcd31ce9a972f7b27ef b8 b97dd8 e8 a 3e4 1 8 d3 766 b6302db08 a \", \" f or ma t\":\" csv\", \"name\":\"type d-cell s. csv\" ,\"created \":\"202 6- 01-01T00:00: 00Z\",\"by\":\"tg -data/ 1.0 \", \"r e ad\":\"T GD·1 :·JSON ,· each·middle ·dot ·sta nd s ·for·one·spa ce,·\\\\uXXXX· is·on e ·ch aracter.\",\"data\":{\" kind \" :\"w or kboo k\",\"sheets\":[ {\"name\":\"S\",\"row s\" :[[{\"$\":\" n\",\"v\":\"12 3456789 0123456 789 0\"}, {\" $\" : \"n\" ,\"v\":\" 1.1 0\"},{ \"$\":\" d\",\"v\": \"2024-03-0 5\"},{ \"$\":\"dt\",\"v\":\" 2024-03-05T14 :3 0:00 \"}, {\"$ \":\"t\" ,\"v \":\"0 9: 05 :30 \"} ,{ \"$\" :\"e\",\"v\":\"#DI V/0!\" },{\"$ \":\" f\",\" f\" :\"SUM(A1: A 2) \",\"v\":3},true,false , 0.1,-7]] }] } }] TGD1 ",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         {
+          "$": "n",
+          "v": "12345678901234567890"
+         },
+         {
+          "$": "n",
+          "v": "1.10"
+         },
+         {
+          "$": "d",
+          "v": "2024-03-05"
+         },
+         {
+          "$": "dt",
+          "v": "2024-03-05T14:30:00"
+         },
+         {
+          "$": "t",
+          "v": "09:05:30"
+         },
+         {
+          "$": "e",
+          "v": "#DIV/0!"
+         },
+         {
+          "$": "f",
+          "f": "SUM(A1:A2)",
+          "v": 3
+         },
+         true,
+         false,
+         0.1,
+         -7
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "typed-cells.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "prose-around",
+   "about": "A block inside prose: the decoder finds it.",
+   "text": "Intro text. TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"29aae02e5a22b95c47462a68746c23160d4e6a1cd5a6e906e8349c2a0ae16691\",\n\"format\":\"csv\",\n\"name\":\"minimal.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"a\",1,null]]}]}}]TGD1 Closing words.",
+   "expect": {
+    "model": {
+     "kind": "workbook",
+     "sheets": [
+      {
+       "name": "S",
+       "rows": [
+        [
+         "a",
+         1,
+         null
+        ]
+       ]
+      }
+     ]
+    },
+    "name": "minimal.csv",
+    "format": "csv",
+    "created": "2026-01-01T00:00:00Z"
+   }
+  },
+  {
+   "name": "tampered",
+   "about": "One changed character: the checksum fails.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"29aae02e5a22b95c47462a68746c23160d4e6a1cd5a6e906e8349c2a0ae16691\",\n\"format\":\"csv\",\n\"name\":\"minimal.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"b\",1,null]]}]}}]TGD1",
+   "expect": {
+    "error": "checksum"
+   }
+  },
+  {
+   "name": "unterminated",
+   "about": "No closing marker.",
+   "text": "TGD1[{\"tgd\":\"1.0\",\n\"sum\":\"29aae02e5a22b95c47462a68746c23160d4e6a1cd5a6e906e8349c2a0ae16691\",\n\"format\":\"csv\",\n\"name\":\"minimal.csv\",\n\"created\":\"2026-01-01T00:00:00Z\",\n\"by\":\"tg-data/1.0\",\n\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\n\"data\":{\"kind\":\"workbook\",\n\"sheets\":[{\"name\":\"S\",\n\"rows\":[[\"a\",1,null]]}]}}",
+   "expect": {
+    "error": "unterminated"
+   }
+  },
+  {
+   "name": "future-major",
+   "about": "A block of another major version is refused.",
+   "text": "TGD1[{\"tgd\":\"2.0\",\"sum\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"data\":{\"kind\":\"x\"}}]TGD1",
+   "expect": {
+    "error": "version"
+   }
+  },
+  {
+   "name": "no-block",
+   "about": "No block in the text.",
+   "text": "Only prose here.",
+   "expect": {
+    "error": "none"
+   }
+  }
+ ]
+}

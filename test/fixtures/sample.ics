@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//example//tg-data test//EN
+BEGIN:VEVENT
+UID:evt-1@example.org
+DTSTAMP:20261017T120000Z
+DTSTART;TZID=Europe/Zurich:20261101T090000
+DTEND;TZID=Europe/Zurich:20261101T100000
+SUMMARY:Kick-off\, Zürich
+DESCRIPTION:Agenda:\n1. Welcome\n2. Plan - a rather long line that has to be f
+ olded because it is longer than seventy-five octets in total.
+ATTENDEE;CN="Müller, Anna";ROLE=REQ-PARTICIPANT:mailto:anna@example.org
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+END:VCALENDAR
