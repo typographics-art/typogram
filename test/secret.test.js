@@ -56,3 +56,15 @@ test('secret: a letter the work does not contain is named, with the chars as the
   await assert.rejects(hideSecret(noY, 'hallo du bist sexy'), (e) => e.missing.length === 1 && e.missing[0] === 'y');
   assert.equal(await revealSecret(noY, await hideSecret(noY, 'hallo du bist sex')), 'hallo du bist sex');
 });
+
+test('secret: every refusal carries a stable code the UI can translate', async () => {
+  const text = 'Wer reitet so spät durch Nacht und Wind? '.repeat(3);
+  await assert.rejects(hideSecret(text, '   '), (e) => e.code === 'empty-secret');
+  await assert.rejects(hideSecret(text, 'xyz'), (e) => e.code === 'missing' && e.missing.includes('x'));
+  await assert.rejects(revealSecret(text, ''), (e) => e.code === 'no-key');
+  await assert.rejects(revealSecret(text, 'hello'), (e) => e.code === 'bad-prefix');
+  await assert.rejects(revealSecret(text, 'tg1.'), (e) => e.code === 'damaged');
+  await assert.rejects(revealSecret(text, 'tg1.$$$$'), (e) => e.code === 'damaged');
+  const key = await hideSecret(text, 'Wind');
+  await assert.rejects(revealSecret(text.replace('Wer', 'Wir'), key), (e) => e.code === 'wrong-text' && e.wrongText === true);
+});

@@ -1,7 +1,7 @@
 // Typographics Art — public API.
 // Pure modules work in Node and the browser; browser.js needs a DOM (fonts, canvas).
 export {
-  FONTS, WEIGHT_STEPS, STRETCH_KEYWORD, weightSteps, normalWidthIndex, variationsFor, googleFontsUrl,
+  FONTS, WEIGHT_STEPS, STRETCH_KEYWORD, weightSteps, normalWidthIndex, variationsFor, fontStylesheetUrl,
 } from './fonts.js';
 export { LEGIBILITY, PAPERS, DEFAULTS, levelFor } from './options.js';
 export { lorem } from './lorem.js';

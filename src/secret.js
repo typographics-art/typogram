@@ -57,11 +57,11 @@ function randomBelow(n, random) {
 export async function hideSecret(publicText, secret, { random = (a) => crypto.getRandomValues(a) } = {}) {
   const clusters = graphemes(canonicalText(publicText));
   const wanted = graphemes(normalizeText(String(secret).normalize('NFC')));
-  if (!wanted.length) throw new Error('The secret is empty');
+  if (!wanted.length) throw Object.assign(new Error('The secret is empty'), { code: 'empty-secret' });
   const where = new Map();
   clusters.forEach((c, i) => { if (!where.has(c)) where.set(c, []); where.get(c).push(i); });
   const missing = [...new Set(wanted.filter((c) => !where.has(c)))];
-  if (missing.length) throw Object.assign(new Error(`Not in the text: ${missing.map((c) => JSON.stringify(c)).join(' ')}`), { missing });
+  if (missing.length) throw Object.assign(new Error(`Not in the text: ${missing.map((c) => JSON.stringify(c)).join(' ')}`), { missing, code: 'missing' });
   const positions = wanted.map((c) => { const list = where.get(c); return list[randomBelow(list.length, random)]; });
   return PREFIX + b64url(new Uint8Array([...(await fingerprint(clusters)), ...varints(positions)]));
 }
@@ -72,15 +72,19 @@ export async function hideSecret(publicText, secret, { random = (a) => crypto.ge
  */
 export async function revealSecret(publicText, key) {
   const k = String(key).trim();
-  if (!k.startsWith(PREFIX)) throw new Error('Not a Typographics Art key (it starts with "tg1.")');
+  const damaged = () => Object.assign(new Error('The key is damaged'), { code: 'damaged' });
+  if (!k) throw Object.assign(new Error('Paste the key first (it starts with "tg1.")'), { code: 'no-key' });
+  if (!k.startsWith(PREFIX)) throw Object.assign(new Error('Not a Typographics Art key (it starts with "tg1.")'), { code: 'bad-prefix' });
   let bytes;
-  try { bytes = unb64url(k.slice(PREFIX.length)); } catch { throw new Error('The key is damaged'); }
-  if (bytes.length < 9) throw new Error('The key is damaged');
+  try { bytes = unb64url(k.slice(PREFIX.length)); } catch { throw damaged(); }
+  if (bytes.length < 9) throw damaged();
   const clusters = graphemes(canonicalText(publicText));
   const fp = await fingerprint(clusters);
-  if (fp.some((b, i) => b !== bytes[i])) throw Object.assign(new Error('This key belongs to a different work (or the text was changed)'), { wrongText: true });
-  return readVarints(bytes.slice(8)).map((p) => {
-    if (p >= clusters.length) throw new Error('The key is damaged');
+  if (fp.some((b, i) => b !== bytes[i])) throw Object.assign(new Error('This key belongs to a different work (or the text was changed)'), { wrongText: true, code: 'wrong-text' });
+  let positions;
+  try { positions = readVarints(bytes.slice(8)); } catch { throw damaged(); }
+  return positions.map((p) => {
+    if (p >= clusters.length) throw damaged();
     return clusters[p];
   }).join('');
 }

@@ -6,7 +6,7 @@
   "language": "en",
   "characters": 34841,
   "source": "Genesis 1–11, King James Version (1611), public domain; the Apollo 8 crew read Genesis 1:1–10 on 24 December 1968",
-  "licence": "Public domain",
+  "licence": "Public domain in the US (Crown patent in the UK)",
   "has": " (),.:;?ABCDEFGHIJKLMNOPRSTUWYZabcdefghijklmnopqrstuvwxyz’"
  },
  {
@@ -16,7 +16,7 @@
   "language": "en",
   "characters": 10686,
   "source": "Universal Declaration of Human Rights (1948), full text, United Nations",
-  "licence": "Public domain",
+  "licence": "United Nations text, freely reproducible (OHCHR)",
   "has": " ,-.0123456789;ACDEFGHIMNPRSTUWabcdefghijklmnopqrstuvwxyz"
  },
  {
@@ -204,10 +204,10 @@
   "title": "AGENTS.md",
   "group": "ai",
   "language": "en",
-  "characters": 3002,
+  "characters": 4495,
   "source": "Typographics Art",
   "licence": "MIT, Typographics Art contributors",
-  "has": " \"#'()*,-./01234568:;ABCDEFGHIKLMNOPRSTUV`abcdefghijklmnopqrstuvwxyz"
+  "has": " \"#'()*,-./01234568:;=>ABCDEFGHIKLMNOPRSTUVW_`abcdefghijklmnopqrstuvwxyz"
  },
  {
   "id": "example-code-review-agent",

@@ -1,5 +1,5 @@
 // Browser layer: measures glyphs with the real font, reads image pixels, renders PNG.
-import { FONTS, WEIGHT_STEPS, STRETCH_KEYWORD, weightSteps, variationsFor, normalWidthIndex, googleFontsUrl } from './fonts.js';
+import { FONTS, WEIGHT_STEPS, STRETCH_KEYWORD, weightSteps, variationsFor, normalWidthIndex } from './fonts.js';
 import { REF_SIZE, REF_RATIO, normalizeText, graphemes } from './layout.js';
 import { typesetWith } from './typeset.js';
 import { forEachGlyph, GLYPH_CSS } from './render.js';
@@ -67,17 +67,17 @@ export function measureGlyphs(fontKey, chars) {
 }
 
 /**
- * Makes sure the font is really available before measuring: adds its Google Fonts stylesheet
- * unless the page already links one for this family, then loads the face. Without this,
- * document.fonts.load() resolves silently and every metric comes from a fallback font.
+ * Makes sure the font is really available before measuring: adds the project's own font stylesheet
+ * (assets/fonts/fonts.css next to this module, so no third party is contacted and the CLI works offline)
+ * unless the page already links it, then loads the face. Without this, document.fonts.load() resolves
+ * silently and every metric comes from a fallback font.
  */
 export async function ensureFont(font) {
-  const family = font.googleFamily.split(':')[0];
-  const linked = [...document.querySelectorAll('link[rel="stylesheet"]')].find((l) => l.href.includes(`family=${family}:`));
+  const linked = [...document.querySelectorAll('link[rel="stylesheet"]')].find((l) => /\/assets\/fonts\/fonts\.css(\?|$)/.test(l.href));
   if (!linked) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = googleFontsUrl(font);
+    link.href = new URL('../assets/fonts/fonts.css', import.meta.url).href;
     await new Promise((resolve, reject) => {
       link.onload = resolve;
       link.onerror = () => reject(new Error(`Could not load the font stylesheet for ${font.label}`));

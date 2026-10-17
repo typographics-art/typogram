@@ -10,13 +10,19 @@ export const TXID = /^[0-9a-f]{64}$/;
  * @returns {{ ok: boolean, paidDgb: number, confirmations: number, reason?: string }}
  */
 export function evaluatePayment(tx, { address, minDgb, minConfirmations }) {
+  // Fail closed: a rule that is not a usable number would make every comparison below false (NaN).
+  if (!address || !(Number.isFinite(minDgb) && minDgb > 0) || !(Number.isInteger(minConfirmations) && minConfirmations >= 0)) {
+    return { ok: false, paidDgb: 0, confirmations: 0, reason: 'invalid_rules' };
+  }
   let sats = 0;
   for (const out of tx?.vout || []) {
     const spk = out.scriptPubKey || {};
     const addresses = spk.address ? [spk.address] : spk.addresses || [];
     if (addresses.includes(address)) sats += Math.round(Number(out.value) * 1e8);
   }
-  const paidDgb = sats / 1e8, confirmations = tx?.confirmations || 0;
+  const confirmations = Number.isInteger(tx?.confirmations) ? tx.confirmations : 0;
+  if (!Number.isSafeInteger(sats) || sats < 0) return { ok: false, paidDgb: 0, confirmations, reason: 'invalid_transaction' };
+  const paidDgb = sats / 1e8;
   if (sats === 0) return { ok: false, paidDgb, confirmations, reason: 'no_output_to_address' };
   if (sats < Math.round(minDgb * 1e8)) return { ok: false, paidDgb, confirmations, reason: 'amount_too_low' };
   if (confirmations < minConfirmations) return { ok: false, paidDgb, confirmations, reason: 'not_confirmed' };

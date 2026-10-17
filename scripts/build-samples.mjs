@@ -44,7 +44,7 @@ const add = (s) => {
 
 // 1. Public-domain works of the gallery.
 for (const w of json('gallery/works.config.json')) {
-  add({ id: `gallery-${w.id}`, title: `${w.title}`, group: 'works', text: w.text, source: w.source, licence: 'Public domain' });
+  add({ id: `gallery-${w.id}`, title: `${w.title}`, group: 'works', text: w.text, source: w.source, licence: w.licence || 'Public domain' });
 }
 
 // 2. Chosen texts of the examples (their raw source text is published next to each one-pager).

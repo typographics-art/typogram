@@ -2,7 +2,7 @@
 // exactly this text (src/secret.js). SVG and HTML: the text without markup. PDF: pdf.js in the browser
 // (readWorkFile), MuPDF in the CLI; both give the same canonical text (measured on all 31 example PDFs).
 
-const PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/';
+const PDFJS = new URL('../assets/vendor/pdfjs/', import.meta.url).href; // pdf.js 4.4.168, Apache-2.0, hosted with the project
 
 const ENTITIES = { lt: '<', gt: '>', quot: '"', apos: "'", amp: '&' };
 const decodeEntities = (s) => s.replace(/&(#x[0-9a-f]+|#\d+|lt|gt|quot|apos|amp);/gi, (m, e) =>

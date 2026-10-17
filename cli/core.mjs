@@ -9,7 +9,7 @@ import { join, normalize, extname, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json', '.css': 'text/css' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json', '.css': 'text/css', '.woff2': 'font/woff2' };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function findChrome() {
@@ -26,9 +26,12 @@ export function findChrome() {
 /** Serves the repository read-only on a random local port. */
 function serveRoot() {
   const server = createServer(async (req, res) => {
-    const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^([/\\])+/, '');
+    let path;
+    try { path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^([/\\])+/, ''); } catch { res.writeHead(400); res.end(); return; } // a malformed %-escape must not end the process
     const file = join(ROOT, path);
     if (!(file + sep).startsWith(ROOT + sep) && file !== ROOT) { res.writeHead(403); res.end(); return; }
+    // The pages render from src/, cli/ and the fonts; nothing else of the repository has to be reachable.
+    if (/^(\.|api[/\\]|test[/\\]|node_modules[/\\])/.test(path)) { res.writeHead(403); res.end(); return; }
     try {
       const body = await readFile(file);
       res.writeHead(200, { 'content-type': TYPES[extname(file)] || 'application/octet-stream' });
@@ -41,13 +44,18 @@ function serveRoot() {
 async function connect(wsUrl) {
   const ws = new WebSocket(wsUrl);
   await new Promise((resolve, reject) => { ws.onopen = resolve; ws.onerror = () => reject(new Error('Could not connect to Chrome')); });
-  let id = 0;
+  let id = 0, gone = false;
   const pending = new Map();
   ws.onmessage = (e) => {
     const m = JSON.parse(e.data);
     if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); }
   };
+  // If Chrome dies or the connection drops, every request still waiting must fail: otherwise the caller waits for ever.
+  const failAll = () => { gone = true; for (const answer of pending.values()) answer({ error: { message: 'Chrome closed the connection' } }); pending.clear(); };
+  ws.onclose = failAll;
+  ws.onerror = failAll;
   const send = (method, params = {}) => new Promise((resolve, reject) => {
+    if (gone) return reject(new Error(`${method}: Chrome closed the connection`));
     const i = ++id;
     pending.set(i, (m) => (m.error ? reject(new Error(`${method}: ${m.error.message}`)) : resolve(m.result)));
     ws.send(JSON.stringify({ id: i, method, params }));
@@ -62,7 +70,7 @@ export async function openSession({ chrome = findChrome() } = {}) {
   const server = await serveRoot();
   const profile = mkdtempSync(join(tmpdir(), 'tg-art-'));
   const args = ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--hide-scrollbars', 'about:blank'];
-  // Containers without user namespaces (e.g. the paid API in Kubernetes) cannot run Chrome's sandbox,
+  // Containers without user namespaces (e.g. a container) cannot run Chrome's sandbox,
   // and their /dev/shm is small.
   if (process.getuid?.() === 0 || process.env.CHROME_NO_SANDBOX) args.unshift('--no-sandbox', '--disable-dev-shm-usage');
   const proc = spawn(chrome, args, { stdio: 'ignore' });
@@ -71,16 +79,21 @@ export async function openSession({ chrome = findChrome() } = {}) {
     await sleep(100);
     try { port = readFileSync(join(profile, 'DevToolsActivePort'), 'utf8').split('\n')[0]; } catch { /* not written yet */ }
   }
-  if (!port) { proc.kill(); server.close(); throw new Error('Chrome did not start'); }
-  const targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json();
-  const cdp = await connect(targets.find((t) => t.type === 'page').webSocketDebuggerUrl);
-  await cdp.send('Page.enable');
-  await cdp.send('Page.navigate', { url: `http://127.0.0.1:${server.address().port}/cli/render.html` });
-  for (let i = 0; i < 100; i++) {
-    const r = await cdp.send('Runtime.evaluate', { expression: 'window.tgReady === true', returnByValue: true });
-    if (r.result.value) break;
-    await sleep(100);
-  }
+  const abandon = () => { proc.kill(); server.close(); rmSync(profile, { recursive: true, force: true }); };
+  if (!port) { abandon(); throw new Error('Chrome did not start'); }
+  let cdp;
+  try {
+    const targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json();
+    cdp = await connect(targets.find((t) => t.type === 'page').webSocketDebuggerUrl);
+    await cdp.send('Page.enable');
+    await cdp.send('Page.navigate', { url: `http://127.0.0.1:${server.address().port}/cli/render.html` });
+    let ready = false;
+    for (let i = 0; i < 100 && !ready; i++) {
+      ready = (await cdp.send('Runtime.evaluate', { expression: 'window.tgReady === true', returnByValue: true })).result.value;
+      if (!ready) await sleep(100);
+    }
+    if (!ready) throw new Error('The render page did not become ready (is the font stylesheet reachable?)');
+  } catch (e) { cdp?.close(); abandon(); throw e; }
 
   return {
     /**
@@ -140,47 +153,50 @@ export async function openSession({ chrome = findChrome() } = {}) {
     async printPosterRaw(file, { lines, characters, mmPerPx, glyphsPerStrip = 220000, tagged = false }) {
       if (!has('mutool')) throw new Error('Printing a PDF needs MuPDF (mutool): it checks every strip and assembles the page at its exact size.');
       const dir = mkdtempSync(join(tmpdir(), 'tg-art-strips-'));
-      // Chrome (measured with 154) sometimes leaves single glyphs out of a large print job, depending on the
-      // text printed before them in the same job. Every strip is therefore read back and compared with its
-      // lines; a strip that lost anything, or whose content stream has more tokens than pypdf reads, is
-      // split in half and printed again, down to single lines.
-      const n = Math.max(1, Math.ceil(characters / glyphsPerStrip)), per = Math.ceil(lines / n);
-      const todo = [];
-      for (let from = 0; from < lines; from += per) todo.push([from, Math.min(lines, from + per)]);
-      const done = [];
-      let reprints = 0;
-      while (todo.length) {
-        const [from, to] = todo.shift();
-        const size = await this.call('tgPrintStrip', from, to, mmPerPx);
-        const f = join(dir, `strip-${from}-${to}.pdf`);
-        // Chrome rounds page sizes (measured: up to 0.22 mm, and 210 mm became 209.89 mm). Print each strip
-        // 2 mm taller than its content; the assembly keeps exactly the content height at the exact offset and
-        // gives the page its exact size, so even a single strip goes through it.
-        writeFileSync(f, await this.pdf(size.widthMm, size.heightMm + 2, { tagged }));
-        const want = visibleText((await this.call('tgLineTexts', from, to)).join(''));
-        const got = visibleText(spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', f], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout);
-        const tokens = Number(spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-tokens.js'), f], { encoding: 'utf8' }).stdout);
-        if (got !== want || tokens > MAX_STREAM_TOKENS) {
-          if (to - from === 1) throw new Error(`Line ${from} does not read back from the PDF even when printed on its own`);
-          const mid = Math.floor((from + to) / 2);
-          todo.unshift([from, mid], [mid, to]);
-          reprints++;
-          continue;
+      try {
+        // Chrome (measured with 154) sometimes leaves single glyphs out of a large print job, depending on the
+        // text printed before them in the same job. Every strip is therefore read back and compared with its
+        // lines; a strip that lost anything, or whose content stream has more tokens than pypdf reads, is
+        // split in half and printed again, down to single lines.
+        const n = Math.max(1, Math.ceil(characters / glyphsPerStrip)), per = Math.ceil(lines / n);
+        const todo = [];
+        for (let from = 0; from < lines; from += per) todo.push([from, Math.min(lines, from + per)]);
+        const done = [];
+        let reprints = 0;
+        while (todo.length) {
+          const [from, to] = todo.shift();
+          const size = await this.call('tgPrintStrip', from, to, mmPerPx);
+          const f = join(dir, `strip-${from}-${to}.pdf`);
+          // Chrome rounds page sizes (measured: up to 0.22 mm, and 210 mm became 209.89 mm). Print each strip
+          // 2 mm taller than its content; the assembly keeps exactly the content height at the exact offset and
+          // gives the page its exact size, so even a single strip goes through it.
+          writeFileSync(f, await this.pdf(size.widthMm, size.heightMm + 2, { tagged }));
+          const want = visibleText((await this.call('tgLineTexts', from, to)).join(''));
+          const got = visibleText(spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', f], { encoding: 'utf8', maxBuffer: 1 << 28, timeout: TOOL_TIMEOUT_MS }).stdout);
+          const tokens = Number(spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-tokens.js'), f], { encoding: 'utf8', timeout: TOOL_TIMEOUT_MS }).stdout);
+          if (got !== want || tokens > MAX_STREAM_TOKENS) {
+            if (to - from === 1) throw new Error(`Line ${from} does not read back from the PDF even when printed on its own`);
+            const mid = Math.floor((from + to) / 2);
+            todo.unshift([from, mid], [mid, to]);
+            reprints++;
+            continue;
+          }
+          done.push({ from, f, size });
         }
-        done.push({ from, f, size });
+        done.sort((a, b) => a.from - b.from);
+        const parts = [];
+        let topPt = 0, widthPt = 0;
+        for (const { f, size } of done) {
+          const contentPt = (size.heightMm * 72) / 25.4;
+          parts.push(f, String(topPt), String(contentPt));
+          topPt += contentPt; widthPt = (size.widthMm * 72) / 25.4;
+        }
+        const r = spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-assemble.js'), file, String(widthPt), String(topPt), ...parts], { encoding: 'utf8', timeout: TOOL_TIMEOUT_MS });
+        if (r.status !== 0) throw new Error(`Assembling the PDF failed: ${r.stderr || r.stdout}`);
+        return { widthMm: (widthPt * 25.4) / 72, heightMm: (topPt * 25.4) / 72, strips: done.length, reprints };
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
       }
-      done.sort((a, b) => a.from - b.from);
-      const parts = [];
-      let topPt = 0, widthPt = 0;
-      for (const { f, size } of done) {
-        const contentPt = (size.heightMm * 72) / 25.4;
-        parts.push(f, String(topPt), String(contentPt));
-        topPt += contentPt; widthPt = (size.widthMm * 72) / 25.4;
-      }
-      const r = spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-assemble.js'), file, String(widthPt), String(topPt), ...parts], { encoding: 'utf8' });
-      rmSync(dir, { recursive: true, force: true });
-      if (r.status !== 0) throw new Error(`Assembling the PDF failed: ${r.stderr || r.stdout}`);
-      return { widthMm: (widthPt * 25.4) / 72, heightMm: (topPt * 25.4) / 72, strips: done.length, reprints };
     },
     /** Screenshot of a repository page (path relative to the repo root) at the given viewport size. */
     async screenshot(path, width, height) {
@@ -219,6 +235,9 @@ export const visibleText = (t) => t.replace(INVISIBLE, '').replace(/\s/g, '');
  * grey one-pager). The text layer is unchanged. Each step is skipped when its tool is missing; the result
  * is kept only if smaller. Returns { bytesBefore, bytesAfter, optimized }.
  */
+/** Longest an external tool (MuPDF, qpdf) may run before it is stopped: a damaged or huge PDF must not hang the process. */
+export const TOOL_TIMEOUT_MS = 180000;
+
 export function optimizePdf(file) {
   const before = statSync(file).size;
   let current = file;
@@ -226,11 +245,11 @@ export function optimizePdf(file) {
   // Round Chrome's Type 3 glyph outlines to whole units (cli/pdf-slim.js), then repack with qpdf.
   if (has('mutool')) {
     const slim = file + '.slim';
-    if (spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-slim.js'), current, slim]).status === 0) { tmp.push(slim); current = slim; }
+    if (spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-slim.js'), current, slim], { timeout: TOOL_TIMEOUT_MS }).status === 0) { tmp.push(slim); current = slim; }
   }
   if (has('qpdf')) {
     const packed = file + '.qpdf';
-    const r = spawnSync('qpdf', ['--object-streams=generate', '--compress-streams=y', '--recompress-flate', '--compression-level=9', current, packed]);
+    const r = spawnSync('qpdf', ['--object-streams=generate', '--compress-streams=y', '--recompress-flate', '--compression-level=9', current, packed], { timeout: TOOL_TIMEOUT_MS });
     if (r.status === 0 || r.status === 3) { tmp.push(packed); current = packed; }
   }
   const after = current === file ? before : statSync(current).size;

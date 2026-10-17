@@ -107,6 +107,7 @@ md += `The document is fictional on purpose: a model cannot fill gaps from prior
 md += `| Format | Size | Word recall | Facts kept | ≈ tokens | Read with |\n|---|---|---|---|---|---|\n`;
 const reader = { 'Markdown': 'the file itself', 'Ordinary PDF': 'MuPDF text layer', 'Typographics Art PDF': 'MuPDF text layer', 'Typographics Art as a flat image (OCR)': 'Tesseract OCR' };
 for (const r of results) md += `| ${r.name} | ${kb(r.bytes)} | ${pct(r.wordRecall)} | ${r.factsFound}/${r.factsTotal} | ${r.approxTokens} | ${reader[r.name]} |\n`;
+md += `\nThe flat-image row is far lower than the OCR results in [ai-readability.md](ai-readability.md) (68.8 to 99.6 % of the words) because the conditions differ: here Tesseract reads the one-pager's preview PNG, which puts the whole document (${srcCanon.length.toLocaleString('en-US').replace(/,/g, ' ')} characters) on one A4 page in tiny type, while ai-readability.md reads a render at 2× of a picture set at a legible size.\n`;
 md += `\n## The planted facts, per format\n\n| Fact | ${results.map((r) => r.name).join(' | ')} |\n|${'---|'.repeat(results.length + 1)}\n`;
 for (let i = 0; i < FACTS.length; i++) md += `| ${FACTS[i].k} | ${results.map((r) => (r.facts[i].found ? '✓' : '✗')).join(' | ')} |\n`;
 md += `\n## What it shows\n\n`;

@@ -1,4 +1,4 @@
-// The one typeface Typographics Art sets with (operator decision 2026-10-17, measured in docs/file-size.md):
+// The one typeface Typographics Art sets with (chosen by measurement, see docs/file-size.md):
 // Roboto Flex — even, very legible, and with weights 100–1000 the widest tonal range of the variable Google
 // fonts; weight carries the brightness of the picture. More families gave larger PDFs and no better picture. `variations` pins the optical size so that glyph
 // advances scale linearly with font size (measurements are taken at one reference size).
@@ -11,7 +11,7 @@ export const FONTS = {
     weights: [100, 1000],
     widths: [75, 100, 125],
     variations: "'opsz' 40",
-    googleFamily: 'Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000',
+    family: 'Roboto Flex',
   },
 };
 
@@ -37,6 +37,11 @@ export function variationsFor(font, width = 100) {
   return parts.join(', ') || 'normal';
 }
 
-export function googleFontsUrl(font) {
-  return `https://fonts.googleapis.com/css2?family=${font.googleFamily}&display=swap`;
+/**
+ * The stylesheet exported SVG and HTML files import for the font: the copy hosted with the project, so that
+ * opening an exported file contacts typographics-art.org and no third party. (The pages themselves, the CLI and
+ * the paid API load the same files from their own copy, see `ensureFont` in browser.js.)
+ */
+export function fontStylesheetUrl() {
+  return 'https://typographics-art.org/assets/fonts/fonts.css';
 }
