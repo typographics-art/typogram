@@ -105,4 +105,9 @@ node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png pre
 Short titles work best: the fewer characters a document has, the coarser the picture its letters can form.
 `;
 writeFileSync(join(DIR, 'README.md'), md);
+writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
+  id: r.id, document: r.document, category: r.category, licence: r.licence, url: r.url, sourcePages: r.sourcePages,
+  words: r.words, characters: r.characters, fontSizeMm: r.fontSizeMm, readBack: r.check,
+  title: (all.find((x) => x.id === r.id) || {}).title?.replace(/\u00ad/g, ''),
+})), null, 2) + '\n');
 log(`README.md: ${rows.length} examples`);

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "ch-bundesverfassung",
+    "document": "Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024",
+    "category": "law",
+    "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
+    "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
+    "sourcePages": 102,
+    "words": 31129,
+    "characters": 228576,
+    "fontSizeMm": 0.789,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 197448,
+      "sha256Source": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964",
+      "sha256ReadBack": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964"
+    },
+    "title": "Bundesverfassung"
+  },
+  {
+    "id": "de-grundgesetz",
+    "document": "Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de",
+    "category": "law",
+    "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
+    "url": "https://www.gesetze-im-internet.de/gg/GG.pdf",
+    "sourcePages": 51,
+    "words": 26180,
+    "characters": 190286,
+    "fontSizeMm": 0.844,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 164107,
+      "sha256Source": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6",
+      "sha256ReadBack": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6"
+    },
+    "title": "Grundgesetz"
+  },
+  {
+    "id": "us-constitution",
+    "document": "The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)",
+    "category": "law",
+    "licence": "Public domain (work of the United States Government)",
+    "url": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
+    "sourcePages": 85,
+    "words": 44527,
+    "characters": 303928,
+    "fontSizeMm": 0.709,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 259402,
+      "sha256Source": "2018c0b7bc30a6d304340780e9e6d202903f09fde7f9e7d9b63a0363bce22ba9",
+      "sha256ReadBack": "2018c0b7bc30a6d304340780e9e6d202903f09fde7f9e7d9b63a0363bce22ba9"
+    },
+    "title": "Constitution"
+  },
+  {
+    "id": "eu-ai-act",
+    "document": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal",
+    "category": "law",
+    "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
+    "url": "http://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
+    "sourcePages": 144,
+    "words": 91421,
+    "characters": 595706,
+    "fontSizeMm": 0.488,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": false,
+      "visibleIdentical": true,
+      "visibleCharacters": 504285,
+      "sha256Source": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0",
+      "sha256ReadBack": "c50683aae1982de735acf2486b96406ad40ee1710e49941c2c3386a7cc1bdba6"
+    },
+    "title": "AI Act"
+  },
+  {
+    "id": "un-human-rights",
+    "document": "Universal Declaration of Human Rights, English text, OHCHR",
+    "category": "declaration",
+    "licence": "United Nations text, freely reproducible",
+    "url": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
+    "sourcePages": 8,
+    "words": 1779,
+    "characters": 10733,
+    "fontSizeMm": 3.648,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 8955,
+      "sha256Source": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb",
+      "sha256ReadBack": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb"
+    },
+    "title": "Human Rights"
+  },
+  {
+    "id": "pep-8",
+    "document": "PEP 8 – Style Guide for Python Code (reStructuredText source)",
+    "category": "ai-instructions",
+    "licence": "Public domain (stated in the document)",
+    "url": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst",
+    "sourcePages": null,
+    "words": 7153,
+    "characters": 47423,
+    "fontSizeMm": 1.712,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 40271,
+      "sha256Source": "e1778526123f3ec57706806ab6effdafc87a6fc2e92a300b14f3bfdd85f12122",
+      "sha256ReadBack": "e1778526123f3ec57706806ab6effdafc87a6fc2e92a300b14f3bfdd85f12122"
+    },
+    "title": "PEP 8"
+  },
+  {
+    "id": "code-review-agent",
+    "document": "Code review agent: operating instructions (written for this repository)",
+    "category": "ai-instructions",
+    "licence": "MIT, Typographic Art contributors",
+    "url": null,
+    "sourcePages": null,
+    "words": 594,
+    "characters": 3514,
+    "fontSizeMm": 6.265,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 2921,
+      "sha256Source": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3",
+      "sha256ReadBack": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3"
+    },
+    "title": "Code Review"
+  },
+  {
+    "id": "support-assistant",
+    "document": "Customer support assistant: policy (fictional shop, written for this repository)",
+    "category": "ai-instructions",
+    "licence": "MIT, Typographic Art contributors",
+    "url": null,
+    "sourcePages": null,
+    "words": 557,
+    "characters": 3165,
+    "fontSizeMm": 6.628,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 2609,
+      "sha256Source": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533",
+      "sha256ReadBack": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533"
+    },
+    "title": "Support"
+  },
+  {
+    "id": "research-assistant",
+    "document": "Research assistant: rules for sources and claims (written for this repository)",
+    "category": "ai-instructions",
+    "licence": "MIT, Typographic Art contributors",
+    "url": null,
+    "sourcePages": null,
+    "words": 444,
+    "characters": 2625,
+    "fontSizeMm": 7.306,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 2182,
+      "sha256Source": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
+      "sha256ReadBack": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9"
+    },
+    "title": "Research"
+  },
+  {
+    "id": "agents-md",
+    "document": "AGENTS.md of this repository",
+    "category": "ai-instructions",
+    "licence": "MIT, Typographic Art contributors",
+    "url": null,
+    "sourcePages": null,
+    "words": 462,
+    "characters": 2967,
+    "fontSizeMm": 6.785,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 2506,
+      "sha256Source": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1",
+      "sha256ReadBack": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1"
+    },
+    "title": "AGENTS.md"
+  }
+]

@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://typographics-art.org">Auf typographics-art.org ausprobieren</a> ·
+  <a href="https://typographics-art.org/app.html">Auf typographics-art.org ausprobieren</a> ·
   <a href="https://typographics-art.org/gallery.html">Galerie</a> ·
   <a href="docs/technique.md">Definition</a> ·
   <a href="docs/ai-readability.md">KI-Lesbarkeit</a> ·
@@ -117,7 +117,7 @@ Details und Formeln: [docs/algorithm.md](docs/algorithm.md) (Englisch).
 
 ### Im Browser
 
-Auf **[typographics-art.org](https://typographics-art.org)** Text einfügen, Foto hineinziehen. Vorlagen: *KI-sicher* (immer lesbar), *Porträt*, *Plakat*. Export als HTML, SVG, PNG oder Drucken als PDF. Alles läuft lokal, nichts wird hochgeladen.
+Auf **[typographics-art.org/app.html](https://typographics-art.org/app.html)** Text einfügen, Foto hineinziehen. Vorlagen: *KI-sicher* (immer lesbar), *Porträt*, *Plakat*. Export als HTML, SVG, PNG oder Drucken als PDF. Alles läuft lokal, nichts wird hochgeladen.
 
 ### Als Bibliothek und auf der Befehlszeile
 

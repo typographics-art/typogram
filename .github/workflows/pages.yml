@@ -32,12 +32,7 @@ jobs:
       - name: Build demonstrator zoom tiles
         run: node demo/moby-dick/build.mjs zoom
       - name: Assemble site
-        run: |
-          mkdir -p _site/demo/moby-dick/out
-          cp -r index.html gallery.html src gallery assets CNAME docs _site/
-          rm _site/gallery/works.config.json
-          cp demo/moby-dick/index.html demo/moby-dick/source.txt demo/moby-dick/proof.json demo/moby-dick/lines.json demo/moby-dick/preview.jpg _site/demo/moby-dick/
-          cp -r demo/moby-dick/out/zoom _site/demo/moby-dick/out/
+        run: node scripts/build-site.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

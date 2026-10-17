@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://typographics-art.org">Try it on typographics-art.org</a> ·
+  <a href="https://typographics-art.org/app.html">Try it on typographics-art.org</a> ·
   <a href="https://typographics-art.org/gallery.html">Gallery</a> ·
   <a href="docs/technique.md">Definition</a> ·
   <a href="docs/ai-readability.md">AI readability</a> ·
@@ -121,7 +121,7 @@ Details and formulas: [docs/algorithm.md](docs/algorithm.md).
 
 ### In the browser
 
-Go to **[typographics-art.org](https://typographics-art.org)**, paste a text, drop a photo. Presets: *AI-safe* (always legible), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF. Everything runs locally; nothing is uploaded.
+Go to **[typographics-art.org/app.html](https://typographics-art.org/app.html)**, paste a text, drop a photo. Presets: *AI-safe* (always legible), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF. Everything runs locally; nothing is uploaded.
 
 ### As a library
 
