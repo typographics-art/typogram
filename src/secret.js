@@ -10,8 +10,11 @@ import { normalizeText, graphemes } from './layout.js';
 const PREFIX = 'tg1.';
 const INVISIBLE = /\p{Default_Ignorable_Code_Point}/gu;
 
-/** The text both sides index into: normalised whitespace, no invisible characters (PDFs do not carry them). */
-export const canonicalText = (text) => normalizeText(String(text).replace(INVISIBLE, ''));
+/**
+ * The text both sides index into: normalised whitespace, no invisible characters (PDFs do not carry them), NFC
+ * (PDF readers order stacked combining marks differently: MuPDF and pdf.js disagree without it).
+ */
+export const canonicalText = (text) => normalizeText(String(text).replace(INVISIBLE, '').normalize('NFC'));
 
 async function fingerprint(clusters) {
   const bytes = new TextEncoder().encode(clusters.join(''));
@@ -53,7 +56,7 @@ function randomBelow(n, random) {
  */
 export async function hideSecret(publicText, secret, { random = (a) => crypto.getRandomValues(a) } = {}) {
   const clusters = graphemes(canonicalText(publicText));
-  const wanted = graphemes(normalizeText(String(secret)));
+  const wanted = graphemes(normalizeText(String(secret).normalize('NFC')));
   if (!wanted.length) throw new Error('The secret is empty');
   const where = new Map();
   clusters.forEach((c, i) => { if (!where.has(c)) where.set(c, []); where.get(c).push(i); });

@@ -33,3 +33,19 @@ test('secret: a damaged or foreign key is refused', async () => {
   await assert.rejects(revealSecret(PUBLIC, 'hello'), /tg1\./);
   await assert.rejects(revealSecret(PUBLIC, 'tg1.AAAA'), /damaged/);
 });
+
+test('secret: stacked combining marks in another order still fit (PDF readers differ, NFC)', async () => {
+  const text = PUBLIC + ' café á̧';
+  const key = await hideSecret(text, 'é');
+  assert.equal(await revealSecret(text.normalize('NFD'), key), 'é');
+});
+
+test('work text: SVG, HTML and pdf.js items give the work\'s public text', async () => {
+  const { markupText, pdfItemsText, canonicalText } = await import('../src/index.js');
+  const svg = '<svg><style>@import url(x)</style><rect/><text><tspan x="1" y="2">Fish &amp; </tspan><tspan x="1" y="9">chips &lt;3</tspan></text></svg>';
+  assert.equal(markupText(svg, 'svg'), 'Fish & chips <3');
+  const html = '<link rel="stylesheet" href="x"><style>a{}</style><div><div><span>caf&#233; </span></div><div><span>au lait</span></div></div>';
+  assert.equal(markupText(html, 'html'), 'café au lait');
+  const item = (str, y, hasEOL = false) => ({ str, hasEOL, transform: [10, 0, 0, 10, 0, y] });
+  assert.equal(canonicalText(pdfItemsText([[item('public interest', 100), item('unless', 88)], [item('end', 50, true)]])), 'public interest unless end');
+});

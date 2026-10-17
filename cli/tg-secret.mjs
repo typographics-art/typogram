@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { extname } from 'node:path';
 import { parseArgs } from 'node:util';
-import { hideSecret, revealSecret } from '../src/index.js';
+import { hideSecret, revealSecret, markupText } from '../src/index.js';
 import { readDocument } from './onepage-core.mjs';
 
 const HELP = `Usage:
@@ -24,10 +24,8 @@ function workText(path) {
   const ext = extname(path).toLowerCase();
   if (ext === '.pdf') return readDocument(path).text;
   const raw = readFileSync(path, 'utf8');
-  if (ext === '.svg' || ext === '.html' || ext === '.htm') {
-    const body = ext === '.svg' ? raw.slice(raw.indexOf('<text'), raw.lastIndexOf('</text>')) : raw.replace(/<(script|style)[\s\S]*?<\/\1>/g, '');
-    return body.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
-  }
+  if (ext === '.svg') return markupText(raw, 'svg');
+  if (ext === '.html' || ext === '.htm') return markupText(raw, 'html');
   return raw;
 }
 
