@@ -10,6 +10,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openSession } from '../cli/core.mjs';
 import { makeOnePage } from '../cli/onepage-core.mjs';
+import { absolutize } from './absolute-links.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'about');
@@ -39,7 +40,7 @@ This file contains the README and the main documents of the open-source project 
 
 `;
 for (const [file, title] of PARTS) {
-  md += `\n---\n\n<!-- ${file} -->\n\n## ${title}\n\n${clean(readFileSync(join(ROOT, file), 'utf8'))}\n`;
+  md += `\n---\n\n<!-- ${file} -->\n\n## ${title}\n\n${absolutize(clean(readFileSync(join(ROOT, file), 'utf8')), file)}\n`;
 }
 mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, 'typographics-art.md'), md);

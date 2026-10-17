@@ -70,7 +70,7 @@ export async function openSession({ chrome = findChrome() } = {}) {
   const server = await serveRoot();
   const profile = mkdtempSync(join(tmpdir(), 'tg-art-'));
   const args = ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--hide-scrollbars', 'about:blank'];
-  // Containers without user namespaces (e.g. the paid API in Kubernetes) cannot run Chrome's sandbox,
+  // Containers without user namespaces (e.g. a container) cannot run Chrome's sandbox,
   // and their /dev/shm is small.
   if (process.getuid?.() === 0 || process.env.CHROME_NO_SANDBOX) args.unshift('--no-sandbox', '--disable-dev-shm-usage');
   const proc = spawn(chrome, args, { stdio: 'ignore' });

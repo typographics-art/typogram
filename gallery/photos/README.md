@@ -1,6 +1,6 @@
 # Photos of the gallery
 
-The original images behind the gallery works, shown on the gallery page with the "Original" switch. All are in the public domain; the licence was read from each file's Wikimedia Commons record, and the texts come from Project Gutenberg, Wikisource and the United Nations.
+The original images behind the gallery works, shown on the gallery page with the "Original" switch. All images are in the public domain; the licence was read from each file's Wikimedia Commons record. The texts come from Project Gutenberg, Wikisource and the United Nations, and are public domain with two notes: the Universal Declaration of Human Rights (The Blue Marble) is a United Nations text that the OHCHR states is freely reproducible, which is not the same as public domain; and the King James Bible (Earthrise) is public domain in the United States but under a Crown patent in the United Kingdom. All third-party material of the project is listed in [NOTICE.md](../../NOTICE.md).
 
 | File | Work | Image | Source |
 |---|---|---|---|
