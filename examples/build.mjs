@@ -13,6 +13,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openSession } from '../cli/core.mjs';
 import { readDocument, makeOnePage, motifSource } from '../cli/onepage-core.mjs';
+import { canonicalText, sha256Hex } from '../src/index.js';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const CACHE = join(DIR, '.cache');
@@ -54,11 +55,14 @@ try {
       sizeFactor: r.pdfBytes ? +(r.pdfBytes / bytes.length).toFixed(2) : null,
       motif: ex.motif || null, motifCredit: ex.motifCredit || null,
     };
-    // Publish the raw source text (with its line breaks, which the picture cannot carry) so that
-    // work.html can show the structured Read view and the Machine checksum for this one-pager.
-    // scripts/publish-sources.mjs re-verifies the binding and stamps textSha256 into index.json.
+    // Publish the raw source text (with its line breaks, which the picture cannot carry) so that work.html can show
+    // the structured Read view and the Machine checksum for this one-pager. The binding is checked here: the canonical
+    // checksum of the source text must equal that of the text read back out of the finished PDF.
     writeFileSync(join(out, 'source.txt'), doc.text);
     record.text = 'source.txt';
+    record.textSha256 = await sha256Hex(canonicalText(doc.text));
+    record.textMatchesArt = (await sha256Hex(canonicalText(readDocument(join(out, 'onepage.pdf')).text))) === record.textSha256;
+    if (!record.textMatchesArt) throw new Error(`${ex.id}: the text read back from the PDF differs from the source text`);
     writeFileSync(join(out, 'check.json'), JSON.stringify(record, null, 2) + '\n');
     log(`${ex.id}: ${r.characters.toLocaleString('en-US')} characters, type ${r.fontSizeMm} mm, PDF ${(r.pdfBytes / 1048576).toFixed(2)} MB ` +
       `(source ${(bytes.length / 1048576).toFixed(2)} MB, unoptimized ${(r.pdfBytesUnoptimized / 1048576).toFixed(2)} MB), read back: ${r.check.pages} page, ` +
@@ -70,7 +74,19 @@ try {
 }
 
 // README with a table of all examples that have been built.
-const rows = all.filter((ex) => existsSync(join(DIR, ex.id, 'check.json'))).map((ex) => JSON.parse(readFileSync(join(DIR, ex.id, 'check.json'), 'utf8')));
+const rows = [];
+for (const ex of all) {
+  if (!existsSync(join(DIR, ex.id, 'check.json'))) continue;
+  const r = JSON.parse(readFileSync(join(DIR, ex.id, 'check.json'), 'utf8'));
+  // Examples built earlier get the same stamp as a fresh build: the published source text and its binding to the PDF.
+  const text = join(DIR, ex.id, 'source.txt'), pdf = join(DIR, ex.id, 'onepage.pdf');
+  if (!r.textSha256 && existsSync(text) && existsSync(pdf)) {
+    r.text = 'source.txt';
+    r.textSha256 = await sha256Hex(canonicalText(readFileSync(text, 'utf8')));
+    r.textMatchesArt = (await sha256Hex(canonicalText(readDocument(pdf).text))) === r.textSha256;
+  }
+  rows.push(r);
+}
 const cat = { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions', 'agent-library': 'Agent library' };
 const fmt = (n) => n.toLocaleString('en-US');
 let md = `# Examples: whole documents on one page
@@ -138,7 +154,7 @@ writeFileSync(join(DIR, 'README.md'), md);
 writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
   id: r.id, document: r.document, category: r.category, licence: r.licence, url: r.url, sourcePages: r.sourcePages,
   words: r.words, characters: r.characters, fontSizeMm: r.fontSizeMm, readBack: r.check,
-  pdfBytes: r.pdfBytes, sourceBytes: r.sourceBytes, motifCredit: r.motifCredit, text: r.text || null,
+  pdfBytes: r.pdfBytes, sourceBytes: r.sourceBytes, motifCredit: r.motifCredit, text: r.text || null, textSha256: r.textSha256 || null, textMatchesArt: r.textMatchesArt ?? null,
   motifFile: r.motif ? (r.motif.startsWith('recipe:') ? 'motifs/eu-ai-act-network.png' : r.motif) : null,
   title: (all.find((x) => x.id === r.id) || {}).title?.replace(/\u00ad/g, ''),
 })), null, 2) + '\n');

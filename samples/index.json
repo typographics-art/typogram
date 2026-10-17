@@ -204,10 +204,10 @@
   "title": "AGENTS.md",
   "group": "ai",
   "language": "en",
-  "characters": 3002,
+  "characters": 4495,
   "source": "Typographics Art",
   "licence": "MIT, Typographics Art contributors",
-  "has": " \"#'()*,-./01234568:;ABCDEFGHIKLMNOPRSTUV`abcdefghijklmnopqrstuvwxyz"
+  "has": " \"#'()*,-./01234568:;=>ABCDEFGHIKLMNOPRSTUVW_`abcdefghijklmnopqrstuvwxyz"
  },
  {
   "id": "example-code-review-agent",

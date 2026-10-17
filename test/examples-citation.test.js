@@ -1,7 +1,7 @@
 // Corpus guard for the one-pager "three views": every published example must ship a source text that
 // (1) is bound to its artwork by the recorded canonical checksum, and (2) yields citable structure —
 // stable section slugs and locatable passages. This is the retrieval/citation guarantee as a test:
-// what publish-sources.mjs verifies against the artwork PDFs, locked in here without needing Chrome.
+// what examples/build.mjs verifies against the artwork PDFs, locked in here without needing Chrome.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -22,7 +22,7 @@ for (const e of withText) {
     const raw = readFileSync(join(EX, e.id, e.text), 'utf8');
 
     // (1) Binding: the canonical checksum recorded in index.json (equal to the artwork read-back,
-    // per scripts/publish-sources.mjs) must match the published source text character for character.
+    // per examples/build.mjs) must match the published source text character for character.
     assert.equal(await sha256Hex(canonicalText(raw)), e.textSha256, 'canonical checksum matches the record');
     assert.equal(e.textMatchesArt, true, 'recorded as matching the artwork');
 
