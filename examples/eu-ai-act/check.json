@@ -10,24 +10,32 @@
   "extractor": "mutool draw -F txt",
   "characters": 595706,
   "words": 91421,
-  "lines": 577,
+  "lines": 637,
   "paper": "a4",
-  "fontSizeMm": 0.492,
+  "fontSizeMm": 0.446,
   "overflow": false,
-  "toneFidelity": 0.942,
-  "layoutMs": 12787,
+  "toneFidelity": 0.892,
+  "layoutMs": 14865,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
-    "exact": true,
+    "exact": false,
     "visibleIdentical": true,
     "visibleCharacters": 504285,
     "sha256Source": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0",
-    "sha256ReadBack": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0"
+    "sha256ReadBack": "c50683aae1982de735acf2486b96406ad40ee1710e49941c2c3386a7cc1bdba6"
   },
-  "pdfBytes": 6009056,
-  "pdfBytesUnoptimized": 6488946,
-  "sizeFactor": 2.33,
+  "pdfBytes": 2308016,
+  "pdfBytesUnoptimized": 2733371,
+  "printStrips": 3,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 504286,
+    "runs": 183827,
+    "outlines": 667,
+    "fonts": 10
+  },
+  "sizeFactor": 0.89,
   "motif": "recipe:aiActNetwork",
   "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT."
 }

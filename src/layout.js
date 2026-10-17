@@ -16,6 +16,12 @@ export const LUT_MAX = 0.8;
 const LUT_SCALE = (LUT_BINS - 1) / LUT_MAX;
 /** Cost of a size jump between neighbouring glyphs; without it small glyphs read like stray capitals. */
 export const SIZE_JUMP = 0.004;
+/**
+ * A repeated character must start at least this many of its own font sizes after the previous one.
+ * PDF text extractors drop a glyph as "fake bold" when it repeats the previous character closer than that
+ * (MuPDF: 0.1 em, stext-device.c FAKE_BOLD_MAX_DIST) — a tiny "l" followed by a large "l" lost a letter.
+ */
+export const REPEAT_GAP = 0.12;
 /** Cost of leaving the normal width, so width only changes where it buys tone. */
 export const STRETCH_COST = 0.0012;
 const MID_WEIGHT = 4;
@@ -96,7 +102,7 @@ export function toneRange(text, cands, metric, covScale) {
  * ctx: { W, H, dark, tone, cands, luts, metric, covScale, lineRatio, sizeCount, wordMode, wordAvg,
  *        normalWidth (width index of the font's normal width), shape (boolean) }
  */
-export function layoutAt(words, L, ctx, unbounded = false) {
+export function layoutAt(words, L, ctx, unbounded = false, settleLines = true) {
   const {
     W, H, dark, tone, cands, luts, metric, covScale, lineRatio, sizeCount: NS, wordMode, wordAvg,
     normalWidth = 0, shape = false,
@@ -105,22 +111,62 @@ export function layoutAt(words, L, ctx, unbounded = false) {
   if (maxLines < 1) return { ok: false };
   const mid = normalWidth * WEIGHT_STEPS + MID_WEIGHT;
   const space = { wi: MID_WEIGHT, wd: normalWidth, v: mid, st: 1, s: 1, si: -1, g: 0 };
+  const minSize = cands.reduce((m, c) => Math.min(m, c.s), 1);
   const next = new Float32Array(W), below = new Float64Array(W + 1);
   const lines = [];
-  let line = null, x = 0, carry = 0, lastSi = 0, lastS = 1;
+  let line = null, x = 0, carry = 0, lastSi = 0, lastS = 1, lineSi = 0, lineS = 1;
   const cl = (v) => (v < 0 ? 0 : v > W ? W : v);
   const clampErr = (e) => (e > 0.2 ? 0.2 : e < -0.2 ? -0.2 : e);
 
   function newLine() {
     if (line) { // error left by the finished line feeds the next one (prefix sums for fast spans)
+      if (settleLines) settle(line);
       below[0] = 0;
       for (let i = 0; i < W; i++) below[i + 1] = below[i] + next[i];
       next.fill(0);
     }
     if (lines.length >= maxLines) return false;
     line = { items: [], w: 0 };
-    lines.push(line); x = 0; carry = 0;
+    lines.push(line); x = 0; carry = 0; lineSi = lastSi; lineS = lastS;
     return true;
+  }
+  // Justification widens a finished line's spaces, which moves every glyph after the first space to the
+  // right: measured up to 5 % of the width at the end of a line, so tone and colour came from the wrong
+  // place there. Re-choose the line's glyphs at their final positions (twice, as new widths change the
+  // spacing), keep the result only if the line still fits, then pass its error on from those positions.
+  function settle(ln) {
+    const tokens = [];
+    for (const it of ln.items) {
+      if (it.ch === ' ') tokens.push(' ');
+      else if (tokens.length && tokens[tokens.length - 1] !== ' ') tokens[tokens.length - 1] += it.ch;
+      else tokens.push(it.ch);
+    }
+    for (let pass = 0; pass < 2; pass++) {
+      const { ws, lastInner } = justify(ln, false, W, fs);
+      if (ws === 0) break;
+      carry = 0; lastSi = lineSi; lastS = lineS;
+      const items = [];
+      let cx = 0;
+      for (const tok of tokens) {
+        const r = trial(tok, cx);
+        for (const it of r.items) {
+          items.push(it); carry = it.err * 0.5;
+          if (it.si >= 0) { lastSi = it.si; lastS = it.s; }
+        }
+        cx += r.width + (tok === ' ' && items.length - 1 <= lastInner ? ws : 0);
+      }
+      let w = 0, inner = 0;
+      for (const it of items) w += it.adv;
+      inner = w;
+      for (let j = items.length - 1; j >= 0 && items[j].ch === ' '; j--) inner -= items[j].adv;
+      if (inner > W + 0.5) break;
+      ln.items = items; ln.w = w;
+    }
+    next.fill(0);
+    for (const it of ln.items) {
+      const a = Math.floor(cl(it.x)), b = Math.ceil(cl(it.x + it.adv)), e = it.err * 0.5;
+      for (let i = a; i < b && i < W; i++) next[i] += e;
+    }
   }
   // Mapped tone of the area a glyph will cover. With shape on, the four halves of the cell are
   // weighted by where the glyph actually has its ink, so a glyph on an edge takes the tone of its ink.
@@ -167,7 +213,7 @@ export function layoutAt(words, L, ctx, unbounded = false) {
       }
       return { items, width: cx - sx };
     }
-    let ps = lastSi;
+    let ps = lastSi, prevCh = null, prevAdv = 0;
     for (const ch of graphemes(str)) {
       const m = metric(ch), { base, bel } = region(cx, m.adv[mid] * k, m.prof), t = base + cin + bel;
       let c;
@@ -176,11 +222,19 @@ export function layoutAt(words, L, ctx, unbounded = false) {
         let bi = Math.round(t * LUT_SCALE);
         bi = bi < 0 ? 0 : bi >= LUT_BINS ? LUT_BINS - 1 : bi;
         c = cands[luts.get(ch)[bi * NS + ps]];
+        if (ch === prevCh && prevAdv < REPEAT_GAP * fs * c.s) {
+          let bc = Infinity;
+          for (const o of cands) {
+            if (prevAdv < REPEAT_GAP * fs * o.s && o.s > minSize) continue;
+            const cost = costOf(effOf(m, o, covScale), t, o);
+            if (cost < bc) { bc = cost; c = o; }
+          }
+        }
         ps = c.si;
       }
       const eff = ch === ' ' ? 0 : effOf(m, c, covScale), err = clampErr(t - eff), adv = m.adv[c.v] * k * c.s;
       items.push({ ch, wi: c.wi, wd: c.wd, s: c.s, si: c.si, g: c.g, eff, adv, err, base, x: cx });
-      cx += adv; cin = err * 0.5;
+      cx += adv; cin = err * 0.5; prevCh = ch; prevAdv = adv;
     }
     return { items, width: cx - sx };
   }
@@ -220,15 +274,16 @@ export function layoutAt(words, L, ctx, unbounded = false) {
  */
 export function fit(words, ctx, minLine = 3, maxLine = ctx.H) {
   let a = minLine, b = Math.min(maxLine, ctx.H), best = null;
+  // The search skips re-choosing glyphs at their justified positions (settle in layoutAt), which costs
+  // more than half the time and hardly changes where lines break; the final layout below does it.
   for (let i = 0; i < 26 && b - a >= 0.05; i++) {
-    const L = (a + b) / 2, r = layoutAt(words, L, ctx);
+    const L = (a + b) / 2, r = layoutAt(words, L, ctx, false, false);
     if (r.ok) { best = r; a = L; } else b = L;
   }
   if (best) {
     // Round the line height down to 1/64 px. Glyph widths follow the chosen weights, so the layout is not
     // strictly monotonic: if the rounded height happens not to fit, step down further.
     for (let q = quantizeLine(best.L), k = 0; q >= minLine && k < 64; q -= 1 / 64, k++) {
-      if (q === best.L) return { ...best, overflow: false };
       const r = layoutAt(words, q, ctx);
       if (r.ok) return { ...r, overflow: false };
     }

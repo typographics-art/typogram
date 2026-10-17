@@ -14,8 +14,8 @@
   "paper": "a4",
   "fontSizeMm": 7.306,
   "overflow": false,
-  "toneFidelity": 0.948,
-  "layoutMs": 560,
+  "toneFidelity": 0.979,
+  "layoutMs": 230,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -25,9 +25,17 @@
     "sha256Source": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
     "sha256ReadBack": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9"
   },
-  "pdfBytes": 108997,
-  "pdfBytesUnoptimized": 215791,
-  "sizeFactor": 41.29,
+  "pdfBytes": 68803,
+  "pdfBytesUnoptimized": 111399,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 2182,
+    "runs": 1081,
+    "outlines": 162,
+    "fonts": 10
+  },
+  "sizeFactor": 26.06,
   "motif": null,
   "motifCredit": null
 }

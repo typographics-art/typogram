@@ -237,6 +237,11 @@ footer a{color:inherit}
           <label class="lbl" for="spacing"><span data-i18n="label.spacing">Line spacing</span> <output id="spacingV"></output></label>
           <input type="range" id="spacing" min="0.85" max="1.6" step="0.01" value="1.09">
         </div>
+        <div class="field">
+          <label class="lbl" for="cuts"><span data-i18n="label.cuts">Font cuts</span> <output id="cutsV"></output></label>
+          <input type="range" id="cuts" min="0" max="5" step="1" value="5">
+          <p class="hint" data-i18n="hint.cuts">Every weight, width and type size becomes a separate font in a PDF. Fewer weights make a much smaller file; size and colour still draw the picture.</p>
+        </div>
         <div class="checks">
           <label><input type="checkbox" id="stretch" checked> <span data-i18n="label.stretch">Vary letter width (Roboto Flex, Archivo, Noto Serif)</span></label>
           <label><input type="checkbox" id="shape" checked> <span data-i18n="label.shape">Follow edges within each letter</span></label>
@@ -345,7 +350,7 @@ footer a{color:inherit}
 </div>
 
 <script type="module">
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg } from './src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes } from './src/index.js';
 import { typeset, toPng } from './src/browser.js';
 
 const $ = (s) => document.querySelector(s);
@@ -381,12 +386,16 @@ const I18N = {
     'btn.pdf': 'Drucken / PDF', 'nav.gallery': 'Galerie', 'nav.demo': 'Moby-Dick',
     'ai.toggle': 'Was die KI liest', 'ai.h': 'Was die KI liest',
     'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
+    'label.cuts': 'Schriftschnitte',
+    'hint.cuts': 'Jede Stärke, Breite und Schriftgrösse wird im PDF eine eigene Schrift. Weniger Stärken geben eine viel kleinere Datei; Grösse und Farbe zeichnen das Bild weiter.',
     'hint.export': 'HTML, SVG und PDF enthalten den Text als echte Zeichen. PNG ist ein reines Bild. Für ein PDF im Druckdialog „Als PDF sichern“ wählen.',
   },
 };
 const MSG = {
   en: {
     chars: '{n} characters', faithful: 'Text 1:1 preserved · {n} characters', notFaithful: 'Text differs from the source', filler: 'of which Lorem ipsum <b>{n}</b>',
+    cutsN: '{n} weights', cuts1: '1 weight', cutsAll: 'all weights',
+    pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} fonts', pdfTitle: 'Estimate for a PDF printed from Chrome ({fonts} fonts, {runs} style runs), measured within 3 %. The command-line tool makes the file 20–40 % smaller (measured).',
     lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
     tooShort: 'Your text is already as long as the target. Raise the target.', filled: '{n} characters of Lorem ipsum appended.', noFill: 'No filler found that could be removed.',
     unfilled: 'Filler removed.', loaded: '{name} loaded.', copied: '{what} copied ({n} characters).', selected: '{what} is selected: press Ctrl+C or ⌘+C.',
@@ -395,6 +404,8 @@ const MSG = {
   },
   de: {
     chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
+    cutsN: '{n} Stärken', cuts1: '1 Stärke', cutsAll: 'alle Stärken',
+    pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
     lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
     tooShort: 'Dein Text ist schon so lang wie das Ziel. Stell das Ziel höher.', filled: '{n} Zeichen Lorem ipsum angehängt.', noFill: 'Keine Füllung gefunden, die sich entfernen lässt.',
     unfilled: 'Füllung entfernt.', loaded: '{name} geladen.', copied: '{what} kopiert ({n} Zeichen).', selected: '{what} ist markiert: mit Strg+C oder ⌘+C kopieren.',
@@ -497,7 +508,8 @@ const PRESETS = {
   portrait: { legibility: 'medium', unit: 'char', color: 'photo', paper: 'light', contrast: 1.5, brightness: 0, edges: 0.7, spacing: 1.05, aspect: '1.25' },
   poster: { legibility: 'free', unit: 'char', color: 'photo', paper: 'dark', contrast: 1.9, brightness: 0.05, edges: 1.0, spacing: 0.98, aspect: 'photo' },
 };
-const CONTROLS = ['legibility', 'color', 'font', 'aspect', 'width', 'contrast', 'brightness', 'edges', 'spacing', 'target'];
+const CONTROLS = ['legibility', 'color', 'font', 'aspect', 'width', 'contrast', 'brightness', 'edges', 'spacing', 'target', 'cuts'];
+const CUTS = [1, 2, 3, 4, 6, null]; // weights per width; null: all the legibility level allows
 const radio = (n) => document.querySelector(`input[name="${n}"]:checked`).value;
 const setRadio = (n, v) => { const el = document.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; };
 function showValues() {
@@ -505,6 +517,8 @@ function showValues() {
   const b = +$('#brightness').value; $('#brightnessV').textContent = (b > 0 ? '+' : '') + b.toFixed(2);
   $('#edgesV').textContent = (+$('#edges').value).toFixed(2);
   $('#spacingV').textContent = (+$('#spacing').value).toFixed(2) + ' ×';
+  const cuts = CUTS[+$('#cuts').value];
+  $('#cutsV').textContent = !cuts ? t('cutsAll') : cuts === 1 ? t('cuts1') : t('cutsN', { n: cuts });
   $('#targetV').textContent = t('chars', { n: fmt(+$('#target').value) });
 }
 const STORE = 'tg-art.v1';
@@ -584,6 +598,7 @@ async function run() {
       font: $('#font').value, legibility: $('#legibility').value, color: $('#color').value, paper: radio('paper'), unit: radio('unit'),
       contrast: +$('#contrast').value, brightness: +$('#brightness').value, edges: +$('#edges').value, lineSpacing: +$('#spacing').value,
       invert: $('#invert').checked, stretch: $('#stretch').checked, shape: $('#shape').checked, aspect, width,
+      weightCount: CUTS[+$('#cuts').value],
     });
     $('#pageSize').textContent = `@page{size:${sheet.outW}px ${sheet.outH}px;margin:0}`;
     overlayDirty = true;
@@ -613,6 +628,7 @@ async function run() {
       chip(t('lines', { n: sheet.result.lines.length })) +
       chip(t('base', { n: sheet.result.fs.toFixed(1) })) +
       chip(t('fidelity', { n: sheet.toneFidelity.toFixed(2) })) +
+      pdfChip(pdfStats(sheet)) +
       chip(`${fmt(outW)} × ${fmt(outH)} px`) +
       (sheet.result.overflow ? chip(t('overflow'), 'warn') : '');
     save();
@@ -627,7 +643,11 @@ async function run() {
 let timer;
 const soon = () => { clearTimeout(timer); timer = setTimeout(run, 350); };
 $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
-['#text', '#contrast', '#brightness', '#edges', '#spacing'].forEach((s) => $(s).addEventListener('input', () => { showValues(); soon(); }));
+['#text', '#contrast', '#brightness', '#edges', '#spacing', '#cuts'].forEach((s) => $(s).addEventListener('input', () => { showValues(); soon(); }));
+function pdfChip(stats) {
+  const mb = estimatePdfBytes(stats) / 1048576;
+  return `<span class="chip" title="${t('pdfTitle', { fonts: stats.fonts, runs: fmt(stats.runs) })}">${t('pdfSize', { n: mb < 0.1 ? mb.toFixed(2) : mb.toFixed(1), fonts: stats.fonts })}</span>`;
+}
 ['#legibility', '#color', '#font', '#aspect', '#width', '#invert', '#stretch', '#shape'].forEach((s) => $(s).addEventListener('change', soon));
 document.querySelectorAll('input[name="unit"],input[name="paper"]').forEach((el) => el.addEventListener('change', soon));
 $('#target').addEventListener('input', showValues);

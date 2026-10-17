@@ -261,7 +261,7 @@ ${p.tests.map((t) => `| ${t.id} | ${t.name} | ${t.pass ? '**pass**' : '**FAIL**'
 
 T1 compares SHA-256 hashes: source \`${p.tests[0].detail.source}\`, extracted \`${p.tests[0].detail.extracted}\`.
 T2 reads the print PDF with MuPDF and compares every visible character. The PDF text layer does not carry the two invisible right-to-left marks that surround the one Hebrew word in the etymology; that is the only difference${p.tests[1] && p.tests[1].detail.exact ? ' (here none at all)' : ''}.
-${p.poppler ? `Poppler's \`pdftotext -raw\`, a common alternative, loses letters in light passages of this PDF (Chrome stores variable fonts as Type 3 fonts): ${pct(p.poppler.wordsInSource)} of its words are words of the source. The text is complete in the file, as MuPDF shows; extraction tools differ.
+${p.poppler ? `Poppler's \`pdftotext -raw\`, a common alternative, returns fewer letters, mostly in light passages: ${pct(p.poppler.wordsInSource)} of its words are words of the source. Poppler keeps only the first 50 000 characters smaller than 3 × 3 units per page (its "tiny chars" limit, measured in docs/ai-readability.md); light passages consist of small glyphs. The text is complete in the file, as MuPDF shows.
 ` : ''}
 T7 uses the question set in \`ai-tests.json\`: questions about the book whose answers must be grounded in the extracted text, the precondition for any AI system to answer them from the artwork.
 ${p.ocr ? `

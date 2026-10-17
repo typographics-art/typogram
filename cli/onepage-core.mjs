@@ -6,12 +6,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { extname } from 'node:path';
 import { normalizeText } from '../src/index.js';
+import { visibleText } from './core.mjs';
 
 export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
-// Invisible format characters (soft hyphens, direction marks, zero-width joiners …) are not carried into
-// PDF text layers; the check compares visible characters and reports exact equality separately.
-const INVISIBLE = /\p{Default_Ignorable_Code_Point}/gu;
-const visible = (t) => t.replace(INVISIBLE, '').replace(/\s/g, '');
 const sha = (s) => createHash('sha256').update(s).digest('hex');
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
 
@@ -48,7 +45,9 @@ export async function makeOnePage(session, job) {
   const width = Math.round(outW / (1 + 2 * margin)), pad = Math.round(width * margin);
   const options = {
     font: 'roboto', legibility: 'free', color: 'gray', paper: 'light', unit: 'char', contrast: 2.6, brightness: 0,
-    edges: 0.4, lineSpacing: 1.0, stretch: true, shape: true, margin, colorStep: 24, ...job.options,
+    // One type size and no width variants (measured in docs/file-size.md): on a photo motif the page follows the
+    // picture more closely (likeness 0.963 instead of 0.940) at a third of the size; title cards look the same.
+    edges: 0.4, lineSpacing: 1.0, stretch: false, sizeCount: 1, shape: true, margin, colorStep: 24, ...job.options,
     width, aspect: ((ph / pw) * (width + 2 * pad) - 2 * pad) / width,
   };
   const info = await session.call('tgOnePage', { text: source, title: job.title, subtitle: job.subtitle || '', options, motif: job.motif || null });
@@ -56,7 +55,7 @@ export async function makeOnePage(session, job) {
   const mmPerPx = pw / info.width;
 
   let printed = null;
-  if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx });
+  if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx, tagged: !!job.tagged });
   if (job.preview) {
     // Render at twice the layout scale: at ~9 px per glyph the browser draws hairlines darker than their ink.
     await session.call('tgBase', Math.min(2, 6000 / info.width));
@@ -70,8 +69,8 @@ export async function makeOnePage(session, job) {
     const back = normalizeText(spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', job.pdf], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout);
     const pages = Number((spawnSync('mutool', ['info', job.pdf], { encoding: 'utf8' }).stdout.match(/^Pages:\s*(\d+)/m) || [])[1]);
     check = {
-      extractor: 'mutool draw -F txt', pages, exact: back === source, visibleIdentical: visible(back) === visible(source),
-      visibleCharacters: visible(source).length, sha256Source: sha(source), sha256ReadBack: sha(back),
+      extractor: 'mutool draw -F txt', pages, exact: back === source, visibleIdentical: visibleText(back) === visibleText(source),
+      visibleCharacters: visibleText(source).length, sha256Source: sha(source), sha256ReadBack: sha(back),
     };
   }
   return {
@@ -79,5 +78,6 @@ export async function makeOnePage(session, job) {
     fontSizeMm: +(info.fontSize * mmPerPx).toFixed(3), overflow: info.overflow, toneFidelity: +info.toneFidelity.toFixed(3),
     layoutMs: info.ms, check,
     pdfBytes: printed ? printed.bytesAfter : null, pdfBytesUnoptimized: printed ? printed.bytesBefore : null,
+    printStrips: printed ? printed.strips : null, reprints: printed ? printed.reprints : null, pdfStats: info.pdf,
   };
 }

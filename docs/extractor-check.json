@@ -1,0 +1,109 @@
+{
+ "versions": {
+  "pypdf": "6.21.1",
+  "pymupdf": "1.28.2",
+  "pdftotext": "pdftotext version 26.08.0"
+ },
+ "results": [
+  {
+   "id": "ch-bundesverfassung",
+   "visibleCharacters": 197448,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 25.31,
+   "pdftotext -r 600": 100.0
+  },
+  {
+   "id": "de-grundgesetz",
+   "visibleCharacters": 164107,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 30.45,
+   "pdftotext -r 600": 100.0
+  },
+  {
+   "id": "us-constitution",
+   "visibleCharacters": 259402,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 19.26,
+   "pdftotext -r 600": 100.0
+  },
+  {
+   "id": "eu-ai-act",
+   "visibleCharacters": 504285,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 9.91,
+   "pdftotext -r 600": 100.0
+  },
+  {
+   "id": "un-human-rights",
+   "visibleCharacters": 8955,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 100.0,
+   "pdftotext -r 600": 100.0
+  },
+  {
+   "id": "pep-8",
+   "visibleCharacters": 40271,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 99.99,
+   "pdftotext -r 600": 99.99
+  },
+  {
+   "id": "code-review-agent",
+   "visibleCharacters": 2921,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 99.97,
+   "pdftotext -r 600": 99.97
+  },
+  {
+   "id": "support-assistant",
+   "visibleCharacters": 2609,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 99.96,
+   "pdftotext -r 600": 99.96
+  },
+  {
+   "id": "research-assistant",
+   "visibleCharacters": 2182,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 99.82,
+   "pdftotext -r 600": 99.82
+  },
+  {
+   "id": "agents-md",
+   "visibleCharacters": 2536,
+   "mutool draw -F txt": 100.0,
+   "PyMuPDF": 100.0,
+   "pypdf": 100.0,
+   "pdfminer.six": 100.0,
+   "pdftotext": 100.0,
+   "pdftotext -r 600": 100.0
+  }
+ ]
+}

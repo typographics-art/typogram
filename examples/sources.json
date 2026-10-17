@@ -70,8 +70,8 @@
   },
   {
     "id": "code-review-agent",
-    "title": "Code Review",
-    "subtitle": "Operating instructions for an AI agent",
+    "title": "AI",
+    "subtitle": "Code review agent · operating instructions",
     "document": "Code review agent: operating instructions (written for this repository)",
     "local": "instructions/code-review-agent.md",
     "licence": "MIT, Typographics Art contributors",

@@ -83,7 +83,7 @@ Ein Klick auf das Poster zeigt den Text an genau dieser Stelle, gelesen aus den 
 
 Jedes Beispiel wird mit MuPDF zurückgelesen und mit der Quelle verglichen; alle stimmen überein. Zehn Beispiele (Gesetze, Erklärungen, PEP 8, Anweisungen für KI-Agenten, die [AGENTS.md](AGENTS.md) dieses Repos) liegen in [examples/](examples/).
 
-**Dateigrösse.** Ein One-Pager ist grösser als seine Quelle: Jedes Zeichen trägt eigene Stärke, Breite, Grösse und Farbe, und das PDF bettet je Stilgruppe eine Schrift ein. Gemessen nach verlustfreiem Umpacken mit qpdf: PDF-Quellen wachsen um das 1,1- bis 5,3-Fache, kurze reine Textquellen deutlich mehr (3 KB Anweisungen → rund 110 KB). Die [Beispieltabelle](examples/README.md#file-size-honestly) nennt jede Grösse; die Original-Motive liegen in [examples/motifs/](examples/motifs/).
+**Dateigrösse.** Jedes Zeichen trägt eigene Stärke, Breite, Grösse und Farbe, und ein PDF bettet für jede verwendete Kombination aus Stärke, Breite und Grösse eine Schrift ein. Gemessen und optimiert in [docs/file-size.md](docs/file-size.md): Umrisse gerundet, leere Barrierefreiheits-Tags weggelassen, standardmässig eine Schriftgrösse (das macht das Bild zugleich schärfer). Drei der fünf PDF-Beispiele sind jetzt *kleiner* als ihre Quelle (US-Verfassung 1,6 MB statt 3,8 MB, EU AI Act 2,2 MB statt 2,5 MB), die übrigen bis 2,8-mal grösser; kurze reine Textquellen wachsen am stärksten (3 KB Anweisungen → 67–105 KB). Mit `--weights 2` wird ein One-Pager noch kleiner. Die [Beispieltabelle](examples/README.md#file-size-honestly) nennt jede Grösse; die Original-Motive liegen in [examples/motifs/](examples/motifs/).
 
 Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Und bleib ehrlich: Der sichtbare Titel muss das Dokument benennen, und winziger Text darf nie Anweisungen vor den Menschen verstecken, die die Seite sehen.
 
@@ -129,7 +129,7 @@ Codebeispiele stehen in der [englischen README](README.md#use-it). Kurz:
 node cli/tg-art.mjs foto.jpg --text gedicht.txt --fill 12000 -o gedicht.pdf
 ```
 
-Braucht Node 22+ und Chrome oder Chromium und schreibt PDFs mit echter Textebene.
+Braucht Node 22+ und Chrome oder Chromium; für PDFs zusätzlich MuPDF (`mutool`), das jeden gedruckten Streifen prüft und der Seite ihre exakte Grösse gibt, und optional qpdf für kleinere Dateien. Schreibt PDFs mit echter Textebene.
 
 ## Wofür das gut ist
 

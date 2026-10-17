@@ -89,13 +89,18 @@ for (const c of Object.keys(cat)) {
   }
   md += '\n';
 }
+const pdfRows = rows.filter((r) => r.sourcePages && r.pdfBytes), textRows = rows.filter((r) => !r.sourcePages && r.pdfBytes);
+const factor = (r) => r.pdfBytes / r.sourceBytes;
+const kb = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
+const byFactor = [...pdfRows].sort((a, b) => factor(a) - factor(b));
 md += `## File size, honestly
 
-A one-pager is usually **larger** than its source, sometimes much larger. Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF each change of style is an instruction, and Chrome writes a separate embedded font for each style group (measured: the Swiss constitution in photo colours carries 191 fonts, the Basic Law in grey 22). The picture itself is made of letters only; no image is embedded. Measured on these examples: PDF sources grow by a factor of 1.1 to 5.3 (US Constitution 1.1, UDHR 1.2, EU AI Act 2.3, Swiss constitution 4.3, Basic Law 5.3); plain-text sources grow far more (PEP 8: 50 KB → 619 KB), because the source is bare text while the one-pager carries fonts and styling; the short AI instructions (about 3 KB) become pages of 100–160 KB. The size column below shows each case.
+Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is ${factor(byFactor[0]).toFixed(1)} to ${factor(byFactor[byFactor.length - 1]).toFixed(1)} times the size of its PDF source (${byFactor.map((r) => `${r.id} ${factor(r).toFixed(1)}`).join(', ')}; below 1 means smaller); plain-text sources grow far more (${textRows.map((r) => `${r.id}: ${kb(r.sourceBytes)} → ${kb(r.pdfBytes)}`).join('; ')}), because the source is bare text while the one-pager carries fonts and styling.
 
-What is done about it: every PDF is repacked losslessly with qpdf (object streams, stronger compression; measured up to 80 % smaller, text unchanged), and photo colours are rounded to steps of 24 (of 255 per channel), so neighbouring letters share a colour more often and the PDF needs fewer colour changes. The table shows the optimised size next to the original.
+What is done about it, each step measured in [docs/file-size.md](../docs/file-size.md): glyph outlines are rounded to whole units of the 1000-unit glyph grid (invisible: at most 1/2000 of the type size), Chrome's empty accessibility tags are left out, the PDF is repacked with qpdf, photo colours are rounded to steps of 24 (of 255 per channel), and one-pagers use one type size and no width variants, which also makes their pictures sharper. With \`--weights\` (CLI) or the font-cuts slider (app) fewer weights are used, which makes files much smaller still. The table shows the optimised size next to the original.
 
-## Limits
+`;
+md += `## Limits
 
 - **Short texts make coarse pictures.** The letters are the pixels: 3 500 characters give about 50 lines of 70 letters, too few for a recognisable title or image (see the AI instruction examples). From about 20 000 characters on, titles and motifs read well.
 - **Motifs need rights.** Only public-domain images and motifs drawn for this project are used; see [motifs/](motifs/).

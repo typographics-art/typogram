@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// tg-art: render a Typographics Art work from the command line (needs Node 22+ and Chrome/Chromium).
+// tg-art: render a Typographics Art work from the command line (needs Node 22+ and Chrome/Chromium; PDF also MuPDF).
 import { parseArgs } from 'node:util';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { extname } from 'node:path';

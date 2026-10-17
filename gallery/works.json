@@ -18,8 +18,8 @@
     "textLength": 620,
     "meta": {
       "faithful": true,
-      "toneFidelity": 0.9110583104137686,
-      "lines": 83,
+      "toneFidelity": 0.9110843299417528,
+      "lines": 82,
       "baseSize": 12.356651376146788,
       "width": 946,
       "height": 1171,
@@ -28,7 +28,8 @@
       "overflow": false
     },
     "svg": "gallery/sonnet-18.svg",
-    "preview": "gallery/sonnet-18.jpg"
+    "preview": "gallery/sonnet-18.jpg",
+    "original": "gallery/sonnet-18-original.png"
   },
   {
     "id": "erlkoenig",
@@ -49,7 +50,7 @@
     "textLength": 1281,
     "meta": {
       "faithful": true,
-      "toneFidelity": 0.933978627840977,
+      "toneFidelity": 0.9339274748453558,
       "lines": 60,
       "baseSize": 17.001146788990823,
       "width": 946,
@@ -59,7 +60,8 @@
       "overflow": false
     },
     "svg": "gallery/erlkoenig.svg",
-    "preview": "gallery/erlkoenig.jpg"
+    "preview": "gallery/erlkoenig.jpg",
+    "original": "gallery/erlkoenig-original.png"
   },
   {
     "id": "let-there-be-light",
@@ -79,9 +81,9 @@
     "textLength": 252,
     "meta": {
       "faithful": true,
-      "toneFidelity": 0.9666044650375508,
-      "lines": 82,
-      "baseSize": 9.977064220183486,
+      "toneFidelity": 0.9673522972826355,
+      "lines": 83,
+      "baseSize": 9.934059633027521,
       "width": 946,
       "height": 946,
       "characters": 15997,
@@ -89,7 +91,8 @@
       "overflow": false
     },
     "svg": "gallery/let-there-be-light.svg",
-    "preview": "gallery/let-there-be-light.jpg"
+    "preview": "gallery/let-there-be-light.jpg",
+    "original": "gallery/let-there-be-light-original.png"
   },
   {
     "id": "article-1",
@@ -111,7 +114,7 @@
     "textLength": 170,
     "meta": {
       "faithful": true,
-      "toneFidelity": 0.9228520788717814,
+      "toneFidelity": 0.92108913329695,
       "lines": 55,
       "baseSize": 14.99426605504587,
       "width": 946,
@@ -121,7 +124,8 @@
       "overflow": false
     },
     "svg": "gallery/article-1.svg",
-    "preview": "gallery/article-1.jpg"
+    "preview": "gallery/article-1.jpg",
+    "original": "gallery/article-1-original.png"
   },
   {
     "id": "waves",
@@ -141,7 +145,7 @@
     "textLength": 0,
     "meta": {
       "faithful": true,
-      "toneFidelity": 0.9202197282670836,
+      "toneFidelity": 0.9206497852014034,
       "lines": 75,
       "baseSize": 8.514908256880734,
       "width": 1050,
@@ -151,6 +155,224 @@
       "overflow": false
     },
     "svg": "gallery/waves.svg",
-    "preview": "gallery/waves.jpg"
+    "preview": "gallery/waves.jpg",
+    "original": "gallery/waves-original.png"
+  },
+  {
+    "id": "earthrise",
+    "title": "Earthrise",
+    "source": "Genesis 1–11, King James Version (1611), public domain; the Apollo 8 crew read Genesis 1:1–10 on 24 December 1968",
+    "photo": "gallery/photos/earthrise.jpg",
+    "photoCredit": "Earthrise, Apollo 8, 24 December 1968, photo by William Anders, NASA. Public domain.",
+    "options": {
+      "font": "roboto",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "dark",
+      "contrast": 2,
+      "edges": 0.8,
+      "width": 1400
+    },
+    "textLength": 34841,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9482014306159282,
+      "lines": 86,
+      "baseSize": 14.865252293577981,
+      "width": 1470,
+      "height": 1470,
+      "characters": 34841,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/earthrise.svg",
+    "preview": "gallery/earthrise.jpg",
+    "original": "gallery/photos/earthrise.jpg"
+  },
+  {
+    "id": "blue-marble",
+    "title": "The Blue Marble",
+    "source": "Universal Declaration of Human Rights (1948), full text, United Nations",
+    "photo": "gallery/photos/blue-marble.jpg",
+    "photoCredit": "The Blue Marble, Apollo 17, 7 December 1972, NASA. Public domain.",
+    "options": {
+      "font": "roboto",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "dark",
+      "contrast": 1.6,
+      "edges": 0.6,
+      "width": 1400
+    },
+    "textLength": 10686,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9656698407163593,
+      "lines": 55,
+      "baseSize": 23.279816513761467,
+      "width": 1470,
+      "height": 1470,
+      "characters": 10686,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/blue-marble.svg",
+    "preview": "gallery/blue-marble.jpg",
+    "original": "gallery/photos/blue-marble.jpg"
+  },
+  {
+    "id": "starry-night",
+    "title": "The Starry Night",
+    "source": "Walt Whitman, Song of Myself (Leaves of Grass, Project Gutenberg eBook #1322), opening sections, public domain",
+    "photo": "gallery/photos/starry-night.jpg",
+    "photoCredit": "Vincent van Gogh, The Starry Night (1889), Museum of Modern Art; Google Art Project. Public domain.",
+    "options": {
+      "font": "fraunces",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "dark",
+      "contrast": 1.8,
+      "edges": 0.6,
+      "width": 1400
+    },
+    "textLength": 30013,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.918575921598789,
+      "lines": 87,
+      "baseSize": 11.668577981651376,
+      "width": 1470,
+      "height": 1179,
+      "characters": 30013,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/starry-night.svg",
+    "preview": "gallery/starry-night.jpg",
+    "original": "gallery/photos/starry-night.jpg"
+  },
+  {
+    "id": "great-wave",
+    "title": "The Great Wave",
+    "source": "Herman Melville, Moby-Dick (1851), chapters 1–2, public domain",
+    "photo": "gallery/photos/great-wave.jpg",
+    "photoCredit": "Katsushika Hokusai, The Great Wave off Kanagawa (c. 1831). Public domain.",
+    "options": {
+      "font": "archivo",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "light",
+      "contrast": 1.9,
+      "edges": 0.6,
+      "width": 1400
+    },
+    "textLength": 20101,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9462644959483277,
+      "lines": 59,
+      "baseSize": 14.621559633027521,
+      "width": 1470,
+      "height": 1011,
+      "characters": 20101,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/great-wave.svg",
+    "preview": "gallery/great-wave.jpg",
+    "original": "gallery/photos/great-wave.jpg"
+  },
+  {
+    "id": "lincoln",
+    "title": "Gettysburg",
+    "source": "Abraham Lincoln, Address at Cooper Institute, New York, 27 February 1860, as printed in Speeches & Letters of Abraham Lincoln (1907), public domain",
+    "photo": "gallery/photos/lincoln.jpg",
+    "photoCredit": "Abraham Lincoln, 8 November 1863, photo by Alexander Gardner (O-77). Public domain.",
+    "options": {
+      "font": "notoserif",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "light",
+      "contrast": 2.4,
+      "edges": 0.9,
+      "width": 1400
+    },
+    "textLength": 21836,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9422070571168627,
+      "lines": 111,
+      "baseSize": 14.764908256880734,
+      "width": 1470,
+      "height": 1874,
+      "characters": 21836,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/lincoln.svg",
+    "preview": "gallery/lincoln.jpg",
+    "original": "gallery/photos/lincoln.jpg"
+  },
+  {
+    "id": "mona-lisa",
+    "title": "La Gioconda",
+    "source": "Walter Pater, The Renaissance (1873), essay on Leonardo da Vinci up to the Mona Lisa passage, public domain",
+    "photo": "gallery/photos/mona-lisa.jpg",
+    "photoCredit": "Leonardo da Vinci, Mona Lisa (1503–1506), Louvre; C2RMF scan. Public domain.",
+    "options": {
+      "font": "fraunces",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "light",
+      "contrast": 2.2,
+      "edges": 0.9,
+      "width": 1400
+    },
+    "textLength": 40016,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.8339494626191994,
+      "lines": 161,
+      "baseSize": 11.883600917431192,
+      "width": 1470,
+      "height": 2157,
+      "characters": 40016,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/mona-lisa.svg",
+    "preview": "gallery/mona-lisa.jpg",
+    "original": "gallery/photos/mona-lisa.jpg"
+  },
+  {
+    "id": "darwin",
+    "title": "Endless forms",
+    "source": "Charles Darwin, On the Origin of Species (1859), end of the final chapter, public domain",
+    "photo": "gallery/photos/darwin.jpg",
+    "photoCredit": "Charles Darwin, 1868, photo by Julia Margaret Cameron. Public domain.",
+    "options": {
+      "font": "roboto",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "light",
+      "contrast": 2.4,
+      "edges": 0.9,
+      "width": 1400
+    },
+    "textLength": 31129,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.8410996606648711,
+      "lines": 131,
+      "baseSize": 12.313646788990825,
+      "width": 1470,
+      "height": 1829,
+      "characters": 31129,
+      "filler": 0,
+      "overflow": false
+    },
+    "svg": "gallery/darwin.svg",
+    "preview": "gallery/darwin.jpg",
+    "original": "gallery/photos/darwin.jpg"
   }
 ]

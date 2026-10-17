@@ -88,7 +88,7 @@ node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png pre
 node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o onepage.pdf
 ```
 
-**File size.** A one-pager is larger than its source: every glyph carries its own weight, width, size and colour, and the PDF embeds a font for each style group. Measured after lossless repacking with qpdf: PDF sources grow by 1.1× to 5.3×, short plain-text sources much more (3 KB of instructions → about 110 KB). The [examples table](examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](examples/motifs/).
+**File size.** Every glyph carries its own weight, width, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). Now three of the five PDF examples are *smaller* than their source (US Constitution 1.6 MB from 3.8 MB, EU AI Act 2.2 MB from 2.5 MB), the others up to 2.8 times larger; short plain-text sources grow most (3 KB of instructions → 67–105 KB). `--weights 2` makes a one-pager smaller still. The [examples table](examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](examples/motifs/).
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
@@ -155,7 +155,7 @@ The pure modules (`layout`, `tone`, `color`, `render`, `typeset`) run anywhere; 
 
 ### On the command line
 
-Needs Node 22+ and Chrome or Chromium (`CHROME_PATH` if it is not found). Writes PDFs with a real text layer.
+Needs Node 22+ and Chrome or Chromium (`CHROME_PATH` if it is not found); PDFs also need MuPDF (`mutool`), which checks every printed strip and gives the page its exact size, and get smaller with qpdf. Writes PDFs with a real text layer.
 
 ```sh
 node cli/tg-art.mjs photo.jpg --text poem.txt --fill 12000 -o poem.pdf

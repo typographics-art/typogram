@@ -114,11 +114,14 @@ export async function openSession({ chrome = findChrome() } = {}) {
      * Prints the current page to ONE PDF page of the given size in millimetres (no margins, backgrounds on).
      * PDF allows up to 5080 mm per side, so posters of several metres stay a single page for the print shop.
      */
-    async pdf(widthMm, heightMm) {
+    // Chrome's tagged-PDF structure is one /NonStruct element per style run under a single /Document
+    // (measured): no headings or paragraphs, only bytes (−9 % without it). The text layer and its order
+    // are the same either way, so tagging is off unless asked for.
+    async pdf(widthMm, heightMm, { tagged = false } = {}) {
       if (widthMm > 5080 || heightMm > 5080) throw new Error(`PDF pages are limited to 5080 mm per side (asked for ${widthMm.toFixed(0)} × ${heightMm.toFixed(0)} mm)`);
       const r = await cdp.send('Page.printToPDF', {
         paperWidth: widthMm / 25.4, paperHeight: heightMm / 25.4, printBackground: true, preferCSSPageSize: true,
-        marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0, transferMode: 'ReturnAsBase64',
+        marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0, transferMode: 'ReturnAsBase64', generateTaggedPDF: tagged,
       });
       return Buffer.from(r.data, 'base64');
     },
@@ -132,34 +135,50 @@ export async function openSession({ chrome = findChrome() } = {}) {
       const size = await this.printPosterRaw(file, opts);
       return { ...size, ...optimizePdf(file) };
     },
-    async printPosterRaw(file, { lines, characters, mmPerPx, glyphsPerStrip = 220000 }) {
-      const strips = Math.max(1, Math.ceil(characters / glyphsPerStrip));
-      if (strips === 1) {
-        const size = await this.call('tgPrintStrip', 0, lines, mmPerPx);
-        writeFileSync(file, await this.pdf(size.widthMm, size.heightMm));
-        return { ...size, strips: 1 };
-      }
-      if (spawnSync('which', ['mutool']).status !== 0) throw new Error('Posters this large need MuPDF (mutool) to assemble the print strips into one page.');
+    async printPosterRaw(file, { lines, characters, mmPerPx, glyphsPerStrip = 220000, tagged = false }) {
+      if (!has('mutool')) throw new Error('Printing a PDF needs MuPDF (mutool): it checks every strip and assembles the page at its exact size.');
       const dir = mkdtempSync(join(tmpdir(), 'tg-art-strips-'));
-      const per = Math.ceil(lines / strips), parts = [];
-      let topPt = 0, widthPt = 0;
-      for (let k = 0; k < strips; k++) {
-        const from = k * per, to = Math.min(lines, from + per);
-        if (from >= to) break;
+      // Chrome (measured with 154) sometimes leaves single glyphs out of a large print job, depending on the
+      // text printed before them in the same job. Every strip is therefore read back and compared with its
+      // lines; a strip that lost anything, or whose content stream has more tokens than pypdf reads, is
+      // split in half and printed again, down to single lines.
+      const n = Math.max(1, Math.ceil(characters / glyphsPerStrip)), per = Math.ceil(lines / n);
+      const todo = [];
+      for (let from = 0; from < lines; from += per) todo.push([from, Math.min(lines, from + per)]);
+      const done = [];
+      let reprints = 0;
+      while (todo.length) {
+        const [from, to] = todo.shift();
         const size = await this.call('tgPrintStrip', from, to, mmPerPx);
-        const f = join(dir, `strip-${k + 1}.pdf`);
-        // Chrome rounds page sizes (measured: up to 0.22 mm off). Print each strip 2 mm taller than its content
-        // and let the assembly keep exactly the content height, placed at the exact cumulative offset.
-        writeFileSync(f, await this.pdf(size.widthMm, size.heightMm + 2));
+        const f = join(dir, `strip-${from}-${to}.pdf`);
+        // Chrome rounds page sizes (measured: up to 0.22 mm, and 210 mm became 209.89 mm). Print each strip
+        // 2 mm taller than its content; the assembly keeps exactly the content height at the exact offset and
+        // gives the page its exact size, so even a single strip goes through it.
+        writeFileSync(f, await this.pdf(size.widthMm, size.heightMm + 2, { tagged }));
+        const want = visibleText((await this.call('tgLineTexts', from, to)).join(''));
+        const got = visibleText(spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', f], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout);
+        const tokens = Number(spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-tokens.js'), f], { encoding: 'utf8' }).stdout);
+        if (got !== want || tokens > MAX_STREAM_TOKENS) {
+          if (to - from === 1) throw new Error(`Line ${from} does not read back from the PDF even when printed on its own`);
+          const mid = Math.floor((from + to) / 2);
+          todo.unshift([from, mid], [mid, to]);
+          reprints++;
+          continue;
+        }
+        done.push({ from, f, size });
+      }
+      done.sort((a, b) => a.from - b.from);
+      const parts = [];
+      let topPt = 0, widthPt = 0;
+      for (const { f, size } of done) {
         const contentPt = (size.heightMm * 72) / 25.4;
         parts.push(f, String(topPt), String(contentPt));
         topPt += contentPt; widthPt = (size.widthMm * 72) / 25.4;
       }
-      const script = join(ROOT, 'cli', 'pdf-assemble.js');
-      const r = spawnSync('mutool', ['run', script, file, String(widthPt), String(topPt), ...parts], { encoding: 'utf8' });
+      const r = spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-assemble.js'), file, String(widthPt), String(topPt), ...parts], { encoding: 'utf8' });
       rmSync(dir, { recursive: true, force: true });
       if (r.status !== 0) throw new Error(`Assembling the PDF failed: ${r.stderr || r.stdout}`);
-      return { widthMm: (widthPt * 25.4) / 72, heightMm: (topPt * 25.4) / 72, strips: parts.length / 3 };
+      return { widthMm: (widthPt * 25.4) / 72, heightMm: (topPt * 25.4) / 72, strips: done.length, reprints };
     },
     /** Screenshot of a repository page (path relative to the repo root) at the given viewport size. */
     async screenshot(path, width, height) {
@@ -182,19 +201,39 @@ export async function openSession({ chrome = findChrome() } = {}) {
   };
 }
 
+const has = (cmd) => spawnSync('which', [cmd]).status === 0;
+// pypdf, behind many AI document loaders, stops reading a content stream after 2 000 000 tokens and drops
+// the rest of its text silently; strips stay below this, with a margin.
+const MAX_STREAM_TOKENS = 1800000;
+// Invisible format characters (soft hyphens, direction marks, zero-width joiners …) are not carried into
+// PDF text layers, and extractors place spaces their own way: compare what remains.
+const INVISIBLE = /\p{Default_Ignorable_Code_Point}/gu;
+export const visibleText = (t) => t.replace(INVISIBLE, '').replace(/\s/g, '');
+
 /**
- * Chrome writes PDFs with weak compression. qpdf repacks them losslessly (object streams, recompressed
- * streams): measured 7.5 MB -> 1.5 MB for a one-pager. Content and text layer are unchanged. Skipped
- * when qpdf is not installed. Returns { bytesBefore, bytesAfter }.
+ * Chrome writes PDFs with weak compression and verbose glyph outlines. Two lossless-to-the-eye steps:
+ * cli/pdf-slim.js rounds the Type 3 outline coordinates to whole units (measured −22 %, no visible change
+ * at 600 dpi), then qpdf repacks (object streams, recompressed streams; measured 7.5 MB -> 1.5 MB for a
+ * grey one-pager). The text layer is unchanged. Each step is skipped when its tool is missing; the result
+ * is kept only if smaller. Returns { bytesBefore, bytesAfter, optimized }.
  */
 export function optimizePdf(file) {
   const before = statSync(file).size;
-  if (spawnSync('which', ['qpdf']).status !== 0) return { bytesBefore: before, bytesAfter: before, optimized: false };
-  const tmp = file + '.qpdf';
-  const r = spawnSync('qpdf', ['--object-streams=generate', '--compress-streams=y', '--recompress-flate', '--compression-level=9', file, tmp]);
-  if (r.status !== 0 && r.status !== 3) { rmSync(tmp, { force: true }); return { bytesBefore: before, bytesAfter: before, optimized: false }; }
-  const after = statSync(tmp).size;
-  if (after < before) renameSync(tmp, file); else rmSync(tmp, { force: true });
+  let current = file;
+  const tmp = [];
+  // Round Chrome's Type 3 glyph outlines to whole units (cli/pdf-slim.js), then repack with qpdf.
+  if (has('mutool')) {
+    const slim = file + '.slim';
+    if (spawnSync('mutool', ['run', join(ROOT, 'cli', 'pdf-slim.js'), current, slim]).status === 0) { tmp.push(slim); current = slim; }
+  }
+  if (has('qpdf')) {
+    const packed = file + '.qpdf';
+    const r = spawnSync('qpdf', ['--object-streams=generate', '--compress-streams=y', '--recompress-flate', '--compression-level=9', current, packed]);
+    if (r.status === 0 || r.status === 3) { tmp.push(packed); current = packed; }
+  }
+  const after = current === file ? before : statSync(current).size;
+  if (after < before) renameSync(current, file);
+  for (const f of tmp) rmSync(f, { force: true });
   return { bytesBefore: before, bytesAfter: Math.min(before, after), optimized: after < before };
 }
 

@@ -3,15 +3,15 @@
 export {
   FONTS, WEIGHT_STEPS, STRETCH_KEYWORD, weightSteps, normalWidthIndex, variationsFor, googleFontsUrl,
 } from './fonts.js';
-export { LEGIBILITY, PAPERS, DEFAULTS } from './options.js';
+export { LEGIBILITY, PAPERS, DEFAULTS, levelFor } from './options.js';
 export { lorem } from './lorem.js';
 export { buildToneMap, cropToAspect } from './tone.js';
 export { inkFor, rgbCss, mix } from './color.js';
 export {
   REF_SIZE, REF_RATIO, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange,
-  layoutAt, fit, justify, toneFidelity, quantizeLine,
+  layoutAt, fit, justify, toneFidelity, quantizeLine, REPEAT_GAP,
 } from './layout.js';
 export { typesetWith, typesetSections, plainText, isFaithful } from './typeset.js';
 export {
-  toHtml, toStandaloneHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS,
+  toHtml, toStandaloneHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS, pdfStats, estimatePdfBytes,
 } from './render.js';

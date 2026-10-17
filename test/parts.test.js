@@ -93,3 +93,16 @@ test('a letter with combining accents, and an emoji sequence, are set as one gly
   const svg = toSvg(s), inner = svg.slice(svg.indexOf('<text'), svg.lastIndexOf('</text>')).replace(/<[^>]+>/g, '');
   assert.equal(normalizeText(inner), normalizeText(text));
 });
+
+test('pdfStats counts fonts per weight, width and size; estimatePdfBytes grows with them', async () => {
+  const { pdfStats, estimatePdfBytes } = await import('../src/index.js');
+  const img = image(80, 80, (x, y) => [(x * 3) % 256, (y * 3) % 256, 128]);
+  const many = typesetWith({ text: TEXT.repeat(8), metric: fakeMetric, image: img, options: { legibility: 'free', color: 'photo', width: 300 } });
+  const few = typesetWith({ text: TEXT.repeat(8), metric: fakeMetric, image: img, options: { legibility: 'free', color: 'photo', width: 300, weightCount: 1, sizeCount: 1, stretch: false } });
+  const a = pdfStats(many), b = pdfStats(few);
+  assert.equal(b.fonts, 1);
+  assert.ok(a.fonts > b.fonts && a.outlines > b.outlines);
+  assert.equal(a.glyphs, TEXT.repeat(8).replace(/\s/g, '').length);
+  assert.ok(estimatePdfBytes(a) > estimatePdfBytes(b));
+  assert.ok(estimatePdfBytes(a, { optimized: true }) < estimatePdfBytes(a));
+});

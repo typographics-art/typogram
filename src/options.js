@@ -34,4 +34,22 @@ export const DEFAULTS = {
   width: 960, // text block width in px
   margin: 0.025, // paper margin as a fraction of the width
   colorStep: 6, // photo colours are quantised to multiples of this (coarser = smaller files)
+  weightCount: null, // at most this many weight steps (null: all the legibility level allows); fewer = fewer fonts in the PDF
+  sizeCount: null, // at most this many type sizes per line (null: all); the full size is always kept
 };
+
+/** At most n entries of a list, spread evenly over it; a single entry is its middle one. */
+const spread = (list, n) => (!n || n >= list.length ? list : n === 1 ? [list[Math.floor(list.length / 2)]]
+  : Array.from({ length: n }, (_, i) => list[Math.round((i * (list.length - 1)) / (n - 1))]));
+
+/**
+ * The legibility level limited to `weightCount` weights and `sizeCount` sizes, spread evenly over its
+ * range. Every weight × width is a separate font in a PDF, and every change of font, size or colour
+ * starts a new text run, so both bound the file size.
+ */
+export function levelFor(o) {
+  const level = LEGIBILITY[o.legibility];
+  if (!level) return level;
+  const sizes = o.sizeCount ? [1, ...spread(level.sizes.slice(1), o.sizeCount - 1)].slice(0, Math.max(1, o.sizeCount)) : level.sizes;
+  return { ...level, weights: spread(level.weights, o.weightCount), sizes };
+}

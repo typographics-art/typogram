@@ -1,6 +1,6 @@
 // Environment-independent pipeline: text + glyph metrics + image pixels → set sheet.
 import { FONTS, weightSteps, normalWidthIndex } from './fonts.js';
-import { LEGIBILITY, PAPERS, DEFAULTS } from './options.js';
+import { PAPERS, DEFAULTS, levelFor } from './options.js';
 import { buildToneMap, cropToAspect } from './tone.js';
 import { inkFor, mix, rgbCss } from './color.js';
 import {
@@ -19,7 +19,7 @@ export function typesetWith({ text, metric, image, options = {} }) {
   const source = normalizeText(text);
   if (!source) throw new Error('Text is empty');
   const font = FONTS[o.font];
-  const level = LEGIBILITY[o.legibility];
+  const level = levelFor(o);
   const paper = PAPERS[o.paper];
   if (!font || !level || !paper) throw new Error('Unknown font, legibility or paper option');
 
@@ -84,7 +84,7 @@ export function typesetSections({ sections, metric, options = {} }) {
   const texts = sections.map((s) => normalizeText(s.text));
   if (texts.some((t) => !t)) throw new Error('Every section needs text');
   const source = texts.join(' ');
-  const font = FONTS[o.font], level = LEGIBILITY[o.legibility], paper = PAPERS[o.paper];
+  const font = FONTS[o.font], level = levelFor(o), paper = PAPERS[o.paper];
   if (!font || !level || !paper) throw new Error('Unknown font, legibility or paper option');
 
   const lineRatio = 1 / o.lineSpacing, covScale = lineRatio / REF_RATIO;

@@ -45,6 +45,45 @@ export function toHtml(sheet, from = 0, to = sheet.result.lines.length) {
   return html;
 }
 
+/**
+ * What a printed PDF of the sheet is made of, counted the way toHtml forms its runs: drawn glyphs,
+ * runs (a new one wherever weight, width, size or colour changes; each costs a text block in the PDF),
+ * fonts and outlines. Chrome embeds a separate Type 3 font for every weight × width × type size it prints
+ * (measured: 10 weights at 5 sizes gave 100 fonts, at one size 20), and every character used in it as a
+ * glyph outline, so outlines are distinct weight × width × size × character. Spaces are not drawn.
+ * estimatePdfBytes turns these counts into a file size.
+ */
+export function pdfStats(sheet) {
+  const { lines } = sheet.result;
+  const outlines = new Set(), fonts = new Set();
+  let glyphs = 0, runs = 0;
+  lines.forEach((ln, i) => {
+    let key = null;
+    for (const it of ln.items) {
+      if (it.ch === ' ') { key = null; continue; }
+      const k = it.wi + '|' + it.wd + '|' + it.s + '|' + sheet.colorOf(it, i);
+      if (k !== key) { runs++; key = k; }
+      glyphs += it.ch.length;
+      outlines.add(it.wi + '|' + it.wd + '|' + it.s + '|' + it.ch);
+      fonts.add(it.wi + '|' + it.wd + '|' + it.s);
+    }
+  });
+  return { glyphs, runs, outlines: outlines.size, fonts: fonts.size };
+}
+
+/**
+ * Expected size of a PDF printed from Chrome in one piece, from pdfStats. Fitted on 18 one-pagers
+ * printed with Chrome 154 (scripts/size-study.mjs, docs/file-size.md): median error 0.5 %, at most
+ * 2.7 %. `optimized` gives the size after cli/pdf-slim.js and qpdf (what the command-line tools write;
+ * median error 0.7 %, at most 1.5 %). Large sheets printed in several strips by the CLI are bigger, as
+ * every strip carries its own fonts.
+ */
+export function estimatePdfBytes({ outlines, runs, glyphs }, { optimized = false } = {}) {
+  return optimized
+    ? 328 * outlines + 7.4 * runs + 0.8 * glyphs + 6800
+    : 555 * outlines + 7.2 * runs + 0.9 * glyphs + 14400;
+}
+
 /** Self-contained HTML snippet including the font link and the paper. */
 export function toStandaloneHtml(sheet) {
   const { outW, outH, pad, font, paper } = sheet;

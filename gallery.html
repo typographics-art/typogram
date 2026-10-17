@@ -37,7 +37,15 @@ header p{margin:0;color:var(--muted);max-width:70ch;flex:1 1 320px}
 .lang button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card .pic{position:relative}
 .card a.preview{display:block;background:var(--line);aspect-ratio:4/5;overflow:hidden}
+.flip{position:absolute;right:10px;bottom:10px;font:inherit;font-size:13px;font-weight:700;padding:5px 11px;border-radius:999px;border:0;background:rgba(15,17,22,.78);color:#fff;cursor:pointer}
+.flip[aria-pressed="true"]{background:var(--accent)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.toolbar button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+.toolbar button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.toolbar span{color:var(--muted);font-size:13.5px}
+.credit{margin:0;color:var(--muted);font-size:12.5px}
 .card img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .4s}
 .card a.preview:hover img{transform:scale(1.04)}
 .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
@@ -66,6 +74,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     </div>
   </header>
 
+  <div class="toolbar" role="group" aria-label="View"><button type="button" id="show-tg" aria-pressed="true" data-i18n="view.tg">Typographics</button><button type="button" id="show-orig" aria-pressed="false" data-i18n="view.orig">Originals</button><span data-i18n="view.hint">or switch a single work with the button on its picture</span></div>
   <main class="grid" id="grid"></main>
 
   <section class="submit">
@@ -76,33 +85,40 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
 <script type="module">
 const T = {
-  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview' },
+  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview', original: 'Original', image: 'Image' },
   de: {
     intro: 'Jedes Werk ist echter Text: Öffne das SVG und markiere, kopiere oder durchsuche ihn. Das Bild entsteht nur aus Grösse, Stärke und Farbe der Buchstaben.',
     'nav.make': 'Selbst gestalten', 'submit.h': 'Zeig dein Werk', 'submit.p': 'Etwas mit Typographics Art gemacht? Reiche das SVG über ein', 'submit.link': 'Werk-Issue ein',
-    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau',
+    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau', original: 'Original', image: 'Bild',
+    'view.tg': 'Typographics', 'view.orig': 'Originale', 'view.hint': 'oder ein einzelnes Werk mit dem Knopf auf seinem Bild umschalten',
   },
 };
 const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-let lang = 'en', works = [];
+let lang = 'en', works = [], allOriginal = false;
+const flipped = new Set(); // works shown the other way than the toolbar says
+const orig = (w) => allOriginal !== flipped.has(w.id);
 const t = (k) => T[lang][k] ?? T.en[k];
 const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
 
 function render() {
   document.getElementById('grid').innerHTML = works.map((w) => `
     <article class="card">
-      <a class="preview" href="${esc(w.svg)}"><img src="${esc(w.preview)}" alt="${esc(t('preview'))}: ${esc(w.title)}" loading="lazy"></a>
+      <div class="pic">
+        <a class="preview" href="${esc(orig(w) ? w.original : w.svg)}"><img src="${esc(orig(w) ? w.original : w.preview)}" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy"></a>
+        <button type="button" class="flip" data-id="${esc(w.id)}" aria-pressed="${orig(w)}">${orig(w) ? 'Typographics' : t('original')}</button>
+      </div>
       <div class="body">
         <h2>${esc(w.title)}</h2>
         <p class="src">${esc(w.source)}</p>
+        ${w.photoCredit ? `<p class="credit">${t('image')}: ${esc(w.photoCredit)}</p>` : ''}
         <div class="facts">
           <span>${fmt(w.meta.characters)} ${t('characters')}</span>
           ${w.meta.filler ? `<span>${fmt(w.meta.filler)} ${t('filler')}</span>` : ''}
           <span>${t('fidelity')} ${w.meta.toneFidelity.toFixed(2)}</span>
           <span>${esc(w.options.font)} · ${esc(w.options.legibility)} · ${esc(w.options.color)} · ${esc(w.options.paper || 'light')}</span>
         </div>
-        <div class="links"><a href="${esc(w.svg)}">${t('svg')}</a></div>
+        <div class="links"><a href="${esc(w.svg)}">${t('svg')}</a><a href="${esc(w.original)}">${t('original')}</a></div>
       </div>
     </article>`).join('');
 }
@@ -118,6 +134,20 @@ function setLang(l) {
   render();
 }
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+document.getElementById('grid').addEventListener('click', (e) => {
+  const b = e.target.closest('.flip');
+  if (!b) return;
+  flipped.has(b.dataset.id) ? flipped.delete(b.dataset.id) : flipped.add(b.dataset.id);
+  render();
+});
+for (const [id, value] of [['show-tg', false], ['show-orig', true]]) {
+  document.getElementById(id).addEventListener('click', () => {
+    allOriginal = value; flipped.clear();
+    document.getElementById('show-tg').setAttribute('aria-pressed', String(!value));
+    document.getElementById('show-orig').setAttribute('aria-pressed', String(value));
+    render();
+  });
+}
 let initial = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
 try { initial = JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || localStorage.getItem('tg-art.lang') || initial; } catch { /* default */ }
 works = await (await fetch('gallery/works.json')).json();

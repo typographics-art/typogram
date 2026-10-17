@@ -12,7 +12,7 @@
 import { typeset, toPng, ensureFont, measureGlyphs, readImage } from '../src/browser.js';
 import {
   toStandaloneHtml, toSvg, toHtml, svgHead, svgLines, SVG_TAIL, forEachGlyph, isFaithful, lorem, normalizeText,
-  typesetSections, typesetWith, graphemes, FONTS, STRETCH_KEYWORD, GLYPH_CSS, rgbCss,
+  typesetSections, typesetWith, graphemes, FONTS, STRETCH_KEYWORD, GLYPH_CSS, rgbCss, pdfStats,
 } from '../src/index.js';
 import { RECIPES } from '../gallery/recipes.js';
 
@@ -180,7 +180,10 @@ window.tgLineSegments = (line, parts, scale) => {
 window.tgPrintStrip = async (from, to, mmPerPx) => {
   const { pad, result, outW, paper, font } = poster, { L } = result;
   const first = from === 0, lastStrip = to === result.lines.length;
-  const hPx = (to - from) * L + (first ? pad : 0) + (lastStrip ? pad : 0);
+  // The last strip reaches down to the sheet's full height, so the page is exactly as tall as the sheet
+  // (an A4 one-pager is 297 mm even when the text ends a few lines above the bottom margin).
+  const top = first ? 0 : pad + from * L;
+  const hPx = lastStrip ? poster.outH - top : (to - from) * L + (first ? pad : 0);
   const zoom = mmPerPx * 96 / 25.4; // CSS px per poster px
   document.getElementById('pageSize').textContent = `@page{size:${(outW * mmPerPx).toFixed(2)}mm ${(hPx * mmPerPx).toFixed(2)}mm;margin:0}`;
   // The outer box has the physical page size: transforms do not change layout size, and Chrome paginates by layout.
@@ -286,6 +289,19 @@ async function loadMotif(src) {
   const img = new Image(); img.src = src; await img.decode(); return img;
 }
 
+let lastCard = null;
+/** The picture the last one-pager was set to (title card or motif card), as PNG: what scripts/size-study.mjs compares against. */
+window.tgOnePageTarget = () => lastCard.toDataURL('image/png');
+/** The same picture scaled to w × h, as base64 RGB bytes (for comparisons without an image decoder). */
+window.tgOnePageTargetRgb = (w, h) => {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d'); g.drawImage(lastCard, 0, 0, w, h);
+  const d = g.getImageData(0, 0, w, h).data;
+  let bin = '';
+  for (let i = 0; i < d.length; i += 4) bin += String.fromCharCode(d[i], d[i + 1], d[i + 2]);
+  return btoa(bin);
+};
+
 /** Sets a whole document on one page. Afterwards tgPrintStrip / tgBase / tgBaseImage work on it. */
 window.tgOnePage = async ({ text, title, subtitle, options, motif }) => {
   const fontKey = options.font || 'roboto', font = FONTS[fontKey];
@@ -295,13 +311,14 @@ window.tgOnePage = async ({ text, title, subtitle, options, motif }) => {
   const metric = measureGlyphs(fontKey, new Set(graphemes(source)));
   const pad = Math.round(options.width * (options.margin ?? 0.025));
   const card = titleCard(title, subtitle, 1400, Math.round(1400 * options.aspect), font.canvas, await loadMotif(motif));
+  lastCard = card;
   const image = card.getContext('2d').getImageData(0, 0, card.width, card.height);
   const t0 = performance.now();
   poster = typesetWith({ text: source, metric, image, options });
   return {
     ms: Math.round(performance.now() - t0), faithful: isFaithful(poster), characters: poster.text.length,
     lines: poster.result.lines.length, fontSize: poster.result.fs, width: poster.outW, height: poster.outH,
-    pad, overflow: poster.result.overflow, toneFidelity: poster.toneFidelity,
+    pad, overflow: poster.result.overflow, toneFidelity: poster.toneFidelity, pdf: pdfStats(poster),
   };
 };
 

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { typesetWith, plainText, isFaithful, justify, lorem, normalizeText } from '../src/index.js';
+import { typesetWith, plainText, isFaithful, justify, lorem, normalizeText, LEGIBILITY } from '../src/index.js';
 import { fakeMetric, image, TEXT } from './helpers.js';
 
 const halves = image(200, 200, (x) => (x < 100 ? [0, 0, 0] : [255, 255, 255])); // left black, right white
@@ -85,4 +85,41 @@ test('fit always returns a layout with lines, also after rounding the line heigh
     assert.ok(Array.isArray(r.lines) && r.lines.length > 0, `no lines for ${n} characters`);
     assert.equal(r.L * 64, Math.round(r.L * 64));
   }
+});
+
+test('repeated letters stay far enough apart for PDF extractors (no "fake bold" drop)', async () => {
+  const { REPEAT_GAP } = await import('../src/layout.js');
+  const narrow = (ch) => {
+    const m = fakeMetric(ch);
+    if (ch === 'l') m.adv = m.adv.map((a) => (a / 0.55) * 0.06);
+    return m;
+  };
+  const text = Array.from({ length: 400 }, (_, i) => (i % 3 ? 'hallo' : 'llll')).join(' ');
+  const img = image(120, 120, (x, y) => ((x >> 2) + (y >> 2)) % 2 ? [0, 0, 0] : [255, 255, 255]);
+  const sheet = typesetWith({ text, metric: narrow, image: img, options: { legibility: 'free', color: 'gray', width: 300 } });
+  const { lines, fs } = sheet.result, minS = Math.min(...LEGIBILITY.free.sizes);
+  let checked = 0;
+  for (const ln of lines) for (let i = 1; i < ln.items.length; i++) {
+    const a = ln.items[i - 1], b = ln.items[i];
+    if (a.ch !== b.ch || b.ch === ' ') continue;
+    checked++;
+    if (b.s === minS) continue; // the smallest size is the fallback when nothing else fits
+    assert.ok(a.adv >= REPEAT_GAP * fs * b.s - 1e-9, `"${b.ch}" at size ${b.s} only ${(a.adv / (fs * b.s)).toFixed(3)} em after the previous one`);
+  }
+  assert.ok(checked > 50, `too few repeated letters checked (${checked})`);
+});
+
+test('glyphs take tone and colour where they are drawn, after justification', async () => {
+  const { forEachGlyph } = await import('../src/index.js');
+  const words = Array.from({ length: 900 }, (_, i) => ['typographic', 'art', 'is', 'text', 'set', 'as', 'a', 'picture'][i % 8]).join(' ');
+  const img = image(160, 200, (x, y) => (x < 80 ? [20, 20, 20] : [230, 230, 230]));
+  const sheet = typesetWith({ text: words, metric: fakeMetric, image: img, options: { legibility: 'free', color: 'gray', width: 400 } });
+  const { fs } = sheet.result;
+  let worst = 0, n = 0;
+  forEachGlyph(sheet, (it, x, y, i) => {
+    if (it.ch === ' ' || i === sheet.result.lines.length - 1) return;
+    worst = Math.max(worst, Math.abs(x - sheet.pad - it.x)); n++;
+  });
+  assert.ok(n > 1000);
+  assert.ok(worst < 0.5 * fs, `a glyph is drawn ${worst.toFixed(1)} px (${(worst / fs).toFixed(2)} em) away from where its tone was taken`);
 });
