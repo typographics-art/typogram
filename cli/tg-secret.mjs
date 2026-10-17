@@ -15,7 +15,8 @@ The work keeps only its public text. The key lists where the message's character
 chosen at random. Keep the key like a password: with key and work, anyone can read the message.
 `;
 
-const { values, positionals } = parseArgs({ allowPositionals: true, options: { secret: { type: 'string' }, key: { type: 'string' }, help: { type: 'boolean', short: 'h' } } });
+let values, positionals;
+try { ({ values, positionals } = parseArgs({ allowPositionals: true, options: { secret: { type: 'string' }, key: { type: 'string' }, help: { type: 'boolean', short: 'h' } } })); } catch (e) { console.error(`${e.message.split('\n')[0]} (see --help)`); process.exit(1); }
 const [command, file] = positionals;
 if (values.help || !file || !['hide', 'reveal'].includes(command)) { process.stdout.write(HELP); process.exit(values.help ? 0 : 1); }
 

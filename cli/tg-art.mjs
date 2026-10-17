@@ -23,7 +23,9 @@ const HELP = `Usage: tg-art <image> (--text <file> | --string <text>) -o <out.sv
 Fonts are loaded from Google Fonts, so an internet connection is needed.
 `;
 
-const { values, positionals } = parseArgs({
+let values, positionals;
+try {
+  ({ values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     text: { type: 'string' }, string: { type: 'string' }, out: { type: 'string', short: 'o' },
@@ -33,9 +35,10 @@ const { values, positionals } = parseArgs({
     scale: { type: 'string' }, 'print-width': { type: 'string' }, 'no-stretch': { type: 'boolean' }, 'no-shape': { type: 'boolean' },
     invert: { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
   },
-});
+}));
+} catch (e) { console.error(`${e.message.split('\n')[0]} (see --help)`); process.exit(1); }
 
-if (values.help || positionals.length !== 1 || !values.out || !(values.text || values.string)) {
+if (values.help || positionals.length !== 1 || !values.out || (values.text === undefined && values.string === undefined)) {
   process.stdout.write(HELP);
   process.exit(values.help ? 0 : 1);
 }
@@ -49,16 +52,28 @@ const imagePath = positionals[0];
 const mime = MIME[extname(imagePath).toLowerCase()];
 if (!mime) { console.error(`Unsupported image type: ${imagePath}`); process.exit(1); }
 
-const num = (v) => (v == null ? undefined : Number(v));
+// A number option must be a number: --width abc used to produce an SVG of width NaN and exit 0.
+const num = (name) => {
+  const v = values[name];
+  if (v == null) return undefined;
+  const n = Number(v);
+  const anySign = name === 'brightness', nonNegative = name === 'edges';
+  if (!Number.isFinite(n) || (!anySign && (nonNegative ? n < 0 : n <= 0))) {
+    console.error(`--${name} needs ${anySign ? 'a number' : nonNegative ? 'a number from 0' : 'a number above 0'}, got "${v}".`);
+    process.exit(1);
+  }
+  return n;
+};
 const options = Object.fromEntries(Object.entries({
   legibility: values.legibility, color: values.color, paper: values.paper, unit: values.unit,
-  width: num(values.width), aspect: num(values.aspect), contrast: num(values.contrast), brightness: num(values.brightness),
-  edges: num(values.edges), lineSpacing: num(values.spacing), fill: num(values.fill), scale: num(values.scale),
-  printWidthMm: num(values['print-width']),
+  width: num('width'), aspect: num('aspect'), contrast: num('contrast'), brightness: num('brightness'),
+  edges: num('edges'), lineSpacing: num('spacing'), fill: num('fill'), scale: num('scale'),
+  printWidthMm: num('print-width'),
   stretch: values['no-stretch'] ? false : undefined, shape: values['no-shape'] ? false : undefined, invert: values.invert || undefined,
 }).filter(([, v]) => v !== undefined));
 
 const text = values.string ?? readFileSync(values.text, 'utf8');
+if (!text.trim()) { console.error('The text is empty: there is nothing to set.'); process.exit(1); }
 const image = `data:${mime};base64,${readFileSync(imagePath).toString('base64')}`;
 
 const session = await openSession();

@@ -24,13 +24,16 @@ PDF text is taken exactly as stored (page numbers and hyphenation included); the
 checked by reading it back with MuPDF.
 `;
 
-const { values, positionals } = parseArgs({
+let values, positionals;
+try {
+  ({ values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     out: { type: 'string', short: 'o' }, title: { type: 'string' }, subtitle: { type: 'string' },
     paper: { type: 'string' }, motif: { type: 'string' }, weights: { type: 'string' }, png: { type: 'string' }, help: { type: 'boolean', short: 'h' },
   },
-});
+}));
+} catch (e) { console.error(`${e.message.split('\n')[0]} (see --help)`); process.exit(1); }
 if (values.help || positionals.length !== 1 || !values.out) { process.stdout.write(HELP); process.exit(values.help ? 0 : 1); }
 if (values.paper && !PAPERS_MM[values.paper]) { console.error(`Unknown paper ${values.paper}`); process.exit(1); }
 const weights = values.weights == null ? null : Number(values.weights);

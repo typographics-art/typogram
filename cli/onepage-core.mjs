@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { extname } from 'node:path';
 import { normalizeText } from '../src/index.js';
-import { visibleText } from './core.mjs';
+import { visibleText, TOOL_TIMEOUT_MS } from './core.mjs';
 
 export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
 const sha = (s) => createHash('sha256').update(s).digest('hex');
@@ -16,8 +16,12 @@ const has = (cmd) => spawnSync('which', [cmd]).status === 0;
 export function readDocument(path) {
   if (extname(path).toLowerCase() !== '.pdf') return { text: readFileSync(path, 'utf8'), pages: null, extractor: 'utf-8' };
   if (!has('mutool')) throw new Error('Reading PDFs needs MuPDF (mutool). Install it, e.g. apt install mupdf-tools / brew install mupdf.');
-  const text = spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', path], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout;
-  const info = spawnSync('mutool', ['info', path], { encoding: 'utf8' }).stdout;
+  const read = spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', path], { encoding: 'utf8', maxBuffer: 1 << 28, timeout: TOOL_TIMEOUT_MS });
+  // A killed, failed or over-full run would otherwise return a truncated text without a word.
+  if (read.error) throw new Error(`MuPDF could not read the document: ${read.error.code === 'ENOBUFS' ? 'its text is larger than 256 MB' : read.error.message}`);
+  if (read.status !== 0) throw new Error(`MuPDF could not read the document: ${String(read.stderr || '').trim().split('\n')[0] || 'is it a PDF?'}`);
+  const text = read.stdout;
+  const info = spawnSync('mutool', ['info', path], { encoding: 'utf8', timeout: TOOL_TIMEOUT_MS }).stdout;
   const pages = Number((info.match(/^Pages:\s*(\d+)/m) || [])[1]) || null;
   return { text, pages, extractor: 'mutool draw -F txt' };
 }
@@ -66,8 +70,8 @@ export async function makeOnePage(session, job) {
   // Read the page back exactly as a machine would and compare with the source.
   let check = null;
   if (job.pdf && has('mutool')) {
-    const back = normalizeText(spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', job.pdf], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout);
-    const pages = Number((spawnSync('mutool', ['info', job.pdf], { encoding: 'utf8' }).stdout.match(/^Pages:\s*(\d+)/m) || [])[1]);
+    const back = normalizeText(spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', job.pdf], { encoding: 'utf8', maxBuffer: 1 << 28, timeout: TOOL_TIMEOUT_MS }).stdout || '');
+    const pages = Number((spawnSync('mutool', ['info', job.pdf], { encoding: 'utf8', timeout: TOOL_TIMEOUT_MS }).stdout.match(/^Pages:\s*(\d+)/m) || [])[1]);
     check = {
       extractor: 'mutool draw -F txt', pages, exact: back === source, visibleIdentical: visibleText(back) === visibleText(source),
       visibleCharacters: visibleText(source).length, sha256Source: sha(source), sha256ReadBack: sha(back),
