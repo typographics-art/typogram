@@ -22,7 +22,7 @@ First public version.
 - Brand assets: wordmark and social preview (`npm run assets`), Open Graph tags, press kit.
 - Panels: `typesetSections` sets one continuous text across several images (one picture per part) at a single type size.
 - Demonstrator: the complete *Moby-Dick* as a 2 × 3 m poster in three panels, with SVG master, print PDF as a single page, zoom viewer with "text at this spot", and a generated proof report (`demo/moby-dick/`).
-- Print-ready PDFs at physical size: `--print-width <mm>` on the CLI, always one page (up to 5.08 m per side). Large sheets are printed in strips and assembled onto one page with MuPDF (`cli/pdf-assemble.js`); the Moby-Dick poster is a single 2000 × 2981 mm page.
+- Print-ready PDFs at physical size: `--print-width <mm>` on the CLI, always one page (up to 5.08 m per side). Large sheets are printed in strips and assembled onto one page with MuPDF (`cli/pdf-assemble.js`); the Moby-Dick poster is a single 2000 × 2979 mm page.
 - Line heights are multiples of 1/64 px, so browsers place every line exactly where the layout puts it.
 - One-pagers (`cli/onepage.mjs`): a whole PDF or text file on one page, its title formed by the text; ten examples in `examples/` (laws of CH, DE, US and the EU, the UDHR, PEP 8, AI agent instructions), each read back and checked.
 - Fix: glyphs are grapheme clusters, not code points. Letters with combining accents, emoji sequences and syllables of complex scripts stay one unit; before, separate marks could be dropped from PDF text layers (found with PEP 8's "Zalgo" example).

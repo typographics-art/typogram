@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T06:30:24.880Z",
+  "generated": "2026-10-17T14:20:55.829Z",
   "source": {
     "title": "Moby-Dick; or, The Whale",
     "author": "Herman Melville",
@@ -31,9 +31,9 @@
       "aspect": 1.5249343832020998
     },
     "characters": 1214967,
-    "lines": 886,
+    "lines": 885,
     "fontSizeMm": 3.2578125,
-    "toneFidelity": 0.8964970737996707,
+    "toneFidelity": 0.8968102428672086,
     "sections": [
       {
         "title": "Part I – Ashore and out to sea",
@@ -49,20 +49,20 @@
       {
         "title": "Part II – The whaling voyage",
         "firstLine": 313,
-        "lineCount": 277,
+        "lineCount": 276,
         "characters": 400736,
         "y": 2039.390625,
-        "height": 1804.828125,
+        "height": 1798.3125,
         "motif": "hunt",
         "firstChapter": "Chapter 42",
-        "heightMm": 902.4140625
+        "heightMm": 899.15625
       },
       {
         "title": "Part III – The white whale",
-        "firstLine": 590,
+        "firstLine": 589,
         "lineCount": 296,
         "characters": 404957,
-        "y": 3844.21875,
+        "y": 3837.703125,
         "height": 1928.625,
         "motif": "whiteWhale",
         "firstChapter": "Chapter 86",
@@ -146,15 +146,15 @@
   "ocr": {
     "lines": 16,
     "segments": 128,
-    "words": 3943,
-    "recognised": 2895,
-    "accuracy": 0.7342125285315749,
+    "words": 3904,
+    "recognised": 2838,
+    "accuracy": 0.7269467213114754,
     "pxPerMm": 2
   },
   "poppler": {
     "exact": false,
-    "characters": 1009382,
-    "wordsInSource": 0.5445620141357259
+    "characters": 1005124,
+    "wordsInSource": 0.5456645300731722
   },
   "vision": {
     "model": "Claude (Anthropic, Opus 5.5), reading the segment images directly",
