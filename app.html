@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Typographics Art</title>
+<title>Make your own – Typographics Art</title>
 <meta name="description" content="Typographics Art is ASCII art for the age of AI: a text set character for character so that it forms a picture. People see the picture, machines read the text.">
 <meta property="og:title" content="Typographics Art: ASCII art for the age of AI">
 <meta property="og:type" content="website">
@@ -13,8 +13,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://typographics-art.org/app">
 <meta property="og:description" content="Turn any text into a picture of your photo. Every character stays in place, so people see the image and machines still read the text.">
-<meta property="og:url" content="https://typographics-art.org">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23b8145a'/%3E%3Ctext x='4' y='24' font-family='sans-serif' font-size='21' font-weight='900' fill='white'%3ET%3C/text%3E%3Ctext x='18' y='24' font-family='sans-serif' font-size='15' font-weight='200' fill='white'%3Eg%3C/text%3E%3C/svg%3E">
+<meta property="og:url" content="https://typographics-art.org/app">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: settings column on the left (sticky on wide screens), proof sheet on the right; stacked below 900px. */
@@ -76,6 +76,17 @@ button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-vis
 .presets button{font-size:13px;padding:7px 6px;display:flex;flex-direction:column;gap:1px;line-height:1.2}
 .presets button small{font-weight:400;color:var(--muted);font-size:11.5px}
 .hint{font-size:12.5px;color:var(--muted);margin:0}
+#sampleInfo{overflow-wrap:anywhere}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:8px;z-index:60;font-weight:700;text-decoration:none}
+.skip:focus{left:8px}
+.jump{display:none}
+@media (max-width:900px){
+  .jump{display:block;position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;padding:12px 16px;border-radius:999px;border:0;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.28);cursor:pointer}
+}
+@media (pointer:coarse),(max-width:900px){
+  .nav a,footer a{display:inline-block;padding:11px 8px}
+  .lang button{min-height:44px;min-width:44px}
+}
 .hint.bad{color:var(--warn);font-weight:600;font-size:13.5px;border-left:3px solid var(--warn);padding:2px 0 2px 10px}
 .hint.good{color:var(--ok);font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -139,6 +150,7 @@ footer a{color:inherit}
 </head>
 <body>
 <div class="page">
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
   <header>
     <h1><a href="./" style="color:inherit;text-decoration:none">Typo<span>graphics Art</span></a></h1>
     <p data-i18n="tagline"><b>ASCII art for the age of AI.</b> Your text becomes a picture and stays text: people see the photo, machines read every word.</p>
@@ -149,7 +161,7 @@ footer a{color:inherit}
     </div>
   </header>
 
-  <div class="app">
+  <div class="app" id="main" role="main">
     <form class="panel" id="form" autocomplete="off">
       <div class="modebar">
         <div class="seg" role="radiogroup" aria-label="Mode" id="modeSeg">
@@ -289,7 +301,7 @@ footer a{color:inherit}
       </fieldset>
     </form>
 
-    <section class="out">
+    <section class="out" id="result">
       <div class="meta" id="meta"><span class="chip" data-i18n="chip.loading">Loading fonts …</span></div>
       <div class="toolbar">
         <label for="overlayR"><span data-i18n="overlay">Show photo</span> <input type="range" id="overlayR" min="0" max="1" step="0.05" value="0"></label>
@@ -318,13 +330,14 @@ footer a{color:inherit}
         <label class="lbl" for="secretIn" data-i18n="secret.in">Message to hide</label>
         <textarea id="secretIn" rows="2"></textarea>
         <div class="row2"><button type="button" id="secretHide" data-i18n="secret.hide">Create key</button><button type="button" id="secretReveal" data-i18n="secret.reveal">Read message from key</button></div>
+        <button type="button" id="secretCopy" data-i18n="secret.copy">Copy key</button>
         <p class="hint" id="secretMsg" role="status" aria-live="polite"></p>
         <div class="chips" id="secretSuggest"></div>
         <label class="lbl" for="secretKey" data-i18n="secret.key">Key</label>
         <textarea id="secretKey" rows="3" spellcheck="false"></textarea>
       </details>
       <details>
-        <summary data-i18n="export.summary">Use the result</summary>
+        <summary data-i18n="export.summary">Copy &amp; save</summary>
         <div class="row2">
           <button type="button" id="copyHtml" data-i18n="btn.copyHtml">Copy HTML</button>
           <button type="button" id="copySvg" data-i18n="btn.copySvg">Copy SVG</button>
@@ -367,6 +380,8 @@ footer a{color:inherit}
   </footer>
 </div>
 
+<button type="button" class="jump" id="jump" hidden></button>
+
 <script type="module">
 import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret } from './src/index.js';
 import { typeset, toPng } from './src/browser.js';
@@ -390,7 +405,7 @@ const I18N = {
     'label.unit': 'Einheit', 'unit.char': 'Je Buchstabe', 'unit.word': 'Je Wort', 'hint.unit': '„Je Wort“ setzt jedes Wort in einem Stil. Das liest sich ruhiger, das Bild wird gröber.',
     'label.spacing': 'Zeilenabstand', 'legend.color': 'Farbe und Papier', 'label.color': 'Farbe', 'color.photo': 'Farben aus dem Foto', 'color.gray': 'Graustufen', 'color.mono': 'Einfarbig',
     'label.paper': 'Papier', 'paper.light': 'Hell', 'paper.dark': 'Dunkel', 'legend.output': 'Ausgabe', 'label.width': 'Breite', 'width.auto': 'An das Fenster anpassen', 'btn.set': 'Neu setzen',
-    'chip.loading': 'Schrift wird geladen …', 'overlay': 'Foto einblenden', 'export.summary': 'Ergebnis übernehmen',
+    'chip.loading': 'Schrift wird geladen …', 'overlay': 'Foto einblenden', 'export.summary': 'Kopieren & speichern', 'skip': 'Zum Inhalt springen',
     'btn.copyHtml': 'HTML kopieren', 'btn.copySvg': 'SVG kopieren', 'btn.copyText': 'Klartext kopieren', 'btn.png': 'PNG erzeugen',
     'about.h': 'Was ist Typographics Art?',
     'about.p1': 'Typographics Art (TG Art) formt aus einem gegebenen Text ein Bild. Der Text wird Zeichen für Zeichen in seiner ursprünglichen Reihenfolge gesetzt. Von Buchstabe zu Buchstabe ändern sich nur typografische Eigenschaften: Grösse, Strichstärke, Farbe.',
@@ -407,7 +422,7 @@ const I18N = {
     'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
     'label.cuts': 'Schriftschnitte',
     'secret.summary': 'Versteckte Nachricht', 'secret.p': 'Verstecke eine Nachricht in diesem Werk: Das Werk behält nur seinen öffentlichen Text, und ein Schlüssel merkt sich, wo die Buchstaben der Nachricht darin stehen, zufällig gewählt. Mit Schlüssel und diesem Werk kommt die Nachricht zurück. Bewahre den Schlüssel wie ein Passwort auf.',
-    'secret.in': 'Zu versteckende Nachricht', 'secret.hide': 'Schlüssel erzeugen', 'secret.reveal': 'Nachricht aus Schlüssel lesen', 'secret.key': 'Schlüssel',
+    'secret.in': 'Zu versteckende Nachricht', 'secret.hide': 'Schlüssel erzeugen', 'secret.reveal': 'Nachricht aus Schlüssel lesen', 'secret.key': 'Schlüssel', 'secret.copy': 'Schlüssel kopieren',
     'hint.cuts': 'Jede Stärke, Breite und Schriftgrösse wird im PDF eine eigene Schrift. Weniger Stärken geben eine viel kleinere Datei; Grösse und Farbe zeichnen das Bild weiter.',
     'hint.export': 'HTML, SVG und PDF enthalten den Text als echte Zeichen. PNG ist ein reines Bild. Für ein PDF im Druckdialog „Als PDF sichern“ wählen.',
   },
@@ -416,8 +431,9 @@ const MSG = {
   en: {
     chars: '{n} characters', faithful: 'Text 1:1 preserved · {n} characters', notFaithful: 'Text differs from the source', filler: 'of which Lorem ipsum <b>{n}</b>',
     cutsN: '{n} weights', cuts1: '1 weight', cutsAll: 'all weights',
+    jumpResult: '↓ Result', jumpSettings: '↑ Settings', secretCopied: 'Key copied.', secretCopyFail: 'Could not copy: select the key and copy it by hand.', secretEmpty: 'Type the message to hide first.', secretNoKey: 'Paste the key first (it starts with “tg1.”).', secretBadKey: 'This is not a key: a key starts with “tg1.”.', secretDamaged: 'The key is damaged or incomplete. Copy it again in full.',
     sampleLoaded: 'Sample text loaded: {title}. Source: {source} ({licence}).', sampleBig: 'large, takes a few seconds', sampleNo: 'no {c}', sampleGroupWorks: 'Public-domain works', sampleGroupLaws: 'Laws and declarations', sampleGroupTech: 'Technical', sampleGroupAi: 'AI instructions', secretSuggest: 'Texts that contain it:', secretSuggested: 'Text loaded. Now create the key again.',
-    secretMade: 'Key created. It only works with this exact work: download or copy the work too.', secretRead: 'Message read from the key.',
+    secretMade: 'Key created. It only works with this exact work: save or copy the work too (see “Copy & save”).', secretRead: 'Message read from the key.',
     secretMissing: 'Cannot hide this yet: the text lacks {c}. Use other words, or add a word with it to the text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} fonts', pdfTitle: 'Estimate for a PDF printed from Chrome ({fonts} fonts, {runs} style runs), measured within 3 %. The command-line tool makes the file 20–40 % smaller (measured).',
     lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
@@ -429,8 +445,9 @@ const MSG = {
   de: {
     chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
     cutsN: '{n} Stärken', cuts1: '1 Stärke', cutsAll: 'alle Stärken',
+    jumpResult: '↓ Ergebnis', jumpSettings: '↑ Einstellungen', secretCopied: 'Schlüssel kopiert.', secretCopyFail: 'Kopieren nicht möglich: Schlüssel markieren und von Hand kopieren.', secretEmpty: 'Zuerst die Nachricht eintippen, die versteckt werden soll.', secretNoKey: 'Zuerst den Schlüssel einfügen (er beginnt mit „tg1.“).', secretBadKey: 'Das ist kein Schlüssel: Ein Schlüssel beginnt mit „tg1.“.', secretDamaged: 'Der Schlüssel ist beschädigt oder unvollständig. Bitte noch einmal ganz kopieren.',
     sampleLoaded: 'Beispieltext geladen: {title}. Quelle: {source} ({licence}).', sampleBig: 'groß, braucht einige Sekunden', sampleNo: 'ohne {c}', sampleGroupWorks: 'Gemeinfreie Werke', sampleGroupLaws: 'Gesetze und Erklärungen', sampleGroupTech: 'Technik', sampleGroupAi: 'KI-Anweisungen', secretSuggest: 'Texte, die ihn enthalten:', secretSuggested: 'Text geladen. Jetzt den Schlüssel noch einmal erzeugen.',
-    secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Werk ebenfalls laden oder kopieren.', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
+    secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Das Werk ebenfalls speichern oder kopieren (siehe „Kopieren & speichern“).', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
     secretMissing: 'So noch nicht möglich: Im Text fehlt {c}. Andere Wörter wählen oder ein Wort mit diesem Buchstaben in den Text aufnehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
     lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
@@ -504,6 +521,7 @@ function setLang(l) {
   if (normalizeText(textEl.value) === normalizeText(SAMPLES[lang])) textEl.value = SAMPLES[l];
   lang = l;
   document.documentElement.lang = l;
+  document.title = l === 'de' ? 'Selbst gestalten – Typographics Art' : 'Make your own – Typographics Art';
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const v = l === 'en' ? EN_TEXT.get(el.dataset.i18n) : I18N.de[el.dataset.i18n];
     if (v != null) el.textContent = v;
@@ -723,11 +741,23 @@ $('#txtfile').addEventListener('change', (e) => {
   rd.onload = () => { $('#text').value = String(rd.result); fillBase = null; $('#fillMsg').textContent = t('loaded', { name: f.name }); run(); };
   rd.readAsText(f); e.target.value = '';
 });
+/* ---------- Phones: the result sits far below the settings, a pill jumps between them ---------- */
+const jump = $('#jump'), phoneQuery = matchMedia('(max-width: 900px)');
+let resultVisible = false;
+function showJump() {
+  jump.hidden = !phoneQuery.matches;
+  jump.textContent = t(resultVisible ? 'jumpSettings' : 'jumpResult');
+}
+new IntersectionObserver((entries) => { resultVisible = entries.some((e) => e.isIntersecting); showJump(); }, { threshold: 0.25 }).observe($('#sheet'));
+jump.addEventListener('click', () => (resultVisible ? $('#form') : $('#result')).scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }));
+phoneQuery.addEventListener('change', showJump);
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', showJump));
+
 /* ---------- Sample texts (samples/index.json): which characters each one has is recorded, so a hidden message can be matched ---------- */
 let SAMPLE_TEXTS = [];
 const sampleLabel = (m) => {
   const missing = [...'abcdefghijklmnopqrstuvwxyz'].filter((c) => !m.has.includes(c)).join(' ');
-  return [m.title, m.language.toUpperCase(), fmt(m.characters), m.characters > 100000 ? t('sampleBig') : '', missing ? t('sampleNo', { c: missing }) : ''].filter(Boolean).join(' · ');
+  return [m.title, m.language.toUpperCase(), `${fmt(Math.round(m.characters / 1000))} k`, missing ? t('sampleNo', { c: missing }) : ''].filter(Boolean).join(' · ');
 };
 function buildSampleSelect() {
   const sel = $('#sampleSel');
@@ -745,7 +775,7 @@ async function loadSample(id) {
   const m = SAMPLE_TEXTS.find((x) => x.id === id); if (!m) return false;
   const r = await fetch(`samples/${encodeURIComponent(id)}.txt`); if (!r.ok) return false;
   $('#text').value = await r.text(); fillBase = null; $('#fillMsg').textContent = '';
-  $('#sampleInfo').textContent = t('sampleLoaded', { title: m.title, source: m.source, licence: m.licence });
+  $('#sampleInfo').textContent = t('sampleLoaded', { title: m.title, source: m.source, licence: m.licence }) + (m.characters > 100000 ? ' ' + t('sampleBig') + '.' : '');
   $('#sampleSel').value = id; run(); return true;
 }
 $('#sampleSel').addEventListener('change', (e) => { if (e.target.value) loadSample(e.target.value); });
@@ -799,13 +829,18 @@ $('#secretHide').addEventListener('click', async () => {
   try {
     $('#secretKey').value = await hideSecret($('#aiText').textContent, $('#secretIn').value);
     say(t('secretMade'), 'good');
-  } catch (e) { $('#secretKey').value = ''; say(e.missing ? t('secretMissing', { c: e.missing.map((c) => (lang === 'de' ? `„${c}“` : `“${c}”`)).join(', ') }) : e.message, 'bad'); suggest(e.missing); }
+  } catch (e) { $('#secretKey').value = ''; say(e.missing ? t('secretMissing', { c: e.missing.map((c) => (lang === 'de' ? `„${c}“` : `“${c}”`)).join(', ') }) : e.code === 'empty-secret' ? t('secretEmpty') : e.message, 'bad'); suggest(e.missing); }
 });
 $('#secretReveal').addEventListener('click', async () => {
   try {
     $('#secretIn').value = await revealSecret($('#aiText').textContent, $('#secretKey').value);
     say(t('secretRead'), 'good');
-  } catch (e) { say(e.wrongText ? t('secretWrong') : e.message, 'bad'); }
+  } catch (e) { say(e.wrongText ? t('secretWrong') : e.code === 'no-key' ? t('secretNoKey') : e.code === 'bad-prefix' ? t('secretBadKey') : e.code === 'damaged' ? t('secretDamaged') : e.message, 'bad'); }
+});
+$('#secretCopy').addEventListener('click', async () => {
+  const key = $('#secretKey').value.trim();
+  if (!key) return say(t('secretNoKey'), 'bad');
+  try { await navigator.clipboard.writeText(key); say(t('secretCopied'), 'good'); } catch { say(t('secretCopyFail'), 'bad'); }
 });
 $('#aiToggle').addEventListener('click', () => {
   const open = $('#aiPanel').hidden;
