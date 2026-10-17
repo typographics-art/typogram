@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-daten",
+  "document": "Agenten-Prompts: Datenanalyse (5 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "39c3bdfbd98bdd0514627a77dd4307f350a537fb1cccf4e84948748e328a9bad",
+  "sourcePages": null,
+  "sourceBytes": 16655,
+  "extractor": "utf-8",
+  "characters": 16382,
+  "words": 2181,
+  "lines": 98,
+  "paper": "a4",
+  "fontSizeMm": 2.888,
+  "overflow": false,
+  "toneFidelity": 0.974,
+  "layoutMs": 546,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 14202,
+    "sha256Source": "202ff8d9bde4e93f3089f94da291e074c57232f1c23b479f0564ca289f3b0192",
+    "sha256ReadBack": "202ff8d9bde4e93f3089f94da291e074c57232f1c23b479f0564ca289f3b0192"
+  },
+  "pdfBytes": 192410,
+  "pdfBytesUnoptimized": 287546,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 14202,
+    "runs": 5982,
+    "outlines": 408,
+    "fonts": 10
+  },
+  "sizeFactor": 11.55,
+  "motif": null,
+  "motifCredit": null
+}

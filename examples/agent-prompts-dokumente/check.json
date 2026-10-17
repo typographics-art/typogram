@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-dokumente",
+  "document": "Agenten-Prompts: Dokumente (5 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "cead7acb4a0451af033e46d90e26a48c0dd4124d024cb6db6034d86603097fe0",
+  "sourcePages": null,
+  "sourceBytes": 18726,
+  "extractor": "utf-8",
+  "characters": 18345,
+  "words": 2460,
+  "lines": 104,
+  "paper": "a4",
+  "fontSizeMm": 2.712,
+  "overflow": false,
+  "toneFidelity": 0.973,
+  "layoutMs": 517,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 15886,
+    "sha256Source": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d",
+    "sha256ReadBack": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d"
+  },
+  "pdfBytes": 205558,
+  "pdfBytesUnoptimized": 304855,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 15886,
+    "runs": 6819,
+    "outlines": 432,
+    "fonts": 10
+  },
+  "sizeFactor": 10.98,
+  "motif": null,
+  "motifCredit": null
+}

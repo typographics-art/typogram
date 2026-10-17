@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-schreiben",
+  "document": "Agenten-Prompts: Schreiben (5 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "0651dde594afb70cb57949363b490dbff1925e6721b71190e86ccc5e34325fba",
+  "sourcePages": null,
+  "sourceBytes": 15291,
+  "extractor": "utf-8",
+  "characters": 15008,
+  "words": 1966,
+  "lines": 95,
+  "paper": "a4",
+  "fontSizeMm": 3.001,
+  "overflow": false,
+  "toneFidelity": 0.978,
+  "layoutMs": 460,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 13043,
+    "sha256Source": "ef111849b89b943b7c8f7dcb5042f2a573eeac8f535b0c28ded51b1cd602afdc",
+    "sha256ReadBack": "ef111849b89b943b7c8f7dcb5042f2a573eeac8f535b0c28ded51b1cd602afdc"
+  },
+  "pdfBytes": 188969,
+  "pdfBytesUnoptimized": 285931,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 13043,
+    "runs": 5584,
+    "outlines": 401,
+    "fonts": 10
+  },
+  "sizeFactor": 12.36,
+  "motif": null,
+  "motifCredit": null
+}

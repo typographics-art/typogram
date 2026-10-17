@@ -1,0 +1,41 @@
+{
+  "id": "agent-regel-ausgabe",
+  "document": "Agenten-Regel 7: Ausgabeformate",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "c2ddc5461924fadafe6edcbc889f1b98adf41a2f1ffc86495dbbfeaa440d427d",
+  "sourcePages": null,
+  "sourceBytes": 4061,
+  "extractor": "utf-8",
+  "characters": 3980,
+  "words": 553,
+  "lines": 50,
+  "paper": "a4",
+  "fontSizeMm": 5.616,
+  "overflow": false,
+  "toneFidelity": 0.971,
+  "layoutMs": 209,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 3428,
+    "sha256Source": "797aefa9e2b9f27613317edf65dc0955965c0c67064004aa833b9699500090ed",
+    "sha256ReadBack": "797aefa9e2b9f27613317edf65dc0955965c0c67064004aa833b9699500090ed"
+  },
+  "pdfBytes": 124915,
+  "pdfBytesUnoptimized": 203138,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 3428,
+    "runs": 1739,
+    "outlines": 322,
+    "fonts": 10
+  },
+  "sizeFactor": 30.76,
+  "motif": null,
+  "motifCredit": null
+}

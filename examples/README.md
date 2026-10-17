@@ -31,9 +31,35 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 | [<img src="research-assistant/preview.jpg" width="120" alt="research-assistant">](research-assistant/onepage.pdf) | **[Research assistant: rules for sources and claims (written for this repository)](research-assistant/onepage.pdf)** | 444 words | 2,625 characters at 7.306 mm | 67 KB (original 3 KB) | ✓ every visible character identical (exact) |
 | [<img src="agents-md/preview.jpg" width="120" alt="agents-md">](agents-md/onepage.pdf) | **[AGENTS.md of this repository](agents-md/onepage.pdf)** | 467 words | 3,002 characters at 6.776 mm | 76 KB (original 3 KB) | ✓ every visible character identical (exact) |
 
+## Agent library
+
+| | Document | Source | On one page | File size | Read back from the PDF |
+|---|---|---|---|---|---|
+| [<img src="agent-bibliothek/preview.jpg" width="120" alt="agent-bibliothek">](agent-bibliothek/onepage.pdf) | **[Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)](agent-bibliothek/onepage.pdf)** | 30,205 words | 225,554 characters at 0.786 mm | 890 KB (original 224 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-library-readme/preview.jpg" width="120" alt="agent-library-readme">](agent-library-readme/onepage.pdf) | **[Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts](agent-library-readme/onepage.pdf)** | 950 words | 7,350 characters at 4.191 mm | 144 KB (original 7 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-library-wissen/preview.jpg" width="120" alt="agent-library-wissen">](agent-library-wissen/onepage.pdf) | **[Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)](agent-library-wissen/onepage.pdf)** | 1,094 words | 8,441 characters at 3.899 mm | 157 KB (original 8 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-quellen/preview.jpg" width="120" alt="agent-regel-quellen">](agent-regel-quellen/onepage.pdf) | **[Agenten-Regel 1: Quellen und Belege](agent-regel-quellen/onepage.pdf)** | 639 words | 4,432 characters at 5.378 mm | 127 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-unsicherheit/preview.jpg" width="120" alt="agent-regel-unsicherheit">](agent-regel-unsicherheit/onepage.pdf) | **[Agenten-Regel 2: Unsicherheit](agent-regel-unsicherheit/onepage.pdf)** | 584 words | 4,022 characters at 5.589 mm | 119 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-aufgaben/preview.jpg" width="120" alt="agent-regel-aufgaben">](agent-regel-aufgaben/onepage.pdf) | **[Agenten-Regel 3: Aufgabenbearbeitung](agent-regel-aufgaben/onepage.pdf)** | 567 words | 3,984 characters at 5.698 mm | 122 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-berechtigungen/preview.jpg" width="120" alt="agent-regel-berechtigungen">](agent-regel-berechtigungen/onepage.pdf) | **[Agenten-Regel 4: Berechtigungen](agent-regel-berechtigungen/onepage.pdf)** | 521 words | 3,625 characters at 5.937 mm | 116 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-datenschutz/preview.jpg" width="120" alt="agent-regel-datenschutz">](agent-regel-datenschutz/onepage.pdf) | **[Agenten-Regel 5: Datenschutz](agent-regel-datenschutz/onepage.pdf)** | 509 words | 3,768 characters at 5.746 mm | 120 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-qualitaet/preview.jpg" width="120" alt="agent-regel-qualitaet">](agent-regel-qualitaet/onepage.pdf) | **[Agenten-Regel 6: Qualitätsprüfung](agent-regel-qualitaet/onepage.pdf)** | 537 words | 3,788 characters at 5.742 mm | 118 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-ausgabe/preview.jpg" width="120" alt="agent-regel-ausgabe">](agent-regel-ausgabe/onepage.pdf) | **[Agenten-Regel 7: Ausgabeformate](agent-regel-ausgabe/onepage.pdf)** | 553 words | 3,980 characters at 5.616 mm | 122 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-regel-fremdinhalte/preview.jpg" width="120" alt="agent-regel-fremdinhalte">](agent-regel-fremdinhalte/onepage.pdf) | **[Agenten-Regel 8: Umgang mit Fremdinhalten](agent-regel-fremdinhalte/onepage.pdf)** | 516 words | 3,835 characters at 5.724 mm | 115 KB (original 4 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-code/preview.jpg" width="120" alt="agent-prompts-code">](agent-prompts-code/onepage.pdf) | **[Agenten-Prompts: Softwareentwicklung (7 Prompts)](agent-prompts-code/onepage.pdf)** | 2,572 words | 19,347 characters at 2.64 mm | 207 KB (original 19 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-sec/preview.jpg" width="120" alt="agent-prompts-sec">](agent-prompts-sec/onepage.pdf) | **[Agenten-Prompts: Software-Sicherheit (4 Prompts)](agent-prompts-sec/onepage.pdf)** | 1,695 words | 13,532 characters at 3.13 mm | 187 KB (original 13 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-recherche/preview.jpg" width="120" alt="agent-prompts-recherche">](agent-prompts-recherche/onepage.pdf) | **[Agenten-Prompts: Recherche (5 Prompts)](agent-prompts-recherche/onepage.pdf)** | 2,548 words | 18,980 characters at 2.674 mm | 200 KB (original 19 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-dokumente/preview.jpg" width="120" alt="agent-prompts-dokumente">](agent-prompts-dokumente/onepage.pdf) | **[Agenten-Prompts: Dokumente (5 Prompts)](agent-prompts-dokumente/onepage.pdf)** | 2,460 words | 18,345 characters at 2.712 mm | 201 KB (original 18 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-daten/preview.jpg" width="120" alt="agent-prompts-daten">](agent-prompts-daten/onepage.pdf) | **[Agenten-Prompts: Datenanalyse (5 Prompts)](agent-prompts-daten/onepage.pdf)** | 2,181 words | 16,382 characters at 2.888 mm | 188 KB (original 16 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-schreiben/preview.jpg" width="120" alt="agent-prompts-schreiben">](agent-prompts-schreiben/onepage.pdf) | **[Agenten-Prompts: Schreiben (5 Prompts)](agent-prompts-schreiben/onepage.pdf)** | 1,966 words | 15,008 characters at 3.001 mm | 185 KB (original 15 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-unternehmen/preview.jpg" width="120" alt="agent-prompts-unternehmen">](agent-prompts-unternehmen/onepage.pdf) | **[Agenten-Prompts: Unternehmen (4 Prompts)](agent-prompts-unternehmen/onepage.pdf)** | 2,323 words | 17,639 characters at 2.74 mm | 210 KB (original 18 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-projekt/preview.jpg" width="120" alt="agent-prompts-projekt">](agent-prompts-projekt/onepage.pdf) | **[Agenten-Prompts: Projektmanagement (5 Prompts)](agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.743 mm | 196 KB (original 18 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-design/preview.jpg" width="120" alt="agent-prompts-design">](agent-prompts-design/onepage.pdf) | **[Agenten-Prompts: Design und Produkt (4 Prompts)](agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.565 mm | 229 KB (original 20 KB) | ✓ every visible character identical (exact) |
+| [<img src="agent-prompts-betrieb/preview.jpg" width="120" alt="agent-prompts-betrieb">](agent-prompts-betrieb/onepage.pdf) | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.592 mm | 208 KB (original 20 KB) | ✓ every visible character identical (exact) |
+
 ## File size, honestly
 
-Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is 0.4 to 2.8 times the size of its PDF source (us-constitution 0.4, un-human-rights 0.7, eu-ai-act 0.9, ch-bundesverfassung 1.6, de-grundgesetz 2.8; below 1 means smaller); plain-text sources grow far more (pep-8: 50 KB → 327 KB; code-review-agent: 3 KB → 105 KB; support-assistant: 3 KB → 84 KB; research-assistant: 3 KB → 67 KB; agents-md: 3 KB → 76 KB), because the source is bare text while the one-pager carries fonts and styling.
+Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is 0.4 to 2.8 times the size of its PDF source (us-constitution 0.4, un-human-rights 0.7, eu-ai-act 0.9, ch-bundesverfassung 1.6, de-grundgesetz 2.8; below 1 means smaller); plain-text sources grow far more (pep-8: 50 KB → 327 KB; code-review-agent: 3 KB → 105 KB; support-assistant: 3 KB → 84 KB; research-assistant: 3 KB → 67 KB; agents-md: 3 KB → 76 KB; agent-bibliothek: 224 KB → 890 KB; agent-library-readme: 7 KB → 144 KB; agent-library-wissen: 8 KB → 157 KB; agent-regel-quellen: 4 KB → 127 KB; agent-regel-unsicherheit: 4 KB → 119 KB; agent-regel-aufgaben: 4 KB → 122 KB; agent-regel-berechtigungen: 4 KB → 116 KB; agent-regel-datenschutz: 4 KB → 120 KB; agent-regel-qualitaet: 4 KB → 118 KB; agent-regel-ausgabe: 4 KB → 122 KB; agent-regel-fremdinhalte: 4 KB → 115 KB; agent-prompts-code: 19 KB → 207 KB; agent-prompts-sec: 13 KB → 187 KB; agent-prompts-recherche: 19 KB → 200 KB; agent-prompts-dokumente: 18 KB → 201 KB; agent-prompts-daten: 16 KB → 188 KB; agent-prompts-schreiben: 15 KB → 185 KB; agent-prompts-unternehmen: 18 KB → 210 KB; agent-prompts-projekt: 18 KB → 196 KB; agent-prompts-design: 20 KB → 229 KB; agent-prompts-betrieb: 20 KB → 208 KB), because the source is bare text while the one-pager carries fonts and styling.
 
 What is done about it, each step measured in [docs/file-size.md](../docs/file-size.md): glyph outlines are rounded to whole units of the 1000-unit glyph grid (invisible: at most 1/2000 of the type size), Chrome's empty accessibility tags are left out, the PDF is repacked with qpdf, photo colours are rounded to steps of 24 (of 255 per channel), and one-pagers use one type size and no width variants, which also makes their pictures sharper. With `--weights` (CLI) or the font-cuts slider (app) fewer weights are used, which makes files much smaller still. The table shows the optimised size next to the original.
 
@@ -62,6 +88,27 @@ What is done about it, each step measured in [docs/file-size.md](../docs/file-si
 | support-assistant | MIT, Typographics Art contributors |
 | research-assistant | MIT, Typographics Art contributors |
 | agents-md | MIT, Typographics Art contributors |
+| agent-bibliothek | Written for this repository (MIT) |
+| agent-library-readme | Written for this repository (MIT) |
+| agent-library-wissen | Written for this repository (MIT) |
+| agent-regel-quellen | Written for this repository (MIT) |
+| agent-regel-unsicherheit | Written for this repository (MIT) |
+| agent-regel-aufgaben | Written for this repository (MIT) |
+| agent-regel-berechtigungen | Written for this repository (MIT) |
+| agent-regel-datenschutz | Written for this repository (MIT) |
+| agent-regel-qualitaet | Written for this repository (MIT) |
+| agent-regel-ausgabe | Written for this repository (MIT) |
+| agent-regel-fremdinhalte | Written for this repository (MIT) |
+| agent-prompts-code | Written for this repository (MIT) |
+| agent-prompts-sec | Written for this repository (MIT) |
+| agent-prompts-recherche | Written for this repository (MIT) |
+| agent-prompts-dokumente | Written for this repository (MIT) |
+| agent-prompts-daten | Written for this repository (MIT) |
+| agent-prompts-schreiben | Written for this repository (MIT) |
+| agent-prompts-unternehmen | Written for this repository (MIT) |
+| agent-prompts-projekt | Written for this repository (MIT) |
+| agent-prompts-design | Written for this repository (MIT) |
+| agent-prompts-betrieb | Written for this repository (MIT) |
 
 ## Why AI instructions?
 

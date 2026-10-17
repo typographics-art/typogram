@@ -1,0 +1,41 @@
+{
+  "id": "agent-regel-quellen",
+  "document": "Agenten-Regel 1: Quellen und Belege",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "f7742ef7db6ff2cf4c5b11da0472917f04c9f7c62b778c8fac1ea1620ac7e88f",
+  "sourcePages": null,
+  "sourceBytes": 4504,
+  "extractor": "utf-8",
+  "characters": 4432,
+  "words": 639,
+  "lines": 53,
+  "paper": "a4",
+  "fontSizeMm": 5.378,
+  "overflow": false,
+  "toneFidelity": 0.973,
+  "layoutMs": 336,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 3794,
+    "sha256Source": "325999344a2aa8429255665cb0e3ecab48f01f7de62f4c3e27a433271c62954e",
+    "sha256ReadBack": "325999344a2aa8429255665cb0e3ecab48f01f7de62f4c3e27a433271c62954e"
+  },
+  "pdfBytes": 130543,
+  "pdfBytesUnoptimized": 209953,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 3794,
+    "runs": 2004,
+    "outlines": 337,
+    "fonts": 10
+  },
+  "sizeFactor": 28.98,
+  "motif": null,
+  "motifCredit": null
+}

@@ -66,7 +66,7 @@ try {
 
 // README with a table of all examples that have been built.
 const rows = all.filter((ex) => existsSync(join(DIR, ex.id, 'check.json'))).map((ex) => JSON.parse(readFileSync(join(DIR, ex.id, 'check.json'), 'utf8')));
-const cat = { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions' };
+const cat = { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions', 'agent-library': 'Agent library' };
 const fmt = (n) => n.toLocaleString('en-US');
 let md = `# Examples: whole documents on one page
 

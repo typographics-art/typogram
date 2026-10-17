@@ -1,0 +1,41 @@
+{
+  "id": "agent-regel-fremdinhalte",
+  "document": "Agenten-Regel 8: Umgang mit Fremdinhalten",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "040b033324001c8e8e07f71bfa14fb7fb9c6db8a8015b5179a58fb3f209b77f3",
+  "sourcePages": null,
+  "sourceBytes": 3887,
+  "extractor": "utf-8",
+  "characters": 3835,
+  "words": 516,
+  "lines": 49,
+  "paper": "a4",
+  "fontSizeMm": 5.724,
+  "overflow": false,
+  "toneFidelity": 0.97,
+  "layoutMs": 222,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 3320,
+    "sha256Source": "cac1aa291b2345b96d4ede44c99dfc86549ce3799e798aa32c2d9459a3e5f11e",
+    "sha256ReadBack": "cac1aa291b2345b96d4ede44c99dfc86549ce3799e798aa32c2d9459a3e5f11e"
+  },
+  "pdfBytes": 117852,
+  "pdfBytesUnoptimized": 190637,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 3320,
+    "runs": 1683,
+    "outlines": 308,
+    "fonts": 10
+  },
+  "sizeFactor": 30.32,
+  "motif": null,
+  "motifCredit": null
+}

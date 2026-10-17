@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-projekt",
+  "document": "Agenten-Prompts: Projektmanagement (5 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "cb3aef3c40b5693ac3ede0a6ea4278684526947690443eca55380d64f7b0af00",
+  "sourcePages": null,
+  "sourceBytes": 18369,
+  "extractor": "utf-8",
+  "characters": 18012,
+  "words": 2490,
+  "lines": 103,
+  "paper": "a4",
+  "fontSizeMm": 2.743,
+  "overflow": false,
+  "toneFidelity": 0.977,
+  "layoutMs": 653,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 15523,
+    "sha256Source": "5617e6bbc9d35a50b8e8c03fc3094d8b1b133acbeaca2a32145bfa36e6bd36b8",
+    "sha256ReadBack": "5617e6bbc9d35a50b8e8c03fc3094d8b1b133acbeaca2a32145bfa36e6bd36b8"
+  },
+  "pdfBytes": 200638,
+  "pdfBytesUnoptimized": 295932,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 15523,
+    "runs": 6779,
+    "outlines": 418,
+    "fonts": 10
+  },
+  "sizeFactor": 10.92,
+  "motif": null,
+  "motifCredit": null
+}

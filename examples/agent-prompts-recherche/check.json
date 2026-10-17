@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-recherche",
+  "document": "Agenten-Prompts: Recherche (5 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "fc59b726af52e7af52919d157e307a69cd689e3b921ac999c2fdd69d2c9a0d0d",
+  "sourcePages": null,
+  "sourceBytes": 19333,
+  "extractor": "utf-8",
+  "characters": 18980,
+  "words": 2548,
+  "lines": 106,
+  "paper": "a4",
+  "fontSizeMm": 2.674,
+  "overflow": false,
+  "toneFidelity": 0.977,
+  "layoutMs": 684,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 16433,
+    "sha256Source": "c24a2c96e67414b1ffe3c0496457c40d9ed2c12828d702210fe1e162fbde7e19",
+    "sha256ReadBack": "c24a2c96e67414b1ffe3c0496457c40d9ed2c12828d702210fe1e162fbde7e19"
+  },
+  "pdfBytes": 204922,
+  "pdfBytesUnoptimized": 301997,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 16433,
+    "runs": 7058,
+    "outlines": 418,
+    "fonts": 10
+  },
+  "sizeFactor": 10.6,
+  "motif": null,
+  "motifCredit": null
+}

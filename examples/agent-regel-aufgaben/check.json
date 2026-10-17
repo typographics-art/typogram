@@ -1,0 +1,41 @@
+{
+  "id": "agent-regel-aufgaben",
+  "document": "Agenten-Regel 3: Aufgabenbearbeitung",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "e7f3223933de5d93f2d377caf97e45f5db60c1ad8ca299f0d9658753cc030dec",
+  "sourcePages": null,
+  "sourceBytes": 4060,
+  "extractor": "utf-8",
+  "characters": 3984,
+  "words": 567,
+  "lines": 50,
+  "paper": "a4",
+  "fontSizeMm": 5.698,
+  "overflow": false,
+  "toneFidelity": 0.968,
+  "layoutMs": 208,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 3418,
+    "sha256Source": "4fe3873261ba49c70a0b36739ed7102b5ce508a9e9dedc311421b40f05cebfd3",
+    "sha256ReadBack": "4fe3873261ba49c70a0b36739ed7102b5ce508a9e9dedc311421b40f05cebfd3"
+  },
+  "pdfBytes": 124703,
+  "pdfBytesUnoptimized": 201410,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 3418,
+    "runs": 1767,
+    "outlines": 329,
+    "fonts": 10
+  },
+  "sizeFactor": 30.72,
+  "motif": null,
+  "motifCredit": null
+}

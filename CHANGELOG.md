@@ -40,6 +40,7 @@ First public version.
 - Gallery: the five early procedural works are replaced by photo works; now 15 public-domain images with matching texts (new: Pillars of Creation · H. G. Wells, The Wanderer · Nietzsche, Red Fuji · Lafcadio Hearn, Frederick Douglass, Mark Twain, Edgar Allan Poe, Nikola Tesla, John Herschel), no filler; `node cli/build-gallery.mjs <id>` rebuilds single works.
 - README: new intro picture (works with their originals as insets, `scripts/build-intro.py`) and a wordmark made with our own image model (Qwen-Image 2.1), light and dark.
 - Everything about the project in one file for AI assistants: `about/typographics-art.md` (also `/llms-full.txt`) and the same text as a one-pager `about/typographics-art.pdf` (`scripts/build-about.mjs`); download box on the website.
+- Agent library (German): a knowledge and task library for AI agents in `examples/agent-library/` — knowledge guide, eight rule files, ten task families with 49 prompts in a fixed eight-field format — and 21 one-pagers of it, including the whole library (226 524 characters) on one page.
 - CI: tests run by file glob; Node 22 took `node --test test/` as a module path.
 - Fix: pypdf read only 56 % of the EU AI Act one-pager: it stops at 2 000 000 tokens per content stream. Print strips are now split until every stream stays below 1 800 000 (`cli/pdf-tokens.js`).
 - Fix: one-pagers have their exact paper size (A4 = 210 × 297 mm; before 209.89 × 293.9–297.0 mm). The last strip reaches the sheet's full height and every PDF is assembled by MuPDF, which is now required for PDF output.

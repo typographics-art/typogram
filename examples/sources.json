@@ -103,5 +103,194 @@
     "local": "../AGENTS.md",
     "licence": "MIT, Typographics Art contributors",
     "category": "ai-instructions"
+  },
+  {
+    "id": "agent-bibliothek",
+    "title": "AGENT",
+    "subtitle": "Wissens- und Aufgabenbibliothek für KI-Agenten · alle Teile",
+    "document": "Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)",
+    "local": "agent-library/bibliothek.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-library-readme",
+    "title": "LIB",
+    "subtitle": "Bibliothek für KI-Agenten · Übersicht und Prompt-Felder",
+    "document": "Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts",
+    "local": "agent-library/README.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-library-wissen",
+    "title": "W",
+    "subtitle": "Wissen, das man einem Agenten bereitstellt",
+    "document": "Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)",
+    "local": "agent-library/wissen.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-quellen",
+    "title": "§1",
+    "subtitle": "Regel: Quellen und Belege",
+    "document": "Agenten-Regel 1: Quellen und Belege",
+    "local": "agent-library/regeln/quellen-und-belege.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-unsicherheit",
+    "title": "§2",
+    "subtitle": "Regel: Unsicherheit",
+    "document": "Agenten-Regel 2: Unsicherheit",
+    "local": "agent-library/regeln/unsicherheit.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-aufgaben",
+    "title": "§3",
+    "subtitle": "Regel: Aufgabenbearbeitung",
+    "document": "Agenten-Regel 3: Aufgabenbearbeitung",
+    "local": "agent-library/regeln/aufgabenbearbeitung.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-berechtigungen",
+    "title": "§4",
+    "subtitle": "Regel: Berechtigungen",
+    "document": "Agenten-Regel 4: Berechtigungen",
+    "local": "agent-library/regeln/berechtigungen.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-datenschutz",
+    "title": "§5",
+    "subtitle": "Regel: Datenschutz",
+    "document": "Agenten-Regel 5: Datenschutz",
+    "local": "agent-library/regeln/datenschutz.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-qualitaet",
+    "title": "§6",
+    "subtitle": "Regel: Qualitätsprüfung",
+    "document": "Agenten-Regel 6: Qualitätsprüfung",
+    "local": "agent-library/regeln/qualitaetspruefung.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-ausgabe",
+    "title": "§7",
+    "subtitle": "Regel: Ausgabeformate",
+    "document": "Agenten-Regel 7: Ausgabeformate",
+    "local": "agent-library/regeln/ausgabeformate.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-fremdinhalte",
+    "title": "§8",
+    "subtitle": "Regel: Umgang mit Fremdinhalten",
+    "document": "Agenten-Regel 8: Umgang mit Fremdinhalten",
+    "local": "agent-library/regeln/umgang-mit-fremdinhalten.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-code",
+    "title": "CODE",
+    "subtitle": "Aufgaben-Prompts: Softwareentwicklung",
+    "document": "Agenten-Prompts: Softwareentwicklung (7 Prompts)",
+    "local": "agent-library/prompts/softwareentwicklung.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-sec",
+    "title": "SEC",
+    "subtitle": "Aufgaben-Prompts: Software-Sicherheit",
+    "document": "Agenten-Prompts: Software-Sicherheit (4 Prompts)",
+    "local": "agent-library/prompts/software-sicherheit.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-recherche",
+    "title": "FAKT",
+    "subtitle": "Aufgaben-Prompts: Recherche",
+    "document": "Agenten-Prompts: Recherche (5 Prompts)",
+    "local": "agent-library/prompts/recherche.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-dokumente",
+    "title": "DOKU",
+    "subtitle": "Aufgaben-Prompts: Dokumente",
+    "document": "Agenten-Prompts: Dokumente (5 Prompts)",
+    "local": "agent-library/prompts/dokumente.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-daten",
+    "title": "DATA",
+    "subtitle": "Aufgaben-Prompts: Datenanalyse",
+    "document": "Agenten-Prompts: Datenanalyse (5 Prompts)",
+    "local": "agent-library/prompts/datenanalyse.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-schreiben",
+    "title": "TEXT",
+    "subtitle": "Aufgaben-Prompts: Schreiben",
+    "document": "Agenten-Prompts: Schreiben (5 Prompts)",
+    "local": "agent-library/prompts/schreiben.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-unternehmen",
+    "title": "BIZ",
+    "subtitle": "Aufgaben-Prompts: Unternehmen",
+    "document": "Agenten-Prompts: Unternehmen (4 Prompts)",
+    "local": "agent-library/prompts/unternehmen.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-projekt",
+    "title": "PLAN",
+    "subtitle": "Aufgaben-Prompts: Projektmanagement",
+    "document": "Agenten-Prompts: Projektmanagement (5 Prompts)",
+    "local": "agent-library/prompts/projektmanagement.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-design",
+    "title": "UX",
+    "subtitle": "Aufgaben-Prompts: Design und Produkt",
+    "document": "Agenten-Prompts: Design und Produkt (4 Prompts)",
+    "local": "agent-library/prompts/design-und-produkt.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-betrieb",
+    "title": "OPS",
+    "subtitle": "Aufgaben-Prompts: Agentenbetrieb",
+    "document": "Agenten-Prompts: Agentenbetrieb (5 Prompts)",
+    "local": "agent-library/prompts/agentenbetrieb.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
   }
 ]
