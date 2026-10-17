@@ -17,3 +17,4 @@ export {
 } from './render.js';
 export { hideSecret, revealSecret, canonicalText } from './secret.js';
 export { markupText, pdfItemsText, readWorkFile } from './work-text.js';
+export { structuredText, sha256Hex } from './structure.js';
