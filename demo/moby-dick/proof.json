@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T02:37:27.132Z",
+  "generated": "2026-10-17T06:30:24.880Z",
   "source": {
     "title": "Moby-Dick; or, The Whale",
     "author": "Herman Melville",
@@ -31,42 +31,42 @@
       "aspect": 1.5249343832020998
     },
     "characters": 1214967,
-    "lines": 887,
-    "fontSizeMm": 3.25922429561615,
-    "toneFidelity": 0.8968633842935418,
+    "lines": 886,
+    "fontSizeMm": 3.2578125,
+    "toneFidelity": 0.8964970737996707,
     "sections": [
       {
         "title": "Part I – Ashore and out to sea",
         "firstLine": 0,
-        "lineCount": 314,
+        "lineCount": 313,
         "characters": 409272,
         "y": 0,
-        "height": 2046.7928576469421,
+        "height": 2039.390625,
         "motif": "harbour",
         "firstChapter": "Etymology",
-        "heightMm": 1023.3964288234711
+        "heightMm": 1019.6953125
       },
       {
         "title": "Part II – The whaling voyage",
-        "firstLine": 314,
+        "firstLine": 313,
         "lineCount": 277,
         "characters": 400736,
-        "y": 2046.7928576469421,
-        "height": 1805.610259771347,
+        "y": 2039.390625,
+        "height": 1804.828125,
         "motif": "hunt",
         "firstChapter": "Chapter 42",
-        "heightMm": 902.8051298856735
+        "heightMm": 902.4140625
       },
       {
         "title": "Part III – The white whale",
-        "firstLine": 591,
+        "firstLine": 590,
         "lineCount": 296,
         "characters": 404957,
-        "y": 3852.403117418289,
-        "height": 1929.4607830047607,
+        "y": 3844.21875,
+        "height": 1928.625,
         "motif": "whiteWhale",
         "firstChapter": "Chapter 86",
-        "heightMm": 964.7303915023804
+        "heightMm": 964.3125
       }
     ]
   },
@@ -146,15 +146,15 @@
   "ocr": {
     "lines": 16,
     "segments": 128,
-    "words": 3922,
-    "recognised": 2886,
-    "accuracy": 0.7358490566037735,
+    "words": 3943,
+    "recognised": 2895,
+    "accuracy": 0.7342125285315749,
     "pxPerMm": 2
   },
   "poppler": {
     "exact": false,
-    "characters": 1171055,
-    "wordsInSource": 0.9787685264443654
+    "characters": 1009382,
+    "wordsInSource": 0.5445620141357259
   },
   "vision": {
     "model": "Claude (Anthropic, Opus 5.5), reading the segment images directly",

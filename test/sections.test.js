@@ -66,3 +66,8 @@ test('SVG in parts concatenates to exactly the same document as toSvg', async ()
   assert.equal(strip(parts), strip(toSvg(s)));
   assert.equal(strip(parts), s.text);
 });
+
+test('line heights are exact multiples of 1/64 px, so browsers place every line without drift', () => {
+  const s = run();
+  assert.equal(s.result.L * 64, Math.round(s.result.L * 64));
+});

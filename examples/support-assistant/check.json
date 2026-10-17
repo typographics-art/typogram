@@ -1,0 +1,27 @@
+{
+  "id": "support-assistant",
+  "document": "Customer support assistant: policy (fictional shop, written for this repository)",
+  "category": "ai-instructions",
+  "licence": "MIT, Typographic Art contributors",
+  "url": null,
+  "sourceSha256": "aa72c80adcb45680b5265992350a7f724ee8221dd48dab39d761bd0a7e82a81f",
+  "sourcePages": null,
+  "extractor": "utf-8",
+  "characters": 3165,
+  "words": 557,
+  "lines": 43,
+  "paper": "a4",
+  "fontSizeMm": 6.628,
+  "overflow": false,
+  "toneFidelity": 0.96,
+  "layoutMs": 564,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 2609,
+    "sha256Source": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533",
+    "sha256ReadBack": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533"
+  }
+}

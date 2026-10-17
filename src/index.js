@@ -8,8 +8,8 @@ export { lorem } from './lorem.js';
 export { buildToneMap, cropToAspect } from './tone.js';
 export { inkFor, rgbCss, mix } from './color.js';
 export {
-  REF_SIZE, REF_RATIO, normalizeText, tokenize, candidates, buildLuts, toneRange,
-  layoutAt, fit, justify, toneFidelity,
+  REF_SIZE, REF_RATIO, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange,
+  layoutAt, fit, justify, toneFidelity, quantizeLine,
 } from './layout.js';
 export { typesetWith, typesetSections, plainText, isFaithful } from './typeset.js';
 export {

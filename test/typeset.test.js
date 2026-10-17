@@ -73,3 +73,16 @@ test('a word longer than a line is broken between characters, nothing is lost', 
 test('rejects empty text', () => {
   assert.throws(() => run({}, '   '), /empty/);
 });
+
+test('fit always returns a layout with lines, also after rounding the line height', async () => {
+  const { fit, tokenize, candidates, buildLuts, LEGIBILITY, REF_RATIO } = await import('../src/index.js');
+  const level = LEGIBILITY.free, cands = candidates(level, false, [{ wd: 1, st: 1 }]);
+  for (const n of [300, 2000, 9000]) {
+    const text = lorem(n, n), luts = buildLuts(new Set(text), cands, fakeMetric, 1, level.sizes);
+    const ctx = { W: 333, H: 517, dark: (x0) => (x0 % 50) / 50, tone: (d) => 0.05 + d * 0.3, cands, luts, metric: fakeMetric, covScale: 1,
+      lineRatio: REF_RATIO, sizeCount: level.sizes.length, wordMode: false, wordAvg: new Map(), normalWidth: 1, shape: true };
+    const r = fit(tokenize(text), ctx);
+    assert.ok(Array.isArray(r.lines) && r.lines.length > 0, `no lines for ${n} characters`);
+    assert.equal(r.L * 64, Math.round(r.L * 64));
+  }
+});

@@ -6,4 +6,4 @@ In short: be welcoming and respectful, assume good intent, give and accept const
 
 ## Reporting
 
-Report unacceptable behaviour to the maintainers by email to **d0n@tg-art.org**. Reports are handled confidentially. Maintainers may remove comments, commits or contributions and may ban contributors who violate this code.
+Report unacceptable behaviour to the maintainers by email to **d0n@typographics-art.org**. Reports are handled confidentially. Maintainers may remove comments, commits or contributions and may ban contributors who violate this code.

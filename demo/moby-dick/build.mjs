@@ -3,7 +3,7 @@
 // whole book survives inside it.
 //
 //   node demo/moby-dick/build.mjs            # everything
-//   node demo/moby-dick/build.mjs svg proof  # only some steps: svg pdf zoom ocr proof
+//   node demo/moby-dick/build.mjs svg proof  # only some steps: svg pdf strips zoom lines ocr proof
 //
 // Large outputs go to demo/moby-dick/out/ (not in git): poster SVG, print PDF, zoom tiles.
 // Small outputs stay next to this file and are committed: proof.json, proof.md, preview.jpg.
@@ -58,19 +58,22 @@ try {
     await new Promise((r) => file.end(r));
   }
 
-  if (steps.has('pdf')) {
+  if (steps.has('pdf')) { // the print file: the whole poster as ONE page at physical size
+    log('printing the poster PDF (one page) …');
+    const size = await session.printPoster(join(OUT, 'moby-dick-poster.pdf'), { lines: lineCount, characters: info.characters, mmPerPx: POSTER.mmPerPx });
+    log(`  1 page, ${size.widthMm.toFixed(0)} × ${size.heightMm.toFixed(0)} mm (printed in ${size.strips} strips, assembled)`);
+  }
+
+  if (steps.has('strips')) { // optional: the same poster in six strips, for printers that cannot take one sheet
     log('printing PDF strips …');
-    const strips = 6, per = Math.ceil(lineCount / strips), files = [];
+    const strips = 6, per = Math.ceil(lineCount / strips);
     mkdirSync(join(OUT, 'strips'), { recursive: true });
     for (let k = 0; k < strips; k++) {
       const from = k * per, to = Math.min(lineCount, from + per);
       const size = await session.call('tgPrintStrip', from, to, POSTER.mmPerPx);
-      const f = join(OUT, 'strips', `strip-${k + 1}.pdf`);
-      writeFileSync(f, await session.pdf(size.widthMm, size.heightMm));
-      files.push(f);
+      writeFileSync(join(OUT, 'strips', `strip-${k + 1}.pdf`), await session.pdf(size.widthMm, size.heightMm));
       log(`  strip ${k + 1}/${strips}: ${size.widthMm.toFixed(0)} × ${size.heightMm.toFixed(0)} mm`);
     }
-    if (has('pdfunite')) spawnSync('pdfunite', [...files, join(OUT, 'moby-dick-poster.pdf')]);
   }
 
   if (steps.has('zoom')) {
@@ -148,8 +151,9 @@ if (steps.has('proof')) {
   const extract = (cmd, args) => normalizeText(spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout);
   const fromPdf = existsSync(pdfFile) && has('mutool') ? extract('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', pdfFile]) : null;
   const fromPoppler = existsSync(pdfFile) && has('pdftotext') ? extract('pdftotext', ['-raw', pdfFile, '-']) : null;
-  // Invisible direction marks (the source has two, around one Hebrew word) are not carried into PDF text layers.
-  const BIDI = /[\u200e\u200f\u202a-\u202e\u2066-\u2069]/g;
+  // Invisible format characters are not carried into PDF text layers (the source has two direction marks
+  // around one Hebrew word). Default_Ignorable_Code_Point covers them, soft hyphens and zero-width joiners.
+  const BIDI = /\p{Default_Ignorable_Code_Point}/gu;
   const visible = (t) => t.replace(BIDI, '').replace(/\s/g, '');
 
   // Defined tests on the text read back from the artwork (what an AI system would ingest).
@@ -194,15 +198,14 @@ if (steps.has('proof')) {
 
   let vision = null; // a manual sample with a vision-language model, scored here against the same ground truth
   const visionFile = join(DIR, 'vision-sample.json');
-  if (existsSync(visionFile) && existsSync(ocrFile)) {
+  if (existsSync(visionFile)) {
     const v = JSON.parse(readFileSync(visionFile, 'utf8'));
-    const bySeg = new Map(JSON.parse(readFileSync(ocrFile, 'utf8')).map((x) => [`${x.line}-${x.segment}`, x]));
     const words = (t) => t.replace(/’/g, "'").split(/\s+/).filter(Boolean);
     let total = 0, model = 0, tess = 0;
-    for (const sg of v.segments) {
-      const ref = bySeg.get(sg.id); if (!ref) continue;
-      const a = words(ref.truth);
-      total += a.length; model += lcsWords(a, words(sg.transcription)); tess += lcsWords(a, words(ref.ocr));
+    for (const sg of v.segments) { // truth and Tesseract output were stored with the sample
+      if (!source.includes(sg.truth)) throw new Error(`vision sample ${sg.id}: stored truth is not in the source`);
+      const a = words(sg.truth);
+      total += a.length; model += lcsWords(a, words(sg.transcription)); tess += lcsWords(a, words(sg.tesseract));
     }
     vision = { model: v.model, procedure: v.procedure, segments: v.segments.length, words: total, accuracy: model / total, tesseractOnSameSegments: tess / total };
   }

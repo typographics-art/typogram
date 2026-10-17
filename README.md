@@ -13,8 +13,8 @@
 </p>
 
 <p align="center">
-  <a href="https://tg-art.org">Try it on tg-art.org</a> ·
-  <a href="https://tg-art.org/gallery.html">Gallery</a> ·
+  <a href="https://typographics-art.org">Try it on typographics-art.org</a> ·
+  <a href="https://typographics-art.org/gallery.html">Gallery</a> ·
   <a href="docs/technique.md">Definition</a> ·
   <a href="docs/ai-readability.md">AI readability</a> ·
   <a href="README.de.md">Deutsch</a>
@@ -64,7 +64,7 @@ So: **give machines the HTML or SVG**, and they get the text perfectly, at any a
 
 ## Demonstrator: Moby-Dick in one picture
 
-The strongest proof is a whole book. [**tg-art.org/demo/moby-dick**](https://tg-art.org/demo/moby-dick/) sets the complete text of *Moby-Dick* (1.2 million characters, 135 chapters) as a single 2 × 3 m poster in three panels, one motif per part of the book. Next to the zoomable poster, the page shows the proof:
+The strongest proof is a whole book. [**typographics-art.org/demo/moby-dick**](https://typographics-art.org/demo/moby-dick/) sets the complete text of *Moby-Dick* (1.2 million characters, 135 chapters) as a single 2 × 3 m poster in three panels, one motif per part of the book. Next to the zoomable poster, the page shows the proof:
 
 - **Complete:** the text read back from the artwork has the same SHA-256 hash as the source text.
 - **Read back correctly:** from the SVG master and from the print PDF, 100 random passages are found at their original positions, chapter structure and word frequencies are identical.
@@ -72,6 +72,22 @@ The strongest proof is a whole book. [**tg-art.org/demo/moby-dick**](https://tg-
 - **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](demo/moby-dick/proof.md).
 
 Click anywhere on the poster and the page shows the text at that spot, read from the artwork's own line offsets.
+
+## One-pagers: a whole document on one page
+
+`cli/onepage.mjs` puts the complete text of a multi-page PDF (or any text file) on a single page. The letters are tiny; together they form the document's title in large type. A person sees at a glance what the page is. A model reads every word from the PDF's text layer: the type size does not matter to it.
+
+| | | |
+|---|---|---|
+| [<img src="examples/ch-bundesverfassung/preview.jpg" width="220" alt="Swiss Federal Constitution on one page">](examples/ch-bundesverfassung/onepage.pdf)<br>**Swiss Federal Constitution**<br>102 pages, 228 576 characters | [<img src="examples/eu-ai-act/preview.jpg" width="220" alt="EU AI Act on one page">](examples/eu-ai-act/onepage.pdf)<br>**EU AI Act**<br>144 pages, 595 706 characters | [<img src="examples/code-review-agent/preview.jpg" width="220" alt="Code review agent instructions on one page">](examples/code-review-agent/onepage.pdf)<br>**AI instructions**<br>a code review agent's rules |
+
+Every example is read back with MuPDF and compared with its source; all of them match. Ten examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](AGENTS.md)) are in [examples/](examples/).
+
+```sh
+node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png preview.jpg
+```
+
+Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
 ## The three rules
 
@@ -105,7 +121,7 @@ Details and formulas: [docs/algorithm.md](docs/algorithm.md).
 
 ### In the browser
 
-Go to **[tg-art.org](https://tg-art.org)**, paste a text, drop a photo. Presets: *AI-safe* (always legible), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF. Everything runs locally; nothing is uploaded.
+Go to **[typographics-art.org](https://typographics-art.org)**, paste a text, drop a photo. Presets: *AI-safe* (always legible), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF. Everything runs locally; nothing is uploaded.
 
 ### As a library
 

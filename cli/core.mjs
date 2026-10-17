@@ -2,7 +2,7 @@
 // browser UI. No dependencies: Node's http server serves the repository, Node's WebSocket talks to Chrome.
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, existsSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, rmSync, existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, normalize, extname, sep, dirname } from 'node:path';
@@ -94,11 +94,11 @@ export async function openSession({ chrome = findChrome() } = {}) {
       if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text);
       const { meta, data } = r.result.value;
       if (format === 'pdf') {
-        const pdf = await cdp.send('Page.printToPDF', {
-          paperWidth: meta.width / 96, paperHeight: meta.height / 96, printBackground: true, preferCSSPageSize: true,
-          marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0,
-        });
-        return { meta, data: Buffer.from(pdf.data, 'base64') };
+        const file = join(profile, 'out.pdf');
+        const size = await this.printPoster(file, { lines: meta.lines, characters: meta.characters, mmPerPx: meta.mmPerPx, glyphsPerStrip: options.glyphsPerStrip });
+        const data = readFileSync(file);
+        rmSync(file, { force: true });
+        return { meta: { ...meta, pageMm: [size.widthMm, size.heightMm], strips: size.strips }, data };
       }
       if (format === 'png' || format === 'jpg') return { meta, data: Buffer.from(data.split(',')[1], 'base64') };
       return { meta, data };
@@ -110,13 +110,52 @@ export async function openSession({ chrome = findChrome() } = {}) {
       if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text);
       return r.result.value;
     },
-    /** Prints the current page to a PDF of the given size in millimetres (no margins, backgrounds on). */
+    /**
+     * Prints the current page to ONE PDF page of the given size in millimetres (no margins, backgrounds on).
+     * PDF allows up to 5080 mm per side, so posters of several metres stay a single page for the print shop.
+     */
     async pdf(widthMm, heightMm) {
+      if (widthMm > 5080 || heightMm > 5080) throw new Error(`PDF pages are limited to 5080 mm per side (asked for ${widthMm.toFixed(0)} × ${heightMm.toFixed(0)} mm)`);
       const r = await cdp.send('Page.printToPDF', {
         paperWidth: widthMm / 25.4, paperHeight: heightMm / 25.4, printBackground: true, preferCSSPageSize: true,
         marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0, transferMode: 'ReturnAsBase64',
       });
       return Buffer.from(r.data, 'base64');
+    },
+    /**
+     * Prints the current poster (set by tgRender, tgPoster or tgOnePage) as ONE PDF page at physical size.
+     * Chrome prints a few hundred thousand glyphs per page quickly but stalls on a million, so large posters
+     * are printed in strips of at most `glyphsPerStrip` glyphs and assembled onto one page with MuPDF
+     * (cli/pdf-assemble.js), keeping vectors and the text layer. Returns { widthMm, heightMm, strips }.
+     */
+    async printPoster(file, { lines, characters, mmPerPx, glyphsPerStrip = 220000 }) {
+      const strips = Math.max(1, Math.ceil(characters / glyphsPerStrip));
+      if (strips === 1) {
+        const size = await this.call('tgPrintStrip', 0, lines, mmPerPx);
+        writeFileSync(file, await this.pdf(size.widthMm, size.heightMm));
+        return { ...size, strips: 1 };
+      }
+      if (spawnSync('which', ['mutool']).status !== 0) throw new Error('Posters this large need MuPDF (mutool) to assemble the print strips into one page.');
+      const dir = mkdtempSync(join(tmpdir(), 'tg-art-strips-'));
+      const per = Math.ceil(lines / strips), parts = [];
+      let topPt = 0, widthPt = 0;
+      for (let k = 0; k < strips; k++) {
+        const from = k * per, to = Math.min(lines, from + per);
+        if (from >= to) break;
+        const size = await this.call('tgPrintStrip', from, to, mmPerPx);
+        const f = join(dir, `strip-${k + 1}.pdf`);
+        // Chrome rounds page sizes (measured: up to 0.22 mm off). Print each strip 2 mm taller than its content
+        // and let the assembly keep exactly the content height, placed at the exact cumulative offset.
+        writeFileSync(f, await this.pdf(size.widthMm, size.heightMm + 2));
+        const contentPt = (size.heightMm * 72) / 25.4;
+        parts.push(f, String(topPt), String(contentPt));
+        topPt += contentPt; widthPt = (size.widthMm * 72) / 25.4;
+      }
+      const script = join(ROOT, 'cli', 'pdf-assemble.js');
+      const r = spawnSync('mutool', ['run', script, file, String(widthPt), String(topPt), ...parts], { encoding: 'utf8' });
+      rmSync(dir, { recursive: true, force: true });
+      if (r.status !== 0) throw new Error(`Assembling the PDF failed: ${r.stderr || r.stdout}`);
+      return { widthMm: (widthPt * 25.4) / 72, heightMm: (topPt * 25.4) / 72, strips: parts.length / 3 };
     },
     /** Screenshot of a repository page (path relative to the repo root) at the given viewport size. */
     async screenshot(path, width, height) {

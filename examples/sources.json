@@ -1,0 +1,98 @@
+[
+  {
+    "id": "ch-bundesverfassung",
+    "title": "Bundes­verfassung",
+    "subtitle": "Schweizerische Eidgenossenschaft · 102 Seiten auf einer",
+    "document": "Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024",
+    "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
+    "file": "ch-bundesverfassung.pdf",
+    "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
+    "category": "law"
+  },
+  {
+    "id": "de-grundgesetz",
+    "title": "Grund­gesetz",
+    "subtitle": "Bundesrepublik Deutschland · 51 Seiten auf einer",
+    "document": "Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de",
+    "url": "https://www.gesetze-im-internet.de/gg/GG.pdf",
+    "file": "de-grundgesetz.pdf",
+    "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
+    "category": "law"
+  },
+  {
+    "id": "us-constitution",
+    "title": "Consti­tution",
+    "subtitle": "of the United States · 85 pages on one",
+    "document": "The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)",
+    "url": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
+    "file": "us-constitution.pdf",
+    "licence": "Public domain (work of the United States Government)",
+    "category": "law"
+  },
+  {
+    "id": "eu-ai-act",
+    "title": "AI Act",
+    "subtitle": "Regulation (EU) 2024/1689 · 144 pages on one",
+    "document": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal",
+    "url": "http://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
+    "file": "eu-ai-act.pdf",
+    "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
+    "category": "law"
+  },
+  {
+    "id": "un-human-rights",
+    "title": "Human Rights",
+    "subtitle": "Universal Declaration · 1948",
+    "document": "Universal Declaration of Human Rights, English text, OHCHR",
+    "url": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
+    "file": "un-human-rights.pdf",
+    "licence": "United Nations text, freely reproducible",
+    "category": "declaration"
+  },
+  {
+    "id": "pep-8",
+    "title": "PEP 8",
+    "subtitle": "Style Guide for Python Code",
+    "document": "PEP 8 – Style Guide for Python Code (reStructuredText source)",
+    "url": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst",
+    "file": "pep-8.rst",
+    "licence": "Public domain (stated in the document)",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "code-review-agent",
+    "title": "Code Review",
+    "subtitle": "Operating instructions for an AI agent",
+    "document": "Code review agent: operating instructions (written for this repository)",
+    "local": "instructions/code-review-agent.md",
+    "licence": "MIT, Typographic Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "support-assistant",
+    "title": "Support",
+    "subtitle": "Policy for a customer support assistant",
+    "document": "Customer support assistant: policy (fictional shop, written for this repository)",
+    "local": "instructions/support-assistant.md",
+    "licence": "MIT, Typographic Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "research-assistant",
+    "title": "Research",
+    "subtitle": "Rules for sources and claims",
+    "document": "Research assistant: rules for sources and claims (written for this repository)",
+    "local": "instructions/research-assistant.md",
+    "licence": "MIT, Typographic Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "agents-md",
+    "title": "AGENTS.md",
+    "subtitle": "How AI agents work on Typographic Art",
+    "document": "AGENTS.md of this repository",
+    "local": "../AGENTS.md",
+    "licence": "MIT, Typographic Art contributors",
+    "category": "ai-instructions"
+  }
+]

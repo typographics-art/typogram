@@ -5,15 +5,22 @@
   "segments": [
     {
       "id": "803-5",
-      "transcription": "I know an old woman of sixty-five who ran away with a bald-headed young tinker once. And that's the reason I never would work for lonely widow old women ashore, when I kept my job-shop in the Vineyard; they might have taken it into their"
+      "transcription": "I know an old woman of sixty-five who ran away with a bald-headed young tinker once. And that's the reason I never would work for lonely widow old women ashore, when I kept my job-shop in the Vineyard; they might have taken it into their",
+      "truth": "know an old woman of sixty-five who ran away with a bald-headed young tinker once. And that’s the reason I never would work for lonely widow old women ashore, when I kept my job-shop in the Vineyard; they might have taken it into their",
+      "tesseract": ""
     },
     {
       "id": "692-4",
-      "transcription": "Jump, boys, and swing over the cutting-tackle.” As good luck would have it, they had had a whale alongside a day or two previous, and the great tackles were still aloft, and the massive curved blubber-hook, now clean and dry, was still attached to the end. This was quickly lowered t"
+      "transcription": "Jump, boys, and swing over the cutting-tackle.” As good luck would have it, they had had a whale alongside a day or two previous, and the great tackles were still aloft, and the massive curved blubber-hook, now clean and dry, was still attached to the end. This was quickly lowered t",
+      "truth": "Jump, boys, and swing over the cutting-tackle.” As good luck would have it, they had had a whale alongside a day or two previous, and the great tackles were still aloft, and the massive curved blubber-hook, now clean and dry, was still attached to the end. This was quickly lowered",
+      "tesseract": ". LT, oy, 201 S Over i TG ke As ool Lk W e, tey o a il ACnGSGe & iy o o i, et e Cret e e il 301, e esehe cunvee btk o cean nc cry, v sl atachec 0 the enc Tis wes uicily lowrered b"
     },
     {
       "id": "415-3",
-      "transcription": "it was then that Steelkilt proposed to the two Canallers, thus far apparently of one mind with him, to burst out of their hole at the next summoning of the garrison; and armed with their keen mincing knives (long, crescentic, heavy implements with a handle at each end) run amuck from the bowsprit to"
+      "transcription": "it was then that Steelkilt proposed to the two Canallers, thus far apparently of one mind with him, to burst out of their hole at the next summoning of the garrison; and armed with their keen mincing knives (long, crescentic, heavy implements with a handle at each end) run amuck from the bowsprit to",
+      "truth": "was then that Steelkilt proposed to the two Canallers, thus far apparently of one mind with him, to burst out of their hole at the next summoning of the garrison; and armed with their keen mincing knives (long, crescentic, heavy implements with a handle at each end) run amuck from the bowsprit",
+      "tesseract": "s ten et Sskitpropooed t e v Canlers, s o appenty f o mind with i, 10 ATt o fthir bl 2 12 16 LTI f 1 G v it i e incing Kves (ong, rescenc, ey mplments with hende et esch end) fun ek fomth Bonst 0"
     }
-  ]
+  ],
+  "note": "truth and tesseract are stored as they were when the sample was read, so later layouts cannot change the comparison"
 }

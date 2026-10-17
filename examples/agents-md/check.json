@@ -1,0 +1,27 @@
+{
+  "id": "agents-md",
+  "document": "AGENTS.md of this repository",
+  "category": "ai-instructions",
+  "licence": "MIT, Typographic Art contributors",
+  "url": null,
+  "sourceSha256": "0aefdef21e8a37537ab66dae5ff9dd70ccb128cca506b1264c77741eb1d9a085",
+  "sourcePages": null,
+  "extractor": "utf-8",
+  "characters": 2967,
+  "words": 462,
+  "lines": 42,
+  "paper": "a4",
+  "fontSizeMm": 6.785,
+  "overflow": false,
+  "toneFidelity": 0.956,
+  "layoutMs": 606,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 2506,
+    "sha256Source": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1",
+    "sha256ReadBack": "7aff8b9718052510aebc1f6e8feee48035828a79c0ee8d20b980c2b5b5e335a1"
+  }
+}

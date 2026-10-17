@@ -27,5 +27,5 @@ body:
     attributes:
       label: Licence
       options:
-        - label: I agree that the work is shown on tg-art.org under CC BY 4.0
+        - label: I agree that the work is shown on typographics-art.org under CC BY 4.0
           required: true

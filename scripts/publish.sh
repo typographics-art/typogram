@@ -3,7 +3,7 @@
 #
 #   scripts/publish.sh --dry-run   # show every step
 #   scripts/publish.sh             # do it
-# Author defaults to d0n <d0n@tg-art.org>; override with GIT_NAME / GIT_EMAIL.
+# Author defaults to d0n <d0n@typographics-art.org>; override with GIT_NAME / GIT_EMAIL.
 #
 # Prerequisites: the GitHub organisation "typographic-art" exists, and `gh` is logged in with an
 # account that owns it (`gh auth login`, or `gh auth switch` between accounts).
@@ -11,7 +11,7 @@ set -euo pipefail
 
 ORG=typographic-art
 REPO=tg-art
-DOMAIN=tg-art.org
+DOMAIN=typographics-art.org
 DESCRIPTION="Typographic Art: ASCII art for the age of AI. A text set character for character so that it forms a picture - people see the picture, machines read the text."
 TOPICS=(typographic-art ascii-art text-art typography variable-fonts generative-art ai-readable accessibility)
 
@@ -20,7 +20,7 @@ DRY=0
 run() { if ((DRY)); then printf '  [dry-run] %q' "$1"; shift; printf ' %q' "$@"; echo; else "$@"; fi; }
 
 GIT_NAME="${GIT_NAME:-d0n}"
-GIT_EMAIL="${GIT_EMAIL:-d0n@tg-art.org}"
+GIT_EMAIL="${GIT_EMAIL:-d0n@typographics-art.org}"
 cd "$(dirname "$0")/.."
 
 echo "== Checks"

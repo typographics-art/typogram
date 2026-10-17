@@ -4,7 +4,7 @@ Everything you need to write about Typographic Art. Texts on this page may be qu
 
 ## Name
 
-- **Typographic Art**, short **TG Art**. Website: [tg-art.org](https://tg-art.org).
+- **Typographic Art**, short **TG Art**. Website: [typographics-art.org](https://typographics-art.org).
 - Please write it with two capitals: *Typographic Art*. Lowercase is fine for the general technique ("a piece of typographic art").
 
 ## Tagline
@@ -48,7 +48,7 @@ From [docs/ai-readability.md](ai-readability.md), measured 17 October 2026:
 
 ## Demonstrator
 
-The complete text of *Moby-Dick* (1.2 million characters) set as one 2 × 3 m poster in three panels, with a generated proof that every character survives and can be read back: https://tg-art.org/demo/moby-dick/ (report: `demo/moby-dick/proof.md`).
+The complete text of *Moby-Dick* (1.2 million characters) set as one 2 × 3 m poster in three panels, with a generated proof that every character survives and can be read back: https://typographics-art.org/demo/moby-dick/ (report: `demo/moby-dick/proof.md`).
 
 ## Images
 
@@ -60,15 +60,15 @@ The complete text of *Moby-Dick* (1.2 million characters) set as one 2 × 3 m po
 | [`gallery/*.svg`](../gallery) | the same works as real text |
 | [`demo/moby-dick/preview.jpg`](../demo/moby-dick/preview.jpg) | the Moby-Dick poster |
 
-Credit: *Typographic Art, tg-art.org*. The gallery works are generated from public-domain texts and procedural motifs and may be reproduced.
+Credit: *Typographic Art, typographics-art.org*. The gallery works are generated from public-domain texts and procedural motifs and may be reproduced.
 
 ## Contact
 
-d0n, creator of Typographic Art: **d0n@tg-art.org**
+d0n, creator of Typographic Art: **d0n@typographics-art.org**
 
 ## Links
 
-- Website and tool: https://tg-art.org
-- Gallery: https://tg-art.org/gallery.html
+- Website and tool: https://typographics-art.org
+- Gallery: https://typographics-art.org/gallery.html
 - Source code: https://github.com/typographic-art/tg-art
 - Definition of the technique: [docs/technique.md](technique.md)

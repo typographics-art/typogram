@@ -21,6 +21,13 @@ export const STRETCH_COST = 0.0012;
 const MID_WEIGHT = 4;
 
 export const normalizeText = (t) => t.replace(/\s+/g, ' ').trim();
+
+// A glyph is a grapheme cluster, not a code point: a letter with its combining accents, an emoji
+// sequence or a syllable in scripts like Devanagari must get one style and stay one unit, or the
+// marks end up in separate runs that renderers and PDF text layers drop.
+const segmenter = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter('und', { granularity: 'grapheme' }) : null;
+/** The text split into grapheme clusters (falls back to code points where Intl.Segmenter is missing). */
+export const graphemes = (t) => (segmenter ? Array.from(segmenter.segment(t), (x) => x.segment) : Array.from(t));
 /** Words and single spaces, in order. Joining the tokens gives back the normalised text. */
 export const tokenize = (text) => normalizeText(text).split(/( )/).filter(Boolean);
 
@@ -74,7 +81,7 @@ export function buildLuts(chars, cands, metric, covScale, sizes) {
 /** Average lightest and darkest coverage this text can reach; maps tone 0..1 onto it. */
 export function toneRange(text, cands, metric, covScale) {
   let lo = 0, hi = 0, n = 0;
-  for (const ch of text) {
+  for (const ch of graphemes(text)) {
     if (ch === ' ') continue;
     const m = metric(ch);
     let a = 1, b = 0;
@@ -135,14 +142,15 @@ export function layoutAt(words, L, ctx, unbounded = false) {
     let cx = sx, cin = carry;
     if (wordMode && str !== ' ') {
       let ew = 0;
-      for (const ch of str) ew += metric(ch).adv[mid] * k;
+      const glyphs = graphemes(str);
+      for (const ch of glyphs) ew += metric(ch).adv[mid] * k;
       const { base, bel } = region(sx, ew, null), t = base + cin + bel;
       let avg = wordAvg.get(str);
       if (!avg) {
-        const n0 = metric(str[0]).cov.length;
+        const n0 = metric(glyphs[0]).cov.length;
         avg = new Float32Array(n0);
         let n = 0;
-        for (const ch of str) { const m = metric(ch); for (let v = 0; v < n0; v++) avg[v] += m.cov[v]; n++; }
+        for (const ch of glyphs) { const m = metric(ch); for (let v = 0; v < n0; v++) avg[v] += m.cov[v]; n++; }
         for (let v = 0; v < n0; v++) avg[v] /= n;
         wordAvg.set(str, avg);
       }
@@ -152,7 +160,7 @@ export function layoutAt(words, L, ctx, unbounded = false) {
         if (cost < bc) { bc = cost; best = c; }
       }
       const err = clampErr(t - avg[best.v] * covScale * best.s * (1 - best.g));
-      for (const ch of str) {
+      for (const ch of glyphs) {
         const m = metric(ch), adv = m.adv[best.v] * k * best.s;
         items.push({ ch, wi: best.wi, wd: best.wd, s: best.s, si: best.si, g: best.g, eff: effOf(m, best, covScale), adv, err, base, x: cx });
         cx += adv;
@@ -160,7 +168,7 @@ export function layoutAt(words, L, ctx, unbounded = false) {
       return { items, width: cx - sx };
     }
     let ps = lastSi;
-    for (const ch of str) {
+    for (const ch of graphemes(str)) {
       const m = metric(ch), { base, bel } = region(cx, m.adv[mid] * k, m.prof), t = base + cin + bel;
       let c;
       if (ch === ' ') c = space;
@@ -197,7 +205,7 @@ export function layoutAt(words, L, ctx, unbounded = false) {
       while (n < r.items.length && w + r.items[n].adv <= W) { w += r.items[n].adv; n++; }
       if (n === 0) n = 1;
       commit(r.items.slice(0, n));
-      const rest = [...tok].slice(n).join('');
+      const rest = graphemes(tok).slice(n).join('');
       pending = rest || null;
       if (!rest) wi++;
     }
@@ -216,9 +224,25 @@ export function fit(words, ctx, minLine = 3, maxLine = ctx.H) {
     const L = (a + b) / 2, r = layoutAt(words, L, ctx);
     if (r.ok) { best = r; a = L; } else b = L;
   }
-  if (best) return { ...best, overflow: false };
+  if (best) {
+    // Round the line height down to 1/64 px. Glyph widths follow the chosen weights, so the layout is not
+    // strictly monotonic: if the rounded height happens not to fit, step down further.
+    for (let q = quantizeLine(best.L), k = 0; q >= minLine && k < 64; q -= 1 / 64, k++) {
+      if (q === best.L) return { ...best, overflow: false };
+      const r = layoutAt(words, q, ctx);
+      if (r.ok) return { ...r, overflow: false };
+    }
+  }
   return { ...layoutAt(words, minLine, ctx, true), overflow: true };
 }
+
+/**
+ * Line heights are rounded down to a multiple of 1/64 px. Browsers store layout positions in 1/64 px
+ * units; an arbitrary line height is rounded on every line, and over a long sheet the error adds up
+ * (measured: 0.5 mm on a 1 m poster). With exact multiples, every renderer puts every line where the
+ * layout says.
+ */
+export const quantizeLine = (L) => Math.floor(L * 64) / 64;
 
 /** Justification of one line: extra word spacing for inner spaces, and the index of the last non-space glyph. */
 export function justify(line, isLast, W, fs) {

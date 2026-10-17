@@ -1,4 +1,4 @@
-# Publishes the app, the gallery and the Moby-Dick demonstrator to GitHub Pages; CNAME points it at tg-art.org.
+# Publishes the app, the gallery and the Moby-Dick demonstrator to GitHub Pages; CNAME points it at typographics-art.org.
 name: Pages
 
 on:

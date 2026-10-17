@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Typographic Art: set a text character for character so that it forms a picture. The text stays readable text.",
   "type": "module",
-  "author": "d0n <d0n@tg-art.org> (https://tg-art.org)",
+  "author": "d0n <d0n@typographics-art.org> (https://typographics-art.org)",
   "exports": {
     ".": "./src/index.js",
     "./browser": "./src/browser.js"
@@ -33,7 +33,7 @@
     "calligram",
     "generative-art"
   ],
-  "homepage": "https://tg-art.org",
+  "homepage": "https://typographics-art.org",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/typographic-art/tg-art.git"

@@ -11,7 +11,7 @@ Generated 2026-10-17 by `node demo/moby-dick/build.mjs`. Every number here is co
 
 ## Poster
 
-- 2 × 3 m, 887 lines, 1,214,967 characters (whitespace normalised)
+- 2 × 3 m, 886 lines, 1,214,967 characters (whitespace normalised)
 - Type size 3.26 mm (Roboto Flex, weights 100–1000, widths 75–125 %), colours from the motifs, tone fidelity 0.90
 
 | Panel | Text | Motif | Height |
@@ -34,13 +34,13 @@ Generated 2026-10-17 by `node demo/moby-dick/build.mjs`. Every number here is co
 
 T1 compares SHA-256 hashes: source `744a89261a75f10e4f5da3f37fd59eb8618c859147b902584f08dadf3ab69028`, extracted `744a89261a75f10e4f5da3f37fd59eb8618c859147b902584f08dadf3ab69028`.
 T2 reads the print PDF with MuPDF and compares every visible character. The PDF text layer does not carry the two invisible right-to-left marks that surround the one Hebrew word in the etymology; that is the only difference.
-Poppler's `pdftotext -raw`, a common alternative, loses letters in light passages of this PDF (Chrome stores variable fonts as Type 3 fonts): 97.9 % of its words are words of the source. The text is complete in the file, as MuPDF shows; extraction tools differ.
+Poppler's `pdftotext -raw`, a common alternative, loses letters in light passages of this PDF (Chrome stores variable fonts as Type 3 fonts): 54.5 % of its words are words of the source. The text is complete in the file, as MuPDF shows; extraction tools differ.
 
 T7 uses the question set in `ai-tests.json`: questions about the book whose answers must be grounded in the extracted text, the precondition for any AI system to answer them from the artwork.
 
 ## Reading the picture alone
 
-Classic OCR (Tesseract, English, single-line mode) on 16 lines spread over the whole poster, each cut at word boundaries into 8 segments with their own ground truth, rendered at 2 px per mm (a photo of about 4 000 × 6 000 px per square metre): **73.6 %** of 3,922 words recognised in order. The poster mixes weights 200–1000, widths 75–125 % and sizes 60–100 % with light ink colours in bright areas; that is hard for an engine that only knows letter shapes.
+Classic OCR (Tesseract, English, single-line mode) on 16 lines spread over the whole poster, each cut at word boundaries into 8 segments with their own ground truth, rendered at 2 px per mm (a photo of about 4 000 × 6 000 px per square metre): **73.4 %** of 3,943 words recognised in order. The poster mixes weights 200–1000, widths 75–125 % and sizes 60–100 % with light ink colours in bright areas; that is hard for an engine that only knows letter shapes.
 
 A vision-language model reads the same images far better. Claude (Anthropic, Opus 5.5), reading the segment images directly, 3 of the segments where Tesseract did worst (146 words): **100.0 %** read correctly, against 4.8 % for Tesseract on the same segments. Method: The three segments with the lowest Tesseract scores were stacked into one image without looking at their ground truth; the transcription was written down before comparing. Cut-off fragments of neighbouring words at the left edge were left out; a cut-off letter at the right edge was transcribed as seen. The transcriptions are in `vision-sample.json`; this is a small manual sample.
 

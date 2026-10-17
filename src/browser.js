@@ -1,6 +1,6 @@
 // Browser layer: measures glyphs with the real font, reads image pixels, renders PNG.
 import { FONTS, WEIGHT_STEPS, STRETCH_KEYWORD, weightSteps, variationsFor, normalWidthIndex, googleFontsUrl } from './fonts.js';
-import { REF_SIZE, REF_RATIO, normalizeText } from './layout.js';
+import { REF_SIZE, REF_RATIO, normalizeText, graphemes } from './layout.js';
 import { typesetWith } from './typeset.js';
 import { forEachGlyph, GLYPH_CSS } from './render.js';
 import { rgbCss } from './color.js';
@@ -114,7 +114,7 @@ export async function typeset(text, img, options = {}) {
   const fontKey = options.font || 'roboto', font = FONTS[fontKey];
   await ensureFont(font);
   const source = normalizeText(text);
-  const metric = measureGlyphs(fontKey, new Set(source));
+  const metric = measureGlyphs(fontKey, new Set(graphemes(source)));
   const { imageData, canvas, aspect } = readImage(img, options.aspect ?? null);
   const sheet = typesetWith({ text: source, metric, image: imageData, options: { ...options, aspect } });
   sheet.imageCanvas = canvas;

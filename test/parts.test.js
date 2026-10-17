@@ -79,3 +79,17 @@ test('outputs switch off ligatures and kerning, so every glyph stays its own cha
   assert.ok(toSvg(s).includes('font-variant-ligatures:none'));
   assert.match(GLYPH_CSS, /"liga" 0/);
 });
+
+test('a letter with combining accents, and an emoji sequence, are set as one glyph', async () => {
+  const { graphemes, typesetWith: ts } = await import('../src/index.js');
+  const zalgo = 'z̯̯͡a̧͎', family = '👩‍👩‍👧', text = `before ${zalgo} and ${family} after`;
+  assert.deepEqual(graphemes(zalgo), ['z̯̯͡', 'a̧͎']);
+  assert.equal(graphemes(family).length, 1);
+  const s = ts({ text, metric: fakeMetric, image: image(40, 40, () => [90, 90, 90]), options: { width: 300 } });
+  const items = s.result.lines.flatMap((l) => l.items);
+  assert.ok(items.some((it) => it.ch === 'z̯̯͡'), 'base letter and its marks stay together');
+  assert.ok(items.some((it) => it.ch === family), 'emoji sequence stays one glyph');
+  assert.ok(items.every((it) => !/^\p{M}/u.test(it.ch)), 'no glyph starts with a combining mark');
+  const svg = toSvg(s), inner = svg.slice(svg.indexOf('<text'), svg.lastIndexOf('</text>')).replace(/<[^>]+>/g, '');
+  assert.equal(normalizeText(inner), normalizeText(text));
+});

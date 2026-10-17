@@ -4,7 +4,7 @@ import { LEGIBILITY, PAPERS, DEFAULTS } from './options.js';
 import { buildToneMap, cropToAspect } from './tone.js';
 import { inkFor, mix, rgbCss } from './color.js';
 import {
-  REF_RATIO, normalizeText, tokenize, candidates, buildLuts, toneRange, fit, layoutAt, toneFidelity,
+  REF_RATIO, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange, fit, layoutAt, toneFidelity, quantizeLine,
 } from './layout.js';
 
 /**
@@ -30,7 +30,7 @@ export function typesetWith({ text, metric, image, options = {} }) {
     ? font.widths.map((w, wd) => ({ wd, st: w / 100 }))
     : [{ wd: normalWidth, st: 1 }];
   const cands = candidates(level, o.color === 'gray', widths);
-  const luts = buildLuts(new Set(source), cands, metric, covScale, level.sizes);
+  const luts = buildLuts(new Set(graphemes(source)), cands, metric, covScale, level.sizes);
   const range = toneRange(source, cands, metric, covScale);
   const tone = (d) => range.min + d * (range.max - range.min);
 
@@ -91,7 +91,7 @@ export function typesetSections({ sections, metric, options = {} }) {
   const normalWidth = normalWidthIndex(font);
   const widths = o.stretch ? font.widths.map((w, wd) => ({ wd, st: w / 100 })) : [{ wd: normalWidth, st: 1 }];
   const cands = candidates(level, o.color === 'gray', widths);
-  const luts = buildLuts(new Set(source), cands, metric, covScale, level.sizes);
+  const luts = buildLuts(new Set(graphemes(source)), cands, metric, covScale, level.sizes);
   const range = toneRange(source, cands, metric, covScale); // one tone scale for all panels
   const tone = (d) => range.min + d * (range.max - range.min);
   const W = Math.round(o.width), Htotal = Math.round(W * o.aspect), darkPaper = o.paper === 'dark';
@@ -117,7 +117,7 @@ export function typesetSections({ sections, metric, options = {} }) {
       const { ctx } = panel(i, h);
       return L ? fit(words[i], ctx, L * 0.85, L * 1.15).L : fit(words[i], ctx).L;
     });
-    L = Math.min(...fits);
+    L = quantizeLine(Math.min(...fits));
     lineCounts = heights.map((h, i) => {
       const r = layoutAt(words[i], L, panel(i, h).ctx, true);
       return r.lines.length;

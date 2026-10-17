@@ -13,8 +13,8 @@
 </p>
 
 <p align="center">
-  <a href="https://tg-art.org">Auf tg-art.org ausprobieren</a> ·
-  <a href="https://tg-art.org/gallery.html">Galerie</a> ·
+  <a href="https://typographics-art.org">Auf typographics-art.org ausprobieren</a> ·
+  <a href="https://typographics-art.org/gallery.html">Galerie</a> ·
   <a href="docs/technique.md">Definition</a> ·
   <a href="docs/ai-readability.md">KI-Lesbarkeit</a> ·
   <a href="README.md">English</a>
@@ -64,7 +64,7 @@ Also: **Gib Maschinen das HTML oder SVG**, dann bekommen sie den Text fehlerfrei
 
 ## Demonstrator: Moby-Dick in einem Bild
 
-Der stärkste Beleg ist ein ganzes Buch. [**tg-art.org/demo/moby-dick**](https://tg-art.org/demo/moby-dick/) setzt den vollständigen Text von *Moby-Dick* (1,2 Millionen Zeichen, 135 Kapitel) als ein einziges Poster von 2 × 3 m in drei Feldern, ein Motiv je Teil des Buches. Neben dem zoombaren Poster steht der Nachweis:
+Der stärkste Beleg ist ein ganzes Buch. [**typographics-art.org/demo/moby-dick**](https://typographics-art.org/demo/moby-dick/) setzt den vollständigen Text von *Moby-Dick* (1,2 Millionen Zeichen, 135 Kapitel) als ein einziges Poster von 2 × 3 m in drei Feldern, ein Motiv je Teil des Buches. Neben dem zoombaren Poster steht der Nachweis:
 
 - **Vollständig:** Der aus dem Kunstwerk zurückgelesene Text hat denselben SHA-256-Hash wie der Ausgangstext.
 - **Korrekt ausgelesen:** Aus dem SVG-Master und aus dem Druck-PDF werden 100 zufällige Passagen an ihrer Originalposition gefunden, Kapitelstruktur und Worthäufigkeiten sind identisch.
@@ -72,6 +72,18 @@ Der stärkste Beleg ist ein ganzes Buch. [**tg-art.org/demo/moby-dick**](https:/
 - **Nachprüfbar:** Buch bei Project Gutenberg laden, zwei Skripte ausführen, Hashes vergleichen. Vollständiger Bericht: [demo/moby-dick/proof.md](demo/moby-dick/proof.md).
 
 Ein Klick auf das Poster zeigt den Text an genau dieser Stelle, gelesen aus den Zeilenpositionen des Kunstwerks selbst.
+
+## One-Pager: ein ganzes Dokument auf einer Seite
+
+`cli/onepage.mjs` setzt den vollständigen Text eines mehrseitigen PDFs (oder einer Textdatei) auf eine einzige Seite. Die Buchstaben sind winzig und formen zusammen den Titel des Dokuments in grosser Schrift. Ein Mensch erkennt sofort, was die Seite enthält. Ein Modell liest jedes Wort aus der Textebene des PDFs, die Schriftgrösse spielt dafür keine Rolle.
+
+| | | |
+|---|---|---|
+| [<img src="examples/ch-bundesverfassung/preview.jpg" width="220" alt="Bundesverfassung auf einer Seite">](examples/ch-bundesverfassung/onepage.pdf)<br>**Bundesverfassung**<br>102 Seiten, 228 576 Zeichen | [<img src="examples/eu-ai-act/preview.jpg" width="220" alt="EU AI Act auf einer Seite">](examples/eu-ai-act/onepage.pdf)<br>**EU AI Act**<br>144 Seiten, 595 706 Zeichen | [<img src="examples/code-review-agent/preview.jpg" width="220" alt="Anweisungen für einen Code-Review-Agenten auf einer Seite">](examples/code-review-agent/onepage.pdf)<br>**KI-Anweisungen**<br>Regeln eines Code-Review-Agenten |
+
+Jedes Beispiel wird mit MuPDF zurückgelesen und mit der Quelle verglichen; alle stimmen überein. Zehn Beispiele (Gesetze, Erklärungen, PEP 8, Anweisungen für KI-Agenten, die [AGENTS.md](AGENTS.md) dieses Repos) liegen in [examples/](examples/).
+
+Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Und bleib ehrlich: Der sichtbare Titel muss das Dokument benennen, und winziger Text darf nie Anweisungen vor den Menschen verstecken, die die Seite sehen.
 
 ## Die drei Regeln
 
@@ -105,7 +117,7 @@ Details und Formeln: [docs/algorithm.md](docs/algorithm.md) (Englisch).
 
 ### Im Browser
 
-Auf **[tg-art.org](https://tg-art.org)** Text einfügen, Foto hineinziehen. Vorlagen: *KI-sicher* (immer lesbar), *Porträt*, *Plakat*. Export als HTML, SVG, PNG oder Drucken als PDF. Alles läuft lokal, nichts wird hochgeladen.
+Auf **[typographics-art.org](https://typographics-art.org)** Text einfügen, Foto hineinziehen. Vorlagen: *KI-sicher* (immer lesbar), *Porträt*, *Plakat*. Export als HTML, SVG, PNG oder Drucken als PDF. Alles läuft lokal, nichts wird hochgeladen.
 
 ### Als Bibliothek und auf der Befehlszeile
 

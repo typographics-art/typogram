@@ -18,6 +18,8 @@ const HELP = `Usage: tg-art <image> (--text <file> | --string <text>) -o <out.sv
   --no-stretch  --no-shape  --invert
   --fill <n>                                append declared Lorem ipsum up to n characters
   --scale <n>                               pixel scale for PNG/JPEG (default 1)
+  --print-width <mm>                        PDF at physical size, e.g. 2000 for a 2 m wide poster: always ONE page,
+                                            ready for the print shop (height follows the image, max 5080 mm)
 
 Fonts are loaded from Google Fonts, so an internet connection is needed.
 `;
@@ -29,7 +31,7 @@ const { values, positionals } = parseArgs({
     font: { type: 'string' }, legibility: { type: 'string' }, color: { type: 'string' }, paper: { type: 'string' },
     unit: { type: 'string' }, width: { type: 'string' }, aspect: { type: 'string' }, contrast: { type: 'string' },
     brightness: { type: 'string' }, edges: { type: 'string' }, spacing: { type: 'string' }, fill: { type: 'string' },
-    scale: { type: 'string' }, 'no-stretch': { type: 'boolean' }, 'no-shape': { type: 'boolean' },
+    scale: { type: 'string' }, 'print-width': { type: 'string' }, 'no-stretch': { type: 'boolean' }, 'no-shape': { type: 'boolean' },
     invert: { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
   },
 });
@@ -53,6 +55,7 @@ const options = Object.fromEntries(Object.entries({
   font: values.font, legibility: values.legibility, color: values.color, paper: values.paper, unit: values.unit,
   width: num(values.width), aspect: num(values.aspect), contrast: num(values.contrast), brightness: num(values.brightness),
   edges: num(values.edges), lineSpacing: num(values.spacing), fill: num(values.fill), scale: num(values.scale),
+  printWidthMm: num(values['print-width']),
   stretch: values['no-stretch'] ? false : undefined, shape: values['no-shape'] ? false : undefined, invert: values.invert || undefined,
 }).filter(([, v]) => v !== undefined));
 
@@ -64,7 +67,8 @@ try {
   const { meta, data } = await session.render(text, image, options, format);
   writeFileSync(values.out, data);
   const filler = meta.filler ? `, of which ${meta.filler} filler` : '';
-  console.log(`${values.out}: ${meta.characters} characters${filler}, ${meta.lines} lines, ${meta.width}×${meta.height} px, ` +
+  const page = meta.pageMm ? `, 1 page ${meta.pageMm[0].toFixed(0)} × ${meta.pageMm[1].toFixed(0)} mm` : '';
+  console.log(`${values.out}: ${meta.characters} characters${filler}, ${meta.lines} lines, ${meta.width}×${meta.height} px${page}, ` +
     `tone fidelity ${meta.toneFidelity.toFixed(2)}, text ${meta.faithful ? 'preserved 1:1' : 'NOT preserved'}`);
   if (!meta.faithful) process.exitCode = 2;
 } finally {

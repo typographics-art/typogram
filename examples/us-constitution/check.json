@@ -1,0 +1,27 @@
+{
+  "id": "us-constitution",
+  "document": "The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)",
+  "category": "law",
+  "licence": "Public domain (work of the United States Government)",
+  "url": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
+  "sourceSha256": "7f29c4a79e310cc7bcee5f3fd07fb1367e463bd4530fa5d854ebdd4fd4402e57",
+  "sourcePages": 85,
+  "extractor": "mutool draw -F txt",
+  "characters": 303928,
+  "words": 44527,
+  "lines": 401,
+  "paper": "a4",
+  "fontSizeMm": 0.709,
+  "overflow": false,
+  "toneFidelity": 0.925,
+  "layoutMs": 7099,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 259402,
+    "sha256Source": "2018c0b7bc30a6d304340780e9e6d202903f09fde7f9e7d9b63a0363bce22ba9",
+    "sha256ReadBack": "2018c0b7bc30a6d304340780e9e6d202903f09fde7f9e7d9b63a0363bce22ba9"
+  }
+}

@@ -38,7 +38,7 @@ Lines are filled word by word. For each glyph, the target is the mapped tone of 
 
 ## 5. Fitting (`fit`)
 
-A binary search finds the largest line height at which the whole text fits the area. If the text does not fit even at 3 px, the sheet grows downwards instead of dropping characters.
+A binary search finds the largest line height at which the whole text fits the area, then rounds it down to a multiple of 1/64 px (stepping further down in the rare case where the rounded height does not fit, because glyph widths follow the chosen weights). If the text does not fit even at 3 px, the sheet grows downwards instead of dropping characters.
 
 ## 6. Colour (`color.js`)
 
@@ -54,9 +54,20 @@ If that leaves the RGB cube, the vector towards the paper is shortened as a whol
 
 Lines are justified by distributing the remaining width over their inner spaces. HTML uses one span per run of equally styled glyphs; SVG uses `tspan`s that are positioned explicitly after every space. Both keep the characters in reading order, which is what makes rule 2 of the technique hold.
 
-## PDF
+## PDF at physical size, always one page
 
-The CLI loads the standalone HTML in headless Chrome and calls `Page.printToPDF` with the sheet's exact size. Chrome embeds the fonts and keeps every glyph as text, so `pdftotext` returns the source.
+The CLI prints the sheet as HTML in headless Chrome (`Page.printToPDF`) at its physical size. Chrome embeds the variable-font instances as Type 3 fonts and keeps every glyph as text.
+
+Chrome prints a few hundred thousand glyphs per page in about a minute, but did not finish a 1.2-million-glyph page within 50 minutes. Large sheets are therefore printed in strips of at most about 220 000 glyphs and assembled onto **one page** by `cli/pdf-assemble.js` (a MuPDF script): each strip becomes a Form XObject at its offset, vectors, fonts and text layer unchanged, strips in reading order. PDF pages may be up to 5080 mm per side.
+
+Two details keep the assembly exact:
+
+- Chrome rounds page sizes (measured up to 0.22 mm off). Each strip is printed 2 mm taller than its content, and the assembly keeps exactly the content height, placed at the exact cumulative offset.
+- Line heights are rounded down to a multiple of 1/64 px, the unit browsers store layout positions in, so no renderer has to round them.
+
+Checked on a 1 m poster printed once directly and once from four assembled strips: same page size, identical text layer (SHA-256). The images agree within less than a millimetre per line; the remaining difference was measured but not fully explained.
+
+Read the text back with MuPDF (`mutool draw -F txt`). Poppler's `pdftotext` can drop letters from Chrome's Type 3 fonts in large documents (see `docs/ai-readability.md`).
 
 ## Measuring quality
 
