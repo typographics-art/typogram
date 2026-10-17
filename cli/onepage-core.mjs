@@ -47,7 +47,7 @@ export async function makeOnePage(session, job) {
     font: 'roboto', legibility: 'free', color: 'gray', paper: 'light', unit: 'char', contrast: 2.6, brightness: 0,
     // One type size and no width variants (measured in docs/file-size.md): on a photo motif the page follows the
     // picture more closely (likeness 0.963 instead of 0.940) at a third of the size; title cards look the same.
-    edges: 0.4, lineSpacing: 1.0, stretch: false, sizeCount: 1, shape: true, margin, colorStep: 24, ...job.options,
+    edges: 0.4, lineSpacing: 1.0, stretch: false, sizeCount: 1, shape: true, gaps: job.motif ? 'off' : 'auto', margin, colorStep: 24, ...job.options,
     width, aspect: ((ph / pw) * (width + 2 * pad) - 2 * pad) / width,
   };
   const info = await session.call('tgOnePage', { text: source, title: job.title, subtitle: job.subtitle || '', options, motif: job.motif || null });

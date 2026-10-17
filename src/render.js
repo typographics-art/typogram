@@ -25,17 +25,17 @@ export function toHtml(sheet, from = 0, to = sheet.result.lines.length) {
   for (let i = from; i < to; i++) {
     const ln = lines[i];
     const { ws } = justify(ln, i === lines.length - 1, W, fs);
-    html += `<div style="height:${L.toFixed(2)}px;line-height:${L.toFixed(2)}px;font-size:${fs.toFixed(2)}px;white-space:pre;word-spacing:${ws.toFixed(2)}px">`;
+    html += `<div style="height:${L.toFixed(2)}px;line-height:${L.toFixed(2)}px;font-size:${fs.toFixed(2)}px;white-space:pre;word-spacing:${ws.toFixed(2)}px${ln.indent ? `;text-indent:${ln.indent.toFixed(2)}px` : ''}">`;
     let run = '', key = null, style = '';
     const flush = () => { if (run) html += `<span style="${style}">${escapeXml(run)}</span>`; run = ''; };
     for (const it of ln.items) {
       const col = it.ch === ' ' ? '' : colorOf(it, i);
-      const k = it.wi + '|' + it.wd + '|' + it.s + '|' + col;
+      const k = it.wi + '|' + it.wd + '|' + it.s + '|' + col + (it.extra ? '|' + it.extra : '');
       if (k !== key) {
         flush(); key = k;
         style = `font-size:${(fs * it.s).toFixed(2)}px;font-weight:${weights[it.wi]}` +
           (it.wd !== nw ? `;font-stretch:${font.widths[it.wd]}%;font-variation-settings:${variationsFor(font, font.widths[it.wd])}` : '') +
-          (col ? `;color:${col}` : '');
+          (col ? `;color:${col}` : '') + (it.extra ? `;word-spacing:${it.extra.toFixed(2)}px` : '');
       }
       run += it.ch;
     }
@@ -101,7 +101,7 @@ export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length
     const ln = lines[i];
     const { ws, lastInner } = justify(ln, i === lines.length - 1, W, fs);
     const y = pad + i * L + L * 0.5 + fs * 0.35;
-    let x = pad;
+    let x = pad + (ln.indent || 0);
     ln.items.forEach((it, q) => {
       fn(it, x, y, i);
       x += it.adv + (it.ch === ' ' && q <= lastInner ? ws : 0);
