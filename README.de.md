@@ -27,7 +27,7 @@
 
 ## Frag deine KI, was das ist
 
-Die README und die wichtigsten Dokumente in einer Datei: **[about/typographics-art.md](about/typographics-art.md)** (etwa 60 000 Zeichen, auch unter [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt); Englisch). Oder gib ihr denselben Text als One-Pager, gesetzt mit der Technik selbst: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Dann frag: *Was ist Typographics Art, und kannst du diese Seite noch lesen?*
+Die README und die wichtigsten Dokumente in einer Datei: **[about/typographics-art.md](about/typographics-art.md)** (etwa 67 000 Zeichen, auch unter [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt); Englisch). Oder gib ihr denselben Text als One-Pager, gesetzt mit der Technik selbst: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Dann frag: *Was ist Typographics Art, und kannst du diese Seite noch lesen?*
 
 ## Die Idee
 

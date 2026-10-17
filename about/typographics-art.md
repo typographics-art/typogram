@@ -13,7 +13,7 @@ This file contains the README and the main documents of the open-source project 
 
 ## Ask your AI what this is
 
-The README and the main documents in one file: **[about/typographics-art.md](about/typographics-art.md)** (about 60 000 characters, also at [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt)). Or hand it the same text as a one-pager, made with the technique itself: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Then ask: *What is Typographics Art, and can you still read this page?*
+The README and the main documents in one file: **[about/typographics-art.md](https://typographics-art.org/about/typographics-art.md)** (about 60 000 characters, also at [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt)). Or hand it the same text as a one-pager, made with the technique itself: **[about/typographics-art.pdf](https://typographics-art.org/about/typographics-art.pdf)**. Then ask: *What is Typographics Art, and can you still read this page?*
 
 ## The idea
 
@@ -31,7 +31,7 @@ The README and the main documents in one file: **[about/typographics-art.md](abo
 
 ### What a person sees, and what an AI reads
 
-The portrait of Frederick Douglass above is set from his own *Narrative* (1845), chapters V–VIII. Open [`gallery/douglass.svg`](gallery/douglass.svg), select all and copy, or hand the file to any model:
+The portrait of Frederick Douglass above is set from his own *Narrative* (1845), chapters V–VIII. Open [`gallery/douglass.svg`](https://typographics-art.org/gallery/douglass.svg), select all and copy, or hand the file to any model:
 
 ```text
 As to my own treatment while I lived on Colonel Lloyd’s plantation, it was very similar to that
@@ -43,7 +43,7 @@ That is the whole point: **the artwork is also the document.** No alt text neede
 
 ## Readable for AI, measured
 
-We do not just claim it. Every number below is measured and reproducible ([method](docs/ai-readability.md)).
+We do not just claim it. Every number below is measured and reproducible ([method](https://typographics-art.org/docs/ai-readability.md)).
 
 | How a machine gets the text | Result |
 |---|---|
@@ -53,9 +53,9 @@ We do not just claim it. Every number below is measured and reproducible ([metho
 | **Only the picture**: OCR (Tesseract 5.5) on a PNG at 2× | legibility *high*: **98.9–99.6 %** of words · *medium*: 88.7–92.7 % · *free*: 68.8–82.3 % |
 | **Only the picture**: a vision-language model (Claude) reading crops | **100 %** of 217 words, at *high*, *medium* and *free* (first sample) |
 
-So: **give machines the HTML or SVG**, and they get the text perfectly, at any artistic setting. PDF works the same when read in stored order, and with every tool at legibility *high*. If only an image travels (a screenshot, a social post), choose legibility *high* and the text survives even pure image recognition. A first sample with a vision-language model read every word, even at *free*, where classic OCR stumbles. More models and larger samples: [help is welcome](CONTRIBUTING.md).
+So: **give machines the HTML or SVG**, and they get the text perfectly, at any artistic setting. PDF works the same when read in stored order, and with every tool at legibility *high*. If only an image travels (a screenshot, a social post), choose legibility *high* and the text survives even pure image recognition. A first sample with a vision-language model read every word, even at *free*, where classic OCR stumbles. More models and larger samples: [help is welcome](https://github.com/typ0graphic5/tg-art/blob/main/CONTRIBUTING.md).
 
-One caveat for PDF: Poppler's `pdftotext` keeps only the first 50 000 small characters per page. For pages with more text than that (a one-pager of a long document), read the PDF with MuPDF, or run `pdftotext -r 600` ([details](docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely)).
+One caveat for PDF: Poppler's `pdftotext` keeps only the first 50 000 small characters per page. For pages with more text than that (a one-pager of a long document), read the PDF with MuPDF, or run `pdftotext -r 600` ([details](https://typographics-art.org/docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely)).
 
 ## Demonstrator: Moby-Dick in one picture
 
@@ -64,7 +64,7 @@ The strongest proof is a whole book. [**typographics-art.org/demo/moby-dick**](h
 - **Complete:** the text read back from the artwork has the same SHA-256 hash as the source text.
 - **Read back correctly:** from the SVG master and from the print PDF, 100 random passages are found at their original positions, chapter structure and word frequencies are identical.
 - **Usable by AI:** a defined question set (narrator, ship, captain, …) has every answer grounded in the extracted text; OCR samples measure what survives in a mere photo of the poster.
-- **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](demo/moby-dick/proof.md).
+- **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md).
 
 Click anywhere on the poster and the page shows the text at that spot, read from the artwork's own line offsets.
 
@@ -76,14 +76,14 @@ Click anywhere on the poster and the page shows the text at that spot, read from
 |---|---|---|
 | <br>**Swiss Federal Constitution**<br>102 pages, 228 576 characters | <br>**EU AI Act**<br>144 pages, 595 706 characters | <br>**AI instructions**<br>a code review agent's rules |
 
-Every example is read back with MuPDF and compared with its source; every visible character matches. 31 examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](AGENTS.md)) are in [examples/](examples/), each with its published source text.
+Every example is read back with MuPDF and compared with its source; every visible character matches. 31 examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](https://github.com/typ0graphic5/tg-art/blob/main/AGENTS.md)) are in [examples/](https://github.com/typ0graphic5/tg-art/tree/main/examples), each with its published source text.
 
 ```sh
 node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png preview.jpg
 node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o onepage.pdf
 ```
 
-**File size.** Every glyph can carry its own weight, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). Of the five examples with a PDF source (Swiss constitution, German Basic Law, US Constitution, EU AI Act, Universal Declaration of Human Rights), three are *smaller* than their source (US Constitution 1.6 MB from 3.8 MB, EU AI Act 2.2 MB from 2.5 MB, Declaration 137 KB from 191 KB); the Swiss constitution is 1.6 times and the Basic Law 2.8 times larger; short plain-text sources grow most (3 KB of instructions → 67–105 KB). `--weights 2` makes a one-pager smaller still. The [examples table](examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](examples/motifs/).
+**File size.** Every glyph can carry its own weight, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). Of the five examples with a PDF source (Swiss constitution, German Basic Law, US Constitution, EU AI Act, Universal Declaration of Human Rights), three are *smaller* than their source (US Constitution 1.6 MB from 3.8 MB, EU AI Act 2.2 MB from 2.5 MB, Declaration 137 KB from 191 KB); the Swiss constitution is 1.6 times and the Basic Law 2.8 times larger; short plain-text sources grow most (3 KB of instructions → 67–105 KB). `--weights 2` makes a one-pager smaller still. The [examples table](https://github.com/typ0graphic5/tg-art/blob/main/examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](https://typographics-art.org/examples/motifs/).
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
@@ -96,7 +96,7 @@ node cli/tg-secret.mjs hide   work.pdf --secret "Meet at the harbour, 6 pm."   #
 node cli/tg-secret.mjs reveal work.pdf --key tg1.…                             # prints the message
 ```
 
-The examples work with any text that contains these characters; the generator suggests sample texts when one is missing. Works for PDF (read with MuPDF), SVG, HTML and text; the web generator has the same under *Hidden message*, with 28 sample texts to choose from and suggestions for which text can carry your message. Details: [docs/hidden-messages.md](docs/hidden-messages.md). Keep the key like a password: with key and work, anyone can read the message; without the key, the work reveals nothing (what a key does and does not protect: [docs/hidden-messages.md](docs/hidden-messages.md#what-it-protects-and-what-it-does-not)). Characters that do not occur in the public text cannot be hidden; the tool names them.
+The examples work with any text that contains these characters; the generator suggests sample texts when one is missing. Works for PDF (read with MuPDF), SVG, HTML and text; the web generator has the same under *Hidden message*, with 28 sample texts to choose from and suggestions for which text can carry your message. Details: [docs/hidden-messages.md](https://typographics-art.org/docs/hidden-messages.md). Keep the key like a password: with key and work, anyone can read the message; without the key, the work reveals nothing (what a key does and does not protect: [docs/hidden-messages.md](https://typographics-art.org/docs/hidden-messages.md#what-it-protects-and-what-it-does-not)). Characters that do not occur in the public text cannot be hidden; the tool names them.
 
 ## The three rules
 
@@ -104,7 +104,7 @@ The examples work with any text that contains these characters; the generator su
 2. **Text stays text.** The work is published as real text: HTML, SVG, or PDF with a text layer. Extracting it yields exactly the source.
 3. **Only typography varies.** No shapes, backgrounds or images besides the glyphs.
 
-Full definition: [docs/technique.md](docs/technique.md).
+Full definition: [docs/technique.md](https://typographics-art.org/docs/technique.md).
 
 ## How it works
 
@@ -124,7 +124,7 @@ flowchart LR
 4. **Fit.** A binary search finds the font size at which the whole text fills the picture exactly.
 5. **Colour.** In colour mode each glyph's ink is chosen so that ink and visible paper average to the photo colour.
 
-Details and formulas: [docs/algorithm.md](docs/algorithm.md).
+Details and formulas: [docs/algorithm.md](https://typographics-art.org/docs/algorithm.md).
 
 ## Use it
 
@@ -161,7 +161,7 @@ toSvg(sheet);              // SVG, text as characters
 toPng(sheet);              // PNG data URL (image only)
 ```
 
-The pure modules (`layout`, `tone`, `color`, `render`, `typeset`) run anywhere; `browser.js` measures real fonts and reads pixels. All options and defaults: [src/options.js](src/options.js).
+The pure modules (`layout`, `tone`, `color`, `render`, `typeset`) run anywhere; `browser.js` measures real fonts and reads pixels. All options and defaults: [src/options.js](https://github.com/typ0graphic5/tg-art/blob/main/src/options.js).
 
 ### On the command line
 
@@ -177,7 +177,7 @@ The output format follows the file extension: `.svg`, `.html`, `.pdf` (text stay
 
 ### Paid API
 
-The one place where a document is uploaded: [`api/`](api/README.md) makes a one-pager from a document you send, paid with a DigiByte transaction (no account, no API key). Details and self-hosting: [api/README.md](api/README.md).
+The one place where a document is uploaded: [`api/`](https://github.com/typ0graphic5/tg-art/blob/main/api/README.md) makes a one-pager from a document you send, paid with a DigiByte transaction (no account, no API key). Details and self-hosting: [api/README.md](https://github.com/typ0graphic5/tg-art/blob/main/api/README.md).
 
 ## Gallery
 
@@ -187,9 +187,9 @@ The one place where a document is uploaded: [`api/`](api/README.md) makes a one-
 | <br>**The Great Wave** · Melville · Hokusai | <br>**La Gioconda** · Walter Pater · Leonardo | <br>**The House of Usher** · Edgar Allan Poe |
 | <br>**Fuji-no-Yama** · Lafcadio Hearn · Hokusai | <br>**The Star** · H. G. Wells · Hubble | <br>**Earthrise** · Genesis · Apollo 8 |
 
-All fifteen works, each switchable to its original image: [typographics-art.org/gallery](https://typographics-art.org/gallery). Every image is in the public domain ([sources](gallery/photos/README.md)); every text is a contiguous passage of a public-domain work, except the Universal Declaration of Human Rights (a UN text, freely reproducible), which is set in full; no filler. Third-party materials and credits: [NOTICE.md](NOTICE.md). **Yours?** [Submit an artwork](https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml).
+All fifteen works, each switchable to its original image: [typographics-art.org/gallery](https://typographics-art.org/gallery). Every image is in the public domain ([sources](https://typographics-art.org/gallery/photos/README.md)); every text is a contiguous passage of a public-domain work, except the Universal Declaration of Human Rights (a UN text, freely reproducible), which is set in full; no filler. Third-party materials and credits: [NOTICE.md](https://github.com/typ0graphic5/tg-art/blob/main/NOTICE.md). **Yours?** [Submit an artwork](https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml).
 
-Each preview links to the SVG, which is the work itself: open it and search the text. All works are reproducible from [`gallery/works.config.json`](gallery/works.config.json) with `npm run gallery`.
+Each preview links to the SVG, which is the work itself: open it and search the text. All works are reproducible from [`gallery/works.config.json`](https://github.com/typ0graphic5/tg-art/blob/main/gallery/works.config.json) with `npm run gallery`.
 
 ## Where this is useful
 
@@ -207,11 +207,11 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 **Why variable fonts?** A weight axis (and sometimes a width axis) gives each glyph a continuous range of ink, so tones can be matched precisely without changing the letter.
 
-**Can I use it commercially?** Yes. The code is MIT-licensed; the fonts are under the SIL Open Font License ([NOTICE.md](NOTICE.md)). Mind the rights to the texts and photos you use.
+**Can I use it commercially?** Yes. The code is MIT-licensed; the fonts are under the SIL Open Font License ([NOTICE.md](https://github.com/typ0graphic5/tg-art/blob/main/NOTICE.md)). Mind the rights to the texts and photos you use.
 
 ## Contributing
 
-Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); please follow the [code of conduct](CODE_OF_CONDUCT.md).
+Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](https://github.com/typ0graphic5/tg-art/blob/main/CONTRIBUTING.md); please follow the [code of conduct](https://github.com/typ0graphic5/tg-art/blob/main/CODE_OF_CONDUCT.md).
 
 ```sh
 npm test          # node --test, no dependencies (a few seconds)
@@ -223,7 +223,7 @@ node demo/moby-dick/build.mjs zoom
 node scripts/build-site.mjs
 ```
 
-Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, facts and images.
+Writing about Typographics Art? The [press kit](https://typographics-art.org/docs/press-kit.md) has texts, facts and images.
 
 ## Repository map
 
@@ -239,13 +239,13 @@ Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, fa
 | `demo/` | the Moby-Dick poster |
 | `docs/` | measurements and rules |
 | `about/` | generated single-file description for AI assistants |
-| `benchmark/` | the test document for [docs/ai-benefit.md](docs/ai-benefit.md) |
+| `benchmark/` | the test document for [docs/ai-benefit.md](https://typographics-art.org/docs/ai-benefit.md) |
 | `assets/` | brand assets |
 | `test/` | tests |
 
 ## Licence
 
-[MIT](LICENSE) © The Typographics Art contributors, covering the code, the project's own texts and motifs and `assets/`. Third-party materials (fonts, photographs, source documents) keep their own licences: see [NOTICE.md](NOTICE.md).
+[MIT](https://github.com/typ0graphic5/tg-art/tree/main/LICENSE) © The Typographics Art contributors, covering the code, the project's own texts and motifs and `assets/`. Third-party materials (fonts, photographs, source documents) keep their own licences: see [NOTICE.md](https://github.com/typ0graphic5/tg-art/blob/main/NOTICE.md).
 
 ---
 
@@ -268,6 +268,7 @@ A work is Typographics Art when it follows all three rules.
 - Every character of the source text appears exactly once, in reading order.
 - No character is replaced, inserted, reordered or dropped.
 - Whitespace may be normalised: runs of spaces, tabs and line breaks become a single space, and line breaks may fall at any space.
+- Whitespace is layout, not text: a work may leave areas blank and widen the gap at a space (or indent a line) so that glyphs stand only where the picture needs ink. Only an existing space may grow; no character, not even a space, is inserted, and the normalised text stays identical.
 - A word longer than a line may be broken between two characters. No hyphen is added.
 - **Filler** (for example Lorem ipsum to reach a higher resolution) is allowed only when it is declared: it follows the source text, and the work states how many characters are filler.
 
@@ -285,7 +286,7 @@ Per character, a work may vary:
 - font weight and other axes of a variable font (width, optical size, slant),
 - typeface,
 - colour and opacity,
-- horizontal spacing (letter and word spacing).
+- horizontal spacing (letter and word spacing), including wide gaps at spaces and indents that leave parts of the page blank.
 
 It may not add shapes, strokes, backgrounds behind individual characters, or images. A single uniform paper colour is allowed.
 
@@ -347,6 +348,24 @@ A further term `0.0012·|stretch − 1|` lets width change only where it buys to
 
 Lines are filled word by word. For each glyph, the target is the mapped tone of the area it will cover, plus half of the previous glyph's error, plus the error the line above left in that column (error diffusion). With `shape` on, the target is the tone of the four half-cells weighted by the glyph's ink profile, so a glyph on an edge takes the tone of the side its ink is on. A word is set tentatively; if it does not fit, it moves to the next line and is set again there. In word mode, one candidate is chosen for the whole word from its average coverage.
 
+### Short texts: blank space as layout (`gaps`)
+
+A text of a few thousand characters has too few glyphs to cover a page. The plain layout spreads them thin over the whole sheet (3 000 characters make about 42 lines), the light areas of the picture are filled with pale type, and the title card, which only covers a tenth of the sheet, is a band of six lines: it dissolves into grey noise (measured on the examples, see below).
+
+With `gaps` on, glyphs go only where the picture is dark and the blank sheet carries the light areas:
+
+1. For every line, the band of the picture it covers is scanned in steps of 0.3 font sizes; stretches whose darkness is at least `GAP_INK` (0.25) are *ink segments*. Gaps shorter than 0.6 font sizes are bridged, segments narrower than 1.2 font sizes are dropped.
+2. Words fill a segment in reading order. A word that does not fit the rest of its segment moves to the next segment of the line, or to the next line. A word wider than its whole segment is set anyway and spills into the blank (a gap inside a word would be read as a space by PDF text extractors). When a segment is full, its inner spaces widen to use up the slack (at most 2.5 font sizes each), so its right edge is as even as its left one.
+3. The first segment of a line is entered by an indent (`text-indent` in HTML, the start x in SVG and PDF), the jump from one segment to the next is carried by the space between the two words (`word-spacing` on that one space).
+
+**Whitespace is layout, not text.** Nothing is inserted: the widened gaps are the source's own spaces, a line starts with its first word, no character is replaced, moved or added, and lines are not justified in this mode. Rule 1 holds exactly as before; the canonical text of the output equals the canonical text of the input (`test/gaps.test.js`; every example is read back from the PDF with MuPDF and compared).
+
+`fit` then searches the largest line height at which the text fits *the ink segments*; it is smaller than in the plain layout (the glyphs get smaller, the page has more rows, so the picture is resolved better). If the text does not fit them even at the smallest line height (for example on a blank picture), the plain layout is kept.
+
+`options.gaps` is `'off'` (library default: photos keep their mid-tones), `'on'` or `'auto'`. One-pagers with a title card use `'auto'`: the gap layout is used when the plain layout has at most `SPARSE_LINES` (100) lines, that is when the picture would be resolved by fewer than a hundred rows; above that the plain layout is already fine and is kept unchanged (measured: PEP 8 with 167 lines and the Grundgesetz are bit-identical before and after). One-pagers with a motif photo always use `'off'`.
+
+Cost: the type is smaller (the one-pager examples of 3 000 characters go from 6.6 mm to about 1.5 to 3 mm line height) and every gap starts a new text run, so the PDF is up to 50 % larger for the shortest texts (see `examples/*/check.json`). The text is still read from the text layer; at this size it is read by zooming, not at print size.
+
 ## 5. Fitting (`fit`)
 
 A binary search finds the largest line height at which the whole text fits the area, then rounds it down to a multiple of 1/64 px (stepping further down in the rare case where the rounded height does not fit, because glyph widths follow the chosen weights). If the text does not fit even at 3 px, the sheet grows downwards instead of dropping characters.
@@ -382,11 +401,13 @@ Details that keep the result exact:
 
 Checked on a 1 m poster printed once directly and once from four assembled strips: same page size, identical text layer (SHA-256). The images agree within less than a millimetre per line; the remaining difference was measured but not fully explained.
 
-Read the text back with MuPDF (`mutool draw -F txt`). Poppler's `pdftotext` keeps only 50 000 characters smaller than 3 points per page at its default resolution (see `docs/ai-readability.md`).
+Read the text back with MuPDF (`mutool draw -F txt`). Poppler's `pdftotext` keeps only 50 000 characters smaller than 3 × 3 units per page at its default resolution (see `docs/ai-readability.md`).
 
 Afterwards the PDF is made smaller without visible change: `cli/pdf-slim.js` rounds the Type 3 glyph outlines to whole units of their 1000-unit grid, and qpdf repacks the file. Chrome's accessibility tags are left out: they were one empty `/NonStruct` element per style run. Measurements in `docs/file-size.md`.
 
 ## Measuring quality
+
+`scripts/legibility.mjs` + `scripts/legibility.py` measure how well the title of a one-pager can be read: the preview is shrunk to 300 px, compared with the title card it was set to (Pearson correlation of brightness, sharp and blurred 1.2 px), and tesseract tries to read the title from a thumbnail. Correlation is a rough proxy: it improves from about 0.45 to 0.62 (blurred 0.65 to 0.85) for the short examples; OCR on thumbnails reads the title in some, not all, cases, so look at the images too.
 
 - **Fidelity**: `isFaithful(sheet)` compares the set text with the source.
 - **Tone fidelity**: Pearson correlation between target tone and achieved coverage over all glyphs (`toneFidelity`). Error diffusion lowers it locally on purpose, so treat it as a rough indicator.
@@ -626,7 +647,7 @@ The CLI reads PDF (via MuPDF), SVG, HTML and plain text. In the [web generator](
 
 ## Honesty
 
-This does not touch the [rules of the technique](technique.md): the work contains its declared text and nothing else. Tiny or invisible text must never be used to hide anything inside a work.
+This does not touch the [rules of the technique](https://typographics-art.org/docs/technique.md): the work contains its declared text and nothing else. Tiny or invisible text must never be used to hide anything inside a work.
 
 ---
 
@@ -636,7 +657,7 @@ This does not touch the [rules of the technique](technique.md): the work contain
 
 # Examples: whole documents on one page
 
-Each example puts the **complete text** of a document on a single A4 page. The letters are tiny; together they form the document's title in large type, or a picture with the title beneath it ([original motifs](motifs/) for comparison). A person sees at a glance what the page is. A machine reads every word from the PDF's text layer: the type size does not matter to it.
+Each example puts the **complete text** of a document on a single A4 page. The letters are tiny; together they form the document's title in large type, or a picture with the title beneath it ([original motifs](https://typographics-art.org/examples/motifs/) for comparison). A person sees at a glance what the page is. A machine reads every word from the PDF's text layer: the type size does not matter to it.
 
 Every page is checked by reading it back with MuPDF and comparing it with the source text. The table is generated by `node examples/build.mjs`.
 
@@ -646,63 +667,63 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024](ch-bundesverfassung/onepage.pdf)** · [motif](motifs/ch-bundesverfassung-1874.jpg) | 102 pages, 31,129 words · [original](https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf) | 228,576 characters at 0.754 mm | 1.65 MB (original 1.05 MB) | ✓ every visible character identical (exact) |
-|  | **[Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de](de-grundgesetz/onepage.pdf)** | 51 pages, 26,180 words · [original](https://www.gesetze-im-internet.de/gg/GG.pdf) | 190,286 characters at 0.844 mm | 738 KB (original 266 KB) | ✓ every visible character identical (exact) |
-|  | **[The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)](us-constitution/onepage.pdf)** · [motif](motifs/us-constitution-hintermeister-1925.jpg) | 85 pages, 44,527 words · [original](https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf) | 303,928 characters at 0.661 mm | 1.63 MB (original 3.83 MB) | ✓ every visible character identical (exact) |
-|  | **[Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal](eu-ai-act/onepage.pdf)** · [motif](motifs/eu-ai-act-network.png) | 144 pages, 91,421 words · [original](https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1) | 595,706 characters at 0.446 mm | 2.20 MB (original 2.46 MB) | ✓ every visible character identical |
+|  | **[Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024](https://typographics-art.org/examples/ch-bundesverfassung/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/ch-bundesverfassung-1874.jpg) | 102 pages, 31,129 words · [original](https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf) | 228,576 characters at 0.754 mm | 1.65 MB (original 1.05 MB) | ✓ every visible character identical (exact) |
+|  | **[Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de](https://typographics-art.org/examples/de-grundgesetz/onepage.pdf)** | 51 pages, 26,180 words · [original](https://www.gesetze-im-internet.de/gg/GG.pdf) | 190,286 characters at 0.844 mm | 738 KB (original 266 KB) | ✓ every visible character identical (exact) |
+|  | **[The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)](https://typographics-art.org/examples/us-constitution/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/us-constitution-hintermeister-1925.jpg) | 85 pages, 44,527 words · [original](https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf) | 303,928 characters at 0.661 mm | 1.63 MB (original 3.83 MB) | ✓ every visible character identical (exact) |
+|  | **[Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal](https://typographics-art.org/examples/eu-ai-act/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/eu-ai-act-network.png) | 144 pages, 91,421 words · [original](https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1) | 595,706 characters at 0.446 mm | 2.20 MB (original 2.46 MB) | ✓ every visible character identical |
 
 ## Declarations
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[Universal Declaration of Human Rights, English text, OHCHR](un-human-rights/onepage.pdf)** | 8 pages, 1,779 words · [original](https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf) | 10,733 characters at 3.617 mm | 137 KB (original 191 KB) | ✓ every visible character identical (exact) |
+|  | **[Universal Declaration of Human Rights, English text, OHCHR](https://typographics-art.org/examples/un-human-rights/onepage.pdf)** | 8 pages, 1,779 words · [original](https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf) | 10,733 characters at 1.24 mm | 140 KB (original 191 KB) | ✓ every visible character identical (exact) |
 
 ## AI instructions
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[PEP 8 – Style Guide for Python Code (reStructuredText source)](pep-8/onepage.pdf)** | 7,153 words · [original](https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst) | 47,423 characters at 1.704 mm | 327 KB (original 50 KB) | ✓ every visible character identical (exact) |
-|  | **[Code review agent: operating instructions (written for this repository)](code-review-agent/onepage.pdf)** | 594 words | 3,514 characters at 6.076 mm | 105 KB (original 3 KB) | ✓ every visible character identical (exact) |
-|  | **[Customer support assistant: policy (fictional shop, written for this repository)](support-assistant/onepage.pdf)** | 557 words | 3,165 characters at 6.628 mm | 84 KB (original 3 KB) | ✓ every visible character identical (exact) |
-|  | **[Research assistant: rules for sources and claims (written for this repository)](research-assistant/onepage.pdf)** | 444 words | 2,625 characters at 7.306 mm | 67 KB (original 3 KB) | ✓ every visible character identical (exact) |
-|  | **[AGENTS.md of this repository](agents-md/onepage.pdf)** | 467 words | 3,002 characters at 6.776 mm | 76 KB (original 3 KB) | ✓ every visible character identical (exact) |
+|  | **[PEP 8 – Style Guide for Python Code (reStructuredText source)](https://typographics-art.org/examples/pep-8/onepage.pdf)** | 7,153 words · [original](https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst) | 47,423 characters at 1.704 mm | 327 KB (original 50 KB) | ✓ every visible character identical (exact) |
+|  | **[Code review agent: operating instructions (written for this repository)](https://typographics-art.org/examples/code-review-agent/onepage.pdf)** | 594 words | 3,514 characters at 3.161 mm | 106 KB (original 3 KB) | ✓ every visible character identical (exact) |
+|  | **[Customer support assistant: policy (fictional shop, written for this repository)](https://typographics-art.org/examples/support-assistant/onepage.pdf)** | 557 words | 3,165 characters at 1.59 mm | 108 KB (original 3 KB) | ✓ every visible character identical (exact) |
+|  | **[Research assistant: rules for sources and claims (written for this repository)](https://typographics-art.org/examples/research-assistant/onepage.pdf)** | 444 words | 2,625 characters at 1.528 mm | 101 KB (original 3 KB) | ✓ every visible character identical (exact) |
+|  | **[AGENTS.md of this repository](https://typographics-art.org/examples/agents-md/onepage.pdf)** | 671 words | 4,495 characters at 1.148 mm | 140 KB (original 5 KB) | ✓ every visible character identical (exact) |
 
 ## Agent library
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)](agent-bibliothek/onepage.pdf)** | 30,205 words | 225,554 characters at 0.786 mm | 890 KB (original 224 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts](agent-library-readme/onepage.pdf)** | 950 words | 7,350 characters at 4.191 mm | 144 KB (original 7 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)](agent-library-wissen/onepage.pdf)** | 1,094 words | 8,441 characters at 3.899 mm | 157 KB (original 8 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 1: Quellen und Belege](agent-regel-quellen/onepage.pdf)** | 639 words | 4,432 characters at 5.378 mm | 127 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 2: Unsicherheit](agent-regel-unsicherheit/onepage.pdf)** | 584 words | 4,022 characters at 5.589 mm | 119 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 3: Aufgabenbearbeitung](agent-regel-aufgaben/onepage.pdf)** | 567 words | 3,984 characters at 5.698 mm | 122 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 4: Berechtigungen](agent-regel-berechtigungen/onepage.pdf)** | 521 words | 3,625 characters at 5.937 mm | 116 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 5: Datenschutz](agent-regel-datenschutz/onepage.pdf)** | 509 words | 3,768 characters at 5.746 mm | 120 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 6: Qualitätsprüfung](agent-regel-qualitaet/onepage.pdf)** | 537 words | 3,788 characters at 5.742 mm | 118 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 7: Ausgabeformate](agent-regel-ausgabe/onepage.pdf)** | 553 words | 3,980 characters at 5.616 mm | 122 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Regel 8: Umgang mit Fremdinhalten](agent-regel-fremdinhalte/onepage.pdf)** | 516 words | 3,835 characters at 5.724 mm | 115 KB (original 4 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Softwareentwicklung (7 Prompts)](agent-prompts-code/onepage.pdf)** | 2,572 words | 19,347 characters at 2.64 mm | 207 KB (original 19 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Software-Sicherheit (4 Prompts)](agent-prompts-sec/onepage.pdf)** | 1,695 words | 13,532 characters at 3.13 mm | 187 KB (original 13 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Recherche (5 Prompts)](agent-prompts-recherche/onepage.pdf)** | 2,548 words | 18,980 characters at 2.674 mm | 200 KB (original 19 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Dokumente (5 Prompts)](agent-prompts-dokumente/onepage.pdf)** | 2,460 words | 18,345 characters at 2.712 mm | 201 KB (original 18 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Datenanalyse (5 Prompts)](agent-prompts-daten/onepage.pdf)** | 2,181 words | 16,382 characters at 2.888 mm | 188 KB (original 16 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Schreiben (5 Prompts)](agent-prompts-schreiben/onepage.pdf)** | 1,966 words | 15,008 characters at 3.001 mm | 185 KB (original 15 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Unternehmen (4 Prompts)](agent-prompts-unternehmen/onepage.pdf)** | 2,323 words | 17,639 characters at 2.74 mm | 210 KB (original 18 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Projektmanagement (5 Prompts)](agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.743 mm | 196 KB (original 18 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Design und Produkt (4 Prompts)](agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.565 mm | 229 KB (original 20 KB) | ✓ every visible character identical (exact) |
-|  | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.592 mm | 208 KB (original 20 KB) | ✓ every visible character identical (exact) |
+|  | **[Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)](https://typographics-art.org/examples/agent-bibliothek/onepage.pdf)** | 30,205 words | 225,554 characters at 0.786 mm | 890 KB (original 224 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts](https://typographics-art.org/examples/agent-library-readme/onepage.pdf)** | 950 words | 7,350 characters at 1.801 mm | 155 KB (original 7 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)](https://typographics-art.org/examples/agent-library-wissen/onepage.pdf)** | 1,094 words | 8,441 characters at 2.018 mm | 162 KB (original 8 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 1: Quellen und Belege](https://typographics-art.org/examples/agent-regel-quellen/onepage.pdf)** | 639 words | 4,432 characters at 2.559 mm | 130 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 2: Unsicherheit](https://typographics-art.org/examples/agent-regel-unsicherheit/onepage.pdf)** | 584 words | 4,022 characters at 2.918 mm | 128 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 3: Aufgabenbearbeitung](https://typographics-art.org/examples/agent-regel-aufgaben/onepage.pdf)** | 567 words | 3,984 characters at 2.842 mm | 116 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 4: Berechtigungen](https://typographics-art.org/examples/agent-regel-berechtigungen/onepage.pdf)** | 521 words | 3,625 characters at 2.971 mm | 120 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 5: Datenschutz](https://typographics-art.org/examples/agent-regel-datenschutz/onepage.pdf)** | 509 words | 3,768 characters at 2.986 mm | 125 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 6: Qualitätsprüfung](https://typographics-art.org/examples/agent-regel-qualitaet/onepage.pdf)** | 537 words | 3,788 characters at 2.917 mm | 118 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 7: Ausgabeformate](https://typographics-art.org/examples/agent-regel-ausgabe/onepage.pdf)** | 553 words | 3,980 characters at 2.774 mm | 134 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Regel 8: Umgang mit Fremdinhalten](https://typographics-art.org/examples/agent-regel-fremdinhalte/onepage.pdf)** | 516 words | 3,835 characters at 2.948 mm | 114 KB (original 4 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Softwareentwicklung (7 Prompts)](https://typographics-art.org/examples/agent-prompts-code/onepage.pdf)** | 2,572 words | 19,347 characters at 2.64 mm | 207 KB (original 19 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Software-Sicherheit (4 Prompts)](https://typographics-art.org/examples/agent-prompts-sec/onepage.pdf)** | 1,695 words | 13,532 characters at 1.23 mm | 203 KB (original 13 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Recherche (5 Prompts)](https://typographics-art.org/examples/agent-prompts-recherche/onepage.pdf)** | 2,548 words | 18,980 characters at 2.674 mm | 200 KB (original 19 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Dokumente (5 Prompts)](https://typographics-art.org/examples/agent-prompts-dokumente/onepage.pdf)** | 2,460 words | 18,345 characters at 2.712 mm | 201 KB (original 18 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Datenanalyse (5 Prompts)](https://typographics-art.org/examples/agent-prompts-daten/onepage.pdf)** | 2,181 words | 16,382 characters at 0.928 mm | 206 KB (original 16 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Schreiben (5 Prompts)](https://typographics-art.org/examples/agent-prompts-schreiben/onepage.pdf)** | 1,966 words | 15,008 characters at 0.963 mm | 207 KB (original 15 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Unternehmen (4 Prompts)](https://typographics-art.org/examples/agent-prompts-unternehmen/onepage.pdf)** | 2,323 words | 17,639 characters at 2.74 mm | 210 KB (original 18 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Projektmanagement (5 Prompts)](https://typographics-art.org/examples/agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.743 mm | 196 KB (original 18 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Design und Produkt (4 Prompts)](https://typographics-art.org/examples/agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.565 mm | 229 KB (original 20 KB) | ✓ every visible character identical (exact) |
+|  | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](https://typographics-art.org/examples/agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.592 mm | 208 KB (original 20 KB) | ✓ every visible character identical (exact) |
 
 ## File size, honestly
 
-Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is 0.4 to 2.8 times the size of its PDF source (us-constitution 0.4, un-human-rights 0.7, eu-ai-act 0.9, ch-bundesverfassung 1.6, de-grundgesetz 2.8; below 1 means smaller); plain-text sources grow far more (pep-8: 50 KB → 327 KB; code-review-agent: 3 KB → 105 KB; support-assistant: 3 KB → 84 KB; research-assistant: 3 KB → 67 KB; agents-md: 3 KB → 76 KB; agent-bibliothek: 224 KB → 890 KB; agent-library-readme: 7 KB → 144 KB; agent-library-wissen: 8 KB → 157 KB; agent-regel-quellen: 4 KB → 127 KB; agent-regel-unsicherheit: 4 KB → 119 KB; agent-regel-aufgaben: 4 KB → 122 KB; agent-regel-berechtigungen: 4 KB → 116 KB; agent-regel-datenschutz: 4 KB → 120 KB; agent-regel-qualitaet: 4 KB → 118 KB; agent-regel-ausgabe: 4 KB → 122 KB; agent-regel-fremdinhalte: 4 KB → 115 KB; agent-prompts-code: 19 KB → 207 KB; agent-prompts-sec: 13 KB → 187 KB; agent-prompts-recherche: 19 KB → 200 KB; agent-prompts-dokumente: 18 KB → 201 KB; agent-prompts-daten: 16 KB → 188 KB; agent-prompts-schreiben: 15 KB → 185 KB; agent-prompts-unternehmen: 18 KB → 210 KB; agent-prompts-projekt: 18 KB → 196 KB; agent-prompts-design: 20 KB → 229 KB; agent-prompts-betrieb: 20 KB → 208 KB), because the source is bare text while the one-pager carries fonts and styling.
+Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is 0.4 to 2.8 times the size of its PDF source (us-constitution 0.4, un-human-rights 0.7, eu-ai-act 0.9, ch-bundesverfassung 1.6, de-grundgesetz 2.8; below 1 means smaller); plain-text sources grow far more (pep-8: 50 KB → 327 KB; code-review-agent: 3 KB → 106 KB; support-assistant: 3 KB → 108 KB; research-assistant: 3 KB → 101 KB; agents-md: 5 KB → 140 KB; agent-bibliothek: 224 KB → 890 KB; agent-library-readme: 7 KB → 155 KB; agent-library-wissen: 8 KB → 162 KB; agent-regel-quellen: 4 KB → 130 KB; agent-regel-unsicherheit: 4 KB → 128 KB; agent-regel-aufgaben: 4 KB → 116 KB; agent-regel-berechtigungen: 4 KB → 120 KB; agent-regel-datenschutz: 4 KB → 125 KB; agent-regel-qualitaet: 4 KB → 118 KB; agent-regel-ausgabe: 4 KB → 134 KB; agent-regel-fremdinhalte: 4 KB → 114 KB; agent-prompts-code: 19 KB → 207 KB; agent-prompts-sec: 13 KB → 203 KB; agent-prompts-recherche: 19 KB → 200 KB; agent-prompts-dokumente: 18 KB → 201 KB; agent-prompts-daten: 16 KB → 206 KB; agent-prompts-schreiben: 15 KB → 207 KB; agent-prompts-unternehmen: 18 KB → 210 KB; agent-prompts-projekt: 18 KB → 196 KB; agent-prompts-design: 20 KB → 229 KB; agent-prompts-betrieb: 20 KB → 208 KB), because the source is bare text while the one-pager carries fonts and styling.
 
-What is done about it, each step measured in [docs/file-size.md](../docs/file-size.md): glyph outlines are rounded to whole units of the 1000-unit glyph grid (invisible: at most 1/2000 of the type size), Chrome's empty accessibility tags are left out, the PDF is repacked with qpdf, photo colours are rounded to steps of 24 (of 255 per channel), and one-pagers use one type size and no width variants, which also makes their pictures sharper. With `--weights` (CLI) or the font-cuts slider (app) fewer weights are used, which makes files much smaller still. The table shows the optimised size next to the original.
+What is done about it, each step measured in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): glyph outlines are rounded to whole units of the 1000-unit glyph grid (invisible: at most 1/2000 of the type size), Chrome's empty accessibility tags are left out, the PDF is repacked with qpdf, photo colours are rounded to steps of 24 (of 255 per channel), and one-pagers use one type size and no width variants, which also makes their pictures sharper. With `--weights` (CLI) or the font-cuts slider (app) fewer weights are used, which makes files much smaller still. The table shows the optimised size next to the original.
 
 ## Limits
 
-- **Short texts make coarse pictures.** The letters are the pixels: 3 500 characters give about 50 lines of 70 letters, too few for a recognisable title or image (see the AI instruction examples). From about 20 000 characters on, titles and motifs read well.
-- **Motifs need rights.** Only public-domain images and motifs drawn for this project are used; see [motifs/](motifs/).
+- **Short texts make coarse pictures.** The letters are the pixels. Up to about 100 lines of plain type (roughly 15 000 characters) the title is therefore set only where it is dark, with blank space between the words elsewhere (whitespace is layout, not text; see [docs/algorithm.md](https://typographics-art.org/docs/algorithm.md)): the letters get smaller and the title readable, at the price of tiny type (1 to 3 mm). Photo motifs still need from about 20 000 characters on.
+- **Motifs need rights.** Only public-domain images and motifs drawn for this project are used; see [motifs/](https://typographics-art.org/examples/motifs/).
 
 ## How the text is taken
 
@@ -748,7 +769,7 @@ What is done about it, each step measured in [docs/file-size.md](../docs/file-si
 
 ## Why AI instructions?
 
-Instructions for AI systems (system prompts, policies, agent rules such as [AGENTS.md](../AGENTS.md)) are long texts that people rarely read in full. As a one-pager, a person recognises at a glance which instructions a page carries, and a model still receives every rule. That only works if it stays honest: the visible title must name the document, and the full text must be the declared document. Tiny text must never be used to hide instructions from the people who see the page.
+Instructions for AI systems (system prompts, policies, agent rules such as [AGENTS.md](https://github.com/typ0graphic5/tg-art/blob/main/AGENTS.md)) are long texts that people rarely read in full. As a one-pager, a person recognises at a glance which instructions a page carries, and a model still receives every rule. That only works if it stays honest: the visible title must name the document, and the full text must be the declared document. Tiny text must never be used to hide instructions from the people who see the page.
 
 ## Make your own
 

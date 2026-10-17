@@ -27,7 +27,7 @@
 
 ## Ask your AI what this is
 
-The README and the main documents in one file: **[about/typographics-art.md](about/typographics-art.md)** (about 60 000 characters, also at [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt)). Or hand it the same text as a one-pager, made with the technique itself: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Then ask: *What is Typographics Art, and can you still read this page?*
+The README and the main documents in one file: **[about/typographics-art.md](about/typographics-art.md)** (about 67 000 characters, also at [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt)). Or hand it the same text as a one-pager, made with the technique itself: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Then ask: *What is Typographics Art, and can you still read this page?*
 
 ## The idea
 
