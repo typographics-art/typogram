@@ -9,10 +9,10 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 ## Pages
 
 - [Home](https://typographics-art.org/): what Typographic Art is, measured results, showcases
-- [Web app](https://typographics-art.org/app.html): make your own in the browser; text and image never leave the device
+- [Web app](https://typographics-art.org/app): make your own in the browser; text and image never leave the device
 - [Moby-Dick demonstrator](https://typographics-art.org/demo/moby-dick/): the complete novel (1.2 million characters) on one 2 × 3 m poster, with a generated proof report
-- [One-pagers](https://typographics-art.org/examples.html): whole documents (Swiss Federal Constitution, German Basic Law, US Constitution, EU AI Act, UDHR, PEP 8, AI agent instructions) on one page each, verified by reading them back
-- [Gallery](https://typographics-art.org/gallery.html): works from public-domain texts
+- [One-pagers](https://typographics-art.org/examples): whole documents (Swiss Federal Constitution, German Basic Law, US Constitution, EU AI Act, UDHR, PEP 8, AI agent instructions) on one page each, verified by reading them back
+- [Gallery](https://typographics-art.org/gallery): works from public-domain texts
 
 ## Documentation
 

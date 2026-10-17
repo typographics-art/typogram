@@ -22,7 +22,7 @@
   "@context": "https://schema.org",
   "@graph": [
     { "@type": "WebSite", "name": "Typographic Art", "url": "https://typographics-art.org/", "inLanguage": ["en", "de"] },
-    { "@type": "SoftwareApplication", "name": "Typographic Art", "url": "https://typographics-art.org/app.html",
+    { "@type": "SoftwareApplication", "name": "Typographic Art", "url": "https://typographics-art.org/app",
       "applicationCategory": "DesignApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true,
       "license": "https://opensource.org/licenses/MIT", "codeRepository": "https://github.com/typ0graphic5/tg-art",
       "description": "Sets any text letter by letter so that it forms a picture of a photo, while the text stays readable for machines.",
@@ -156,12 +156,12 @@ footer a{color:inherit}
       <a href="#idea" data-i18n="nav.idea">The idea</a>
       <a href="#how" data-i18n="nav.how">How it works</a>
       <a href="demo/moby-dick/">Moby-Dick</a>
-      <a href="examples.html" data-i18n="nav.examples">One-pagers</a>
-      <a href="gallery.html" data-i18n="nav.gallery">Gallery</a>
+      <a href="examples" data-i18n="nav.examples">One-pagers</a>
+      <a href="gallery" data-i18n="nav.gallery">Gallery</a>
       <a href="#ai" data-i18n="nav.ai">For AI</a>
       <a href="https://github.com/typ0graphic5/tg-art">GitHub</a>
     </nav>
-    <a class="cta" href="app.html" data-i18n="cta.try">Try it free</a>
+    <a class="cta" href="app" data-i18n="cta.try">Try it free</a>
     <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div>
   </div>
 </header>
@@ -174,7 +174,7 @@ footer a{color:inherit}
       <h1><span class="w" data-i18n="hero.h1a">ASCII art</span> <span class="w" data-i18n="hero.h1b">for the age of AI.</span></h1>
       <p class="lead" data-i18n="hero.lead">Any text becomes a picture of your photo, and stays text. Every letter keeps its place; only its weight, width, size and colour change. People see the image. Machines read every word.</p>
       <div class="ctas">
-        <a class="cta" href="app.html" data-i18n="cta.make">Make your own, free</a>
+        <a class="cta" href="app" data-i18n="cta.make">Make your own, free</a>
         <a class="cta ghost" href="demo/moby-dick/" data-i18n="cta.proof">See the proof</a>
       </div>
     </div>
@@ -197,7 +197,7 @@ footer a{color:inherit}
       <div class="num"><b id="n-ex">10/10</b><span data-i18n="n.ex">one-pagers read back and verified</span></div>
       <div class="num"><b id="n-vlm">146/146</b><span data-i18n="n.vlm">words read by a vision model, where classic OCR got 5 %</span></div>
     </div>
-    <p class="source"><span data-i18n="proof.src">Every number comes from a script in the repository:</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md">proof.md</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-readability.md">ai-readability.md</a> · <a href="examples.html" data-i18n="proof.ex">one-pager checks</a></p>
+    <p class="source"><span data-i18n="proof.src">Every number comes from a script in the repository:</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md">proof.md</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-readability.md">ai-readability.md</a> · <a href="examples" data-i18n="proof.ex">one-pager checks</a></p>
   </div>
 </section>
 
@@ -277,7 +277,7 @@ footer a{color:inherit}
       <a class="card" href="examples/us-constitution/onepage.pdf"><img src="examples/us-constitution/preview.jpg" alt="US Constitution on one page" loading="lazy"><b>US Constitution</b><small>85 → 1</small></a>
       <a class="card" href="examples/code-review-agent/onepage.pdf"><img src="examples/code-review-agent/preview.jpg" alt="Code review agent instructions on one page" loading="lazy"><b>Code Review</b><small data-i18n="op.agent">AI agent instructions</small></a>
     </div>
-    <p style="margin-top:24px"><a href="examples.html" data-i18n="op.all">All ten one-pagers, with their checks →</a></p>
+    <p style="margin-top:24px"><a href="examples" data-i18n="op.all">All ten one-pagers, with their checks →</a></p>
   </div>
 </section>
 
@@ -307,7 +307,7 @@ footer a{color:inherit}
       <a href="gallery/article-1.svg"><img src="gallery/article-1.jpg" alt="Article 1 of the Universal Declaration of Human Rights" loading="lazy"></a>
       <a href="gallery/waves.svg"><img src="gallery/waves.jpg" alt="Waves" loading="lazy"></a>
     </div>
-    <p style="margin-top:22px"><a href="gallery.html" data-i18n="g.all">Open the gallery →</a></p>
+    <p style="margin-top:22px"><a href="gallery" data-i18n="g.all">Open the gallery →</a></p>
   </div>
 </section>
 
@@ -349,7 +349,7 @@ node cli/onepage.mjs law.pdf --title "Short title" -o onepage.pdf</pre>
   <div class="wrap">
     <h2 data-i18n="end.h">Make the first Typographic Art of your own.</h2>
     <p class="lead" data-i18n="end.lead">Paste a text, drop a photo, export a PDF that people can look at and machines can read.</p>
-    <div class="ctas"><a class="cta" href="app.html" data-i18n="cta.make">Make your own, free</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/press-kit.md" data-i18n="end.press">Press kit</a></div>
+    <div class="ctas"><a class="cta" href="app" data-i18n="cta.make">Make your own, free</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/press-kit.md" data-i18n="end.press">Press kit</a></div>
   </div>
 </section>
 </main>
