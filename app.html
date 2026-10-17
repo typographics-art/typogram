@@ -78,6 +78,9 @@ button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-vis
 .hint{font-size:12.5px;color:var(--muted);margin:0}
 .hint.bad{color:var(--warn);font-weight:600;font-size:13.5px;border-left:3px solid var(--warn);padding:2px 0 2px 10px}
 .hint.good{color:var(--ok);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips button{font:inherit;font-size:12.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--soft);color:var(--fg);cursor:pointer}
+.chips button:hover{border-color:var(--accent);color:var(--accent)}
 form.simple [data-adv]{display:none}
 .modebar{display:flex;align-items:center;gap:8px;margin-bottom:2px}
 .modebar .seg{flex:1}
@@ -165,6 +168,11 @@ footer a{color:inherit}
 
       <fieldset>
         <legend data-i18n="legend.text">Text</legend>
+        <div class="field" id="sampleField" hidden>
+          <label class="lbl" for="sampleSel" data-i18n="label.sample">Sample text</label>
+          <select id="sampleSel"><option value="" data-i18n="sample.choose">Choose a sample text …</option></select>
+          <p class="hint" id="sampleInfo" role="status"></p>
+        </div>
         <div class="field">
           <label class="lbl" for="text"><span data-i18n="label.text">Your text</span> <output id="nchars"></output></label>
           <textarea id="text" spellcheck="false"></textarea>
@@ -311,6 +319,7 @@ footer a{color:inherit}
         <textarea id="secretIn" rows="2"></textarea>
         <div class="row2"><button type="button" id="secretHide" data-i18n="secret.hide">Create key</button><button type="button" id="secretReveal" data-i18n="secret.reveal">Read message from key</button></div>
         <p class="hint" id="secretMsg" role="status" aria-live="polite"></p>
+        <div class="chips" id="secretSuggest"></div>
         <label class="lbl" for="secretKey" data-i18n="secret.key">Key</label>
         <textarea id="secretKey" rows="3" spellcheck="false"></textarea>
       </details>
@@ -371,7 +380,7 @@ const I18N = {
     'tagline': 'ASCII-Art für das Zeitalter der KI. Dein Text wird zum Bild und bleibt Text: Menschen sehen das Foto, Maschinen lesen jedes Wort.',
     'mode.simple': 'Einfach', 'mode.adv': 'Erweitert',
     'legend.presets': 'Stil', 'preset.ai': 'KI-sicher', 'preset.ai.sub': 'gut lesbar', 'preset.portrait': 'Porträt', 'preset.portrait.sub': 'fein, 4:5', 'preset.poster': 'Plakat', 'preset.poster.sub': 'dunkel, kräftig',
-    'legend.text': 'Text', 'label.text': 'Dein Text', 'btn.loadText': 'Textdatei laden (.txt, .md)', 'label.fill': 'Mit Lorem ipsum auffüllen auf', 'btn.fill': 'Auffüllen', 'btn.unfill': 'Füllung entfernen',
+    'legend.text': 'Text', 'label.text': 'Dein Text', 'btn.loadText': 'Textdatei laden (.txt, .md)', 'label.sample': 'Beispieltext', 'sample.choose': 'Beispieltext wählen …', 'label.fill': 'Mit Lorem ipsum auffüllen auf', 'btn.fill': 'Auffüllen', 'btn.unfill': 'Füllung entfernen',
     'hint.fill': 'Mehr Zeichen ergeben ein feineres Bild. Dein Text bleibt vorne unverändert.',
     'legend.photo': 'Foto', 'drop.sample': 'Beispielbild: Kugel', 'drop.hint': 'Bild wählen oder hierher ziehen', 'label.format': 'Format',
     'fmt.photo': 'Wie das Foto', 'fmt.square': 'Quadrat 1:1', 'fmt.portrait': 'Hochformat 4:5', 'fmt.a': 'A-Format hoch', 'fmt.landscape': 'Querformat 16:9',
@@ -407,8 +416,9 @@ const MSG = {
   en: {
     chars: '{n} characters', faithful: 'Text 1:1 preserved · {n} characters', notFaithful: 'Text differs from the source', filler: 'of which Lorem ipsum <b>{n}</b>',
     cutsN: '{n} weights', cuts1: '1 weight', cutsAll: 'all weights',
+    sampleLoaded: 'Sample text loaded: {title}. Source: {source} ({licence}).', sampleBig: 'large, takes a few seconds', sampleNo: 'no {c}', sampleGroupWorks: 'Public-domain works', sampleGroupLaws: 'Laws and declarations', sampleGroupTech: 'Technical', sampleGroupAi: 'AI instructions', secretSuggest: 'Texts that contain it:', secretSuggested: 'Text loaded. Now create the key again.',
     secretMade: 'Key created. It only works with this exact work: download or copy the work too.', secretRead: 'Message read from the key.',
-    secretMissing: 'Cannot hide this yet: the text has no "{c}". Use other words, or add a word with it to the text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
+    secretMissing: 'Cannot hide this yet: the text lacks {c}. Use other words, or add a word with it to the text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} fonts', pdfTitle: 'Estimate for a PDF printed from Chrome ({fonts} fonts, {runs} style runs), measured within 3 %. The command-line tool makes the file 20–40 % smaller (measured).',
     lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
     tooShort: 'Your text is already as long as the target. Raise the target.', filled: '{n} characters of Lorem ipsum appended.', noFill: 'No filler found that could be removed.',
@@ -419,8 +429,9 @@ const MSG = {
   de: {
     chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
     cutsN: '{n} Stärken', cuts1: '1 Stärke', cutsAll: 'alle Stärken',
+    sampleLoaded: 'Beispieltext geladen: {title}. Quelle: {source} ({licence}).', sampleBig: 'groß, braucht einige Sekunden', sampleNo: 'ohne {c}', sampleGroupWorks: 'Gemeinfreie Werke', sampleGroupLaws: 'Gesetze und Erklärungen', sampleGroupTech: 'Technik', sampleGroupAi: 'KI-Anweisungen', secretSuggest: 'Texte, die ihn enthalten:', secretSuggested: 'Text geladen. Jetzt den Schlüssel noch einmal erzeugen.',
     secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Werk ebenfalls laden oder kopieren.', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
-    secretMissing: 'So noch nicht möglich: Im Text kommt kein „{c}“ vor. Andere Wörter wählen oder ein Wort mit diesem Buchstaben in den Text aufnehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
+    secretMissing: 'So noch nicht möglich: Im Text fehlt {c}. Andere Wörter wählen oder ein Wort mit diesem Buchstaben in den Text aufnehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
     lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
     tooShort: 'Dein Text ist schon so lang wie das Ziel. Stell das Ziel höher.', filled: '{n} Zeichen Lorem ipsum angehängt.', noFill: 'Keine Füllung gefunden, die sich entfernen lässt.',
@@ -500,6 +511,7 @@ function setLang(l) {
   document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
   $('#thumb').alt = l === 'de' ? 'Vorschau des Fotos' : 'Photo preview';
   $('#png').alt = l === 'de' ? 'Gesetzter Text als PNG' : 'Set text as PNG';
+  if (typeof buildSampleSelect === 'function') buildSampleSelect();
 }
 
 /* ---------- Sample image ---------- */
@@ -708,6 +720,48 @@ $('#txtfile').addEventListener('change', (e) => {
   rd.onload = () => { $('#text').value = String(rd.result); fillBase = null; $('#fillMsg').textContent = t('loaded', { name: f.name }); run(); };
   rd.readAsText(f); e.target.value = '';
 });
+/* ---------- Sample texts (samples/index.json): which characters each one has is recorded, so a hidden message can be matched ---------- */
+let SAMPLE_TEXTS = [];
+const sampleLabel = (m) => {
+  const missing = [...'abcdefghijklmnopqrstuvwxyz'].filter((c) => !m.has.includes(c)).join(' ');
+  return [m.title, m.language.toUpperCase(), fmt(m.characters), m.characters > 100000 ? t('sampleBig') : '', missing ? t('sampleNo', { c: missing }) : ''].filter(Boolean).join(' · ');
+};
+function buildSampleSelect() {
+  const sel = $('#sampleSel');
+  if (!SAMPLE_TEXTS.length) return;
+  $('#sampleField').hidden = false;
+  const keep = sel.options[0];
+  sel.replaceChildren(keep);
+  for (const [g, key] of [['works', 'sampleGroupWorks'], ['laws', 'sampleGroupLaws'], ['tech', 'sampleGroupTech'], ['ai', 'sampleGroupAi']]) {
+    const og = document.createElement('optgroup'); og.label = t(key);
+    for (const m of SAMPLE_TEXTS.filter((x) => x.group === g)) { const o = document.createElement('option'); o.value = m.id; o.textContent = sampleLabel(m); og.append(o); }
+    if (og.children.length) sel.append(og);
+  }
+}
+async function loadSample(id) {
+  const m = SAMPLE_TEXTS.find((x) => x.id === id); if (!m) return false;
+  const r = await fetch(`samples/${encodeURIComponent(id)}.txt`); if (!r.ok) return false;
+  $('#text').value = await r.text(); fillBase = null; $('#fillMsg').textContent = '';
+  $('#sampleInfo').textContent = t('sampleLoaded', { title: m.title, source: m.source, licence: m.licence });
+  $('#sampleSel').value = id; run(); return true;
+}
+$('#sampleSel').addEventListener('change', (e) => { if (e.target.value) loadSample(e.target.value); });
+// A hidden message needs every one of its characters in the text: offer the sample texts that have them all.
+function suggest(missing) {
+  const box = $('#secretSuggest'); box.replaceChildren();
+  if (!missing || !missing.length) return;
+  const fit = SAMPLE_TEXTS.filter((m) => missing.every((c) => m.has.includes(c)))
+    .sort((a, b) => (b.language === lang) - (a.language === lang) || a.characters - b.characters).slice(0, 5);
+  if (!fit.length) return;
+  const lead = document.createElement('span'); lead.className = 'hint'; lead.textContent = t('secretSuggest'); box.append(lead);
+  for (const m of fit) {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = `${m.title} (${m.language.toUpperCase()})`;
+    b.addEventListener('click', async () => { if (await loadSample(m.id)) say(t('secretSuggested'), 'good'); });
+    box.append(b);
+  }
+}
+fetch('samples/index.json').then((r) => (r.ok ? r.json() : [])).then((list) => { SAMPLE_TEXTS = list; buildSampleSelect(); }).catch(() => {});
+
 function takeImage(f) {
   if (!f || !f.type.startsWith('image/')) return;
   const rd = new FileReader();
@@ -737,12 +791,12 @@ $('#makePng').addEventListener('click', () => {
 
 $('#printPdf').addEventListener('click', () => sheet && window.print());
 // Hidden message: a book cipher over the work's public text (src/secret.js). The work itself is not changed.
-const say = (msg, kind) => { const m = $('#secretMsg'); m.textContent = msg; m.className = 'hint ' + kind; };
+const say = (msg, kind) => { const m = $('#secretMsg'); m.textContent = msg; m.className = 'hint ' + kind; $('#secretSuggest').replaceChildren(); };
 $('#secretHide').addEventListener('click', async () => {
   try {
     $('#secretKey').value = await hideSecret($('#aiText').textContent, $('#secretIn').value);
     say(t('secretMade'), 'good');
-  } catch (e) { $('#secretKey').value = ''; say(e.missing ? t('secretMissing', { c: e.missing.join('“, „') }) : e.message, 'bad'); }
+  } catch (e) { $('#secretKey').value = ''; say(e.missing ? t('secretMissing', { c: e.missing.map((c) => (lang === 'de' ? `„${c}“` : `“${c}”`)).join(', ') }) : e.message, 'bad'); suggest(e.missing); }
 });
 $('#secretReveal').addEventListener('click', async () => {
   try {

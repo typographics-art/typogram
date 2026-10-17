@@ -1,0 +1,282 @@
+[
+ {
+  "id": "gallery-earthrise",
+  "title": "Earthrise",
+  "group": "works",
+  "language": "en",
+  "characters": 34841,
+  "source": "Genesis 1–11, King James Version (1611), public domain; the Apollo 8 crew read Genesis 1:1–10 on 24 December 1968",
+  "licence": "Public domain",
+  "has": " (),.:;?ABCDEFGHIJKLMNOPRSTUWYZabcdefghijklmnopqrstuvwxyz’"
+ },
+ {
+  "id": "gallery-blue-marble",
+  "title": "The Blue Marble",
+  "group": "works",
+  "language": "en",
+  "characters": 10686,
+  "source": "Universal Declaration of Human Rights (1948), full text, United Nations",
+  "licence": "Public domain",
+  "has": " ,-.0123456789;ACDEFGHIMNPRSTUWabcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "gallery-starry-night",
+  "title": "The Starry Night",
+  "group": "works",
+  "language": "en",
+  "characters": 30013,
+  "source": "Walt Whitman, Song of Myself (Leaves of Grass, Project Gutenberg eBook #1322), opening sections, public domain",
+  "licence": "Public domain",
+  "has": " !(),-.0123456789;?ABCDEFGHIKLMNOPRSTUVWYabcdefghijklmnopqrstuvwxyz’"
+ },
+ {
+  "id": "gallery-great-wave",
+  "title": "The Great Wave",
+  "group": "works",
+  "language": "en",
+  "characters": 20101,
+  "source": "Herman Melville, Moby-Dick (1851), chapters 1–2, public domain",
+  "licence": "Public domain",
+  "has": " !(),-.2:;?ABCDEFGHIJLMNOPQRSTUVWY_abcdefghijklmnopqrstuvwxyz—‘’“”"
+ },
+ {
+  "id": "gallery-lincoln",
+  "title": "Cooper Institute",
+  "group": "works",
+  "language": "en",
+  "characters": 21836,
+  "source": "Abraham Lincoln, Address at Cooper Institute, New York, 27 February 1860, as printed in Speeches & Letters of Abraham Lincoln (1907), public domain",
+  "licence": "Public domain",
+  "has": " !\"'*,-.:;?ABCDEFGHIJLMNOPRSTUVWY_abcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "gallery-mona-lisa",
+  "title": "La Gioconda",
+  "group": "works",
+  "language": "en",
+  "characters": 40016,
+  "source": "Walter Pater, The Renaissance (1873), essay on Leonardo da Vinci up to the Mona Lisa passage, public domain",
+  "licence": "Public domain",
+  "has": " !\"'()*,-.01346789:;?ABCDEFGHIJLMNOPQRSTUVWYabcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "gallery-darwin",
+  "title": "Endless forms",
+  "group": "works",
+  "language": "en",
+  "characters": 31129,
+  "source": "Charles Darwin, On the Origin of Species (1859), end of the final chapter, public domain",
+  "licence": "Public domain",
+  "has": " !(),-.;?ABCDEFGHIJLNOPRSTVW_abcdefghijklmnopqrstuvwxyzæ—’“”"
+ },
+ {
+  "id": "gallery-pillars-of-creation",
+  "title": "The Star",
+  "group": "works",
+  "language": "en",
+  "characters": 25226,
+  "source": "H. G. Wells, The Star (1897), the complete story, from Tales of Space and Time (Project Gutenberg eBook #27365), public domain",
+  "licence": "Public domain",
+  "has": " !\"'(),-.013;?ABCDEFGHIJLMNOPRSTUVWY_abcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "gallery-wanderer",
+  "title": "The Wanderer",
+  "group": "works",
+  "language": "en",
+  "characters": 25945,
+  "source": "Friedrich Nietzsche, Thus Spake Zarathustra (1883), Zarathustra's Prologue, translated by Thomas Common (Project Gutenberg eBook #1998), public domain",
+  "licence": "Public domain",
+  "has": " !,-.0123456789:;?ABCDEFGHILMNOPRSTUVWYZabcdefghijklmnopqrstuvwxyz—‘’“”"
+ },
+ {
+  "id": "gallery-red-fuji",
+  "title": "Fuji-no-Yama",
+  "group": "works",
+  "language": "en",
+  "characters": 36594,
+  "source": "Lafcadio Hearn, Fuji-no-Yama, in Exotics and Retrospectives (1898), the essay after its epigraph (Project Gutenberg eBook #42735), public domain",
+  "licence": "Public domain",
+  "has": " !()*,-./0123456789:;?ABCDEFGHIJKLMNOPRSTUVWYZ_abcdefghijklmnopqrstuvwxyzæéō’“”"
+ },
+ {
+  "id": "gallery-douglass",
+  "title": "Learning to Read",
+  "group": "works",
+  "language": "en",
+  "characters": 38871,
+  "source": "Frederick Douglass, Narrative of the Life of Frederick Douglass, an American Slave (1845), chapters V–VIII (Project Gutenberg eBook #23), public domain",
+  "licence": "Public domain",
+  "has": " !(),-.:;?ABCDEFGHIJLMNOPRSTUVWY_abcdefghijklmnopqrstuvwxyz—’“”"
+ },
+ {
+  "id": "gallery-twain",
+  "title": "The Boys' Ambition",
+  "group": "works",
+  "language": "en",
+  "characters": 31620,
+  "source": "Mark Twain, Life on the Mississippi (1883), chapters 4–6 (Project Gutenberg eBook #245), public domain",
+  "licence": "Public domain",
+  "has": " !'(),-.156:;?ABCDEFGHIJKLMNOPRSTUVWY[]_abcdefghijklmnopqrstuvwxyz{}"
+ },
+ {
+  "id": "gallery-poe",
+  "title": "The House of Usher",
+  "group": "works",
+  "language": "en",
+  "characters": 38937,
+  "source": "Edgar Allan Poe, The Fall of the House of Usher (1839), from the second paragraph to the end (Project Gutenberg eBook #932), public domain",
+  "licence": "Public domain",
+  "has": " !\"'()*,-.:;?ABCDEFGHIJKLMNOPRSTUVWYabcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "gallery-tesla",
+  "title": "My Inventions",
+  "group": "works",
+  "language": "en",
+  "characters": 21232,
+  "source": "Nikola Tesla, My Inventions (Electrical Experimenter, 1919), chapter III, My Later Endeavors (Wikisource, My Inventions, revision 15728285), public domain",
+  "licence": "Public domain",
+  "has": " !\"',-.01589:;?ABCDEFGHIJKLMNOPRSTUVWY[]abcdefghijklmnopqrstuvwxyz—"
+ },
+ {
+  "id": "gallery-herschel",
+  "title": "Preliminary Discourse",
+  "group": "works",
+  "language": "en",
+  "characters": 37480,
+  "source": "John F. W. Herschel, A Preliminary Discourse on the Study of Natural Philosophy (1831), §§ 77–101 (Project Gutenberg eBook #54897), public domain",
+  "licence": "Public domain",
+  "has": " !&(),-.0123456789:;?ABCDEFGHILMNOPRSTUVWY_abcdefghijklmnopqrstuvwxyzàâëαεηιμνοπρτὁ’“”"
+ },
+ {
+  "id": "example-ch-bundesverfassung",
+  "title": "Bundesverfassung",
+  "group": "laws",
+  "language": "de",
+  "characters": 228576,
+  "source": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
+  "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
+  "has": " !%()*,-./0123456789:;ABCDEFGHIJKLMNOPQRSTUVWXYZ[]abcdefghijklmnopqrstuvwxyzÄÖÜäöü–…"
+ },
+ {
+  "id": "example-de-grundgesetz",
+  "title": "Grundgesetz",
+  "group": "laws",
+  "language": "de",
+  "characters": 190286,
+  "source": "https://www.gesetze-im-internet.de/gg/GG.pdf",
+  "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
+  "has": " \"()+,-./0123456789:;ABDEFGHIJKLMNOPQRSTUVWXZabcdefghijklmnopqrstuvwxyz§ÄÖÜßäöü‒"
+ },
+ {
+  "id": "example-us-constitution",
+  "title": "US Constitution",
+  "group": "laws",
+  "language": "en",
+  "characters": 303928,
+  "source": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
+  "licence": "Public domain (work of the United States Government)",
+  "has": " !\"#$&(),-.0123456789:;ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]abcdefghijklmnopqrstuvwxyzÆ–—‘’•"
+ },
+ {
+  "id": "example-un-human-rights",
+  "title": "Universal Declaration of Human Rights",
+  "group": "laws",
+  "language": "en",
+  "characters": 10733,
+  "source": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
+  "licence": "United Nations text, freely reproducible",
+  "has": " ,-.0123456789;ACDEFGHIMNPRSTUWabcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "example-pep-8",
+  "title": "PEP 8: Style Guide for Python Code",
+  "group": "tech",
+  "language": "en",
+  "characters": 47423,
+  "source": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst",
+  "licence": "Public domain (stated in the document)",
+  "has": " !\"#%'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXY[\\]^_`aa̧͎̺bcdefgg̹̲hijkll̡͓̫mnoo̡̼̘pqrstuvwxyzz̯̯͡{}~"
+ },
+ {
+  "id": "example-agents-md",
+  "title": "AGENTS.md",
+  "group": "ai",
+  "language": "en",
+  "characters": 3002,
+  "source": "Typographics Art",
+  "licence": "MIT, Typographics Art contributors",
+  "has": " \"#'()*,-./01234568:;ABCDEFGHIKLMNOPRSTUV`abcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "example-code-review-agent",
+  "title": "Code review agent",
+  "group": "ai",
+  "language": "en",
+  "characters": 3514,
+  "source": "Typographics Art",
+  "licence": "MIT, Typographics Art contributors",
+  "has": " \"#()*,-.123456:;?ABCDEFHILMNOPQRSTUWYabcdefghijklmnopqrstuvwxyz"
+ },
+ {
+  "id": "example-support-assistant",
+  "title": "Support assistant",
+  "group": "ai",
+  "language": "en",
+  "characters": 3165,
+  "source": "Typographics Art",
+  "licence": "MIT, Typographics Art contributors",
+  "has": " \"#'(),-.01234568:;@ABCDEFGHILMNOPQSUWYabcdefghijklmnopqrstuvwxyz…"
+ },
+ {
+  "id": "example-research-assistant",
+  "title": "Research assistant",
+  "group": "ai",
+  "language": "en",
+  "characters": 2625,
+  "source": "Typographics Art",
+  "licence": "MIT, Typographics Art contributors",
+  "has": " \"#()*,-.123456:;ACDEFGIKLMNOPQRSTUWYabcdefghiklmnopqrstuvwxyz"
+ },
+ {
+  "id": "example-agent-library-wissen",
+  "title": "Agenten-Bibliothek: Wissen",
+  "group": "ai",
+  "language": "de",
+  "characters": 8441,
+  "source": "Typographics Art",
+  "licence": "Written for this repository (MIT)",
+  "has": " \"#()*,-./0123456789:;?ABCDEFGHIJKLMNOPQRSTUVWZ[]`abcdefghijklmnopqrstuvwxyzÄÜäöü"
+ },
+ {
+  "id": "example-agent-regel-quellen",
+  "title": "Agenten-Regel: Quellen",
+  "group": "ai",
+  "language": "de",
+  "characters": 4432,
+  "source": "Typographics Art",
+  "licence": "Written for this repository (MIT)",
+  "has": " \"#()*,-./0123456:;ABCDEFGHIJKLMNOPQRSTUVWXYZ[]`abcdefghijklmnopqrstuvwxyz°Üäöü…"
+ },
+ {
+  "id": "example-agent-regel-datenschutz",
+  "title": "Agenten-Regel: Datenschutz",
+  "group": "ai",
+  "language": "de",
+  "characters": 3768,
+  "source": "Typographics Art",
+  "licence": "Written for this repository (MIT)",
+  "has": " \"#()*,-./123456:;ABCDEFGHIJKLMNOPQRSTUVWXYZ[]`abcdefghijklmnoprstuvwxyzÖÜäöü"
+ },
+ {
+  "id": "example-agent-prompts-sec",
+  "title": "Agenten-Prompts: Sicherheit",
+  "group": "ai",
+  "language": "de",
+  "characters": 13532,
+  "source": "Typographics Art",
+  "licence": "Written for this repository (MIT)",
+  "has": " \"#()*,-./123456:;?ABCDEFGHIJKLMNOPQRSTUVWZ[]_`abcdefghijklmnopqrstuvwxyz|Ä×äöü„…"
+ }
+]
