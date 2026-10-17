@@ -96,7 +96,7 @@ test('repeated letters stay far enough apart for PDF extractors (no "fake bold" 
   };
   const text = Array.from({ length: 400 }, (_, i) => (i % 3 ? 'hallo' : 'llll')).join(' ');
   const img = image(120, 120, (x, y) => ((x >> 2) + (y >> 2)) % 2 ? [0, 0, 0] : [255, 255, 255]);
-  const sheet = typesetWith({ text, metric: narrow, image: img, options: { legibility: 'free', color: 'gray', width: 300 } });
+  const sheet = typesetWith({ text, metric: narrow, image: img, options: { legibility: 'free', color: 'gray', width: 300, sizeCount: null } }); // the rule matters with mixed sizes
   const { lines, fs } = sheet.result, minS = Math.min(...LEGIBILITY.free.sizes);
   let checked = 0;
   for (const ln of lines) for (let i = 1; i < ln.items.length; i++) {

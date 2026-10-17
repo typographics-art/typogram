@@ -18,8 +18,8 @@ Thanks for helping. Contributions of every size are welcome: a typo fix, a trans
 
 ## Ideas we would love help with
 
-- More variable fonts, including scripts beyond Latin (CJK, Arabic, Devanagari).
-- Width axes: Roboto Flex, Archivo and Noto Serif have one. Measured on a hard-edged test image, width helps Roboto Flex (−6 % edge error), is neutral for Noto Serif and slightly worse for Archivo's edges (+2 %, while tone fidelity rises). A better cost model could make width pay off everywhere.
+- Scripts beyond Latin (CJK, Arabic, Devanagari). Typographics Art sets with one typeface, Roboto Flex (decided 2026-10-17: more families gave larger PDFs and no better picture, see docs/file-size.md); a second family should only come for a script Roboto Flex lacks.
+- Width axis: off by default (measured: no visible gain, +12 % file size). A better cost model could make it pay off.
 - Stronger shape awareness: the current ink-profile weighting helps little (measured −0.4 % edge error); comparing rendered candidates with the image could do much better.
 - PDF export directly in the browser (today: print dialog, or the CLI).
 - More gallery motifs and works.

@@ -32,7 +32,7 @@ Because the letters are never replaced, the work is also a document. Exported as
 | Launched | 2026 |
 | Licence | MIT (code), SIL Open Font License (fonts) |
 | Runs | in the browser, locally; nothing is uploaded |
-| Fonts | 6 variable fonts (Roboto Flex, Fraunces, Recursive, Archivo, Noto Serif, JetBrains Mono) |
+| Font | One variable font: Roboto Flex, weights 100–1000 (one family keeps PDFs small; weight carries the picture) |
 | Outputs | HTML, SVG, PDF (text stays text), PNG, JPEG |
 | Scale | from a few hundred to 60 000 characters per picture |
 | Languages | English, German |

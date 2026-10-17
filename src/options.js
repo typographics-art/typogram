@@ -23,7 +23,7 @@ export const DEFAULTS = {
   color: 'photo', // photo | gray | mono
   paper: 'light', // light | dark
   unit: 'char', // char | word
-  stretch: true, // also vary the width axis, where the font has one
+  stretch: false, // also vary the width axis (off: measured no visible gain, +12 % file size)
   shape: true, // weight each glyph's target by where its ink sits in the cell (sharper edges)
   contrast: 1.4,
   brightness: 0,
@@ -35,7 +35,7 @@ export const DEFAULTS = {
   margin: 0.025, // paper margin as a fraction of the width
   colorStep: 6, // photo colours are quantised to multiples of this (coarser = smaller files)
   weightCount: null, // at most this many weight steps (null: all the legibility level allows); fewer = fewer fonts in the PDF
-  sizeCount: null, // at most this many type sizes per line (null: all); the full size is always kept
+  sizeCount: 1, // type sizes per line; one size gives the sharpest picture (measured), null: all the level allows
 };
 
 /** At most n entries of a list, spread evenly over it; a single entry is its middle one. */

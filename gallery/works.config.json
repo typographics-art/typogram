@@ -41,7 +41,7 @@
     "photo": "gallery/photos/starry-night.jpg",
     "photoCredit": "Vincent van Gogh, The Starry Night (1889), Museum of Modern Art; Google Art Project. Public domain.",
     "options": {
-      "font": "fraunces",
+      "font": "roboto",
       "legibility": "free",
       "color": "photo",
       "paper": "dark",
@@ -58,7 +58,7 @@
     "photo": "gallery/photos/great-wave.jpg",
     "photoCredit": "Katsushika Hokusai, The Great Wave off Kanagawa (c. 1831). Public domain.",
     "options": {
-      "font": "archivo",
+      "font": "roboto",
       "legibility": "free",
       "color": "photo",
       "paper": "light",
@@ -75,7 +75,7 @@
     "photo": "gallery/photos/lincoln.jpg",
     "photoCredit": "Abraham Lincoln, 8 November 1863, photo by Alexander Gardner (O-77). Public domain.",
     "options": {
-      "font": "notoserif",
+      "font": "roboto",
       "legibility": "free",
       "color": "gray",
       "paper": "light",
@@ -92,7 +92,7 @@
     "photo": "gallery/photos/mona-lisa.jpg",
     "photoCredit": "Leonardo da Vinci, Mona Lisa (1503–1506), Louvre; C2RMF scan. Public domain.",
     "options": {
-      "font": "fraunces",
+      "font": "roboto",
       "legibility": "free",
       "color": "photo",
       "paper": "light",
@@ -143,7 +143,7 @@
     "photo": "gallery/photos/wanderer.jpg",
     "photoCredit": "Caspar David Friedrich, Wanderer above the Sea of Fog (c. 1817), Hamburger Kunsthalle. Public domain.",
     "options": {
-      "font": "notoserif",
+      "font": "roboto",
       "legibility": "free",
       "color": "photo",
       "paper": "dark",
@@ -160,7 +160,7 @@
     "photo": "gallery/photos/red-fuji.jpg",
     "photoCredit": "Katsushika Hokusai, Fine Wind, Clear Morning (Red Fuji), from Thirty-six Views of Mount Fuji (c. 1830–1832); Google Art Project. Public domain.",
     "options": {
-      "font": "archivo",
+      "font": "roboto",
       "legibility": "free",
       "color": "photo",
       "paper": "light",
@@ -178,7 +178,7 @@
     "photo": "gallery/photos/douglass.jpg",
     "photoCredit": "Frederick Douglass, c. 1879, photo by George Kendall Warren. Public domain.",
     "options": {
-      "font": "notoserif",
+      "font": "roboto",
       "legibility": "free",
       "color": "gray",
       "paper": "dark",
@@ -213,7 +213,7 @@
     "photo": "gallery/photos/poe.jpg",
     "photoCredit": "Edgar Allan Poe, daguerreotype, June 1849, photographer unknown; restored by Yann Forget and Adam Cuerden. Public domain.",
     "options": {
-      "font": "notoserif",
+      "font": "roboto",
       "legibility": "free",
       "color": "gray",
       "paper": "dark",
@@ -230,7 +230,7 @@
     "photo": "gallery/photos/tesla.jpg",
     "photoCredit": "Nikola Tesla, c. 1895, photo by Napoleon Sarony. Public domain.",
     "options": {
-      "font": "notoserif",
+      "font": "roboto",
       "legibility": "free",
       "color": "photo",
       "paper": "light",
@@ -248,7 +248,7 @@
     "photo": "gallery/photos/herschel.jpg",
     "photoCredit": "Sir John Herschel, April 1867, photo by Julia Margaret Cameron; Metropolitan Museum of Art copy, restored by Adam Cuerden. Public domain.",
     "options": {
-      "font": "notoserif",
+      "font": "roboto",
       "legibility": "free",
       "color": "gray",
       "paper": "dark",

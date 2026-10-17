@@ -1,5 +1,6 @@
-// Variable fonts that Typographics Art can set with. Each needs a continuous weight axis:
-// weight is the main tonal control. `variations` pins the optical size so that glyph
+// The one typeface Typographics Art sets with (operator decision 2026-10-17, measured in docs/file-size.md):
+// Roboto Flex — even, very legible, and with weights 100–1000 the widest tonal range of the variable Google
+// fonts; weight carries the brightness of the picture. More families gave larger PDFs and no better picture. `variations` pins the optical size so that glyph
 // advances scale linearly with font size (measurements are taken at one reference size).
 
 export const FONTS = {
@@ -11,51 +12,6 @@ export const FONTS = {
     widths: [75, 100, 125],
     variations: "'opsz' 40",
     googleFamily: 'Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000',
-  },
-  fraunces: {
-    label: 'Fraunces',
-    css: "'Fraunces', Georgia, serif",
-    canvas: "'Fraunces'",
-    weights: [100, 900],
-    variations: "'opsz' 40",
-    widths: [100],
-    googleFamily: 'Fraunces:opsz,wght@9..144,100..900',
-  },
-  recursive: {
-    label: 'Recursive',
-    css: "'Recursive', system-ui, sans-serif",
-    canvas: "'Recursive'",
-    weights: [300, 1000],
-    variations: 'normal',
-    widths: [100],
-    googleFamily: 'Recursive:wght@300..1000',
-  },
-  archivo: {
-    label: 'Archivo',
-    css: "'Archivo', system-ui, sans-serif",
-    canvas: "'Archivo'",
-    weights: [100, 900],
-    variations: 'normal',
-    widths: [75, 100, 125],
-    googleFamily: 'Archivo:wdth,wght@62..125,100..900',
-  },
-  notoserif: {
-    label: 'Noto Serif',
-    css: "'Noto Serif', Georgia, serif",
-    canvas: "'Noto Serif'",
-    weights: [100, 900],
-    variations: 'normal',
-    widths: [75, 100],
-    googleFamily: 'Noto+Serif:wdth,wght@62.5..100,100..900',
-  },
-  mono: {
-    label: 'JetBrains Mono',
-    css: "'JetBrains Mono', ui-monospace, monospace",
-    canvas: "'JetBrains Mono'",
-    weights: [100, 800],
-    variations: 'normal',
-    widths: [100],
-    googleFamily: 'JetBrains+Mono:wght@100..800',
   },
 };
 

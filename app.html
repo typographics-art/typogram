@@ -15,7 +15,7 @@
 <meta property="og:description" content="Turn any text into a picture of your photo. Every character stays in place, so people see the image and machines still read the text.">
 <meta property="og:url" content="https://typographics-art.org">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23b8145a'/%3E%3Ctext x='4' y='24' font-family='sans-serif' font-size='21' font-weight='900' fill='white'%3ET%3C/text%3E%3Ctext x='18' y='24' font-family='sans-serif' font-size='15' font-weight='200' fill='white'%3Eg%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Fraunces:opsz,wght@9..144,100..900&family=Recursive:wght@300..1000&family=Archivo:wdth,wght@62..125,100..900&family=Noto+Serif:wdth,wght@62.5..100,100..900&family=JetBrains+Mono:wght@100..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: settings column on the left (sticky on wide screens), proof sheet on the right; stacked below 900px. */
 :root{
@@ -123,7 +123,7 @@ footer a{color:inherit}
   body *{visibility:hidden}
   #stage,#stage *{visibility:visible}
   .scaler{position:static;box-shadow:none;overflow:visible;width:auto!important;height:auto!important}
-  .sheet{position:fixed;left:0;top:0;transform:none!important}
+  .sheet{position:fixed;left:0;top:0;transform:none!important;zoom:1!important}
   #stage{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
@@ -207,17 +207,6 @@ footer a{color:inherit}
       <fieldset>
         <legend data-i18n="legend.type">Type and setting</legend>
         <div class="field">
-          <label class="lbl" for="font" data-i18n="label.font">Typeface</label>
-          <select id="font">
-            <option value="roboto">Roboto Flex</option>
-            <option value="fraunces">Fraunces</option>
-            <option value="recursive">Recursive</option>
-            <option value="archivo">Archivo</option>
-            <option value="notoserif">Noto Serif</option>
-            <option value="mono">JetBrains Mono</option>
-          </select>
-        </div>
-        <div class="field">
           <label class="lbl" for="legibility" data-i18n="label.legibility">Legibility</label>
           <select id="legibility">
             <option value="high" data-i18n="leg.high">High: narrow range, always legible</option>
@@ -243,7 +232,6 @@ footer a{color:inherit}
           <p class="hint" data-i18n="hint.cuts">Every weight, width and type size becomes a separate font in a PDF. Fewer weights make a much smaller file; size and colour still draw the picture.</p>
         </div>
         <div class="checks">
-          <label><input type="checkbox" id="stretch" checked> <span data-i18n="label.stretch">Vary letter width (Roboto Flex, Archivo, Noto Serif)</span></label>
           <label><input type="checkbox" id="shape" checked> <span data-i18n="label.shape">Follow edges within each letter</span></label>
         </div>
       </fieldset>
@@ -350,7 +338,7 @@ footer a{color:inherit}
 </div>
 
 <script type="module">
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes } from './src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE } from './src/index.js';
 import { typeset, toPng } from './src/browser.js';
 
 const $ = (s) => document.querySelector(s);
@@ -382,7 +370,7 @@ const I18N = {
     'about.r3': 'Nur die Typografie variiert. Keine Formen, Hintergründe oder Bilder ausser den Buchstaben.',
     'about.ossH': 'Open Source', 'about.oss': 'Verfahren, App und Bibliothek stehen unter der MIT-Lizenz. Ideen, Schriften, Algorithmen und Werke sind willkommen.',
     'footer.license': 'MIT-Lizenz',
-    'label.stretch': 'Buchstabenbreite variieren (Roboto Flex, Archivo, Noto Serif)', 'label.shape': 'Kanten innerhalb der Buchstaben folgen',
+    'label.shape': 'Kanten innerhalb der Buchstaben folgen',
     'btn.pdf': 'Drucken / PDF', 'nav.gallery': 'Galerie', 'nav.demo': 'Moby-Dick',
     'ai.toggle': 'Was die KI liest', 'ai.h': 'Was die KI liest',
     'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
@@ -508,7 +496,7 @@ const PRESETS = {
   portrait: { legibility: 'medium', unit: 'char', color: 'photo', paper: 'light', contrast: 1.5, brightness: 0, edges: 0.7, spacing: 1.05, aspect: '1.25' },
   poster: { legibility: 'free', unit: 'char', color: 'photo', paper: 'dark', contrast: 1.9, brightness: 0.05, edges: 1.0, spacing: 0.98, aspect: 'photo' },
 };
-const CONTROLS = ['legibility', 'color', 'font', 'aspect', 'width', 'contrast', 'brightness', 'edges', 'spacing', 'target', 'cuts'];
+const CONTROLS = ['legibility', 'color', 'aspect', 'width', 'contrast', 'brightness', 'edges', 'spacing', 'target', 'cuts'];
 const CUTS = [1, 2, 3, 4, 6, null]; // weights per width; null: all the legibility level allows
 const radio = (n) => document.querySelector(`input[name="${n}"]:checked`).value;
 const setRadio = (n, v) => { const el = document.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; };
@@ -527,7 +515,7 @@ function save() {
   try {
     const s = { lang };
     CONTROLS.forEach((k) => (s[k] = $('#' + k).value));
-    s.invert = $('#invert').checked; s.stretch = $('#stretch').checked; s.shape = $('#shape').checked;
+    s.invert = $('#invert').checked; s.shape = $('#shape').checked;
     s.unit = radio('unit'); s.paper = radio('paper');
     const txt = $('#text').value;
     if (txt.length < 200000) { s.text = txt; s.fillBase = fillBase; }
@@ -540,7 +528,6 @@ function restore() {
     if (!s) return null;
     CONTROLS.forEach((k) => { if (s[k] != null) $('#' + k).value = s[k]; });
     $('#invert').checked = !!s.invert; setRadio('unit', s.unit); setRadio('paper', s.paper);
-    if (s.stretch != null) $('#stretch').checked = s.stretch;
     if (s.shape != null) $('#shape').checked = s.shape;
     if (typeof s.text === 'string') { $('#text').value = s.text; fillBase = s.fillBase ?? null; }
     return s;
@@ -555,10 +542,16 @@ function loadPhoto(src) {
 }
 const chip = (h, c = '') => `<span class="chip ${c}">${h}</span>`;
 
+// The view is laid out at about the size the glyphs were measured at (REF_SIZE) and scaled down for
+// display. Desktop browsers round glyph advances to whole pixels at tiny sizes (font hinting): at 6 px
+// type that made line ends wander by up to 15 px, while measurement happens at 40 px.
+let viewZoom = 1;
 function applyScale() {
   if (!sheet) return;
   const f = Math.min(1, $('#wrap').clientWidth / sheet.outW);
-  $('#sheet').style.transform = `scale(${f})`;
+  viewZoom = Math.max(1, Math.min(16, REF_SIZE / sheet.result.fs));
+  $('#sheet').style.zoom = viewZoom;
+  $('#sheet').style.transform = `scale(${f / viewZoom})`;
   $('#scaler').style.width = sheet.outW * f + 'px';
   $('#scaler').style.height = sheet.outH * f + 'px';
   $('#scaleInfo').textContent = f < 1 ? t('scale', { n: Math.round(f * 100) }) : '';
@@ -595,9 +588,9 @@ async function run() {
       if (width * aspect > 4000) width = Math.floor(4000 / aspect);
     }
     sheet = await typeset(text, photo, {
-      font: $('#font').value, legibility: $('#legibility').value, color: $('#color').value, paper: radio('paper'), unit: radio('unit'),
+      font: 'roboto', legibility: $('#legibility').value, color: $('#color').value, paper: radio('paper'), unit: radio('unit'),
       contrast: +$('#contrast').value, brightness: +$('#brightness').value, edges: +$('#edges').value, lineSpacing: +$('#spacing').value,
-      invert: $('#invert').checked, stretch: $('#stretch').checked, shape: $('#shape').checked, aspect, width,
+      invert: $('#invert').checked, shape: $('#shape').checked, aspect, width,
       weightCount: CUTS[+$('#cuts').value],
     });
     $('#pageSize').textContent = `@page{size:${sheet.outW}px ${sheet.outH}px;margin:0}`;
@@ -648,7 +641,7 @@ function pdfChip(stats) {
   const mb = estimatePdfBytes(stats) / 1048576;
   return `<span class="chip" title="${t('pdfTitle', { fonts: stats.fonts, runs: fmt(stats.runs) })}">${t('pdfSize', { n: mb < 0.1 ? mb.toFixed(2) : mb.toFixed(1), fonts: stats.fonts })}</span>`;
 }
-['#legibility', '#color', '#font', '#aspect', '#width', '#invert', '#stretch', '#shape'].forEach((s) => $(s).addEventListener('change', soon));
+['#legibility', '#color', '#aspect', '#width', '#invert', '#shape'].forEach((s) => $(s).addEventListener('change', soon));
 document.querySelectorAll('input[name="unit"],input[name="paper"]').forEach((el) => el.addEventListener('change', soon));
 $('#target').addEventListener('input', showValues);
 $('#overlayR').addEventListener('input', applyOverlay);

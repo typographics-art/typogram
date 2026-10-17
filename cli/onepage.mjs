@@ -18,7 +18,6 @@ type. People see what the page contains, machines read every word from the PDF's
   --weights <1-10>     use at most this many font weights: every weight × width × size is a separate
                        font in the PDF, so fewer make a much smaller file (see docs/file-size.md)
   --png <file>         also write a preview image (an image only: machines need the PDF)
-  --font <roboto|fraunces|recursive|archivo|notoserif|mono>
 
 With qpdf installed, the PDF is repacked losslessly and gets much smaller.
 PDF text is taken exactly as stored (page numbers and hyphenation included); the result is
@@ -29,7 +28,7 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     out: { type: 'string', short: 'o' }, title: { type: 'string' }, subtitle: { type: 'string' },
-    paper: { type: 'string' }, motif: { type: 'string' }, weights: { type: 'string' }, png: { type: 'string' }, font: { type: 'string' }, help: { type: 'boolean', short: 'h' },
+    paper: { type: 'string' }, motif: { type: 'string' }, weights: { type: 'string' }, png: { type: 'string' }, help: { type: 'boolean', short: 'h' },
   },
 });
 if (values.help || positionals.length !== 1 || !values.out) { process.stdout.write(HELP); process.exit(values.help ? 0 : 1); }
@@ -49,7 +48,7 @@ try { motif = values.motif ? motifSource(values.motif) : null; } catch (e) { con
 const session = await openSession();
 try {
   const r = await makeOnePage(session, {
-    text: doc.text, title, subtitle, paper: values.paper || 'a4', motif, options: { ...(values.font ? { font: values.font } : {}), ...(weights ? { weightCount: weights } : {}) },
+    text: doc.text, title, subtitle, paper: values.paper || 'a4', motif, options: weights ? { weightCount: weights } : {},
     pdf: values.out, preview: values.png,
   });
   console.log(`${values.out}: ${r.characters.toLocaleString('en-US')} characters on 1 ${r.paper.toUpperCase()} page, type ${r.fontSizeMm} mm, ${(r.pdfBytes / 1048576).toFixed(2)} MB`);

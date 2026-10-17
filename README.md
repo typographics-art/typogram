@@ -139,7 +139,7 @@ import { typeset, toPng } from './src/browser.js';
 import { toSvg, toStandaloneHtml, isFaithful } from './src/index.js';
 
 const sheet = await typeset(text, imageElement, {
-  font: 'roboto',        // roboto | fraunces | recursive | archivo | notoserif | mono
+  font: 'roboto',        // the one typeface: Roboto Flex (weights 100–1000)
   legibility: 'medium',  // high | medium | free
   color: 'photo',        // photo | gray | mono
   paper: 'light',        // light | dark
@@ -163,7 +163,7 @@ Needs Node 22+ and Chrome or Chromium (`CHROME_PATH` if it is not found); PDFs a
 
 ```sh
 node cli/tg-art.mjs photo.jpg --text poem.txt --fill 12000 -o poem.pdf
-node cli/tg-art.mjs photo.jpg --string "Hello world" --font fraunces --paper dark -o hello.svg
+node cli/tg-art.mjs photo.jpg --string "Hello world" --paper dark -o hello.svg
 node cli/tg-art.mjs --help
 ```
 

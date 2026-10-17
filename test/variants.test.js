@@ -8,13 +8,13 @@ import { fakeMetric, image, TEXT } from './helpers.js';
 const halves = image(200, 200, (x) => (x < 100 ? [0, 0, 0] : [255, 255, 255]));
 const run = (options) => typesetWith({ text: TEXT.repeat(6), metric: fakeMetric, image: halves, options: { width: 400, ...options } });
 
-test('stretch on: width variants are used, and only on fonts that have a width axis', () => {
+test('stretch on: width variants are used; off (the default) keeps the normal width', () => {
   const used = new Set(run({ stretch: true }).result.lines.flatMap((l) => l.items.map((it) => it.wd)));
   assert.ok(used.size > 1, `only width index ${[...used]} used`);
   const off = new Set(run({ stretch: false }).result.lines.flatMap((l) => l.items.map((it) => it.wd)));
   assert.deepEqual([...off], [1], 'stretch off must stay at the normal width (index 1 for Roboto Flex)');
-  const mono = new Set(run({ stretch: true, font: 'mono' }).result.lines.flatMap((l) => l.items.map((it) => it.wd)));
-  assert.deepEqual([...mono], [0]);
+  const dflt = new Set(run({}).result.lines.flatMap((l) => l.items.map((it) => it.wd)));
+  assert.deepEqual([...dflt], [1], 'default: one width');
 });
 
 test('stretch keeps fidelity and is written to HTML and SVG as a width variation', () => {

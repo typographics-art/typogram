@@ -7,7 +7,6 @@ import { openSession, MIME } from './core.mjs';
 
 const HELP = `Usage: tg-art <image> (--text <file> | --string <text>) -o <out.svg|.html|.pdf|.png|.jpg> [options]
 
-  --font <roboto|fraunces|recursive|archivo|notoserif|mono>  typeface (default roboto)
   --legibility <high|medium|free>           how far glyphs may drift from plain text (default medium)
   --color <photo|gray|mono>                 colour mode (default photo)
   --paper <light|dark>                      paper (default light)
@@ -28,7 +27,7 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     text: { type: 'string' }, string: { type: 'string' }, out: { type: 'string', short: 'o' },
-    font: { type: 'string' }, legibility: { type: 'string' }, color: { type: 'string' }, paper: { type: 'string' },
+    legibility: { type: 'string' }, color: { type: 'string' }, paper: { type: 'string' },
     unit: { type: 'string' }, width: { type: 'string' }, aspect: { type: 'string' }, contrast: { type: 'string' },
     brightness: { type: 'string' }, edges: { type: 'string' }, spacing: { type: 'string' }, fill: { type: 'string' },
     scale: { type: 'string' }, 'print-width': { type: 'string' }, 'no-stretch': { type: 'boolean' }, 'no-shape': { type: 'boolean' },
@@ -52,7 +51,7 @@ if (!mime) { console.error(`Unsupported image type: ${imagePath}`); process.exit
 
 const num = (v) => (v == null ? undefined : Number(v));
 const options = Object.fromEntries(Object.entries({
-  font: values.font, legibility: values.legibility, color: values.color, paper: values.paper, unit: values.unit,
+  legibility: values.legibility, color: values.color, paper: values.paper, unit: values.unit,
   width: num(values.width), aspect: num(values.aspect), contrast: num(values.contrast), brightness: num(values.brightness),
   edges: num(values.edges), lineSpacing: num(values.spacing), fill: num(values.fill), scale: num(values.scale),
   printWidthMm: num(values['print-width']),
