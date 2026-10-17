@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Typographic Art</title>
+<meta name="description" content="Typographic Art is ASCII art for the age of AI: a text set character for character so that it forms a picture. People see the picture, machines read the text.">
+<meta property="og:title" content="Typographic Art: ASCII art for the age of AI">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tg-art.org/assets/social.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://tg-art.org/">
+<meta property="og:description" content="Turn any text into a picture of your photo. Every character stays in place, so people see the image and machines still read the text.">
+<meta property="og:url" content="https://tg-art.org">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23b8145a'/%3E%3Ctext x='4' y='24' font-family='sans-serif' font-size='21' font-weight='900' fill='white'%3ET%3C/text%3E%3Ctext x='18' y='24' font-family='sans-serif' font-size='15' font-weight='200' fill='white'%3Eg%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Fraunces:opsz,wght@9..144,100..900&family=Recursive:wght@300..1000&family=Archivo:wdth,wght@62..125,100..900&family=Noto+Serif:wdth,wght@62.5..100,100..900&family=JetBrains+Mono:wght@100..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: settings column on the left (sticky on wide screens), proof sheet on the right; stacked below 900px. */
+:root{
+  --bg:#e9ecf1; --panel:#ffffff; --fg:#15171c; --muted:#596070; --line:#d3d8e0; --soft:#f3f5f8;
+  --accent:#b8145a; --accent-fg:#ffffff; --ok:#1f7a4d; --warn:#a4570a;
+  --f-ui:'Roboto Flex',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#111318; --panel:#1a1d24; --fg:#e7e9ee; --muted:#9aa1ae; --line:#2c313b; --soft:#20242c;
+  --accent:#ff5c9d; --accent-fg:#1a0610; --ok:#5fd39a; --warn:#f2a65a; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.5}
+.page{max-width:1480px;margin:0 auto;padding-block:20px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+h1{margin:0;font-size:30px;line-height:1.1;letter-spacing:-.01em;font-variation-settings:'wdth' 125,'opsz' 96;font-weight:850}
+h1 span{font-weight:150;font-variation-settings:'wdth' 60,'opsz' 96}
+header p{margin:0;color:var(--muted);max-width:72ch;text-wrap:pretty;flex:1 1 320px}
+.nav{display:flex;gap:14px;margin-left:auto;font-size:14px;font-weight:600}
+.nav a{color:var(--fg);text-decoration:none;border-bottom:1.5px solid var(--accent)}
+.lang{display:flex;gap:4px}
+.lang button{padding:4px 9px;font-size:13px}
+.lang button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.app{display:grid;grid-template-columns:minmax(290px,360px) minmax(0,1fr);gap:18px;align-items:start}
+@media (min-width:901px){.panel{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}}
+@media (max-width:900px){.app{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+fieldset{border:0;border-top:1px solid var(--line);margin:0;padding:12px 0 6px;display:flex;flex-direction:column;gap:12px;min-width:0}
+fieldset:first-of-type{border-top:0;padding-top:2px}
+legend{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);padding:0 6px 0 0}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lbl{font-size:12.5px;font-weight:600;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.lbl output{font-family:var(--f-mono);font-weight:400;font-variant-numeric:tabular-nums}
+textarea{width:100%;min-height:160px;resize:vertical;font:12.5px/1.45 var(--f-mono);color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:9px}
+select,input[type=range]{width:100%}
+select{font:inherit;font-size:14px;color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+input[type=range]{accent-color:var(--accent)}
+.drop{display:flex;gap:12px;align-items:center;border:1.5px dashed var(--line);border-radius:8px;padding:9px;cursor:pointer}
+.drop.over{border-color:var(--accent)}
+.drop img{width:60px;height:60px;object-fit:cover;border-radius:4px;background:var(--soft);flex:none}
+.drop small{color:var(--muted);display:block}
+.sr{position:absolute;opacity:0;width:1px;height:1px;overflow:hidden}
+.checks{display:flex;flex-direction:column;gap:6px}
+.checks label{display:flex;gap:8px;align-items:center;cursor:pointer}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+button,.btn{font:inherit;font-size:14px;font-weight:600;border-radius:6px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:var(--soft);color:var(--fg);text-align:center}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+button:hover,.btn:hover{border-color:var(--muted)}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,.drop:focus-within,.btn:focus-within,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row2{display:flex;gap:8px;flex-wrap:wrap}
+.row2>*{flex:1 1 auto}
+.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.presets button{font-size:13px;padding:7px 6px;display:flex;flex-direction:column;gap:1px;line-height:1.2}
+.presets button small{font-weight:400;color:var(--muted);font-size:11.5px}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg label{flex:1;text-align:center;font-size:13.5px;padding:6px 4px;cursor:pointer;background:var(--soft);border-left:1px solid var(--line)}
+.seg label:first-child{border-left:0}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label:has(input:checked){background:var(--accent);color:var(--accent-fg);font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:-2px}
+.out{display:flex;flex-direction:column;gap:12px;min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--fg);font-weight:500}
+.chip.ok{border-color:var(--ok);color:var(--ok)}
+.chip.warn{border-color:var(--warn);color:var(--warn)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;color:var(--muted)}
+.toolbar label{display:flex;gap:8px;align-items:center}
+.toolbar input[type=range]{width:140px}
+.wrap{min-width:0;width:100%}
+.scaler{position:relative;margin:0 auto;overflow:hidden;box-shadow:0 1px 0 var(--line),0 8px 30px rgba(0,0,0,.14)}
+.sheet{position:absolute;left:0;top:0;transform-origin:0 0}
+#stage{position:relative;overflow:hidden;font-variant-ligatures:none;font-kerning:none;font-feature-settings:"liga" 0,"clig" 0,"kern" 0}
+#stage ::selection{background:#ffd54a;color:#111}
+#overlay{position:absolute;left:0;top:0;pointer-events:none;opacity:0}
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+summary{cursor:pointer;font-weight:600}
+details .row2{margin:10px 0}
+details textarea{min-height:110px;font-size:11px}
+#png{display:block;max-width:100%;margin-top:10px;border:1px solid var(--line)}
+#aiToggle{font-size:13px;padding:5px 10px}
+#aiToggle[aria-expanded="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.ai{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.ai-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.ai h2{margin:0;font-size:17px}
+.ai pre{margin:0;max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12.5px/1.55 var(--f-mono);background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:10px}
+.about{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px 28px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.about h2{margin:0 0 6px;font-size:19px;font-variation-settings:'wdth' 110,'opsz' 48;font-weight:750;text-wrap:balance}
+.about p,.about li{max-width:66ch;color:var(--fg);text-wrap:pretty}
+.about p{margin:0 0 8px}
+.about ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.about a{color:var(--accent)}
+footer{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--muted);font-size:13px}
+footer a{color:inherit}
+.busy{opacity:.55;transition:opacity .2s}
+@media (prefers-reduced-motion:reduce){.busy{transition:none}}
+@media print{
+  body{background:none}
+  body *{visibility:hidden}
+  #stage,#stage *{visibility:visible}
+  .scaler{position:static;box-shadow:none;overflow:visible;width:auto!important;height:auto!important}
+  .sheet{position:fixed;left:0;top:0;transform:none!important}
+  #stage{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+<style id="pageSize"></style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Typo<span>graphic Art</span></h1>
+    <p data-i18n="tagline"><b>ASCII art for the age of AI.</b> Your text becomes a picture and stays text: people see the photo, machines read every word.</p>
+    <nav class="nav"><a href="gallery.html" data-i18n="nav.gallery">Gallery</a><a href="https://github.com/typographic-art/tg-art">GitHub</a></nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="de" aria-pressed="false">DE</button>
+    </div>
+  </header>
+
+  <div class="app">
+    <form class="panel" id="form" autocomplete="off">
+      <fieldset>
+        <legend data-i18n="legend.presets">Presets</legend>
+        <div class="presets">
+          <button type="button" data-preset="ai"><span data-i18n="preset.ai">AI-safe</span><small data-i18n="preset.ai.sub">highly legible</small></button>
+          <button type="button" data-preset="portrait"><span data-i18n="preset.portrait">Portrait</span><small data-i18n="preset.portrait.sub">fine, 4:5</small></button>
+          <button type="button" data-preset="poster"><span data-i18n="preset.poster">Poster</span><small data-i18n="preset.poster.sub">dark, bold</small></button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="legend.text">Text</legend>
+        <div class="field">
+          <label class="lbl" for="text"><span data-i18n="label.text">Your text</span> <output id="nchars"></output></label>
+          <textarea id="text" spellcheck="false"></textarea>
+          <label class="btn" for="txtfile"><span data-i18n="btn.loadText">Load text file (.txt, .md)</span><input type="file" id="txtfile" class="sr" accept=".txt,.md,.csv,text/plain"></label>
+        </div>
+        <div class="field">
+          <label class="lbl" for="target"><span data-i18n="label.fill">Fill with Lorem ipsum up to</span> <output id="targetV"></output></label>
+          <input type="range" id="target" min="2000" max="60000" step="1000" value="12000">
+          <div class="row2">
+            <button type="button" id="fill" data-i18n="btn.fill">Fill</button>
+            <button type="button" id="unfill" data-i18n="btn.unfill">Remove filler</button>
+          </div>
+          <p class="hint" id="fillMsg" role="status" data-i18n="hint.fill">More characters make a finer picture. Your text stays first and unchanged.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="legend.photo">Photo</legend>
+        <label class="drop" id="drop" for="photo">
+          <img id="thumb" alt="">
+          <span><span id="photoName" data-i18n="drop.sample">Sample image: sphere</span><small data-i18n="drop.hint">Choose an image or drop it here</small></span>
+          <input type="file" id="photo" class="sr" accept="image/*">
+        </label>
+        <div class="field">
+          <label class="lbl" for="aspect" data-i18n="label.format">Format</label>
+          <select id="aspect">
+            <option value="photo" data-i18n="fmt.photo">Same as photo</option>
+            <option value="1" data-i18n="fmt.square">Square 1:1</option>
+            <option value="1.25" data-i18n="fmt.portrait">Portrait 4:5</option>
+            <option value="1.4142" data-i18n="fmt.a">A-series portrait</option>
+            <option value="0.5625" data-i18n="fmt.landscape">Landscape 16:9</option>
+          </select>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label class="lbl" for="contrast"><span data-i18n="label.contrast">Contrast</span> <output id="contrastV"></output></label>
+            <input type="range" id="contrast" min="0.5" max="3" step="0.05" value="1.4">
+          </div>
+          <div class="field">
+            <label class="lbl" for="brightness"><span data-i18n="label.brightness">Brightness</span> <output id="brightnessV"></output></label>
+            <input type="range" id="brightness" min="-0.4" max="0.4" step="0.01" value="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl" for="edges"><span data-i18n="label.edges">Emphasise edges</span> <output id="edgesV"></output></label>
+          <input type="range" id="edges" min="0" max="2" step="0.05" value="0.4">
+        </div>
+        <div class="checks"><label><input type="checkbox" id="invert"> <span data-i18n="label.invert">Invert brightness</span></label></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="legend.type">Type and setting</legend>
+        <div class="field">
+          <label class="lbl" for="font" data-i18n="label.font">Typeface</label>
+          <select id="font">
+            <option value="roboto">Roboto Flex</option>
+            <option value="fraunces">Fraunces</option>
+            <option value="recursive">Recursive</option>
+            <option value="archivo">Archivo</option>
+            <option value="notoserif">Noto Serif</option>
+            <option value="mono">JetBrains Mono</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="lbl" for="legibility" data-i18n="label.legibility">Legibility</label>
+          <select id="legibility">
+            <option value="high" data-i18n="leg.high">High: narrow range, always legible</option>
+            <option value="medium" selected data-i18n="leg.medium">Medium: balanced</option>
+            <option value="free" data-i18n="leg.free">Free: maximum picture contrast</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="lbl" id="unitL" data-i18n="label.unit">Unit</span>
+          <div class="seg" role="radiogroup" aria-labelledby="unitL">
+            <label><input type="radio" name="unit" value="char" checked> <span data-i18n="unit.char">Per letter</span></label>
+            <label><input type="radio" name="unit" value="word"> <span data-i18n="unit.word">Per word</span></label>
+          </div>
+          <p class="hint" data-i18n="hint.unit">“Per word” sets each word in one style. It reads more calmly; the picture gets coarser.</p>
+        </div>
+        <div class="field">
+          <label class="lbl" for="spacing"><span data-i18n="label.spacing">Line spacing</span> <output id="spacingV"></output></label>
+          <input type="range" id="spacing" min="0.85" max="1.6" step="0.01" value="1.09">
+        </div>
+        <div class="checks">
+          <label><input type="checkbox" id="stretch" checked> <span data-i18n="label.stretch">Vary letter width (Roboto Flex, Archivo, Noto Serif)</span></label>
+          <label><input type="checkbox" id="shape" checked> <span data-i18n="label.shape">Follow edges within each letter</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="legend.color">Colour and paper</legend>
+        <div class="field">
+          <label class="lbl" for="color" data-i18n="label.color">Colour</label>
+          <select id="color">
+            <option value="photo" selected data-i18n="color.photo">Colours from the photo</option>
+            <option value="gray" data-i18n="color.gray">Greyscale</option>
+            <option value="mono" data-i18n="color.mono">Single colour</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="lbl" id="paperL" data-i18n="label.paper">Paper</span>
+          <div class="seg" role="radiogroup" aria-labelledby="paperL">
+            <label><input type="radio" name="paper" value="light" checked> <span data-i18n="paper.light">Light</span></label>
+            <label><input type="radio" name="paper" value="dark"> <span data-i18n="paper.dark">Dark</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="legend.output">Output</legend>
+        <div class="field">
+          <label class="lbl" for="width" data-i18n="label.width">Width</label>
+          <select id="width">
+            <option value="auto" data-i18n="width.auto">Fit to window</option>
+            <option value="1200">1200 px</option>
+            <option value="1800">1800 px</option>
+            <option value="2400">2400 px</option>
+          </select>
+        </div>
+        <button type="submit" class="primary" data-i18n="btn.set">Set again</button>
+      </fieldset>
+    </form>
+
+    <section class="out">
+      <div class="meta" id="meta"><span class="chip" data-i18n="chip.loading">Loading fonts …</span></div>
+      <div class="toolbar">
+        <label for="overlayR"><span data-i18n="overlay">Show photo</span> <input type="range" id="overlayR" min="0" max="1" step="0.05" value="0"></label>
+        <button type="button" id="aiToggle" aria-expanded="false" aria-controls="aiPanel" data-i18n="ai.toggle">What the AI reads</button>
+        <span id="scaleInfo"></span>
+      </div>
+      <div class="wrap" id="wrap">
+        <div class="scaler" id="scaler">
+          <div class="sheet" id="sheet">
+            <div id="stage"></div>
+            <img id="overlay" alt="">
+          </div>
+        </div>
+      </div>
+      <section class="ai" id="aiPanel" hidden>
+        <div class="ai-head">
+          <h2 data-i18n="ai.h">What the AI reads</h2>
+          <span class="chip ok" id="aiChip"></span>
+        </div>
+        <p class="hint" data-i18n="ai.p">This is the text inside the picture, read straight from the page. A language model, a search engine or a screen reader receives exactly this, in this order. ASCII art would give it only shading characters.</p>
+        <pre id="aiText" tabindex="0"></pre>
+      </section>
+      <details>
+        <summary data-i18n="export.summary">Use the result</summary>
+        <div class="row2">
+          <button type="button" id="copyHtml" data-i18n="btn.copyHtml">Copy HTML</button>
+          <button type="button" id="copySvg" data-i18n="btn.copySvg">Copy SVG</button>
+          <button type="button" id="copyText" data-i18n="btn.copyText">Copy plain text</button>
+          <button type="button" id="makePng" data-i18n="btn.png">Create PNG</button>
+          <button type="button" id="printPdf" data-i18n="btn.pdf">Print / PDF</button>
+        </div>
+        <p class="hint" id="copyMsg" role="status" data-i18n="hint.export">HTML, SVG and PDF contain the text as real characters. PNG is an image only. For a PDF, choose “Save as PDF” in the print dialog.</p>
+        <textarea id="export" readonly aria-label="Export"></textarea>
+        <img id="png" alt="" hidden>
+      </details>
+    </section>
+  </div>
+
+  <section class="about" id="about">
+    <div>
+      <h2 data-i18n="about.h">What is Typographic Art?</h2>
+      <p data-i18n="about.p1">Typographic Art (TG Art) forms a picture from a given text. The text is set character for character, in its original order. Only typographic properties change from letter to letter: size, weight, colour.</p>
+      <p data-i18n="about.vs">ASCII art picks a character for every cell of a grid, and the text is lost. Typographic Art turns that around: the text fixes the characters, only their typography is chosen. That makes it ASCII art for the age of AI: people see the picture, machines read the text, exactly as written.</p>
+    </div>
+    <div>
+      <h2 data-i18n="about.rulesH">Three rules</h2>
+      <ol>
+        <li data-i18n="about.r1">The text is never changed, reordered or left out. Filler text is allowed only if it is declared.</li>
+        <li data-i18n="about.r2">Text stays text: the result can be copied, searched and read by machines, and yields exactly the source text.</li>
+        <li data-i18n="about.r3">Only typography varies. No shapes, backgrounds or images besides the letters.</li>
+      </ol>
+    </div>
+    <div>
+      <h2 data-i18n="about.ossH">Open source</h2>
+      <p data-i18n="about.oss">The method, this app and the library are MIT licensed. Ideas, fonts, algorithms and artworks are welcome.</p>
+      <p><a href="https://github.com/typographic-art/tg-art">github.com/typographic-art/tg-art</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <span>tg-art.org</span>
+    <span data-i18n="footer.license">MIT licence</span>
+    <a href="https://github.com/typographic-art/tg-art">GitHub</a>
+  </footer>
+</div>
+
+<script type="module">
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg } from './src/index.js';
+import { typeset, toPng } from './src/browser.js';
+
+const $ = (s) => document.querySelector(s);
+
+/* ---------- Language ---------- */
+const I18N = {
+  en: {},
+  de: {
+    'tagline': 'ASCII-Art für das Zeitalter der KI. Dein Text wird zum Bild und bleibt Text: Menschen sehen das Foto, Maschinen lesen jedes Wort.',
+    'legend.presets': 'Vorlagen', 'preset.ai': 'KI-sicher', 'preset.ai.sub': 'gut lesbar', 'preset.portrait': 'Porträt', 'preset.portrait.sub': 'fein, 4:5', 'preset.poster': 'Plakat', 'preset.poster.sub': 'dunkel, kräftig',
+    'legend.text': 'Text', 'label.text': 'Dein Text', 'btn.loadText': 'Textdatei laden (.txt, .md)', 'label.fill': 'Mit Lorem ipsum auffüllen auf', 'btn.fill': 'Auffüllen', 'btn.unfill': 'Füllung entfernen',
+    'hint.fill': 'Mehr Zeichen ergeben ein feineres Bild. Dein Text bleibt vorne unverändert.',
+    'legend.photo': 'Foto', 'drop.sample': 'Beispielbild: Kugel', 'drop.hint': 'Bild wählen oder hierher ziehen', 'label.format': 'Format',
+    'fmt.photo': 'Wie das Foto', 'fmt.square': 'Quadrat 1:1', 'fmt.portrait': 'Hochformat 4:5', 'fmt.a': 'A-Format hoch', 'fmt.landscape': 'Querformat 16:9',
+    'label.contrast': 'Kontrast', 'label.brightness': 'Helligkeit', 'label.edges': 'Kanten betonen', 'label.invert': 'Helligkeit umkehren',
+    'legend.type': 'Schrift und Satz', 'label.font': 'Schriftart', 'label.legibility': 'Lesbarkeit',
+    'leg.high': 'Hoch: kleine Spannweite, sicher lesbar', 'leg.medium': 'Mittel: ausgewogen', 'leg.free': 'Frei: maximaler Bildkontrast',
+    'label.unit': 'Einheit', 'unit.char': 'Je Buchstabe', 'unit.word': 'Je Wort', 'hint.unit': '„Je Wort“ setzt jedes Wort in einem Stil. Das liest sich ruhiger, das Bild wird gröber.',
+    'label.spacing': 'Zeilenabstand', 'legend.color': 'Farbe und Papier', 'label.color': 'Farbe', 'color.photo': 'Farben aus dem Foto', 'color.gray': 'Graustufen', 'color.mono': 'Einfarbig',
+    'label.paper': 'Papier', 'paper.light': 'Hell', 'paper.dark': 'Dunkel', 'legend.output': 'Ausgabe', 'label.width': 'Breite', 'width.auto': 'An das Fenster anpassen', 'btn.set': 'Neu setzen',
+    'chip.loading': 'Schrift wird geladen …', 'overlay': 'Foto einblenden', 'export.summary': 'Ergebnis übernehmen',
+    'btn.copyHtml': 'HTML kopieren', 'btn.copySvg': 'SVG kopieren', 'btn.copyText': 'Klartext kopieren', 'btn.png': 'PNG erzeugen',
+    'about.h': 'Was ist Typographic Art?',
+    'about.p1': 'Typographic Art (TG Art) formt aus einem gegebenen Text ein Bild. Der Text wird Zeichen für Zeichen in seiner ursprünglichen Reihenfolge gesetzt. Von Buchstabe zu Buchstabe ändern sich nur typografische Eigenschaften: Grösse, Strichstärke, Farbe.',
+    'about.vs': 'ASCII-Art wählt für jede Zelle eines Rasters ein Zeichen, der Text geht verloren. Typographic Art dreht das um: Die Zeichen gibt der Text vor, gewählt wird nur ihre Typografie. Damit ist es ASCII-Art für das Zeitalter der KI: Menschen sehen das Bild, Maschinen lesen den Text, genau wie geschrieben.',
+    'about.rulesH': 'Drei Regeln',
+    'about.r1': 'Der Text wird nie verändert, umgestellt oder gekürzt. Fülltext ist nur erlaubt, wenn er ausgewiesen ist.',
+    'about.r2': 'Text bleibt Text: Das Ergebnis lässt sich kopieren, durchsuchen und maschinell lesen und ergibt genau den Ausgangstext.',
+    'about.r3': 'Nur die Typografie variiert. Keine Formen, Hintergründe oder Bilder ausser den Buchstaben.',
+    'about.ossH': 'Open Source', 'about.oss': 'Verfahren, App und Bibliothek stehen unter der MIT-Lizenz. Ideen, Schriften, Algorithmen und Werke sind willkommen.',
+    'footer.license': 'MIT-Lizenz',
+    'label.stretch': 'Buchstabenbreite variieren (Roboto Flex, Archivo, Noto Serif)', 'label.shape': 'Kanten innerhalb der Buchstaben folgen',
+    'btn.pdf': 'Drucken / PDF', 'nav.gallery': 'Galerie',
+    'ai.toggle': 'Was die KI liest', 'ai.h': 'Was die KI liest',
+    'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
+    'hint.export': 'HTML, SVG und PDF enthalten den Text als echte Zeichen. PNG ist ein reines Bild. Für ein PDF im Druckdialog „Als PDF sichern“ wählen.',
+  },
+};
+const MSG = {
+  en: {
+    chars: '{n} characters', faithful: 'Text 1:1 preserved · {n} characters', notFaithful: 'Text differs from the source', filler: 'of which Lorem ipsum <b>{n}</b>',
+    lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
+    tooShort: 'Your text is already as long as the target. Raise the target.', filled: '{n} characters of Lorem ipsum appended.', noFill: 'No filler found that could be removed.',
+    unfilled: 'Filler removed.', loaded: '{name} loaded.', copied: '{what} copied ({n} characters).', selected: '{what} is selected: press Ctrl+C or ⌘+C.',
+    png: 'PNG created: right-click or long-press the image, then “Save image”.', noText: 'Please enter a text', badImage: 'The image could not be read', scale: 'Preview {n} %',
+    plain: 'Plain text', aiChip: '{n} words · identical to your text', aiChipBad: 'differs from your text',
+  },
+  de: {
+    chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
+    lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
+    tooShort: 'Dein Text ist schon so lang wie das Ziel. Stell das Ziel höher.', filled: '{n} Zeichen Lorem ipsum angehängt.', noFill: 'Keine Füllung gefunden, die sich entfernen lässt.',
+    unfilled: 'Füllung entfernt.', loaded: '{name} geladen.', copied: '{what} kopiert ({n} Zeichen).', selected: '{what} ist markiert: mit Strg+C oder ⌘+C kopieren.',
+    png: 'PNG erzeugt: Rechtsklick oder langes Drücken auf das Bild, dann „Bild speichern“.', noText: 'Bitte Text eingeben', badImage: 'Bild konnte nicht gelesen werden', scale: 'Vorschau {n} %',
+    plain: 'Klartext', aiChip: '{n} Wörter · identisch mit deinem Text', aiChipBad: 'weicht von deinem Text ab',
+  },
+};
+const SAMPLES = {
+  en: `Shall I compare thee to a summer's day?
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date;
+Sometime too hot the eye of heaven shines,
+And often is his gold complexion dimm'd;
+And every fair from fair sometime declin'd,
+By chance or nature's changing course untrimm'd;
+But thy eternal summer shall not fade,
+Nor lose possession of that fair thou ow'st;
+Nor shall death brag thou wander'st in his shade,
+When in eternal lines to time thou grow'st:
+So long as men can breathe or eyes can see,
+So long lives this, and this gives life to thee.`,
+  de: `Wer reitet so spät durch Nacht und Wind?
+Es ist der Vater mit seinem Kind;
+Er hat den Knaben wohl in dem Arm,
+Er faßt ihn sicher, er hält ihn warm.
+
+Mein Sohn, was birgst du so bang dein Gesicht? –
+Siehst, Vater, du den Erlkönig nicht?
+Den Erlenkönig mit Kron und Schweif? –
+Mein Sohn, es ist ein Nebelstreif. –
+
+„Du liebes Kind, komm, geh mit mir!
+Gar schöne Spiele spiel ich mit dir;
+Manch bunte Blumen sind an dem Strand,
+Meine Mutter hat manch gülden Gewand.“
+
+Mein Vater, mein Vater, und hörest du nicht,
+Was Erlenkönig mir leise verspricht? –
+Sei ruhig, bleibe ruhig, mein Kind;
+In dürren Blättern säuselt der Wind. –
+
+„Willst, feiner Knabe, du mit mir gehn?
+Meine Töchter sollen dich warten schön;
+Meine Töchter führen den nächtlichen Reihn
+Und wiegen und tanzen und singen dich ein.“
+
+Mein Vater, mein Vater, und siehst du nicht dort
+Erlkönigs Töchter am düstern Ort? –
+Mein Sohn, mein Sohn, ich seh es genau:
+Es scheinen die alten Weiden so grau. –
+
+„Ich liebe dich, mich reizt deine schöne Gestalt;
+Und bist du nicht willig, so brauch ich Gewalt.“
+Mein Vater, mein Vater, jetzt faßt er mich an!
+Erlkönig hat mir ein Leids getan! –
+
+Dem Vater grauset's, er reitet geschwind,
+Er hält in Armen das ächzende Kind,
+Erreicht den Hof mit Müh' und Not;
+In seinen Armen das Kind war tot.`,
+};
+const EN_TEXT = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
+let lang = 'en';
+const t = (key, vars = {}) => MSG[lang][key].replace(/\{(\w+)\}/g, (_, k) => vars[k]);
+const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
+function setLang(l) {
+  const textEl = $('#text');
+  if (normalizeText(textEl.value) === normalizeText(SAMPLES[lang])) textEl.value = SAMPLES[l];
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const v = l === 'en' ? EN_TEXT.get(el.dataset.i18n) : I18N.de[el.dataset.i18n];
+    if (v != null) el.textContent = v;
+  });
+  document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+  $('#thumb').alt = l === 'de' ? 'Vorschau des Fotos' : 'Photo preview';
+  $('#png').alt = l === 'de' ? 'Gesetzter Text als PNG' : 'Set text as PNG';
+}
+
+/* ---------- Sample image ---------- */
+function sampleImage() {
+  const c = document.createElement('canvas'); c.width = 600; c.height = 720;
+  const g = c.getContext('2d');
+  const bg = g.createLinearGradient(0, 0, 0, 720);
+  bg.addColorStop(0, '#e3f1fa'); bg.addColorStop(0.62, '#8fb5d6'); bg.addColorStop(0.63, '#5f8a4a'); bg.addColorStop(1, '#2e4a22');
+  g.fillStyle = bg; g.fillRect(0, 0, 600, 720);
+  const sh = g.createRadialGradient(330, 610, 10, 330, 610, 230);
+  sh.addColorStop(0, 'rgba(8,20,6,.85)'); sh.addColorStop(1, 'rgba(8,20,6,0)');
+  g.save(); g.scale(1, 0.32); g.fillStyle = sh; g.beginPath(); g.arc(330, 610 / 0.32, 230, 0, 7); g.fill(); g.restore();
+  const sp = g.createRadialGradient(220, 240, 10, 290, 330, 250);
+  sp.addColorStop(0, '#fff6d8'); sp.addColorStop(0.4, '#ff8a1f'); sp.addColorStop(0.8, '#a8240c'); sp.addColorStop(1, '#2a0800');
+  g.fillStyle = sp; g.beginPath(); g.arc(300, 340, 230, 0, 7); g.fill();
+  return c.toDataURL('image/png');
+}
+
+/* ---------- Settings ---------- */
+const PRESETS = {
+  ai: { legibility: 'high', unit: 'word', color: 'photo', paper: 'light', contrast: 1.8, brightness: 0, edges: 0.5, spacing: 1.12, aspect: 'photo' },
+  portrait: { legibility: 'medium', unit: 'char', color: 'photo', paper: 'light', contrast: 1.5, brightness: 0, edges: 0.7, spacing: 1.05, aspect: '1.25' },
+  poster: { legibility: 'free', unit: 'char', color: 'photo', paper: 'dark', contrast: 1.9, brightness: 0.05, edges: 1.0, spacing: 0.98, aspect: 'photo' },
+};
+const CONTROLS = ['legibility', 'color', 'font', 'aspect', 'width', 'contrast', 'brightness', 'edges', 'spacing', 'target'];
+const radio = (n) => document.querySelector(`input[name="${n}"]:checked`).value;
+const setRadio = (n, v) => { const el = document.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; };
+function showValues() {
+  $('#contrastV').textContent = (+$('#contrast').value).toFixed(2);
+  const b = +$('#brightness').value; $('#brightnessV').textContent = (b > 0 ? '+' : '') + b.toFixed(2);
+  $('#edgesV').textContent = (+$('#edges').value).toFixed(2);
+  $('#spacingV').textContent = (+$('#spacing').value).toFixed(2) + ' ×';
+  $('#targetV').textContent = t('chars', { n: fmt(+$('#target').value) });
+}
+const STORE = 'tg-art.v1';
+let fillBase = null;
+function save() {
+  try {
+    const s = { lang };
+    CONTROLS.forEach((k) => (s[k] = $('#' + k).value));
+    s.invert = $('#invert').checked; s.stretch = $('#stretch').checked; s.shape = $('#shape').checked;
+    s.unit = radio('unit'); s.paper = radio('paper');
+    const txt = $('#text').value;
+    if (txt.length < 200000) { s.text = txt; s.fillBase = fillBase; }
+    localStorage.setItem(STORE, JSON.stringify(s));
+  } catch { /* storage unavailable: settings simply are not remembered */ }
+}
+function restore() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE) || 'null');
+    if (!s) return null;
+    CONTROLS.forEach((k) => { if (s[k] != null) $('#' + k).value = s[k]; });
+    $('#invert').checked = !!s.invert; setRadio('unit', s.unit); setRadio('paper', s.paper);
+    if (s.stretch != null) $('#stretch').checked = s.stretch;
+    if (s.shape != null) $('#shape').checked = s.shape;
+    if (typeof s.text === 'string') { $('#text').value = s.text; fillBase = s.fillBase ?? null; }
+    return s;
+  } catch { return null; }
+}
+
+/* ---------- Setting the sheet ---------- */
+let photo = new Image(), photoReady, running = false, again = false, lastWrap = 0, sheet = null, plain = '', overlayDirty = true;
+function loadPhoto(src) {
+  photoReady = new Promise((r) => { photo = new Image(); photo.onload = r; photo.onerror = r; photo.src = src; });
+  $('#thumb').src = src; overlayDirty = true;
+}
+const chip = (h, c = '') => `<span class="chip ${c}">${h}</span>`;
+
+function applyScale() {
+  if (!sheet) return;
+  const f = Math.min(1, $('#wrap').clientWidth / sheet.outW);
+  $('#sheet').style.transform = `scale(${f})`;
+  $('#scaler').style.width = sheet.outW * f + 'px';
+  $('#scaler').style.height = sheet.outH * f + 'px';
+  $('#scaleInfo').textContent = f < 1 ? t('scale', { n: Math.round(f * 100) }) : '';
+}
+function applyOverlay() {
+  const v = +$('#overlayR').value, ov = $('#overlay');
+  if (v > 0 && sheet && overlayDirty) { ov.src = sheet.imageCanvas.toDataURL('image/jpeg', 0.85); overlayDirty = false; }
+  ov.style.opacity = v;
+}
+
+async function run() {
+  if (running) { again = true; return; }
+  running = true;
+  const st = $('#stage');
+  try {
+    showValues();
+    await photoReady;
+    const text = normalizeText($('#text').value);
+    $('#nchars').textContent = t('chars', { n: fmt(text.length) });
+    if (!text || !photo.naturalWidth) { st.innerHTML = ''; $('#meta').innerHTML = chip(!text ? t('noText') : t('badImage'), 'warn'); return; }
+    st.classList.add('busy');
+    await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+
+    const aspectSel = $('#aspect').value;
+    const aspect = aspectSel === 'photo' ? photo.naturalHeight / photo.naturalWidth : +aspectSel;
+    const wrapW = $('#wrap').clientWidth; lastWrap = wrapW;
+    let width;
+    if ($('#width').value === 'auto') {
+      width = Math.floor(Math.min(wrapW, 1000) / 1.05);
+      if (width * aspect > 1300) width = Math.floor(1300 / aspect);
+      width = Math.max(200, width);
+    } else {
+      width = +$('#width').value;
+      if (width * aspect > 4000) width = Math.floor(4000 / aspect);
+    }
+    sheet = await typeset(text, photo, {
+      font: $('#font').value, legibility: $('#legibility').value, color: $('#color').value, paper: radio('paper'), unit: radio('unit'),
+      contrast: +$('#contrast').value, brightness: +$('#brightness').value, edges: +$('#edges').value, lineSpacing: +$('#spacing').value,
+      invert: $('#invert').checked, stretch: $('#stretch').checked, shape: $('#shape').checked, aspect, width,
+    });
+    $('#pageSize').textContent = `@page{size:${sheet.outW}px ${sheet.outH}px;margin:0}`;
+    overlayDirty = true;
+
+    const { outW, outH, pad, W, H, font, paper } = sheet;
+    $('#sheet').style.width = outW + 'px'; $('#sheet').style.height = outH + 'px';
+    Object.assign(st.style, {
+      width: outW + 'px', height: outH + 'px', padding: pad + 'px',
+      background: `rgb(${paper.paper})`, color: `rgb(${paper.ink})`, fontFamily: font.css, fontVariationSettings: font.variations,
+    });
+    Object.assign($('#overlay').style, { width: W + 'px', height: H + 'px', left: pad + 'px', top: pad + 'px' });
+    st.lang = lang;
+    st.innerHTML = toHtml(sheet);
+    applyScale(); applyOverlay();
+    plain = st.innerText;
+    $('#export').value = toStandaloneHtml(sheet);
+    $('#png').hidden = true;
+
+    const same = normalizeText(plain) === text;
+    $('#aiText').textContent = normalizeText(plain);
+    $('#aiChip').textContent = same ? t('aiChip', { n: fmt(text.split(' ').length) }) : t('aiChipBad');
+    $('#aiChip').className = 'chip ' + (same ? 'ok' : 'warn');
+    const fillN = fillBase !== null && text.startsWith(normalizeText(fillBase)) ? text.length - normalizeText(fillBase).length : 0;
+    $('#meta').innerHTML =
+      chip(same ? t('faithful', { n: fmt(text.length) }) : t('notFaithful'), same ? 'ok' : 'warn') +
+      (fillN ? chip(t('filler', { n: fmt(fillN) })) : '') +
+      chip(t('lines', { n: sheet.result.lines.length })) +
+      chip(t('base', { n: sheet.result.fs.toFixed(1) })) +
+      chip(t('fidelity', { n: sheet.toneFidelity.toFixed(2) })) +
+      chip(`${fmt(outW)} × ${fmt(outH)} px`) +
+      (sheet.result.overflow ? chip(t('overflow'), 'warn') : '');
+    save();
+  } finally {
+    st.classList.remove('busy');
+    running = false;
+    if (again) { again = false; run(); }
+  }
+}
+
+/* ---------- Controls ---------- */
+let timer;
+const soon = () => { clearTimeout(timer); timer = setTimeout(run, 350); };
+$('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
+['#text', '#contrast', '#brightness', '#edges', '#spacing'].forEach((s) => $(s).addEventListener('input', () => { showValues(); soon(); }));
+['#legibility', '#color', '#font', '#aspect', '#width', '#invert', '#stretch', '#shape'].forEach((s) => $(s).addEventListener('change', soon));
+document.querySelectorAll('input[name="unit"],input[name="paper"]').forEach((el) => el.addEventListener('change', soon));
+$('#target').addEventListener('input', showValues);
+$('#overlayR').addEventListener('input', applyOverlay);
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { setLang(b.dataset.lang); showValues(); run(); }));
+
+document.querySelectorAll('[data-preset]').forEach((b) => b.addEventListener('click', () => {
+  const p = PRESETS[b.dataset.preset];
+  ['legibility', 'color', 'contrast', 'brightness', 'edges', 'spacing', 'aspect'].forEach((k) => ($('#' + k).value = p[k]));
+  setRadio('unit', p.unit); setRadio('paper', p.paper); $('#invert').checked = false;
+  showValues(); run();
+}));
+
+$('#fill').addEventListener('click', () => {
+  const cur = $('#text').value;
+  const base = fillBase !== null && cur.startsWith(fillBase) ? fillBase : cur.trimEnd();
+  const need = +$('#target').value - normalizeText(base).length - 1;
+  if (need < 20) { $('#fillMsg').textContent = t('tooShort'); return; }
+  fillBase = base;
+  $('#text').value = base + (base ? '\n\n' : '') + lorem(need, normalizeText(base).length + 7);
+  $('#fillMsg').textContent = t('filled', { n: fmt(need) });
+  run();
+});
+$('#unfill').addEventListener('click', () => {
+  const cur = $('#text').value;
+  if (fillBase === null || !cur.startsWith(fillBase)) { $('#fillMsg').textContent = t('noFill'); return; }
+  $('#text').value = fillBase; fillBase = null;
+  $('#fillMsg').textContent = t('unfilled'); run();
+});
+
+$('#txtfile').addEventListener('change', (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => { $('#text').value = String(rd.result); fillBase = null; $('#fillMsg').textContent = t('loaded', { name: f.name }); run(); };
+  rd.readAsText(f); e.target.value = '';
+});
+function takeImage(f) {
+  if (!f || !f.type.startsWith('image/')) return;
+  const rd = new FileReader();
+  rd.onload = () => { loadPhoto(rd.result); $('#photoName').textContent = f.name; $('#photoName').removeAttribute('data-i18n'); run(); };
+  rd.readAsDataURL(f);
+}
+$('#photo').addEventListener('change', (e) => takeImage(e.target.files[0]));
+const drop = $('#drop');
+['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', (e) => takeImage(e.dataTransfer.files[0]));
+
+async function copy(txt, what) {
+  const m = $('#copyMsg'), ta = $('#export');
+  ta.value = txt;
+  try { await navigator.clipboard.writeText(txt); m.textContent = t('copied', { what, n: fmt(txt.length) }); }
+  catch { ta.focus(); ta.select(); m.textContent = t('selected', { what }); }
+}
+$('#copyHtml').addEventListener('click', () => sheet && copy(toStandaloneHtml(sheet), 'HTML'));
+$('#copySvg').addEventListener('click', () => sheet && copy(toSvg(sheet), 'SVG'));
+$('#copyText').addEventListener('click', () => sheet && copy(plain, t('plain')));
+$('#makePng').addEventListener('click', () => {
+  if (!sheet) return;
+  const img = $('#png'); img.src = toPng(sheet); img.hidden = false;
+  $('#copyMsg').textContent = t('png');
+});
+
+$('#printPdf').addEventListener('click', () => sheet && window.print());
+$('#aiToggle').addEventListener('click', () => {
+  const open = $('#aiPanel').hidden;
+  $('#aiPanel').hidden = !open;
+  $('#aiToggle').setAttribute('aria-expanded', String(open));
+  if (open) $('#aiPanel').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+});
+
+new ResizeObserver(() => {
+  const w = $('#wrap').clientWidth;
+  if (Math.abs(w - lastWrap) < 24) return;
+  if ($('#width').value === 'auto') soon(); else { lastWrap = w; applyScale(); }
+}).observe($('#wrap'));
+
+const saved = restore();
+setLang(saved?.lang || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'));
+if (!saved || typeof saved.text !== 'string') $('#text').value = SAMPLES[lang];
+showValues();
+loadPhoto(sampleImage());
+document.fonts.ready.finally(run);
+</script>
+</body>
+</html>

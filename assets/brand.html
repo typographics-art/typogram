@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Typographic Art brand assets</title>
+<!-- Source of assets/logo.png and assets/social.png: `npm run assets` screenshots this page. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap">
+<style>
+  :root { --ink: #15171c; --accent: #b8145a; --paper: #fbfbf8; }
+  html, body { margin: 0; background: var(--paper); }
+  body { font-family: 'Roboto Flex', system-ui, sans-serif; color: var(--ink); }
+  .word { display: inline-block; font-variation-settings: 'opsz' 96; letter-spacing: 0.012em; white-space: nowrap; }
+  .word span { font-kerning: none; }
+  #logo { width: 1200px; height: 300px; display: flex; align-items: center; justify-content: center; }
+  #logo .word { font-size: 132px; }
+  #social { width: 1280px; height: 640px; display: grid; grid-template-columns: 512px 1fr; background: var(--paper); }
+  #social .art { background: #0a0f1e 72% 30%/cover no-repeat url('../gallery/erlkoenig.jpg'); }
+  #social .copy { padding: 64px 60px; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+  #social .word { font-size: 84px; line-height: 1; }
+  #social .tag { font-size: 44px; line-height: 1.12; font-weight: 300; font-variation-settings: 'opsz' 48; margin: 0; }
+  #social .tag b { font-weight: 800; color: var(--accent); }
+  #social .sub { font-size: 25px; line-height: 1.35; color: #4a5160; margin: 0; max-width: 21em; }
+  #social .url { font-size: 26px; font-weight: 700; color: var(--accent); letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+<div id="logo"><span class="word" data-word="Typographic Art"></span></div>
+<div id="social">
+  <div class="art"></div>
+  <div class="copy">
+    <span class="word" data-word="Typographic Art"></span>
+    <p class="tag"><b>ASCII art</b> for the age of AI.</p>
+    <p class="sub">Any text becomes a picture of your photo. Every character stays, so people see the image and machines read the words.</p>
+    <span class="url">tg-art.org</span>
+  </div>
+</div>
+<script>
+  // The wordmark uses the technique itself: one weight per letter, light to heavy.
+  for (const el of document.querySelectorAll('[data-word]')) {
+    const chars = [...el.dataset.word];
+    chars.forEach((ch, i) => {
+      const s = document.createElement('span');
+      s.textContent = ch;
+      s.style.fontWeight = Math.round(250 + (700 * i) / (chars.length - 1));
+      if (ch !== ' ' && i > chars.length - 4) s.style.color = 'var(--accent)';
+      el.appendChild(s);
+    });
+  }
+  const view = new URLSearchParams(location.search).get('view');
+  if (view) for (const id of ['logo', 'social']) if (id !== view) document.getElementById(id).remove();
+  document.fonts.ready.then(() => { window.tgReady = true; });
+</script>
+</body>
+</html>

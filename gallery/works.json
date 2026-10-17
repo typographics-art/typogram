@@ -1,0 +1,156 @@
+[
+  {
+    "id": "sonnet-18",
+    "title": "Sonnet 18",
+    "source": "William Shakespeare, Sonnet 18 (1609), public domain",
+    "motif": "sunset",
+    "options": {
+      "font": "roboto",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "light",
+      "contrast": 2,
+      "edges": 1.2,
+      "width": 900,
+      "fill": 14000,
+      "brightness": 0.06
+    },
+    "textLength": 620,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9104658887397278,
+      "lines": 83,
+      "baseSize": 12.364826727350916,
+      "width": 946,
+      "height": 1171,
+      "characters": 14000,
+      "filler": 13380,
+      "overflow": false
+    },
+    "svg": "gallery/sonnet-18.svg",
+    "preview": "gallery/sonnet-18.jpg"
+  },
+  {
+    "id": "erlkoenig",
+    "title": "Erlkönig",
+    "source": "Johann Wolfgang von Goethe, Erlkönig (1782), public domain",
+    "motif": "moonNight",
+    "options": {
+      "font": "fraunces",
+      "legibility": "free",
+      "color": "photo",
+      "paper": "dark",
+      "contrast": 2.1,
+      "edges": 0.7,
+      "width": 900,
+      "fill": 14000,
+      "brightness": -0.08
+    },
+    "textLength": 1281,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.930979702031254,
+      "lines": 60,
+      "baseSize": 17.014025766915136,
+      "width": 946,
+      "height": 1171,
+      "characters": 13998,
+      "filler": 12717,
+      "overflow": false
+    },
+    "svg": "gallery/erlkoenig.svg",
+    "preview": "gallery/erlkoenig.jpg"
+  },
+  {
+    "id": "let-there-be-light",
+    "title": "Let there be light",
+    "source": "Genesis 1:1–3, King James Version (1611), public domain",
+    "motif": "lightBurst",
+    "options": {
+      "font": "recursive",
+      "legibility": "free",
+      "color": "gray",
+      "paper": "dark",
+      "contrast": 1.8,
+      "edges": 0.8,
+      "width": 900,
+      "fill": 16000
+    },
+    "textLength": 252,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9662031444938923,
+      "lines": 82,
+      "baseSize": 9.985127580275229,
+      "width": 946,
+      "height": 946,
+      "characters": 15997,
+      "filler": 15745,
+      "overflow": false
+    },
+    "svg": "gallery/let-there-be-light.svg",
+    "preview": "gallery/let-there-be-light.jpg"
+  },
+  {
+    "id": "article-1",
+    "title": "Article 1",
+    "source": "Universal Declaration of Human Rights, Article 1 (1948)",
+    "motif": "globe",
+    "options": {
+      "font": "roboto",
+      "legibility": "medium",
+      "unit": "word",
+      "color": "photo",
+      "paper": "light",
+      "contrast": 2.3,
+      "edges": 0.7,
+      "width": 900,
+      "fill": 9000,
+      "brightness": 0.05
+    },
+    "textLength": 170,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.92152087005724,
+      "lines": 55,
+      "baseSize": 15.007928970756879,
+      "width": 946,
+      "height": 946,
+      "characters": 8997,
+      "filler": 8827,
+      "overflow": false
+    },
+    "svg": "gallery/article-1.svg",
+    "preview": "gallery/article-1.jpg"
+  },
+  {
+    "id": "waves",
+    "title": "Waves",
+    "source": "Lorem ipsum (generated filler only)",
+    "motif": "waves",
+    "options": {
+      "font": "mono",
+      "legibility": "free",
+      "color": "mono",
+      "paper": "light",
+      "contrast": 2.2,
+      "edges": 0.5,
+      "width": 1000,
+      "fill": 18000
+    },
+    "textLength": 0,
+    "meta": {
+      "faithful": true,
+      "toneFidelity": 0.9202968439297476,
+      "lines": 75,
+      "baseSize": 8.528571172591743,
+      "width": 1050,
+      "height": 750,
+      "characters": 18000,
+      "filler": 18000,
+      "overflow": false
+    },
+    "svg": "gallery/waves.svg",
+    "preview": "gallery/waves.jpg"
+  }
+]

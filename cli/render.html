@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>tg-art render</title>
+<style id="pageSize"></style>
+<style>html,body{margin:0;background:#fff}</style>
+</head>
+<body>
+<script type="module">
+// Rendering page driven by cli/core.mjs through the Chrome DevTools Protocol.
+import { typeset, toPng } from '../src/browser.js';
+import { toStandaloneHtml, toSvg, isFaithful, lorem, normalizeText } from '../src/index.js';
+import { RECIPES } from '../gallery/recipes.js';
+
+async function loadImage(src) {
+  if (src.startsWith('recipe:')) return RECIPES[src.slice(7)]();
+  const img = new Image();
+  img.src = src;
+  await img.decode();
+  return img;
+}
+
+window.tgRender = async (text, src, opts, format) => {
+  let source = normalizeText(text), filler = 0;
+  if (opts.fill && opts.fill > source.length + 20) {
+    const original = source.length;
+    source = original ? source + ' ' + lorem(opts.fill - original - 1, original + 7) : lorem(opts.fill, 7);
+    filler = source.length - original;
+  }
+  const sheet = await typeset(source, await loadImage(src), opts);
+  const meta = {
+    faithful: isFaithful(sheet), toneFidelity: sheet.toneFidelity, lines: sheet.result.lines.length,
+    baseSize: sheet.result.fs, width: sheet.outW, height: sheet.outH, characters: sheet.text.length, filler,
+    overflow: sheet.result.overflow,
+  };
+  if (format === 'svg') return { meta, data: toSvg(sheet) };
+  if (format === 'html') {
+    return { meta, data: `<!doctype html>\n<html><head><meta charset="utf-8"><title>Typographic Art</title></head><body style="margin:0">\n${toStandaloneHtml(sheet)}\n</body></html>\n` };
+  }
+  if (format === 'png' || format === 'jpg') {
+    return { meta, data: toPng(sheet, opts.scale || 1, format === 'jpg' ? 'image/jpeg' : 'image/png') };
+  }
+  if (format === 'pdf') { // the CLI prints this page; Chrome keeps the glyphs as a text layer
+    document.getElementById('pageSize').textContent = `@page{size:${sheet.outW}px ${sheet.outH}px;margin:0}`;
+    document.body.innerHTML = toStandaloneHtml(sheet);
+    await document.fonts.ready;
+    return { meta };
+  }
+  throw new Error(`Unknown format: ${format}`);
+};
+window.tgReady = true;
+</script>
+</body>
+</html>

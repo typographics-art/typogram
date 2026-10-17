@@ -1,0 +1,21 @@
+name: Idea or feature
+description: A new option, font, algorithm or output format
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Which works or users would it help?
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Technique
+      options:
+        - label: The idea keeps the three rules of Typographic Art (docs/technique.md)
+          required: true

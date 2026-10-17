@@ -1,0 +1,31 @@
+name: Share an artwork
+description: Submit a typographic artwork for the gallery
+labels: [gallery]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Title and author
+    validations:
+      required: true
+  - type: textarea
+    id: work
+    attributes:
+      label: The work
+      description: Attach the SVG or HTML export (text must stay text) and a PNG preview.
+    validations:
+      required: true
+  - type: textarea
+    id: text
+    attributes:
+      label: Source of the text and of the image
+      description: Only submit texts and images you have the rights to share.
+    validations:
+      required: true
+  - type: checkboxes
+    id: licence
+    attributes:
+      label: Licence
+      options:
+        - label: I agree that the work is shown on tg-art.org under CC BY 4.0
+          required: true
