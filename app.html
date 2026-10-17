@@ -76,6 +76,9 @@ button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-vis
 .presets button{font-size:13px;padding:7px 6px;display:flex;flex-direction:column;gap:1px;line-height:1.2}
 .presets button small{font-weight:400;color:var(--muted);font-size:11.5px}
 .hint{font-size:12.5px;color:var(--muted);margin:0}
+form.simple [data-adv]{display:none}
+.modebar{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.modebar .seg{flex:1}
 .seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .seg label{flex:1;text-align:center;font-size:13.5px;padding:6px 4px;cursor:pointer;background:var(--soft);border-left:1px solid var(--line)}
 .seg label:first-child{border-left:0}
@@ -143,8 +146,14 @@ footer a{color:inherit}
 
   <div class="app">
     <form class="panel" id="form" autocomplete="off">
+      <div class="modebar">
+        <div class="seg" role="radiogroup" aria-label="Mode" id="modeSeg">
+          <label><input type="radio" name="mode" value="simple" checked> <span data-i18n="mode.simple">Simple</span></label>
+          <label><input type="radio" name="mode" value="advanced"> <span data-i18n="mode.adv">Advanced</span></label>
+        </div>
+      </div>
       <fieldset>
-        <legend data-i18n="legend.presets">Presets</legend>
+        <legend data-i18n="legend.presets">Style</legend>
         <div class="presets">
           <button type="button" data-preset="ai"><span data-i18n="preset.ai">AI-safe</span><small data-i18n="preset.ai.sub">highly legible</small></button>
           <button type="button" data-preset="portrait"><span data-i18n="preset.portrait">Portrait</span><small data-i18n="preset.portrait.sub">fine, 4:5</small></button>
@@ -159,7 +168,7 @@ footer a{color:inherit}
           <textarea id="text" spellcheck="false"></textarea>
           <label class="btn" for="txtfile"><span data-i18n="btn.loadText">Load text file (.txt, .md)</span><input type="file" id="txtfile" class="sr" accept=".txt,.md,.csv,text/plain"></label>
         </div>
-        <div class="field">
+        <div class="field" data-adv>
           <label class="lbl" for="target"><span data-i18n="label.fill">Fill with Lorem ipsum up to</span> <output id="targetV"></output></label>
           <input type="range" id="target" min="2000" max="60000" step="1000" value="12000">
           <div class="row2">
@@ -187,7 +196,7 @@ footer a{color:inherit}
             <option value="0.5625" data-i18n="fmt.landscape">Landscape 16:9</option>
           </select>
         </div>
-        <div class="two">
+        <div class="two" data-adv>
           <div class="field">
             <label class="lbl" for="contrast"><span data-i18n="label.contrast">Contrast</span> <output id="contrastV"></output></label>
             <input type="range" id="contrast" min="0.5" max="3" step="0.05" value="1.4">
@@ -197,14 +206,14 @@ footer a{color:inherit}
             <input type="range" id="brightness" min="-0.4" max="0.4" step="0.01" value="0">
           </div>
         </div>
-        <div class="field">
+        <div class="field" data-adv>
           <label class="lbl" for="edges"><span data-i18n="label.edges">Emphasise edges</span> <output id="edgesV"></output></label>
           <input type="range" id="edges" min="0" max="2" step="0.05" value="0.4">
         </div>
-        <div class="checks"><label><input type="checkbox" id="invert"> <span data-i18n="label.invert">Invert brightness</span></label></div>
+        <div class="checks" data-adv><label><input type="checkbox" id="invert"> <span data-i18n="label.invert">Invert brightness</span></label></div>
       </fieldset>
 
-      <fieldset>
+      <fieldset data-adv>
         <legend data-i18n="legend.type">Type and setting</legend>
         <div class="field">
           <label class="lbl" for="legibility" data-i18n="label.legibility">Legibility</label>
@@ -236,7 +245,7 @@ footer a{color:inherit}
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset data-adv>
         <legend data-i18n="legend.color">Colour and paper</legend>
         <div class="field">
           <label class="lbl" for="color" data-i18n="label.color">Colour</label>
@@ -257,7 +266,7 @@ footer a{color:inherit}
 
       <fieldset>
         <legend data-i18n="legend.output">Output</legend>
-        <div class="field">
+        <div class="field" data-adv>
           <label class="lbl" for="width" data-i18n="label.width">Width</label>
           <select id="width">
             <option value="auto" data-i18n="width.auto">Fit to window</option>
@@ -358,7 +367,8 @@ const I18N = {
   en: {},
   de: {
     'tagline': 'ASCII-Art für das Zeitalter der KI. Dein Text wird zum Bild und bleibt Text: Menschen sehen das Foto, Maschinen lesen jedes Wort.',
-    'legend.presets': 'Vorlagen', 'preset.ai': 'KI-sicher', 'preset.ai.sub': 'gut lesbar', 'preset.portrait': 'Porträt', 'preset.portrait.sub': 'fein, 4:5', 'preset.poster': 'Plakat', 'preset.poster.sub': 'dunkel, kräftig',
+    'mode.simple': 'Einfach', 'mode.adv': 'Erweitert',
+    'legend.presets': 'Stil', 'preset.ai': 'KI-sicher', 'preset.ai.sub': 'gut lesbar', 'preset.portrait': 'Porträt', 'preset.portrait.sub': 'fein, 4:5', 'preset.poster': 'Plakat', 'preset.poster.sub': 'dunkel, kräftig',
     'legend.text': 'Text', 'label.text': 'Dein Text', 'btn.loadText': 'Textdatei laden (.txt, .md)', 'label.fill': 'Mit Lorem ipsum auffüllen auf', 'btn.fill': 'Auffüllen', 'btn.unfill': 'Füllung entfernen',
     'hint.fill': 'Mehr Zeichen ergeben ein feineres Bild. Dein Text bleibt vorne unverändert.',
     'legend.photo': 'Foto', 'drop.sample': 'Beispielbild: Kugel', 'drop.hint': 'Bild wählen oder hierher ziehen', 'label.format': 'Format',
@@ -532,7 +542,7 @@ function save() {
     const s = { lang };
     CONTROLS.forEach((k) => (s[k] = $('#' + k).value));
     s.invert = $('#invert').checked; s.shape = $('#shape').checked;
-    s.unit = radio('unit'); s.paper = radio('paper');
+    s.unit = radio('unit'); s.paper = radio('paper'); s.mode = radio('mode');
     const txt = $('#text').value;
     if (txt.length < 200000) { s.text = txt; s.fillBase = fillBase; }
     localStorage.setItem(STORE, JSON.stringify(s));
@@ -544,6 +554,7 @@ function restore() {
     if (!s) return null;
     CONTROLS.forEach((k) => { if (s[k] != null) $('#' + k).value = s[k]; });
     $('#invert').checked = !!s.invert; setRadio('unit', s.unit); setRadio('paper', s.paper);
+    if (s.mode) setRadio('mode', s.mode);
     if (s.shape != null) $('#shape').checked = s.shape;
     if (typeof s.text === 'string') { $('#text').value = s.text; fillBase = s.fillBase ?? null; }
     return s;
@@ -659,6 +670,8 @@ function pdfChip(stats) {
 }
 ['#legibility', '#color', '#aspect', '#width', '#invert', '#shape'].forEach((s) => $(s).addEventListener('change', soon));
 document.querySelectorAll('input[name="unit"],input[name="paper"]').forEach((el) => el.addEventListener('change', soon));
+const applyMode = () => { $('#form').classList.toggle('simple', radio('mode') === 'simple'); if (sheet) applyScale(); };
+document.querySelectorAll('input[name="mode"]').forEach((el) => el.addEventListener('change', () => { applyMode(); save(); }));
 $('#target').addEventListener('input', showValues);
 $('#overlayR').addEventListener('input', applyOverlay);
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { setLang(b.dataset.lang); showValues(); run(); }));
@@ -750,6 +763,7 @@ new ResizeObserver(() => {
 const saved = restore();
 setLang(saved?.lang || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'));
 if (!saved || typeof saved.text !== 'string') $('#text').value = SAMPLES[lang];
+applyMode();
 showValues();
 loadPhoto(sampleImage());
 document.fonts.ready.finally(run);
