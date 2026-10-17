@@ -105,3 +105,14 @@ test('store: expired lists finished jobs past the retention, not recent ones', a
   assert.deepEqual(store.expired(7).map((j) => j.id), ['old']);
   store.close();
 });
+
+test('runJob refuses an empty or over-long document before any model or browser work', async () => {
+  const { runJob } = await import('../api/pipeline.mjs');
+  const dir = mkdtempSync(join(tmpdir(), 'tg-job-'));
+  const { writeFileSync } = await import('node:fs');
+  const long = join(dir, 'long.txt'), empty = join(dir, 'empty.txt');
+  writeFileSync(long, 'word '.repeat(2000)); writeFileSync(empty, '   \n');
+  const cfg = { maxCharacters: 5000, llm: { url: 'http://127.0.0.1:1' }, image: { url: 'http://127.0.0.1:1' } };
+  await assert.rejects(runJob({ inputFile: long }, cfg), (e) => e.refused === true && /at most 5000/.test(e.message));
+  await assert.rejects(runJob({ inputFile: empty }, cfg), (e) => e.refused === true && /no text/.test(e.message));
+});

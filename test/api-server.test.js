@@ -34,7 +34,7 @@ before(async () => {
     cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'],
     env: { ...process.env, PORT: String(port), DATA_DIR: mkdtempSync(join(tmpdir(), 'tg-api-')), RECEIVE_ADDRESS: ADDRESS,
       DGB_RPC_URL: `http://127.0.0.1:${node.address().port}`, LLM_URL: 'http://127.0.0.1:1', IMAGE_URL: 'http://127.0.0.1:1',
-      MAX_UPLOAD_MB: '1', PAYMENT_CHECKS_PER_MINUTE: '5', MIN_DGB: '10', MIN_CONFIRMATIONS: '2' },
+      MAX_UPLOAD_MB: '1', PAYMENT_CHECKS_PER_MINUTE: '5', TRUST_PROXY: '1', MIN_DGB: '10', MIN_CONFIRMATIONS: '2' },
   });
   for (let i = 0; i < 100; i++) { try { if ((await fetch(`${base()}/health`)).ok) return; } catch { /* not up yet */ } await new Promise((r) => setTimeout(r, 100)); }
   throw new Error('API did not start');

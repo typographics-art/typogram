@@ -66,15 +66,15 @@ Code: `api/server.mjs` (HTTP and queue), `api/dgb.mjs` (payment check), `api/sto
 | `410` | The result was removed (results are kept 7 days). |
 | `413` | Upload too large (default 20 MB). |
 | `429` | Too many payment checks from one address; wait a minute. |
-| `500` | The job failed. The answer says whether the transaction was released (`transaction_released`): before the picture was made it is, afterwards it is not. |
+| `500` | The job failed. The answer says whether the transaction was released (`transaction_released`): before the picture was made it is, afterwards it is not. A refused document (`document_refused`: no text, or longer than `MAX_CHARACTERS`) is released too. |
 
 The payment is checked, and the node asked, before the document is read: an unpaid request cannot make the service buffer a large upload.
 
 ## Known limits
 
 - **A public transaction can be claimed by whoever submits its hash first.** The hash identifies the payment, not the payer. Someone who watches the address could send a payer's hash before the payer does; the payer would then get `409`. The ticket model accepts this today: price and typical flow make it a nuisance rather than a gain, and a fix (a per-order amount or address) changes the protocol. If it matters for your deployment, bind each payment to an order.
-- The per-address limit is in memory and keyed by `cf-connecting-ip` or `x-forwarded-for`; run the service behind a proxy that sets the real client address and does its own rate limiting.
-- One job runs at a time. A job that exceeds `JOB_TIMEOUT_MINUTES` makes the process exit so that its supervisor (Docker, systemd, Kubernetes) restarts it with a clean browser; run it under one.
+- **Rate limiting is basic.** Payment checks are limited per client address and for everybody together, in memory, with a fixed-size table. Behind a proxy every connection comes from the proxy, so set `TRUST_PROXY=1` only if the proxy overwrites `cf-connecting-ip` / `x-forwarded-for` (a client can send those itself); without it the limit uses the connection's own address. Put real rate limiting at the proxy as well.
+- One job runs at a time. A job that exceeds `JOB_TIMEOUT_MINUTES` is failed and its browser is shut down; the service goes on. Documents above `MAX_CHARACTERS` (default 700 000) or without text are refused before any model or browser work is spent, and the transaction is released (`document_refused`).
 
 ## Configuration
 
@@ -92,7 +92,9 @@ All settings are environment variables. The first four have no default on purpos
 | `MAX_UPLOAD_MB` | no | Upload limit (default 20). |
 | `JOB_TIMEOUT_MINUTES` | no | A job running longer ends the process (default 20). |
 | `KEEP_RESULTS_DAYS` | no | How long finished results stay downloadable (default 7). |
-| `PAYMENT_CHECKS_PER_MINUTE` | no | Payment checks per client address and minute (default 30). |
+| `PAYMENT_CHECKS_PER_MINUTE`, `PAYMENT_CHECKS_PER_MINUTE_ALL` | no | Payment checks per client address and minute (30) and for everybody together (300). |
+| `TRUST_PROXY` | no | `1` if a proxy that overwrites `cf-connecting-ip` / `x-forwarded-for` sits in front; default off. |
+| `MAX_CHARACTERS` | no | Longest document accepted (default 700 000 characters; the EU AI Act, 596 000, fits). |
 | `DATA_DIR`, `PORT` | no | Directory with the SQLite ledger and jobs (`/data`), port (8080). |
 
 Needs **Node 22.5 or newer** (`node:sqlite`) and, for the one-pager, Chromium, MuPDF (`mutool`) and `qpdf` (the Docker image has them). Build the image from the repository root with `docker build -f api/Dockerfile -t typographics-api .`.

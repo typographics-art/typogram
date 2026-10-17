@@ -16,6 +16,7 @@ import { randomUUID, randomBytes, createHash, timingSafeEqual } from 'node:crypt
 import { join } from 'node:path';
 import { TXID, evaluatePayment, fetchTransaction } from './dgb.mjs';
 import { numberFrom } from './config.mjs';
+import { createLimiter, clientAddress } from './limit.mjs';
 import { openStore } from './store.mjs';
 import { runJob } from './pipeline.mjs';
 
@@ -38,6 +39,9 @@ try {
     jobTimeoutMs: numberFrom(env, 'JOB_TIMEOUT_MINUTES', 20, { min: 1 }) * 60000,
     keepDays: numberFrom(env, 'KEEP_RESULTS_DAYS', 7, { min: 1 }),
     checksPerMinute: numberFrom(env, 'PAYMENT_CHECKS_PER_MINUTE', 30, { min: 1, integer: true }),
+    globalChecksPerMinute: numberFrom(env, 'PAYMENT_CHECKS_PER_MINUTE_ALL', 300, { min: 1, integer: true }),
+    trustProxy: env.TRUST_PROXY === '1',
+    maxCharacters: numberFrom(env, 'MAX_CHARACTERS', 700000, { min: 1000, integer: true }),
     dgb: { url: need('DGB_RPC_URL'), user: env.DGB_RPC_USER, password: env.DGB_RPC_PASS },
     llm: { url: need('LLM_URL'), apiKey: env.LLM_API_KEY, model: env.LLM_MODEL || undefined },
     image: { url: need('IMAGE_URL'), model: env.IMAGE_MODEL || 'Qwen/Qwen-Image-2.1' },
@@ -65,21 +69,14 @@ const readBody = (req) => new Promise((resolve, reject) => {
   req.on('error', reject);
   req.on('close', () => { if (!req.complete) reject(Object.assign(new Error('upload aborted'), { status: 400 })); });
 });
-// Payment checks cost a call to the node: a small per-client limit, in memory. Behind a proxy the client address
-// comes from its header; a spoofed header only avoids this limit, it never skips the payment check.
-const checks = new Map();
-const tooManyChecks = (req) => {
-  const who = String(req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
-  const now = Date.now(), recent = (checks.get(who) || []).filter((t) => now - t < 60000);
-  recent.push(now); checks.set(who, recent);
-  if (checks.size > 5000) for (const [k, v] of checks) if (!v.some((t) => now - t < 60000)) checks.delete(k);
-  return recent.length > CFG.checksPerMinute;
-};
+// Payment checks cost a call to the node: a limit per client and one for everybody (api/limit.mjs).
+const limiter = createLimiter({ perClient: CFG.checksPerMinute, global: CFG.globalChecksPerMinute });
+const tooManyChecks = (req) => limiter.tooMany(clientAddress(req, CFG));
 const jobDir = (id) => join(CFG.dataDir, 'jobs', id);
 // The reason a job failed stays in the server log and the ledger; the client learns only what it can act on.
 const publicJob = (j) => ({
   job: j.id, status: j.status, title: j.title, created: j.created_at, finished: j.finished_at || undefined,
-  ...(j.status === 'failed' ? j.image_made ? { error: 'failed_after_the_picture_was_made', transaction_released: false } : { error: 'failed_before_the_picture_was_made', transaction_released: true, detail: 'Our side failed. Your transaction is released: send the same hash again.' } : {}),
+  ...(j.status === 'failed' ? String(j.error || '').startsWith('refused: ') ? { error: 'document_refused', transaction_released: true, detail: j.error.slice(9) } : j.image_made ? { error: 'failed_after_the_picture_was_made', transaction_released: false } : { error: 'failed_before_the_picture_was_made', transaction_released: true, detail: 'Our side failed. Your transaction is released: send the same hash again.' } : {}),
 });
 
 async function createJob(req, res, url) {
@@ -160,25 +157,23 @@ async function work() {
     for (let j = store.nextQueued(); j; j = store.nextQueued()) {
       store.setJob(j.id, { status: 'running' });
       const pdf = join(jobDir(j.id), 'onepage.pdf');
-      let imageMade = false, timer;
+      let imageMade = false, timer, session = null;
       try {
-        const run = runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), onImage: () => { imageMade = true; store.setJob(j.id, { image_made: 1 }); } }, CFG);
-        const timeout = new Promise((_, reject) => { timer = setTimeout(() => reject(Object.assign(new Error(`job exceeded ${CFG.jobTimeoutMs / 60000} minutes`), { timedOut: true })), CFG.jobTimeoutMs); });
+        const run = runJob({ inputFile: j.input, title: j.title, pdfOut: pdf, previewOut: join(jobDir(j.id), 'preview.jpg'), onImage: () => { imageMade = true; store.setJob(j.id, { image_made: 1 }); }, onSession: (x) => { session = x; } }, CFG);
+        // On a timeout the browser is shut down, which also ends whatever the job was waiting for; the service goes on.
+        const timeout = new Promise((_, reject) => { timer = setTimeout(() => { session?.close().catch(() => {}); reject(new Error(`job exceeded ${CFG.jobTimeoutMs / 60000} minutes`)); }, CFG.jobTimeoutMs); });
         const r = await Promise.race([run, timeout]);
         store.setJob(j.id, { status: 'done', result: pdf, finished_at: new Date().toISOString() });
         store.burn(j.txid, { job: j.id, prompt: r.prompt, characters: r.characters, pdfBytes: r.pdfBytes, imageModel: CFG.image.model });
         console.log(`[job ${j.id}] done: ${r.characters} characters, ${r.pdfBytes} bytes`);
       } catch (e) {
-        const reason = String(e.message || e).slice(0, 300);
+        const reason = (e.refused ? 'refused: ' : '') + String(e.message || e).slice(0, 300);
         store.setJob(j.id, { status: 'failed', error: reason, finished_at: new Date().toISOString() });
         // Released only if the failure came before the picture was made (our outage); once the image model has
         // worked for this payment, it is spent even if the layout failed.
         if (imageMade) store.burn(j.txid, { job: j.id, failedAfterImage: reason });
         else store.release(j.txid, reason);
         console.error(`[job ${j.id}] failed (${imageMade ? 'after the image, transaction burned' : 'transaction released'}): ${reason}`);
-        // A timed-out job may still hold Chrome and the image request. The process ends so its supervisor
-        // (Docker, systemd, Kubernetes) restarts it clean; recover() settles whatever was running.
-        if (e.timedOut) { console.error('[queue] timeout: exiting so that the supervisor restarts the service'); process.exit(1); }
       } finally {
         clearTimeout(timer);
         rmSync(j.input, { force: true });

@@ -1,5 +1,5 @@
 // One paid job: document text → image prompt (our LLM) → picture (our image model) → one-pager with that
-// picture as its motif. Everything runs on our own models inside the cluster.
+// picture as its motif. Everything runs on the operator's own models.
 import { openSession } from '../cli/core.mjs';
 import { readDocument, makeOnePage } from '../cli/onepage-core.mjs';
 
@@ -46,14 +46,17 @@ export async function generateImage(prompt, { url, model, size = '1024x1152', ti
 }
 
 /** Runs a whole job; returns { pdfBytes, prompt, characters, check }. */
-export async function runJob({ inputFile, title, pdfOut, previewOut, onImage }, cfg) {
+export async function runJob({ inputFile, title, pdfOut, previewOut, onImage, onSession }, cfg) {
   const doc = readDocument(inputFile);
-  if (!doc.text.trim()) throw new Error('The document has no text layer');
+  // Refused before any model or browser work is spent on it: the payer's fault, so the transaction is released.
+  if (!doc.text.trim()) throw Object.assign(new Error('The document has no text layer.'), { refused: true });
+  if (cfg.maxCharacters && doc.text.length > cfg.maxCharacters) throw Object.assign(new Error(`The document has ${doc.text.length} characters; at most ${cfg.maxCharacters} are accepted.`), { refused: true });
   const name = title || 'Document';
   const prompt = await imagePrompt(name, doc.text, cfg.llm);
   const motif = await generateImage(prompt, cfg.image);
   onImage?.();
   const session = await openSession();
+  onSession?.(session);
   try {
     const subtitle = [doc.pages ? `${doc.pages} pages` : null, 'on one page'].filter(Boolean).join(' ');
     const r = await makeOnePage(session, { text: doc.text, title: name, subtitle, motif, options: { color: 'photo' }, pdf: pdfOut, preview: previewOut });
