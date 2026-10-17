@@ -35,7 +35,7 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 
 - **PDFs** are read with MuPDF exactly as stored, including page numbers, footnotes and words hyphenated at line ends. The one-pager reproduces the original's text layer, not a cleaned-up copy.
 - **Text files** (Markdown, reStructuredText) are taken as they are.
-- Whitespace is normalised to single spaces, as in all Typographic Art.
+- Whitespace is normalised to single spaces, as in all Typographics Art.
 
 ## Licences of the sources
 
@@ -47,10 +47,10 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 | eu-ai-act | Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union |
 | un-human-rights | United Nations text, freely reproducible |
 | pep-8 | Public domain (stated in the document) |
-| code-review-agent | MIT, Typographic Art contributors |
-| support-assistant | MIT, Typographic Art contributors |
-| research-assistant | MIT, Typographic Art contributors |
-| agents-md | MIT, Typographic Art contributors |
+| code-review-agent | MIT, Typographics Art contributors |
+| support-assistant | MIT, Typographics Art contributors |
+| research-assistant | MIT, Typographics Art contributors |
+| agents-md | MIT, Typographics Art contributors |
 
 ## Why AI instructions?
 

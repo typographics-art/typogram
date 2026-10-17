@@ -1,12 +1,12 @@
-# Typographic Art: definition
+# Typographics Art: definition
 
-**Typographic Art** (short **TG Art**) is the technique of forming a picture from a given text by setting that text character for character, in its original order, and varying only the typographic properties of each character.
+**Typographics Art** (short **TG Art**) is the technique of forming a picture from a given text by setting that text character for character, in its original order, and varying only the typographic properties of each character.
 
-It is the counterpart of ASCII art. ASCII art chooses *which character* fills each cell of a grid. Typographic Art keeps the characters the text dictates and chooses *how each one is set*.
+It is the counterpart of ASCII art. ASCII art chooses *which character* fills each cell of a grid. Typographics Art keeps the characters the text dictates and chooses *how each one is set*.
 
 ## Rules
 
-A work is Typographic Art when it follows all three rules.
+A work is Typographics Art when it follows all three rules.
 
 ### 1. Fidelity
 
@@ -40,6 +40,6 @@ The technique does not require every character to be legible to the eye at viewi
 
 ## Naming
 
-- Technique: *Typographic Art*, short *TG Art*.
-- A work: *a typographic artwork*, *a TG Art piece*.
-- German: *Typographic Art*, short *TG-Art*.
+- Technique: *Typographics Art*, short *TG Art*.
+- A work: *a Typographics Art work*, *a TG Art piece*.
+- German: *Typographics Art*, short *TG-Art*.

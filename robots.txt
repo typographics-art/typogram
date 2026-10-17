@@ -1,4 +1,4 @@
-# Typographic Art: everything here is meant to be read, by people and by machines.
+# Typographics Art: everything here is meant to be read, by people and by machines.
 User-agent: *
 Allow: /
 

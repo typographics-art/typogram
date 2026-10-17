@@ -5,7 +5,7 @@
   <img src="gallery/article-1.jpg" width="24%" alt="Article 1: ein Globus aus der Allgemeinen Erklärung der Menschenrechte gesetzt">
 </p>
 
-<h1 align="center"><img src="assets/logo.png" width="560" alt="Typographic Art"></h1>
+<h1 align="center"><img src="assets/logo.png" width="560" alt="Typographics Art"></h1>
 
 <p align="center">
   <b>ASCII-Art für das Zeitalter der KI.</b><br>
@@ -26,9 +26,9 @@
 
 **ASCII-Art** baut ein Bild aus Zeichen, aber die Zeichen bedeuten nichts. Ein Mensch sieht ein Gesicht, eine Maschine sieht `@@%#*+=-:.`. Der Text ist weg.
 
-**Typographic Art** (TG-Art) baut ein Bild aus einem *echten Text*. Jedes Zeichen wird genau einmal und in seiner ursprünglichen Reihenfolge gesetzt. Nur die Typografie ändert sich: Grösse, Strichstärke, Breite und Farbe. Ein Mensch sieht das Bild. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader liest den Text, genau so, wie er geschrieben wurde.
+**Typographics Art** (TG-Art) baut ein Bild aus einem *echten Text*. Jedes Zeichen wird genau einmal und in seiner ursprünglichen Reihenfolge gesetzt. Nur die Typografie ändert sich: Grösse, Strichstärke, Breite und Farbe. Ein Mensch sieht das Bild. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader liest den Text, genau so, wie er geschrieben wurde.
 
-| | ASCII-Art | Typographic Art |
+| | ASCII-Art | Typographics Art |
 |---|---|---|
 | Was gewählt wird | das **Zeichen** für jede Zelle eines Rasters | die **Typografie** für jedes Zeichen eines Textes |
 | Der Text | verloren, ersetzt durch Schattierungszeichen | 1:1 erhalten, in Lesereihenfolge |
@@ -139,7 +139,7 @@ Braucht Node 22+ und Chrome oder Chromium und schreibt PDFs mit echter Textebene
 
 ## Häufige Fragen
 
-**Ist das ein Kalligramm?** Kalligramme (wie bei Apollinaire) ordnen Text entlang einer Form an, meist von Hand. Typographic Art behält einen normalen Lesesatz bei und erzeugt das Bild nur über die Typografie je Zeichen, berechnet aus einem beliebigen Foto.
+**Ist das ein Kalligramm?** Kalligramme (wie bei Apollinaire) ordnen Text entlang einer Form an, meist von Hand. Typographics Art behält einen normalen Lesesatz bei und erzeugt das Bild nur über die Typografie je Zeichen, berechnet aus einem beliebigen Foto.
 
 **Verletzt Lorem-ipsum-Fülltext die Treue-Regel?** Nein, solange er ausgewiesen ist. App und Befehlszeile melden genau, wie viele Zeichen Fülltext sind, und er steht immer hinter deinem Text.
 
@@ -147,10 +147,10 @@ Braucht Node 22+ und Chrome oder Chromium und schreibt PDFs mit echter Textebene
 
 ## Mitmachen
 
-Typographic Art soll eine gemeinsame Technik werden, so wie ASCII-Art. Ideen, Schriften, bessere Algorithmen, Übersetzungen, Messungen und Werke sind willkommen. Los geht es mit [CONTRIBUTING.md](CONTRIBUTING.md); Issues und Pull Requests auf Deutsch sind willkommen.
+Typographics Art soll eine gemeinsame Technik werden, so wie ASCII-Art. Ideen, Schriften, bessere Algorithmen, Übersetzungen, Messungen und Werke sind willkommen. Los geht es mit [CONTRIBUTING.md](CONTRIBUTING.md); Issues und Pull Requests auf Deutsch sind willkommen.
 
-Du schreibst über Typographic Art? Das [Pressekit](docs/press-kit.md) (Englisch) hat Texte, Fakten und Bilder.
+Du schreibst über Typographics Art? Das [Pressekit](docs/press-kit.md) (Englisch) hat Texte, Fakten und Bilder.
 
 ## Lizenz
 
-[MIT](LICENSE) © The Typographic Art contributors
+[MIT](LICENSE) © The Typographics Art contributors

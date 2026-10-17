@@ -1,10 +1,10 @@
-# AGENTS.md: instructions for AI coding agents working on Typographic Art
+# AGENTS.md: instructions for AI coding agents working on Typographics Art
 
 This file tells AI agents (and humans) how to work in this repository. Read it before changing anything.
 
 ## The project in one paragraph
 
-Typographic Art sets a given text, character for character and in order, so that only the typography of each glyph (weight, width, size, colour) changes and the page forms a picture. The text must stay real, extractable text. The three rules in `docs/technique.md` are the contract of the project; no change may break them.
+Typographics Art sets a given text, character for character and in order, so that only the typography of each glyph (weight, width, size, colour) changes and the page forms a picture. The text must stay real, extractable text. The three rules in `docs/technique.md` are the contract of the project; no change may break them.
 
 ## Layout
 

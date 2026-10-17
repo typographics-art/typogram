@@ -41,7 +41,7 @@ window.tgRender = async (text, src, opts, format) => {
   };
   if (format === 'svg') return { meta, data: toSvg(sheet) };
   if (format === 'html') {
-    return { meta, data: `<!doctype html>\n<html><head><meta charset="utf-8"><title>Typographic Art</title></head><body style="margin:0">\n${toStandaloneHtml(sheet)}\n</body></html>\n` };
+    return { meta, data: `<!doctype html>\n<html><head><meta charset="utf-8"><title>Typographics Art</title></head><body style="margin:0">\n${toStandaloneHtml(sheet)}\n</body></html>\n` };
   }
   if (format === 'png' || format === 'jpg') {
     return { meta, data: toPng(sheet, opts.scale || 1, format === 'jpg' ? 'image/jpeg' : 'image/png') };

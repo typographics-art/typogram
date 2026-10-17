@@ -1,4 +1,4 @@
-// The core of Typographic Art: set a fixed text, glyph by glyph and in order, choosing only
+// The core of Typographics Art: set a fixed text, glyph by glyph and in order, choosing only
 // typographic properties so the page's ink density follows a tone map. Pure and synchronous.
 //
 // Glyph metrics come from a `metric(ch)` function returning

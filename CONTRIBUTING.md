@@ -1,4 +1,4 @@
-# Contributing to Typographic Art
+# Contributing to Typographics Art
 
 Thanks for helping. Contributions of every size are welcome: a typo fix, a translation, a new font, a better algorithm, an artwork for the gallery.
 

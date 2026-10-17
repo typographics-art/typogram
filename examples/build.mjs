@@ -84,7 +84,7 @@ md += `## How the text is taken
 
 - **PDFs** are read with MuPDF exactly as stored, including page numbers, footnotes and words hyphenated at line ends. The one-pager reproduces the original's text layer, not a cleaned-up copy.
 - **Text files** (Markdown, reStructuredText) are taken as they are.
-- Whitespace is normalised to single spaces, as in all Typographic Art.
+- Whitespace is normalised to single spaces, as in all Typographics Art.
 
 ## Licences of the sources
 

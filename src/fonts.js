@@ -1,4 +1,4 @@
-// Variable fonts that Typographic Art can set with. Each needs a continuous weight axis:
+// Variable fonts that Typographics Art can set with. Each needs a continuous weight axis:
 // weight is the main tonal control. `variations` pins the optical size so that glyph
 // advances scale linearly with font size (measurements are taken at one reference size).
 

@@ -1,11 +1,11 @@
 # Press kit
 
-Everything you need to write about Typographic Art. Texts on this page may be quoted freely.
+Everything you need to write about Typographics Art. Texts on this page may be quoted freely.
 
 ## Name
 
-- **Typographic Art**, short **TG Art**. Website: [typographics-art.org](https://typographics-art.org).
-- Please write it with two capitals: *Typographic Art*. Lowercase is fine for the general technique ("a piece of typographic art").
+- **Typographics Art**, short **TG Art**. Website: [typographics-art.org](https://typographics-art.org).
+- Please write it with two capitals: *Typographics Art*. Lowercase is fine for the general technique ("a piece of typographics art").
 
 ## Tagline
 
@@ -13,17 +13,17 @@ Everything you need to write about Typographic Art. Texts on this page may be qu
 
 ## One sentence
 
-Typographic Art turns any text into a picture of any photo by changing only the size, weight, width and colour of each letter, so people see the image while machines still read every word.
+Typographics Art turns any text into a picture of any photo by changing only the size, weight, width and colour of each letter, so people see the image while machines still read every word.
 
 ## Short description (about 60 words)
 
-ASCII art makes pictures out of characters, but the characters mean nothing. Typographic Art keeps a real text, character for character and in order, and changes only its typography until it looks like a photo. People see the picture. Language models, search engines and screen readers read the original text. The tool runs in the browser and is open source under the MIT licence.
+ASCII art makes pictures out of characters, but the characters mean nothing. Typographics Art keeps a real text, character for character and in order, and changes only its typography until it looks like a photo. People see the picture. Language models, search engines and screen readers read the original text. The tool runs in the browser and is open source under the MIT licence.
 
 ## Long description (about 150 words)
 
-For fifty years, ASCII art has turned characters into pictures, at the cost of meaning: the characters are only shading, and the text is gone. Typographic Art turns that around. It starts from a real text (a poem, a biography, a manifesto) and a photo. Every character stays where the text puts it. Only its typography changes: a variable font gives each letter a weight between hairline and black, a width between condensed and expanded, a size and a colour. An error-diffusion algorithm chooses these per letter so that, seen from a distance, the page becomes the photo.
+For fifty years, ASCII art has turned characters into pictures, at the cost of meaning: the characters are only shading, and the text is gone. Typographics Art turns that around. It starts from a real text (a poem, a biography, a manifesto) and a photo. Every character stays where the text puts it. Only its typography changes: a variable font gives each letter a weight between hairline and black, a width between condensed and expanded, a size and a colour. An error-diffusion algorithm chooses these per letter so that, seen from a distance, the page becomes the photo.
 
-Because the letters are never replaced, the work is also a document. Exported as HTML, SVG or PDF, the text comes back exactly; a language model reading the file gets the poem, not `@@%#*+=`. Typographic Art is free, runs in the browser and is open source.
+Because the letters are never replaced, the work is also a document. Exported as HTML, SVG or PDF, the text comes back exactly; a language model reading the file gets the poem, not `@@%#*+=`. Typographics Art is free, runs in the browser and is open source.
 
 ## Facts
 
@@ -60,11 +60,11 @@ The complete text of *Moby-Dick* (1.2 million characters) set as one 2 × 3 m po
 | [`gallery/*.svg`](../gallery) | the same works as real text |
 | [`demo/moby-dick/preview.jpg`](../demo/moby-dick/preview.jpg) | the Moby-Dick poster |
 
-Credit: *Typographic Art, typographics-art.org*. The gallery works are generated from public-domain texts and procedural motifs and may be reproduced.
+Credit: *Typographics Art, typographics-art.org*. The gallery works are generated from public-domain texts and procedural motifs and may be reproduced.
 
 ## Contact
 
-d0n, creator of Typographic Art: **d0n@typographics-art.org**
+d0n, creator of Typographics Art: **d0n@typographics-art.org**
 
 ## Links
 

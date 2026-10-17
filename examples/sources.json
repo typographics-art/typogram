@@ -65,7 +65,7 @@
     "subtitle": "Operating instructions for an AI agent",
     "document": "Code review agent: operating instructions (written for this repository)",
     "local": "instructions/code-review-agent.md",
-    "licence": "MIT, Typographic Art contributors",
+    "licence": "MIT, Typographics Art contributors",
     "category": "ai-instructions"
   },
   {
@@ -74,7 +74,7 @@
     "subtitle": "Policy for a customer support assistant",
     "document": "Customer support assistant: policy (fictional shop, written for this repository)",
     "local": "instructions/support-assistant.md",
-    "licence": "MIT, Typographic Art contributors",
+    "licence": "MIT, Typographics Art contributors",
     "category": "ai-instructions"
   },
   {
@@ -83,16 +83,16 @@
     "subtitle": "Rules for sources and claims",
     "document": "Research assistant: rules for sources and claims (written for this repository)",
     "local": "instructions/research-assistant.md",
-    "licence": "MIT, Typographic Art contributors",
+    "licence": "MIT, Typographics Art contributors",
     "category": "ai-instructions"
   },
   {
     "id": "agents-md",
     "title": "AGENTS.md",
-    "subtitle": "How AI agents work on Typographic Art",
+    "subtitle": "How AI agents work on Typographics Art",
     "document": "AGENTS.md of this repository",
     "local": "../AGENTS.md",
-    "licence": "MIT, Typographic Art contributors",
+    "licence": "MIT, Typographics Art contributors",
     "category": "ai-instructions"
   }
 ]

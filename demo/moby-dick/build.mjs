@@ -233,7 +233,7 @@ function lcsWords(a, b) {
 
 function proofMarkdown(p) {
   const pct = (x) => `${(x * 100).toFixed(1)} %`;
-  return `# Proof: Moby-Dick as Typographic Art
+  return `# Proof: Moby-Dick as Typographics Art
 
 Generated ${p.generated.slice(0, 10)} by \`node demo/moby-dick/build.mjs\`. Every number here is computed by that script.
 

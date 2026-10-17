@@ -17,5 +17,5 @@ body:
     attributes:
       label: Technique
       options:
-        - label: The idea keeps the three rules of Typographic Art (docs/technique.md)
+        - label: The idea keeps the three rules of Typographics Art (docs/technique.md)
           required: true

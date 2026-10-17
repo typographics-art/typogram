@@ -1,6 +1,6 @@
 # AI readability: method and results
 
-Typographic Art claims that its works stay readable for machines. This page shows how that was measured, so anyone can repeat it and improve the numbers.
+Typographics Art claims that its works stay readable for machines. This page shows how that was measured, so anyone can repeat it and improve the numbers.
 
 Measured on 2026-10-17 with the reference implementation (v0.1.0), Chromium headless, Tesseract 5.5.3 (`eng`), Poppler `pdftotext` 26.08.
 

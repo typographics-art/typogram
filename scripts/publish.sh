@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Publication of Typographic Art on GitHub, in two stages.
+# Publication of Typographics Art on GitHub, in two stages.
 #
 #   scripts/publish.sh --dry-run        # show every step
 #   scripts/publish.sh                  # create the repository PRIVATE and push
@@ -13,8 +13,8 @@ set -euo pipefail
 OWNER=typ0graphic5
 REPO=tg-art
 REMOTE="git@github-tg-art:$OWNER/$REPO.git"
-DESCRIPTION="Typographic Art: ASCII art for the age of AI. A text set character for character so that it forms a picture - people see the picture, machines read the text."
-TOPICS=(typographic-art ascii-art text-art typography variable-fonts generative-art ai-readable accessibility)
+DESCRIPTION="Typographics Art: ASCII art for the age of AI. A text set character for character so that it forms a picture - people see the picture, machines read the text."
+TOPICS=(typographics-art ascii-art text-art typography variable-fonts generative-art ai-readable accessibility)
 
 MODE=private DRY=0
 case "${1:-}" in

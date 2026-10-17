@@ -1,4 +1,4 @@
-# Proof: Moby-Dick as Typographic Art
+# Proof: Moby-Dick as Typographics Art
 
 Generated 2026-10-17 by `node demo/moby-dick/build.mjs`. Every number here is computed by that script.
 

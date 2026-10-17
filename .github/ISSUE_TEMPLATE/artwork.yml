@@ -1,5 +1,5 @@
 name: Share an artwork
-description: Submit a typographic artwork for the gallery
+description: Submit a Typographics Art work for the gallery
 labels: [gallery]
 body:
   - type: input

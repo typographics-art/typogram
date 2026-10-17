@@ -1,6 +1,6 @@
-# Typographic Art
+# Typographics Art
 
-> Typographic Art (TG Art) is ASCII art for the age of AI. A given text is set character for character, in its original order, and only the typography of each character changes (weight, width, size, colour), so that the page forms a picture of a photo. People see the picture; machines read the complete original text from the HTML, SVG or PDF. Free and open source (MIT).
+> Typographics Art (TG Art) is ASCII art for the age of AI. A given text is set character for character, in its original order, and only the typography of each character changes (weight, width, size, colour), so that the page forms a picture of a photo. People see the picture; machines read the complete original text from the HTML, SVG or PDF. Free and open source (MIT).
 
 The three rules of the technique: (1) the text is never changed, reordered or shortened; declared filler is allowed; (2) the work stays text and extracting it yields the source; (3) only typography varies, no shapes or images besides the glyphs.
 
@@ -8,7 +8,7 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 
 ## Pages
 
-- [Home](https://typographics-art.org/): what Typographic Art is, measured results, showcases
+- [Home](https://typographics-art.org/): what Typographics Art is, measured results, showcases
 - [Web app](https://typographics-art.org/app): make your own in the browser; text and image never leave the device
 - [Moby-Dick demonstrator](https://typographics-art.org/demo/moby-dick/): the complete novel (1.2 million characters) on one 2 × 3 m poster, with a generated proof report
 - [One-pagers](https://typographics-art.org/examples): whole documents (Swiss Federal Constitution, German Basic Law, US Constitution, EU AI Act, UDHR, PEP 8, AI agent instructions) on one page each, verified by reading them back

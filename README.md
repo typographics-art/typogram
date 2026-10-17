@@ -5,7 +5,7 @@
   <img src="gallery/article-1.jpg" width="24%" alt="Article 1: a globe set from the Universal Declaration of Human Rights">
 </p>
 
-<h1 align="center"><img src="assets/logo.png" width="560" alt="Typographic Art"></h1>
+<h1 align="center"><img src="assets/logo.png" width="560" alt="Typographics Art"></h1>
 
 <p align="center">
   <b>ASCII art for the age of AI.</b><br>
@@ -26,9 +26,9 @@
 
 **ASCII art** builds a picture out of characters, but the characters mean nothing. A person sees a face; a machine sees `@@%#*+=-:.`. The text is gone.
 
-**Typographic Art** (TG Art) builds a picture out of a *real text*. Every character of the text is set once, in its original order. Only its typography changes: size, weight, width and colour. A person sees the picture. A language model, a search engine or a screen reader reads the text, exactly as it was written.
+**Typographics Art** (TG Art) builds a picture out of a *real text*. Every character of the text is set once, in its original order. Only its typography changes: size, weight, width and colour. A person sees the picture. A language model, a search engine or a screen reader reads the text, exactly as it was written.
 
-| | ASCII art | Typographic Art |
+| | ASCII art | Typographics Art |
 |---|---|---|
 | What is chosen | the **character** for each cell of a grid | the **typography** for each character of a text |
 | The text | lost, replaced by shading characters | kept 1:1, in reading order |
@@ -181,7 +181,7 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 ## FAQ
 
-**Is this a calligram?** Calligrams (like Apollinaire's) arrange text along a shape, usually by hand. Typographic Art keeps a normal reading layout and creates the picture purely through per-glyph typography, computed from any photo.
+**Is this a calligram?** Calligrams (like Apollinaire's) arrange text along a shape, usually by hand. Typographics Art keeps a normal reading layout and creates the picture purely through per-glyph typography, computed from any photo.
 
 **Does Lorem ipsum filler break the fidelity rule?** No, as long as it is declared. The app and the CLI report exactly how many characters are filler, and the filler always comes after your text.
 
@@ -191,7 +191,7 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 ## Contributing
 
-Typographic Art is meant to become a shared technique, like ASCII art. Ideas, fonts, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); please follow the [code of conduct](CODE_OF_CONDUCT.md).
+Typographics Art is meant to become a shared technique, like ASCII art. Ideas, fonts, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); please follow the [code of conduct](CODE_OF_CONDUCT.md).
 
 ```sh
 npm test          # node --test, no dependencies
@@ -199,8 +199,8 @@ npm run dev       # app at http://localhost:8080
 npm run gallery   # re-render the gallery (needs Chrome/Chromium)
 ```
 
-Writing about Typographic Art? The [press kit](docs/press-kit.md) has texts, facts and images.
+Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, facts and images.
 
 ## Licence
 
-[MIT](LICENSE) © The Typographic Art contributors
+[MIT](LICENSE) © The Typographics Art contributors
