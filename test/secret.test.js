@@ -49,3 +49,10 @@ test('work text: SVG, HTML and pdf.js items give the work\'s public text', async
   const item = (str, y, hasEOL = false) => ({ str, hasEOL, transform: [10, 0, 0, 10, 0, y] });
   assert.equal(canonicalText(pdfItemsText([[item('public interest', 100), item('unless', 88)], [item('end', 50, true)]])), 'public interest unless end');
 });
+
+test('secret: a letter the work does not contain is named, with the chars as the UI quotes them', async () => {
+  // Real report: "…sexy" in a German text without a "y". The UI shows e.missing; it must list exactly that letter.
+  const german = 'Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind. '.repeat(3);
+  await assert.rejects(hideSecret(german, 'hallo du bist sexy'), (e) => e.missing.length === 1 && e.missing[0] === 'y');
+  assert.equal(await revealSecret(german, await hideSecret(german, 'hallo du bist super')), 'hallo du bist super');
+});

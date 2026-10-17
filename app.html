@@ -76,6 +76,8 @@ button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-vis
 .presets button{font-size:13px;padding:7px 6px;display:flex;flex-direction:column;gap:1px;line-height:1.2}
 .presets button small{font-weight:400;color:var(--muted);font-size:11.5px}
 .hint{font-size:12.5px;color:var(--muted);margin:0}
+.hint.bad{color:var(--warn);font-weight:600;font-size:13.5px;border-left:3px solid var(--warn);padding:2px 0 2px 10px}
+.hint.good{color:var(--ok);font-weight:600}
 form.simple [data-adv]{display:none}
 .modebar{display:flex;align-items:center;gap:8px;margin-bottom:2px}
 .modebar .seg{flex:1}
@@ -308,9 +310,9 @@ footer a{color:inherit}
         <label class="lbl" for="secretIn" data-i18n="secret.in">Message to hide</label>
         <textarea id="secretIn" rows="2"></textarea>
         <div class="row2"><button type="button" id="secretHide" data-i18n="secret.hide">Create key</button><button type="button" id="secretReveal" data-i18n="secret.reveal">Read message from key</button></div>
+        <p class="hint" id="secretMsg" role="status" aria-live="polite"></p>
         <label class="lbl" for="secretKey" data-i18n="secret.key">Key</label>
         <textarea id="secretKey" rows="3" spellcheck="false"></textarea>
-        <p class="hint" id="secretMsg" role="status"></p>
       </details>
       <details>
         <summary data-i18n="export.summary">Use the result</summary>
@@ -406,7 +408,7 @@ const MSG = {
     chars: '{n} characters', faithful: 'Text 1:1 preserved · {n} characters', notFaithful: 'Text differs from the source', filler: 'of which Lorem ipsum <b>{n}</b>',
     cutsN: '{n} weights', cuts1: '1 weight', cutsAll: 'all weights',
     secretMade: 'Key created. It only works with this exact work: download or copy the work too.', secretRead: 'Message read from the key.',
-    secretMissing: 'These characters do not occur in the text: {c}. Rephrase, or use a longer text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
+    secretMissing: 'Cannot hide this yet: the text has no "{c}". Use other words, or add a word with it to the text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} fonts', pdfTitle: 'Estimate for a PDF printed from Chrome ({fonts} fonts, {runs} style runs), measured within 3 %. The command-line tool makes the file 20–40 % smaller (measured).',
     lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
     tooShort: 'Your text is already as long as the target. Raise the target.', filled: '{n} characters of Lorem ipsum appended.', noFill: 'No filler found that could be removed.',
@@ -418,7 +420,7 @@ const MSG = {
     chars: '{n} Zeichen', faithful: 'Text 1:1 erhalten · {n} Zeichen', notFaithful: 'Text weicht vom Original ab', filler: 'davon Lorem ipsum <b>{n}</b>',
     cutsN: '{n} Stärken', cuts1: '1 Stärke', cutsAll: 'alle Stärken',
     secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Werk ebenfalls laden oder kopieren.', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
-    secretMissing: 'Diese Zeichen kommen im Text nicht vor: {c}. Anders formulieren oder einen längeren Text nehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
+    secretMissing: 'So noch nicht möglich: Im Text kommt kein „{c}“ vor. Andere Wörter wählen oder ein Wort mit diesem Buchstaben in den Text aufnehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
     lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
     tooShort: 'Dein Text ist schon so lang wie das Ziel. Stell das Ziel höher.', filled: '{n} Zeichen Lorem ipsum angehängt.', noFill: 'Keine Füllung gefunden, die sich entfernen lässt.',
@@ -735,17 +737,18 @@ $('#makePng').addEventListener('click', () => {
 
 $('#printPdf').addEventListener('click', () => sheet && window.print());
 // Hidden message: a book cipher over the work's public text (src/secret.js). The work itself is not changed.
+const say = (msg, kind) => { const m = $('#secretMsg'); m.textContent = msg; m.className = 'hint ' + kind; };
 $('#secretHide').addEventListener('click', async () => {
   try {
     $('#secretKey').value = await hideSecret($('#aiText').textContent, $('#secretIn').value);
-    $('#secretMsg').textContent = t('secretMade');
-  } catch (e) { $('#secretMsg').textContent = e.missing ? t('secretMissing', { c: e.missing.join(' ') }) : e.message; }
+    say(t('secretMade'), 'good');
+  } catch (e) { $('#secretKey').value = ''; say(e.missing ? t('secretMissing', { c: e.missing.join('“, „') }) : e.message, 'bad'); }
 });
 $('#secretReveal').addEventListener('click', async () => {
   try {
     $('#secretIn').value = await revealSecret($('#aiText').textContent, $('#secretKey').value);
-    $('#secretMsg').textContent = t('secretRead');
-  } catch (e) { $('#secretMsg').textContent = e.wrongText ? t('secretWrong') : e.message; }
+    say(t('secretRead'), 'good');
+  } catch (e) { say(e.wrongText ? t('secretWrong') : e.message, 'bad'); }
 });
 $('#aiToggle').addEventListener('click', () => {
   const open = $('#aiPanel').hidden;
