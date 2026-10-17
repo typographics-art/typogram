@@ -17,6 +17,8 @@
   <a href="https://typographics-art.org/gallery.html">Gallery</a> ·
   <a href="docs/technique.md">Definition</a> ·
   <a href="docs/ai-readability.md">AI readability</a> ·
+  <a href="docs/text-fidelity.md">Text fidelity</a> ·
+  <a href="docs/prior-art.md">Prior art</a> ·
   <a href="README.de.md">Deutsch</a>
 </p>
 
