@@ -105,7 +105,7 @@ node cli/tg-secret.mjs hide   work.pdf --secret "Meet at the harbour, 6 pm."   #
 node cli/tg-secret.mjs reveal work.pdf --key tg1.…                             # prints the message
 ```
 
-Works for PDF (read with MuPDF), SVG, HTML and text; the web generator has the same under *Hidden message*. Keep the key like a password: with key and work, anyone can read the message. Characters that do not occur in the public text cannot be hidden; the tool names them.
+Works for PDF (read with MuPDF), SVG, HTML and text; the web generator has the same under *Hidden message*. Details: [docs/hidden-messages.md](docs/hidden-messages.md). Keep the key like a password: with key and work, anyone can read the message. Characters that do not occur in the public text cannot be hidden; the tool names them.
 
 ## The three rules
 

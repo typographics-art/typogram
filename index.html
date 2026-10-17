@@ -240,7 +240,7 @@ footer a{color:inherit}
     <p class="kicker" data-i18n="how.kicker">How it works</p>
     <h2 data-i18n="how.h">Four steps from text and photo to an artwork that is also a document.</h2>
     <div class="steps">
-      <div class="step"><h3 data-i18n="s1.h">Measure</h3><p data-i18n="s1.p">Every character is measured in ten weights and up to three widths of a variable font: how wide it is, how much ink it covers.</p></div>
+      <div class="step"><h3 data-i18n="s1.h">Measure</h3><p data-i18n="s1.p">Every character is measured in ten weights of one variable font, Roboto Flex: how wide it is, how much ink it covers.</p></div>
       <div class="step"><h3 data-i18n="s2.h">Map</h3><p data-i18n="s2.p">The photo becomes an ink demand per area: dark areas want heavy letters, light areas thin ones.</p></div>
       <div class="step"><h3 data-i18n="s3.h">Set</h3><p data-i18n="s3.p">Line by line, each letter gets the weight, width and size that match its area. The leftover error is passed on, so tones average out.</p></div>
       <div class="step"><h3 data-i18n="s4.h">Verify</h3><p data-i18n="s4.p">The finished artwork is read back like a machine would and compared with the source. Only then is it done.</p></div>
@@ -315,6 +315,21 @@ footer a{color:inherit}
       <a href="gallery/douglass.svg"><img src="gallery/douglass.jpg" alt="Learning to Read" loading="lazy"></a>
     </div>
     <p style="margin-top:22px"><a href="gallery" data-i18n="g.all">Open the gallery →</a></p>
+  </div>
+</section>
+
+<section class="band" id="secret">
+  <div class="wrap">
+    <p class="kicker" data-i18n="sec.kicker">Hidden messages</p>
+    <h2 data-i18n="sec.h">A message only the key holder can read. The work stays exactly as it is.</h2>
+    <p class="lead" data-i18n="sec.lead">Write a secret, pick a work, and get a key. The work keeps only its public text, nothing invisible is added. The key records where the letters of your secret stand in that text, chosen at random. With the key and the right work, the secret comes back.</p>
+    <div class="steps">
+      <div class="step"><h3 data-i18n="sec1.h">Write</h3><p data-i18n="sec1.p">Type the message to hide, in the generator or on the command line.</p></div>
+      <div class="step"><h3 data-i18n="sec2.h">Key</h3><p data-i18n="sec2.p">For every character, one random occurrence in the public text is chosen. Two keys for the same message look completely different.</p></div>
+      <div class="step"><h3 data-i18n="sec3.h">Share</h3><p data-i18n="sec3.p">The work goes public, the key goes only to the person who should read the message. Keep it like a password.</p></div>
+      <div class="step"><h3 data-i18n="sec4.h">Read</h3><p data-i18n="sec4.p">Key plus work gives the message back. With any other work the key's fingerprint does not match.</p></div>
+    </div>
+    <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="app" data-i18n="sec.try">Try it in the generator</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/hidden-messages.md" data-i18n="sec.docs">How it works</a></p>
   </div>
 </section>
 
@@ -395,7 +410,14 @@ const DE = {
   'c.chosen': 'Was gewählt wird', 'c.chosen.a': 'ein Zeichen je Zelle', 'c.chosen.t': 'die Typografie jedes Zeichens', 'c.text': 'Der Text', 'c.text.a': 'verloren', 'c.text.t': '1:1 erhalten, in Lesereihenfolge',
   'c.machine': 'Eine Maschine liest', 'c.machine.t': 'den Originaltext', 'c.format': 'Formate', 'c.format.a': 'reiner Text',
   'how.kicker': 'So geht es', 'how.h': 'Vier Schritte von Text und Foto zu einem Kunstwerk, das zugleich ein Dokument ist.',
-  's1.h': 'Vermessen', 's1.p': 'Jedes Zeichen wird in zehn Stärken und bis zu drei Breiten einer variablen Schrift vermessen: wie breit es ist, wie viel Tinte es deckt.',
+  'sec.kicker': 'Versteckte Nachrichten', 'sec.h': 'Eine Nachricht, die nur lesen kann, wer den Schlüssel hat. Das Werk bleibt, wie es ist.',
+  'sec.lead': 'Schreib ein Geheimnis, wähl ein Werk und erhalte einen Schlüssel. Das Werk behält nur seinen öffentlichen Text, nichts Unsichtbares kommt dazu. Der Schlüssel merkt sich, wo die Buchstaben deines Geheimnisses in diesem Text stehen, zufällig gewählt. Mit Schlüssel und dem richtigen Werk kommt das Geheimnis zurück.',
+  'sec1.h': 'Schreiben', 'sec1.p': 'Gib die zu versteckende Nachricht ein, im Generator oder auf der Kommandozeile.',
+  'sec2.h': 'Schlüssel', 'sec2.p': 'Für jedes Zeichen wird ein zufälliges Vorkommen im öffentlichen Text gewählt. Zwei Schlüssel für dieselbe Nachricht sehen völlig verschieden aus.',
+  'sec3.h': 'Teilen', 'sec3.p': 'Das Werk wird öffentlich, der Schlüssel geht nur an die Person, die die Nachricht lesen soll. Bewahre ihn wie ein Passwort auf.',
+  'sec4.h': 'Lesen', 'sec4.p': 'Schlüssel und Werk ergeben die Nachricht. Bei jedem anderen Werk passt der Fingerabdruck des Schlüssels nicht.',
+  'sec.try': 'Im Generator ausprobieren', 'sec.docs': 'So funktioniert es',
+  's1.h': 'Vermessen', 's1.p': 'Jedes Zeichen wird in zehn Stärken einer variablen Schrift vermessen, Roboto Flex: wie breit es ist, wie viel Tinte es deckt.',
   's2.h': 'Abbilden', 's2.p': 'Das Foto wird zum Tintenbedarf je Fläche: Dunkle Stellen wollen kräftige Buchstaben, helle dünne.',
   's3.h': 'Setzen', 's3.p': 'Zeile für Zeile bekommt jeder Buchstabe die Stärke, Breite und Grösse, die zu seiner Fläche passen. Der Restfehler wird weitergegeben, damit die Töne stimmen.',
   's4.h': 'Prüfen', 's4.p': 'Das fertige Werk wird zurückgelesen wie von einer Maschine und mit der Quelle verglichen. Erst dann ist es fertig.',

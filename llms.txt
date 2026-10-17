@@ -12,13 +12,17 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 - [Web app](https://typographics-art.org/app): make your own in the browser; text and image never leave the device
 - [Moby-Dick demonstrator](https://typographics-art.org/demo/moby-dick/): the complete novel (1.2 million characters) on one 2 × 3 m poster, with a generated proof report
 - [One-pagers](https://typographics-art.org/examples): whole documents (Swiss Federal Constitution, German Basic Law, US Constitution, EU AI Act, UDHR, PEP 8, AI agent instructions) on one page each, verified by reading them back
-- [Gallery](https://typographics-art.org/gallery): works from public-domain texts
+- [Gallery](https://typographics-art.org/gallery): 15 works from public-domain photos and paintings, each set from a matching public-domain text, switchable to the original
+- [Everything in one file](https://typographics-art.org/llms-full.txt): README and documents, for AI assistants
+- [Paid one-pager API](https://api.typographics-art.org/): send a document and a DigiByte transaction hash (no API key), get a one-pager with a picture from our own image model
 
 ## Documentation
 
 - [Definition of the technique](https://github.com/typ0graphic5/tg-art/blob/main/docs/technique.md)
 - [How the algorithm works](https://github.com/typ0graphic5/tg-art/blob/main/docs/algorithm.md)
 - [AI readability: method and measurements](https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-readability.md)
+- [Hidden messages](https://github.com/typ0graphic5/tg-art/blob/main/docs/hidden-messages.md): a key (book cipher over the public text) reveals a secret; the work itself is not changed
+- [File size, measured](https://github.com/typ0graphic5/tg-art/blob/main/docs/file-size.md)
 - [Moby-Dick proof report](https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md)
 - [Press kit](https://github.com/typ0graphic5/tg-art/blob/main/docs/press-kit.md)
 - [Source code](https://github.com/typ0graphic5/tg-art), [AGENTS.md](https://github.com/typ0graphic5/tg-art/blob/main/AGENTS.md) for AI coding agents

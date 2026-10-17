@@ -19,6 +19,7 @@ const PARTS = [
   ['docs/algorithm.md', 'How the setting works'],
   ['docs/ai-readability.md', 'Machine readability, measured'],
   ['docs/file-size.md', 'File size, measured'],
+  ['docs/hidden-messages.md', 'Hidden messages'],
   ['examples/README.md', 'One-pager examples'],
 ];
 
