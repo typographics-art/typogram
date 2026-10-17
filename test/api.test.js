@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { evaluatePayment, TXID } from '../api/dgb.mjs';
 
-const ADDRESS = 'DMYWvZ9r7cNa5xAWVvHxQ7SdHNbU9HMciU';
+const ADDRESS = 'DT6eHuhe5Bvh2yKnVvt6EFLjURK7vad1CC';
 const RULES = { address: ADDRESS, minDgb: 10, minConfirmations: 2 };
 const tx = (outs, confirmations) => ({ confirmations, vout: outs.map(([address, value]) => ({ value, scriptPubKey: { address } })) });
 

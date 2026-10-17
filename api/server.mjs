@@ -22,7 +22,7 @@ const env = process.env;
 const CFG = {
   port: Number(env.PORT || 8080),
   dataDir: env.DATA_DIR || '/data',
-  address: env.RECEIVE_ADDRESS || 'DMYWvZ9r7cNa5xAWVvHxQ7SdHNbU9HMciU',
+  address: env.RECEIVE_ADDRESS || 'DT6eHuhe5Bvh2yKnVvt6EFLjURK7vad1CC',
   minDgb: Number(env.MIN_DGB || 10),
   minConfirmations: Number(env.MIN_CONFIRMATIONS || 2),
   maxBytes: Number(env.MAX_UPLOAD_MB || 20) * 1048576,

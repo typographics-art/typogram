@@ -9,7 +9,7 @@ Base URL: `https://api.typographics-art.org`
 Send at least **10 DGB** to
 
 ```
-DMYWvZ9r7cNa5xAWVvHxQ7SdHNbU9HMciU
+DT6eHuhe5Bvh2yKnVvt6EFLjURK7vad1CC
 ```
 
 and wait for **2 confirmations** (about 30 seconds). `GET /` returns the current address, price and confirmations.
