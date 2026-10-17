@@ -16,12 +16,12 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 
 ## Documentation
 
-- [Definition of the technique](https://github.com/typographic-art/tg-art/blob/main/docs/technique.md)
-- [How the algorithm works](https://github.com/typographic-art/tg-art/blob/main/docs/algorithm.md)
-- [AI readability: method and measurements](https://github.com/typographic-art/tg-art/blob/main/docs/ai-readability.md)
-- [Moby-Dick proof report](https://github.com/typographic-art/tg-art/blob/main/demo/moby-dick/proof.md)
-- [Press kit](https://github.com/typographic-art/tg-art/blob/main/docs/press-kit.md)
-- [Source code](https://github.com/typographic-art/tg-art), [AGENTS.md](https://github.com/typographic-art/tg-art/blob/main/AGENTS.md) for AI coding agents
+- [Definition of the technique](https://github.com/typ0graphic5/tg-art/blob/main/docs/technique.md)
+- [How the algorithm works](https://github.com/typ0graphic5/tg-art/blob/main/docs/algorithm.md)
+- [AI readability: method and measurements](https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-readability.md)
+- [Moby-Dick proof report](https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md)
+- [Press kit](https://github.com/typ0graphic5/tg-art/blob/main/docs/press-kit.md)
+- [Source code](https://github.com/typ0graphic5/tg-art), [AGENTS.md](https://github.com/typ0graphic5/tg-art/blob/main/AGENTS.md) for AI coding agents
 
 ## Contact
 

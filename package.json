@@ -36,10 +36,10 @@
   "homepage": "https://typographics-art.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/typographic-art/tg-art.git"
+    "url": "git+https://github.com/typ0graphic5/tg-art.git"
   },
   "bugs": {
-    "url": "https://github.com/typographic-art/tg-art/issues"
+    "url": "https://github.com/typ0graphic5/tg-art/issues"
   },
   "license": "MIT",
   "bin": {

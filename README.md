@@ -167,7 +167,7 @@ The output format follows the file extension: `.svg`, `.html`, `.pdf` (text stay
 | | | |
 |---|---|---|
 | [<img src="gallery/erlkoenig.jpg" width="260" alt="Erlkönig">](gallery/erlkoenig.svg)<br>**Erlkönig** · Goethe | [<img src="gallery/sonnet-18.jpg" width="260" alt="Sonnet 18">](gallery/sonnet-18.svg)<br>**Sonnet 18** · Shakespeare | [<img src="gallery/let-there-be-light.jpg" width="260" alt="Let there be light">](gallery/let-there-be-light.svg)<br>**Let there be light** · Genesis 1:1–3 |
-| [<img src="gallery/article-1.jpg" width="260" alt="Article 1">](gallery/article-1.svg)<br>**Article 1** · Universal Declaration of Human Rights | [<img src="gallery/waves.jpg" width="260" alt="Waves">](gallery/waves.svg)<br>**Waves** · Lorem ipsum | **Yours?**<br>[Submit an artwork](https://github.com/typographic-art/tg-art/issues/new?template=artwork.yml) |
+| [<img src="gallery/article-1.jpg" width="260" alt="Article 1">](gallery/article-1.svg)<br>**Article 1** · Universal Declaration of Human Rights | [<img src="gallery/waves.jpg" width="260" alt="Waves">](gallery/waves.svg)<br>**Waves** · Lorem ipsum | **Yours?**<br>[Submit an artwork](https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml) |
 
 Each preview links to the SVG, which is the work itself: open it and search the text. All works are reproducible from [`gallery/works.config.json`](gallery/works.config.json) with `npm run gallery`.
 
