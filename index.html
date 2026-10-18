@@ -288,13 +288,13 @@ footer a{color:inherit}
     <div class="duo">
       <div class="panel">
         <h3 data-i18n="duo.see">What a person sees</h3>
-        <img src="gallery/thumbs/douglass.jpg" width="560" height="737" alt="A portrait of Frederick Douglass, set from his own Narrative of 1845" loading="lazy">
+        <img src="gallery/thumbs/great-wave.jpg" width="560" height="385" alt="Hokusai's Great Wave off Kanagawa, set letter by letter from the opening of Herman Melville's Moby-Dick" loading="lazy">
       </div>
       <div class="panel">
         <h3 data-i18n="duo.read">What an AI reads</h3>
-        <pre id="readText">As to my own treatment while I lived on Colonel Lloyd’s plantation, it was very similar to that of the other slave children. I was not old enough to work in the field, and there being little else than field work to do, I had a great deal of leisure time. The most I had to do was to drive up the cows at evening, keep the fowls …</pre>
+        <pre id="readText">Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation …</pre>
         <p class="ascii" aria-label="What a machine would read from ASCII art">ASCII art: @@%%##**++==--::..@@%#*+=-:.</p>
-        <p style="margin:0;font-size:15px;color:var(--muted)" data-i18n="duo.note">Read straight from the artwork's SVG: Douglass's own words, every one in order.</p>
+        <p style="margin:0;font-size:15px;color:var(--muted)" data-i18n="duo.note">Read straight from the artwork's SVG: the opening of Melville's Moby-Dick, every word in reading order.</p>
       </div>
     </div>
     <div class="table-wrap">
@@ -334,11 +334,24 @@ footer a{color:inherit}
   <div class="wrap">
     <p class="kicker" data-i18n="pv.kicker">The headline use case</p>
     <h2 data-i18n="pv.h">Know where a text is from — and that it hasn't changed.</h2>
-    <p class="lead" data-i18n="pv.lead">A Typogram can be signed by its issuer — a domain you recognise. Anyone can verify the signature: it proves who published the text and that not one character has changed since. That is the piece missing in the world today, and it is shipping in this release.</p>
+    <p class="lead" data-i18n="pv.lead">AI agents now read text all day — repositories, policies, instructions, emails — and act on it. But a block of text carries no origin: an agent cannot tell your real AGENTS.md from one swapped in by a man-in-the-middle, your refund policy from a tampered copy, a genuine statement from a forged one. That gap is the opening for phishing, prompt injection and poisoned instructions.</p>
+    <p class="lead" data-i18n="pv.lead2">Typographics Art closes it with the piece missing in the world today: a readable, verifiable signature for AI-facing text. A Typogram can be signed by its issuer — a domain you recognise — and anyone, a person or an agent, can check who published it and that not one character has changed since. It is shipping in this release.</p>
     <div class="steps">
-      <div class="step"><h3 data-i18n="pv1.h">Sign</h3><p data-i18n="pv1.p">The issuer signs the work with a key tied to their domain. The signature travels inside the document, through HTML, SVG and PDF.</p></div>
-      <div class="step"><h3 data-i18n="pv2.h">Anchor</h3><p data-i18n="pv2.p">Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps — the anchors are pluggable and open, not tied to one chain.</p></div>
-      <div class="step"><h3 data-i18n="pv3.h">Verify</h3><p data-i18n="pv3.p">A reader or an agent checks the signature against the issuer's domain and the anchor: the text either matches what was published, character for character, or it does not.</p></div>
+      <div class="step"><h3 data-i18n="pv1.h">Sign</h3><p data-i18n="pv1.p">An issuer is a domain — say your-company.com — with an Ed25519 key. It signs the work's identity hash: the SHA-256 of its canonical text, so the signature is independent of fonts, rendering and file format. The signature, the issuer, a key id and a date are written into the work's data layer; the picture and the text are left untouched.</p></div>
+      <div class="step"><h3 data-i18n="pv2.h">Publish the key</h3><p data-i18n="pv2.p">The issuer's public key lives at https://your-company.com/.well-known/tgart-keys.json, as a self-contained signed key statement — the key signs its own statement. On rotation the previous key also signs the new one, so the chain stays provable even for a work found far from the domain.</p></div>
+      <div class="step"><h3 data-i18n="pv3.h">Anchor</h3><p data-i18n="pv3.p">The key is also anchored in a public transparency log, and optionally in Bitcoin via OpenTimestamps, so it cannot silently change or disappear. The anchors are pluggable and open, not tied to one chain.</p></div>
+      <div class="step"><h3 data-i18n="pv4.h">Verify</h3><p data-i18n="pv4.p">Anyone — a person or an agent — recomputes the hash from the work, fetches the issuer's public key from that .well-known URL, and checks the signature. The result is one of three: verified (from this issuer, not one character changed), unsigned, or tampered.</p></div>
+    </div>
+    <h3 style="margin-top:40px" data-i18n="pv.use.h">What it unlocks</h3>
+    <div class="duo">
+      <div class="panel">
+        <h3 data-i18n="pv.use1.h">Rules your coding agent can trust</h3>
+        <p style="margin:0;color:var(--muted)" data-i18n="pv.use1.p">A coding agent clones acme.dev's repository and reads its AGENTS.md as a signed Typogram. Before it follows a single rule, it recomputes the hash, fetches Acme's key from acme.dev/.well-known/tgart-keys.json and confirms the rules are really Acme's and unchanged — not injected by a poisoned mirror or a man-in-the-middle.</p>
+      </div>
+      <div class="panel">
+        <h3 data-i18n="pv.use2.h">A policy an AI support agent can act on</h3>
+        <p style="margin:0;color:var(--muted)" data-i18n="pv.use2.p">An AI support agent is about to approve a refund. First it verifies the refund policy is really from your-company.com, signed and character-for-character unchanged, before it quotes a single term — so a tampered clause can't talk it into the wrong decision.</p>
+      </div>
     </div>
     <div class="honest" role="note">
       <h3 data-i18n="pv.not.h">What it proves, and what it does not</h3>
