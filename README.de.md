@@ -38,7 +38,7 @@ Die README und die wichtigsten Dokumente in einer Datei: **[about/typographics-a
 | | ASCII-Art | Typographics Art |
 |---|---|---|
 | Was gewählt wird | das **Zeichen** für jede Zelle eines Rasters | die **Typografie** für jedes Zeichen eines Textes |
-| Der Text | verloren, ersetzt durch Schattierungszeichen | 1:1 erhalten, in Lesereihenfolge |
+| Der Text | verloren, ersetzt durch Schattierungszeichen | jedes Zeichen erhalten, in Lesereihenfolge (Leerraum zusammengefasst) |
 | Was eine Maschine liest | `@@%%##**++==--::..` | *„Wer reitet so spät durch Nacht und Wind? …“* |
 | Schriften | Festbreite, eine Grösse | ein Variable Font: Grösse, Strichstärke und Farbe je Zeichen (die Breite ist eine optionale Achse) |
 | Format | reiner Text | HTML, SVG, PDF mit Textebene |
@@ -53,7 +53,7 @@ of the other slave children. I was not old enough to work in the field, and ther
 else than field work to do, I had a great deal of leisure time. …
 ```
 
-Darum geht es: **Das Kunstwerk ist zugleich das Dokument.** Kein Alt-Text nötig, der Inhalt *ist* der Alt-Text.
+Darum geht es: **Das Kunstwerk ist zugleich das Dokument.** Der Text ist der Inhalt; was das Bild *zeigt*, bekommt trotzdem eine eigene kurze Beschreibung, die der Generator in die Datei schreibt (SVG-Titel, HTML-Figurbezeichnung).
 
 ## Lesbar für KI, gemessen
 
@@ -136,7 +136,7 @@ Eine interne Gegenprüfung des kryptografischen Codes durch einen KI-Agenten (Ok
 ## Die drei Regeln
 
 1. **Treue.** Der Text wird nie verändert, umgestellt oder gekürzt. Fülltext (etwa Lorem ipsum für ein feineres Bild) ist nur erlaubt, wenn er ausgewiesen ist.
-2. **Text bleibt Text.** Das Werk wird als echter Text veröffentlicht: HTML, SVG oder PDF mit Textebene. Herauskopiert ergibt es genau den Ausgangstext.
+2. **Text bleibt Text.** Das Werk wird als echter Text veröffentlicht: HTML, SVG oder PDF mit Textebene. Herauskopiert ergibt es den Ausgangstext, mit einem Leerzeichen an Stelle jedes Zeilenumbruchs und jeder Leerzeichenfolge.
 3. **Nur die Typografie variiert.** Keine Formen, Hintergründe oder Bilder ausser den Zeichen.
 
 Vollständige Definition: [docs/technique.md](docs/technique.md) (Englisch).
@@ -165,7 +165,7 @@ Details und Formeln: [docs/algorithm.md](docs/algorithm.md) (Englisch).
 
 ### Im Browser
 
-Auf **[typographics-art.org/app.html](https://typographics-art.org/app.html)** Text einfügen (oder einen von 28 Beispieltexten wählen), Foto hineinziehen. Vorlagen: *KI-sicher* (immer lesbar), *Porträt*, *Plakat*. Export als HTML, SVG, PNG oder Drucken als PDF.
+Auf **[typographics-art.org/app.html](https://typographics-art.org/app.html)** Text einfügen (oder einen von 28 Beispieltexten wählen), Foto hineinziehen. Vorlagen: *Hohe Lesbarkeit* (ganze Wörter, hell), *Porträt*, *Plakat*. Export als HTML, SVG, PNG oder Drucken als PDF.
 
 Dein Text und dein Foto werden in deinem Browser verarbeitet und nie hochgeladen; die Seite lädt keine Ressourcen von Dritten. Eine ehrliche Einschränkung: SVG- und HTML-Dateien, die der Generator exportiert, verweisen auf das Schrift-Stylesheet unter `https://typographics-art.org/assets/fonts/fonts.css`; wer so eine Datei öffnet, kontaktiert also typographics-art.org (nicht Google). PDFs betten ihre Schriften ein.
 
@@ -229,7 +229,7 @@ Jede Vorschau verlinkt auf das SVG, das das Werk selbst ist: öffnen und den Tex
 ## Wofür das gut ist
 
 - **Kunst, die sich selbst erklärt.** Ein Porträt aus der Biografie der Person, eine Stadt aus ihrer Geschichte. Jeder Leser, Mensch oder Maschine, bekommt beides.
-- **Barrierefreie Bilder.** Der Inhalt ist die Beschreibung: Screenreader lesen den Text vor.
+- **Barrierefreie Bilder.** Der Text ist echter Text, ein Screenreader liest ihn; was das Bild zeigt, hat eine eigene kurze Beschreibung. Gemessen am Zugänglichkeitsbaum von Chrome ([docs/technique.md](docs/technique.md), Regel 2), noch nicht mit NVDA, JAWS oder VoiceOver getestet.
 - **Auffindbare Kunst.** Suchmaschinen und KI-Crawler indexieren die Wörter, nicht nur einen Dateinamen.
 - **Herkunft.** Der Text in einem Werk kann eine Aussage, eine Lizenz oder eine Signatur tragen, die Kopieren übersteht.
 - **Plakate und Datensätze.** Gedichte, Manifeste, Liedtexte und Code als Bilder, die zitierbar bleiben.

@@ -38,7 +38,7 @@ The README and the main documents in one file: **[about/typographics-art.md](abo
 | | ASCII art | Typographics Art |
 |---|---|---|
 | What is chosen | the **character** for each cell of a grid | the **typography** for each character of a text |
-| The text | lost, replaced by shading characters | kept 1:1, in reading order |
+| The text | lost, replaced by shading characters | every character kept, in reading order (whitespace collapsed) |
 | What a machine reads | `@@%%##**++==--::..` | *"Wer reitet so spät durch Nacht und Wind? …"* |
 | Fonts | monospace, one size | a variable font: size, weight and colour per glyph (width is an optional axis) |
 | Format | plain text | HTML, SVG, PDF with a text layer |
@@ -53,7 +53,7 @@ of the other slave children. I was not old enough to work in the field, and ther
 else than field work to do, I had a great deal of leisure time. …
 ```
 
-That is the whole point: **the artwork is also the document.** No alt text needed; the content *is* the alt text.
+That is the whole point: **the artwork is also the document.** The text is the content; what the picture *shows* still gets a short description of its own, which the generator writes into the file (the SVG title, the HTML figure label).
 
 ## Readable for AI, measured
 
@@ -136,7 +136,7 @@ An internal adversarial review of the cryptographic code by an AI agent (October
 ## The three rules
 
 1. **Fidelity.** The text is never changed, reordered or shortened. Filler text (for example Lorem ipsum for a finer picture) is allowed only if it is declared.
-2. **Text stays text.** The work is published as real text: HTML, SVG, or PDF with a text layer. Extracting it yields exactly the source.
+2. **Text stays text.** The work is published as real text: HTML, SVG, or PDF with a text layer. Extracting it yields the source text, with one space in place of each line break and run of spaces.
 3. **Only typography varies.** No shapes, backgrounds or images besides the glyphs.
 
 Full definition: [docs/technique.md](docs/technique.md).
@@ -165,7 +165,7 @@ Details and formulas: [docs/algorithm.md](docs/algorithm.md).
 
 ### In the browser
 
-Go to **[typographics-art.org/app.html](https://typographics-art.org/app.html)**, paste a text (or pick one of 28 sample texts) and drop a photo. Presets: *AI-safe* (always legible), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF.
+Go to **[typographics-art.org/app.html](https://typographics-art.org/app.html)**, paste a text (or pick one of 28 sample texts) and drop a photo. Presets: *High legibility* (whole words, light paper), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF.
 
 Your text and photo are processed in your browser and never uploaded; the site loads no third-party resources. One honest detail: SVG and HTML files exported from the generator reference the font stylesheet at `https://typographics-art.org/assets/fonts/fonts.css`, so opening such a file contacts typographics-art.org (not Google). PDFs embed their fonts.
 
@@ -229,7 +229,7 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 ## Where this is useful
 
 - **Art that explains itself.** A portrait made of the sitter's biography, a city made of its history. Any reader, human or machine, gets both.
-- **Accessible images.** The content is the description: screen readers read the text, no separate alt text is needed.
+- **Accessible images.** The text is real text, so a screen reader reads it; what the picture shows has a short description of its own. Measured in Chrome’s accessibility tree ([docs/technique.md](docs/technique.md), rule 2), not yet tested with NVDA, JAWS or VoiceOver.
 - **Findable art.** Search engines and AI crawlers index the words, not just a file name.
 - **Provenance.** The text inside a work can carry a statement, a licence or a signature that survives copy and paste.
 - **Datasets and posters.** Poems, manifestos, lyrics and code as pictures that stay quotable.

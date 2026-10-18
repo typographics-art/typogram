@@ -84,12 +84,12 @@ export function estimatePdfBytes({ outlines, runs, glyphs }, { optimized = false
     : 555 * outlines + 7.2 * runs + 0.9 * glyphs + 14400;
 }
 
-/** Self-contained HTML snippet including the font link and the paper. */
-export function toStandaloneHtml(sheet) {
+/** Self-contained HTML snippet including the font link and the paper. `description` (what the picture shows) names the figure for assistive technology. */
+export function toStandaloneHtml(sheet, { description = '' } = {}) {
   const { outW, outH, pad, font, paper } = sheet;
   const q = (s) => s.replace(/'/g, '&quot;');
   return `<link rel="stylesheet" href="${fontStylesheetUrl()}">\n` +
-    `<div style="box-sizing:border-box;width:${outW}px;height:${outH}px;padding:${pad}px;overflow:hidden;` +
+    `<div${description ? ` role="figure" aria-label="${escapeXml(description)}"` : ''} style="box-sizing:border-box;width:${outW}px;height:${outH}px;padding:${pad}px;overflow:hidden;` +
     `background:${rgbCss(paper.paper)};color:${rgbCss(paper.ink)};font-family:${q(font.css)};font-variation-settings:${q(font.variations)};${q(GLYPH_CSS)}">` +
     toHtml(sheet) + '</div>';
 }
@@ -109,10 +109,11 @@ export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length
   }
 }
 
-/** Opening of an SVG document for the sheet (paper, font, the <text> element). */
-export function svgHead(sheet) {
+/** Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given). */
+export function svgHead(sheet, { description = '' } = {}) {
   const { outW, outH, font, paper } = sheet;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${outW}" height="${outH}" viewBox="0 0 ${outW} ${outH}">` +
+    (description ? `<title>${escapeXml(description)}</title>` : '') +
     `<style>@import url('${escapeXml(fontStylesheetUrl())}');</style>` +
     `<rect width="100%" height="100%" fill="${rgbCss(paper.paper)}"/>` +
     `<text xml:space="preserve" font-family="${escapeXml(font.css)}" style="font-variation-settings:${escapeXml(font.variations)};${escapeXml(GLYPH_CSS)}" fill="${rgbCss(paper.ink)}">`;
@@ -141,6 +142,7 @@ export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
   return out;
 }
 
-export function toSvg(sheet) {
-  return svgHead(sheet) + svgLines(sheet) + SVG_TAIL;
+/** `description` (what the picture shows) becomes the SVG's <title>, its accessible name. */
+export function toSvg(sheet, o = {}) {
+  return svgHead(sheet, o) + svgLines(sheet) + SVG_TAIL;
 }

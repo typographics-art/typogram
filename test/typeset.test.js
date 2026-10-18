@@ -70,6 +70,18 @@ test('a word longer than a line is broken between characters, nothing is lost', 
   assert.ok(isFaithful(sheet));
 });
 
+test('a short text is never broken inside an ordinary word: the size is reduced instead (a long token still breaks)', async () => {
+  const { ORDINARY_WORD } = await import('../src/layout.js');
+  const text = 'Our September orders, in plain words.';
+  const sheet = run({ width: 400 }, text, image(10, 13, () => [128, 128, 128]));
+  const lines = sheet.result.lines.map((ln) => ln.items.map((it) => it.ch).join(''));
+  assert.equal(normalizeText(lines.join(' ')), normalizeText(text), `a line boundary fell inside a word: ${JSON.stringify(lines)}`);
+  assert.ok(lines.length >= 2, 'the short text still spans several lines');
+  const token = 'x'.repeat(ORDINARY_WORD + 1);
+  const long = run({ width: 200 }, `${token} ${token}`);
+  assert.ok(isFaithful(long));
+});
+
 test('rejects empty text', () => {
   assert.throws(() => run({}, '   '), /empty/);
 });

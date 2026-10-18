@@ -14,13 +14,14 @@ A work is Typographics Art when it follows all three rules.
 - No character is replaced, inserted, reordered or dropped.
 - Whitespace may be normalised: runs of spaces, tabs and line breaks become a single space, and line breaks may fall at any space.
 - Whitespace is layout, not text: a work may leave areas blank and widen the gap at a space (or indent a line) so that glyphs stand only where the picture needs ink. Only an existing space may grow; no character, not even a space, is inserted, and the normalised text stays identical.
-- A word longer than a line may be broken between two characters. No hyphen is added.
+- An ordinary word (up to 24 characters) is never broken: when a text is so short that its largest size would not hold a word on one line, the type size is reduced instead. A longer token (a URL, a base64 string, the dot-joined lines of a data block) may be broken between two characters. No hyphen is added.
 - **Filler** (for example Lorem ipsum to reach a higher resolution) is allowed only when it is declared: it follows the source text, and the work states how many characters are filler.
 
 ### 2. Text stays text
 
 - The work is published in a format that keeps the characters as text: HTML, SVG, or a PDF with a text layer.
 - Extracting the text, by copy and paste, a screen reader or a program, yields the source text (rule 1 applies after whitespace normalisation).
+- **Screen readers, measured (2026-10-18):** in Chrome’s accessibility tree the generator’s set text (1,281 characters, character mode) is 1,132 text nodes, one per styled run and so nearly one per glyph; concatenated they equal the text, and no word is split across lines. A reader that moves object by object gets fragments; one that reads by line gets whole lines. The generator page therefore hides the set text from assistive technology (`aria-hidden`) and offers the plain text once beside it, and the picture carries its own short description (the SVG `<title>`, the HTML `role="figure"` label). Exported HTML and SVG keep the text once, in the set form, so that extractors see it once. Not yet listened to with NVDA, JAWS or VoiceOver.
 - A raster export (PNG, JPEG) is a reproduction of the work, not the work itself.
 
 ### 3. Only typography varies

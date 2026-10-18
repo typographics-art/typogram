@@ -27,6 +27,7 @@ for (const id of readdirSync(join(ROOT, 'examples'))) {
   if (existsSync(join(ROOT, 'examples', id, 'preview.jpg'))) jobs.push([`examples/${id}/preview.jpg`, `examples/${id}/thumb.jpg`, 560]);
 }
 jobs.push(['demo/moby-dick/preview.jpg', 'demo/moby-dick/thumb.jpg', 760]);
+jobs.push(['gallery/photos/douglass.jpg', 'assets/start/douglass.jpg', 560]); // the generator's start photo: assets/ is served wherever the generator is
 
 let made = 0, kept = 0, bytes = 0;
 for (const [from, to, width] of jobs) {

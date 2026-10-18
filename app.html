@@ -55,7 +55,7 @@ legend{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppe
 .lbl{font-size:12.5px;font-weight:600;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
 .lbl output{font-family:var(--f-mono);font-weight:400;font-variant-numeric:tabular-nums}
 textarea{width:100%;min-height:160px;resize:vertical;font:12.5px/1.45 var(--f-mono);color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:9px}
-select,input[type=range]{width:100%}
+select,input[type=range],input[type=text]{width:100%}
 select{font:inherit;font-size:14px;color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
 input[type=range]{accent-color:var(--accent)}
 .drop{display:flex;gap:12px;align-items:center;border:1.5px dashed var(--line);border-radius:8px;padding:9px;cursor:pointer}
@@ -173,7 +173,7 @@ footer a{color:inherit}
       <fieldset>
         <legend data-i18n="legend.presets">Style</legend>
         <div class="presets">
-          <button type="button" data-preset="ai"><span data-i18n="preset.ai">AI-safe</span><small data-i18n="preset.ai.sub">highly legible</small></button>
+          <button type="button" data-preset="ai"><span data-i18n="preset.ai">High legibility</span><small data-i18n="preset.ai.sub">whole words, light paper</small></button>
           <button type="button" data-preset="portrait"><span data-i18n="preset.portrait">Portrait</span><small data-i18n="preset.portrait.sub">fine, 4:5</small></button>
           <button type="button" data-preset="poster"><span data-i18n="preset.poster">Poster</span><small data-i18n="preset.poster.sub">dark, bold</small></button>
         </div>
@@ -198,7 +198,7 @@ footer a{color:inherit}
             <button type="button" id="fill" data-i18n="btn.fill">Fill</button>
             <button type="button" id="unfill" data-i18n="btn.unfill">Remove filler</button>
           </div>
-          <p class="hint" id="fillMsg" role="status" data-i18n="hint.fill">More characters make a finer picture. Your text stays first and unchanged.</p>
+          <p class="hint" id="fillMsg" role="status" data-i18n="hint.fill">More characters make a finer picture. Your text comes first; line breaks and runs of spaces become one space, nothing else changes.</p>
         </div>
       </fieldset>
 
@@ -206,9 +206,13 @@ footer a{color:inherit}
         <legend data-i18n="legend.photo">Photo</legend>
         <label class="drop" id="drop" for="photo">
           <img id="thumb" alt="">
-          <span><span id="photoName" data-i18n="drop.sample">Sample image: sphere</span><small data-i18n="drop.hint">Choose an image or drop it here</small></span>
+          <span><span id="photoName" data-i18n="drop.sample">Sample image: Frederick Douglass</span><small data-i18n="drop.hint">Choose an image or drop it here</small></span>
           <input type="file" id="photo" class="sr" accept="image/*">
         </label>
+        <div class="field">
+          <label class="lbl" for="describe"><span data-i18n="label.describe">What the picture shows</span> <small data-i18n="label.describe.sub">(for screen readers; becomes the title in SVG and HTML)</small></label>
+          <input type="text" id="describe" maxlength="200" autocomplete="off">
+        </div>
         <div class="field">
           <label class="lbl" for="aspect" data-i18n="label.format">Format</label>
           <select id="aspect">
@@ -311,8 +315,9 @@ footer a{color:inherit}
       </div>
       <div class="wrap" id="wrap">
         <div class="scaler" id="scaler">
-          <div class="sheet" id="sheet">
-            <div id="stage"></div>
+          <div class="sheet" id="sheet" role="figure">
+            <div id="stage" aria-hidden="true"></div>
+            <p class="sr" id="srText"></p>
             <img id="overlay" alt="">
           </div>
         </div>
@@ -420,7 +425,7 @@ footer a{color:inherit}
       <h2 data-i18n="about.rulesH">Three rules</h2>
       <ol>
         <li data-i18n="about.r1">The text is never changed, reordered or left out. Filler text is allowed only if it is declared.</li>
-        <li data-i18n="about.r2">Text stays text: the result can be copied, searched and read by machines, and yields exactly the source text.</li>
+        <li data-i18n="about.r2">Text stays text: the result can be copied, searched and read by machines, and yields the source text, with one space in place of each line break and run of spaces.</li>
         <li data-i18n="about.r3">Only typography varies. No shapes, backgrounds or images besides the letters.</li>
       </ol>
     </div>

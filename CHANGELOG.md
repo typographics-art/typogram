@@ -16,6 +16,12 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Changed
 
+- **Wording on text fidelity**: the generator, the website and the READMEs no longer say “1:1” or “exactly the source text”; they say what is kept (every character, in order) and what changes (line breaks and runs of spaces become one space), on the result itself.
+- **Preset** *AI-safe* is *High legibility* (whole words, light paper): the old name sounded like a guarantee across models, formats and import paths.
+- **Picture description**: the generator has a field “What the picture shows”; it becomes the SVG `<title>` and the HTML `role="figure"` label (`toSvg` and `toStandaloneHtml` take `{ description }`). The website no longer claims that no alt text is needed.
+- **Screen readers**: the set text on the generator page is hidden from assistive technology and offered once as plain text; what Chrome’s accessibility tree delivers was measured and is documented (docs/technique.md, rule 2).
+- **Short texts**: an ordinary word (up to 24 characters) is never broken between characters any more; the size search caps the line height so that the widest word fits a line (a 37-character sentence was set so large that “September” broke). Long tokens such as URLs and data blocks still break, as documented.
+- **Start pair**: the generator opens with a portrait formed from the sitter’s own life story (Frederick Douglass, 1879, set from his Narrative) instead of a drawn sphere and a poem.
 - **Vault**: the default vault (`tgv2.`) makes the seed the way back: its secret *is* the master key, so the seed alone recovers everything even without the vault file, and a passkey together with a passphrase opens it for everyday use. The earlier 2-of-3 vault stays as `tgv1.` with `mode: 'strict'` (`tg-crypt vault create --mode strict`), byte for byte unchanged. In both modes a vault that a passphrase alone could open is refused. `createVault` without a `mode` now builds the default vault and expects one `{ name, master }` factor.
 - **Generator** seals with a `tgx2.` key (the key no longer names the work); the work page and `tg-crypt open` accept `tgx1.` and `tgx2.`.
 - **CLI**: `tg-crypt vault create | open | inspect` (the passkey's secret from a file as hex, the passphrase from a file, standard input or the environment).

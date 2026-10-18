@@ -370,8 +370,31 @@ export function layoutAt(words, L, ctx, unbounded = false, settleLines = true) {
  * Largest line height at which the whole text fits the block; grows the block if even `minLine` is
  * too big. A narrower [minLine, maxLine] window speeds up refits when the answer is roughly known.
  */
+/**
+ * An ordinary word (up to this many graphemes) is never broken between characters: the type size is reduced instead
+ * (maxLineForWords). A longer token (a URL, a base64 string, the dot-joined lines of a structured-data block) is wider than any
+ * sensible line and may break (docs/technique.md, rule 1).
+ */
+export const ORDINARY_WORD = 24;
+/** The line height above which the widest ordinary word, at its widest candidate style, would be wider than the line (Infinity if there is none). */
+export function maxLineForWords(words, ctx) {
+  const { W, cands, metric, lineRatio } = ctx;
+  let widest = 0;
+  for (const w of words) {
+    if (w === ' ') continue;
+    const g = graphemes(w);
+    if (g.length > ORDINARY_WORD) continue;
+    let per = 0;
+    for (const ch of g) { const m = metric(ch); let a = 0; for (const c of cands) a = Math.max(a, m.adv[c.v] * c.s); per += a; }
+    if (per > widest) widest = per;
+  }
+  return widest > 0 ? (W * REF_SIZE) / (widest * lineRatio) : Infinity;
+}
+
 export function fit(words, ctx, minLine = 3, maxLine = ctx.H) {
   let a = minLine, b = Math.min(maxLine, ctx.H), best = null;
+  const cap = maxLineForWords(words, ctx); // a short text would otherwise be set so large that an ordinary word breaks mid-word
+  if (cap >= minLine && cap < b) b = cap;
   // The search skips re-choosing glyphs at their justified positions (settle in layoutAt), which costs
   // more than half the time and hardly changes where lines break; the final layout below does it.
   for (let i = 0; i < 26 && b - a >= 0.05; i++) {
