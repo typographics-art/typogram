@@ -41,11 +41,11 @@ test('canonical: normalisation collapses whitespace, strips invisibles, trims; h
   assert.equal(await sha256Hex(''), 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
 });
 
-test('tg verify: a good SVG and HTML pass, and share one hash', () => {
+test('tg verify: a good but unsigned SVG and HTML are consistent (UNSIGNED, exit 2), and share one hash', () => {
   for (const f of [svgFile, htmlFile]) {
     const r = run('verify', f);
-    assert.equal(r.status, 0, r.stderr);
-    assert.match(r.stdout, /OK/);
+    assert.equal(r.status, 2, r.stderr); // Phase H three-state: VERIFIED 0 / UNSIGNED 2 / TAMPERED 1
+    assert.match(r.stdout, /UNSIGNED/);
     assert.match(r.stdout, new RegExp(hash));
   }
 });

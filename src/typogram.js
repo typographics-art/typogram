@@ -94,6 +94,22 @@ export function readJsonld(text) {
   try { return JSON.parse(m[1]); } catch { return null; }
 }
 
+/**
+ * Replace the JSON-LD record in a Typogram's data layer with `jsonld` (used by `tg sign` to write the signature into the
+ * record). Only the record inside the trusted region is replaced — never anything in the attacker-controlled source — and the
+ * image layer and the exact source are untouched, so the identity hash is unchanged. Returns the new text, or null if there
+ * is no record to replace.
+ */
+export function withJsonld(text, jsonld) {
+  if (typeof text !== 'string') return null;
+  const region = jsonldRegion(text);
+  if (!region) return null;
+  const m = /<script type="application\/ld\+json">[\s\S]*?<\/script>/.exec(text.slice(region[0], region[1]));
+  if (!m) return null;
+  const at = region[0] + m.index;
+  return text.slice(0, at) + `<script type="application/ld+json">${jsonForScript(jsonld)}</script>` + text.slice(at + m[0].length);
+}
+
 /** Removes the data-layer <metadata> block (CDATA-safe), so the remaining text can be scanned for the image layer. */
 export function stripDataLayer(text) {
   if (typeof text !== 'string') return text;

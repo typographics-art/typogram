@@ -14,8 +14,8 @@ import { spawnSync } from 'node:child_process';
 import { extname, join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { markupText, canonicalText, sha256Hex, stripDataLayer, readDataMarkdown, readJsonld } from '../src/index.js';
-import { generateIssuerKey, signKeyStatement, verifyKeyStatement } from '../src/sign.js';
+import { markupText, canonicalText, sha256Hex, stripDataLayer, readDataMarkdown, readJsonld, withJsonld } from '../src/index.js';
+import { generateIssuerKey, signKeyStatement, verifyKeyStatement, signHash, verifyHash, SIG_SPEC } from '../src/sign.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -149,9 +149,35 @@ async function cmdVerify(file) {
   if (title && heading && canonicalText(title) !== canonicalText(heading))
     problems.push(`the visible title ${JSON.stringify(title)} is not the start of the data layer (first heading ${JSON.stringify(heading)})`);
 
-  if (problems.length) { console.error(`tg: FAIL — ${file}\n  - ${problems.join('\n  - ')}`); process.exit(1); }
-  console.log(`tg: OK — ${file}`);
-  console.log(`  image layer, embedded source and stored hash all carry one text (sha256 ${imgHash})`);
+  if (problems.length) { console.error(`tg: TAMPERED — ${file}\n  - ${problems.join('\n  - ')}`); process.exit(1); }
+
+  // Phase H signature state: VERIFIED / UNSIGNED / TAMPERED, exit 0 / 2 / 1. The text is consistent here (no problems above).
+  const tgart = (dl.jsonld && dl.jsonld.tgart) || {};
+  if (!tgart.signature) {
+    console.log(`tg: UNSIGNED — ${file}`);
+    console.log(`  image layer, embedded source and stored hash all carry one text (sha256 ${imgHash}) — consistent, but not signed`);
+    process.exit(2);
+  }
+  const { issuer, kid, created, signature } = tgart;
+  const kf = loadKeyfile(opt('keys'), issuer);
+  const stmt = kf && Array.isArray(kf.keys) ? kf.keys.find((k) => k && k.kid === kid) : null;
+  const sigProblems = [];
+  let pub = null;
+  if (!stmt) sigProblems.push(`no key for issuer ${JSON.stringify(String(issuer || ''))} (kid ${JSON.stringify(String(kid || ''))}) — give the issuer key file with --keys`);
+  else {
+    const kv = verifyKeyStatement(stmt);
+    if (!kv.ok) sigProblems.push('the issuer key statement did not verify (self-signature, predecessor or validity)');
+    else if (kv.issuer !== issuer) sigProblems.push(`the key file issuer ${JSON.stringify(String(kv.issuer))} does not match the signed issuer ${JSON.stringify(String(issuer))}`);
+    else pub = kv.publicKey;
+  }
+  if (pub && verifyHash({ hash: imgHash, issuer, kid, created, signature }, pub)) {
+    console.log(`tg: VERIFIED — ${file}`);
+    console.log(`  signed by ${issuer} (kid ${kid}, ${created}); the image layer, the embedded source and the signature all cover one text (sha256 ${imgHash})`);
+    process.exit(0);
+  }
+  if (!sigProblems.length) sigProblems.push('the signature does not match the text and this issuer key');
+  console.error(`tg: TAMPERED — ${file}\n  - ${sigProblems.join('\n  - ')}`);
+  process.exit(1);
 }
 
 // ---- extract ---------------------------------------------------------------------------------------------------------
@@ -235,6 +261,43 @@ function cmdKeygen() {
   }
 }
 
+/**
+ * The issuer key file for verification: `--keys` may be a key file itself, or a directory holding `<issuer>.json` or
+ * `.well-known/tgart-keys.json`. Without `--keys`, `keys/<issuer>.json` relative to the current directory. Returns the
+ * `{ issuer, keys: [...] }` object, or null.
+ */
+function loadKeyfile(keysArg, issuer) {
+  const tryfile = (p) => { try { const o = JSON.parse(readFileSync(p, 'utf8')); return o && Array.isArray(o.keys) ? o : null; } catch { return null; } };
+  if (keysArg) return tryfile(keysArg) || (issuer && (tryfile(join(keysArg, `${issuer}.json`)) || tryfile(join(keysArg, 'keys', `${issuer}.json`)))) || tryfile(join(keysArg, '.well-known', 'tgart-keys.json')) || null;
+  return issuer ? tryfile(join(process.cwd(), 'keys', `${issuer}.json`)) : null;
+}
+
+/**
+ * `tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]` — sign a Typogram's identity hash and
+ * write the signature into its data-layer record. SVG/HTML only. The image layer and the exact source are untouched, so the
+ * identity hash is unchanged; only the record gains spec/issuer/kid/created/signature/keys/verify.
+ */
+async function cmdSign(file) {
+  const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid');
+  if (!file || !keyFile || !issuer || !kid) die('usage: tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]');
+  const raw = readFileSync(file), kind = kindOf(file, raw);
+  if (kind === 'pdf') die('tg sign supports .svg and .html (a PDF carries its record in an attachment)');
+  const text = raw.toString('utf8');
+  const record = readJsonld(text);
+  if (!record || !record.tgart || typeof record.tgart.hash !== 'string') die(`${file} has no identity hash to sign — is it a Typogram made by this tool?`);
+  const imgHash = await sha256Hex(canonicalText(imageLayerText(kind, file, text)));
+  if (imgHash !== record.tgart.hash) die(`refusing to sign: image-layer hash ${imgHash} ≠ stored hash ${record.tgart.hash} — the file is inconsistent, verify it first`);
+  const created = new Date().toISOString().slice(0, 10);
+  const signature = signHash({ hash: record.tgart.hash, issuer, kid, created }, readFileSync(keyFile, 'utf8'));
+  record.tgart = { ...record.tgart, spec: SIG_SPEC, issuer, kid, created, signature, keys: `https://${issuer}/.well-known/tgart-keys.json`, verify: `https://${issuer}/v` };
+  const out = withJsonld(text, record);
+  if (!out) die('could not write the signature into the data layer');
+  const outFile = opt('out') || file;
+  writeFileSync(outFile, out);
+  console.log(`tg: signed ${file} as ${issuer} (kid ${kid})${outFile !== file ? ` -> ${outFile}` : ''}`);
+  console.log(`  sha256 ${record.tgart.hash}`);
+}
+
 // ---- argv ------------------------------------------------------------------------------------------------------------
 const argv = process.argv.slice(2);
 const cmd = argv.shift();
@@ -246,4 +309,14 @@ const mode = flags.has('--json') ? 'json' : flags.has('--text') ? 'text' : 'mark
 if (cmd === 'verify') { if (!file) die('usage: tg verify <file>'); await cmdVerify(file); }
 else if (cmd === 'extract') { if (!file) die('usage: tg extract <file> [--markdown|--json|--text] [--from-glyphs]'); await cmdExtract(file, mode, flags.has('--from-glyphs')); }
 else if (cmd === 'keygen') { cmdKeygen(); }
-else { console.error('usage: tg verify <file>  |  tg extract <file> [--markdown|--json|--text] [--from-glyphs]  |  tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]'); process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1); }
+else if (cmd === 'sign') { if (!file) die('usage: tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]'); await cmdSign(file); }
+else {
+  console.error([
+    'usage:',
+    '  tg verify <file> [--keys <dir|file>]        verify a Typogram: VERIFIED (0) / UNSIGNED (2) / TAMPERED (1)',
+    '  tg extract <file> [--markdown|--json|--text] [--from-glyphs]',
+    '  tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]',
+    '  tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]',
+  ].join('\n'));
+  process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1);
+}

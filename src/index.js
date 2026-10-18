@@ -23,7 +23,7 @@ export { structuredText, sha256Hex } from './structure.js';
 export { encode, decode, decodeAll, findBlocks, stripBlocks, verify, toFile, modelJson, TgdError } from './structured.js';
 export { sealData, openSealed, findSealedBlocks, describeRecord, parseRecord, CryptError } from './crypt.js';
 export { sealStream, StreamReader, DEFAULT_FRAME } from './stream.js';
-export { buildDataLayer, readDataMarkdown, readJsonld, stripDataLayer, buildJsonld, embedStream, readEmbeddedStream, TYPOGRAM_NS, TYPOGRAM_STREAM_NS } from './typogram.js';
+export { buildDataLayer, readDataMarkdown, readJsonld, withJsonld, stripDataLayer, buildJsonld, embedStream, readEmbeddedStream, TYPOGRAM_NS, TYPOGRAM_STREAM_NS } from './typogram.js';
 // NOTE: src/sign.js (Ed25519 issuer signatures, Phase H) is NOT re-exported here. It imports node:crypto and is CLI/server
 // only (private keys never reach the browser), while this public API is imported by the browser render page (cli/render.html).
 // The CLI imports sign.js directly; a browser-side verifier (the /v page) will use a Web-Crypto path, not this module.
