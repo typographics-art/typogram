@@ -173,7 +173,7 @@ salt   = SHA-256( "tgxm1/salt" || S )
 K      = HKDF-SHA-256( ikm = S || KDF(NFC(password), salt, parameters), salt = "tgxm1/hkdf", info = "tgxm1/key" )  -> 32 bytes
 ```
 
-`K` is then the secret of an ordinary key (`sealWithSecret`). The KDF is **Argon2id** by default (64 MiB, 3 passes, 1 lane: 0.9 s in Chromium, 1.8 s in Firefox, 0.13 s native; vendored, equal to native in a test) or PBKDF2-HMAC-SHA512 (600 000 iterations); the parameters sit in the half key with bounds (a hostile public value cannot make a reader allocate more than 256 MiB). Guessing the password alone does nothing; losing the half key alone does nothing; the wrong password gives a different `K` and the record refuses it.
+`K` is then the secret of an ordinary key (`sealWithSecret`). The KDF is **Argon2id** by default (64 MiB, 3 passes, 1 lane: 0.9 s in Chromium, 1.8 s in Firefox, 0.13 s native; vendored, equal to native in a test) or PBKDF2-HMAC-SHA512 (600 000 iterations); the parameters sit in the half key with bounds (a hostile public value cannot make a reader allocate more than 256 MiB, nor run more than 256 MiB × 4 passes, 128 MiB × 8 or 64 MiB × 10: `KDF_LIMITS.maxWorkKiBPasses`). Guessing the password alone does nothing; losing the half key alone does nothing; the wrong password gives a different `K` and the record refuses it.
 
 ## 6. Which key to give to whom
 

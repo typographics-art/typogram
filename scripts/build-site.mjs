@@ -32,7 +32,7 @@ for (const id of readdirSync(join(ROOT, 'examples'))) {
   if (!existsSync(join(ROOT, 'examples', id, 'onepage.pdf'))) continue;
   for (const f of ['onepage.pdf', 'preview.jpg', 'thumb.jpg', 'source.txt']) if (existsSync(join(ROOT, 'examples', id, f))) copy(`examples/${id}/${f}`);
 }
-for (const f of ['index.html', 'source.txt', 'proof.json', 'lines.json', 'preview.jpg', 'thumb.jpg']) copy(`demo/moby-dick/${f}`);
+for (const f of ['index.html', 'viewer.js', 'source.txt', 'proof.json', 'lines.json', 'preview.jpg', 'thumb.jpg']) copy(`demo/moby-dick/${f}`);
 if (!existsSync(join(ROOT, 'demo/moby-dick/out/zoom/moby-dick.dzi'))) throw new Error('Moby-Dick zoom tiles missing: run node demo/moby-dick/build.mjs zoom');
 copy('demo/moby-dick/out/zoom');
 

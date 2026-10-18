@@ -117,9 +117,11 @@ test('tripwire: the code that handles keys, records and decrypted data uses no H
     src.forEach((line, i) => { if (!line.trim().startsWith('//') && !line.trim().startsWith('*') && bad.test(line)) assert.fail(`src/${f}:${i + 1}: ${line.trim().slice(0, 100)}`); });
   }
 });
-test('tripwire: the generator page escapes the message of an error before it goes into markup (F9)', () => {
+test('tripwire: the generator page sets the message of an error as text, never as markup (F9)', () => {
+  const js = readFileSync(new URL('../assets/js/app.js', import.meta.url), 'utf8');
+  assert.match(js, /s\.textContent = e\.message \|\| String\(e\)/);
+  assert.doesNotMatch(js, /innerHTML = chip\([^)]*e\.message/);
   const html = readFileSync(new URL('../app.html', import.meta.url), 'utf8');
-  assert.match(html, /chip\(escapeXml\(e\.message \|\| String\(e\)\), 'warn'\)/);
-  assert.doesNotMatch(html, /chip\(e\.message/);
+  assert.doesNotMatch(html, /<script(?![^>]*\bsrc=)(?![^>]*type="application\/ld\+json")/, 'no inline script: the CSP allows none');
 });
 

@@ -28,7 +28,7 @@ for (const page of pages) {
     blocks++;
   }
 }
-const targets = ['src', 'cli', 'api', 'scripts', join(out, 'inline')].map((t) => (t.startsWith('/') ? t : join(root, t)));
+const targets = ['src', 'cli', 'api', 'scripts', 'assets/js', 'demo/moby-dick/viewer.js', join(out, 'inline')].map((t) => (t.startsWith('/') ? t : join(root, t)));
 const r = spawnSync(semgrep, ['scan', '--config', join(root, 'scripts', 'semgrep-js-security.yml'), '--json', '--metrics', 'off', '--disable-version-check', '--quiet', '--exclude', 'vendor', '--exclude', 'keys-wordlist-en.js', ...targets], { encoding: 'utf8', maxBuffer: 512 * 1024 * 1024, env: { ...process.env, SEMGREP_SEND_METRICS: 'off', EIO_BACKEND: process.env.EIO_BACKEND || 'posix' } });
 if (r.status !== 0 && r.status !== 1) { console.error(r.stderr.slice(0, 2000)); process.exit(2); }
 const j = JSON.parse(r.stdout);

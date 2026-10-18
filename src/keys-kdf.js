@@ -8,7 +8,10 @@
 import { argon2idAsync } from '../assets/vendor/noble-hashes/argon2.js';
 import { fail, utf8, concat, varint, readVarint } from './crypt-codec.js';
 
-export const KDF_LIMITS = { minIterations: 100_000, maxIterations: 5_000_000, minMemoryKiB: 8192, maxMemoryKiB: 262_144, maxPasses: 10, maxParallelism: 4 };
+// maxWorkKiBPasses bounds memory x passes (the time of Argon2id): 256 MiB x 4, 128 MiB x 8 or 64 MiB x 10 at most, so a hostile
+// public value (a vault, a half key) cannot make a reader run for longer than a few seconds: measured in Node with the vendored
+// code, 256 MiB x 4 = 6.5 s and 312 MB, 128 MiB x 8 = 6.6 s, 64 MiB x 10 = 3.8 s (a browser is about as fast, a phone slower).
+export const KDF_LIMITS = { minIterations: 100_000, maxIterations: 5_000_000, minMemoryKiB: 8192, maxMemoryKiB: 262_144, maxPasses: 10, maxParallelism: 4, maxWorkKiBPasses: 1_048_576 };
 export const DEFAULT_PARAMS = Object.freeze({ kdf: 'argon2id', memoryKiB: 65_536, passes: 3, parallelism: 1 });
 export const PBKDF2_PARAMS = Object.freeze({ kdf: 'pbkdf2-sha512', iterations: 600_000 });
 
@@ -23,6 +26,7 @@ export function checkParams(p = DEFAULT_PARAMS) {
     if (!Number.isInteger(memoryKiB) || memoryKiB < KDF_LIMITS.minMemoryKiB || memoryKiB > KDF_LIMITS.maxMemoryKiB) throw fail('bad-option', `memoryKiB is ${KDF_LIMITS.minMemoryKiB} to ${KDF_LIMITS.maxMemoryKiB}`);
     if (!Number.isInteger(passes) || passes < 1 || passes > KDF_LIMITS.maxPasses) throw fail('bad-option', `passes is 1 to ${KDF_LIMITS.maxPasses}`);
     if (!Number.isInteger(parallelism) || parallelism < 1 || parallelism > KDF_LIMITS.maxParallelism) throw fail('bad-option', `parallelism is 1 to ${KDF_LIMITS.maxParallelism}`);
+    if (memoryKiB * passes > KDF_LIMITS.maxWorkKiBPasses) throw fail('bad-option', `memoryKiB times passes is at most ${KDF_LIMITS.maxWorkKiBPasses} (256 MiB x 4, 128 MiB x 8, 64 MiB x 10)`);
     return { kdf: 'argon2id', memoryKiB, passes, parallelism };
   }
   throw fail('bad-option', 'kdf is "argon2id" or "pbkdf2-sha512"');

@@ -486,7 +486,7 @@ All limits are options; these are the defaults.
 | **Prototype pollution** | JSON objects are read into `Map`, XML attributes with `defineProperty`; no object is merged | key `__proto__` |
 | **Checksum is not a signature** | stated above (§2.4); a work whose data must be authentic needs a signature outside the block | – |
 | **Untrusted file names** | `name` loses directory parts and control characters; the CLI writes only where `-o` says | – |
-| **Resource use in the browser** | the interface reads in a worker and shows the `limit` message before layout (UI doc §4) | – |
+| **Resource use in the browser** | the interface reads in a worker with tighter limits than the library (`BROWSER_LIMITS`: 1,000,000 cells, 2,000,000 dense cells, an archive part up to 64 MiB and 96 MiB in all), gives a read up after two minutes, stops the worker of a file that a newer file replaced, and shows the `limit` message before layout (UI doc §4) | `scripts/check-web-data.mjs` |
 
 ## 9. Design decisions that are not obvious
 

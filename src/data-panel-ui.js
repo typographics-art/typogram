@@ -14,19 +14,33 @@ import { h, errorBox, noteBox, showError, clearSlot, sheetViewer, outlineView, c
 const SAMPLE_FILES = { xlsx: 'samples/data/bakery-orders.xlsx', csv: 'samples/data/bakery-orders.csv' };
 const ENCODINGS = ['windows-1252', 'iso-8859-1', 'iso-8859-15', 'windows-1250', 'utf-16le'];
 
+/**
+ * What the browser reads at most (the library's defaults are for the command line): a work holds about 600,000 characters of
+ * data on one A4 page, so a million cells is already far beyond any work; a 16 MiB .xlsx can hold a million rows, which took
+ * 1.3 GB of memory to read in a test, and an archive part is bounded with it.
+ */
+export const BROWSER_LIMITS = Object.freeze({ maxCells: 1_000_000, maxDense: 2_000_000, zip: { maxEntryBytes: 64 * 1024 * 1024, maxTotalBytes: 96 * 1024 * 1024 } });
+/** A read that takes longer than this in the worker is given up (the text 'e.timeout' in data-panel.js names the two minutes). */
+const READ_TIME_LIMIT_MS = 120_000;
+let reading = null; // the worker of the file being read, so that a newer file stops it
+
 /** Reads a file in a module worker (the page stays responsive); falls back to the page itself where workers are unavailable. */
 function encodeOffThread(payload, opts) {
   const created = new Date();
+  if (reading) { reading.stop(new TgdError('cancelled', 'A newer file replaced this one')); reading = null; }
   return new Promise((resolve, reject) => {
     const direct = () => encode({ bytes: payload.bytes, name: payload.name, format: payload.format }, { ...opts, created }).then(resolve, reject);
     let worker;
     try { worker = new Worker(new URL('./data-worker.js', import.meta.url), { type: 'module' }); } catch { direct(); return; }
+    const done = () => { clearTimeout(timer); worker.terminate(); if (reading?.worker === worker) reading = null; };
+    const timer = setTimeout(() => { done(); reject(new TgdError('timeout', `Reading was given up after ${READ_TIME_LIMIT_MS / 1000} seconds`)); }, READ_TIME_LIMIT_MS);
+    reading = { worker, stop: (err) => { done(); reject(err); } };
     worker.onmessage = (e) => {
-      worker.terminate();
+      done();
       if (e.data.ok) resolve(e.data.result);
       else reject(new TgdError(e.data.error.code || 'unknown', e.data.error.message));
     };
-    worker.onerror = () => { worker.terminate(); direct(); };
+    worker.onerror = () => { done(); direct(); };
     worker.postMessage({ ...payload, opts: { ...opts, created: created.toISOString().replace(/\.\d+Z$/, 'Z') } });
   });
 }
@@ -80,7 +94,7 @@ export function mountDataPanel(ctx) {
     h('button', { type: 'button', class: 'primary', text: T(L(), 'e.readAgain'), onclick: () => { S.encoding ||= ENCODINGS[0]; reload(); } }));
 
   // ---- reading a file ----
-  const encodeOptions = () => ({ unicode: S.unicode, attach: S.attach, encoding: S.encoding, layout: 'rows' });
+  const encodeOptions = () => ({ unicode: S.unicode, attach: S.attach, encoding: S.encoding, layout: 'rows', limits: BROWSER_LIMITS });
   async function loadBytes(name, bytes, size = bytes.length) {
     const token = ++S.token;
     S.file = { name, bytes };

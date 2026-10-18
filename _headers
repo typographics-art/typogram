@@ -1,8 +1,11 @@
 # Cloudflare Workers static assets: headers for the website (copied to _site/ by scripts/build-site.mjs).
 # The Content-Security-Policy makes the claim "the site loads nothing from third parties" a rule the browser enforces:
-# scripts, styles, images, fonts and requests may only come from this site (inline script and style are used by the pages).
+# scripts, styles, images, fonts and requests may only come from this site. Scripts are files only (no inline script: an HTML
+# injection could not run code); inline style stays, the works set it. frame-ancestors 'self': the work page frames its own
+# PDFs, nobody else frames this site (X-Frame-Options says the same to older browsers).
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'
+  X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()

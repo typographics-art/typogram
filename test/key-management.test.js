@@ -54,7 +54,7 @@ test('vendored Argon2id: files match SHA256SUMS; the JavaScript result equals No
   }
 });
 test('kdf parameters: bounds are enforced (a public record cannot make a reader burn memory)', async () => {
-  for (const bad of [{ kdf: 'argon2id', memoryKiB: 2 ** 30, passes: 3, parallelism: 1 }, { kdf: 'argon2id', memoryKiB: 8192, passes: 0, parallelism: 1 }, { kdf: 'pbkdf2-sha512', iterations: 10 }, { kdf: 'md5' }, null, {}]) await rejects(async () => checkParams(bad), 'bad-option');
+  for (const bad of [{ kdf: 'argon2id', memoryKiB: 2 ** 30, passes: 3, parallelism: 1 }, { kdf: 'argon2id', memoryKiB: 8192, passes: 0, parallelism: 1 }, { kdf: 'argon2id', memoryKiB: 262_144, passes: 5, parallelism: 1 }, { kdf: 'argon2id', memoryKiB: 131_072, passes: 9, parallelism: 4 }, { kdf: 'pbkdf2-sha512', iterations: 10 }, { kdf: 'md5' }, null, {}]) await rejects(async () => checkParams(bad), 'bad-option');
   await rejects(() => stretch('', new Uint8Array(16), FAST), 'no-key');
   await rejects(() => stretch('x', new Uint8Array(4), FAST), 'bad-option');
 });
