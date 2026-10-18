@@ -58,18 +58,26 @@ rules:
       - pattern: 'crypto.createHash("sha1")'
       - pattern: 'crypto.subtle.digest("SHA-1", ...)'
       - pattern: 'crypto.subtle.digest({name: "SHA-1"}, ...)'
+  - id: tg-deprecated-cipher-api
+    languages: [javascript]
+    severity: ERROR
+    message: "createCipher / createDecipher derive the key without a salt and use no IV: deprecated and unsafe"
+    pattern-either:
+      - pattern: 'createCipher(...)'
+      - pattern: 'createDecipher(...)'
+      - pattern: '$C.createCipher(...)'
+      - pattern: '$C.createDecipher(...)'
   - id: tg-weak-cipher
     languages: [javascript]
     severity: ERROR
     message: "deprecated createCipher / ECB / CBC without authentication / RC4 / DES"
-    pattern-either:
-      - pattern: 'createCipher(...)'
-      - pattern: 'createDecipher(...)'
-      - pattern: 'createCipheriv("$A", ...)'
-      - pattern: 'createDecipheriv("$A", ...)'
-    metavariable-regex:
-      metavariable: $A
-      regex: '(?i).*(ecb|cbc|rc4|des|bf-).*'
+    patterns:
+      - pattern-either:
+          - pattern: 'createCipheriv($A, ...)'
+          - pattern: 'createDecipheriv($A, ...)'
+      - metavariable-regex:
+          metavariable: $A
+          regex: '(?i).*(ecb|cbc|rc4|des|bf-).*'
   - id: tg-webcrypto-weak-alg
     languages: [javascript]
     severity: WARNING
