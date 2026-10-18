@@ -84,18 +84,21 @@ export function b64urlDecode(s, maxChars = MAX_TEXT_CHARS) {
 // ---- base58 (Bitcoin alphabet: no 0 O I l, no punctuation, double-click selects it whole) -----------------------
 const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const B58_INDEX = new Map([...B58].map((c, i) => [c, i]));
-// Base 58^10 limbs keep the quadratic conversion fast for a few thousand bytes.
-const B58_LIMB = 58 ** 5; // 656 356 768, fits 2^30
+// The conversion is quadratic in the length (a key that carries a 32 KiB record is 44 800 characters). It works on limbs: 58^5 per
+// limb on the text side, 16 bits on the byte side, and takes two bytes (or five characters) per pass over the limbs; one byte or one
+// character per pass, as it did first, took 1.6 s for such a key in each direction. Every intermediate value stays below 2^53.
+const B58_LIMB = 58 ** 5; // 656 356 768
 export function b58Encode(bytes) {
   let zeros = 0;
   while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
-  // big number as little-endian limbs of base 58^5
-  const limbs = [];
-  for (let i = zeros; i < bytes.length; i++) {
-    let carry = bytes[i];
-    for (let j = 0; j < limbs.length; j++) { const v = limbs[j] * 256 + carry; limbs[j] = v % B58_LIMB; carry = Math.floor(v / B58_LIMB); }
+  const limbs = []; // the number after the leading zero bytes, little-endian limbs of base 58^5
+  const mulAdd = (mul, carry) => {
+    for (let j = 0; j < limbs.length; j++) { const v = limbs[j] * mul + carry; limbs[j] = v % B58_LIMB; carry = Math.floor(v / B58_LIMB); }
     while (carry) { limbs.push(carry % B58_LIMB); carry = Math.floor(carry / B58_LIMB); }
-  }
+  };
+  let i = zeros;
+  if ((bytes.length - i) % 2) { mulAdd(256, bytes[i]); i++; }
+  for (; i < bytes.length; i += 2) mulAdd(65536, bytes[i] * 256 + bytes[i + 1]);
   let digits = '';
   for (let j = 0; j < limbs.length; j++) {
     let v = limbs[j], part = '';
@@ -109,15 +112,25 @@ export function b58Decode(s, maxChars = 100_000) {
   if (s.length > maxChars) throw fail('damaged', 'The key is too long to be a key');
   let zeros = 0;
   while (zeros < s.length && s[zeros] === '1') zeros++;
-  const bytes = []; // little-endian base 256
-  for (let i = zeros; i < s.length; i++) {
-    const v = B58_INDEX.get(s[i]);
-    if (v === undefined) throw fail('damaged', 'Not base58');
-    let carry = v;
-    for (let j = 0; j < bytes.length; j++) { const x = bytes[j] * 58 + carry; bytes[j] = x & 255; carry = x >> 8; }
-    while (carry) { bytes.push(carry & 255); carry >>= 8; }
-  }
-  return Uint8Array.from([...new Array(zeros).fill(0), ...bytes.reverse()]);
+  const limbs = []; // little-endian limbs of base 65536
+  const mulAdd = (mul, carry) => {
+    for (let j = 0; j < limbs.length; j++) { const x = limbs[j] * mul + carry; limbs[j] = x % 65536; carry = Math.floor(x / 65536); }
+    while (carry) { limbs.push(carry % 65536); carry = Math.floor(carry / 65536); }
+  };
+  let i = zeros;
+  const take = (n) => {
+    let v = 0;
+    for (let k = 0; k < n; k++) { const d = B58_INDEX.get(s[i++]); if (d === undefined) throw fail('damaged', 'Not base58'); v = v * 58 + d; }
+    return v;
+  };
+  const head = (s.length - zeros) % 5;
+  if (head) mulAdd(58 ** head, take(head));
+  while (i < s.length) mulAdd(B58_LIMB, take(5));
+  const top = limbs.length ? limbs[limbs.length - 1] : 0, skip = top > 0 && top < 256 ? 1 : 0;
+  const out = new Uint8Array(zeros + limbs.length * 2 - skip);
+  let o = zeros;
+  for (let j = limbs.length - 1; j >= 0; j--) { if (!(skip && j === limbs.length - 1)) out[o++] = limbs[j] >> 8; out[o++] = limbs[j] & 255; }
+  return out;
 }
 
 // ---- variable-length integers (LEB128, as in tg1.) -------------------------------------------------------------

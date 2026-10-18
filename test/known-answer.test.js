@@ -231,6 +231,7 @@ test('base58: differential against an independent BigInt implementation on 4 000
     const len = Math.floor(rnd() * 70); const b = Uint8Array.from({ length: len }, () => (rnd() < 0.2 ? 0 : Math.floor(rnd() * 256)));
     assert.equal(b58Encode(b), ref(b)); assert.deepEqual(b58Decode(ref(b)), b);
   }
+  for (const len of [999, 1000, 4097, 8000]) { const b = Uint8Array.from({ length: len }, (_, i) => (i < 2 ? i : Math.floor(rnd() * 256))); assert.equal(b58Encode(b), ref(b), `length ${len}`); assert.deepEqual(b58Decode(ref(b)), b); }
   for (let len = 0; len <= 70; len++) for (const fill of [0, 1, 255]) { const b = new Uint8Array(len).fill(fill); assert.equal(b58Encode(b), ref(b)); assert.deepEqual(b58Decode(ref(b)), b); }
 });
 test('base64url: RFC 4648 section 10 vectors (padding dropped), the URL alphabet, and a strict decoder that refuses padding, the standard alphabet and non-canonical trailing bits', () => {
