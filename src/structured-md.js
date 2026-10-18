@@ -9,13 +9,57 @@
 import { TgdError } from './structured-json.js';
 import { textOf } from './structured-model.js';
 
-const FENCE = /^( {0,3})(`{3,}|~{3,})\s*([^`\s]*)[^`]*$/;
-const ATX = /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/;
-const HR = /^ {0,3}([-*_])(?:[ \t]*\1){2,}[ \t]*$/;
+const FENCE_START = /^( {0,3})(`{3,}|~{3,})/;
+/**
+ * A fence line as [line, indent, fence, lang], or null. The rest of the line may hold no backtick; its first word is the
+ * language. (A single regex for this was quadratic in the line length: a long line ending in a backtick took seconds.)
+ */
+function fence(l) {
+  const m = FENCE_START.exec(l);
+  if (!m) return null;
+  const rest = l.slice(m[0].length);
+  if (rest.includes('`')) return null;
+  return [l, m[1], m[2], rest.trim().split(/\s+/)[0] || ''];
+}
 const BULLET = /^( {0,3})([-+*])([ \t]+|$)/;
 const ORDERED = /^( {0,3})(\d{1,9})([.)])([ \t]+|$)/;
 const HTML_START = /^ {0,3}(?:<!--|<\/?(?:address|article|aside|blockquote|body|center|dd|details|div|dl|dt|fieldset|figure|footer|form|h[1-6]|header|hr|html|li|main|nav|ol|p|pre|section|summary|table|tbody|td|th|thead|tr|ul|script|style)(?:[\s/>]|$))/i;
-const TABLE_SEP = /^ {0,3}\|?[ \t]*:?-+:?[ \t]*(?:\|[ \t]*:?-+:?[ \t]*)*\|?[ \t]*$/;
+// The line tests below were regexes ending in "[ \t]*$"; on a line with a long run of spaces each was quadratic (seconds
+// for 60 000 spaces, minutes for a megabyte). They are plain scans now, with the same results (test/hardening-b.test.js).
+const isST = (c) => c === ' ' || c === '\t';
+const rtrimST = (s) => { let j = s.length; while (j > 0 && isST(s[j - 1])) j--; return s.slice(0, j); };
+const lead3 = (l) => { let i = 0; while (i < 3 && l[i] === ' ') i++; return l.slice(i); };
+/** ATX heading as [line, hashes, text] or null: 1 to 6 "#", a space or the end, the text without a closing "#" sequence. */
+function atx(l) {
+  const t = lead3(l);
+  let h = 0;
+  while (h < 6 && t[h] === '#') h++;
+  if (!h || (t[h] !== undefined && !isST(t[h]))) return null;
+  if (/[\n\r\u2028\u2029]/.test(t)) return null; // a heading is one line
+  let rest = rtrimST(t.slice(h)).replace(/^[ \t]+/, '');
+  let j = rest.length;
+  while (j > 0 && rest[j - 1] === '#') j--;
+  if (j < rest.length && j > 0 && isST(rest[j - 1])) rest = rtrimST(rest.slice(0, j));
+  return [l, '#'.repeat(h), rest];
+}
+/** Thematic break: three or more of one of - * _ with nothing but spaces and tabs between and after. */
+function hr(l) {
+  const t = lead3(l), c = t[0];
+  if (c !== '-' && c !== '*' && c !== '_') return false;
+  let n = 0;
+  for (const ch of t) { if (ch === c) n++; else if (!isST(ch)) return false; }
+  return n >= 3;
+}
+const SEP_CELL = /^[ \t]*:?-+:?[ \t]*$/;
+/** GFM table delimiter row: cells of "-+" with optional ":" at either end, separated by "|", optionally framed by "|". */
+function tableSep(l) {
+  let t = rtrimST(lead3(l));
+  if (t.endsWith('|')) t = t.slice(0, -1);
+  if (t.startsWith('|')) t = t.slice(1);
+  return t.split('|').every((c) => SEP_CELL.test(c));
+}
+/** Setext underline: a run of "=" or "-" alone on the line. */
+const setext = (l) => { const t = rtrimST(lead3(l)); return t.length > 0 && (/^=+$/.test(t) || /^-+$/.test(t)); };
 
 const expandTabs = (l) => { let col = 0, out = ''; for (const ch of l) { if (ch === '\t') { const n = 4 - (col % 4); out += ' '.repeat(n); col += n; } else { out += ch; col++; } } return out; };
 const indentOf = (l) => /^ */.exec(l)[0].length;
@@ -35,20 +79,20 @@ function splitRow(line) {
 }
 
 function startsBlock(l, next, inParagraph) {
-  if (FENCE.test(l) || ATX.test(l) || HR.test(l) || /^ {0,3}>/.test(l) || HTML_START.test(l)) return true;
+  if (fence(l) || atx(l) || hr(l) || /^ {0,3}>/.test(l) || HTML_START.test(l)) return true;
   const b = BULLET.exec(l), o = ORDERED.exec(l);
   if (b && (!inParagraph || l.slice(b[0].length).trim() !== '')) return true;
   if (o && (!inParagraph || (o[2] === '1' && l.slice(o[0].length).trim() !== ''))) return true;
-  return !!(l.includes('|') && next !== undefined && TABLE_SEP.test(next) && splitRow(l).length === splitRow(next).length);
+  return !!(l.includes('|') && next !== undefined && tableSep(next) && splitRow(l).length === splitRow(next).length);
 }
 
 /** True if a blank line separates two things in the item (blank lines inside a fenced code block do not count). */
 function blankOutsideFence(body) {
-  let fence = null;
+  let open = null;
   for (const l of body) {
-    const m = FENCE.exec(l);
-    if (fence) { if (new RegExp(`^ {0,3}${fence[0]}{${fence.length},}[ \\t]*$`).test(l)) fence = null; continue; }
-    if (m) { fence = m[2]; continue; }
+    const m = fence(l);
+    if (open) { if (new RegExp(`^ {0,3}${open[0]}{${open.length},}[ \\t]*$`).test(l)) open = null; continue; }
+    if (m) { open = m[2]; continue; }
     if (l === '') return true;
   }
   return false;
@@ -63,16 +107,16 @@ export function parseBlocks(lines, depth = 0, limits = {}) {
     const l = lines[i];
     if (isBlank(l)) { i++; continue; }
     let m;
-    if ((m = FENCE.exec(l))) {
-      const fence = m[2], ind = m[1].length, body = [];
+    if ((m = fence(l))) {
+      const open = m[2], ind = m[1].length, body = [];
       i++;
-      while (i < n && !(new RegExp(`^ {0,3}${fence[0] === '`' ? '`' : '~'}{${fence.length},}[ \\t]*$`).test(lines[i]))) { body.push(lines[i].replace(new RegExp(`^ {0,${ind}}`), '')); i++; }
+      while (i < n && !(new RegExp(`^ {0,3}${open[0] === '`' ? '`' : '~'}{${open.length},}[ \\t]*$`).test(lines[i]))) { body.push(lines[i].replace(new RegExp(`^ {0,${ind}}`), '')); i++; }
       i++;
       blocks.push({ t: 'code', ...(m[3] ? { lang: m[3] } : {}), x: body.join('\n') });
       continue;
     }
-    if ((m = ATX.exec(l))) { blocks.push({ t: 'h', l: m[1].length, x: (m[2] || '').trim() }); i++; continue; }
-    if (HR.test(l)) { blocks.push({ t: 'hr' }); i++; continue; }
+    if ((m = atx(l))) { blocks.push({ t: 'h', l: m[1].length, x: (m[2] || '').trim() }); i++; continue; }
+    if (hr(l)) { blocks.push({ t: 'hr' }); i++; continue; }
     if (/^ {0,3}>/.test(l)) {
       const inner = [];
       while (i < n && !isBlank(lines[i])) {
@@ -85,13 +129,13 @@ export function parseBlocks(lines, depth = 0, limits = {}) {
       continue;
     }
     const bm = BULLET.exec(l), om = ORDERED.exec(l);
-    if ((bm || om) && !HR.test(l)) {
+    if ((bm || om) && !hr(l)) {
       const ordered = !!om, marker = om ? om[3] : bm[2];
       const items = [];
       let tight = true, start = om ? Number(om[2]) : 1, sawBlank = false;
       while (i < n) {
         const mm = ordered ? ORDERED.exec(lines[i]) : BULLET.exec(lines[i]);
-        if (!mm || (ordered ? mm[3] : mm[2]) !== marker || HR.test(lines[i])) break;
+        if (!mm || (ordered ? mm[3] : mm[2]) !== marker || hr(lines[i])) break;
         const markerEnd = mm[1].length + (ordered ? mm[2].length + 1 : 1);
         const rest = lines[i].slice(mm[0].length);
         const contentIndent = rest === '' || mm[0].length - markerEnd > 4 ? markerEnd + 1 : mm[0].length;
@@ -116,7 +160,7 @@ export function parseBlocks(lines, depth = 0, limits = {}) {
       blocks.push({ t: ordered ? 'ol' : 'ul', ...(ordered && start !== 1 ? { start } : {}), ...(tight ? {} : { tight: false }), items });
       continue;
     }
-    if (l.includes('|') && i + 1 < n && TABLE_SEP.test(lines[i + 1]) && splitRow(l).length === splitRow(lines[i + 1]).length) {
+    if (l.includes('|') && i + 1 < n && tableSep(lines[i + 1]) && splitRow(l).length === splitRow(lines[i + 1]).length) {
       const head = splitRow(l);
       const align = splitRow(lines[i + 1]).map((c) => (/^:-+:$/.test(c) ? 'c' : /^:-+$/.test(c) ? 'l' : /^-+:$/.test(c) ? 'r' : null));
       i += 2;
@@ -146,14 +190,14 @@ export function parseBlocks(lines, depth = 0, limits = {}) {
     // paragraph (possibly a setext heading)
     const para = [];
     while (i < n && !isBlank(lines[i])) {
-      if (para.length && /^ {0,3}(=+|-+)[ \t]*$/.test(lines[i])) {
+      if (para.length && setext(lines[i])) {
         blocks.push({ t: 'h', l: lines[i].trim()[0] === '=' ? 1 : 2, x: para.map((p) => p.trim()).join(' ') });
         i++; para.length = 0; break;
       }
       if (para.length && startsBlock(lines[i], lines[i + 1], true)) break;
       para.push(lines[i].replace(/^[ \t]+/, '')); i++;
     }
-    if (para.length) { para[para.length - 1] = para.at(-1).replace(/[ \t]+$/, ''); blocks.push({ t: 'p', x: para.join('\n') }); }
+    if (para.length) { para[para.length - 1] = rtrimST(para.at(-1)); blocks.push({ t: 'p', x: para.join('\n') }); }
   }
   return blocks;
 }
