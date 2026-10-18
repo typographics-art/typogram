@@ -8,6 +8,12 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - **Two internal adversarial reviews of the cryptographic code** by two different AI models, blind to each other (not independent audits): [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md) and [docs/security-review-internal-2026-10-b.md](docs/security-review-internal-2026-10-b.md). Known-answer tests of every building block (`test/known-answer.test.js`), differential tests against independent re-implementations, a deterministic fuzzer (`scripts/fuzz-crypto.mjs`), local Semgrep rules, hostile-data checks in the browser test. Fixed: quadratic regular expressions in the YAML, Markdown, XML and text-structure readers; the encoder wrote data blocks the decoder refused (a sealed record of one never opened); damaged workbooks, unknown model shapes, long `tg1.` secrets and sparse sheets failed with raw errors; an error message went into markup on the generator page.
 
+### Changed
+
+- **Vault**: the default vault (`tgv2.`) makes the seed the way back: its secret *is* the master key, so the seed alone recovers everything even without the vault file, and a passkey together with a passphrase opens it for everyday use. The earlier 2-of-3 vault stays as `tgv1.` with `mode: 'strict'` (`tg-crypt vault create --mode strict`), byte for byte unchanged. In both modes a vault that a passphrase alone could open is refused. `createVault` without a `mode` now builds the default vault and expects one `{ name, master }` factor.
+- **Generator** seals with a `tgx2.` key (the key no longer names the work); the work page and `tg-crypt open` accept `tgx1.` and `tgx2.`.
+- **CLI**: `tg-crypt vault create | open | inspect` (the passkey's secret from a file as hex, the passphrase from a file, standard input or the environment).
+
 ## [0.1.0] - 2026-10-18
 
 First public version.

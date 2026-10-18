@@ -17,7 +17,7 @@ This page is for people who want to know whether they can trust the way Typograp
 | **Seed** (12, 18 or 24 recovery words, or hex) | The one backup from which a **master key** and one **key per record** are derived | Words are written down and typed rarely | Opens everything that was sealed from it; a single record key can be given away without exposing the rest. |
 | **Password / passphrase** | Something a person remembers | Yes | Only as an *extra* factor (never alone for public data). |
 | **Share** (`tgsh1.…`) | One piece of a key split in several pieces | No | A key that needs several pieces from different hands (any k of n). |
-| **Passkey** (WebAuthn, the phone or a security key) | A hardware-bound secret that cannot be guessed | No: the device does it | One factor of a 2-of-3 vault; works in a test browser with a virtual passkey, **not yet checked on real devices** (you can check yours: `/passkey-check`). |
+| **Passkey** (WebAuthn, the phone or a security key) | A hardware-bound secret that cannot be guessed | No: the device does it | An everyday factor of a vault (together with a passphrase; the seed stays the way back); works in a test browser with a virtual passkey, **not yet checked on real devices** (you can check yours: `/passkey-check`). |
 
 ## 3. Why a password is the weak point
 
@@ -61,7 +61,9 @@ What the code does about it (all tested, see section 9):
 |---|---|---|---|
 | **A. A random key, in a password manager or a file** | Most people, most data | One key per record (about 60 characters) | the key: the record is lost |
 | **B. One seed, many records** | Someone who seals a lot | The seed (12 to 24 words, written on paper, stored safely). Each record gets its own key derived from it | the seed: everything sealed from it is lost; a thief with the seed opens everything |
-| **C. A vault with 2 of 3 factors** | Someone who wants easy access *and* a safety net | Any two of: the seed backup, a passkey, a passphrase | one factor: nothing, the other two still open it; a passphrase alone opens nothing |
+| **C. A vault: your seed, plus a passkey and a passphrase for everyday use** | Someone who wants easy access *and* a safety net | The seed backup (it alone always recovers everything, even without the vault), and for everyday use a passkey together with a passphrase | the passkey or the passphrase: nothing, the seed still opens everything; the seed: nothing as long as you still have passkey *and* passphrase; a passphrase alone opens nothing. A thief with your seed opens everything, as in B |
+
+**The vault's default puts the seed first.** Its secret *is* the master key derived from your seed, so the seed alone recovers everything and the vault file can be lost without harm; the price is that whoever steals the seed opens everything, exactly as in setup B. If theft of the written seed is your main risk, create the vault in strict mode (`tg-crypt vault create --mode strict`): then any two of seed, passkey and passphrase open it and the seed alone does not, but if the vault file is lost the seed alone cannot bring the data back. In both modes a passphrase alone never opens anything; a vault that would allow it is refused.
 
 **Before you rely on a passkey, check your device** with the device check at [typographics-art.org/passkey-check](https://typographics-art.org/passkey-check): it tests, in your browser and without sending anything, whether your passkey or security key returns the same secret every time. Not every browser and device supports it, and a synced passkey may behave differently from a hardware key. Keep the seed backup as the way back in either way.
 

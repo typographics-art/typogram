@@ -117,15 +117,16 @@ async function buildSeeds() {
   const shamir = await splitShamir(enc.encode('0123456789abcdef'), 3, 5, { random: rnd }), xor = await splitXor(enc.encode('0123456789abcdef'), 3, { random: rnd });
   const mixed = await newMixed('pw', { params: { kdf: 'pbkdf2-sha512', iterations: 100000 }, random: rnd });
   const kA = new Uint8Array(32).fill(1), kB = new Uint8Array(32).fill(2);
-  const vault = await createVault([{ name: 'seed', key: kA }, { name: 'passkey', key: kB }, { name: 'phrase', passphrase: 'pw', params: { kdf: 'pbkdf2-sha512', iterations: 100000 } }], { k: 2, random: rnd });
+  const vault = await createVault([{ name: 'seed', key: kA }, { name: 'passkey', key: kB }, { name: 'phrase', passphrase: 'pw', params: { kdf: 'pbkdf2-sha512', iterations: 100000 } }], { k: 2, mode: 'strict', random: rnd });
+  const vault2 = await createVault([{ name: 'seed', master }, { name: 'passkey', key: kB }, { name: 'phrase', passphrase: 'pw', params: { kdf: 'pbkdf2-sha512', iterations: 100000 } }], { k: 2, random: rnd });
   return {
     keys: { tgx1: [s1.key, s1i.key, s1u.key, s1b.key], tgx2: [s2.key], tg1: [await hideSecret(WORK, 'the owner keeps a secret', { random: rnd })],
       tg2: [await hideCompact(WORK, 'the owner keeps a secret', { random: rnd }), await hideCompact(WORK, 'the owner', { near: 3, shortFingerprint: true, random: rnd })],
-      tgmk1: [await formatMaster(master)], tgp1: [rcpt.public], tgq1: [rcpt.secret], tgxm1: [mixed.half], tgsh1: [...shamir, ...xor], tgv1: [vault.vault] },
+      tgmk1: [await formatMaster(master)], tgp1: [rcpt.public], tgq1: [rcpt.secret], tgxm1: [mixed.half], tgsh1: [...shamir, ...xor], tgv1: [vault.vault], tgv2: [vault2.vault] },
     records: [s1.record, s1i.record, s1u.record, s1p.record, s1b.record, s1t.record, s2.record],
     pairs: [[s1.key, s1.record], [s1i.key, ''], [s1u.key, s1u.record], [s1b.key, s1b.record], [s1t.key, s1t.record], [s2.key, s2.record], [s1.key, s1p.record]],
     modelTexts: MODEL_TEXTS,
-    tgr1: [sr.record], rcpt, kA, kB, mnemonic: await entropyToMnemonic(new Uint8Array(16).fill(7)), tgdBlock: tgdItem.text,
+    tgr1: [sr.record], rcpt, kA, kB, master, mnemonic: await entropyToMnemonic(new Uint8Array(16).fill(7)), tgdBlock: tgdItem.text,
   };
 }
 function loadFixtures() {
@@ -238,6 +239,7 @@ export async function runFuzz({ seed = 1, iterations = 3000, seconds = 0, target
         else if (kind === 'tgxm1') await parseHalf(key);
         else if (kind === 'tgsh1') { await parseShare(key); await joinShares([key, rng.pick(S.keys.tgsh1)]); await joinShares([key]); }
         else if (kind === 'tgv1') { await describeVault(key); await openVault(key, { seed: { key: S.kA }, passkey: { key: S.kB } }); }
+        else if (kind === 'tgv2') { await describeVault(key); await openVault(key, { master: S.master }); await openVault(key, { passkey: { key: S.kB }, phrase: { passphrase: 'pw' } }); }
       });
     } else if (want('keys') && roll < 36) {
       const m = mutateText(rng, S.mnemonic, 1 + rng.int(3));

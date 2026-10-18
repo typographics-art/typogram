@@ -20,7 +20,7 @@ import {
 } from '../src/keys-split.js';
 import { stretch, checkParams, DEFAULT_PARAMS } from '../src/keys-kdf.js';
 import { sealMessage, openSealed, parseKey, workDigest, CryptError } from '../src/crypt.js';
-import { seededRandom, toHex, fromHex, utf8, sha256, b58Encode } from '../src/crypt-codec.js';
+import { seededRandom, toHex, fromHex, utf8, sha256, b58Encode, concat, b64urlEncode, b64urlDecode, checksum } from '../src/crypt-codec.js';
 import { build, WORK } from '../scripts/build-key-vectors.mjs';
 
 const vectors = JSON.parse(readFileSync(new URL('./fixtures/key-management-vectors.json', import.meta.url), 'utf8'));
@@ -149,7 +149,7 @@ test('record keys: unrelated for different ids and contexts; the master never ap
   assert.notEqual(toHex(await recordKey(master, 'ab', 'c')), toHex(await recordKey(master, 'a', 'bc')), 'framing: id and context cannot slide into each other');
   assert.equal(toHex(await recordKey(master, 'é')), toHex(await recordKey(master, 'é')), 'NFC');
   // the master is in no output of any function (sealed record, keys, shares, vault, recipient key)
-  const outputs = [...keys.map(toHex), await formatKey2({ secret: keys[0] }), (await sealWithSecret(WORK, text('x'), keys[1])).record, (await sealWithSecret(WORK, text('x'), keys[1])).key, toHex(await recipientSecret(master, 3)), ...await splitShamir(keys[2], 2, 3), ...await splitXor(keys[2], 2), (await createVault([{ name: 'a', key: keys[3] }, { name: 'b', key: keys[4] }])).vault];
+  const outputs = [...keys.map(toHex), await formatKey2({ secret: keys[0] }), (await sealWithSecret(WORK, text('x'), keys[1])).record, (await sealWithSecret(WORK, text('x'), keys[1])).key, toHex(await recipientSecret(master, 3)), ...await splitShamir(keys[2], 2, 3), ...await splitXor(keys[2], 2), (await createVault([{ name: 'a', key: keys[3] }, { name: 'b', key: keys[4] }], { mode: 'strict' })).vault, (await createVault([{ name: 'seed', master }, { name: 'a', key: keys[3] }, { name: 'b', key: keys[4] }])).vault];
   const mh = toHex(master), mt = vectors.master.text.slice(6, 30);
   for (const o of outputs) { assert.ok(!o.includes(mh) && !o.includes(mt)); }
   const raw = (await sealWithSecret(WORK, text('x'), keys[1])).bytes;
@@ -402,7 +402,7 @@ test('mixing: the password alone is nothing; the half key alone is nothing; both
 test('vault: any 2 of 3 factors open it; the passphrase alone never; rules enforced; wrong factors are skipped', async () => {
   const master = await parseMaster(vectors.master.text);
   const seed = await factorFromMaster(master), passkey = await factorFromPrf(new Uint8Array(32).fill(3));
-  const { vault, secret } = await createVault([{ name: 'seed', key: seed }, { name: 'passkey', key: passkey }, { name: 'passphrase', passphrase: 'alpha beta gamma delta', params: FAST }]);
+  const { vault, secret } = await createVault([{ name: 'seed', key: seed }, { name: 'passkey', key: passkey }, { name: 'passphrase', passphrase: 'alpha beta gamma delta', params: FAST }], { mode: 'strict' });
   const d = await describeVault(vault);
   assert.deepEqual([d.k, d.n, d.factors.map((f) => f.name)], [2, 3, ['seed', 'passkey', 'passphrase']]);
   const sets = { seed: { key: seed }, passkey: { key: passkey }, passphrase: { passphrase: 'alpha beta gamma delta' } };
@@ -419,15 +419,15 @@ test('vault: any 2 of 3 factors open it; the passphrase alone never; rules enfor
   assert.equal((await recordKey(secret, 'r')).length, 32);
   // rules
   const k = () => crypto.getRandomValues(new Uint8Array(32));
-  await rejects(() => createVault([{ name: 'a', passphrase: 'one one' }, { name: 'b', passphrase: 'two two' }, { name: 'c', key: k() }], { k: 2 }), 'bad-option');
-  await rejects(() => createVault([{ name: 'a', passphrase: 'one' }, { name: 'b', passphrase: 'two' }], { k: 2 }), 'bad-option');
-  await rejects(() => createVault([{ name: 'a', key: k() }], { k: 2 }), 'bad-option');
-  await rejects(() => createVault([{ name: 'a', key: k() }, { name: 'b', key: k() }], { k: 1 }), 'bad-option');
-  await rejects(() => createVault([{ name: 'a', key: k() }, { name: 'a', key: k() }]), 'bad-option');
-  await rejects(() => createVault([{ name: 'A', key: k() }, { name: 'b', key: k() }]), 'bad-option');
-  await rejects(() => createVault([{ name: 'a', key: new Uint8Array(5) }, { name: 'b', key: k() }]), 'bad-option');
+  await rejects(() => createVault([{ name: 'a', passphrase: 'one one' }, { name: 'b', passphrase: 'two two' }, { name: 'c', key: k() }], { k: 2, mode: 'strict' }), 'bad-option');
+  await rejects(() => createVault([{ name: 'a', passphrase: 'one' }, { name: 'b', passphrase: 'two' }], { k: 2, mode: 'strict' }), 'bad-option');
+  await rejects(() => createVault([{ name: 'a', key: k() }], { k: 2, mode: 'strict' }), 'bad-option');
+  await rejects(() => createVault([{ name: 'a', key: k() }, { name: 'b', key: k() }], { k: 1, mode: 'strict' }), 'bad-option');
+  await rejects(() => createVault([{ name: 'a', key: k() }, { name: 'a', key: k() }], { mode: 'strict' }), 'bad-option');
+  await rejects(() => createVault([{ name: 'A', key: k() }, { name: 'b', key: k() }], { mode: 'strict' }), 'bad-option');
+  await rejects(() => createVault([{ name: 'a', key: new Uint8Array(5) }, { name: 'b', key: k() }], { mode: 'strict' }), 'bad-option');
   // 3 of 3 with two passphrases is fine (a set of 3 needs a key factor? no: k=3 allows 2 passphrases, needs the third factor)
-  const v3 = await createVault([{ name: 'a', key: k() }, { name: 'b', passphrase: 'x y', params: FAST }, { name: 'c', passphrase: 'z w', params: FAST }], { k: 3 });
+  const v3 = await createVault([{ name: 'a', key: k() }, { name: 'b', passphrase: 'x y', params: FAST }, { name: 'c', passphrase: 'z w', params: FAST }], { k: 3, mode: 'strict' });
   assert.equal((await describeVault(v3.vault)).k, 3);
   // a 2-of-3 vault with a wrong-factor check: tampering is refused
   const bytes = vault;
@@ -437,11 +437,76 @@ test('vault: any 2 of 3 factors open it; the passphrase alone never; rules enfor
   assert.ok(await cleanErrors((x) => describeVault(x), fuzzStrings('', 50)) > 45);
 });
 test('vault with argon2id passphrase factor (the default parameters)', async () => {
-  const { vault, secret } = await createVault([{ name: 'seed', key: new Uint8Array(32).fill(1) }, { name: 'phrase', passphrase: 'orbit vivid yellow pencil', params: FAST_ARGON }]);
+  const { vault, secret } = await createVault([{ name: 'seed', key: new Uint8Array(32).fill(1) }, { name: 'phrase', passphrase: 'orbit vivid yellow pencil', params: FAST_ARGON }], { mode: 'strict' });
   const d = await describeVault(vault);
   assert.deepEqual(d.factors[1].params, FAST_ARGON);
   assert.equal(toHex((await openVault(vault, { seed: { key: new Uint8Array(32).fill(1) }, phrase: { passphrase: 'orbit vivid yellow pencil' } })).secret), toHex(secret));
   assert.deepEqual(DEFAULT_PARAMS, { kdf: 'argon2id', memoryKiB: 65536, passes: 3, parallelism: 1 });
+});
+test('vault, default mode (decision 13.2): V is the master, the seed alone recovers everything, passkey + passphrase open it without the seed, a passphrase alone never', async () => {
+  const master = await parseMaster(vectors.master.text), passkey = await factorFromPrf(new Uint8Array(32).fill(3));
+  const factors = [{ name: 'seed', master }, { name: 'passkey', key: passkey }, { name: 'passphrase', passphrase: 'alpha beta gamma delta', params: FAST }];
+  const { vault, secret } = await createVault(factors); // no mode given: the default
+  assert.ok(vault.startsWith('tgv2.')); assert.equal(toHex(secret), toHex(master), 'V = master');
+  assert.ok((await createVault(factors, { mode: 'default' })).vault.startsWith('tgv2.'));
+  // the header: version 2, mode 0 (default), k 2, n 2; the mode is visible without any factor
+  assert.deepEqual([...b64urlDecode(vault.slice(5)).slice(0, 4)], [2, 0, 2, 2]);
+  const d = await describeVault(vault);
+  assert.deepEqual([d.mode, d.k, d.n, d.seed, d.factors.map((f) => [f.name, f.passphrase])], ['default', 2, 2, true, [['passkey', false], ['passphrase', true]]]);
+  // the seed path: the master is the secret, checked against the vault; without any vault, the master simply is the secret
+  const bySeed = await openVault(vault, { master });
+  assert.equal(toHex(bySeed.secret), toHex(master)); assert.deepEqual(bySeed.used, ['master']);
+  assert.equal(toHex(await masterFromSeed(seedFromHex(vectors.master.seedHex))), toHex(master), 'the seed alone gives V: no vault needed');
+  await rejects(() => openVault(vault, { master: new Uint8Array(32).fill(9) }), 'vault-mismatch');
+  await rejects(() => openVault(vault, { master: new Uint8Array(31) }), 'bad-option');
+  // the convenience path: 2-of-2; each alone gives vault-too-few with the numbers; a wrong passphrase is skipped
+  const both = await openVault(vault, { passkey: { key: passkey }, passphrase: { passphrase: 'alpha beta gamma delta' } });
+  assert.equal(toHex(both.secret), toHex(master)); assert.deepEqual(both.used, ['passkey', 'passphrase']);
+  for (const only of [{ passkey: { key: passkey } }, { passphrase: { passphrase: 'alpha beta gamma delta' } }, {}]) { const e = await rejects(() => openVault(vault, only), 'vault-too-few'); assert.equal(e.need, 2); }
+  assert.equal((await rejects(() => openVault(vault, { passkey: { key: passkey }, passphrase: { passphrase: 'wrong words' } }), 'vault-too-few')).have, 1);
+  // THE RULE: without the seed a passphrase must never be enough (refused at creation, whatever k)
+  await rejects(() => createVault([{ name: 'seed', master }, { name: 'passphrase', passphrase: 'one one', params: FAST }]), 'bad-option');
+  await rejects(() => createVault([{ name: 'seed', master }, { name: 'passkey', key: passkey }, { name: 'passphrase', passphrase: 'one one', params: FAST }], { k: 1 }), 'bad-option');
+  await rejects(() => createVault([{ name: 'seed', master }, { name: 'a', passphrase: 'one', params: FAST }, { name: 'b', passphrase: 'two', params: FAST }], { k: 2 }), 'bad-option');
+  // a single passkey may stand alone without the seed (high entropy): 1-of-1
+  const pkOnly = await createVault([{ name: 'seed', master }, { name: 'passkey', key: passkey }]);
+  assert.equal((await describeVault(pkOnly.vault)).k, 1);
+  assert.equal(toHex((await openVault(pkOnly.vault, { passkey: { key: passkey } })).secret), toHex(master));
+  // 2-of-3 without the seed: two passkeys and a passphrase
+  const three = await createVault([{ name: 'seed', master }, { name: 'phone', key: passkey }, { name: 'laptop', key: new Uint8Array(32).fill(7) }, { name: 'passphrase', passphrase: 'alpha beta gamma delta', params: FAST }], { k: 2 });
+  assert.equal(toHex((await openVault(three.vault, { laptop: { key: new Uint8Array(32).fill(7) }, passphrase: { passphrase: 'alpha beta gamma delta' } })).secret), toHex(master));
+  await rejects(() => openVault(three.vault, { passphrase: { passphrase: 'alpha beta gamma delta' } }), 'vault-too-few');
+  // other rules: exactly one master factor of 32 bytes; no convenience factor named "master"; k in range; an unknown mode
+  await rejects(() => createVault([{ name: 'a', key: passkey }, { name: 'b', key: new Uint8Array(32).fill(5) }]), 'bad-option');
+  await rejects(() => createVault([{ name: 'seed', master }, { name: 'seed2', master }, { name: 'passkey', key: passkey }]), 'bad-option');
+  await rejects(() => createVault([{ name: 'seed', master: new Uint8Array(31) }, { name: 'passkey', key: passkey }]), 'bad-option');
+  await rejects(() => createVault([{ name: 'seed', master }, { name: 'master', key: passkey }]), 'bad-option');
+  await rejects(() => createVault([{ name: 'seed', master }, { name: 'passkey', key: passkey }], { k: 2 }), 'bad-option');
+  await rejects(() => createVault(factors, { mode: 'loose' }), 'bad-option');
+  // tampering: any changed character is refused; the mode byte sits in the authenticated header, so a vault whose
+  // mode byte was changed (with a fresh outer checksum) is refused outright, never read as another mode
+  const tampered = vault.slice(0, 40) + (vault[40] === 'A' ? 'B' : 'A') + vault.slice(41);
+  await rejects(() => openVault(tampered, { passkey: { key: passkey }, passphrase: { passphrase: 'alpha beta gamma delta' } }), 'checksum');
+  const body = b64urlDecode(vault.slice(5)).slice(0, -4); body[1] = 1;
+  const flipped = 'tgv2.' + b64urlEncode(concat(body, await checksum('tgv2', body, 4)));
+  await rejects(() => openVault(flipped, { master }), 'version');
+  assert.ok(await cleanErrors((x) => openVault(x, { master }), fuzzStrings('tgv2.', 200, 400)) > 190);
+  assert.ok(await cleanErrors((x) => describeVault(x), fuzzStrings('tgv2.', 50)) > 45);
+  // the strict vault is unchanged: random V, the seed one share that opens nothing alone, tgv1.
+  const seedFactor = await factorFromMaster(master);
+  const strict = await createVault([{ name: 'seed', key: seedFactor }, { name: 'passkey', key: passkey }], { mode: 'strict' });
+  assert.ok(strict.vault.startsWith('tgv1.')); assert.notEqual(toHex(strict.secret), toHex(master)); assert.equal((await describeVault(strict.vault)).mode, 'strict');
+  await rejects(() => openVault(strict.vault, { seed: { key: seedFactor } }), 'vault-too-few');
+  await rejects(() => openVault(strict.vault, { master }), 'vault-too-few', 'a strict vault has no seed path');
+});
+test('vault, default mode: the frozen vector opens by the seed alone and by passkey + passphrase; the old strict vector is untouched', async () => {
+  const v = vectors.vaultDefault, master = await parseMaster(vectors.master.text);
+  assert.ok(v.vault.startsWith('tgv2.')); assert.equal(v.secret, vectors.master.master, 'the vector\'s V is the master of the frozen seed');
+  assert.equal(toHex((await openVault(v.vault, { master })).secret), v.secret);
+  const pk = await factorFromPrf(Uint8Array.from({ length: 32 }, (_, i) => 255 - i));
+  assert.equal(toHex((await openVault(v.vault, { passkey: { key: pk }, passphrase: { passphrase: v.passphrase } })).secret), v.secret);
+  await rejects(() => openVault(v.vault, { passphrase: { passphrase: v.passphrase } }), 'vault-too-few');
+  assert.ok(vectors.vault.vault.startsWith('tgv1.')); assert.notEqual(vectors.vault.secret, vectors.master.master);
 });
 test('passphrase generator: words from the list, uniform, 11 bits each; passkey (WebAuthn PRF) helpers', async () => {
   const p = generatePassphrase(8);
@@ -651,5 +716,77 @@ test('cli: files with secrets are created exclusively with mode 0600; existing f
     assert.equal(run(['open', '-', '--key-stdin', '--record', bytesRec, '-o', out], { input: bkey + '\n' }).status, 1);
     assert.equal(run(['open', '-', '--key-stdin', '--record', bytesRec, '-o', out, '--force'], { input: bkey }).status, 0);
     assert.ok(key.startsWith('tgx1.'));
+  } finally { rmSync(dir, { recursive: true }); }
+});
+test('cli: vault create, open and inspect; the seed alone opens the default vault, a passphrase alone never; secrets only from files, stdin or the environment; -o is 0600 and exclusive', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'tgkeys-'));
+  const mode = (p) => statSync(p).mode & 0o777;
+  try {
+    const seedf = join(dir, 'seed'); writeFileSync(seedf, vectors.master.seedHex + '\n');
+    const pkf = join(dir, 'prf'); writeFileSync(pkf, toHex(Uint8Array.from({ length: 32 }, (_, i) => 255 - i)) + '\n');
+    const ppf = join(dir, 'pp'); writeFileSync(ppf, 'alpha beta gamma\n');
+    const vf = join(dir, 'vault.tgv');
+    // create (the default mode): the vault goes to a 0600 file; nothing secret in stdout or stderr
+    const c = run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf, '-o', vf]);
+    assert.equal(c.status, 0, c.stderr); assert.equal(c.stdout, ''); assert.equal(mode(vf), 0o600);
+    const vault = readFileSync(vf, 'utf8').trim(); assert.match(vault, /^tgv2\./);
+    assert.doesNotMatch(c.stdout + c.stderr, /alpha beta|tgmk1\.|tgv2\./); assert.match(c.stderr, /seed alone/);
+    // inspect: mode, threshold, factor names; no secret
+    const i = run(['vault', 'inspect', vf]); assert.equal(i.status, 0, i.stderr);
+    const info = JSON.parse(i.stdout);
+    assert.deepEqual([info.mode, info.k, info.n, info.seed, info.factors.map((f) => f.name)], ['default', 2, 2, true, ['passkey', 'passphrase']]);
+    assert.doesNotMatch(i.stdout, /alpha beta|tgmk1\./);
+    // open with the seed alone: a success line naming the factor, no secret printed; with -o the secret (the master key of the seed) goes to a 0600 file
+    const o1 = run(['vault', 'open', vf, '--seed-file', seedf]);
+    assert.equal(o1.status, 0, o1.stderr); assert.match(o1.stdout, /^Vault opened with master\b/); assert.doesNotMatch(o1.stdout + o1.stderr, /tgmk1\./);
+    const sf = join(dir, 'secret');
+    const o2 = run(['vault', 'open', vf, '--seed-stdin', '-o', sf], { input: vectors.master.seedHex });
+    assert.equal(o2.status, 0, o2.stderr); assert.equal(o2.stdout, ''); assert.equal(mode(sf), 0o600);
+    assert.equal(readFileSync(sf, 'utf8').trim(), vectors.master.text, 'the default vault\'s secret IS the master of the seed');
+    assert.equal(run(['vault', 'open', vf], { env: { TG_CRYPT_SEED: vectors.master.seedHex } }).status, 0);
+    assert.equal(run(['vault', 'open', vf, '--master-file', sf]).status, 0, 'the master key text opens it too');
+    // open without the seed: passkey + passphrase; either alone is refused with the numbers; a wrong seed does not belong
+    const o3 = run(['vault', 'open', vf, '--passkey-file', pkf, '--passphrase-stdin'], { input: 'alpha beta gamma\n' });
+    assert.equal(o3.status, 0, o3.stderr); assert.match(o3.stdout, /^Vault opened with passkey \+ passphrase\b/);
+    assert.equal(run(['vault', 'open', vf, '--passkey-file', pkf, '--passphrase-file', ppf]).status, 0);
+    assert.equal(run(['vault', 'open', vf, '--passkey-file', pkf], { env: { TG_CRYPT_PASSPHRASE: 'alpha beta gamma' } }).status, 0);
+    const alone = run(['vault', 'open', vf, '--passphrase-file', ppf]); assert.equal(alone.status, 1); assert.match(alone.stderr, /2 factors are needed.*1 worked/);
+    assert.equal(run(['vault', 'open', vf, '--passkey-file', pkf]).status, 1);
+    assert.equal(run(['vault', 'open', vf]).status, 1);
+    const wrong = run(['vault', 'open', vf, '--seed-stdin'], { input: 'ff'.repeat(32) }); assert.equal(wrong.status, 1); assert.match(wrong.stderr, /does not belong/);
+    // the rule at creation: seed + passphrase only would let the passphrase open it alone, so it is refused and no file is made
+    const bad = run(['vault', 'create', '--seed-file', seedf, '--passphrase-file', ppf, '-o', join(dir, 'bad.tgv')]);
+    assert.equal(bad.status, 1); assert.match(bad.stderr, /passphrase/); assert.equal(existsSync(join(dir, 'bad.tgv')), false);
+    // strict mode: tgv1., the seed is one share and does not open it alone; its secret is not the master
+    const sv = join(dir, 'strict.tgv');
+    const sc = run(['vault', 'create', '--mode', 'strict', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf, '-o', sv]);
+    assert.equal(sc.status, 0, sc.stderr); assert.match(readFileSync(sv, 'utf8'), /^tgv1\./);
+    assert.equal(JSON.parse(run(['vault', 'inspect', sv]).stdout).mode, 'strict');
+    assert.equal(run(['vault', 'open', sv, '--seed-file', seedf]).status, 1, 'strict: the seed alone is one share');
+    const ss = join(dir, 'strict-secret');
+    assert.equal(run(['vault', 'open', sv, '--seed-file', seedf, '--passphrase-file', ppf, '-o', ss]).status, 0);
+    assert.match(readFileSync(ss, 'utf8'), /^tgmk1\./); assert.notEqual(readFileSync(ss, 'utf8').trim(), vectors.master.text);
+    assert.equal(run(['vault', 'open', sv, '--passkey-file', pkf, '--passphrase-file', ppf]).status, 0);
+    assert.equal(run(['vault', 'create', '--mode', 'loose', '--seed-file', seedf, '--passkey-file', pkf]).status, 1);
+    // secrets never as arguments (refused without echoing them); standard input only once; an unknown subcommand
+    for (const args of [['vault', 'create', '--seed', vectors.master.seedHex, '--passkey-file', pkf], ['vault', 'open', vf, '--passphrase', 'alpha beta gamma'], ['vault', 'open', vf, '--master', vectors.master.text], ['vault', 'create', '--passkey', 'ff', '--seed-file', seedf]]) {
+      const r = run(args); assert.equal(r.status, 1); assert.match(r.stderr, /Unknown option/); assert.doesNotMatch(r.stdout + r.stderr, /alpha beta|tgmk1\.[1-9A-Za-z]{10}|000102030405/);
+    }
+    assert.equal(run(['vault', 'open', vf, '--seed-stdin', '--passphrase-stdin'], { input: 'x' }).status, 1);
+    assert.equal(run(['vault', 'frobnicate']).status, 1);
+    // -o: exclusive, 0600, a symlink refused and never followed, --force replaces (the same writer as recipient --new)
+    const again = run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf, '-o', vf]);
+    assert.equal(again.status, 1); assert.ok(again.stderr.includes(vf)); assert.equal(readFileSync(vf, 'utf8').trim(), vault);
+    const victim = join(dir, 'victim'); writeFileSync(victim, 'precious'); const link = join(dir, 'link'); symlinkSync(victim, link);
+    assert.equal(run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '-o', link]).status, 1);
+    assert.equal(readFileSync(victim, 'utf8'), 'precious'); assert.ok(lstatSync(link).isSymbolicLink());
+    assert.equal(run(['vault', 'open', vf, '--seed-file', seedf, '-o', link]).status, 1); assert.equal(readFileSync(victim, 'utf8'), 'precious');
+    assert.equal(run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '-o', vf, '--force']).status, 0);
+    assert.notEqual(readFileSync(vf, 'utf8').trim(), vault); assert.equal(mode(vf), 0o600);
+    // without -o the vault is printed (it is encrypted shares, storable anywhere); the help names the commands
+    const printed = run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf]);
+    assert.equal(printed.status, 0, printed.stderr); assert.match(printed.stdout, /^tgv2\.\S+\n$/);
+    const help = run(['--help']).stdout;
+    for (const w of ['vault create', 'vault open', 'vault inspect', '--mode', '--passkey-file', '--passphrase-file', 'TG_CRYPT_PASSPHRASE']) assert.ok(help.includes(w), w);
   } finally { rmSync(dir, { recursive: true }); }
 });

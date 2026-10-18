@@ -77,7 +77,7 @@ test('browser: the derivations equal the Node results and the frozen vectors; PR
     assert.equal(prf.enabled, true);
     assert.equal(prf.a.length, 64); assert.equal(prf.a, prf.b, 'same input, same secret'); assert.notEqual(prf.a, prf.c, 'another input, another secret');
     const passkey = await factorFromPrf(Uint8Array.from(prf.a.match(/../g), (h) => parseInt(h, 16)));
-    const { vault, secret } = await createVault([{ name: 'passkey', key: passkey }, { name: 'seed', key: new Uint8Array(32).fill(4) }]);
+    const { vault, secret } = await createVault([{ name: 'passkey', key: passkey }, { name: 'seed', key: new Uint8Array(32).fill(4) }], { mode: 'strict' });
     assert.equal(toHex((await openVault(vault, { passkey: { key: passkey }, seed: { key: new Uint8Array(32).fill(4) } })).secret), toHex(secret));
   } finally {
     ws?.close(); proc.kill(); server.close();

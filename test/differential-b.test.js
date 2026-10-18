@@ -353,7 +353,7 @@ test('DIFF vault: wrap keys, AAD, share recovery and the verify tag re-done from
   for (let i = 0; i < 4; i++) {
     const fa = randomBytes(32), fb = randomBytes(32), pw = 'phrase ' + i;
     const params = i % 2 ? { kdf: 'pbkdf2-sha512', iterations: 100000 } : { kdf: 'argon2id', memoryKiB: 8192, passes: 1, parallelism: 1 };
-    const { vault, secret } = await createVault([{ name: 'a', key: fa }, { name: 'b', key: fb }, { name: 'p', passphrase: pw, params }], { k: 2 });
+    const { vault, secret } = await createVault([{ name: 'a', key: fa }, { name: 'b', key: fb }, { name: 'p', passphrase: pw, params }], { k: 2, mode: 'strict' });
     assert.equal(hex(refOpenVault(vault, { a: { key: fa }, b: { key: fb } })), hex(secret));
     assert.equal(hex(refOpenVault(vault, { p: { passphrase: pw }, b: { key: fb } })), hex(secret));
     assert.equal(hex((await openVault(vault, { a: { key: fa }, p: { passphrase: pw } })).secret), hex(secret));

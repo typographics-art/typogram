@@ -314,7 +314,7 @@ test('password mixing: key = HKDF-SHA-256(secret || stretched, salt "tgxm1/hkdf"
 test('vault: layout parsed by hand; each factor wrapped with HKDF(factorKey, salt "tgv1/wrap", info name) + AES-256-GCM with AAD "tgv1" || header || entry head; shares recombine (independent GF) to the vault secret; check tag HMAC(secret, "tgv1/check")', async () => {
   const kSeed = Buffer.alloc(32, 1), kPass = Buffer.alloc(32, 2);
   const params = { kdf: 'pbkdf2-sha512', iterations: 100_000 };
-  const { vault, secret } = await createVault([{ name: 'seed', key: kSeed }, { name: 'passkey', key: kPass }, { name: 'phrase', passphrase: 'correct horse battery', params }], { k: 2, random: seededRandom('vault1') });
+  const { vault, secret } = await createVault([{ name: 'seed', key: kSeed }, { name: 'passkey', key: kPass }, { name: 'phrase', passphrase: 'correct horse battery', params }], { k: 2, mode: 'strict', random: seededRandom('vault1') });
   assert.ok(vault.startsWith('tgv1.'));
   const raw = Buffer.from(vault.slice(5), 'base64url'), body = raw.subarray(0, -4);
   assert.deepEqual(raw.subarray(-4), check('tgv1', body, 4));
@@ -337,7 +337,7 @@ test('vault: layout parsed by hand; each factor wrapped with HKDF(factorKey, sal
   assert.deepEqual(Buffer.from((await openVault(vault, { seed: { key: kSeed }, passkey: { key: kPass } })).secret), Buffer.from(secret));
   assert.deepEqual(Buffer.from((await openVault(vault, { seed: { key: kSeed }, phrase: { passphrase: 'correct horse battery' } })).secret), Buffer.from(secret));
   await assert.rejects(openVault(vault, { phrase: { passphrase: 'correct horse battery' } }), { code: 'vault-too-few' });
-  await assert.rejects(createVault([{ name: 'a', passphrase: 'x' }, { name: 'b', passphrase: 'y' }], { k: 2 }), { code: 'bad-option' });
+  await assert.rejects(createVault([{ name: 'a', passphrase: 'x' }, { name: 'b', passphrase: 'y' }], { k: 2, mode: 'strict' }), { code: 'bad-option' });
   // single-bit damage anywhere in the vault is refused (checksum) or yields no secret
   for (let i = 0; i < raw.length; i += 7) { const m = Buffer.from(raw); m[i] ^= 0x10; await assert.rejects(openVault('tgv1.' + m.toString('base64url'), { seed: { key: kSeed }, passkey: { key: kPass } }), (e) => e.name === 'CryptError'); }
 });

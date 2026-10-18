@@ -164,5 +164,10 @@
   "input": "070eebf6071887c48ac30210ba7e356782b5c676cd57e1dfc8138d33936cf0d5",
   "factor": "0dd5b24f8961ce642fbb806301b1261ce42cddbeb87ef514278191c19e9ed455",
   "seedFactor": "a619f899e2be7eb14504b6443397382b7629ede01c4c90357c9e8218c74effe1"
+ },
+ "vaultDefault": {
+  "vault": "tgv2.AgACAkp3zCMHcGFzc2tleQEAAqzFeY0fx3eetgNxMfaI9WyTTMuX9k9e29W9YuUtezLmP-PREXhH5qUmt7p5UWDvGpZVJhr7f5KEbqc1CnBhc3NwaHJhc2UCFQKAQAEBpyHgUZDAEAo-6OU11H7vAQEz2aW_V-fmOjag39UDBOrhb0_LaEFCzp7k21GrRGmv1si8Fx8fm8WlbpBdPs02oXkh8hBLetXAqoTyeID7fDw",
+  "secret": "da3426c8491db9cda8110552a9fbc1133b619ad3bbe7a4b81f0f379ecf194b5f",
+  "passphrase": "alpha beta gamma"
  }
 }

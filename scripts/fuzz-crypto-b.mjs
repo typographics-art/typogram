@@ -87,8 +87,9 @@ async function main() {
   const shares = await splitShamir(bytes(32), 2, 3, { random: rnd });
   const { newMixed } = await import('../src/keys-split.js');
   const half = (await newMixed('pw', { params: { kdf: 'pbkdf2-sha512', iterations: 100000 }, random: rnd })).half;
-  const vault = (await createVault([{ name: 'a', key: bytes(32) }, { name: 'b', key: bytes(32) }, { name: 'p', passphrase: 'x y', params: { kdf: 'pbkdf2-sha512', iterations: 100000 } }], { random: rnd })).vault;
-  const valid = { 'tgx1.': sealed.key, 'tgx2.': sealed2.key, 'tgs1.': sealed.record, 'tg2.': book2, 'tgr1.': toRec, 'tgp1.': recipient.public, 'tgq1.': recipient.secret, 'tgmk1.': masterText, 'tgsh1.': shares[0], 'tgxm1.': half, 'tgv1.': vault, 'inline': inline.key, 'pw': pw.record };
+  const vault = (await createVault([{ name: 'a', key: bytes(32) }, { name: 'b', key: bytes(32) }, { name: 'p', passphrase: 'x y', params: { kdf: 'pbkdf2-sha512', iterations: 100000 } }], { mode: 'strict', random: rnd })).vault;
+  const vault2 = (await createVault([{ name: 'seed', master }, { name: 'a', key: bytes(32) }, { name: 'p', passphrase: 'x y', params: { kdf: 'pbkdf2-sha512', iterations: 100000 } }], { random: rnd })).vault;
+  const valid = { 'tgx1.': sealed.key, 'tgx2.': sealed2.key, 'tgs1.': sealed.record, 'tg2.': book2, 'tgr1.': toRec, 'tgp1.': recipient.public, 'tgq1.': recipient.secret, 'tgmk1.': masterText, 'tgsh1.': shares[0], 'tgxm1.': half, 'tgv1.': vault, 'tgv2.': vault2, 'inline': inline.key, 'pw': pw.record };
   const fixtures = readdirSync(new URL('../test/fixtures/', import.meta.url).pathname).filter((f) => /\.(csv|tsv|json|xlsx|md|yaml|xml|ics|vcf|env)$/.test(f))
     .map((f) => ({ name: f, bytes: new Uint8Array(readFileSync(new URL('../test/fixtures/' + f, import.meta.url))) }));
   const vectors = JSON.parse(readFileSync(new URL('../test/fixtures/conformance/crypt-vectors.json', import.meta.url), 'utf8'));
@@ -112,8 +113,8 @@ async function main() {
     },
     // forged vaults: base64url body with a correct 4-byte checksum, plausible header
     async () => {
-      const n = 7 + int(QUICK ? 200 : 600); const body = bytes(n); body[0] = 1; body[1] = 2 + int(2); body[2] = body[1] + int(4);
-      const tok = 'tgv1.' + b64urlEncode(concat(body, await checksum('tgv1', body, 4)));
+      const n = 7 + int(QUICK ? 200 : 600); const body = bytes(n); const v2 = int(2); body[0] = 1 + v2; body[1] = v2 ? int(2) : 2 + int(2); body[2] = body[1] + int(4);
+      const pre = v2 ? 'tgv2' : 'tgv1', tok = pre + '.' + b64urlEncode(concat(body, await checksum(pre, body, 4)));
       await run('vault ' + show(tok), () => openVault(tok, { a: { key: bytes(32) }, b: { key: bytes(32) }, p: { passphrase: 'x y' } }));
       await run('describeVault ' + show(tok), () => describeVault(tok));
     },

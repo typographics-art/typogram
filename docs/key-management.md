@@ -21,13 +21,14 @@ Design and reference for `src/keys*.js` and the new commands of `cli/tg-crypt.mj
 | Hidden work binding (`tgx2.`) | **implemented**, tested, opens through `openAny` and `tg-crypt open` |
 | XOR n-of-n and Shamir k-of-n shares (`tgsh1.`) | **implemented**, tested (exhaustive uniformity proof on one byte) |
 | Password mixing (`tgxm1.` half key), Argon2id and PBKDF2-SHA512 | **implemented**, tested |
-| Vault: random secret wrapped by k-of-n factors (`tgv1.`), passkey (WebAuthn PRF) and seed as factors | **implemented**, tested in Chromium with a virtual passkey; real authenticators **unverified** |
+| Vault, default `tgv2.` (V = the master: the seed alone recovers everything; passkey + passphrase as 2-of-2 convenience wrappers) and strict `tgv1.` (random V, the seed one of k-of-n shares), passkey (WebAuthn PRF) and seed as factors | **implemented**, tested (frozen vectors for both modes; Chromium with a virtual passkey); real authenticators **unverified** |
 | Passphrase generator from the word list | **implemented** |
 | Browser module API (the same modules; Chromium and Firefox equal Node on the vectors) | **implemented**, tested |
-| CLI: `master`, `derive`, `recipient`, `split`, `join`, `seal --to`, `seal --record-id`, `open` | **implemented**, tested |
+| CLI: `master`, `derive`, `recipient`, `split`, `join`, `seal --to`, `seal --record-id`, `open`, `vault create`, `vault open`, `vault inspect` | **implemented**, tested |
 | Panels in `app.html` / `work.html` | **designed only** (section 9; another agent builds the panels) |
-| Post-quantum hybrid `tgr2.`, key-committing record version, `tgx2` in the generator | **designed only** |
-| CLI for password mixing and the vault | **designed only** (library works; commands not added) |
+| `tgx2.` in the generator (`app.html` writes `tgx2.`; `work.html` and the CLI open `tgx1.` and `tgx2.`) | **implemented**, checked in headless Chrome (`scripts/check-web-data.mjs`) |
+| Post-quantum hybrid `tgr2.`, key-committing record version | **designed only** |
+| CLI for password mixing | **designed only** (library works; the command is not added) |
 
 ## 2. Master key and per-record keys
 
@@ -148,7 +149,8 @@ A share, a half key or a vault that is public protects nothing **by itself it is
 | **XOR n-of-n** (`splitXor`, `tgsh1.` type 1) | Loss of any n-1 parts to a thief: n-1 shares give no information at all (a one-time pad of the secret) | Losing any single share destroys the secret (all n are needed) |
 | **Shamir k-of-n** (`splitShamir`, type 2, GF(256), AES polynomial) | Theft of up to k-1 shares: no information (proved exhaustively, below); loss of up to n-k shares | k shares stolen; shares kept together |
 | **Password mixing** (`tgxm1.` half key + memorised password) | Theft of the half key alone; guessing of the password alone (there is nothing to check a guess against without the record *and* the half key) | Theft of both; a weak password **plus** the record and half key: the attacker then guesses the password offline at the KDF's price (Argon2id by default) |
-| **Vault** (`tgv1.`, section 7) | Theft of any set of factors that is smaller than k; the passphrase alone, always | k factors |
+| **Vault, default** (`tgv2.`, section 7) | Loss of the passkey, the passphrase or the vault file (the seed recovers everything); theft of the vault with one convenience factor; the passphrase alone, always | theft of the seed (it opens everything, section 2.4); theft of passkey *and* passphrase |
+| **Vault, strict** (`tgv1.`, section 7) | Theft of any set of factors that is smaller than k, the seed alone included; the passphrase alone, always | k factors; loss of the vault file with fewer than k factors left |
 
 ### 5.1 Share tokens
 
@@ -185,23 +187,32 @@ K      = HKDF-SHA-256( ikm = S || KDF(NFC(password), salt, parameters), salt = "
 
 ## 7. Recommended structure for memorable access: the vault **(implemented)**
 
-A vault is a random 32-byte **vault secret V** that is split by Shamir k-of-n; **each share is encrypted under one factor**. Typical: **2 of 3 factors** = the **seed backup**, a **passkey** (WebAuthn PRF), a **passphrase**.
+A vault wraps a 32-byte **vault secret V** so that memorable factors open it: a **passkey** (WebAuthn PRF) and a **passphrase**, beside the **seed backup**. `V` then serves as a master: `recordKey(V, id)`. There are two modes; the vault text says which one it holds (the prefix, and in `tgv2.` an authenticated mode byte), decision 13.2:
+
+| | **default** (`tgv2.`, `createVault` without a mode, `tg-crypt vault create`) | **strict** (`tgv1.`, `mode: 'strict'`, `--mode strict`) |
+|---|---|---|
+| `V` | **the master itself** (section 2) | 32 random bytes |
+| the seed | opens everything **without any vault**: `V = master` | one share like the others: alone it opens nothing |
+| without the seed | the convenience factors share `V` by Shamir k-of-n, `k = n` unless given: **passkey + passphrase, 2-of-2** | any k of all factors (2 of 3) |
+| a passphrase alone | **never** (at most k-1 passphrase factors among the convenience factors) | **never** (at most k-1 passphrase factors) |
+| the vault file is lost | nothing is lost: the seed recovers everything | `V` is gone unless k factors remain |
+| the seed is stolen | **everything is open**, as everything sealed from it is anyway (section 2.4) | the thief holds one share of k |
 
 ```
-tgv1.  base64url( 0x01, k, n, verify 4,  n × [ name, x, kdf descriptor (passphrase only: parameters + 16-byte salt), nonce 12, AES-GCM(wrap key, share) ], check 4 )
-wrap key = HKDF-SHA-256( factor key, salt "tgv1/wrap", info name );   AAD = "tgv1" || header || the entry's head
-factor keys:  seed      factorFromMaster(master)             HKDF of the master, domain "tgart/factor/seed/v1"
-              passkey   factorFromPrf(PRF output)            HKDF, domain "tgart/factor/passkey/v1"; input prfInput(label)
-              passphrase  Argon2id(passphrase) with the parameters in the vault
-verify = first 4 bytes of HMAC-SHA-256( V, "tgv1/check" )     (V is 256 random bits: a 32-bit value reveals nothing usable)
+tgv2.  base64url( 0x02, mode 0x00, k, n, verify 4,  n × [ name, x, kdf descriptor (passphrase only: parameters + 16-byte salt), nonce 12, AES-GCM(wrap key, share) ], check 4 )
+       AAD = "tgv2" || header (the mode byte included) || the entry's head;   wrap key = HKDF-SHA-256( factor key, salt "tgv2/wrap", info name )
+       verify = first 4 bytes of HMAC-SHA-256( V, "tgv2/check" );   the seed factor is NOT stored: opening with it is openVault(vault, { master }) (checked against verify) or no vault at all
+tgv1.  base64url( 0x01, k, n, verify 4,  n × [ the same entry ], check 4 )      AAD = "tgv1" || header || head;   wrap key with "tgv1/wrap";   verify with "tgv1/check"
+factor keys:  seed       factorFromMaster(master)   (strict only)   HKDF of the master, domain "tgart/factor/seed/v1"
+              passkey    factorFromPrf(PRF output)                  HKDF, domain "tgart/factor/passkey/v1"; input prfInput(label)
+              passphrase Argon2id(passphrase) with the parameters in the vault
 ```
 
-Rules, **enforced by `createVault`** and tested: `k >= 2`; **at most `k-1` passphrase factors**, so **every set of k factors that opens the vault contains at least one high-entropy factor: a passphrase alone can never open anything** (a vault with two passphrase factors and `k = 2` is refused). Any two of seed, passkey, passphrase open it; any one alone gives `vault-too-few` with the numbers; a wrong factor is skipped, not fatal.
-`V` then serves as a master: `recordKey(V, id)`.
+Rules, **enforced by `createVault`** and tested, in both modes: **at most `k-1` passphrase factors** among the factors that share `V` (`k >= 2` in strict mode; `k >= 1` in default mode, so a single passkey may stand alone without the seed, a single passphrase may not), hence **every set of factors that opens a vault without the seed contains at least one high-entropy factor: a passphrase alone can never open anything**. Refused: a default vault of seed + passphrase only; 1-of-2 of passkey + passphrase; two passphrases with `k = 2`. The default mode needs exactly one master factor `{ name, master }` (never written into the vault) and no convenience factor named `master` (that name is the seed path when opening). Too few factors give `vault-too-few` with the numbers; a wrong factor is skipped, not fatal; a changed character is `checksum`; a changed mode byte with a fresh outer checksum is refused as `version`, never read as the other mode (the header is in every entry's AAD).
 
-Consequences: losing the passkey (a phone, a reset) is survived by seed + passphrase; losing the seed paper by passkey + passphrase; forgetting the passphrase by seed + passkey. The passphrase-wrapped share can be attacked offline if the vault is public, but it is only one share: it gives the attacker nothing alone. The vault may be stored anywhere (it is encrypted shares), including with the records.
+Consequences, default mode: losing the passkey (a phone, a reset) or forgetting the passphrase costs nothing, the seed is there; losing the seed paper is survived by passkey + passphrase as long as the vault file exists. The passphrase-wrapped share can be attacked offline if the vault is public, but it is one share of two: it gives the attacker nothing alone. The vault may be stored anywhere (it is encrypted shares), including with the records.
 
-**Trade-off to decide:** in this structure the **seed alone cannot open the vault**; if the vault file is lost *and* only the seed remains, `V` is gone. If "the seed alone must always recover everything", use the alternative: `V = master` from the seed (section 2) and treat passkey and passphrase as additional wrappers *for convenience*; then the seed alone is enough, and so is whoever steals the seed. The code supports both (`createVault` takes any random secret today; the alternative is a wrapper function over `mixedKey`/`factorFromPrf`). Open question 2.
+**The trade-off, decided (13.2):** in the default mode **a stolen seed opens everything**, exactly as it opens everything sealed from it anyway (section 2.4); in return the seed alone always recovers everything, with or without the vault, and nothing is lost with the vault file. The strict mode remains for people whose main risk is theft of the written seed: there the seed alone opens nothing, and in return a lost vault file loses `V` unless k factors remain. `tgv1.` vaults made before this decision are strict vaults and read as before.
 
 ### 7.1 Passphrases: how many words
 
@@ -224,7 +235,8 @@ Consequences: losing the passkey (a phone, a reset) is survived by seed + passph
 | `tgr1.` to a public key | has the record and the public key | cannot open without the secret key | recipient secret leaks (no forward secrecy); quantum computer later (X25519), if the record was published |
 | XOR / Shamir shares | holds fewer than the threshold | no information (proved) | threshold reached; shares stored together or in one public place |
 | Half key + password (`tgxm1.`) | has the record and the half key | password alone is nothing; half key alone is nothing | weak password **and** record **and** half key: offline guessing at Argon2id cost |
-| Vault `tgv1.` (2 of 3) | holds one factor, or has the public vault | one factor; the passphrase alone | any two factors |
+| Vault `tgv2.` (default) | holds the vault and one convenience factor | one factor; the passphrase alone, always | the seed (it is `V`); passkey and passphrase together |
+| Vault `tgv1.` (strict, 2 of 3) | holds one factor, or has the public vault | one factor, the seed included; the passphrase alone | any two factors |
 | Password only (legacy `tgs1.` password mode) | has a public record | only a very strong, truly random password | any human-chosen password (section 0.1 of the cipher review): **refused for publishing** |
 | **All of the above** | a malicious browser extension or a compromised device | nothing: it reads memory and keystrokes | – (section 9) |
 
@@ -264,6 +276,8 @@ The same pure modules run in Node and in the browser (Web Crypto only; the brows
 | Passphrase | Choose "Generate" for a passphrase. 8 generated words are a good second factor. They are never enough alone for data that will be public. |
 | Password rule | A password alone cannot protect a record that may be published. Add a random key. |
 | Sealing | Seal for the owner of a public key: only the matching secret key can open it. You cannot open it yourself. |
+| Vault mode, default | Your seed alone always recovers everything, even without this vault. A passkey together with a passphrase opens it without the seed; a passphrase alone never does. Whoever holds your seed holds everything. |
+| Vault mode, strict | Any two of seed, passkey and passphrase open the vault; the seed alone does not. Choose this if theft of the written seed is your main risk: if the vault is lost, the seed alone cannot recover it. |
 
 ### 9.3 Wording, German
 
@@ -286,6 +300,8 @@ The same pure modules run in Node and in the browser (Web Crypto only; the brows
 | Passphrase | Wählen Sie «Erzeugen». 8 erzeugte Wörter sind ein guter zweiter Faktor. Für Daten, die öffentlich werden, reichen sie allein nie aus. |
 | Regel zum Passwort | Ein Passwort allein darf keinen Datensatz schützen, der veröffentlicht werden könnte. Fügen Sie einen zufälligen Schlüssel hinzu. |
 | Versiegeln | Für den Besitzer eines öffentlichen Schlüssels versiegeln: Nur der passende geheime Schlüssel kann es öffnen. Sie selbst können es nicht öffnen. |
+| Tresor-Modus, Standard | Ihr Seed allein stellt immer alles wieder her, auch ohne diesen Tresor. Ein Passkey zusammen mit einer Passphrase öffnet ihn ohne den Seed; eine Passphrase allein nie. Wer Ihren Seed besitzt, besitzt alles. |
+| Tresor-Modus, streng | Zwei beliebige von Seed, Passkey und Passphrase öffnen den Tresor; der Seed allein nicht. Wählen Sie das, wenn der Diebstahl des aufgeschriebenen Seeds Ihr grösstes Risiko ist: Geht der Tresor verloren, kann der Seed allein ihn nicht wiederherstellen. |
 
 ## 10. CLI (`cli/tg-crypt.mjs`, additive)
 
@@ -303,7 +319,14 @@ tg-crypt open <work> --record <f> --record-id <id> --master-file <f>
 tg-crypt open <work> --key-file <f> --record <f>      also reads tgx2. keys
 tg-crypt split (--xor <n> | --shamir <k>:<n>) [-o <prefix>]       key from --key-file / --key-stdin / TG_CRYPT_KEY; shares one per line, or <prefix>.1 …
 tg-crypt join <share file>… | --shares-stdin                                                                    prints the secret
+tg-crypt vault create [--mode default|strict] [-o <vault file>]   the seed: --seed-file <f> | --seed-stdin | TG_CRYPT_SEED (or a mnemonic as for `master`, or the master key as for `derive`)
+                                                                   a passkey: --passkey-file <f> | TG_CRYPT_PASSKEY (the passkey's 32-byte PRF output, hex; the factor is derived here)
+                                                                   a passphrase: --passphrase-file <f> | --passphrase-stdin | TG_CRYPT_PASSPHRASE.      prints the vault, or writes it with -o
+tg-crypt vault open <vault file> [-o <secret file>]                the same inputs; prints "Vault opened with <factors>", nothing secret; -o writes the secret as a tgmk1. master key
+tg-crypt vault inspect <vault file>                                mode, threshold k, factor names and KDF parameters; no secret
 ```
+
+`vault create` makes the **default** vault (section 7) unless `--mode strict` is given: `vault open --seed-file` (or any seed or master input) opens it by the seed alone, and so do passkey and passphrase together; seed + passphrase only is **refused at creation**, since the passphrase would then open it alone. In strict mode the seed is one share: `open` with the seed alone fails with the numbers, any two factors succeed. `--passkey-file` holds the **PRF output** of the passkey (32 bytes as 64 hex characters, what `passkey-check.html` and `prfInput` produce), not the derived factor: the CLI derives the factor with `factorFromPrf`, as the page does, so the same passkey opens the vault in both. The vault file and the opened secret go through the 0600 exclusive writer below (tested: an existing file and a symlink are refused, `--force` replaces); the opened secret is written as a `tgmk1.` master key, which in the default mode *is* the seed's master key and in strict mode is the vault's own `V` (usable with `--master-file` everywhere).
 
 Secrets only from files, standard input or the environment; **an option that would take a secret as an argument does not exist** (`--master`, `--mnemonic`, `--key` are refused as unknown options without echoing the value; tested). stdout carries the result only; progress goes to stderr and never contains a secret (tested). Files that hold secrets (`recipient --new`, `split -o`, `open -o`) are created with `O_CREAT|O_EXCL` and mode `0600` (and `fchmod` again on the open descriptor, so a permissive umask cannot widen it): **an existing file or a symlink, even a dangling one, is refused with a message naming the path and the target is never touched; `--force` unlinks the path first (a symlink itself, not what it points to) and creates it again** (tested, mode checked with `stat`). `seal --password-*` now needs `--accept-password-only`, and `publish` refuses password-only records (`--accept-password-only` overrides, for a test chain only).
 
@@ -312,7 +335,7 @@ Secrets only from files, standard input or the environment; **an option that wou
 - Nothing old breaks: `tgs1.` records, `tgx1.` keys, `tg1.`/`tg2.` book keys and all conformance vectors open as before (the existing 237 tests pass unchanged except one CLI test line that now gives the explicit password-only flag). `src/crypt*.js` were not changed.
 - `tgx1.` bound keys can be replaced by `tgx2.` for the **same record** without re-sealing: read the secret and the work, call `formatKey2`. (The `tgx1.` key's fingerprint is not needed.) New records can be sealed with `sealBound2`.
 - Records meant to be public: seal with a random key or a derived `K_i`; add a half key if a memorable factor is wanted; never a password alone.
-- **Designed only:** `tgx2.` in the generator panel; the key-committing record version; `tgr2.` post-quantum hybrid (cipher review 1.6).
+- **Built 2026-10-18:** `tgx2.` in the generator panel (`sealData2`), both key versions on the work page and in the CLI (`openAny`); the default vault `tgv2.` beside the strict `tgv1.`. **Designed only:** the key-committing record version; `tgr2.` post-quantum hybrid (cipher review 1.6).
 
 ## 12. What a host must merge (the files that were not touched)
 
@@ -330,9 +353,9 @@ Secrets only from files, standard input or the environment; **an option that wou
 ## 13. Decisions (2026-10-18)
 
 1. **A separate seed (or BIP-39 passphrase) for data**, never the seed of a wallet that holds money.
-2. **The seed alone recovers everything.** The vault's secret is the master itself (`V = master`); passkey and passphrase are convenience wrappers that open it without the seed, and the passphrase alone still never opens anything. The stricter variant (the seed alone does not open the vault) stays available as an option for people whose main risk is theft of the written seed. (Implementation pending; see section 7.)
+2. **The seed alone recovers everything.** The vault's secret is the master itself (`V = master`); passkey and passphrase are convenience wrappers that open it without the seed, and the passphrase alone still never opens anything. The stricter variant (the seed alone does not open the vault) stays available as an option for people whose main risk is theft of the written seed. (Built: `tgv2.` is the default of `createVault` and of `tg-crypt vault create`; the strict variant is `mode: 'strict'` / `--mode strict` and stays `tgv1.`; section 7.)
 3. Argon2id stays at 64 MiB × 3 passes until a phone has been measured.
-4. **The generator writes `tgx2.` keys** from now on; `tgx1.` stays readable.
-5. A vault command line (`vault create`, `vault open`) is built now; the post-quantum hybrid and the key-committing record version wait until after the public launch.
+4. **The generator writes `tgx2.` keys** from now on; `tgx1.` stays readable. (Built: `sealData2` in the panel; the work page and the CLI open both through `openAny`.)
+5. A vault command line (`vault create`, `vault open`, `vault inspect`) is built (section 10); the post-quantum hybrid and the key-committing record version wait until after the public launch.
 6. Real devices: owners test their passkeys with `/passkey-check` and report; the page is live, the documents say the factor is unverified on real devices until then.
 7. Done: `assets/vendor/noble-hashes` is in the package `files` list, both NOTICE rows exist.
