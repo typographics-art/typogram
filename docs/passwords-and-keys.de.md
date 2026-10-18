@@ -18,7 +18,7 @@ Diese Seite ist für Menschen, die wissen wollen, ob sie dem Schutz von Daten in
 | **Seed** (12, 18 oder 24 Wiederherstellungswörter, oder Hex) | Das eine Backup, aus dem ein **Master-Schlüssel** und **ein Schlüssel pro Datensatz** abgeleitet werden | Wörter werden aufgeschrieben und selten getippt | Öffnet alles, was daraus versiegelt wurde; ein einzelner Datensatz-Schlüssel lässt sich weitergeben, ohne den Rest preiszugeben. |
 | **Passwort / Passphrase** | Etwas, das sich ein Mensch merkt | Ja | Nur als *zusätzlicher* Faktor (nie allein für öffentliche Daten). |
 | **Anteil** (`tgsh1.…`) | Ein Stück eines in mehrere Teile zerlegten Schlüssels | Nein | Ein Schlüssel, der mehrere Teile aus verschiedenen Händen braucht (beliebige k von n). |
-| **Passkey** (WebAuthn, Handy oder Sicherheitsschlüssel) | Ein an die Hardware gebundenes Geheimnis, das man nicht erraten kann | Nein: das Gerät erledigt es | Ein Faktor eines 2-aus-3-Tresors; entworfen, noch nicht auf echten Geräten getestet. |
+| **Passkey** (WebAuthn, Handy oder Sicherheitsschlüssel) | Ein an die Hardware gebundenes Geheimnis, das man nicht erraten kann | Nein: das Gerät erledigt es | Ein Faktor eines 2-aus-3-Tresors; funktioniert in einem Testbrowser mit virtuellem Passkey, **noch nicht auf echten Geräten geprüft** (du kannst deines prüfen: `/passkey-check`). |
 
 ## 3. Warum ein Passwort die Schwachstelle ist
 
@@ -63,6 +63,8 @@ Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 | **A. Ein Zufallsschlüssel, im Passwortmanager oder in einer Datei** | Die meisten, für die meisten Daten | Einen Schlüssel pro Datensatz (etwa 60 Zeichen) | den Schlüssel: der Datensatz ist verloren |
 | **B. Ein Seed, viele Datensätze** | Wer viel versiegelt | Den Seed (12 bis 24 Wörter, auf Papier, sicher verwahrt). Jeder Datensatz bekommt daraus einen eigenen Schlüssel | den Seed: alles daraus Versiegelte ist verloren; wer den Seed stiehlt, öffnet alles |
 | **C. Ein Tresor mit 2 von 3 Faktoren** | Wer bequemen Zugang *und* ein Sicherheitsnetz will | Beliebige zwei von: Seed-Backup, Passkey, Passphrase | einen Faktor: nichts, die anderen zwei öffnen ihn noch; eine Passphrase allein öffnet nichts |
+
+**Prüfe dein Gerät, bevor du dich auf einen Passkey verlässt**, mit der Geräteprüfung unter [typographics-art.org/passkey-check](https://typographics-art.org/passkey-check): Sie testet in deinem Browser und ohne etwas zu senden, ob dein Passkey oder Sicherheitsschlüssel jedes Mal dasselbe Geheimnis liefert. Nicht jeder Browser und nicht jedes Gerät unterstützt das, und ein synchronisierter Passkey kann sich anders verhalten als ein Hardware-Schlüssel. Das Seed-Backup bleibt in jedem Fall der Weg zurück.
 
 **Nimm einen eigenen Seed für Daten.** Nimm nicht den Seed einer Wallet, in der Geld liegt: Wer ihn stiehlt, bekäme auch deine Daten, und ein verlorener Wallet-Seed würde deine Daten verlieren. (Die Wallet der Plattform ist reine Beobachtung, und ihren Seed verwaltet der Betreiber; sie ist deshalb nie ein Ort für private Nutzerdaten.)
 

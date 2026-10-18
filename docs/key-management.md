@@ -209,6 +209,8 @@ Consequences: losing the passkey (a phone, a reset) is survived by seed + passph
 
 ### 7.2 Passkeys (WebAuthn PRF), design
 
+**Check your own device:** [`passkey-check.html`](../passkey-check.html) (on the site: `https://typographics-art.org/passkey-check`) runs exactly this flow on the device in front of you: it creates a test passkey, asks for the PRF secret three times (twice with the same input, once with another), runs a small 2-of-2 vault test (passkey plus a random second factor opens it, the passkey alone does not) and prints a result block to copy. It stores nothing and sends nothing; the result block contains no key and no credential id, only yes/no facts, the browser string and a 4-byte fingerprint. A test with Chromium's virtual authenticator is part of the suite (`test/passkey-check.test.js`); results from **real** devices are what is still missing, and the page exists so that they can be collected.
+
 `prfInput(label)` gives the 32-byte `eval.first` input (SHA-256 of `"tgart/webauthn-prf/v1\0" + label`). Page flow: create the credential with `extensions: { prf: {} }` (learn `prf.enabled`), then `get` with `prf: { eval: { first: input } }`, take `results.first` (32 bytes), pass it to `factorFromPrf`, and discard it. Measured in Chromium with a virtual authenticator: enabled, 32 bytes, deterministic. **Unverified on real hardware, Safari and Windows Hello.** The relying party ID is part of the secret: the factor does not survive a change of domain. Synced passkeys are as strong as the cloud account that syncs them. Recovery: the seed backup and the passphrase remain.
 
 ## 8. Threat model per construction

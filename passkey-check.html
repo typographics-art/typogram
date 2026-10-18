@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Passkey device check – Typographics Art</title>
+<meta name="description" content="Checks whether a passkey or security key on this device can serve as a key factor for sealed data (WebAuthn PRF): in your browser, nothing is sent anywhere.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+:root{--bg:#f4f4f1;--band:#fff;--ink:#15171c;--muted:#5a6070;--line:#dcdfe5;--accent:#b8145a;--accent-ink:#fff;--ok:#1f7a4d;--bad:#a4570a;--f-ui:'Roboto Flex',system-ui,sans-serif;--f-mono:'IBM Plex Mono',ui-monospace,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root{--bg:#101217;--band:#171a21;--ink:#e8eaef;--muted:#a1a8b5;--line:#2a2f39;--accent:#ff5c9d;--accent-ink:#1a0610;--ok:#5fd39a;--bad:#f2a65a;color-scheme:dark}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.55}
+a{color:var(--accent)}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:8px;font-weight:700;text-decoration:none}.skip:focus{left:8px}
+header{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line)}
+header .brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;margin-right:auto;font-variation-settings:'wdth' 112,'opsz' 48}
+.lang{display:flex;gap:4px}.lang button{font:inherit;font-size:13px;font-weight:700;min-width:44px;min-height:44px;border-radius:6px;border:1px solid var(--line);background:var(--band);color:var(--ink);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+main{max-width:760px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;margin:8px 0 10px;font-variation-settings:'wdth' 112,'opsz' 96;font-weight:800}
+h2{font-size:20px;margin:30px 0 8px}
+p,li{color:var(--muted)}.lead{font-size:18px}
+.card{background:var(--band);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+button.act{font:inherit;font-weight:700;padding:12px 18px;min-height:44px;border-radius:999px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button.act[disabled]{opacity:.45;cursor:not-allowed}
+button.ghost{font:inherit;font-weight:600;padding:10px 16px;min-height:44px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+label{display:block;font-weight:600;margin-top:12px;color:var(--ink)}
+input[type=text],textarea{width:100%;font:13px/1.5 var(--f-mono);padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+textarea{min-height:190px}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--muted);font-weight:600;width:46%}
+.ok{color:var(--ok);font-weight:700}.bad{color:var(--bad);font-weight:700}
+.msg{margin:12px 0 0;padding:2px 0 2px 12px;border-left:3px solid var(--accent);color:var(--ink)}
+.msg.bad{border-color:var(--bad)}.msg.good{border-color:var(--ok)}
+footer{max-width:760px;margin:0 auto;padding:0 18px 40px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<header>
+  <a class="brand" href="./">Typo<span>graphics Art</span></a>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div>
+</header>
+<main id="main">
+  <h1 data-i18n="h1">Passkey device check</h1>
+  <p class="lead" data-i18n="lead">Sealed data can use a passkey or security key as one factor: the device returns a secret that cannot be guessed (the WebAuthn PRF extension). Whether that works depends on your browser and your device. This page tests it here, in your browser. Nothing is sent anywhere and nothing is stored; the passkey you create stays on your device.</p>
+
+  <section class="card" aria-labelledby="envh">
+    <h2 id="envh" data-i18n="envh" style="margin-top:0">1. This device</h2>
+    <table><tbody id="env"></tbody></table>
+  </section>
+
+  <section class="card" aria-labelledby="mkh">
+    <h2 id="mkh" data-i18n="mkh" style="margin-top:0">2. Create a test passkey</h2>
+    <p data-i18n="mkp">Your device asks you to confirm (fingerprint, face, PIN, or a touch on the key). This makes a test passkey for this website only; you can delete it afterwards in your device's passkey settings.</p>
+    <div class="row"><button type="button" class="act" id="make" data-i18n="make">Create test passkey</button></div>
+    <p class="msg" id="makeMsg" role="status" hidden></p>
+    <label for="credId" data-i18n="credId">Credential ID (not a secret). To test a passkey again later, or on another device it syncs to, paste the ID here before step 3.</label>
+    <input type="text" id="credId" autocomplete="off" spellcheck="false">
+  </section>
+
+  <section class="card" aria-labelledby="tsh">
+    <h2 id="tsh" data-i18n="tsh" style="margin-top:0">3. Test it</h2>
+    <p data-i18n="tsp">Asks the passkey for its secret three times (twice with the same input, once with another) and runs a small vault test: a vault opened by this passkey plus a second factor, and refused with the passkey alone. You will be asked to confirm each time your device wants it.</p>
+    <div class="row"><button type="button" class="act" id="test" data-i18n="test">Run the test</button></div>
+    <p class="msg" id="testMsg" role="status" hidden></p>
+    <table><tbody id="res"></tbody></table>
+  </section>
+
+  <section class="card" aria-labelledby="blh">
+    <h2 id="blh" data-i18n="blh" style="margin-top:0">4. The result, to copy</h2>
+    <p data-i18n="blp">This block holds only technical facts (browser, support, yes/no results, a short fingerprint). It contains no key and nothing that identifies you. Send it to the project to say what works on your device.</p>
+    <textarea id="block" readonly aria-label="Result" spellcheck="false"></textarea>
+    <div class="row"><button type="button" class="ghost" id="copy" data-i18n="copy">Copy the result</button></div>
+    <p class="msg" id="copyMsg" role="status" hidden></p>
+  </section>
+</main>
+<footer><span data-i18n="foot">The fingerprint is the first 4 bytes of a SHA-256 of a value derived from the passkey's secret: the same passkey and input give the same fingerprint every time, on every device it syncs to, if the platform returns the same secret there.</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/key-management.md" data-i18n="more">Why this matters</a></footer>
+
+<script type="module">
+import { prfInput, factorFromPrf, createVault, openVault } from './src/keys-split.js';
+import { toHex } from './src/crypt-codec.js';
+
+const $ = (s) => document.querySelector(s);
+const MSG = {
+  en: { skip: 'Skip to content', h1: 'Passkey device check',
+    envh: '1. This device', mkh: '2. Create a test passkey', tsh: '3. Test it', blh: '4. The result, to copy',
+    make: 'Create test passkey', test: 'Run the test', copy: 'Copy the result', more: 'Why this matters',
+    credId: 'Credential ID (not a secret). To test a passkey again later, or on another device it syncs to, paste the ID here before step 3.',
+    madeOk: 'Test passkey created. Credential ID filled in below. Now run step 3.', madeNoPrf: 'Test passkey created, but this device did not say that it supports the PRF extension at creation. Step 3 shows whether it does when asked.',
+    needHttps: 'Passkeys need a secure page (https). Open this page from typographics-art.org.', noWebauthn: 'This browser has no passkey support (WebAuthn).',
+    cancelled: 'You cancelled, or the device refused. Nothing was changed.', failed: 'The device returned an error: {e}',
+    needId: 'Create a test passkey first (step 2), or paste a credential ID.', running: 'Running … confirm on your device when it asks.',
+    allGood: 'This passkey works as a key factor: it returns the same 32-byte secret for the same input, another one for another input, and opened the vault.',
+    prfMissing: 'This device or browser did not return a PRF secret. It cannot be used as a key factor here; use the seed backup and a passphrase instead.',
+    notStable: 'The secret was NOT the same twice. Do not use this passkey as a key factor.', vaultFail: 'The vault test failed: {e}',
+    copied: 'Copied.', copyFail: 'Could not copy: select the text and copy it by hand.',
+    k: { secure: 'Secure page (https)', webauthn: 'Passkeys (WebAuthn) in this browser', platform: 'Built-in authenticator available (fingerprint, face, PIN)', conditional: 'Passkey autofill supported', prfCreate: 'PRF reported at creation', prfGet: 'PRF secret returned when asked', len: 'Secret length', stable: 'Same input gives the same secret', differ: 'Another input gives another secret', vaultOpen: 'Vault opens with passkey and a second factor', vaultLock: 'Vault stays closed with the passkey alone', fp: 'Fingerprint of the factor', fp2: 'Fingerprint, another input', browser: 'Browser' },
+    yes: 'yes', no: 'no', unknown: 'unknown', bytes: '{n} bytes' },
+  de: { skip: 'Zum Inhalt springen', h1: 'Passkey-Geräteprüfung',
+    lead: 'Versiegelte Daten können einen Passkey oder Sicherheitsschlüssel als einen Faktor nutzen: Das Gerät liefert ein Geheimnis, das sich nicht erraten lässt (die WebAuthn-PRF-Erweiterung). Ob das klappt, hängt von Browser und Gerät ab. Diese Seite testet es hier, in deinem Browser. Nichts wird irgendwohin gesendet und nichts gespeichert; der Passkey, den du erstellst, bleibt auf deinem Gerät.',
+    mkp: 'Dein Gerät bittet dich um eine Bestätigung (Fingerabdruck, Gesicht, PIN oder ein Tipp auf den Schlüssel). Das erzeugt einen Test-Passkey nur für diese Website; du kannst ihn danach in den Passkey-Einstellungen deines Geräts löschen.',
+    tsp: 'Fragt den Passkey dreimal nach seinem Geheimnis (zweimal mit derselben Eingabe, einmal mit einer anderen) und macht einen kleinen Tresortest: ein Tresor, der sich mit diesem Passkey plus einem zweiten Faktor öffnet und mit dem Passkey allein verschlossen bleibt. Du wirst jedes Mal um Bestätigung gebeten, wenn dein Gerät sie will.',
+    blp: 'Dieser Block enthält nur technische Fakten (Browser, Unterstützung, Ja/Nein-Ergebnisse, einen kurzen Fingerabdruck). Er enthält keinen Schlüssel und nichts, was dich identifiziert. Schick ihn dem Projekt, um zu sagen, was auf deinem Gerät funktioniert.',
+    foot: 'Der Fingerabdruck sind die ersten 4 Byte eines SHA-256 über einen aus dem Geheimnis des Passkeys abgeleiteten Wert: Derselbe Passkey und dieselbe Eingabe ergeben jedes Mal denselben Fingerabdruck, auch auf jedem Gerät, auf das er synchronisiert wird, falls die Plattform dort dasselbe Geheimnis liefert.',
+    envh: '1. Dieses Gerät', mkh: '2. Test-Passkey erstellen', tsh: '3. Testen', blh: '4. Das Ergebnis zum Kopieren',
+    make: 'Test-Passkey erstellen', test: 'Test ausführen', copy: 'Ergebnis kopieren', more: 'Warum das wichtig ist',
+    credId: 'Credential-ID (kein Geheimnis). Um einen Passkey später oder auf einem anderen Gerät, auf das er synchronisiert wird, noch einmal zu testen, die ID vor Schritt 3 hier einfügen.',
+    madeOk: 'Test-Passkey erstellt. Die Credential-ID ist unten eingetragen. Jetzt Schritt 3 ausführen.', madeNoPrf: 'Test-Passkey erstellt, aber dieses Gerät hat bei der Erstellung nicht gemeldet, dass es die PRF-Erweiterung kann. Schritt 3 zeigt, ob es das auf Nachfrage tut.',
+    needHttps: 'Passkeys brauchen eine sichere Seite (https). Öffne diese Seite von typographics-art.org.', noWebauthn: 'Dieser Browser unterstützt keine Passkeys (WebAuthn).',
+    cancelled: 'Du hast abgebrochen, oder das Gerät hat abgelehnt. Es wurde nichts verändert.', failed: 'Das Gerät meldet einen Fehler: {e}',
+    needId: 'Erstelle zuerst einen Test-Passkey (Schritt 2) oder füge eine Credential-ID ein.', running: 'Läuft … bestätige auf deinem Gerät, wenn es fragt.',
+    allGood: 'Dieser Passkey taugt als Schlüsselfaktor: Er liefert für dieselbe Eingabe dasselbe 32-Byte-Geheimnis, für eine andere Eingabe ein anderes, und hat den Tresor geöffnet.',
+    prfMissing: 'Dieses Gerät oder dieser Browser hat kein PRF-Geheimnis geliefert. Es taugt hier nicht als Schlüsselfaktor; nimm stattdessen das Seed-Backup und eine Passphrase.',
+    notStable: 'Das Geheimnis war NICHT zweimal dasselbe. Nimm diesen Passkey nicht als Schlüsselfaktor.', vaultFail: 'Der Tresortest ist fehlgeschlagen: {e}',
+    copied: 'Kopiert.', copyFail: 'Kopieren nicht möglich: Text markieren und von Hand kopieren.',
+    k: { secure: 'Sichere Seite (https)', webauthn: 'Passkeys (WebAuthn) in diesem Browser', platform: 'Eingebauter Authenticator verfügbar (Fingerabdruck, Gesicht, PIN)', conditional: 'Passkey-Autofill unterstützt', prfCreate: 'PRF bei der Erstellung gemeldet', prfGet: 'PRF-Geheimnis auf Nachfrage geliefert', len: 'Länge des Geheimnisses', stable: 'Gleiche Eingabe gibt das gleiche Geheimnis', differ: 'Andere Eingabe gibt ein anderes Geheimnis', vaultOpen: 'Tresor öffnet sich mit Passkey und zweitem Faktor', vaultLock: 'Tresor bleibt mit dem Passkey allein zu', fp: 'Fingerabdruck des Faktors', fp2: 'Fingerabdruck, andere Eingabe', browser: 'Browser' },
+    yes: 'ja', no: 'nein', unknown: 'unbekannt', bytes: '{n} Byte' },
+};
+let lang = 'en';
+try { lang = localStorage.getItem('tg-art.lang') || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'); } catch { /* default */ }
+const t = (k, v = {}) => String(MSG[lang][k] ?? k).replace(/\{(\w+)\}/g, (_, n) => v[n]);
+const yn = (v) => (v === true ? t('yes') : v === false ? t('no') : t('unknown'));
+const EN_TEXT = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
+const state = { env: {}, res: {}, id: null };
+
+const b64u = (b) => btoa(String.fromCharCode(...b)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+const sha4 = async (bytes) => toHex(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))).slice(0, 8);
+const say = (el, msg, kind) => { el.hidden = false; el.textContent = msg; el.className = 'msg ' + (kind || ''); };
+const errText = (e) => (e?.name === 'NotAllowedError' || e?.name === 'AbortError' ? t('cancelled') : t('failed', { e: `${e?.name || 'Error'}: ${String(e?.message || e).slice(0, 160)}` }));
+
+function render() {
+  const k = MSG[lang].k, row = (name, value, cls) => `<tr><th>${name}</th><td${cls ? ` class="${cls}"` : ''}>${value}</td></tr>`;
+  const e = state.env, r = state.res;
+  $('#env').innerHTML = [
+    row(k.browser, (navigator.userAgent.match(/(Firefox|Edg|Chrome|Version)\/[\d.]+/g) || [navigator.userAgent]).slice(0, 2).join(' ').replace(/[<&>]/g, '')),
+    row(k.secure, yn(e.secure), e.secure ? 'ok' : 'bad'), row(k.webauthn, yn(e.webauthn), e.webauthn ? 'ok' : 'bad'),
+    row(k.platform, yn(e.platform)), row(k.conditional, yn(e.conditional)),
+  ].join('');
+  const out = [];
+  if ('prfCreate' in r) out.push(row(k.prfCreate, yn(r.prfCreate)));
+  if ('prfGet' in r) out.push(row(k.prfGet, yn(r.prfGet), r.prfGet ? 'ok' : 'bad'));
+  if (r.len != null) out.push(row(k.len, t('bytes', { n: r.len })));
+  if ('stable' in r) out.push(row(k.stable, yn(r.stable), r.stable ? 'ok' : 'bad'));
+  if ('differ' in r) out.push(row(k.differ, yn(r.differ), r.differ ? 'ok' : 'bad'));
+  if ('vaultOpen' in r) out.push(row(k.vaultOpen, yn(r.vaultOpen), r.vaultOpen ? 'ok' : 'bad'));
+  if ('vaultLock' in r) out.push(row(k.vaultLock, yn(r.vaultLock), r.vaultLock ? 'ok' : 'bad'));
+  if (r.fp) out.push(row(k.fp, `<code>${r.fp}</code>`)); if (r.fp2) out.push(row(k.fp2, `<code>${r.fp2}</code>`));
+  $('#res').innerHTML = out.join('');
+  $('#block').value = JSON.stringify({ tool: 'passkey-check/1', at: new Date().toISOString(), page: location.origin, userAgent: navigator.userAgent, ...state.env, ...state.res, credentialReused: !!state.reused }, null, 2);
+}
+
+async function detect() {
+  const e = state.env;
+  e.secure = window.isSecureContext === true;
+  e.webauthn = typeof window.PublicKeyCredential === 'function' && !!navigator.credentials?.create;
+  try { e.platform = e.webauthn ? await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable() : false; } catch { e.platform = null; }
+  try { e.conditional = e.webauthn && PublicKeyCredential.isConditionalMediationAvailable ? await PublicKeyCredential.isConditionalMediationAvailable() : false; } catch { e.conditional = null; }
+  const ok = e.secure && e.webauthn;
+  $('#make').disabled = !ok; $('#test').disabled = !ok;
+  if (!e.secure) say($('#makeMsg'), t('needHttps'), 'bad'); else if (!e.webauthn) say($('#makeMsg'), t('noWebauthn'), 'bad');
+  render();
+}
+
+async function make() {
+  try {
+    const cred = await navigator.credentials.create({ publicKey: {
+      challenge: crypto.getRandomValues(new Uint8Array(32)),
+      rp: { id: location.hostname, name: 'Typographics Art passkey check' },
+      user: { id: crypto.getRandomValues(new Uint8Array(16)), name: 'passkey-check', displayName: 'Passkey check' },
+      pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+      authenticatorSelection: { residentKey: 'preferred', userVerification: 'preferred' },
+      extensions: { prf: {} },
+    } });
+    state.id = new Uint8Array(cred.rawId);
+    $('#credId').value = b64u(state.id);
+    const prf = cred.getClientExtensionResults?.().prf;
+    state.res.prfCreate = prf ? prf.enabled === true : null;
+    say($('#makeMsg'), state.res.prfCreate ? t('madeOk') : t('madeNoPrf'), state.res.prfCreate ? 'good' : '');
+  } catch (e) { say($('#makeMsg'), errText(e), 'bad'); }
+  render();
+}
+
+async function run() {
+  const typed = $('#credId').value.trim();
+  let id = state.id;
+  if (typed) { try { id = unb64u(typed); state.reused = !(state.id && b64u(state.id) === typed); } catch { id = null; } }
+  if (!id) return say($('#testMsg'), t('needId'), 'bad');
+  say($('#testMsg'), t('running'));
+  const r = (state.res = { prfCreate: state.res.prfCreate });
+  const get = async (label) => {
+    const x = await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), rpId: location.hostname, allowCredentials: [{ type: 'public-key', id }], userVerification: 'preferred', extensions: { prf: { eval: { first: await prfInput(label) } } } } });
+    const first = x.getClientExtensionResults?.().prf?.results?.first;
+    return first ? new Uint8Array(first) : null;
+  };
+  try {
+    const a = await get('check/a'), b = await get('check/a'), c = await get('check/b');
+    r.prfGet = !!(a && b && c);
+    r.len = a ? a.length : null;
+    if (!r.prfGet) { say($('#testMsg'), t('prfMissing'), 'bad'); return render(); }
+    r.stable = toHex(a) === toHex(b);
+    r.differ = toHex(a) !== toHex(c);
+    const fa = await factorFromPrf(a);
+    r.fp = await sha4(fa); r.fp2 = await sha4(await factorFromPrf(c));
+    if (!r.stable) { say($('#testMsg'), t('notStable'), 'bad'); return render(); }
+    // a small vault: this passkey plus a random second high-entropy factor, 2 of 2
+    const seedFactor = crypto.getRandomValues(new Uint8Array(32));
+    const { vault, secret } = await createVault([{ name: 'seed', key: seedFactor }, { name: 'passkey', key: fa }], { k: 2 });
+    const opened = await openVault(vault, { seed: { key: seedFactor }, passkey: { key: await factorFromPrf(b) } });
+    r.vaultOpen = toHex(opened.secret) === toHex(secret);
+    try { await openVault(vault, { passkey: { key: fa } }); r.vaultLock = false; } catch { r.vaultLock = true; }
+    const good = r.prfGet && r.stable && r.differ && r.vaultOpen && r.vaultLock;
+    say($('#testMsg'), good ? t('allGood') : t('vaultFail', { e: 'see the table' }), good ? 'good' : 'bad');
+  } catch (e) { say($('#testMsg'), errText(e), 'bad'); }
+  render();
+}
+
+function setLang(l) {
+  lang = l; document.documentElement.lang = l;
+  document.documentElement.dataset.ready = '1';
+  document.querySelectorAll('[data-i18n]').forEach((el) => { const v = l === 'en' ? EN_TEXT.get(el.dataset.i18n) : MSG.de[el.dataset.i18n]; if (v != null) el.textContent = v; });
+  document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+  document.title = l === 'de' ? 'Passkey-Geräteprüfung – Typographics Art' : 'Passkey device check – Typographics Art';
+  render();
+}
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { setLang(b.dataset.lang); try { localStorage.setItem('tg-art.lang', b.dataset.lang); } catch { /* not remembered */ } }));
+$('#make').addEventListener('click', make);
+$('#test').addEventListener('click', run);
+$('#copy').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('#block').value); say($('#copyMsg'), t('copied'), 'good'); } catch { say($('#copyMsg'), t('copyFail'), 'bad'); } });
+window.tgPasskeyCheck = { make, run, state };
+await detect();
+setLang(lang);
+</script>
+</body>
+</html>
