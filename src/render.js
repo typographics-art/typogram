@@ -131,7 +131,7 @@ export function toStandaloneHtml(sheet, { description = '', markdown = '', jsonl
     ld + mdScript +
     `<style>${HTML_DOC_CSS}</style>\n</head>\n<body>\n` +
     `<div class="tg-wrap">\n` +
-    `<figure class="tg-figure"${description ? ` role="img" aria-label="${escapeXml(description)}"` : ''}>${pictureHtml(sheet)}</figure>\n` +
+    `<figure class="tg-figure"${description ? ` role="figure" aria-label="${escapeXml(description)}"` : ''}>${pictureHtml(sheet)}</figure>\n` +
     (article ? article + '\n' : '') +
     `</div>\n</body>\n</html>\n`;
 }
