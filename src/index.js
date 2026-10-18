@@ -24,6 +24,7 @@ export { encode, decode, decodeAll, findBlocks, stripBlocks, verify, toFile, mod
 export { sealData, openSealed, findSealedBlocks, describeRecord, parseRecord, CryptError } from './crypt.js';
 export { sealStream, StreamReader, DEFAULT_FRAME } from './stream.js';
 export { buildDataLayer, readDataMarkdown, readJsonld, stripDataLayer, buildJsonld, embedStream, readEmbeddedStream, TYPOGRAM_NS, TYPOGRAM_STREAM_NS } from './typogram.js';
-// Issuer signatures (Phase H, docs/verification.md): Ed25519 over the identity hash, key files, lookup.
-export { SIG_SPEC, sigString, generateIssuerKey, publicKeyOf, signHash, verifyHash, buildKeyfile, findKey } from './sign.js';
+// NOTE: src/sign.js (Ed25519 issuer signatures, Phase H) is NOT re-exported here. It imports node:crypto and is CLI/server
+// only (private keys never reach the browser), while this public API is imported by the browser render page (cli/render.html).
+// The CLI imports sign.js directly; a browser-side verifier (the /v page) will use a Web-Crypto path, not this module.
 export * as dataPanel from './data-panel.js';
