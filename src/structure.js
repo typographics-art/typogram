@@ -8,7 +8,8 @@
 
 const HEADING = [
   // Markdown ATX headings: the number of '#' is the level.
-  { re: /^(#{1,6})\s+(.+?)\s*#*$/, level: (m) => m[1].length, title: (m) => m[2] },
+  // (a function, not /^(#{1,6})\s+(.+?)\s*#*$/: that expression took quadratic time on a heading with a long run of spaces inside)
+  { match: (t) => { const m = /^(#{1,6})\s+/.exec(t); if (!m) return null; const body = t.slice(m[0].length); let k = body.length; while (k > 0 && body[k - 1] === '#') k--; while (k > 0 && /\s/.test(body[k - 1])) k--; return body ? [t, m[1], body.slice(0, Math.max(1, k))] : null; }, level: (m) => m[1].length, title: (m) => m[2] },
   // "CHAPTER 1. Loomings." / "Chapter 12" — books.
   { re: /^(chapter\s+[0-9ivxlc]+\b\.?)\s*(.*)$/i, level: () => 2, title: (m) => (m[2] ? `${m[1]} ${m[2]}` : m[1]) },
   // "Art. 5" / "Article 12" / "Section 3" / "§ 4" — laws and policies.
@@ -24,7 +25,7 @@ function headingOf(line) {
   const t = line.trim();
   if (!t) return null;
   for (const h of HEADING) {
-    const m = t.match(h.re);
+    const m = h.match ? h.match(t) : t.match(h.re);
     if (m && (!h.extra || h.extra(m))) return { level: h.level(m), title: h.title(m).trim() };
   }
   return null;

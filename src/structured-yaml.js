@@ -11,6 +11,23 @@ import { textOf, hasBom, jsonToModel, modelToJson } from './structured-model.js'
 
 const RESERVED = /^(?:null|Null|NULL|~|true|True|TRUE|false|False|FALSE|y|Y|n|N|yes|Yes|YES|no|No|NO|on|On|ON|off|Off|OFF)$/;
 const NUMBERLIKE = /^[-+]?(?:\d[\d_]*\.?\d*|\.\d+)(?:[eE][-+]?\d+)?$|^[-+]?\.(?:inf|Inf|INF)$|^\.(?:nan|NaN|NAN)$|^0[xXoObB][\da-fA-F_]+$/;
+/**
+ * Removes a trailing comment: the same result as `s.replace(/\s+#.*$/, '')` (spaceBefore) or `s.replace(/\s*#.*$/, '')`, but in linear
+ * time. Those two regular expressions took quadratic time on a line with a long run of white space (80 000 spaces: 2.5 seconds, 1 MB: minutes).
+ * A comment is a "#" after which no line terminator follows (what `.*$` can match), by default one that white space precedes.
+ */
+const LINE_TERMINATOR = /[\n\r\u2028\u2029]/;
+export function cutComment(s, spaceBefore) {
+  let after = -1;
+  for (let k = s.length - 1; k >= 0; k--) if (LINE_TERMINATOR.test(s[k])) { after = k; break; }
+  for (let j = s.indexOf('#', after + 1); j >= 0; j = s.indexOf('#', j + 1)) {
+    if (spaceBefore && !(j > 0 && /\s/.test(s[j - 1]))) continue;
+    let i = j;
+    while (i > 0 && /\s/.test(s[i - 1])) i--;
+    return s.slice(0, i);
+  }
+  return s;
+}
 
 function typed(text) {
   if (text === '' || text === '~' || /^(?:null|Null|NULL)$/.test(text)) return null;
@@ -69,9 +86,9 @@ export function parseYaml(input, limits = {}) {
       if (rest && !rest.startsWith('#')) fail('unexpected text after a quoted string', n);
       return value;
     }
-    if (text[0] === '[' || text[0] === '{') { const { value, end } = flow(text, 0, n, depth); if (text.slice(end).replace(/\s*#.*$/, '').trim()) fail('unexpected text after a flow collection', n); return value; }
+    if (text[0] === '[' || text[0] === '{') { const { value, end } = flow(text, 0, n, depth); if (cutComment(text.slice(end), false).trim()) fail('unexpected text after a flow collection', n); return value; }
     if (text[0] === '|' || text[0] === '>') fail('a block scalar must start a value, not stand inside a flow', n);
-    const plain = text.replace(/\s+#.*$/, '');
+    const plain = cutComment(text, true);
     return typed(plain);
   }
 

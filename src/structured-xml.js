@@ -43,7 +43,7 @@ export function parseXml(input, limits = {}) {
   const bad = BAD_CHAR.exec(s);
   if (bad) fail(`character U+${bad[0].codePointAt(0).toString(16).toUpperCase().padStart(4, '0')} is not allowed in XML`, bad.index);
   let declaration = null;
-  const decl = /^<\?xml\s+([^?]*)\?>/.exec(s);
+  const decl = /^<\?xml\s([^?]*)\?>/.exec(s); // one \s, not \s+: with \s+ the two overlapping loops took quadratic time on "<?xml " plus a long run of spaces
   if (decl) {
     declaration = {};
     for (const m of decl[1].matchAll(/(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) declaration[m[1]] = m[2] ?? m[3];

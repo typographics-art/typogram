@@ -10,7 +10,32 @@ import { TgdError } from './structured-json.js';
 import { textOf } from './structured-model.js';
 
 const FENCE = /^( {0,3})(`{3,}|~{3,})\s*([^`\s]*)[^`]*$/;
-const ATX = /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/;
+/**
+ * An ATX heading line, as the regular expression /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/ matched it (same
+ * `exec` result: [line, hashes, content], content undefined for a bare "###"; `test` too), in linear time: that
+ * expression took quadratic time on "# a" followed by a long run of spaces (80 000 spaces: 6 seconds, 1 MB: many minutes).
+ */
+const ATX = {
+  head: /^ {0,3}(#{1,6})(?=[ \t]|$)/,
+  exec(l) {
+    const m = this.head.exec(l);
+    if (!m || /[\n\r\u2028\u2029]/.test(l)) return null; // what `.` cannot match
+    const rest = l.slice(m[0].length);
+    if (rest === '') return [l, m[1], undefined];
+    const blank = (c) => c === ' ' || c === '\t';
+    let a = 0;
+    while (a < rest.length && blank(rest[a])) a++;
+    const body = rest.slice(a);
+    let end = body.length;
+    while (end > 0 && blank(body[end - 1])) end--;
+    let h = end;
+    while (h > 0 && body[h - 1] === '#') h--;
+    let k = end;
+    if (h < end && h > 0 && blank(body[h - 1])) { k = h; while (k > 0 && blank(body[k - 1])) k--; } // the optional closing sequence
+    return [l, m[1], body.slice(0, k)];
+  },
+  test(l) { return this.exec(l) !== null; },
+};
 const HR = /^ {0,3}([-*_])(?:[ \t]*\1){2,}[ \t]*$/;
 const BULLET = /^( {0,3})([-+*])([ \t]+|$)/;
 const ORDERED = /^( {0,3})(\d{1,9})([.)])([ \t]+|$)/;
@@ -20,6 +45,8 @@ const TABLE_SEP = /^ {0,3}\|?[ \t]*:?-+:?[ \t]*(?:\|[ \t]*:?-+:?[ \t]*)*\|?[ \t]
 const expandTabs = (l) => { let col = 0, out = ''; for (const ch of l) { if (ch === '\t') { const n = 4 - (col % 4); out += ' '.repeat(n); col += n; } else { out += ch; col++; } } return out; };
 const indentOf = (l) => /^ */.exec(l)[0].length;
 const isBlank = (l) => /^[ \t]*$/.test(l);
+/** `s.replace(/[ \t]+$/, '')` in linear time (the regular expression took quadratic time on a long run of spaces followed by a letter). */
+const trimEndBlank = (s) => { let e = s.length; while (e > 0 && (s[e - 1] === ' ' || s[e - 1] === '\t')) e--; return s.slice(0, e); };
 
 function splitRow(line) {
   let s = line.trim();
@@ -153,7 +180,7 @@ export function parseBlocks(lines, depth = 0, limits = {}) {
       if (para.length && startsBlock(lines[i], lines[i + 1], true)) break;
       para.push(lines[i].replace(/^[ \t]+/, '')); i++;
     }
-    if (para.length) { para[para.length - 1] = para.at(-1).replace(/[ \t]+$/, ''); blocks.push({ t: 'p', x: para.join('\n') }); }
+    if (para.length) { para[para.length - 1] = trimEndBlank(para.at(-1)); blocks.push({ t: 'p', x: para.join('\n') }); }
   }
   return blocks;
 }
