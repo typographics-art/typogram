@@ -1,0 +1,145 @@
+# Semgrep rules of the internal adversarial review 2026-10 (docs/security-review-internal-2026-10-b.md).
+# Written by hand because the public rule registry was not reachable from the review machine; they cover the sinks that
+# matter for this code base: HTML sinks fed with data, code evaluation, weak randomness, shell execution, storage of
+# secrets, the clipboard, non-AEAD ciphers, and regexes built from data. Run:
+#   semgrep --config scripts/semgrep-rules-b.yaml --metrics=off src cli api scripts <extracted inline scripts>
+rules:
+  - id: tg-html-sink-from-variable
+    languages: [javascript]
+    severity: WARNING
+    message: HTML sink assigned from a non-literal; check that every interpolated value is escaped or constant
+    patterns:
+      - pattern-either:
+          - pattern: $EL.innerHTML = $V
+          - pattern: $EL.outerHTML = $V
+          - pattern: $EL.insertAdjacentHTML($W, $V)
+          - pattern: document.write($V)
+          - pattern: document.writeln($V)
+      - pattern-not: $EL.innerHTML = "..."
+      - pattern-not: $EL.innerHTML = ""
+  - id: tg-dom-parser-or-range
+    languages: [javascript]
+    severity: INFO
+    message: DOMParser / createContextualFragment turns text into DOM; the source must be trusted or sanitised afterwards
+    pattern-either:
+      - pattern: new DOMParser().parseFromString($S, ...)
+      - pattern: $R.createContextualFragment($S)
+  - id: tg-code-evaluation
+    languages: [javascript]
+    severity: ERROR
+    message: code evaluation from a string
+    pattern-either:
+      - pattern: eval($S)
+      - pattern: new Function(...)
+      - pattern: Function(...)
+      - pattern: setTimeout("...", ...)
+      - pattern: setInterval("...", ...)
+      - pattern: vm.runInNewContext(...)
+      - pattern: vm.runInThisContext(...)
+  - id: tg-math-random
+    languages: [javascript]
+    severity: WARNING
+    message: Math.random() is not a cryptographic source; keys, nonces, salts and ids must come from crypto.getRandomValues / node:crypto
+    pattern: Math.random()
+  - id: tg-shell-execution
+    languages: [javascript]
+    severity: WARNING
+    message: a shell command built or run (child_process exec / shell:true); arguments must be an array, never a string with interpolated data
+    pattern-either:
+      - pattern: exec(...)
+      - pattern: execSync(...)
+      - pattern: child_process.exec(...)
+      - pattern: child_process.execSync(...)
+      - pattern: 'spawn($C, ..., {shell: true})'
+      - pattern: 'spawnSync($C, ..., {shell: true})'
+      - pattern: spawn("...", "...")
+  - id: tg-browser-storage
+    languages: [javascript]
+    severity: INFO
+    message: browser storage write; a key, seed, password, record or decrypted data must never be stored
+    pattern-either:
+      - pattern: localStorage.setItem(...)
+      - pattern: sessionStorage.setItem(...)
+      - pattern: indexedDB.open(...)
+      - pattern: document.cookie = $V
+  - id: tg-url-or-history-write
+    languages: [javascript]
+    severity: INFO
+    message: URL or history write; a key must never reach the address bar or the history
+    pattern-either:
+      - pattern: history.pushState(...)
+      - pattern: history.replaceState(...)
+      - pattern: location.hash = $V
+      - pattern: location.href = $V
+      - pattern: location.assign(...)
+      - pattern: location.replace(...)
+  - id: tg-clipboard-write
+    languages: [javascript]
+    severity: INFO
+    message: clipboard write; must only happen on an explicit user action
+    pattern: navigator.clipboard.writeText(...)
+  - id: tg-post-message-any-origin
+    languages: [javascript]
+    severity: WARNING
+    message: postMessage to any origin
+    pattern: $W.postMessage($M, "*")
+  - id: tg-console-output
+    languages: [javascript]
+    severity: INFO
+    message: console output; must not include a key, seed, password or decrypted content
+    pattern-either:
+      - pattern: console.log(...)
+      - pattern: console.error(...)
+      - pattern: console.warn(...)
+      - pattern: console.debug(...)
+  - id: tg-non-aead-cipher
+    languages: [javascript]
+    severity: ERROR
+    message: a cipher mode without authentication (not GCM)
+    patterns:
+      - pattern-either:
+          - pattern: 'crypto.subtle.encrypt({name: "AES-CBC", ...}, ...)'
+          - pattern: 'crypto.subtle.encrypt({name: "AES-CTR", ...}, ...)'
+          - pattern: createCipheriv("$ALG", ...)
+          - pattern: createCipher(...)
+          - pattern: createDecipher(...)
+      - metavariable-regex:
+          metavariable: $ALG
+          regex: (?i)^(?!.*gcm).*$
+  - id: tg-weak-hash
+    languages: [javascript]
+    severity: WARNING
+    message: a weak hash function
+    pattern-either:
+      - pattern: createHash("md5")
+      - pattern: createHash("sha1")
+      - pattern: crypto.subtle.digest("SHA-1", ...)
+  - id: tg-regex-from-data
+    languages: [javascript]
+    severity: INFO
+    message: a regex built from a value; if the value comes from a file the length or shape must be bounded (ReDoS, syntax)
+    patterns:
+      - pattern: new RegExp($S, ...)
+      - pattern-not: new RegExp("...", ...)
+  - id: tg-plain-object-index-write
+    languages: [javascript]
+    severity: INFO
+    message: a plain object written at a computed key; a key such as __proto__ from a file is dropped or, with an object value, changes the prototype
+    patterns:
+      - pattern: $O[$K] = $V
+      - metavariable-regex:
+          metavariable: $K
+          regex: ^[A-Za-z_$].*\(.*$
+  - id: tg-file-write-non-literal-path
+    languages: [javascript]
+    severity: INFO
+    message: a file written at a computed path; secrets need O_EXCL + mode 0600 (writeSecretFile), data must not follow a symlink from untrusted input
+    pattern-either:
+      - pattern: writeFileSync($P, ...)
+      - pattern: fs.writeFileSync($P, ...)
+      - pattern: writeFile($P, ...)
+  - id: tg-webcrypto-extractable-secret
+    languages: [javascript]
+    severity: INFO
+    message: a secret key imported as extractable; only needed where the key is exported again
+    pattern: crypto.subtle.importKey($F, $K, $A, true, ...)
