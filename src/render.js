@@ -152,7 +152,29 @@ export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length
 }
 
 /**
- * Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given).
+ * The attributes most tspans share, hoisted to the parent <text> so they are written once and inherited (SVG attribute
+ * inheritance), not repeated on every run. Derived from the whole sheet so svgHead and svgLines compute the same defaults
+ * independently (parts concatenate to the same document). `size` is set only when every glyph shares one size (the common
+ * one-pager case: then no <tspan> carries font-size at all). The <text> fill stays the paper ink (NOT the commonest glyph
+ * colour): an uncoloured run (empty colour) inherits that fill, so changing it would recolour those glyphs. Purely a byte
+ * saving — colorOf is read only here, never twice per glyph during emit, and the rendered picture is unchanged.
+ */
+function svgDefaults(sheet) {
+  const { weights, result } = sheet, fs = result.fs;
+  const wCount = new Map(), sizes = new Set();
+  forEachGlyph(sheet, (it) => {
+    if (it.ch === ' ') return;
+    const w = weights[it.wi]; wCount.set(w, (wCount.get(w) || 0) + 1);
+    sizes.add((fs * it.s).toFixed(2));
+  });
+  let weight, n = -1;
+  for (const [k, v] of wCount) if (v > n) { n = v; weight = k; }
+  return { weight, size: sizes.size === 1 ? [...sizes][0] : null };
+}
+
+/**
+ * Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given). The
+ * run attributes most glyphs share (weight, a single size, the common fill) sit on <text> and are inherited (svgDefaults).
  * When `markdown` or `jsonld` is given, the data layer (docs/typogram-file.md) goes right after the opening <svg …>,
  * before <title>/<text>: the exact source in CDATA + a JSON-LD record with the identity hash. Being CDATA/escaped it
  * never shifts the text anchors markupText() uses (readers strip it first), so the character-for-character read-back stays
@@ -160,6 +182,7 @@ export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length
  */
 export function svgHead(sheet, { description = '', markdown, jsonld, media } = {}) {
   const { outW, outH, font, paper } = sheet;
+  const d = svgDefaults(sheet);
   const data = (markdown != null || jsonld != null)
     ? buildDataLayer({ markdown: markdown ?? '', ...(media ? { media } : {}), jsonld: jsonld ?? null }) : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${outW}" height="${outH}" viewBox="0 0 ${outW} ${outH}">` +
@@ -167,23 +190,33 @@ export function svgHead(sheet, { description = '', markdown, jsonld, media } = {
     (description ? `<title>${escapeXml(description)}</title>` : '') +
     `<style>@import url('${escapeXml(fontStylesheetUrl())}');</style>` +
     `<rect width="100%" height="100%" fill="${rgbCss(paper.paper)}"/>` +
-    `<text xml:space="preserve" font-family="${escapeXml(font.css)}" style="font-variation-settings:${escapeXml(font.variations)};${escapeXml(GLYPH_CSS)}" fill="${rgbCss(paper.ink)}">`;
+    `<text xml:space="preserve" font-family="${escapeXml(font.css)}"` +
+    (d.weight != null ? ` font-weight="${d.weight}"` : '') +
+    (d.size != null ? ` font-size="${d.size}"` : '') +
+    ` style="font-variation-settings:${escapeXml(font.variations)};${escapeXml(GLYPH_CSS)}" fill="${rgbCss(paper.ink)}">`;
 }
 
 export const SVG_TAIL = '</text></svg>';
 
 /** The glyphs of lines [from, to) as SVG tspans. Parts concatenate to the same document as toSvg. */
 export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
-  const { font, colorOf, weights, result } = sheet, fs = result.fs;
-  const nw = normalWidthIndex(font);
+  const { font, colorOf, weights, result, paper } = sheet, fs = result.fs;
+  const nw = normalWidthIndex(font), d = svgDefaults(sheet), ink = rgbCss(paper.ink);
   let out = '', open = false, key = null, needX = true;
   forEachGlyph(sheet, (it, x, y, i) => {
     const col = it.ch === ' ' ? '' : colorOf(it, i), k = it.wi + '|' + it.wd + '|' + it.s + '|' + col + '|' + i;
     if (k !== key || needX) {
       if (open) out += '</tspan>';
-      out += `<tspan x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${(fs * it.s).toFixed(2)}" font-weight="${weights[it.wi]}"` +
+      const size = (fs * it.s).toFixed(2), weight = weights[it.wi];
+      // Each attribute is written only when it differs from the <text> default; it is inherited otherwise (font-size when
+      // every glyph shares one size, the dominant font-weight, and the ink fill). Coordinates stay at one decimal; font-size
+      // keeps two, so the picture is byte-for-byte the same pixels (measured AE 0 vs the per-run form, docs/file-size.md).
+      out += `<tspan x="${x.toFixed(1)}" y="${y.toFixed(1)}"` +
+        (size !== d.size ? ` font-size="${size}"` : '') +
+        (weight !== d.weight ? ` font-weight="${weight}"` : '') +
         (it.wd !== nw ? ` font-stretch="${font.widths[it.wd]}%" style="font-variation-settings:${escapeXml(variationsFor(font, font.widths[it.wd]))}"` : '') +
-        `${col ? ` fill="${col}"` : ''}>`;
+        (col && col !== ink ? ` fill="${col}"` : '') +
+        `>`;
       open = true; key = k; needX = false;
     }
     out += escapeXml(it.ch);
