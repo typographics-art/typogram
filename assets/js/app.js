@@ -232,7 +232,7 @@ async function run() {
     sheet = await typeset(text, photo, {
       font: 'roboto', legibility: $('#legibility').value, color: $('#color').value, paper: paperChoice, unit: radio('unit'),
       contrast: +$('#contrast').value, brightness: +$('#brightness').value, edges: +$('#edges').value, lineSpacing: +$('#spacing').value,
-      invert: $('#invert').checked, shape: $('#shape').checked, autoLevels: $('#autoLevels').checked, sizeCount: 3, aspect, width,
+      invert: $('#invert').checked, shape: $('#shape').checked, autoLevels: $('#autoLevels').checked, sizeCount: 5, aspect, width,
       weightCount: CUTS[+$('#cuts').value],
     });
     $('#pageSize').textContent = `@page{size:${sheet.outW}px ${sheet.outH}px;margin:0}`;
@@ -307,12 +307,13 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
   try { localStorage.setItem('tg-art.lang', b.dataset.lang); } catch { /* not remembered */ } // one key for every page of the site
 }));
 
-document.querySelectorAll('[data-preset]').forEach((b) => b.addEventListener('click', () => {
-  const p = PRESETS[b.dataset.preset];
+function applyPreset(name) {
+  const p = PRESETS[name];
+  if (!p) return;
   ['legibility', 'color', 'contrast', 'brightness', 'edges', 'spacing', 'aspect'].forEach((k) => ($('#' + k).value = p[k]));
   setRadio('unit', p.unit); setRadio('paper', p.paper); $('#invert').checked = false;
-  showValues(); run();
-}));
+}
+document.querySelectorAll('[data-preset]').forEach((b) => b.addEventListener('click', () => { applyPreset(b.dataset.preset); showValues(); run(); }));
 
 $('#fill').addEventListener('click', () => {
   const cur = $('#text').value;
@@ -478,6 +479,7 @@ const saved = restore();
 const siteLang = (() => { try { const v = localStorage.getItem('tg-art.lang'); return v === 'de' || v === 'en' ? v : null; } catch { return null; } })();
 setLang(siteLang || saved?.lang || ((navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'));
 if (!saved || typeof saved.text !== 'string') $('#text').value = SAMPLES[lang];
+if (!saved) applyPreset('poster'); // first visit: default to the Poster preset (dark, strong — best for a photo); a returning visitor keeps their saved settings
 applyMode();
 showValues();
 loadPhoto(START_PHOTO);
