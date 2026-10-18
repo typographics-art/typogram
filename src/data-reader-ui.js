@@ -198,7 +198,15 @@ export function mountDataReader(ctx) {
   function drawCards() {
     const work = ctx.work();
     if (!R.blocks.length) { cards.replaceChildren(h('p', { class: 'hint', id: 'dataNone', text: T(L(), 'r.noData') })); return; }
-    cards.replaceChildren(...R.blocks.map((b) => (b.error ? damagedCard(b, work.slice(b.start, b.end)) : blockCard(b, { raw: work.slice(b.start, b.end) }))));
+    // One block whose model has a shape the page cannot show must not take the other blocks of the work down with it.
+    const cardOf = (b) => {
+      const raw = work.slice(b.start, b.end);
+      if (b.error) return damagedCard(b, raw);
+      try { return blockCard(b, { raw }); } catch (e) {
+        return damagedCard({ error: new TgdError('shape', `The data block has a shape the page cannot show (${e?.name || 'error'})`), start: b.start, end: b.end }, raw);
+      }
+    };
+    cards.replaceChildren(...R.blocks.map(cardOf));
   }
 
   async function update() {

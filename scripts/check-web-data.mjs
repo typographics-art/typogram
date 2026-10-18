@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { findChrome } from '../cli/core.mjs';
 import { encode, decode, decodeAll, toFile, verify, canonicalText, markupText, sealData } from '../src/index.js';
+import { seal } from '../src/structured.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const { values: args } = parseArgs({ options: { site: { type: 'string' }, verbose: { type: 'boolean' }, only: { type: 'string' }, shots: { type: 'string' } } });
@@ -602,6 +603,20 @@ async function main() {
         check(`hostile ${fmt} opened from a sealed record: no script ran, no element created`, (await pwned(sw)) === null && await noInjected(sw, '#openedData'));
         await sweep(work); await sweep(sw);
       }
+    }
+
+    // ======== 4c. a work with two data blocks, one of them with a model the page cannot show: the other must still be shown ========
+    if (want('hostile')) {
+      const good = await encode({ bytes: new TextEncoder().encode('a,b\n1,2\n'), name: 'good.csv' }, { created: false });
+      const odd = await seal({ kind: 'vcard', items: [{ name: 'VCARD', p: 'VCARD', k: 5 }, null] }, { format: 'vcf', name: 'odd.vcf', created: false });
+      const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      web.works.set('two-blocks.svg', Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><text x="2" y="10">Two blocks ${esc(odd)} between ${esc(good.text)}</text></svg>`));
+      const work = await open([1280, 900]);
+      await work.goto(`${web.origin}/work?art=__work/two-blocks.svg#machine`);
+      await work.waitFor(`document.querySelectorAll('#dataSection .dui-card, #dataSection .dui-bad').length >= 2`, { what: 'both blocks, the odd one as a notice' });
+      check('two blocks: the block that can be shown is shown (a table) although the other one has an unexpected shape', await work.js(`!!document.querySelector('#dataSection .dui-table')`));
+      check('two blocks: the odd block gets a notice, not a blank page', await work.js(`document.querySelectorAll('#dataSection .dui-bad').length === 1 || document.querySelectorAll('#dataSection .dui-card').length === 2`));
+      await sweep(work);
     }
 
     // ======== 5. a work whose data was changed, and a work opened from a file on the person's computer ========

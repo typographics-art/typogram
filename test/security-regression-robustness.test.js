@@ -8,7 +8,7 @@ import { readXlsx } from '../src/structured-xlsx.js';
 import { sealData, openSealed } from '../src/crypt.js';
 import { writeZip } from '../src/structured-zip.js';
 import { hideSecret, revealSecret } from '../src/secret.js';
-import { columnTypes, summarize } from '../src/data-panel.js';
+import { columnTypes, summarize, outline } from '../src/data-panel.js';
 
 const enc = new TextEncoder();
 
@@ -93,6 +93,18 @@ test('F11 sealData: a block that the decoder would refuse (a changed checksum) i
   const bad = good.replace(/"sum":"([0-9a-f])/, (m, c) => `"sum":"${c === '0' ? '1' : '0'}`);
   assert.notEqual(bad, good);
   await assert.rejects(sealData('A work text', bad, {}), (e) => e.code === 'not-tgd');
+});
+
+
+// ---- F12: the outline of a block whose model has an unexpected shape ----------------------------------------------------------
+test('F12 outline: calendar, contact, key=value and Markdown models of an unexpected shape are outlined or skipped, never a TypeError (a hostile block in a work took the whole Machine view down)', () => {
+  const shapes = [
+    { kind: 'vcard', items: [{ name: 'VCARD', p: 'VCARD' }] }, { kind: 'icalendar', items: [{ c: 'VEVENT', p: [1, null, ['SUMMARY', 'x']], k: 5 }, null, 7] }, { kind: 'icalendar', items: 'no' },
+    { kind: 'kv', pairs: [1, null, ['a']] }, { kind: 'kv', pairs: 'no' }, { kind: 'markdown', blocks: [null, 3, { t: 'h', l: 'x', x: 1 }, { t: 'table', rows: 5, head: 'no' }, { t: 'ul', items: 3 }] }, { kind: 'markdown', blocks: 'no' },
+    { kind: 'xml', root: 'no' }, { kind: 'xml', root: [1, 2, 3] }, { kind: 'json' },
+  ];
+  for (const m of shapes) outline(m);
+  assert.ok(outline({ kind: 'icalendar', items: [{ c: 'VEVENT', p: [['SUMMARY', 'Dentist']] }] })[0].text.includes('Dentist'));
 });
 
 // ---- tripwires: the places that handle keys and decrypted data keep their hygiene -------------------------------------------

@@ -232,27 +232,28 @@ export function outline(model, max = 200) {
   };
   const walkItem = (item, depth) => {
     if (out.length >= max || depth > 6) return;
-    const props = item.p || [];
-    const hint = props.find((p) => ['SUMMARY', 'FN', 'N', 'UID'].includes(p[0]));
-    add(depth, `${item.c}${hint ? ` – ${hint[1]}` : ''} (${props.length})`);
-    (item.k || []).forEach((k) => walkItem(k, depth + 1));
+    // a block may hold a model of any shape (only its envelope is checked): look at what is there, never assume it
+    const props = Array.isArray(item?.p) ? item.p : [];
+    const hint = props.find((p) => Array.isArray(p) && ['SUMMARY', 'FN', 'N', 'UID'].includes(p[0]));
+    add(depth, `${item?.c}${hint ? ` – ${hint[1]}` : ''} (${props.length})`);
+    (Array.isArray(item?.k) ? item.k : []).forEach((k) => walkItem(k, depth + 1));
   };
   switch (model?.kind) {
     case 'json': walkJson(model.value, 0); break;
     case 'xml': walkXml(model.root, 0); break;
     case 'markdown':
-      for (const b of model.blocks || []) {
-        if (b.t === 'h') add(Math.max(0, b.l - 1), `${'#'.repeat(b.l)} ${b.x}`);
-        else if (b.t === 'p') add(0, b.x);
-        else if (b.t === 'table') add(0, `table ${(b.rows || []).length + 1}×${(b.head || []).length}`);
-        else if (b.t === 'ul' || b.t === 'ol') add(0, `${b.t === 'ul' ? 'list' : 'numbered list'} of ${(b.items || []).length}`);
-        else if (b.t === 'code') add(0, `code${b.lang ? ' ' + b.lang : ''}`);
-        else add(0, b.t);
+      for (const b of Array.isArray(model.blocks) ? model.blocks : []) {
+        if (b?.t === 'h') add(Math.max(0, Number(b.l) - 1 || 0), `${'#'.repeat(Math.min(6, Math.max(1, Number(b.l) || 1)))} ${b.x}`);
+        else if (b?.t === 'p') add(0, b.x);
+        else if (b?.t === 'table') add(0, `table ${(Array.isArray(b.rows) ? b.rows : []).length + 1}×${(Array.isArray(b.head) ? b.head : []).length}`);
+        else if (b?.t === 'ul' || b?.t === 'ol') add(0, `${b.t === 'ul' ? 'list' : 'numbered list'} of ${(Array.isArray(b.items) ? b.items : []).length}`);
+        else if (b?.t === 'code') add(0, `code${b.lang ? ' ' + b.lang : ''}`);
+        else add(0, b?.t);
         if (out.length >= max) break;
       }
       break;
-    case 'icalendar': case 'vcard': (model.items || []).forEach((i) => walkItem(i, 0)); break;
-    case 'kv': (model.pairs || []).slice(0, max).forEach(([k]) => add(0, k)); break;
+    case 'icalendar': case 'vcard': (Array.isArray(model.items) ? model.items : []).forEach((i) => walkItem(i, 0)); break;
+    case 'kv': (Array.isArray(model.pairs) ? model.pairs : []).slice(0, max).forEach((p) => add(0, Array.isArray(p) ? p[0] : p)); break;
     default: break;
   }
   return out;
