@@ -21,6 +21,8 @@ The README and the main documents in one file: **[about/typographics-art.md](htt
 
 **Typographics Art** (TG Art) builds a picture out of a *real text*. Every character of the text is set once, in its original order. Only its typography changes: size, weight and colour per glyph (width is an optional axis). A person sees the picture. A language model, a search engine or a screen reader reads the text, exactly as it was written.
 
+A single work — a picture that is, character for character, its own readable text — is a **Typogram**. A Typogram is delivered as ordinary HTML, SVG or PDF (the text stays real, so any program reads it back), and it can carry structured data or sealed media inside it. "Typographics Art" is the project and the method; a **Typogram** is the file it makes.
+
 | | ASCII art | Typographics Art |
 |---|---|---|
 | What is chosen | the **character** for each cell of a grid | the **typography** for each character of a text |

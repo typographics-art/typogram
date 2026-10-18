@@ -35,6 +35,8 @@ Die README und die wichtigsten Dokumente in einer Datei: **[about/typographics-a
 
 **Typographics Art** (TG-Art) baut ein Bild aus einem *echten Text*. Jedes Zeichen wird genau einmal und in seiner ursprünglichen Reihenfolge gesetzt. Nur die Typografie ändert sich: Grösse, Strichstärke und Farbe je Zeichen (die Breite ist eine optionale Achse). Ein Mensch sieht das Bild. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader liest den Text, genau so, wie er geschrieben wurde.
 
+Ein einzelnes Werk — ein Bild, das Zeichen für Zeichen sein eigener lesbarer Text ist — ist ein **Typogram**. Ein Typogram wird als gewöhnliches HTML, SVG oder PDF ausgeliefert (der Text bleibt echt, jedes Programm liest ihn zurück) und kann strukturierte Daten oder versiegelte Medien in sich tragen. „Typographics Art“ ist das Projekt und die Methode; ein **Typogram** ist die Datei, die dabei entsteht.
+
 | | ASCII-Art | Typographics Art |
 |---|---|---|
 | Was gewählt wird | das **Zeichen** für jede Zelle eines Rasters | die **Typografie** für jedes Zeichen eines Textes |
