@@ -97,7 +97,7 @@ export async function readXlsx(bytes, { limits } = {}) {
   const names = {};
   for (const n of xmlElems(xmlElems(wbXml.root, 'definedNames')[0] || ['x'], 'definedName')) {
     if (xmlAttr(n, 'hidden') === '1' || xmlAttr(n, 'localSheetId') != null || /^_xlnm\./.test(xmlAttr(n, 'name'))) continue;
-    names[xmlAttr(n, 'name')] = xmlText(n);
+    Object.defineProperty(names, xmlAttr(n, 'name'), { value: xmlText(n), enumerable: true, writable: true, configurable: true }); // a name such as __proto__ is kept, not dropped
   }
   const notes = { sharedFormulaValues: 0, early: 0, arrayFormulas: 0, sheets: 0, hiddenRows: false };
   const sheets = [];
@@ -175,7 +175,7 @@ export async function readXlsx(bytes, { limits } = {}) {
     for (const rel2 of sheetRels.values()) {
       if (!/\/comments$/.test(rel2.type)) continue;
       const cx = await xml(resolveTarget(path, rel2.target));
-      for (const cm of xmlElems(xmlElems(cx.root, 'commentList')[0] || ['x'], 'comment')) comments[xmlAttr(cm, 'ref')] = unx(xmlElems(xmlElems(cm, 'text')[0] || ['x'], 't').map(xmlText).join('') + xmlElems(xmlElems(cm, 'text')[0] || ['x'], 'r').flatMap((r) => xmlElems(r, 't')).map(xmlText).join(''));
+      for (const cm of xmlElems(xmlElems(cx.root, 'commentList')[0] || ['x'], 'comment')) Object.defineProperty(comments, xmlAttr(cm, 'ref'), { enumerable: true, writable: true, configurable: true, value: unx(xmlElems(xmlElems(cm, 'text')[0] || ['x'], 't').map(xmlText).join('') + xmlElems(xmlElems(cm, 'text')[0] || ['x'], 'r').flatMap((r) => xmlElems(r, 't')).map(xmlText).join('')) });
     }
     const state = xmlAttr(sh, 'state');
     const hdr = dense <= maxDense && looksLikeHeader(grid);

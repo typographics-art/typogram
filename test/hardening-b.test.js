@@ -139,3 +139,30 @@ test('B-3 work text: markup with many "<" and no ">" is read in linear time (the
     for (const k of ['html', 'svg']) assert.equal(markupText(s, k), old(s, k), `${k} ${JSON.stringify(s)}`);
   }
 });
+
+test('B-5 xlsx: a defined name or a comment keyed "__proto__" is kept in the model instead of being dropped silently', async () => {
+  const { readXlsx } = await import('../src/structured-xlsx.js');
+  const { writeZip } = await import('../src/structured-zip.js');
+  const { encode, decode } = await import('../src/structured.js');
+  const enc = new TextEncoder();
+  const REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  const files = [
+    { name: 'xl/workbook.xml', data: enc.encode(`<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="${REL}"><sheets><sheet name="S" sheetId="1" r:id="rId1"/></sheets><definedNames><definedName name="__proto__">S!$A$1</definedName><definedName name="constructor">S!$A$2</definedName><definedName name="plain">S!$A$3</definedName></definedNames></workbook>`) },
+    { name: 'xl/_rels/workbook.xml.rels', data: enc.encode(`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${REL}/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`) },
+    { name: 'xl/worksheets/sheet1.xml', data: enc.encode('<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>x</t></is></c></row></sheetData></worksheet>') },
+    { name: 'xl/worksheets/_rels/sheet1.xml.rels', data: enc.encode(`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId2" Type="${REL}/comments" Target="../comments1.xml"/></Relationships>`) },
+    { name: 'xl/comments1.xml', data: enc.encode('<comments xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><commentList><comment ref="__proto__"><text><t>odd</t></text></comment><comment ref="A1"><text><t>fine</t></text></comment></commentList></comments>') },
+  ];
+  const bytes = await writeZip(files);
+  const { data } = await readXlsx(bytes);
+  assert.deepEqual(Object.keys(data.names).sort(), ['__proto__', 'constructor', 'plain']);
+  assert.equal(data.names.plain, 'S!$A$3');
+  assert.equal(Object.getOwnPropertyDescriptor(data.names, '__proto__').value, 'S!$A$1');
+  assert.equal(Object.getPrototypeOf(data.names), Object.prototype, 'the prototype of the model is untouched');
+  assert.deepEqual(Object.keys(data.sheets[0].comments).sort(), ['A1', '__proto__']);
+  // and the whole model survives the TGD round trip
+  const t = await encode({ bytes, name: 'n.xlsx' }, { created: false });
+  const back = await decode(t.text);
+  assert.deepEqual(Object.keys(back.model.names).sort(), ['__proto__', 'constructor', 'plain']);
+  assert.equal(Object.getPrototypeOf(back.model.names), Object.prototype);
+});
