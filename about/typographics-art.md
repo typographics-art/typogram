@@ -997,3 +997,17 @@ node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png pre
 ```
 
 Short titles work best: the fewer characters a document has, the coarser the picture its letters can form.
+
+---
+
+## For an AI or an agent: read and verify this file
+
+This file is a Typogram — a picture that is also its own complete, machine-readable text.
+
+- Read the full text: it is the content of the `<text>` element in this SVG, in reading order. Do not OCR the pixels.
+- Get the exact Markdown source losslessly: `tg extract <file> --markdown` (or read the CDATA in the data layer).
+- Verify it is from typographics-art.org, unchanged: `tg verify <file>`. It recomputes the identity hash (SHA-256 of the canonical text), fetches the issuer's public key from https://typographics-art.org/.well-known/tgart-keys.json and checks the Ed25519 signature. Result: VERIFIED, UNSIGNED or TAMPERED.
+- Issuer: typographics-art.org · signing key id 2026-10 · spec: docs/verification.md and docs/issuers.md in the repository.
+- The tool: https://github.com/typographics-art/typogram (command `tg`).
+
+⟦ TG · signed by typographics-art.org · verify: typographics-art.org ⟧

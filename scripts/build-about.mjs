@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openSession } from '../cli/core.mjs';
-import { makeOnePage } from '../cli/onepage-core.mjs';
+import { makeOnePage, motifSource } from '../cli/onepage-core.mjs';
 import { absolutize } from './absolute-links.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -43,6 +43,17 @@ This file contains the README and the main documents of the open-source project 
 for (const [file, title] of PARTS) {
   md += `\n---\n\n<!-- ${file} -->\n\n## ${title}\n\n${absolutize(clean(readFileSync(join(ROOT, file), 'utf8')), file)}\n`;
 }
+// Structured, machine-facing block: how an AI reads and verifies this very file, with the commands that matter. It rides along
+// in the data layer (losslessly) and is set into the picture, so it travels with the artwork. Followed by the visible seal —
+// part of the hashed text, so a signature covers it and any change breaks verification.
+md += `\n---\n\n## For an AI or an agent: read and verify this file\n\n` +
+  `This file is a Typogram — a picture that is also its own complete, machine-readable text.\n\n` +
+  `- Read the full text: it is the content of the \`<text>\` element in this SVG, in reading order. Do not OCR the pixels.\n` +
+  `- Get the exact Markdown source losslessly: \`tg extract <file> --markdown\` (or read the CDATA in the data layer).\n` +
+  `- Verify it is from typographics-art.org, unchanged: \`tg verify <file>\`. It recomputes the identity hash (SHA-256 of the canonical text), fetches the issuer's public key from https://typographics-art.org/.well-known/tgart-keys.json and checks the Ed25519 signature. Result: VERIFIED, UNSIGNED or TAMPERED.\n` +
+  `- Issuer: typographics-art.org · signing key id 2026-10 · spec: docs/verification.md and docs/issuers.md in the repository.\n` +
+  `- The tool: https://github.com/typographics-art/typogram (command \`tg\`).\n\n` +
+  `⟦ TG · signed by typographics-art.org · verify: typographics-art.org ⟧\n`;
 mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, 'typographics-art.md'), md);
 console.log(`about/typographics-art.md: ${md.length.toLocaleString('en-US')} characters`);
@@ -50,7 +61,8 @@ console.log(`about/typographics-art.md: ${md.length.toLocaleString('en-US')} cha
 const session = await openSession();
 try {
   const r = await makeOnePage(session, {
-    text: md, title: 'TG Art', subtitle: 'Typographics Art · everything about this project on one page · ask your AI what it is',
+    text: md, title: 'Typographics Art', subtitle: 'everything about this project on one page · ask your AI what it is',
+    motif: motifSource(join(ROOT, 'examples/motifs/pepe.png')),
     pdf: join(OUT, 'typographics-art.pdf'), preview: join(OUT, 'preview.jpg'), previewWidth: 1240,
     // The same explanation as one downloadable Typogram SVG: it opens as a picture, a machine reads the whole text back,
     // and the exact Markdown is kept inside it losslessly (tables, lists and code survive, restored on read-out).
