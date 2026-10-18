@@ -24,4 +24,6 @@ export { encode, decode, decodeAll, findBlocks, stripBlocks, verify, toFile, mod
 export { sealData, openSealed, findSealedBlocks, describeRecord, parseRecord, CryptError } from './crypt.js';
 export { sealStream, StreamReader, DEFAULT_FRAME } from './stream.js';
 export { buildDataLayer, readDataMarkdown, readJsonld, stripDataLayer, buildJsonld, embedStream, readEmbeddedStream, TYPOGRAM_NS, TYPOGRAM_STREAM_NS } from './typogram.js';
+// Issuer signatures (Phase H, docs/verification.md): Ed25519 over the identity hash, key files, lookup.
+export { SIG_SPEC, sigString, generateIssuerKey, publicKeyOf, signHash, verifyHash, buildKeyfile, findKey } from './sign.js';
 export * as dataPanel from './data-panel.js';
