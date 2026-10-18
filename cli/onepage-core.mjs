@@ -48,7 +48,9 @@ export async function makeOnePage(session, job) {
   const outW = Math.max(1800, Math.min(9000, Math.round(Math.sqrt((source.length * 26 * pw) / ph))));
   const width = Math.round(outW / (1 + 2 * margin)), pad = Math.round(width * margin);
   const options = {
-    font: 'roboto', legibility: 'free', color: 'gray', paper: 'light', unit: 'char', contrast: 2.6, brightness: 0,
+    // A photo motif is auto-levelled on its own and picks the paper by its key (dark picture → dark paper, where its
+    // ground is uninked paper rather than a medium grey): src/tone.js paperFor, resolved in cli/render.html tgOnePage.
+    font: 'roboto', legibility: 'free', color: 'gray', paper: job.motif ? 'auto' : 'light', autoLevels: !!job.motif, unit: 'char', contrast: 2.6, brightness: 0,
     // One type size and no width variants (measured in docs/file-size.md): on a photo motif the page follows the
     // picture more closely (likeness 0.963 instead of 0.940) at a third of the size; title cards look the same.
     edges: 0.4, lineSpacing: 1.0, stretch: false, sizeCount: 1, shape: true, gaps: job.motif ? 'off' : 'auto', margin, colorStep: 24, ...job.options,
@@ -84,6 +86,7 @@ export async function makeOnePage(session, job) {
   return {
     characters: source.length, words: source.split(' ').length, lines: info.lines, paper: job.paper || 'a4',
     fontSizeMm: +(info.fontSize * mmPerPx).toFixed(3), overflow: info.overflow, toneFidelity: +info.toneFidelity.toFixed(3),
+    dynamicRange: +info.dynamicRange.toFixed(3), paperTone: info.paper,
     layoutMs: info.ms, check,
     pdfBytes: printed ? printed.bytesAfter : null, pdfBytesUnoptimized: printed ? printed.bytesBefore : null,
     printStrips: printed ? printed.strips : null, reprints: printed ? printed.reprints : null, pdfStats: info.pdf,

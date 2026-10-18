@@ -1,5 +1,5 @@
 // The page script of app.html (a file, not an inline block, so the site's Content-Security-Policy needs no 'unsafe-inline' for scripts).
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml, canonicalText, sha256Hex } from '../../src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml, canonicalText, sha256Hex, meanLuminance, paperFor } from '../../src/index.js';
 import { typeset, toPng } from '../../src/browser.js';
 import { mountDataPanel } from '../../src/data-panel-ui.js';
 import { saveBlob } from '../../src/data-ui.js';
@@ -22,7 +22,7 @@ const I18N = {
     'leg.high': 'Hoch: kleine Spannweite, sicher lesbar', 'leg.medium': 'Mittel: ausgewogen', 'leg.free': 'Frei: maximaler Bildkontrast',
     'label.unit': 'Einheit', 'unit.char': 'Je Buchstabe', 'unit.word': 'Je Wort', 'hint.unit': '„Je Wort“ setzt jedes Wort in einem Stil. Das liest sich ruhiger, das Bild wird gröber.',
     'label.spacing': 'Zeilenabstand', 'legend.color': 'Farbe und Papier', 'label.color': 'Farbe', 'color.photo': 'Farben aus dem Foto', 'color.gray': 'Graustufen', 'color.mono': 'Einfarbig',
-    'label.paper': 'Papier', 'paper.light': 'Hell', 'paper.dark': 'Dunkel', 'legend.output': 'Ausgabe', 'label.width': 'Breite', 'width.auto': 'An das Fenster anpassen', 'btn.set': 'Neu setzen',
+    'label.paper': 'Papier', 'paper.auto': 'Automatisch', 'paper.light': 'Hell', 'paper.dark': 'Dunkel', 'legend.output': 'Ausgabe', 'label.width': 'Breite', 'width.auto': 'An das Fenster anpassen', 'btn.set': 'Neu setzen',
     'chip.loading': 'Schrift wird geladen …', 'overlay': 'Foto einblenden', 'export.summary': 'Kopieren & speichern', 'skip': 'Zum Inhalt springen',
     'btn.copyHtml': 'HTML kopieren', 'btn.copySvg': 'SVG kopieren', 'btn.saveSvg': 'SVG speichern', 'btn.saveHtml': 'HTML speichern', 'btn.copyText': 'Klartext kopieren', 'btn.png': 'PNG erzeugen',
     'about.h': 'Was ist Typographics Art?',
@@ -35,6 +35,7 @@ const I18N = {
     'about.ossH': 'Open Source', 'about.oss': 'Verfahren, App und Bibliothek stehen unter der MIT-Lizenz. Ideen, Schriften, Algorithmen und Werke sind willkommen.',
     'footer.license': 'MIT-Lizenz',
     'label.shape': 'Kanten innerhalb der Buchstaben folgen',
+    'label.autoLevels': 'Tonwerte automatisch spreizen',
     'btn.pdf': 'Drucken / PDF', 'nav.gallery': 'Galerie', 'nav.demo': 'Moby-Dick',
     'ai.toggle': 'Was die KI liest', 'ai.h': 'Was die KI liest',
     'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
@@ -54,7 +55,7 @@ const MSG = {
     secretMade: 'Key created. It only works with this exact work: save or copy the work too (see “Copy & save”).', secretRead: 'Message read from the key.',
     secretMissing: 'Cannot hide this yet: the text lacks {c}. Use other words, or add a word with it to the text.', secretWrong: 'This key belongs to a different work, or the text was changed.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} fonts', pdfTitle: 'Estimate for a PDF printed from Chrome ({fonts} fonts, {runs} style runs), measured within 3 %. The command-line tool makes the file 20–40 % smaller (measured).',
-    lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', overflow: 'Text is longer than the area: the sheet grows',
+    lines: '<b>{n}</b> lines', base: 'base size <b>{n}</b> px', fidelity: 'tone fidelity <b>{n}</b>', range: 'dynamic range <b>{n}</b>', paperAuto: 'paper by picture: <b>{p}</b>', overflow: 'Text is longer than the area: the sheet grows',
     tooShort: 'Your text is already as long as the target. Raise the target.', filled: '{n} characters of Lorem ipsum appended.', noFill: 'No filler found that could be removed.',
     unfilled: 'Filler removed.', loaded: '{name} loaded.', copied: '{what} copied ({n} characters).', selected: '{what} is selected: press Ctrl+C or ⌘+C.',
     png: 'PNG created: right-click or long-press the image, then “Save image”.', noText: 'Please enter a text', badImage: 'The image could not be read', scale: 'Preview {n} %',
@@ -68,7 +69,7 @@ const MSG = {
     secretMade: 'Schlüssel erzeugt. Er passt nur zu genau diesem Werk: Das Werk ebenfalls speichern oder kopieren (siehe „Kopieren & speichern“).', secretRead: 'Nachricht aus dem Schlüssel gelesen.',
     secretMissing: 'So noch nicht möglich: Im Text fehlt {c}. Andere Wörter wählen oder ein Wort mit diesem Buchstaben in den Text aufnehmen.', secretWrong: 'Dieser Schlüssel gehört zu einem anderen Werk, oder der Text wurde verändert.',
     pdfSize: 'PDF ≈ <b>{n} MB</b> · {fonts} Schriften', pdfTitle: 'Schätzung für ein aus Chrome gedrucktes PDF ({fonts} Schriften, {runs} Stilwechsel), gemessen auf 3 % genau. Das Kommandozeilen-Werkzeug macht die Datei 20–40 % kleiner (gemessen).',
-    lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
+    lines: '<b>{n}</b> Zeilen', base: 'Grundgrösse <b>{n}</b> px', fidelity: 'Tontreue <b>{n}</b>', range: 'Tonumfang <b>{n}</b>', paperAuto: 'Papier nach Bild: <b>{p}</b>', overflow: 'Text länger als die Fläche: der Bogen wird höher',
     tooShort: 'Dein Text ist schon so lang wie das Ziel. Stell das Ziel höher.', filled: '{n} Zeichen Lorem ipsum angehängt.', noFill: 'Keine Füllung gefunden, die sich entfernen lässt.',
     unfilled: 'Füllung entfernt.', loaded: '{name} geladen.', copied: '{what} kopiert ({n} Zeichen).', selected: '{what} ist markiert: mit Strg+C oder ⌘+C kopieren.',
     png: 'PNG erzeugt: Rechtsklick oder langes Drücken auf das Bild, dann „Bild speichern“.', noText: 'Bitte Text eingeben', badImage: 'Bild konnte nicht gelesen werden', scale: 'Vorschau {n} %',
@@ -135,8 +136,9 @@ function save() {
   try {
     const s = { lang };
     CONTROLS.forEach((k) => (s[k] = $('#' + k).value));
-    s.invert = $('#invert').checked; s.shape = $('#shape').checked; s.describe = $('#describe').value;
+    s.invert = $('#invert').checked; s.shape = $('#shape').checked; s.autoLevels = $('#autoLevels').checked; s.describe = $('#describe').value;
     s.unit = radio('unit'); s.paper = radio('paper'); s.mode = radio('mode');
+    s.v = 2; // settings version: from 2 on, `paper` may be "auto" and a saved light/dark is a choice
     const txt = $('#text').value;
     if (txt.length < 200000) { s.text = txt; s.fillBase = fillBase; }
     localStorage.setItem(STORE, JSON.stringify(s));
@@ -147,9 +149,12 @@ function restore() {
     const s = JSON.parse(localStorage.getItem(STORE) || 'null');
     if (!s) return null;
     CONTROLS.forEach((k) => { if (s[k] != null) $('#' + k).value = s[k]; });
-    $('#invert').checked = !!s.invert; setRadio('unit', s.unit); setRadio('paper', s.paper);
+    $('#invert').checked = !!s.invert; setRadio('unit', s.unit);
+    // Before version 2 "light" was only the default, not a choice: such settings get the automatic paper.
+    setRadio('paper', (s.v ?? 1) >= 2 ? s.paper : 'auto');
     if (s.mode) setRadio('mode', s.mode);
     if (s.shape != null) $('#shape').checked = s.shape;
+    if (s.autoLevels != null) $('#autoLevels').checked = s.autoLevels;
     if (typeof s.text === 'string') { $('#text').value = s.text; fillBase = s.fillBase ?? null; }
     if (typeof s.describe === 'string') $('#describe').value = s.describe;
     return s;
@@ -157,10 +162,19 @@ function restore() {
 }
 
 /* ---------- Setting the sheet ---------- */
-let photo = new Image(), photoReady, running = false, again = false, lastWrap = 0, sheet = null, plain = '', overlayDirty = true;
+let photo = new Image(), photoReady, photoLum = 0.5, running = false, again = false, lastWrap = 0, sheet = null, plain = '', overlayDirty = true;
 function loadPhoto(src) {
-  photoReady = new Promise((r) => { photo = new Image(); photo.onload = r; photo.onerror = r; photo.src = src; });
+  photoReady = new Promise((r) => {
+    photo = new Image();
+    photo.onload = () => { photoLum = lumOf(photo); r(); }; photo.onerror = r; photo.src = src;
+  });
   $('#thumb').src = src; overlayDirty = true;
+}
+/** Mean luminance (0..1) of the photo on a 64 × 64 reduction: with the paper on "auto" it decides light or dark (src/tone.js paperFor). */
+function lumOf(img) {
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(img, 0, 0, 64, 64);
+  return meanLuminance(g.getImageData(0, 0, 64, 64));
 }
 const chip = (h, c = '') => `<span class="chip ${c}">${h}</span>`;
 
@@ -210,10 +224,15 @@ async function run() {
       width = +$('#width').value;
       if (width * aspect > 4000) width = Math.floor(4000 / aspect);
     }
+    // Photos: text inks at most about a third of a cell, so a dark picture on light paper can only reach a medium grey
+    // and dissolves (measured on a portrait: dynamic range 0.18 on light paper, 0.55 on dark). The paper therefore
+    // follows the picture's key unless chosen by hand, every picture is stretched over the whole tonal range (auto
+    // levels), and three type sizes give the highlights room (one size: the picture dissolved; five: twice the PDF).
+    const paperSel = radio('paper'), paperChoice = paperSel === 'auto' ? paperFor(photoLum) : paperSel;
     sheet = await typeset(text, photo, {
-      font: 'roboto', legibility: $('#legibility').value, color: $('#color').value, paper: radio('paper'), unit: radio('unit'),
+      font: 'roboto', legibility: $('#legibility').value, color: $('#color').value, paper: paperChoice, unit: radio('unit'),
       contrast: +$('#contrast').value, brightness: +$('#brightness').value, edges: +$('#edges').value, lineSpacing: +$('#spacing').value,
-      invert: $('#invert').checked, shape: $('#shape').checked, aspect, width,
+      invert: $('#invert').checked, shape: $('#shape').checked, autoLevels: $('#autoLevels').checked, sizeCount: 3, aspect, width,
       weightCount: CUTS[+$('#cuts').value],
     });
     $('#pageSize').textContent = `@page{size:${sheet.outW}px ${sheet.outH}px;margin:0}`;
@@ -247,6 +266,8 @@ async function run() {
       chip(t('lines', { n: sheet.result.lines.length })) +
       chip(t('base', { n: sheet.result.fs.toFixed(1) })) +
       chip(t('fidelity', { n: sheet.toneFidelity.toFixed(2) })) +
+      chip(t('range', { n: sheet.dynamicRange.toFixed(2) })) +
+      (paperSel === 'auto' ? chip(t('paperAuto', { p: lang === 'de' ? (paperChoice === 'dark' ? 'dunkel' : 'hell') : paperChoice })) : '') +
       pdfChip(pdfStats(sheet)) +
       chip(`${fmt(outW)} × ${fmt(outH)} px`) +
       (sheet.result.overflow ? chip(t('overflow'), 'warn') : '');
@@ -275,7 +296,7 @@ function pdfChip(stats) {
   const mb = estimatePdfBytes(stats) / 1048576;
   return `<span class="chip" title="${t('pdfTitle', { fonts: stats.fonts, runs: fmt(stats.runs) })}">${t('pdfSize', { n: mb < 0.1 ? mb.toFixed(2) : mb.toFixed(1), fonts: stats.fonts })}</span>`;
 }
-['#legibility', '#color', '#aspect', '#width', '#invert', '#shape'].forEach((s) => $(s).addEventListener('change', soon));
+['#legibility', '#color', '#aspect', '#width', '#invert', '#shape', '#autoLevels'].forEach((s) => $(s).addEventListener('change', soon));
 document.querySelectorAll('input[name="unit"],input[name="paper"]').forEach((el) => el.addEventListener('change', soon));
 const applyMode = () => { $('#form').classList.toggle('simple', radio('mode') === 'simple'); if (sheet) applyScale(); };
 document.querySelectorAll('input[name="mode"]').forEach((el) => el.addEventListener('change', () => { applyMode(); save(); }));

@@ -440,3 +440,25 @@ export function toneFidelity(result) {
   if (n < 2) return 0;
   return (n * sxy - sx * sy) / Math.sqrt(Math.max(1e-12, (n * sxx - sx * sx) * (n * syy - sy * sy)));
 }
+
+/**
+ * How much of the tonal scale the picture really uses, 0..1: the Michelson contrast between the mean
+ * reflectance of the lightest and the darkest 5 % of glyph cells, a cell's reflectance being its ink
+ * coverage at the paper's ink luminance plus the uncovered paper (photo colour lightens highlights further,
+ * so this is a floor). toneFidelity is a correlation and cannot see a picture that is in the right order but
+ * squeezed into a narrow grey band: measured on a dark portrait, fidelity 0.78 with coverage 0.15..0.43 on
+ * light paper was dynamic range 0.18 and dissolved into grey; the same text on dark paper reached 0.55 and
+ * the face was legible. Spaces are not cells.
+ * @param {{paper:number[], ink:number[]}} paper  RGB 0..255 of paper and ink (options.js PAPERS)
+ */
+export function dynamicRange(result, paper) {
+  const effs = [];
+  for (const ln of result.lines) for (const it of ln.items) if (it.ch !== ' ') effs.push(it.eff);
+  if (effs.length < 2) return 0;
+  const a = Float32Array.from(effs).sort();
+  const q = (p) => a[Math.min(a.length - 1, Math.floor(p * a.length))];
+  const lum = ([r, g, b]) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  const pl = lum(paper.paper), il = lum(paper.ink), refl = (e) => e * il + (1 - e) * pl;
+  const l1 = refl(q(0.05)), l2 = refl(q(0.95)), hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+  return hi + lo > 0 ? (hi - lo) / (hi + lo) : 0;
+}

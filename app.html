@@ -269,6 +269,7 @@ footer a{color:inherit}
         </div>
         <div class="checks">
           <label><input type="checkbox" id="shape" checked> <span data-i18n="label.shape">Follow edges within each letter</span></label>
+          <label><input type="checkbox" id="autoLevels" checked> <span data-i18n="label.autoLevels">Spread the tones over the whole range</span></label>
         </div>
       </fieldset>
 
@@ -285,7 +286,8 @@ footer a{color:inherit}
         <div class="field">
           <span class="lbl" id="paperL" data-i18n="label.paper">Paper</span>
           <div class="seg" role="radiogroup" aria-labelledby="paperL">
-            <label><input type="radio" name="paper" value="light" checked> <span data-i18n="paper.light">Light</span></label>
+            <label><input type="radio" name="paper" value="auto" checked> <span data-i18n="paper.auto">By picture</span></label>
+            <label><input type="radio" name="paper" value="light"> <span data-i18n="paper.light">Light</span></label>
             <label><input type="radio" name="paper" value="dark"> <span data-i18n="paper.dark">Dark</span></label>
           </div>
         </div>

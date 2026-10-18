@@ -11,8 +11,11 @@
  * @param {number} [o.contrast=1]
  * @param {number} [o.brightness=0]
  * @param {number} [o.edges=0]  unsharp-mask strength
+ * @param {boolean} [o.autoLevels=false]  per-image levels: clip `levelsClip` of the pixels at each end and stretch
+ *        the rest over 0..1 before contrast and brightness, so every picture uses the whole coverage band the text can reach
+ * @param {number} [o.levelsClip=0.01]
  */
-export function buildToneMap(img, outW, outH, { brightIsInk = false, contrast = 1, brightness = 0, edges = 0 } = {}) {
+export function buildToneMap(img, outW, outH, { brightIsInk = false, contrast = 1, brightness = 0, edges = 0, autoLevels = false, levelsClip = 0.01 } = {}) {
   const MW = img.width, MH = img.height, d = img.data;
   const N = (MW + 1) * (MH + 1);
   const K = new Float32Array(MW * MH);
@@ -47,6 +50,14 @@ export function buildToneMap(img, outW, outH, { brightIsInk = false, contrast = 
       }
     }
     K.set(K2);
+  }
+  if (autoLevels) {
+    // Text can ink at most about a third of a cell, so the reachable tones are few; a picture that uses only
+    // part of them dissolves into grey (measured: a dark portrait sat in 0.15..0.43 of the coverage scale).
+    // Stretching each image's own range over 0..1 gives it every tone there is; contrast and brightness
+    // then work on the stretched picture.
+    const [lo, hi] = levelsOf(K, levelsClip);
+    if (hi - lo > 0.02) { const s = 1 / (hi - lo); for (let q = 0; q < K.length; q++) K[q] = (K[q] - lo) * s; }
   }
   for (let q = 0; q < K.length; q++) {
     const k = (K[q] - 0.5) * contrast + 0.5 + brightness;
@@ -101,3 +112,61 @@ export function cropToAspect(img, aspect) {
   for (let y = 0; y < h; y++) out.set(data.subarray(((y0 + y) * W + x0) * 4, ((y0 + y) * W + x0 + w) * 4), y * w * 4);
   return { width: w, height: h, data: out };
 }
+
+/**
+ * Percentile bounds of values in 0..1: [lo, hi] such that a share `clip` of the values lies below lo and
+ * another above hi (clip 0: the exact minimum and maximum). One pass over a 1024-bin histogram, no sorting.
+ */
+export function levelsOf(values, clip = 0.01) {
+  const BINS = 1024, h = new Uint32Array(BINS);
+  let n = 0;
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    if (v !== v) continue; // NaN
+    h[v <= 0 ? 0 : v >= 1 ? BINS - 1 : (v * BINS) | 0]++; n++;
+  }
+  if (!n) return [0, 1];
+  const cut = n * clip;
+  let acc = 0, lo = 0, hi = 1;
+  for (let b = 0; b < BINS; b++) { acc += h[b]; if (acc > cut) { lo = b / BINS; break; } }
+  acc = 0;
+  for (let b = BINS - 1; b >= 0; b--) { acc += h[b]; if (acc > cut) { hi = (b + 1) / BINS; break; } }
+  return [lo, Math.max(hi, lo + 1 / BINS)];
+}
+
+/**
+ * Auto-levels on pixels (pure, returns a copy): the luminance range between the `clip` percentiles is
+ * stretched to 0..255 with the same linear map on every channel, as a Levels tool does. For a motif that
+ * is composited into a title card before buildToneMap sees it (one-pagers): the card's own black title and
+ * white band would make the tone map's `autoLevels` a no-op, so the motif is stretched on its own first.
+ */
+export function stretchLevels(img, clip = 0.01) {
+  const { width, height, data } = img, n = width * height, L = new Float32Array(n);
+  for (let p = 0, q = 0; q < n; p += 4, q++) L[q] = (0.2126 * data[p] + 0.7152 * data[p + 1] + 0.0722 * data[p + 2]) / 255;
+  const [lo, hi] = levelsOf(L, clip), out = new Uint8ClampedArray(data.length);
+  if (!(hi - lo > 0.02)) { out.set(data); return { width, height, data: out }; }
+  const s = 1 / (hi - lo), off = lo * 255; // data is in 0..255 units already, lo and hi in 0..1
+  for (let p = 0; p < data.length; p += 4) {
+    out[p] = (data[p] - off) * s; out[p + 1] = (data[p + 1] - off) * s; out[p + 2] = (data[p + 2] - off) * s; out[p + 3] = data[p + 3];
+  }
+  return { width, height, data: out };
+}
+
+/** Mean Rec. 709 luminance (0..1) of an image's pixels. */
+export function meanLuminance(img) {
+  const d = img.data, n = img.width * img.height;
+  let s = 0;
+  for (let p = 0; p < n * 4; p += 4) s += 0.2126 * d[p] + 0.7152 * d[p + 1] + 0.0722 * d[p + 2];
+  return n ? s / 255 / n : 0;
+}
+
+/**
+ * Mean luminance below which a picture is dark-key and is set on dark paper. Text can ink at most about a
+ * third of a cell, so on light paper the darkest tone is a medium grey and a dark picture dissolves (measured on
+ * a portrait of mean luminance 0.33: dynamic range 0.18 on light paper, 0.55 on dark, where the dark ground is
+ * uninked paper). Measured on the gallery photos: portraits on dark grounds are 0.16..0.35, lit scenes 0.44..0.75.
+ */
+export const DARK_KEY = 0.4;
+
+/** The paper for a picture of mean luminance `lum`: 'dark' below DARK_KEY, otherwise 'light'. */
+export const paperFor = (lum) => (lum < DARK_KEY ? 'dark' : 'light');

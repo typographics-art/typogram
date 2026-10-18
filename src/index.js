@@ -5,11 +5,11 @@ export {
 } from './fonts.js';
 export { LEGIBILITY, PAPERS, DEFAULTS, levelFor } from './options.js';
 export { lorem } from './lorem.js';
-export { buildToneMap, cropToAspect } from './tone.js';
+export { buildToneMap, cropToAspect, levelsOf, stretchLevels, meanLuminance, DARK_KEY, paperFor } from './tone.js';
 export { inkFor, rgbCss, mix } from './color.js';
 export {
   REF_SIZE, REF_RATIO, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange,
-  layoutAt, fit, justify, toneFidelity, quantizeLine, REPEAT_GAP,
+  layoutAt, fit, justify, toneFidelity, dynamicRange, quantizeLine, REPEAT_GAP,
 } from './layout.js';
 export { typesetWith, typesetSections, plainText, isFaithful } from './typeset.js';
 export {

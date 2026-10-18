@@ -28,6 +28,7 @@ export const DEFAULTS = {
   contrast: 1.4,
   brightness: 0,
   edges: 0.4,
+  autoLevels: false, // per-image levels before contrast: clip 1 % at each end, stretch the rest over the whole coverage band (the app turns it on for photos)
   lineSpacing: 1.09, // line height as a multiple of the base font size
   invert: false,
   aspect: null, // height / width; null keeps the image's own aspect ratio

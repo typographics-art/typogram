@@ -4,7 +4,7 @@ import { PAPERS, DEFAULTS, levelFor } from './options.js';
 import { buildToneMap, cropToAspect } from './tone.js';
 import { inkFor, mix, rgbCss } from './color.js';
 import {
-  REF_RATIO, SPARSE_LINES, GAP_INK, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange, fit, layoutAt, toneFidelity, quantizeLine,
+  REF_RATIO, SPARSE_LINES, GAP_INK, normalizeText, graphemes, tokenize, candidates, buildLuts, toneRange, fit, layoutAt, toneFidelity, dynamicRange, quantizeLine,
 } from './layout.js';
 
 /**
@@ -38,7 +38,7 @@ export function typesetWith({ text, metric, image, options = {} }) {
   const H = Math.round(W * (o.aspect ?? image.height / image.width));
   const darkPaper = o.paper === 'dark';
   const map = buildToneMap(image, W, H, {
-    brightIsInk: darkPaper !== o.invert, contrast: o.contrast, brightness: o.brightness, edges: o.edges,
+    brightIsInk: darkPaper !== o.invert, contrast: o.contrast, brightness: o.brightness, edges: o.edges, autoLevels: o.autoLevels,
   });
   const ctx = {
     W, H, dark: map.dark, tone, cands, luts, metric, covScale, lineRatio,
@@ -70,7 +70,7 @@ export function typesetWith({ text, metric, image, options = {} }) {
     text: source, options: o, result, W, H, pad,
     outW: W + 2 * pad, outH: Math.ceil(sheetH) + 2 * pad,
     font, weights: weightSteps(font), paper, colorOf,
-    toneFidelity: toneFidelity(result),
+    toneFidelity: toneFidelity(result), dynamicRange: dynamicRange(result, paper),
   };
 }
 
@@ -106,7 +106,7 @@ export function typesetSections({ sections, metric, options = {} }) {
   const panel = (i, h) => {
     const H = Math.max(1, Math.round(h));
     const map = buildToneMap(cropToAspect(sections[i].image, H / W), W, H, {
-      brightIsInk: darkPaper !== o.invert, contrast: o.contrast, brightness: o.brightness, edges: o.edges,
+      brightIsInk: darkPaper !== o.invert, contrast: o.contrast, brightness: o.brightness, edges: o.edges, autoLevels: o.autoLevels,
     });
     const ctx = {
       W, H, dark: map.dark, tone, cands, luts, metric, covScale, lineRatio, sizeCount: level.sizes.length,
@@ -168,7 +168,7 @@ export function typesetSections({ sections, metric, options = {} }) {
   const pad = Math.round(W * o.margin);
   return {
     text: source, options: o, result, W, H: y, pad, outW: W + 2 * pad, outH: Math.ceil(y) + 2 * pad,
-    font, weights: weightSteps(font), paper, colorOf, toneFidelity: toneFidelity(result), sections: parts,
+    font, weights: weightSteps(font), paper, colorOf, toneFidelity: toneFidelity(result), dynamicRange: dynamicRange(result, paper), sections: parts,
   };
 }
 

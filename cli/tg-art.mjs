@@ -9,12 +9,12 @@ const HELP = `Usage: tg-art <image> (--text <file> | --string <text>) -o <out.sv
 
   --legibility <high|medium|free>           how far glyphs may drift from plain text (default medium)
   --color <photo|gray|mono>                 colour mode (default photo)
-  --paper <light|dark>                      paper (default light)
+  --paper <light|dark|auto>                 paper (default light; auto: dark for a dark picture)
   --unit <char|word>                        one style per letter or per word (default char)
   --width <px>                              text block width (default 960)
   --aspect <h/w>                            crop to this aspect ratio, e.g. 1.25 (default: the image's)
   --contrast <n>  --brightness <n>  --edges <n>  --spacing <n>
-  --no-stretch  --no-shape  --invert
+  --no-stretch  --no-shape  --invert  --auto-levels (stretch the picture's tones over the whole range)
   --fill <n>                                append declared Lorem ipsum up to n characters
   --scale <n>                               pixel scale for PNG/JPEG (default 1)
   --print-width <mm>                        PDF at physical size, e.g. 2000 for a 2 m wide poster: always ONE page,
@@ -33,7 +33,7 @@ try {
     unit: { type: 'string' }, width: { type: 'string' }, aspect: { type: 'string' }, contrast: { type: 'string' },
     brightness: { type: 'string' }, edges: { type: 'string' }, spacing: { type: 'string' }, fill: { type: 'string' },
     scale: { type: 'string' }, 'print-width': { type: 'string' }, 'no-stretch': { type: 'boolean' }, 'no-shape': { type: 'boolean' },
-    invert: { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
+    invert: { type: 'boolean' }, 'auto-levels': { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
   },
 }));
 } catch (e) { console.error(`${e.message.split('\n')[0]} (see --help)`); process.exit(1); }
@@ -70,6 +70,7 @@ const options = Object.fromEntries(Object.entries({
   edges: num('edges'), lineSpacing: num('spacing'), fill: num('fill'), scale: num('scale'),
   printWidthMm: num('print-width'),
   stretch: values['no-stretch'] ? false : undefined, shape: values['no-shape'] ? false : undefined, invert: values.invert || undefined,
+  autoLevels: values['auto-levels'] || undefined,
 }).filter(([, v]) => v !== undefined));
 
 const text = values.string ?? readFileSync(values.text, 'utf8');
@@ -83,7 +84,7 @@ try {
   const filler = meta.filler ? `, of which ${meta.filler} filler` : '';
   const page = meta.pageMm ? `, 1 page ${meta.pageMm[0].toFixed(0)} × ${meta.pageMm[1].toFixed(0)} mm` : '';
   console.log(`${values.out}: ${meta.characters} characters${filler}, ${meta.lines} lines, ${meta.width}×${meta.height} px${page}, ` +
-    `tone fidelity ${meta.toneFidelity.toFixed(2)}, text ${meta.faithful ? 'preserved 1:1' : 'NOT preserved'}`);
+    `tone fidelity ${meta.toneFidelity.toFixed(2)}, dynamic range ${meta.dynamicRange.toFixed(2)}, text ${meta.faithful ? 'preserved 1:1' : 'NOT preserved'}`);
   if (!meta.faithful) process.exitCode = 2;
 } finally {
   await session.close();
