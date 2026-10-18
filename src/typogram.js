@@ -66,6 +66,69 @@ export function readEmbeddedStream(text) {
   try { return b64urlDecode(clean, clean.length + 4); } catch { return null; }
 }
 
+// ---- the data layer: the exact source (Markdown) in CDATA + a JSON-LD record (docs/typogram-file.md, canonical-text.md) --
+// The data layer is a <metadata> element placed right after <svg>. It holds (a) the raw source in a CDATA section — byte for
+// byte, directly usable, nothing escaped except the CDATA terminator "]]>" — and (b) a schema.org JSON-LD record. Both can
+// contain any text (even "<text", "</metadata>", "]]>"): CDATA keeps the Markdown opaque, the JSON-LD escapes "<" as <,
+// and the readers below are CDATA-aware, so arbitrary content never disturbs the image layer's text extraction.
+const DOC_NS = TYPOGRAM_NS;
+const cdataEscape = (s) => s.replace(/]]>/g, ']]]]><![CDATA[>');          // split the terminator; concatenated CDATA re-forms it
+const cdataUnescape = (s) => s.replace(/]]]]><!\[CDATA\[>/g, ']]>');
+const jsonForScript = (obj) => JSON.stringify(obj).replace(/</g, '\\u003c'); // no "</script>" or "<text" escapes into markup
+
+/** The <metadata> data-layer block: raw Markdown in CDATA + a JSON-LD record. `jsonld` is the full object (see buildJsonld). */
+export function buildDataLayer({ markdown = '', media = 'text/markdown', jsonld = null } = {}) {
+  const doc = `<tgart:source xmlns:tgart="${DOC_NS}" media="${mediaAttr(media)}"><![CDATA[${cdataEscape(String(markdown))}]]></tgart:source>`;
+  const ld = jsonld ? `<script type="application/ld+json">${jsonForScript(jsonld)}</script>` : '';
+  return `<metadata>${doc}${ld}</metadata>`;
+}
+
+/** The exact source Markdown of a Typogram, CDATA-aware, or null. @returns {{markdown:string, media:string}|null} */
+export function readDataMarkdown(text) {
+  if (typeof text !== 'string') return null;
+  const open = /<tgart:source\b([^>]*)>\s*<!\[CDATA\[/.exec(text);
+  if (!open) return null;
+  const start = open.index + open[0].length;
+  const end = text.indexOf(']]></tgart:source>', start); // the only unescaped terminator (content's "]]>" was split)
+  if (end < 0) return null;
+  const media = (/\bmedia="([^"]*)"/.exec(open[1]) || [])[1] || 'text/plain';
+  return { markdown: cdataUnescape(text.slice(start, end)), media };
+}
+
+/** The JSON-LD record of a Typogram, or null. */
+export function readJsonld(text) {
+  if (typeof text !== 'string') return null;
+  const m = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(text);
+  if (!m) return null;
+  try { return JSON.parse(m[1]); } catch { return null; }
+}
+
+/** Removes the data-layer <metadata> block (CDATA-safe), so the remaining text can be scanned for the image layer. */
+export function stripDataLayer(text) {
+  if (typeof text !== 'string') return text;
+  const meta = text.indexOf('<metadata>');
+  if (meta < 0) return text;
+  const cdataEnd = text.indexOf(']]></tgart:source>', meta); // skip past the opaque CDATA before looking for </metadata>
+  const from = cdataEnd >= 0 ? cdataEnd : meta;
+  const close = text.indexOf('</metadata>', from);
+  if (close < 0) return text;
+  return text.slice(0, meta) + text.slice(close + '</metadata>'.length);
+}
+
+/** A schema.org DigitalDocument record for a Typogram. Unset fields are omitted. */
+export function buildJsonld({ name, author, dateCreated, inLanguage, license, description, sourceUrl, sourceFormat = 'text/markdown', charCount, hash, generator = 'typogram' } = {}) {
+  const r = { '@context': 'https://schema.org', '@type': 'DigitalDocument' };
+  if (name != null) r.name = String(name);
+  if (author != null) r.author = String(author);
+  if (dateCreated != null) r.dateCreated = String(dateCreated);
+  if (inLanguage != null) r.inLanguage = String(inLanguage);
+  if (license != null) r.license = String(license);
+  if (description != null) r.description = String(description);
+  if (sourceUrl != null) r.url = String(sourceUrl);
+  r.tgart = { version: 1, generator, sourceFormat, ...(charCount != null ? { charCount } : {}), ...(hash != null ? { hash } : {}) };
+  return r;
+}
+
 // ---- the exact source (lossless formatting) --------------------------------------------------------------------------
 // The visible artwork text normalises whitespace (runs become one space), which keeps the picture and the prose but loses
 // Markdown tables, lists and code structure. A Typogram can ALSO carry the exact source bytes — deflate-compressed, base64url
