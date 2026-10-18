@@ -5,7 +5,7 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { extname } from 'node:path';
-import { normalizeText } from '../src/index.js';
+import { normalizeText, embedSource } from '../src/index.js';
 import { visibleText, TOOL_TIMEOUT_MS } from './core.mjs';
 
 export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
@@ -64,7 +64,11 @@ export async function makeOnePage(session, job) {
   if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx, tagged: !!job.tagged });
   if (job.svg) { // a Typogram SVG: opens as the picture, carries the metadata, a machine reads the text back
     const meta = { ...(job.meta || {}), created: (job.meta?.created ?? new Date().toISOString()), textSha256: sha(source), kind: job.meta?.kind || 'art' };
-    writeFileSync(job.svg, await session.call('tgOnePageSvg', meta));
+    let svg = await session.call('tgOnePageSvg', meta);
+    // Keep the exact source (its line breaks, Markdown tables, lists and code) losslessly in the same file, so a reader
+    // restores the original formatting while the picture still shows the prose (docs/typogram-file.md).
+    if (job.source) svg = await embedSource(svg, job.source.bytes, { media: job.source.media });
+    writeFileSync(job.svg, svg);
   }
   if (job.preview) {
     // Render at twice the layout scale: at ~9 px per glyph the browser draws hairlines darker than their ink.

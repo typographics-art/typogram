@@ -2,7 +2,7 @@
 // character-for-character text of the work (the read-back stays exact), and it must round-trip for anyone who parses it.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { writeMeta, readMeta } from '../src/typogram.js';
+import { writeMeta, readMeta, embedSource, readSource } from '../src/typogram.js';
 import { typesetWith, toSvg, markupText, canonicalText, normalizeText } from '../src/index.js';
 import { fakeMetric, image, TEXT } from './helpers.js';
 
@@ -29,6 +29,19 @@ test('typogram: a title with < > & survives the escaped metadata (and cannot bre
   // the only real </text> is the artwork's, so a reader still finds the text boundary
   assert.equal(svg.indexOf('</text>'), svg.lastIndexOf('</text>'));
   assert.equal(readMeta(svg).title, 'a < b & c </text> <script>');
+});
+
+test('typogram: the exact source (Markdown tables, lists, code, line breaks) round-trips losslessly', async () => {
+  const md = '# Title\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n- one\n- two\n\n```js\nconst x = 1;\n  indented();\n```\n';
+  const bytes = new TextEncoder().encode(md);
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg"><text>Title a b 1 2 one two const x = 1; indented();</text></svg>`;
+  svg = await embedSource(svg, bytes, { media: 'text/markdown' });
+  const back = await readSource(svg);
+  assert.equal(back.media, 'text/markdown');
+  assert.equal(new TextDecoder().decode(back.bytes), md, 'byte-exact source, with its line breaks and structure');
+  // the embedded source does not disturb the picture's text boundary
+  assert.equal(svg.indexOf('</text>'), svg.lastIndexOf('</text>'));
+  assert.equal(await readSource('<svg><text>x</text></svg>'), null);
 });
 
 test('typogram: the metadata does not change the work text (read-back stays exact)', () => {

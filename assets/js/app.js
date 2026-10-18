@@ -1,5 +1,5 @@
 // The page script of app.html (a file, not an inline block, so the site's Content-Security-Policy needs no 'unsafe-inline' for scripts).
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml, canonicalText, sha256Hex, meanLuminance, paperFor } from '../../src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml, canonicalText, sha256Hex, meanLuminance, paperFor, embedSource } from '../../src/index.js';
 import { typeset, toPng } from '../../src/browser.js';
 import { mountDataPanel } from '../../src/data-panel-ui.js';
 import { saveBlob } from '../../src/data-ui.js';
@@ -420,7 +420,13 @@ async function typogramMeta() {
     kind: text.includes('TGD1[') ? 'data' : 'art',
   };
 }
-$('#copySvg').addEventListener('click', async () => { if (sheet) copy(toSvg(sheet, { description: describe(), metadata: await typogramMeta() }), 'SVG'); });
+// The SVG with metadata AND the exact typed source embedded losslessly (its line breaks and any Markdown structure survive,
+// which the visible picture text normalises away).
+async function typogramSvg() {
+  const svg = toSvg(sheet, { description: describe(), metadata: await typogramMeta() });
+  return embedSource(svg, new TextEncoder().encode($('#text').value), { media: 'text/plain; charset=utf-8' });
+}
+$('#copySvg').addEventListener('click', async () => { if (sheet) copy(await typogramSvg(), 'SVG'); });
 $('#copyText').addEventListener('click', () => sheet && copy(plain, t('plain')));
 $('#makePng').addEventListener('click', () => {
   if (!sheet) return;
@@ -428,7 +434,7 @@ $('#makePng').addEventListener('click', () => {
   $('#copyMsg').textContent = t('png');
 });
 
-$('#saveSvg').addEventListener('click', async () => { if (sheet) { saveBlob(toSvg(sheet, { description: describe(), metadata: await typogramMeta() }), 'typographics-art.svg', 'image/svg+xml'); $('#copyMsg').textContent = t('saved', { what: 'SVG' }); } });
+$('#saveSvg').addEventListener('click', async () => { if (sheet) { saveBlob(await typogramSvg(), 'typographics-art.svg', 'image/svg+xml'); $('#copyMsg').textContent = t('saved', { what: 'SVG' }); } });
 $('#saveHtml').addEventListener('click', () => { if (sheet) { saveBlob(toStandaloneHtml(sheet, { description: describe() }), 'typographics-art.html', 'text/html'); $('#copyMsg').textContent = t('saved', { what: 'HTML' }); } });
 $('#printPdf').addEventListener('click', () => sheet && window.print());
 // Hidden message: a book cipher over the work's public text (src/secret.js). The work itself is not changed.

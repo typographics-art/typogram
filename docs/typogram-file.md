@@ -26,7 +26,12 @@ A Typogram SVG has three parts, and only the first is needed for it to be a pict
    - **Sealed large media (a video)** — the `tgst1` stream ([encrypted-media-adapter.md](encrypted-media-adapter.md)),
      embedded as base64url in a `<tgstream>` element of the file, so the one SVG holds the whole video and still opens as
      its cover picture. `tg-adapter embed <cover.svg> <media>` writes it; `tg-adapter serve` streams it with Range.
-3. **The metadata** — a `<metadata>` element (section 3), always present on a generated Typogram.
+3. **The exact source** (optional) — a `<tgsource>` element holding the original bytes (the Markdown, the code) deflate-
+   compressed and base64url-encoded. The visible artwork text normalises whitespace (line breaks become single spaces), so
+   Markdown tables, lists and code lose their structure in the picture; the source keeps them losslessly and a reader
+   restores the formatting from it, while a plain viewer still sees the picture. The source is authoritative: the visible
+   text equals it after whitespace normalisation.
+4. **The metadata** — a `<metadata>` element (section 3), always present on a generated Typogram.
 
 ## 2. Why an SVG, and why it stays a picture
 
