@@ -3,7 +3,10 @@
 // yourself. The metadata lives in a standard <metadata> element, after the artwork's </text>, as XML-escaped JSON; being
 // escaped, it never contains a literal "<text"/"</text>", so it cannot disturb the character-for-character text of the
 // work (the read-back stays exact). The full container is docs/typogram-file.md.
+import { b64urlEncode, b64urlDecode } from './crypt-codec.js';
+
 export const TYPOGRAM_NS = 'https://typographics-art.org/ns/typogram/1';
+export const TYPOGRAM_STREAM_NS = 'https://typographics-art.org/ns/typogram-stream/1';
 const MAX_META = 256 * 1024; // the metadata JSON we will read from a file, bytes
 
 const escapeXml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -25,4 +28,35 @@ export function readMeta(text) {
   const m = /<typogram\b[^>]*>([\s\S]{0,262144}?)<\/typogram>/.exec(text);
   if (!m) return null;
   try { const o = JSON.parse(unescapeXml(m[1])); return o && o.format === 'typogram' ? o : null; } catch { return null; }
+}
+
+const METADATA_RE = /<metadata>\s*<typogram\b[\s\S]*?<\/typogram>\s*<\/metadata>/;
+/** Replaces (or adds) the Typogram metadata of an SVG, keeping it one file and a valid picture. */
+export function withMeta(svgText, meta) {
+  const block = writeMeta(meta);
+  const stripped = svgText.replace(METADATA_RE, '');
+  const i = stripped.lastIndexOf('</svg>');
+  if (i < 0) throw new Error('not an SVG');
+  return stripped.slice(0, i) + block + stripped.slice(i);
+}
+
+/**
+ * Embeds a sealed media stream (`tgst1` bytes, src/stream.js) inside the SVG as base64url, so the one file holds the whole
+ * video and still opens as the cover picture (a renderer ignores the unknown element). The base64url alphabet has no "<",
+ * so it can never disturb the artwork's text or this element's own end tag.
+ */
+export function embedStream(svgText, bytes) {
+  const el = `<tgstream xmlns="${TYPOGRAM_STREAM_NS}" encoding="base64url">${b64urlEncode(bytes)}</tgstream>`;
+  const i = svgText.lastIndexOf('</svg>');
+  if (i < 0) throw new Error('not an SVG');
+  return svgText.slice(0, i) + el + svgText.slice(i);
+}
+
+/** The embedded `tgst1` stream bytes of a Typogram SVG, or null. */
+export function readEmbeddedStream(text) {
+  if (typeof text !== 'string') return null;
+  const m = /<tgstream\b[^>]*>([A-Za-z0-9_\-=\s]*?)<\/tgstream>/.exec(text);
+  if (!m) return null;
+  const clean = m[1].replace(/\s+/g, '');
+  try { return b64urlDecode(clean, clean.length + 4); } catch { return null; }
 }

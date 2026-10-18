@@ -19,7 +19,7 @@ import { parseKey2, formatKey2 } from '../src/keys-work.js';
 import { decode, toFile, OPEN, CLOSE } from '../src/structured.js';
 import { markupText } from '../src/work-text.js';
 import { canonicalText } from '../src/secret.js';
-import { readMeta } from '../src/typogram.js';
+import { readMeta, withMeta, embedStream, readEmbeddedStream } from '../src/typogram.js';
 
 const MIME = {
   '.mp4': 'video/mp4', '.m4v': 'video/mp4', '.webm': 'video/webm', '.mkv': 'video/x-matroska', '.mov': 'video/quicktime', '.ogv': 'video/ogg',
@@ -159,7 +159,9 @@ async function cmdServe(values, positionals) {
     if (head === 'TGST1') built = await serveStream(new Uint8Array(raw), keyString || die('this stream needs a key: --key-file/--key-stdin'), workText);
     else {
       const txt = raw.toString('utf8');
-      if (txt.trimStart().startsWith('tgs1.')) built = await serveRecord(txt.trim(), keyString || die('this record needs a key: --key-file/--key-stdin'), workText);
+      const embedded = (ext === '.svg' || txt.includes('<svg')) ? readEmbeddedStream(txt) : null;
+      if (embedded) built = await serveStream(embedded, keyString || die('this Typogram holds a sealed stream: give the key with --key-file/--key-stdin'), workText ?? markupText(txt, 'svg'));
+      else if (txt.trimStart().startsWith('tgs1.')) built = await serveRecord(txt.trim(), keyString || die('this record needs a key: --key-file/--key-stdin'), workText);
       else if (['.svg', '.html', '.htm', '.txt'].includes(ext) || txt.includes('<svg') || txt.includes(OPEN)) built = await serveWork(txt, ext || '.txt', keyString, workText);
       else die('not a Typogram or sealed source (expected .svg, .tgst or .tgs, or a work holding a data block)');
     }
@@ -222,9 +224,32 @@ async function cmdInfo(_values, positionals) {
   console.log(JSON.stringify(info, null, 2));
 }
 
+// Embeds a media file into a cover Typogram SVG as a sealed stream, so the ONE SVG holds the whole video and still opens as
+// the picture; prints the key. (docs/typogram-file.md §1: everything in one file.)
+async function cmdEmbed(values, positionals) {
+  const cover = positionals[0] || die('give the cover Typogram SVG');
+  const mediaFile = positionals[1] || die('give the media file to embed');
+  const svgText = readFileSync(cover, 'utf8');
+  if (!svgText.includes('<svg')) die('the cover must be an SVG Typogram');
+  if (readEmbeddedStream(svgText)) die('this cover already holds an embedded stream');
+  const bytes = new Uint8Array(readFileSync(mediaFile));
+  const media = values.type || mimeByName(mediaFile);
+  const workText = values.work ? readFileSync(values.work, 'utf8') : markupText(svgText, 'svg'); // bind to the cover's own text by default
+  const digest = await workDigest(workText);
+  const secret = new Uint8Array(32); globalThis.crypto.getRandomValues(secret);
+  const stream = await sealStream({ secret, workDigest: digest, bytes, media, name: basename(mediaFile), frameSize: values.frame ? Number(values.frame) : undefined });
+  const out = withMeta(embedStream(svgText, stream), { ...(readMeta(svgText) || {}), kind: 'stream', created: new Date().toISOString() });
+  const dest = values.out || cover.replace(/\.svg$/, '') + '.typogram.svg';
+  const fd = openSync(dest, 'wx', 0o600); try { writeSync(fd, out); } finally { closeSync(fd); }
+  const key = await formatKey2({ secret, digest });
+  console.error(`tg-adapter: embedded ${bytes.length} bytes of ${media} into ${dest} (one SVG: picture + video, tied to the cover). The KEY (keep it safe):`);
+  console.log(key);
+}
+
 const { values, positionals } = parseArgs({ allowPositionals: true, options: OPTIONS });
 const cmd = positionals.shift();
 if (cmd === 'seal') await cmdSeal(values, positionals);
+else if (cmd === 'embed') await cmdEmbed(values, positionals);
 else if (cmd === 'serve') await cmdServe(values, positionals);
 else if (cmd === 'info') await cmdInfo(values, positionals);
-else die('usage: tg-adapter seal <file> [-o out.tgst] [--work <f>] [--type <mime>]  |  tg-adapter serve <file.svg|.tgst|.tgs> [--key-file <f>] [--work <f>] [--port <n>]  |  tg-adapter info <file>');
+else die('usage: tg-adapter seal <file> [-o out.tgst] [--work <f>]  |  tg-adapter embed <cover.svg> <media> [-o out.svg] [--work <f>]  |  tg-adapter serve <file.svg|.tgst|.tgs> [--key-file <f>] [--work <f>]  |  tg-adapter info <file>');

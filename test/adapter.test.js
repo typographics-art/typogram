@@ -3,7 +3,7 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -134,6 +134,39 @@ test('adapter: a Typogram SVG (one file: picture + data block + metadata) is ser
   assert.equal(r.status, 200);
   assert.equal(r.headers.get('content-type'), 'text/csv');
   assert.equal((await r.text()).replace(/\r\n/g, '\n').trim(), csv.trim());
+});
+
+test('adapter: embeds a video into one SVG (picture + video), which still opens as a picture and streams with the key', async () => {
+  const cover = join(dir, 'cover.svg');
+  writeFileSync(cover, '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="2" y="10" xml:space="preserve">FILM cover text</text></svg>');
+  const data = Buffer.from(Array.from({ length: 9000 }, (_, i) => (i * 131 + 17) & 255));
+  const video = join(dir, 'clip.mp4'); writeFileSync(video, data);
+  const out = join(dir, 'film.svg');
+  const { code, out: so } = await run(['embed', cover, video, '-o', out, '--frame', '2048']);
+  assert.equal(code, 0);
+  const key = so.trim().split('\n').pop();
+  assert.match(key, /^tgx2\./);
+
+  const svg = readFileSync(out, 'utf8');
+  assert.ok(svg.includes('<tgstream'), 'the video is embedded in the SVG');
+  assert.ok(svg.includes('<text'), 'the picture is still there');
+
+  const info = await run(['info', out]);
+  assert.match(info.out, /typogram \(stream\)/);
+
+  const { url } = await serve([out], key);
+  const get = async (h) => { const r = await fetch(url, { headers: h }); return { r, b: Buffer.from(await r.arrayBuffer()) }; };
+  const full = await get({});
+  assert.equal(full.r.headers.get('content-type'), 'video/mp4');
+  assert.equal(Buffer.compare(full.b, data), 0, 'the whole video streams from the single SVG');
+  const r1 = await get({ Range: 'bytes=2040-2060' });
+  assert.equal(r1.r.status, 206);
+  assert.equal(Buffer.compare(r1.b, data.subarray(2040, 2061)), 0, 'a range across a frame boundary');
+
+  // the wrong key cannot open the embedded stream
+  const wrong = 'tgx2.' + key.slice(5).split('').reverse().join('');
+  const bad = await run(['serve', out, '--key-stdin', '--port', '0'], { input: wrong });
+  assert.equal(bad.code, 1);
 });
 
 test('adapter: refuses to start on a wrong key', async () => {

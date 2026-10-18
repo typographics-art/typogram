@@ -24,8 +24,8 @@ A Typogram SVG has three parts, and only the first is needed for it to be a pict
      [structured-data.md](structured-data.md)). Nothing extra to carry.
    - **Sealed data or small media** — a `tgs1.` record ([encrypted-data.md](encrypted-data.md)), carried in the file.
    - **Sealed large media (a video)** — the `tgst1` stream ([encrypted-media-adapter.md](encrypted-media-adapter.md)),
-     embedded as base64 in the file (so the one SVG holds the whole video; the picture is its cover). *(Writer/reader:
-     building — the format below is the target; today the adapter embeds and reads structured data and a sealed record.)*
+     embedded as base64url in a `<tgstream>` element of the file, so the one SVG holds the whole video and still opens as
+     its cover picture. `tg-adapter embed <cover.svg> <media>` writes it; `tg-adapter serve` streams it with Range.
 3. **The metadata** — a `<metadata>` element (section 3), always present on a generated Typogram.
 
 ## 2. Why an SVG, and why it stays a picture
@@ -68,6 +68,6 @@ Everything needed to read a Typogram is public:
 
 ## 5. The adapter we ship
 
-`tg-adapter serve <file.svg>` reads the one file and serves what is inside at `http://127.0.0.1:…`: structured data as its
+`tg-adapter embed <cover.svg> <media>` writes a one-file video Typogram (the cover SVG plus the sealed stream inside it). `tg-adapter serve <file.svg>` reads the one file and serves what is inside at `http://127.0.0.1:…`: structured data as its
 native format, sealed media streamed with HTTP Range (only the frames a byte range touches are decrypted), the key held in
 memory, nothing written to disk or uploaded. `tg-adapter info <file>` prints what a file is and its metadata without a key.

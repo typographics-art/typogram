@@ -22,5 +22,5 @@ export { structuredText, sha256Hex } from './structure.js';
 export { encode, decode, decodeAll, findBlocks, stripBlocks, verify, toFile, modelJson, TgdError } from './structured.js';
 export { sealData, openSealed, findSealedBlocks, describeRecord, parseRecord, CryptError } from './crypt.js';
 export { sealStream, StreamReader, DEFAULT_FRAME } from './stream.js';
-export { writeMeta, readMeta, TYPOGRAM_NS } from './typogram.js';
+export { writeMeta, readMeta, withMeta, embedStream, readEmbeddedStream, TYPOGRAM_NS, TYPOGRAM_STREAM_NS } from './typogram.js';
 export * as dataPanel from './data-panel.js';
