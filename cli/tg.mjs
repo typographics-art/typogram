@@ -159,15 +159,28 @@ async function cmdVerify(file) {
     process.exit(2);
   }
   const { issuer, kid, created, signature } = tgart;
+  // the record's fields are attacker-controlled: validate their shape before any path lookup, trust check or printing
+  if (!isHostname(issuer) || !isKid(kid) || !isIsoDate(created)) {
+    console.error(`tg: TAMPERED — ${file}\n  - the signature record has a malformed issuer, kid or date`);
+    process.exit(1);
+  }
   const kf = loadKeyfile(opt('keys'), issuer);
-  const stmt = kf && Array.isArray(kf.keys) ? kf.keys.find((k) => k && k.kid === kid) : null;
   const sigProblems = [];
   let pub = null;
-  if (!stmt) sigProblems.push(`no key for issuer ${JSON.stringify(String(issuer || ''))} (kid ${JSON.stringify(String(kid || ''))}) — give the issuer key file with --keys`);
+  // a kid revoked by any valid statement in this key file is rejected
+  const revoked = new Set();
+  for (const k of (kf && Array.isArray(kf.keys) ? kf.keys : [])) {
+    if (k && Array.isArray(k.revokes) && k.revokes.length && verifyKeyStatement(k).ok) k.revokes.forEach((r) => revoked.add(r));
+  }
+  const stmt = kf && Array.isArray(kf.keys) ? kf.keys.find((k) => k && k.kid === kid) : null;
+  if (!stmt) sigProblems.push(`no key for issuer ${issuer} (kid ${kid}) — give the issuer key file with --keys`);
+  else if (stmt.revoked || revoked.has(kid)) sigProblems.push(`the signing key (kid ${kid}) has been revoked`);
   else {
     const kv = verifyKeyStatement(stmt);
     if (!kv.ok) sigProblems.push('the issuer key statement did not verify (self-signature, predecessor or validity)');
-    else if (kv.issuer !== issuer) sigProblems.push(`the key file issuer ${JSON.stringify(String(kv.issuer))} does not match the signed issuer ${JSON.stringify(String(issuer))}`);
+    else if (kv.issuer !== issuer) sigProblems.push('the key file issuer does not match the signed issuer');
+    else if (stmt.created && created < stmt.created) sigProblems.push(`the signature date ${created} is before the key's validity (${stmt.created})`);
+    else if (stmt.expires && created > stmt.expires) sigProblems.push(`the signature date ${created} is after the key expired (${stmt.expires})`);
     else pub = kv.publicKey;
   }
   if (pub && verifyHash({ hash: imgHash, issuer, kid, created, signature }, pub)) {
@@ -266,7 +279,14 @@ function cmdKeygen() {
  * `.well-known/tgart-keys.json`. Without `--keys`, `keys/<issuer>.json` relative to the current directory. Returns the
  * `{ issuer, keys: [...] }` object, or null.
  */
+// These come from the (untrusted) file and feed paths, trust decisions and terminal output — validate their shape before any of
+// that: a non-hostname issuer must never build a key-file path (traversal), and only well-formed values are ever printed.
+const isHostname = (s) => typeof s === 'string' && /^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i.test(s);
+const isKid = (s) => typeof s === 'string' && /^[A-Za-z0-9._-]{1,64}$/.test(s);
+const isIsoDate = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+
 function loadKeyfile(keysArg, issuer) {
+  if (issuer != null && !isHostname(issuer)) return null; // never build a key-file path from a non-hostname issuer (path traversal)
   const tryfile = (p) => { try { const o = JSON.parse(readFileSync(p, 'utf8')); return o && Array.isArray(o.keys) ? o : null; } catch { return null; } };
   if (keysArg) return tryfile(keysArg) || (issuer && (tryfile(join(keysArg, `${issuer}.json`)) || tryfile(join(keysArg, 'keys', `${issuer}.json`)))) || tryfile(join(keysArg, '.well-known', 'tgart-keys.json')) || null;
   return issuer ? tryfile(join(process.cwd(), 'keys', `${issuer}.json`)) : null;
@@ -280,6 +300,8 @@ function loadKeyfile(keysArg, issuer) {
 async function cmdSign(file) {
   const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid');
   if (!file || !keyFile || !issuer || !kid) die('usage: tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]');
+  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
+  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
   const raw = readFileSync(file), kind = kindOf(file, raw);
   if (kind === 'pdf') die('tg sign supports .svg and .html (a PDF carries its record in an attachment)');
   const text = raw.toString('utf8');

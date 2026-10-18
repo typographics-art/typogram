@@ -6,6 +6,7 @@ import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { generateIssuerKey, signKeyStatement } from '../src/sign.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TG = join(HERE, '..', 'cli', 'tg.mjs');
@@ -41,5 +42,36 @@ test('tg sign/verify: unsigned → 2, signed → VERIFIED 0, no key / bad signat
     // signing does not change the identity hash (the image + source are untouched)
     const h = (p) => (JSON.parse(readFileSync(p, 'utf8').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])).tgart.hash;
     assert.equal(h(signed), run('extract', SUBJECT, '--json').stdout.match(/"hash":\s*"([0-9a-f]{64})"/)[1], 'the hash is unchanged by signing');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('tg verify: a malformed issuer in the record is rejected (no path traversal / escape injection)', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'tg-sv-'));
+  try {
+    run('keygen', '--issuer', 'test.example', '--kid', 'k1', '--out', dir, '--private-out', join(dir, 'priv.pem'));
+    const signed = join(dir, 's.svg');
+    run('sign', SUBJECT, '--key', join(dir, 'priv.pem'), '--issuer', 'test.example', '--kid', 'k1', '--out', signed);
+    const evil = join(dir, 'evil.svg');
+    writeFileSync(evil, readFileSync(signed, 'utf8').replace('"issuer":"test.example"', '"issuer":"../../../tmp/x"'));
+    const r = run('verify', evil, '--keys', dir);
+    assert.equal(r.status, 1, `malformed issuer → TAMPERED:\n${r.stdout}${r.stderr}`);
+    assert.match(r.stderr + r.stdout, /malformed/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('tg verify: a revoked signing key is rejected (TAMPERED)', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'tg-sv-'));
+  try {
+    run('keygen', '--issuer', 'rev.example', '--kid', 'k1', '--out', dir, '--private-out', join(dir, 'k1.pem'));
+    const k1stmt = JSON.parse(readFileSync(join(dir, 'keys', 'rev.example.json'), 'utf8')).keys[0];
+    const k2 = generateIssuerKey();
+    const k2stmt = signKeyStatement({ issuer: 'rev.example', kid: 'k2', publicKey: k2.publicKey, revokes: ['k1'] }, k2.privatePem);
+    const keyfile = join(dir, 'rev-keyfile.json');
+    writeFileSync(keyfile, JSON.stringify({ issuer: 'rev.example', keys: [k1stmt, k2stmt] }));
+    const signed = join(dir, 'rev.svg');
+    run('sign', SUBJECT, '--key', join(dir, 'k1.pem'), '--issuer', 'rev.example', '--kid', 'k1', '--out', signed);
+    const r = run('verify', signed, '--keys', keyfile);
+    assert.equal(r.status, 1, `revoked key → TAMPERED:\n${r.stdout}${r.stderr}`);
+    assert.match(r.stderr + r.stdout, /revoked/);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
