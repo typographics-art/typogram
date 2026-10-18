@@ -6,6 +6,9 @@
 import { b64urlEncode, b64urlDecode, deflateRaw, inflateRaw } from './crypt-codec.js';
 
 export const TYPOGRAM_NS = 'https://typographics-art.org/ns/typogram/1';
+// A plain-language note put in every Typogram (the metadata `read` field and the SVG <desc>), so any program or AI that
+// opens the file knows at once what it is and where the content is — not just a picture of tiny text.
+export const TYPOGRAM_READ_NOTE = 'Typographics Art — a Typogram: this file is a picture made of its own readable text. The complete text is the content of the <text> element in this SVG; the exact original source, with its formatting (line breaks, Markdown tables, lists, code), is in the <tgsource> element, deflate-compressed then base64url-encoded. To a person it is a picture; a machine should read the text, not OCR the pixels. https://typographics-art.org';
 export const TYPOGRAM_STREAM_NS = 'https://typographics-art.org/ns/typogram-stream/1';
 export const TYPOGRAM_SOURCE_NS = 'https://typographics-art.org/ns/typogram-source/1';
 const MAX_SOURCE = 64 * 1024 * 1024; // the decompressed source we will read back, bytes
@@ -20,7 +23,7 @@ const unescapeXml = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace
  */
 export function writeMeta(meta) {
   if (!meta) return '';
-  const json = JSON.stringify({ format: 'typogram', v: 1, ...meta });
+  const json = JSON.stringify({ format: 'typogram', v: 1, read: TYPOGRAM_READ_NOTE, ...meta });
   return `<metadata><typogram xmlns="${TYPOGRAM_NS}">${escapeXml(json)}</typogram></metadata>`;
 }
 

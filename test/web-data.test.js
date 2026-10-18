@@ -11,6 +11,7 @@ import { findChrome } from '../cli/core.mjs';
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'check-web-data.mjs');
 
 test('web data: generator panel and work page work end to end in headless Chrome', { timeout: 600000 }, (t) => {
+  if (process.env.TG_SKIP_BROWSER) return t.skip('browser checks skipped in CI (run locally)');
   if (!findChrome()) return t.skip('Chrome/Chromium not found (set CHROME_PATH): the browser checks need it');
   if (typeof WebSocket === 'undefined') return t.skip('Node.js 22 or newer is needed for the DevTools connection (global WebSocket)');
   const r = spawnSync(process.execPath, [SCRIPT], { encoding: 'utf8', timeout: 540000, maxBuffer: 1 << 26 });

@@ -10,12 +10,14 @@
   "extractor": "mutool draw -F txt",
   "characters": 228576,
   "words": 31129,
-  "lines": 377,
+  "lines": 374,
   "paper": "a4",
-  "fontSizeMm": 0.754,
+  "fontSizeMm": 0.757,
   "overflow": false,
-  "toneFidelity": 0.931,
-  "layoutMs": 4856,
+  "toneFidelity": 0.932,
+  "dynamicRange": 0.203,
+  "paperTone": "light",
+  "layoutMs": 4412,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -25,17 +27,20 @@
     "sha256Source": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964",
     "sha256ReadBack": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964"
   },
-  "pdfBytes": 1726495,
-  "pdfBytesUnoptimized": 2100764,
+  "pdfBytes": 1677753,
+  "pdfBytesUnoptimized": 2053077,
   "printStrips": 2,
   "reprints": 0,
   "pdfStats": {
     "glyphs": 197448,
-    "runs": 139973,
-    "outlines": 741,
+    "runs": 133246,
+    "outlines": 742,
     "fonts": 10
   },
-  "sizeFactor": 1.57,
+  "sizeFactor": 1.53,
   "motif": "motifs/ch-bundesverfassung-1874.jpg",
-  "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old)."
+  "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
+  "text": "source.txt",
+  "textSha256": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964",
+  "textMatchesArt": true
 }

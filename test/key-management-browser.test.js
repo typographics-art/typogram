@@ -18,7 +18,7 @@ const chrome = [process.env.CHROME_PATH, 'chromium', 'chromium-browser', 'google
 const vectors = JSON.parse(readFileSync(new URL('./fixtures/key-management-vectors.json', import.meta.url), 'utf8'));
 const types = { '.js': 'text/javascript', '.html': 'text/html', '.json': 'application/json' };
 
-test('browser: the derivations equal the Node results and the frozen vectors; PRF passkey feeds the vault', { skip: !chrome || typeof WebSocket === 'undefined' ? 'no Chromium or no WebSocket' : false, timeout: 120000 }, async () => {
+test('browser: the derivations equal the Node results and the frozen vectors; PRF passkey feeds the vault', { skip: process.env.TG_SKIP_BROWSER ? 'skipped in CI' : !chrome || typeof WebSocket === 'undefined' ? 'no Chromium or no WebSocket' : false, timeout: 120000 }, async () => {
   const server = createServer((q, r) => {
     try { const f = join(root, new URL(q.url, 'http://x').pathname); if (!f.startsWith(root)) throw new Error('outside'); const b = readFileSync(f); r.writeHead(200, { 'content-type': types[extname(f)] || 'application/octet-stream' }); r.end(b); } catch { r.writeHead(404); r.end(); }
   }).listen(0, '127.0.0.1');
@@ -87,7 +87,7 @@ test('browser: the derivations equal the Node results and the frozen vectors; PR
 });
 
 const firefox = [join(process.env.HOME ?? '', '.cache/ms-playwright'), process.env.FIREFOX_DIR].filter(Boolean).flatMap((d) => { try { return readdirSync(d).filter((x) => x.startsWith('firefox')).map((x) => join(d, x, 'firefox/firefox')); } catch { return []; } }).find((f) => { try { return readFileSync(f).length > 0; } catch { return false; } }) ?? process.env.FIREFOX_PATH;
-test('browser: Firefox gives the same results from the same modules', { skip: !firefox ? 'no Firefox (set FIREFOX_PATH)' : false, timeout: 120000 }, async () => {
+test('browser: Firefox gives the same results from the same modules', { skip: process.env.TG_SKIP_BROWSER ? 'skipped in CI' : !firefox ? 'no Firefox (set FIREFOX_PATH)' : false, timeout: 120000 }, async () => {
   let report;
   const server = createServer((q, r) => {
     if (q.method === 'POST') { let b = ''; q.on('data', (d) => (b += d)); q.on('end', () => { r.end('ok'); report = JSON.parse(b); }); return; }

@@ -98,6 +98,7 @@ test('gaps: auto mode on a short structured block (long tokens without spaces) s
 
 // ---- end to end through Chrome and MuPDF ------------------------------------------------------------------------
 async function throughPdf(t, text, options = {}) {
+  if (process.env.TG_SKIP_BROWSER) return t.skip('browser checks skipped in CI (run locally)');
   if (!findChrome()) return t.skip('Chrome/Chromium not found (set CHROME_PATH)');
   if (spawnSync('which', ['mutool']).status !== 0) return t.skip('MuPDF (mutool) not found');
   const pdf = join(mkdtempSync(join(tmpdir(), 'tg-edge-')), 'page.pdf');

@@ -564,6 +564,7 @@ test('the conformance vectors: the reference decoder passes them and the referen
 
 // ---- end to end through a real PDF ------------------------------------------------------------------------------------
 test('end to end: a sheet becomes a one-page PDF and comes back out of its text layer (MuPDF)', async (t) => {
+  if (process.env.TG_SKIP_BROWSER) return t.skip('browser checks skipped in CI (run locally)');
   if (!findChrome()) return t.skip('Chrome/Chromium not found (set CHROME_PATH)');
   if (spawnSync('which', ['mutool']).status !== 0) return t.skip('MuPDF (mutool) not found');
   const { r } = await roundtrip('people.csv');

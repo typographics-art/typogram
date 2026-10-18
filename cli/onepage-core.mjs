@@ -71,9 +71,16 @@ export async function makeOnePage(session, job) {
     writeFileSync(job.svg, svg);
   }
   if (job.preview) {
-    // Render at twice the layout scale: at ~9 px per glyph the browser draws hairlines darker than their ink.
-    await session.call('tgBase', Math.min(2, 6000 / info.width));
-    const data = await session.call('tgBaseImage', job.previewWidth || 1200, 0.86);
+    // Small type dissolves into grey in a flat raster: at 1200 px an A4 one-pager has ~6 px per mm, so sub-2 mm
+    // glyphs fall below the pixel grid. Scale the preview to the page's own type — about 10 device px per glyph
+    // em, at most 2200 px — so the letters stay readable (measured: 0.93 mm type, OCR word recall 0.02 → 0.56).
+    // Pages whose type is so small that even 2200 px gives under 8 px per em keep the requested width: a flat
+    // raster cannot carry them (measured: 0.49 mm type at 2200 px read worse at 4× the bytes), the PDF does.
+    const fontMm = info.fontSize * mmPerPx, requested = job.previewWidth || 1200;
+    const previewWidth = (2200 * fontMm) / pw >= 8 ? Math.min(2200, Math.max(requested, Math.round((10 * pw) / fontMm))) : requested;
+    // Render at twice the layout scale (never below native) so the browser draws hairlines at their true ink.
+    await session.call('tgBase', Math.max(1, Math.min(2, 6000 / info.width)));
+    const data = await session.call('tgBaseImage', previewWidth, 0.86);
     writeFileSync(job.preview, Buffer.from(data.split(',')[1], 'base64'));
   }
 

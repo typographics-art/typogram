@@ -13,12 +13,20 @@ const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; ch
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function findChrome() {
-  if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
+  const which = (name) => { const r = spawnSync(process.platform === 'win32' ? 'where' : 'which', [name], { encoding: 'utf8' }); return r.status === 0 && r.stdout.trim() ? r.stdout.trim().split('\n')[0] : null; };
+  // Trust CHROME_PATH only if it actually resolves — a dangling value (e.g. CHROME_PATH=google-chrome on a runner without
+  // it) must fall through to the search, so the browser tests skip cleanly instead of failing to launch.
+  if (process.env.CHROME_PATH) {
+    const p = process.env.CHROME_PATH;
+    if (existsSync(p)) return p;
+    const w = which(p);
+    if (w) return w;
+  }
   const mac = ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/Applications/Chromium.app/Contents/MacOS/Chromium'];
   for (const p of mac) if (existsSync(p)) return p;
   for (const name of ['chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable', 'chrome']) {
-    const r = spawnSync(process.platform === 'win32' ? 'where' : 'which', [name], { encoding: 'utf8' });
-    if (r.status === 0 && r.stdout.trim()) return r.stdout.trim().split('\n')[0];
+    const w = which(name);
+    if (w) return w;
   }
   return null;
 }

@@ -15,7 +15,9 @@
   "fontSizeMm": 0.844,
   "overflow": false,
   "toneFidelity": 0.976,
-  "layoutMs": 3887,
+  "dynamicRange": 0.205,
+  "paperTone": "light",
+  "layoutMs": 4214,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -37,5 +39,8 @@
   },
   "sizeFactor": 2.78,
   "motif": null,
-  "motifCredit": null
+  "motifCredit": null,
+  "text": "source.txt",
+  "textSha256": "6294acf02d256f5d7995947b4489a3d7ca8f0c3971cd4b4b0d5416a766b9d2f6",
+  "textMatchesArt": true
 }

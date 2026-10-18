@@ -13,7 +13,7 @@ const root = resolve(new URL('..', import.meta.url).pathname);
 const chrome = [process.env.CHROME_PATH, 'chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable', 'chrome'].filter(Boolean).find((c) => spawnSync(c, ['--version'], { stdio: 'ignore' }).status === 0);
 const types = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.html': 'text/html', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 
-test('passkey check page: a virtual passkey with PRF passes every step, nothing is stored, nothing leaves the origin', { skip: !chrome || typeof WebSocket === 'undefined' ? 'no Chromium or no WebSocket' : false, timeout: 120000 }, async () => {
+test('passkey check page: a virtual passkey with PRF passes every step, nothing is stored, nothing leaves the origin', { skip: process.env.TG_SKIP_BROWSER ? 'skipped in CI' : !chrome || typeof WebSocket === 'undefined' ? 'no Chromium or no WebSocket' : false, timeout: 120000 }, async () => {
   const server = createServer((q, r) => {
     try { const f = join(root, new URL(q.url, 'http://x').pathname); if (!f.startsWith(root)) throw new Error('outside'); const b = readFileSync(f); r.writeHead(200, { 'content-type': types[extname(f)] || 'application/octet-stream' }); r.end(b); } catch { r.writeHead(404); r.end(); }
   }).listen(0, '127.0.0.1');
