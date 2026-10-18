@@ -193,7 +193,7 @@ footer a{color:inherit}
       <a class="navtry" href="app" data-i18n="cta.try">Try it free</a>
       <a href="#idea" data-i18n="nav.idea">The idea</a>
       <a href="#how" data-i18n="nav.how">How it works</a>
-      <a href="demo/moby-dick/">Moby-Dick</a>
+      <a href="#provenance" data-i18n="nav.prov">Provenance</a>
       <a href="examples" data-i18n="nav.examples">One-pagers</a>
       <a href="gallery" data-i18n="nav.gallery">Gallery</a>
       <a href="#data" data-i18n="nav.data">Data</a>
@@ -214,13 +214,13 @@ footer a{color:inherit}
       <p class="lead" data-i18n="hero.lead">A document format where a person sees at a glance what something is and who it is from, and a machine provably reads exactly what the person sees. Any text is set letter by letter into a picture of your photo; the letters never change, so a person sees the image and a machine reads every word.</p>
       <div class="ctas">
         <a class="cta" href="app" data-i18n="cta.make">Make your own, free</a>
-        <a class="cta ghost" href="demo/moby-dick/" data-i18n="cta.proof">See the proof</a>
+        <a class="cta ghost" href="#proof" data-i18n="cta.proof">See the proof</a>
       </div>
     </div>
     <figure>
-      <a href="demo/moby-dick/"><img src="demo/moby-dick/thumb.jpg" width="760" height="1130" alt="The complete text of Moby-Dick set as one poster: a harbour at dusk, whaleboats, and the white whale" fetchpriority="high"></a>
-      <span class="tag" data-i18n="hero.tag">The whole book: 1.2 million characters</span>
-      <figcaption data-i18n="hero.cap">Moby-Dick, all 135 chapters on one 2 × 3 m poster. Zoom in and read it, or let a machine read it back: the text is complete.</figcaption>
+      <a href="work.html?art=gallery/douglass.svg&amp;title=Learning%20to%20Read&amp;back=./"><img src="gallery/thumbs/douglass.jpg" width="560" height="737" alt="A portrait of Frederick Douglass, formed entirely from the readable text of his own 1845 Narrative" fetchpriority="high"></a>
+      <span class="tag" data-i18n="hero.tag">Every letter is his own words</span>
+      <figcaption data-i18n="hero.cap">Frederick Douglass, set letter by letter from his 1845 Narrative. Zoom in and read it, or let a machine read it back — every word is there.</figcaption>
     </figure>
   </div>
 </section>
@@ -255,12 +255,10 @@ footer a{color:inherit}
     <h2 data-i18n="proof.h">The text survives. We checked every character.</h2>
     <div class="numbers">
       <div class="num"><b>100 %</b><span data-i18n="n.exact">of the text comes back from HTML, SVG and PDF</span></div>
-      <div class="num"><b id="n-chars">1,214,967</b><span data-i18n="n.chars">characters of Moby-Dick on one sheet, SHA-256 identical</span></div>
-      <div class="num"><b id="n-tests">7/7</b><span data-i18n="n.tests">tests passed in the generated proof report</span></div>
+      <div class="num"><b id="n-chars">444,527</b><span data-i18n="n.chars">characters set across the gallery, each work read back and verified</span></div>
       <div class="num"><b id="n-ex">10/10</b><span data-i18n="n.ex">one-pagers read back and verified</span></div>
-      <div class="num"><b id="n-vlm">146/146</b><span data-i18n="n.vlm">words read by a vision model, where classic OCR got 5 %</span></div>
     </div>
-    <p class="source"><span data-i18n="proof.src">Every number comes from a script in the repository:</span> <a href="https://github.com/typographics-art/typogram/blob/main/demo/moby-dick/proof.md">proof.md</a> · <a href="https://github.com/typographics-art/typogram/blob/main/docs/ai-readability.md">ai-readability.md</a> · <a href="examples" data-i18n="proof.ex">one-pager checks</a></p>
+    <p class="source"><span data-i18n="proof.src">Every number comes from a script in the repository:</span> <a href="https://github.com/typographics-art/typogram/blob/main/docs/ai-readability.md">ai-readability.md</a> · <a href="examples" data-i18n="proof.ex">one-pager checks</a></p>
   </div>
 </section>
 
@@ -332,23 +330,19 @@ footer a{color:inherit}
   </div>
 </section>
 
-<section id="showcase">
+<section id="provenance">
   <div class="wrap">
-    <p class="kicker" data-i18n="sc.kicker">Showcase</p>
-    <h2 data-i18n="sc.h">A whole book as one poster.</h2>
-    <div class="show">
-      <a href="demo/moby-dick/"><img src="demo/moby-dick/thumb.jpg" width="760" height="1130" alt="Moby-Dick poster in three panels" loading="lazy"></a>
-      <div>
-        <p class="lead" data-i18n="sc.lead">Herman Melville's Moby-Dick, 135 chapters, set on a single 2 × 3 m print file in three panels: the harbour, the hunt, the white whale. Click anywhere in the zoom view and the page shows the text at that spot.</p>
-        <ul class="ticks">
-          <li data-i18n="sc.t1">Full text read back from the artwork: SHA-256 identical to the source</li>
-          <li data-i18n="sc.t2">Every visible character of the print PDF verified</li>
-          <li data-i18n="sc.t3">Chapter structure, passages and word frequencies identical</li>
-          <li data-i18n="sc.t4">A question set about the book answered from the extracted text</li>
-          <li data-i18n="sc.t5">Reproducible: download the book, run two scripts, compare the hash</li>
-        </ul>
-        <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="demo/moby-dick/" data-i18n="sc.cta">Open the zoomable poster</a><a class="cta ghost" href="work.html?art=demo/moby-dick/preview.jpg&amp;text=demo/moby-dick/source.txt&amp;title=Moby-Dick&amp;back=./" data-i18n="sc.views">Read &amp; search all three views</a></p>
-      </div>
+    <p class="kicker" data-i18n="pv.kicker">The headline use case</p>
+    <h2 data-i18n="pv.h">Know where a text is from — and that it hasn't changed.</h2>
+    <p class="lead" data-i18n="pv.lead">A Typogram can be signed by its issuer — a domain you recognise. Anyone can verify the signature: it proves who published the text and that not one character has changed since. That is the piece missing in the world today, and it is shipping in this release.</p>
+    <div class="steps">
+      <div class="step"><h3 data-i18n="pv1.h">Sign</h3><p data-i18n="pv1.p">The issuer signs the work with a key tied to their domain. The signature travels inside the document, through HTML, SVG and PDF.</p></div>
+      <div class="step"><h3 data-i18n="pv2.h">Anchor</h3><p data-i18n="pv2.p">Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps — the anchors are pluggable and open, not tied to one chain.</p></div>
+      <div class="step"><h3 data-i18n="pv3.h">Verify</h3><p data-i18n="pv3.p">A reader or an agent checks the signature against the issuer's domain and the anchor: the text either matches what was published, character for character, or it does not.</p></div>
+    </div>
+    <div class="honest" role="note">
+      <h3 data-i18n="pv.not.h">What it proves, and what it does not</h3>
+      <p data-i18n="pv.not.p">A signature proves who signed and that the text is unchanged — not that the signer is honest. And it is a possibility, not a guarantee: whether an agent actually runs the check depends on verify tools landing where models run, and on issuers whose seal people recognise.</p>
     </div>
   </div>
 </section>
@@ -374,10 +368,10 @@ footer a{color:inherit}
     <h2 data-i18n="ai.h">Art that machines can read.</h2>
     <p class="lead" data-i18n="ai.lead">More and more of what we publish is read by models, crawlers and assistive technology. Pictures that hide their words are invisible to them. Typographics Art keeps the words.</p>
     <div class="uses">
+      <div class="use"><h3 data-i18n="u4.h">Provenance</h3><p data-i18n="u4.p">Sign a work as its issuer; a reader or an agent can then verify who published it and that not one character has changed — the signature survives copy, paste and export. It is the headline use case above.</p></div>
       <div class="use"><h3 data-i18n="u1.h">Instructions at a glance</h3><p data-i18n="u1.p">System prompts, agent rules, policies: one page that shows people which document it is, and gives the model every rule.</p></div>
       <div class="use"><h3 data-i18n="u2.h">Accessible images</h3><p data-i18n="u2.p">The text is real text, so a screen reader reads it; what the picture shows gets a short description of its own, written into the file. Measured in Chrome’s accessibility tree, not yet tested with NVDA, JAWS or VoiceOver.</p></div>
       <div class="use"><h3 data-i18n="u3.h">Findable art</h3><p data-i18n="u3.p">Search engines and AI crawlers index the words, not just a file name.</p></div>
-      <div class="use"><h3 data-i18n="u4.h">Provenance</h3><p data-i18n="u4.p">A statement, a licence or a signature inside the work survives copy and paste.</p></div>
       <div class="use"><h3 data-i18n="u5.h">Agent instructions, ready to paste</h3><p data-i18n="u5.p">System prompts, agent rules and policies as a page you can read and a model reads whole — ready-made examples: <a href="examples">AGENTS.md, code-review and support agents, PEP 8, whole laws</a>.</p></div>
       <div class="use"><h3 data-i18n="u6.h">Encrypted media in one file</h3><p data-i18n="u6.p">Seal a picture or a video into one Typogram (a valid SVG). It opens as a cover picture everywhere; with the key, the <a href="#data">adapter</a> streams the video — in memory, nothing to disk, nothing uploaded.</p></div>
     </div>

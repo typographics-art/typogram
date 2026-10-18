@@ -87,17 +87,6 @@ So: **give machines the HTML or SVG**, and they get the text perfectly, at any a
 
 One caveat for PDF: Poppler's `pdftotext` keeps only the first 50 000 small characters per page. For pages with more text than that (a one-pager of a long document), read the PDF with MuPDF, or run `pdftotext -r 600` ([details](docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely)).
 
-## Demonstrator: Moby-Dick in one picture
-
-The strongest proof is a whole book. [**typographics-art.org/demo/moby-dick**](https://typographics-art.org/demo/moby-dick/) sets the complete text of *Moby-Dick* (1.2 million characters, 135 chapters) as a single 2 × 3 m poster in three panels, one motif per part of the book. Next to the zoomable poster, the page shows the proof:
-
-- **Complete:** the text read back from the artwork has the same SHA-256 hash as the source text.
-- **Read back correctly:** from the SVG master and from the print PDF, 100 random passages are found at their original positions, chapter structure and word frequencies are identical.
-- **Usable by AI:** a defined question set (narrator, ship, captain, …) has every answer grounded in the extracted text; OCR samples measure what survives in a mere photo of the poster.
-- **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](demo/moby-dick/proof.md).
-
-Click anywhere on the poster and the page shows the text at that spot, read from the artwork's own line offsets.
-
 ## One-pagers: a whole document on one page
 
 `cli/onepage.mjs` puts the complete text of a multi-page PDF (or any text file) on a single page. The letters are tiny; together they form the document's title in large type, or, with `--motif`, a picture above the title. A person sees at a glance what the page is. A model reads every word from the PDF's text layer: the type size does not matter to it.
@@ -291,9 +280,7 @@ npm test          # node --test, no dependencies (a few seconds)
 npm run dev       # needs Python 3; landing page at http://localhost:8080, generator at /app.html
 npm run gallery   # re-render the gallery (needs Chrome/Chromium)
 
-# only to deploy the website: the Moby-Dick zoom tiles first (Chrome, about 4 minutes, 522 tiles), then the site
-node demo/moby-dick/build.mjs zoom
-node scripts/build-site.mjs
+node scripts/build-site.mjs   # build the website into _site/
 ```
 
 Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, facts and images.
@@ -310,7 +297,6 @@ Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, fa
 | `gallery/` | the 15 works |
 | `examples/` | one-pager demos (31) with their published source texts |
 | `samples/` | sample texts for the generator (made by `scripts/build-samples.mjs`) |
-| `demo/` | the Moby-Dick poster |
 | `docs/` | measurements and rules |
 | `about/` | generated single-file description for AI assistants |
 | `benchmark/` | the test document for [docs/ai-benefit.md](docs/ai-benefit.md) |

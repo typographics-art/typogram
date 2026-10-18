@@ -11,7 +11,6 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 - [Home](https://typographics-art.org/): what Typographics Art is, measured results, showcases
 - [Web app](https://typographics-art.org/app): make your own in the browser, with 28 sample texts and suggestions for hidden messages; your text and photo are processed in the browser and never uploaded, and the site loads no third-party resources
 - [Three views of a work](https://typographics-art.org/work): Art (recognise the picture), Read (read and search the full text), Machine (structured text with source, sections and a checksum)
-- [Moby-Dick demonstrator](https://typographics-art.org/demo/moby-dick/): the complete novel (1.2 million characters) on one 2 × 3 m poster, with a generated proof report
 - [One-pagers](https://typographics-art.org/examples): whole documents (Swiss Federal Constitution, German Basic Law, US Constitution, EU AI Act, UDHR, PEP 8, AI agent instructions) on one page each, verified by reading them back
 - [Gallery](https://typographics-art.org/gallery): 15 works from public-domain photos and paintings, each set from a matching public-domain text, switchable to the original
 - [Everything in one file](https://typographics-art.org/llms-full.txt): README and documents, for AI assistants
@@ -32,7 +31,6 @@ Important for machines: the text is in the file (HTML text, SVG text elements, P
 - [Passwords, keys and seeds, explained](https://github.com/typographics-art/typogram/blob/main/docs/passwords-and-keys.md): why a password is never the only secret, three recommended setups, what is not promised, how to verify (German: passwords-and-keys.de.md)
 - [Key management](https://github.com/typographics-art/typogram/blob/main/docs/key-management.md) and [cipher review](https://github.com/typographics-art/typogram/blob/main/docs/cipher-review.md): master and record keys from one seed, recipient sealing, key splitting, why AES-256-GCM stays and a password is never the only secret
 - [File size, measured](https://github.com/typographics-art/typogram/blob/main/docs/file-size.md)
-- [Moby-Dick proof report](https://github.com/typographics-art/typogram/blob/main/demo/moby-dick/proof.md)
 - [Press kit](https://github.com/typographics-art/typogram/blob/main/docs/press-kit.md)
 - [Third-party materials and credits](https://github.com/typographics-art/typogram/blob/main/NOTICE.md)
 - [Source code](https://github.com/typographics-art/typogram), [AGENTS.md](https://github.com/typographics-art/typogram/blob/main/AGENTS.md) for AI coding agents

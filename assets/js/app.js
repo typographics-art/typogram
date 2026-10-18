@@ -36,7 +36,7 @@ const I18N = {
     'footer.license': 'MIT-Lizenz',
     'label.shape': 'Kanten innerhalb der Buchstaben folgen',
     'label.autoLevels': 'Tonwerte automatisch spreizen',
-    'btn.pdf': 'Drucken / PDF', 'nav.gallery': 'Galerie', 'nav.demo': 'Moby-Dick',
+    'btn.pdf': 'Drucken / PDF', 'nav.gallery': 'Galerie',
     'ai.toggle': 'Was die KI liest', 'ai.h': 'Was die KI liest',
     'ai.p': 'Das ist der Text im Bild, direkt aus der Seite gelesen. Ein Sprachmodell, eine Suchmaschine oder ein Screenreader bekommt genau das, in dieser Reihenfolge. ASCII-Art gäbe nur Schattierungszeichen her.',
     'label.cuts': 'Schriftschnitte',

@@ -20,7 +20,7 @@ The README and the main documents in one file: **[about/typographics-art.md](htt
 For centuries, letterhead, a signature and a seal showed at a glance what a paper was and who it was from. **Typographics Art** brings that to the AI age, in three layers:
 
 1. **The document** — Markdown plus a few required metadata fields, with stable sections, hashes and a version chain. On its own, already a useful "llms.txt with structure."
-2. **The provenance** — keys on domains, signatures, a visible seal, a verify tool. This is the piece missing in the world today: signatures exist for software and for photos, but not yet a widespread, readable one for texts addressed to AIs. Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps. (Shipping in this release.)
+2. **The provenance** — keys on domains, signatures, a visible seal, a verify tool. This is the piece missing in the world today: signatures exist for software and for photos, but not yet a widespread, readable one for texts addressed to AIs. Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps. The anchors are pluggable and open to the community — not tied to one chain. (Shipping in this release.)
 3. **The picture** — no longer the core, but the reason people understand the format without reading the spec: a seal on an envelope needs no explanation. It turns a crypto protocol into an object you recognise, show and hang up.
 
 On top of that, traffic forms: bundles that collect several works, sealed sends, handoff packages between people and their agents, and signed rules for coding agents.
@@ -72,17 +72,6 @@ We do not just claim it. Every number below is measured and reproducible ([metho
 So: **give machines the HTML or SVG**, and they get the text perfectly, at any artistic setting. PDF works the same when read in stored order, and with every tool at legibility *high*. If only an image travels (a screenshot, a social post), choose legibility *high* and the text survives even pure image recognition. A first sample with a vision-language model read every word, even at *free*, where classic OCR stumbles. More models and larger samples: [help is welcome](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md).
 
 One caveat for PDF: Poppler's `pdftotext` keeps only the first 50 000 small characters per page. For pages with more text than that (a one-pager of a long document), read the PDF with MuPDF, or run `pdftotext -r 600` ([details](https://typographics-art.org/docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely)).
-
-## Demonstrator: Moby-Dick in one picture
-
-The strongest proof is a whole book. [**typographics-art.org/demo/moby-dick**](https://typographics-art.org/demo/moby-dick/) sets the complete text of *Moby-Dick* (1.2 million characters, 135 chapters) as a single 2 × 3 m poster in three panels, one motif per part of the book. Next to the zoomable poster, the page shows the proof:
-
-- **Complete:** the text read back from the artwork has the same SHA-256 hash as the source text.
-- **Read back correctly:** from the SVG master and from the print PDF, 100 random passages are found at their original positions, chapter structure and word frequencies are identical.
-- **Usable by AI:** a defined question set (narrator, ship, captain, …) has every answer grounded in the extracted text; OCR samples measure what survives in a mere photo of the poster.
-- **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](https://github.com/typographics-art/typogram/blob/main/demo/moby-dick/proof.md).
-
-Click anywhere on the poster and the page shows the text at that spot, read from the artwork's own line offsets.
 
 ## One-pagers: a whole document on one page
 
@@ -270,14 +259,14 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md); please follow the [code of conduct](https://github.com/typographics-art/typogram/blob/main/CODE_OF_CONDUCT.md).
 
+Want to anchor keys in another log or chain? The anchor plugins are pluggable — see [`anchors/README.md`](https://github.com/typographics-art/typogram/blob/main/anchors/README.md); DigiByte is a good first task.
+
 ```sh
 npm test          # node --test, no dependencies (a few seconds)
 npm run dev       # needs Python 3; landing page at http://localhost:8080, generator at /app.html
 npm run gallery   # re-render the gallery (needs Chrome/Chromium)
 
-# only to deploy the website: the Moby-Dick zoom tiles first (Chrome, about 4 minutes, 522 tiles), then the site
-node demo/moby-dick/build.mjs zoom
-node scripts/build-site.mjs
+node scripts/build-site.mjs   # build the website into _site/
 ```
 
 Writing about Typographics Art? The [press kit](https://typographics-art.org/docs/press-kit.md) has texts, facts and images.
@@ -288,12 +277,12 @@ Writing about Typographics Art? The [press kit](https://typographics-art.org/doc
 |---|---|
 | `src/` | the library |
 | `cli/` | command-line tools |
+| `anchors/` | pluggable key-transparency anchor plugins (community contributions welcome) |
 | `api/` | the paid one-pager API server |
 | `scripts/` | site and documentation builders |
 | `gallery/` | the 15 works |
 | `examples/` | one-pager demos (31) with their published source texts |
 | `samples/` | sample texts for the generator (made by `scripts/build-samples.mjs`) |
-| `demo/` | the Moby-Dick poster |
 | `docs/` | measurements and rules |
 | `about/` | generated single-file description for AI assistants |
 | `benchmark/` | the test document for [docs/ai-benefit.md](https://typographics-art.org/docs/ai-benefit.md) |
@@ -566,14 +555,6 @@ Measuring found two real defects, both fixed before these results:
 
 1. **Ligatures dropped letters in PDFs.** Chrome set "ffi" in *officia* as one ligature glyph, and its PDF text layer then mapped that glyph to "ff": the extracted text read *offcia*. Ligatures and kerning are now switched off in every output (`GLYPH_CSS` in `src/render.js`). That also keeps the layout exact, because glyphs are measured one by one.
 2. **Word mode lacked size coherence.** Neighbouring words jumped between font sizes, and `pdftotext`'s layout mode moved the very first words of the text elsewhere. Word mode now uses the same size-coherence cost as letter mode. That fixed the start of the text, but over the full text layout-reconstructing extraction still moves some line fragments at medium and free legibility (table above). "Word order" is `difflib` similarity of the word sequences.
-
-## A whole book: the Moby-Dick poster
-
-The demonstrator in `demo/moby-dick/` sets 1.2 million characters on 2 × 3 m and runs the same kind of checks at that scale; its report is generated by the build (`demo/moby-dick/proof.md`). Three findings from it:
-
-- **PDF extraction depends on the tool.** Poppler's `pdftotext` returns fewer letters than are in the file, mostly in light passages, while MuPDF (`mutool draw -F txt`) returns every visible character. The cause is a deliberate Poppler limit (see below): small glyphs, which light passages consist of, are dropped after the first 50 000 per page. The text is in the file; the proof extracts with MuPDF and reports Poppler separately.
-- **Invisible direction marks** (U+200E/U+200F around one Hebrew word in the book's etymology) are not carried into the PDF text layer. The SVG master keeps them; the PDF test compares visible characters and says so.
-- **OCR versus vision models at poster density.** With strong mixing of weights, widths, sizes and light colours, Tesseract recognises only part of the words, while a vision-language model reads the same segment images completely (manual sample in the report).
 
 ## Which PDF extractors read a one-pager completely
 

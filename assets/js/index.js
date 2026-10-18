@@ -7,19 +7,19 @@ const $ = (s) => document.querySelector(s);
   [...word].forEach((ch, i) => { const s = document.createElement('span'); s.textContent = ch === ' ' ? ' ' : ch; s.style.fontWeight = Math.round(250 + (700 * i) / (word.length - 1)); if (i > word.length - 4) s.style.color = 'var(--accent)'; b.appendChild(s); });
 }
 const DE = {
-  'skip': 'Zum Inhalt springen', 'nav.idea': 'Die Idee', 'nav.how': 'So geht es', 'nav.examples': 'One-Pager', 'nav.gallery': 'Galerie', 'nav.ai': 'Für KI', 'nav.data': 'Daten',
+  'skip': 'Zum Inhalt springen', 'nav.idea': 'Die Idee', 'nav.how': 'So geht es', 'nav.prov': 'Herkunft', 'nav.examples': 'One-Pager', 'nav.gallery': 'Galerie', 'nav.ai': 'Für KI', 'nav.data': 'Daten',
   'cta.try': 'Kostenlos ausprobieren', 'cta.make': 'Selbst gestalten, kostenlos', 'cta.proof': 'Den Nachweis ansehen',
   'hero.kicker': 'Typographics Art · Open Source', 'hero.h1a': 'Briefpapier', 'hero.h1b': 'für das KI-Zeitalter.',
   'hero.lead': 'Ein Dokumentformat, bei dem ein Mensch auf einen Blick sieht, was etwas ist und von wem, und eine Maschine beweisbar genau das liest, was der Mensch sieht. Jeder Text wird Buchstabe für Buchstabe zum Bild deines Fotos gesetzt; die Buchstaben ändern sich nie, also sieht ein Mensch das Bild und eine Maschine liest jedes Wort.',
-  'hero.tag': 'Das ganze Buch: 1,2 Millionen Zeichen', 'hero.cap': 'Moby-Dick, alle 135 Kapitel auf einem Poster von 2 × 3 m. Zoome hinein und lies es, oder lass es eine Maschine zurücklesen: Der Text ist vollständig.',
+  'hero.tag': 'Jeder Buchstabe sind seine eigenen Worte', 'hero.cap': 'Frederick Douglass, Buchstabe für Buchstabe aus seiner Narrative von 1845 gesetzt. Zoome hinein und lies es, oder lass es eine Maschine zurücklesen — jedes Wort ist da.',
   'demo.kicker': 'Selbst ansehen', 'demo.h': 'Zoom hinein, und das Bild wird zu Wörtern.',
   'demo.lead': 'Dasselbe Werk, fern und nah. Aus der Entfernung ein Porträt; aus der Nähe ist jede Form ein Buchstabe — der echte Text, in Lesereihenfolge. Zieh den Regler oder drück auf Abspielen.',
   'demo.read': 'Was eine Maschine oben liest', 'demo.play': 'Abspielen',
   'demo.src': 'Der Anfang von Frederick Douglass’ Narrative von 1845, gesetzt als sein Porträt. Dieser Text wird direkt aus dem SVG des Werks gelesen, von links oben an.',
   'demo.open': 'Alle drei Ansichten öffnen →',
   'proof.kicker': 'Gemessen, nicht behauptet', 'proof.h': 'Der Text überlebt. Wir haben jedes Zeichen geprüft.',
-  'n.exact': 'des Textes kommen aus HTML, SVG und PDF zurück', 'n.chars': 'Zeichen Moby-Dick auf einem Bogen, SHA-256 identisch', 'n.tests': 'Tests im erzeugten Nachweisbericht bestanden',
-  'n.ex': 'One-Pager zurückgelesen und geprüft', 'n.vlm': 'Wörter von einem Bildmodell gelesen, wo klassische Texterkennung 5 % schaffte',
+  'n.exact': 'des Textes kommen aus HTML, SVG und PDF zurück', 'n.chars': 'Zeichen über die Galerie gesetzt, jedes Werk zurückgelesen und geprüft',
+  'n.ex': 'One-Pager zurückgelesen und geprüft',
   'proof.src': 'Jede Zahl stammt aus einem Skript im Repository:', 'proof.ex': 'One-Pager-Prüfungen',
   'bn.kicker': 'Kommt es bei der Maschine an?', 'bn.h': 'Ein Dokument, vier Wege. Nur ein Bild davon verliert die Wörter.',
   'bn.lead': 'Wir haben ein erfundenes Dokument — fiktiv, damit nichts aus dem Gedächtnis beantwortet werden kann — als Markdown, als gewöhnliches PDF, als Typographics-Art-One-Pager und als flaches Bild dieses One-Pagers geteilt. Dann haben wir jedes zurückgelesen wie eine Maschine und geprüft, ob eingebaute Fakten (eine genaue Zahl, eine Verneinung, eine Klausel-Nummer) überleben.',
@@ -61,10 +61,12 @@ const DE = {
   's2.h': 'Abbilden', 's2.p': 'Das Foto wird zum Tintenbedarf je Fläche: Dunkle Stellen wollen kräftige Buchstaben, helle dünne.',
   's3.h': 'Setzen', 's3.p': 'Zeile für Zeile bekommt jeder Buchstabe die Stärke, Breite und Grösse, die zu seiner Fläche passen. Der Restfehler wird weitergegeben, damit die Töne stimmen.',
   's4.h': 'Prüfen', 's4.p': 'Das fertige Werk wird zurückgelesen wie von einer Maschine und mit der Quelle verglichen. Erst dann ist es fertig.',
-  'sc.kicker': 'Schaustück', 'sc.h': 'Ein ganzes Buch als ein Poster.',
-  'sc.lead': 'Herman Melvilles Moby-Dick, 135 Kapitel, auf einer einzigen Druckdatei von 2 × 3 m in drei Feldern: der Hafen, die Jagd, der weisse Wal. Klicke irgendwo in die Zoom-Ansicht, und die Seite zeigt den Text an dieser Stelle.',
-  'sc.t1': 'Vollständiger Text aus dem Kunstwerk zurückgelesen: SHA-256 identisch mit der Quelle', 'sc.t2': 'Jedes sichtbare Zeichen des Druck-PDFs geprüft', 'sc.t3': 'Kapitelstruktur, Passagen und Worthäufigkeiten identisch',
-  'sc.t4': 'Ein Fragensatz zum Buch aus dem ausgelesenen Text beantwortet', 'sc.t5': 'Nachprüfbar: Buch herunterladen, zwei Skripte ausführen, Hash vergleichen', 'sc.cta': 'Das zoombare Poster öffnen', 'sc.views': 'In drei Ansichten lesen & suchen',
+  'pv.kicker': 'Der wichtigste Anwendungsfall', 'pv.h': 'Wissen, woher ein Text stammt — und dass er unverändert ist.',
+  'pv.lead': 'Ein Typogram kann von seinem Aussteller signiert werden — einer Domain, die man wiedererkennt. Jeder kann die Signatur prüfen: Sie beweist, wer den Text veröffentlicht hat und dass sich seither kein einziges Zeichen geändert hat. Das ist das Stück, das heute in der Welt fehlt, und es kommt mit diesem Release.',
+  'pv1.h': 'Signieren', 'pv1.p': 'Der Aussteller signiert das Werk mit einem Schlüssel, der an seine Domain gebunden ist. Die Signatur steckt im Dokument und reist durch HTML, SVG und PDF mit.',
+  'pv2.h': 'Verankern', 'pv2.p': 'Schlüssel und Signaturen werden in öffentlichen Transparenz-Logs verankert, optional über OpenTimestamps in Bitcoin — die Anker sind einsteckbar und offen, nicht an eine Kette gebunden.',
+  'pv3.h': 'Prüfen', 'pv3.p': 'Ein Leser oder ein Agent prüft die Signatur gegen die Domain des Ausstellers und den Anker: Der Text stimmt entweder Zeichen für Zeichen mit dem Veröffentlichten überein oder nicht.',
+  'pv.not.h': 'Was es beweist und was nicht', 'pv.not.p': 'Eine Signatur beweist, wer unterschrieben hat und dass der Text unverändert ist — nicht, dass der Unterzeichner ehrlich ist. Und es ist eine Möglichkeit, keine Garantie: Ob ein Agent die Prüfung wirklich ausführt, hängt davon ab, dass Prüfwerkzeuge dort landen, wo Modelle laufen, und dass es Aussteller gibt, deren Siegel die Leute wiedererkennen.',
   'op.kicker': 'One-Pager', 'op.h': 'Jede Seite eines Dokuments, auf einer Seite.',
   'op.lead': 'Ein Gesetz mit 144 Seiten wird zu einem Blatt: Die Buchstaben sind winzig und bilden zusammen den Titel. Du erkennst das Dokument auf einen Blick; ein Sprachmodell bekommt trotzdem jedes Wort aus dem PDF.',
   'op.agent': 'Anweisungen für KI-Agenten', 'op.all': 'Alle zehn One-Pager mit ihren Prüfungen →',
@@ -73,7 +75,7 @@ const DE = {
   'u1.h': 'Anweisungen auf einen Blick', 'u1.p': 'Systemprompts, Agentenregeln, Richtlinien: eine Seite, die Menschen zeigt, welches Dokument es ist, und dem Modell jede Regel gibt.',
   'u2.h': 'Barrierefreie Bilder', 'u2.p': 'Der Text ist echter Text, ein Screenreader liest ihn; was das Bild zeigt, bekommt eine eigene kurze Beschreibung, die in die Datei geschrieben wird. Gemessen am Zugänglichkeitsbaum von Chrome, noch nicht mit NVDA, JAWS oder VoiceOver getestet.',
   'u3.h': 'Auffindbare Kunst', 'u3.p': 'Suchmaschinen und KI-Crawler indexieren die Wörter, nicht nur einen Dateinamen.',
-  'u4.h': 'Herkunft', 'u4.p': 'Eine Aussage, eine Lizenz oder eine Signatur im Werk übersteht Kopieren und Einfügen.',
+  'u4.h': 'Herkunft', 'u4.p': 'Signiere ein Werk als sein Aussteller; ein Leser oder ein Agent kann dann prüfen, wer es veröffentlicht hat und dass sich kein einziges Zeichen geändert hat — die Signatur übersteht Kopieren, Einfügen und Export. Es ist der wichtigste Anwendungsfall oben.',
   'u5.h': 'Agent-Anweisungen zum Einfügen', 'u5.p': 'System-Prompts, Agent-Regeln und Richtlinien als Seite, die man liest und ein Modell ganz liest — fertige Beispiele: <a href="examples">AGENTS.md, Code-Review- und Support-Agenten, PEP 8, ganze Gesetze</a>.',
   'u6.h': 'Verschlüsselte Medien in einer Datei', 'u6.p': 'Versiegle ein Bild oder ein Video in ein Typogram (eine gültige SVG). Es öffnet überall als Deckelbild; mit dem Schlüssel streamt der <a href="#data">Adapter</a> das Video — im Speicher, nichts auf die Platte, nichts hochgeladen.',
   'ask.h': 'Frag deine KI, was das ist', 'ask.p': 'Das ganze Projekt, README und Dokumente, in einer Datei. Gib sie einem beliebigen Assistenten und frag, was Typographics Art ist. Ein Klick liefert die Erklärung als Typogram-SVG — ein Bild, das zugleich sein eigener vollständiger Text ist, sodass eine KI alles aus der einen Datei liest.',
@@ -112,7 +114,7 @@ function setLang(l) {
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
 
 // Numbers come from the generated reports; the values in the HTML are only a fallback.
-let proof = null, examples = null, benefit = null;
+let works = null, examples = null, benefit = null;
 function renderBenefit() {
   if (!benefit) return;
   const h = lang === 'de'
@@ -126,15 +128,11 @@ function renderBenefit() {
 }
 const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
 function fillNumbers() {
-  if (proof) {
-    $('#n-chars').textContent = fmt(proof.poster.characters);
-    $('#n-tests').textContent = `${proof.tests.filter((t) => t.pass).length}/${proof.tests.length}`;
-    if (proof.vision) $('#n-vlm').textContent = `${Math.round(proof.vision.accuracy * proof.vision.words)}/${proof.vision.words}`;
-  }
+  if (works) $('#n-chars').textContent = fmt(works.reduce((n, w) => n + (w.textLength || 0), 0));
   if (examples) $('#n-ex').textContent = `${examples.filter((e) => e.readBack && e.readBack.visibleIdentical).length}/${examples.length}`;
 }
-Promise.all([fetch('demo/moby-dick/proof.json').then((r) => r.json()).catch(() => null), fetch('examples/index.json').then((r) => r.json()).catch(() => null)])
-  .then(([p, e]) => { proof = p; examples = e; fillNumbers(); });
+Promise.all([fetch('gallery/works.json').then((r) => r.json()).catch(() => null), fetch('examples/index.json').then((r) => r.json()).catch(() => null)])
+  .then(([w, e]) => { works = w; examples = e; fillNumbers(); });
 fetch('docs/ai-benefit.json').then((r) => r.json()).then((b) => { benefit = b; renderBenefit(); }).catch(() => { const s = $('#benefit'); if (s) s.hidden = true; });
 setLang(lang);
 
