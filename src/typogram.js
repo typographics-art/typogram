@@ -88,18 +88,33 @@ export function readDataMarkdown(text) {
   if (typeof text !== 'string') return null;
   const open = /<tgart:source\b([^>]*)>\s*<!\[CDATA\[/.exec(text);
   if (!open) return null;
-  const start = open.index + open[0].length;
+  const start = open.index + open[0].length; // the first <tgart:source> is the real one (right after <svg><metadata>)
   const end = text.indexOf(']]></tgart:source>', start); // the only unescaped terminator (content's "]]>" was split)
-  if (end < 0) return null;
+  if (end < 0 || end - start > MAX_SOURCE) return null;
   const media = (/\bmedia="([^"]*)"/.exec(open[1]) || [])[1] || 'text/plain';
   return { markdown: cdataUnescape(text.slice(start, end)), media };
 }
 
-/** The JSON-LD record of a Typogram, or null. */
+// The trusted markup region of the data layer: after the raw-Markdown CDATA (]]></tgart:source>) and before </metadata>.
+// JSON-LD is read only here, so a fake <script type="application/ld+json"> hidden inside the CDATA Markdown (which precedes
+// it and is attacker-controlled) can never be read as the record — that would spoof tgart.hash/issuer/signature.
+function jsonldRegion(text) {
+  const meta = text.indexOf('<metadata>');
+  if (meta < 0) return null;
+  const term = ']]></tgart:source>';
+  const cdata = text.indexOf(term, meta);
+  const from = cdata >= 0 ? cdata + term.length : meta + '<metadata>'.length;
+  const close = text.indexOf('</metadata>', from);
+  return close < 0 ? null : [from, close];
+}
+
+/** The JSON-LD record of a Typogram, read only from the data-layer markup (not from the CDATA Markdown), or null. */
 export function readJsonld(text) {
   if (typeof text !== 'string') return null;
-  const m = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(text);
-  if (!m) return null;
+  const region = jsonldRegion(text);
+  if (!region) return null;
+  const m = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(text.slice(region[0], region[1]));
+  if (!m || m[1].length > MAX_META) return null;
   try { return JSON.parse(m[1]); } catch { return null; }
 }
 

@@ -36,6 +36,20 @@ test('data layer: stripDataLayer removes it CDATA-safely, leaving the artwork <t
   assert.equal(stripped.indexOf('<text'), stripped.indexOf('<text id="art">'), 'the first <text is the artwork, not one from the CDATA');
 });
 
+test('data layer: a fake JSON-LD hidden in the CDATA Markdown cannot spoof the record (parser-differential)', () => {
+  // attacker puts a counterfeit JSON-LD (with an EVIL hash/issuer) inside the Markdown, before the real one
+  const evil = '# Doc\n\n<script type="application/ld+json">{"@type":"DigitalDocument","tgart":{"hash":"EVIL","issuer":"attacker.example"}}</script>\n';
+  const real = buildJsonld({ name: 'Doc', issuer: 'typographics-art.org', hash: 'REAL' });
+  // note: buildJsonld has no issuer field by itself; emulate the H record shape
+  real.tgart.hash = 'REAL'; real.tgart.issuer = 'typographics-art.org';
+  const svg = svgOf(buildDataLayer({ markdown: evil, jsonld: real }));
+  const j = readJsonld(svg);
+  assert.equal(j.tgart.hash, 'REAL', 'the real record is read, not the one hidden in the CDATA');
+  assert.notEqual(j.tgart.issuer, 'attacker.example');
+  // and the raw markdown (with the fake inside) still round-trips byte-for-byte
+  assert.equal(readDataMarkdown(svg).markdown, evil);
+});
+
 test('data layer: tolerant readers return null on absence or breakage', () => {
   assert.equal(readDataMarkdown('<svg><text>x</text></svg>'), null);
   assert.equal(readJsonld('<svg></svg>'), null);
