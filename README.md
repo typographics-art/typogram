@@ -131,7 +131,7 @@ Keys are managed with one seed backup: a master key and one key per record, seal
 
 **Is this secure?** The cipher (AES-256-GCM, random 256-bit key) is sound; the code around it is tested but **not independently audited**, and all of the security is the secrecy of the key. You can say "cannot be read without the key as far as today's cryptography is known", not "nobody can ever get at it": a lost key loses the data, a compromised device defeats everything, and a password alone never protects anything public. The plain answers, with the reasons, are at the top of [docs/encrypted-data.md](docs/encrypted-data.md).
 
-An internal adversarial review of the cryptographic code by an AI agent (October 2026, with fixes and tests) is in [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md). It is **not** an independent audit and does not replace one.
+An internal adversarial review of the cryptographic code by an AI agent (October 2026, with fixes and tests) is in [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md); a second review by a different model, done blind to the first, is in [docs/security-review-internal-2026-10-b.md](docs/security-review-internal-2026-10-b.md). Neither is an independent audit, and they do not replace one.
 
 ## The three rules
 

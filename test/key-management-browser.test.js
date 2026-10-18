@@ -79,7 +79,11 @@ test('browser: the derivations equal the Node results and the frozen vectors; PR
     const passkey = await factorFromPrf(Uint8Array.from(prf.a.match(/../g), (h) => parseInt(h, 16)));
     const { vault, secret } = await createVault([{ name: 'passkey', key: passkey }, { name: 'seed', key: new Uint8Array(32).fill(4) }]);
     assert.equal(toHex((await openVault(vault, { passkey: { key: passkey }, seed: { key: new Uint8Array(32).fill(4) } })).secret), toHex(secret));
-  } finally { ws?.close(); proc.kill(); server.close(); rmSync(profile, { recursive: true, force: true }); }
+  } finally {
+    ws?.close(); proc.kill(); server.close();
+    await new Promise((r) => setTimeout(r, 300)); // Chrome still writes to its profile for a moment after SIGTERM
+    rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+  }
 });
 
 const firefox = [join(process.env.HOME ?? '', '.cache/ms-playwright'), process.env.FIREFOX_DIR].filter(Boolean).flatMap((d) => { try { return readdirSync(d).filter((x) => x.startsWith('firefox')).map((x) => join(d, x, 'firefox/firefox')); } catch { return []; } }).find((f) => { try { return readFileSync(f).length > 0; } catch { return false; } }) ?? process.env.FIREFOX_PATH;

@@ -34,11 +34,13 @@ function varints(numbers) {
 }
 function readVarints(bytes) {
   const out = [];
-  let n = 0, shift = 1;
+  let n = 0, shift = 1, len = 0;
   for (const b of bytes) {
+    // at most 7 bytes per number (2^49 > any position): a longer run would overflow to NaN and index nothing, silently
+    if (++len > 7) throw new Error('The key is damaged');
     n += (b & 0x7f) * shift;
     if (b & 0x80) shift *= 128;
-    else { out.push(n); n = 0; shift = 1; }
+    else { out.push(n); n = 0; shift = 1; len = 0; }
   }
   if (shift !== 1) throw new Error('The key is damaged');
   return out;

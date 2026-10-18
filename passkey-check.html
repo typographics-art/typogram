@@ -173,7 +173,7 @@ async function make() {
       rp: { id: location.hostname, name: 'Typographics Art passkey check' },
       user: { id: crypto.getRandomValues(new Uint8Array(16)), name: 'passkey-check', displayName: 'Passkey check' },
       pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
-      authenticatorSelection: { residentKey: 'preferred', userVerification: 'preferred' },
+      authenticatorSelection: { residentKey: 'preferred', userVerification: 'required' },
       extensions: { prf: {} },
     } });
     state.id = new Uint8Array(cred.rawId);
@@ -193,7 +193,7 @@ async function run() {
   say($('#testMsg'), t('running'));
   const r = (state.res = { prfCreate: state.res.prfCreate });
   const get = async (label) => {
-    const x = await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), rpId: location.hostname, allowCredentials: [{ type: 'public-key', id }], userVerification: 'preferred', extensions: { prf: { eval: { first: await prfInput(label) } } } } });
+    const x = await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), rpId: location.hostname, allowCredentials: [{ type: 'public-key', id }], userVerification: 'required', extensions: { prf: { eval: { first: await prfInput(label) } } } } });
     const first = x.getClientExtensionResults?.().prf?.results?.first;
     return first ? new Uint8Array(first) : null;
   };

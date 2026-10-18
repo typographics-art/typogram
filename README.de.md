@@ -131,7 +131,7 @@ Schlüssel werden mit einem einzigen Seed-Backup verwaltet: ein Master-Schlüsse
 
 **Ist das sicher?** Die Verschlüsselung (AES-256-GCM, zufälliger 256-Bit-Schlüssel) ist solide; der Code darum herum ist getestet, aber **nicht unabhängig geprüft**, und die ganze Sicherheit liegt in der Geheimhaltung des Schlüssels. Man darf sagen „ohne den Schlüssel nicht lesbar, soweit die heutige Kryptografie bekannt ist“, nicht „niemand kommt je an die Daten“: Ein verlorener Schlüssel verliert die Daten, ein kompromittiertes Gerät hebelt alles aus, und ein Passwort allein schützt nie etwas Öffentliches. Die klaren Antworten mit Begründung stehen am Anfang von [docs/encrypted-data.md](docs/encrypted-data.md).
 
-Eine interne Gegenprüfung des kryptografischen Codes durch einen KI-Agenten (Oktober 2026, mit Korrekturen und Tests) steht in [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md). Sie ist **kein** unabhängiges Audit und ersetzt keines.
+Eine interne Gegenprüfung des kryptografischen Codes durch einen KI-Agenten (Oktober 2026, mit Korrekturen und Tests) steht in [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md); eine zweite Prüfung durch ein anderes Modell, blind gegenüber der ersten, in [docs/security-review-internal-2026-10-b.md](docs/security-review-internal-2026-10-b.md). Keine der beiden ist ein unabhängiges Audit, und sie ersetzen keines.
 
 ## Die drei Regeln
 

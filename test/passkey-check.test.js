@@ -78,5 +78,9 @@ test('passkey check page: a virtual passkey with PRF passes every step, nothing 
     assert.deepEqual(await evaluate('({ local: localStorage.length, session: sessionStorage.length })'), { local: 1, session: 0 }, 'only the language choice may be stored');
     const external = events.filter((e) => e.method === 'Network.requestWillBeSent').map((e) => e.params.request.url).filter((u) => !u.startsWith('http://localhost:') && !u.startsWith('data:') && !u.startsWith('about:'));
     assert.deepEqual(external, [], 'no request left the origin');
-  } finally { ws?.close(); proc.kill(); server.close(); rmSync(profile, { recursive: true, force: true }); }
+  } finally {
+    ws?.close(); proc.kill(); server.close();
+    await new Promise((r) => setTimeout(r, 300)); // Chrome still writes to its profile for a moment after SIGTERM
+    rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+  }
 });

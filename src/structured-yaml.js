@@ -9,7 +9,22 @@
 import { TgdError, Dec, numberFromLiteral, quote } from './structured-json.js';
 import { textOf, hasBom, jsonToModel, modelToJson } from './structured-model.js';
 
-const RESERVED = /^(?:null|Null|NULL|~|true|True|TRUE|false|False|FALSE|y|Y|n|N|yes|Yes|YES|no|No|NO|on|On|ON|off|Off|OFF)$/;
+/**
+ * The text before a trailing comment: cut at the first "#" that follows whitespace (`afterSpace`) or at the first "#" at
+ * all, together with the whitespace before it. (The regexes /\s+#.*$/ and /\s*#.*$/ did this in quadratic time on a long
+ * run of spaces.)
+ */
+function uncomment(s, afterSpace) {
+  const lastBreak = Math.max(s.lastIndexOf('\n'), s.lastIndexOf('\r'), s.lastIndexOf('\u2028'), s.lastIndexOf('\u2029')); // a comment runs to the end of its line
+  for (let i = lastBreak + 1; i < s.length; i++) {
+    if (s[i] !== '#') continue;
+    let p = i;
+    while (p > 0 && /\s/.test(s[p - 1])) p--;
+    if (!afterSpace || p < i) return s.slice(0, p);
+  }
+  return s;
+}
+const RESERVED =/^(?:null|Null|NULL|~|true|True|TRUE|false|False|FALSE|y|Y|n|N|yes|Yes|YES|no|No|NO|on|On|ON|off|Off|OFF)$/;
 const NUMBERLIKE = /^[-+]?(?:\d[\d_]*\.?\d*|\.\d+)(?:[eE][-+]?\d+)?$|^[-+]?\.(?:inf|Inf|INF)$|^\.(?:nan|NaN|NAN)$|^0[xXoObB][\da-fA-F_]+$/;
 /**
  * Removes a trailing comment: the same result as `s.replace(/\s+#.*$/, '')` (spaceBefore) or `s.replace(/\s*#.*$/, '')`, but in linear
@@ -17,17 +32,8 @@ const NUMBERLIKE = /^[-+]?(?:\d[\d_]*\.?\d*|\.\d+)(?:[eE][-+]?\d+)?$|^[-+]?\.(?:
  * A comment is a "#" after which no line terminator follows (what `.*$` can match), by default one that white space precedes.
  */
 const LINE_TERMINATOR = /[\n\r\u2028\u2029]/;
-export function cutComment(s, spaceBefore) {
-  let after = -1;
-  for (let k = s.length - 1; k >= 0; k--) if (LINE_TERMINATOR.test(s[k])) { after = k; break; }
-  for (let j = s.indexOf('#', after + 1); j >= 0; j = s.indexOf('#', j + 1)) {
-    if (spaceBefore && !(j > 0 && /\s/.test(s[j - 1]))) continue;
-    let i = j;
-    while (i > 0 && /\s/.test(s[i - 1])) i--;
-    return s.slice(0, i);
-  }
-  return s;
-}
+/** The same as uncomment(); kept as an export for the tests that compare it with the old regular expressions. */
+export const cutComment = (s, spaceBefore) => uncomment(s, spaceBefore);
 
 function typed(text) {
   if (text === '' || text === '~' || /^(?:null|Null|NULL)$/.test(text)) return null;
@@ -86,9 +92,9 @@ export function parseYaml(input, limits = {}) {
       if (rest && !rest.startsWith('#')) fail('unexpected text after a quoted string', n);
       return value;
     }
-    if (text[0] === '[' || text[0] === '{') { const { value, end } = flow(text, 0, n, depth); if (cutComment(text.slice(end), false).trim()) fail('unexpected text after a flow collection', n); return value; }
+    if (text[0] === '[' || text[0] === '{') { const { value, end } = flow(text, 0, n, depth); if (uncomment(text.slice(end), false).trim()) fail('unexpected text after a flow collection', n); return value; }
     if (text[0] === '|' || text[0] === '>') fail('a block scalar must start a value, not stand inside a flow', n);
-    const plain = cutComment(text, true);
+    const plain = uncomment(text, true);
     return typed(plain);
   }
 
