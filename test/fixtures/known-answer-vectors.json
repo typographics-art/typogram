@@ -1,0 +1,457 @@
+{
+ "sources": {
+  "rfc5869.txt": {
+   "sha256": "7a40eb3835b35fc947eb12a2ed614db079d43b26e50dbc537c31fba16397089c"
+  },
+  "rfc4231.txt": {
+   "sha256": "72178527ce93500e730bc8eb182b857e583096d652b64ece0879c52ba1df973b"
+  },
+  "rfc7914.txt": {
+   "sha256": "df55932f8b6a5d271f36a634d91a25903724e189ba6c120bf7257cd47f10b197"
+  },
+  "rfc7748.txt": {
+   "sha256": "279ca0ecc5e92e2962e27b846986aeb74729d9dd34bd4a04a362f80dcb596ad3"
+  },
+  "rfc9106.txt": {
+   "sha256": "855c06f060379e34285e83a217e9069b5c72e161a1e54df9af5cd88dbb231f31"
+  },
+  "slip21.md": {
+   "sha256": "81e87f483ac46d146c7e42b2837bc5f4dd9c3e47282a3e295ad13c3330b708f4"
+  },
+  "bip39vec.json": {
+   "sha256": "fa3b937b7cff9c9b8ecd3aa011faeb8d6dd67993174b72326e83f4de8fdb30f8"
+  },
+  "gcmEncryptExtIV256.rsp": {
+   "sha256": "4448b4998c3f58cd9f5542ddf7c573189a721ff3d3ac24cd5177bb4910a787f8"
+  }
+ },
+ "hkdf": [
+  {
+   "source": "RFC 5869 appendix A.1",
+   "ikm": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+   "salt": "000102030405060708090a0b0c",
+   "info": "f0f1f2f3f4f5f6f7f8f9",
+   "L": 42,
+   "prk": "077709362c2e32df0ddc3f0dc47bba6390b6c73bb50f9c3122ec844ad7c2b3e5",
+   "okm": "3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf34007208d5b887185865"
+  },
+  {
+   "source": "RFC 5869 appendix A.2",
+   "ikm": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+   "salt": "606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+   "info": "b0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+   "L": 82,
+   "prk": "06a6b88c5853361a06104c9ceb35b45cef760014904671014a193f40c15fc244",
+   "okm": "b11e398dc80327a1c8e7f78c596a49344f012eda2d4efad8a050cc4c19afa97c59045a99cac7827271cb41c65e590e09da3275600c2f09b8367793a9aca3db71cc30c58179ec3e87c14c01d5c1f3434f1d87"
+  },
+  {
+   "source": "RFC 5869 appendix A.3",
+   "ikm": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+   "salt": "",
+   "info": "",
+   "L": 42,
+   "prk": "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04",
+   "okm": "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8"
+  }
+ ],
+ "hmac": [
+  {
+   "source": "RFC 4231 section 4.2",
+   "key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+   "data": "4869205468657265",
+   "sha256": "b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7",
+   "sha512": "87aa7cdea5ef619d4ff0b4241a1d6cb02379f4e2ce4ec2787ad0b30545e17cdedaa833b7d6b8a702038b274eaea3f4e4be9d914eeb61f1702e696c203a126854",
+   "truncated": false
+  },
+  {
+   "source": "RFC 4231 section 4.3",
+   "key": "4a656665",
+   "data": "7768617420646f2079612077616e7420666f72206e6f7468696e673f",
+   "sha256": "5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843",
+   "sha512": "164b7a7bfcf819e2e395fbe73b56e0a387bd64222e831fd610270cd7ea2505549758bf75c05a994a6d034f65f8f0e6fdcaeab1a34d4a6b4b636e070a38bce737",
+   "truncated": false
+  },
+  {
+   "source": "RFC 4231 section 4.4",
+   "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "data": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+   "sha256": "773ea91e36800e46854db8ebd09181a72959098b3ef8c122d9635514ced565fe",
+   "sha512": "fa73b0089d56a284efb0f0756c890be9b1b5dbdd8ee81a3655f83e33b2279d39bf3e848279a722c806b485a47e67c807b946a337bee8942674278859e13292fb",
+   "truncated": false
+  },
+  {
+   "source": "RFC 4231 section 4.5",
+   "key": "0102030405060708090a0b0c0d0e0f10111213141516171819",
+   "data": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+   "sha256": "82558a389a443c0ea4cc819899f2083a85f0faa3e578f8077a2e3ff46729665b",
+   "sha512": "b0ba465637458c6990e5a8c5f61d4af7e576d97ff94b872de76f8050361ee3dba91ca5c11aa25eb4d679275cc5788063a5f19741120c4f2de2adebeb10a298dd",
+   "truncated": false
+  },
+  {
+   "source": "RFC 4231 section 4.6",
+   "key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+   "data": "546573742057697468205472756e636174696f6e",
+   "sha256": "a3b6167473100ee06e0c796c2955552b",
+   "sha512": "415fad6271580a531d4179bc891d87a6",
+   "truncated": true
+  },
+  {
+   "source": "RFC 4231 section 4.7",
+   "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "data": "54657374205573696e67204c6172676572205468616e20426c6f636b2d53697a65204b6579202d2048617368204b6579204669727374",
+   "sha256": "60e431591ee0b67f0d8a26aacbf5b77f8e0bc6213728c5140546040f0ee37f54",
+   "sha512": "80b24263c7c1a3ebb71493c1dd7be8b49b46d1f41b4aeec1121b013783f8f3526b56d037e05f2598bd0fd2215d6a1e5295e64f73f63f0aec8b915a985d786598",
+   "truncated": false
+  },
+  {
+   "source": "RFC 4231 section 4.8",
+   "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "data": "5468697320697320612074657374207573696e672061206c6172676572207468616e20626c6f636b2d73697a65206b657920616e642061206c6172676572207468616e20626c6f636b2d73697a6520646174612e20546865206b6579206e6565647320746f20626520686173686564206265666f7265206265696e6720757365642062792074686520484d414320616c676f726974686d2e",
+   "sha256": "9b09ffa71b942fcb27635fbcd5b0e944bfdc63644f0713938a7f51535c3a35e2",
+   "sha512": "e37b6a775dc87dbaa4dfa9f96e5e3ffddebd71f8867289865df5a32d20cdc944b6022cac3c4982b10d5eeb55c3e4de15134676fb6de0446065c97440fa8c6a58",
+   "truncated": false
+  }
+ ],
+ "pbkdf2sha256": [
+  {
+   "source": "RFC 7914 section 11",
+   "password": "passwd",
+   "salt": "salt",
+   "iterations": 1,
+   "dkLen": 64,
+   "dk": "55ac046e56e3089fec1691c22544b605f94185216dde0465e68b9d57c20dacbc49ca9cccf179b645991664b39d77ef317c71b845b1e30bd509112041d3a19783"
+  },
+  {
+   "source": "RFC 7914 section 11",
+   "password": "Password",
+   "salt": "NaCl",
+   "iterations": 80000,
+   "dkLen": 64,
+   "dk": "4ddcd8f60b98be21830cee5ef22701f9641a4418d04c0414aeff08876b34ab56a1d425a1225833549adb841b51c9b3176a272bdebba1d078478f62b397f33c8d"
+  }
+ ],
+ "x25519": {
+  "source": "RFC 7748",
+  "vectors": [
+   {
+    "source": "RFC 7748 section 5.2",
+    "scalar": "a546e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449ac4",
+    "u": "e6db6867583030db3594c1a424b15f7c726624ec26b3353b10a903a6d0ab1c4c",
+    "out": "c3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552"
+   },
+   {
+    "source": "RFC 7748 section 5.2",
+    "scalar": "4b66e9d4d1b4673c5ad22691957d6af5c11b6421e0ea01d42ca4169e7918ba0d",
+    "u": "e5210f12786811d3f4b7959d0538ae2c31dbe7106fc03c3efc4cd549c715a493",
+    "out": "95cbde9476e8907d7aade45cb4b873f88b595a68799fa152e6f8f7647aac7957"
+   }
+  ],
+  "iterations": [
+   {
+    "n": 1,
+    "out": "422c8e7a6227d7bca1350b3e2bb7279f7897b87bb6854b783c60e80311ae3079"
+   },
+   {
+    "n": 1000,
+    "out": "684cf59ba83309552800ef566f2f4d3c1c3887c49360e3875f2eb94d99532c51"
+   },
+   {
+    "n": 1000000,
+    "out": "7c3911e0ab2586fd864497297e575e6f3bc601c0883c30df5f4dd2d24f665424"
+   }
+  ],
+  "dh": {
+   "source": "RFC 7748 section 6.1",
+   "a": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a",
+   "A": "8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a",
+   "b": "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb",
+   "B": "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f",
+   "K": "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742"
+  }
+ },
+ "argon2id": {
+  "source": "RFC 9106 section 5.3",
+  "memoryKiB": 32,
+  "passes": 3,
+  "parallelism": 4,
+  "tagLength": 32,
+  "version": 19,
+  "password": "0101010101010101010101010101010101010101010101010101010101010101",
+  "salt": "02020202020202020202020202020202",
+  "secret": "0303030303030303",
+  "ad": "040404040404040404040404",
+  "tag": "0d640df58d78766c08c037a34a8b53c9d01ef0452d75b65eb52520e96b01e659"
+ },
+ "slip21": {
+  "source": "SLIP-0021 \"Test vectors\"",
+  "seed": "c76c4ac4f4e4a00d6b274d5c39c700bb4a7ddc04fbc6f78e85ca75007b5b495f74a9043eeb77bdd53aa6fc3a0e31462270316fa04b8c19114c8798706cd02ac8",
+  "mnemonic": "all all all all all all all all all all all all",
+  "master": "dbf12b44133eaab506a740f6565cc117228cbf1dd70635cfa8ddfdc9af734756",
+  "slip21": "1d065e3ac1bbe5c7fad32cf2305f7d709dc070d672044a19e610c77cdf33de0d",
+  "encryption": "ea163130e35bbafdf5ddee97a17b39cef2be4b4f390180d65b54cf05c6a82fde",
+  "authentication": "47194e938ab24cc82bfa25f6486ed54bebe79c40ae2a5a32ea6db294d81861a6"
+ },
+ "bip39": {
+  "source": "trezor/python-mnemonic vectors.json (the BIP-39 reference vectors), passphrase TREZOR",
+  "passphrase": "TREZOR",
+  "english": [
+   {
+    "entropy": "00000000000000000000000000000000",
+    "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+    "seed": "c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04"
+   },
+   {
+    "entropy": "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
+    "mnemonic": "legal winner thank year wave sausage worth useful legal winner thank yellow",
+    "seed": "2e8905819b8723fe2c1d161860e5ee1830318dbf49a83bd451cfb8440c28bd6fa457fe1296106559a3c80937a1c1069be3a3a5bd381ee6260e8d9739fce1f607"
+   },
+   {
+    "entropy": "80808080808080808080808080808080",
+    "mnemonic": "letter advice cage absurd amount doctor acoustic avoid letter advice cage above",
+    "seed": "d71de856f81a8acc65e6fc851a38d4d7ec216fd0796d0a6827a3ad6ed5511a30fa280f12eb2e47ed2ac03b5c462a0358d18d69fe4f985ec81778c1b370b652a8"
+   },
+   {
+    "entropy": "ffffffffffffffffffffffffffffffff",
+    "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong",
+    "seed": "ac27495480225222079d7be181583751e86f571027b0497b5b5d11218e0a8a13332572917f0f8e5a589620c6f15b11c61dee327651a14c34e18231052e48c069"
+   },
+   {
+    "entropy": "000000000000000000000000000000000000000000000000",
+    "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon agent",
+    "seed": "035895f2f481b1b0f01fcf8c289c794660b289981a78f8106447707fdd9666ca06da5a9a565181599b79f53b844d8a71dd9f439c52a3d7b3e8a79c906ac845fa"
+   },
+   {
+    "entropy": "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
+    "mnemonic": "legal winner thank year wave sausage worth useful legal winner thank year wave sausage worth useful legal will",
+    "seed": "f2b94508732bcbacbcc020faefecfc89feafa6649a5491b8c952cede496c214a0c7b3c392d168748f2d4a612bada0753b52a1c7ac53c1e93abd5c6320b9e95dd"
+   },
+   {
+    "entropy": "808080808080808080808080808080808080808080808080",
+    "mnemonic": "letter advice cage absurd amount doctor acoustic avoid letter advice cage absurd amount doctor acoustic avoid letter always",
+    "seed": "107d7c02a5aa6f38c58083ff74f04c607c2d2c0ecc55501dadd72d025b751bc27fe913ffb796f841c49b1d33b610cf0e91d3aa239027f5e99fe4ce9e5088cd65"
+   },
+   {
+    "entropy": "ffffffffffffffffffffffffffffffffffffffffffffffff",
+    "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo when",
+    "seed": "0cd6e5d827bb62eb8fc1e262254223817fd068a74b5b449cc2f667c3f1f985a76379b43348d952e2265b4cd129090758b3e3c2c49103b5051aac2eaeb890a528"
+   },
+   {
+    "entropy": "0000000000000000000000000000000000000000000000000000000000000000",
+    "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art",
+    "seed": "bda85446c68413707090a52022edd26a1c9462295029f2e60cd7c4f2bbd3097170af7a4d73245cafa9c3cca8d561a7c3de6f5d4a10be8ed2a5e608d68f92fcc8"
+   },
+   {
+    "entropy": "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
+    "mnemonic": "legal winner thank year wave sausage worth useful legal winner thank year wave sausage worth useful legal winner thank year wave sausage worth title",
+    "seed": "bc09fca1804f7e69da93c2f2028eb238c227f2e9dda30cd63699232578480a4021b146ad717fbb7e451ce9eb835f43620bf5c514db0f8add49f5d121449d3e87"
+   },
+   {
+    "entropy": "8080808080808080808080808080808080808080808080808080808080808080",
+    "mnemonic": "letter advice cage absurd amount doctor acoustic avoid letter advice cage absurd amount doctor acoustic avoid letter advice cage absurd amount doctor acoustic bless",
+    "seed": "c0c519bd0e91a2ed54357d9d1ebef6f5af218a153624cf4f2da911a0ed8f7a09e2ef61af0aca007096df430022f7a2b6fb91661a9589097069720d015e4e982f"
+   },
+   {
+    "entropy": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo vote",
+    "seed": "dd48c104698c30cfe2b6142103248622fb7bb0ff692eebb00089b32d22484e1613912f0a5b694407be899ffd31ed3992c456cdf60f5d4564b8ba3f05a69890ad"
+   },
+   {
+    "entropy": "9e885d952ad362caeb4efe34a8e91bd2",
+    "mnemonic": "ozone drill grab fiber curtain grace pudding thank cruise elder eight picnic",
+    "seed": "274ddc525802f7c828d8ef7ddbcdc5304e87ac3535913611fbbfa986d0c9e5476c91689f9c8a54fd55bd38606aa6a8595ad213d4c9c9f9aca3fb217069a41028"
+   },
+   {
+    "entropy": "6610b25967cdcca9d59875f5cb50b0ea75433311869e930b",
+    "mnemonic": "gravity machine north sort system female filter attitude volume fold club stay feature office ecology stable narrow fog",
+    "seed": "628c3827a8823298ee685db84f55caa34b5cc195a778e52d45f59bcf75aba68e4d7590e101dc414bc1bbd5737666fbbef35d1f1903953b66624f910feef245ac"
+   },
+   {
+    "entropy": "68a79eaca2324873eacc50cb9c6eca8cc68ea5d936f98787c60c7ebc74e6ce7c",
+    "mnemonic": "hamster diagram private dutch cause delay private meat slide toddler razor book happy fancy gospel tennis maple dilemma loan word shrug inflict delay length",
+    "seed": "64c87cde7e12ecf6704ab95bb1408bef047c22db4cc7491c4271d170a1b213d20b385bc1588d9c7b38f1b39d415665b8a9030c9ec653d75e65f847d8fc1fc440"
+   },
+   {
+    "entropy": "c0ba5a8e914111210f2bd131f3d5e08d",
+    "mnemonic": "scheme spot photo card baby mountain device kick cradle pact join borrow",
+    "seed": "ea725895aaae8d4c1cf682c1bfd2d358d52ed9f0f0591131b559e2724bb234fca05aa9c02c57407e04ee9dc3b454aa63fbff483a8b11de949624b9f1831a9612"
+   },
+   {
+    "entropy": "6d9be1ee6ebd27a258115aad99b7317b9c8d28b6d76431c3",
+    "mnemonic": "horn tenant knee talent sponsor spell gate clip pulse soap slush warm silver nephew swap uncle crack brave",
+    "seed": "fd579828af3da1d32544ce4db5c73d53fc8acc4ddb1e3b251a31179cdb71e853c56d2fcb11aed39898ce6c34b10b5382772db8796e52837b54468aeb312cfc3d"
+   },
+   {
+    "entropy": "9f6a2878b2520799a44ef18bc7df394e7061a224d2c33cd015b157d746869863",
+    "mnemonic": "panda eyebrow bullet gorilla call smoke muffin taste mesh discover soft ostrich alcohol speed nation flash devote level hobby quick inner drive ghost inside",
+    "seed": "72be8e052fc4919d2adf28d5306b5474b0069df35b02303de8c1729c9538dbb6fc2d731d5f832193cd9fb6aeecbc469594a70e3dd50811b5067f3b88b28c3e8d"
+   },
+   {
+    "entropy": "23db8160a31d3e0dca3688ed941adbf3",
+    "mnemonic": "cat swing flag economy stadium alone churn speed unique patch report train",
+    "seed": "deb5f45449e615feff5640f2e49f933ff51895de3b4381832b3139941c57b59205a42480c52175b6efcffaa58a2503887c1e8b363a707256bdd2b587b46541f5"
+   },
+   {
+    "entropy": "8197a4a47f0425faeaa69deebc05ca29c0a5b5cc76ceacc0",
+    "mnemonic": "light rule cinnamon wrap drastic word pride squirrel upgrade then income fatal apart sustain crack supply proud access",
+    "seed": "4cbdff1ca2db800fd61cae72a57475fdc6bab03e441fd63f96dabd1f183ef5b782925f00105f318309a7e9c3ea6967c7801e46c8a58082674c860a37b93eda02"
+   },
+   {
+    "entropy": "066dca1a2bb7e8a1db2832148ce9933eea0f3ac9548d793112d9a95c9407efad",
+    "mnemonic": "all hour make first leader extend hole alien behind guard gospel lava path output census museum junior mass reopen famous sing advance salt reform",
+    "seed": "26e975ec644423f4a4c4f4215ef09b4bd7ef924e85d1d17c4cf3f136c2863cf6df0a475045652c57eb5fb41513ca2a2d67722b77e954b4b3fc11f7590449191d"
+   },
+   {
+    "entropy": "f30f8c1da665478f49b001d94c5fc452",
+    "mnemonic": "vessel ladder alter error federal sibling chat ability sun glass valve picture",
+    "seed": "2aaa9242daafcee6aa9d7269f17d4efe271e1b9a529178d7dc139cd18747090bf9d60295d0ce74309a78852a9caadf0af48aae1c6253839624076224374bc63f"
+   },
+   {
+    "entropy": "c10ec20dc3cd9f652c7fac2f1230f7a3c828389a14392f05",
+    "mnemonic": "scissors invite lock maple supreme raw rapid void congress muscle digital elegant little brisk hair mango congress clump",
+    "seed": "7b4a10be9d98e6cba265566db7f136718e1398c71cb581e1b2f464cac1ceedf4f3e274dc270003c670ad8d02c4558b2f8e39edea2775c9e232c7cb798b069e88"
+   },
+   {
+    "entropy": "f585c11aec520db57dd353c69554b21a89b20fb0650966fa0a9d6f74fd989d8f",
+    "mnemonic": "void come effort suffer camp survey warrior heavy shoot primary clutch crush open amazing screen patrol group space point ten exist slush involve unfold",
+    "seed": "01f5bced59dec48e362f2c45b5de68b9fd6c92c6634f44d6d40aab69056506f0e35524a518034ddc1192e1dacd32c1ed3eaa3c3b131c88ed8e7e54c49a5d0998"
+   }
+  ]
+ },
+ "aesgcm": {
+  "source": "NIST CAVP GCM test vectors, gcmEncryptExtIV256.rsp (Keylen 256, IVlen 96, Taglen 128)",
+  "cases": [
+   {
+    "ptBits": 0,
+    "aadBits": 0,
+    "count": 0,
+    "key": "b52c505a37d78eda5dd34f20c22540ea1b58963cf8e5bf8ffa85f9f2492505b4",
+    "iv": "516c33929df5a3284ff463d7",
+    "pt": "",
+    "aad": "",
+    "ct": "",
+    "tag": "bdc1ac884d332457a1d2664f168c76f0"
+   },
+   {
+    "ptBits": 0,
+    "aadBits": 128,
+    "count": 0,
+    "key": "78dc4e0aaf52d935c3c01eea57428f00ca1fd475f5da86a49c8dd73d68c8e223",
+    "iv": "d79cf22d504cc793c3fb6c8a",
+    "pt": "",
+    "aad": "b96baa8c1c75a671bfb2d08d06be5f36",
+    "ct": "",
+    "tag": "3e5d486aa2e30b22e040b85723a06e76"
+   },
+   {
+    "ptBits": 128,
+    "aadBits": 0,
+    "count": 0,
+    "key": "31bdadd96698c204aa9ce1448ea94ae1fb4a9a0b3c9d773b51bb1822666b8f22",
+    "iv": "0d18e06c7c725ac9e362e1ce",
+    "pt": "2db5168e932556f8089a0622981d017d",
+    "aad": "",
+    "ct": "fa4362189661d163fcd6a56d8bf0405a",
+    "tag": "d636ac1bbedd5cc3ee727dc2ab4a9489"
+   },
+   {
+    "ptBits": 128,
+    "aadBits": 128,
+    "count": 0,
+    "key": "92e11dcdaa866f5ce790fd24501f92509aacf4cb8b1339d50c9c1240935dd08b",
+    "iv": "ac93a1a6145299bde902f21a",
+    "pt": "2d71bcfa914e4ac045b2aa60955fad24",
+    "aad": "1e0889016f67601c8ebea4943bc23ad6",
+    "ct": "8995ae2e6df3dbf96fac7b7137bae67f",
+    "tag": "eca5aa77d51d4a0a14d9c51e1da474ab"
+   },
+   {
+    "ptBits": 408,
+    "aadBits": 160,
+    "count": 0,
+    "key": "24501ad384e473963d476edcfe08205237acfd49b5b8f33857f8114e863fec7f",
+    "iv": "9ff18563b978ec281b3f2794",
+    "pt": "27f348f9cdc0c5bd5e66b1ccb63ad920ff2219d14e8d631b3872265cf117ee86757accb158bd9abb3868fdc0d0b074b5f01b2c",
+    "aad": "adb5ec720ccf9898500028bf34afccbcaca126ef",
+    "ct": "eb7cb754c824e8d96f7c6d9b76c7d26fb874ffbf1d65c6f64a698d839b0b06145dae82057ad55994cf59ad7f67c0fa5e85fab8",
+    "tag": "bc95c532fecc594c36d1550286a7a3f0"
+   },
+   {
+    "ptBits": 256,
+    "aadBits": 384,
+    "count": 0,
+    "key": "dc776f0156c15d032623854b625c61868e5db84b7b6f9fbd3672f12f0025e0f6",
+    "iv": "67130951c4a57f6ae7f13241",
+    "pt": "9378a727a5119595ad631b12a5a6bc8a91756ef09c8d6eaa2b718fe86876da20",
+    "aad": "fd0920faeb7b212932280a009bac969145e5c316cf3922622c3705c3457c4e9f124b2076994323fbcfb523f8ed16d241",
+    "ct": "6d958c20870d401a3c1f7a0ac092c97774d451c09f7aae992a8841ff0ab9d60d",
+    "tag": "b876831b4ecd7242963b040aa45c4114"
+   },
+   {
+    "ptBits": 104,
+    "aadBits": 720,
+    "count": 0,
+    "key": "ff9506b4d46ba54128876fadfcc673a4c927c618ea7d95cfcaa508cbc8f7fc66",
+    "iv": "3742ad2208a0484345eee1be",
+    "pt": "7fd0d6cadc92cad27bb2d7d8c8",
+    "aad": "f1360a27fdc244be8739d85af6491c762a693aafe668c449515fdeeedb6a90aeee3891bbc8b69adc6a6426cb12fcdebc32c9f58c5259d128b91efa28620a3a9a0168b0ff5e76951cb41647ba4aa1f87fac0d97ac580e42cffc7e",
+    "ct": "bdb8346b28eb4d7226493611a6",
+    "tag": "7484d827b767647f44c7f94a39f8175c"
+   },
+   {
+    "ptBits": 0,
+    "aadBits": 720,
+    "count": 0,
+    "key": "03ccb7dbc7b8425465c2c3fc39ed0593929ffd02a45ff583bd89b79c6f646fe9",
+    "iv": "fd119985533bd5520b301d12",
+    "pt": "",
+    "aad": "98e68c10bf4b5ae62d434928fc6405147c6301417303ef3a703dcfd2c0c339a4d0a89bd29fe61fecf1066ab06d7a5c31a48ffbfed22f749b17e9bd0dc1c6f8fbd6fd4587184db964d5456132106d782338c3f117ec05229b0899",
+    "ct": "",
+    "tag": "cf54e7141349b66f248154427810c87a"
+   },
+   {
+    "ptBits": 408,
+    "aadBits": 720,
+    "count": 0,
+    "key": "148579a3cbca86d5520d66c0ec71ca5f7e41ba78e56dc6eebd566fed547fe691",
+    "iv": "b08a5ea1927499c6ecbfd4e0",
+    "pt": "9d0b15fdf1bd595f91f8b3abc0f7dec927dfd4799935a1795d9ce00c9b879434420fe42c275a7cd7b39d638fb81ca52b49dc41",
+    "aad": "e4f963f015ffbb99ee3349bbaf7e8e8e6c2a71c230a48f9d59860a29091d2747e01a5ca572347e247d25f56ba7ae8e05cde2be3c97931292c02370208ecd097ef692687fecf2f419d3200162a6480a57dad408a0dfeb492e2c5d",
+    "ct": "2097e372950a5e9383c675e89eea1c314f999159f5611344b298cda45e62843716f215f82ee663919c64002a5c198d7878fd3f",
+    "tag": "adbecdb0d5c2224d804d2886ff9a5760"
+   },
+   {
+    "ptBits": 104,
+    "aadBits": 160,
+    "count": 0,
+    "key": "69b458f2644af9020463b40ee503cdf083d693815e2659051ae0d039e606a970",
+    "iv": "8d1da8ab5f91ccd09205944b",
+    "pt": "f3e0e09224256bf21a83a5de8d",
+    "aad": "036ad5e5494ef817a8af2f5828784a4bfedd1653",
+    "ct": "c0a62d77e6031bfdc6b13ae217",
+    "tag": "a794a9aaee48cd92e47761bf1baff0af"
+   },
+   {
+    "ptBits": 256,
+    "aadBits": 0,
+    "count": 0,
+    "key": "268ed1b5d7c9c7304f9cae5fc437b4cd3aebe2ec65f0d85c3918d3d3b5bba89b",
+    "iv": "9ed9d8180564e0e945f5e5d4",
+    "pt": "fe29a40d8ebf57262bdb87191d01843f4ca4b2de97d88273154a0b7d9e2fdb80",
+    "aad": "",
+    "ct": "791a4a026f16f3a5ea06274bf02baab469860abde5e645f3dd473a5acddeecfc",
+    "tag": "05b2b74db0662550435ef1900e136b15"
+   },
+   {
+    "ptBits": 0,
+    "aadBits": 384,
+    "count": 0,
+    "key": "f4069bb739d07d0cafdcbc609ca01597f985c43db63bbaaa0debbb04d384e49c",
+    "iv": "d25ff30fdc3d464fe173e805",
+    "pt": "",
+    "aad": "3e1449c4837f0892f9d55127c75c4b25d69be334baf5f19394d2d8bb460cbf2120e14736d0f634aa792feca20e455f11",
+    "ct": "",
+    "tag": "805ec2931c2181e5bfb74fa0a975f0cf"
+   }
+  ]
+ }
+}
