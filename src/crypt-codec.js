@@ -32,7 +32,13 @@ export const concat = (...parts) => {
   for (const p of parts) { out.set(p, o); o += p.length; }
   return out;
 };
-export const equalBytes = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+/** Equal length and content; every byte is looked at, so the time does not say where two values first differ. */
+export const equalBytes = (a, b) => {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
+};
 
 export async function sha256(bytes) { return new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)); }
 export const toHex = (bytes) => [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
