@@ -9,21 +9,21 @@ Everything you need to write about Typographics Art. Texts on this page may be q
 
 ## Tagline
 
-> **ASCII art for the age of AI.** The picture is for people. The text stays for machines.
+> **Stationery for the AI age.** A document a person recognises at a glance, and a machine reads exactly as shown.
 
 ## One sentence
 
-Typographics Art turns any text into a picture of any photo by changing only the size, weight and colour of each letter, so people see the image while machines still read every word.
+Typographics Art is a document format where a person sees at a glance what something is and who it is from, and a machine provably reads exactly what the person sees.
 
 ## Short description (about 60 words)
 
-ASCII art makes pictures out of characters, but the characters mean nothing. Typographics Art keeps a real text, character for character and in order, and changes only its typography until it looks like a photo. People see the picture. Language models, search engines and screen readers read the original text. The tool runs in the browser and is open source under the MIT licence.
+Letterhead, a signature and a seal have shown for centuries what a paper is and who it is from. Typographics Art brings that to the AI age: a real text, kept character for character and in order, is set so that it also forms a picture — a document a person recognises at a glance, and a machine reads exactly as shown. Free, in the browser, open source (MIT).
 
 ## Long description (about 150 words)
 
-For fifty years, ASCII art has turned characters into pictures, at the cost of meaning: the characters are only shading, and the text is gone. Typographics Art turns that around. It starts from a real text (a poem, a biography, a manifesto) and a photo. Every character stays where the text puts it. Only its typography changes: a variable font gives each letter a weight between hairline and black, and each letter gets a size and a colour (a width axis is optional). An error-diffusion algorithm chooses these per letter so that, seen from a distance, the page becomes the photo.
+Most things we publish for machines are either a picture that hides its words or a wall of text with no face. Typographics Art is both at once, in three layers. The **document**: a real text — a poem, a law, agent instructions — kept character for character and in order, as Markdown with a few required fields, stable sections, hashes and a version chain. The **provenance**: keys on domains, signatures and a visible seal, with a verify tool, so a reader can check who issued a text and that it is unchanged; keys are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps. The **picture**: each letter's typography is tuned until the page becomes a photo, so a person recognises the document without reading the spec — a seal on an envelope needs no explanation.
 
-Because the letters are never replaced, the work is also a document. Exported as HTML, SVG or PDF, the text comes back exactly; a language model reading the file gets the poem, not `@@%#*+=`. Typographics Art is free, runs in the browser and is open source.
+It is a possibility, not a guarantee, and no replacement for PDF; but letterhead, signature and seal, translated into a format a machine can check, did not exist before. Free, in the browser, open source.
 
 ## Facts
 
