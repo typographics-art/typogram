@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>cipher probe</title>
+<script type="module">
+const s = crypto.subtle, res = {};
+const t = async (n, f) => { try { await f(); res[n] = 'yes'; } catch (e) { res[n] = 'no'; } };
+res.ua = navigator.userAgent; res.secure = isSecureContext;
+await t('X25519', () => s.generateKey('X25519', true, ['deriveBits']));
+await t('Ed25519', () => s.generateKey('Ed25519', true, ['sign']));
+await t('AES-GCM', () => s.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt']));
+await t('AES-GCM-SIV', () => s.generateKey({ name: 'AES-GCM-SIV', length: 256 }, true, ['encrypt']));
+await t('AES-OCB', () => s.generateKey({ name: 'AES-OCB', length: 256 }, true, ['encrypt']));
+await t('ChaCha20-Poly1305', () => s.generateKey({ name: 'ChaCha20-Poly1305' }, true, ['encrypt']));
+await t('Argon2id', () => s.importKey('raw-secret', new Uint8Array(4), 'Argon2id', false, ['deriveBits']));
+await t('ML-KEM-768', () => s.generateKey('ML-KEM-768', true, ['encapsulateBits', 'decapsulateBits']));
+await t('HKDF', () => s.importKey('raw', new Uint8Array(4), 'HKDF', false, ['deriveBits']));
+await t('PBKDF2', () => s.importKey('raw', new Uint8Array(4), 'PBKDF2', false, ['deriveBits']));
+await t('CompressionStream deflate-raw', () => new CompressionStream('deflate-raw'));
+res.webauthn = typeof PublicKeyCredential;
+try { res.prfClientCapability = typeof PublicKeyCredential.getClientCapabilities === 'function' ? JSON.stringify(await PublicKeyCredential.getClientCapabilities()) : 'getClientCapabilities missing'; } catch (e) { res.prfClientCapability = 'error'; }
+await fetch('/report', { method: 'POST', body: JSON.stringify(res) });
+</script>

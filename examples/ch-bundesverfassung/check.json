@@ -1,0 +1,41 @@
+{
+  "id": "ch-bundesverfassung",
+  "document": "Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024",
+  "category": "law",
+  "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
+  "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
+  "sourceSha256": "5107fa5a37afa7a75486a1c8f3beac00cf1aeacdbf835fd73398ead4f724d164",
+  "sourcePages": 102,
+  "sourceBytes": 1096229,
+  "extractor": "mutool draw -F txt",
+  "characters": 228576,
+  "words": 31129,
+  "lines": 377,
+  "paper": "a4",
+  "fontSizeMm": 0.754,
+  "overflow": false,
+  "toneFidelity": 0.931,
+  "layoutMs": 4856,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 197448,
+    "sha256Source": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964",
+    "sha256ReadBack": "065d6c4de7b1defe65aeeb7385322119d795bb9ca5dc8d10cbe67a76fbbe1964"
+  },
+  "pdfBytes": 1726495,
+  "pdfBytesUnoptimized": 2100764,
+  "printStrips": 2,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 197448,
+    "runs": 139973,
+    "outlines": 741,
+    "fonts": 10
+  },
+  "sizeFactor": 1.57,
+  "motif": "motifs/ch-bundesverfassung-1874.jpg",
+  "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old)."
+}

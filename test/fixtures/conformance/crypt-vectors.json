@@ -1,0 +1,194 @@
+{
+ "standard": "tgs/tgx/tg2",
+ "version": 1,
+ "note": "open: opening must give `expect`; exact: re-sealing with the same seeded random reproduces key and record byte for byte; negatives: the code of the failure",
+ "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+ "sealed": [
+  {
+   "name": "tgd-bound-stored",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxbYrrN5MbfUK4vbZN4yRQn5e7jgqgsxEDXLHXr5aRSNNtPkopuaBFVQzwV",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGK8b2mjN9NGEPO9Yevjb3_wrDsQ_QKK1SoRoXprvbUdaDlxrvEwXzTDnPovPcblP_g-O_s35VYsIj9pM8yuXN2pAIoWVDQJGy6qkbTvWgQdRrHnjlxwa99QYxiLA_5T9NcpJtn4IWOG9bOODeYvwwravzOEQRWKI5s0-CEXLVW8KbFrDUB4vINCdvia42HIrcGKJDOy__LlW99ii17ASfJH8rUvL5XcPbKijCrSoA18My5hMawAutrzoH-xISiXAro2bpAuEGe3Zf9_CuFe1dD_0xtNcRBb1ucYx1N6yccbCzmbE_XpR3b12nXjX-SiOZVopu2xFNlfv6NZNqtTOUHI-5T4VMBlb_YDXJCgFfDQ9vlakLOGicytn9ik-GiLHZpM3D9Hf-vugNXjiW0JaDDKdmaFxoYERakOwBthvRKFsVb178GmGqTbIuU8x1mEchDfJFK_X6xzL9fXafglf1_FpgdbQbnWABxZ1Egm1LVx0tpi7DAYRb6ai8-OxMC-MXBPn9IQ_ZHvBPgC2m_s4wZ1jdJZbyA3HXvq25Q6PgTQkaYgsoydhoK-S-MtG5UzVgH0L1cSPClb98LQKwmPNTkJukekny46LikhFfI7a3xm-bW1lSjAu8s28c3hyHK5V--iKDY2TokB7asafy_KW6l52J32DOtJ8GYk3NYuPOuFQg7VfAn4qZfxqGhvXT3g50xirHoMnElI_jU_gNkTGA7HVjMU6jefnn2cIHl6unU88hkaUob_TRwx3ZST-IQUsFHg328ArytODMlSuRH3PEb1eS9B63ikwKwACmxAIgqs-afsOfef1cEedvpfpDsN24RxpGW8-xYR8ULxaAD_4irDd_aY4gKIyQ8",
+   "mode": "exact",
+   "expect": {
+    "kind": "tgd",
+    "body": "{\"tgd\":\"1.0\",\"sum\":\"dc4d7576cf76924eba27e1f49daf9e014738b2d2f4d2b6099b14735d74619124\",\"format\":\"csv\",\"name\":\"people.csv\",\"created\":\"2026-10-18T00:00:00Z\",\"by\":\"tg-data/1.0\",\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\"lossy\":[\"types:·every·cell·is·text\",\"quoting·style:·fields·are·quoted·only·where·needed\",\"an·empty·quoted·field·(\\\"\\\")·and·an·empty·field·are·the·same\"],\"data\":{\"kind\":\"workbook\",\"dialect\":{\"delimiter\":\",\",\"eol\":\"\\r\\n\",\"final\":true},\"sheets\":[{\"name\":\"people\",\"rows\":[[\"Name\",\"Age\",\"City\"],[\"Alice·Müller\",\"34\",\"Zürich\"],[\"Bob\",\"41\",null]]}]}}"
+   }
+  },
+  {
+   "name": "tgd-bound-deflate",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KzFnnTbxyXU5Ync3M2i2mFRuL17EfRBZH5iF8Y6vJKNQmwQdFmdfKPERdp3",
+   "record": "tgs1.AQPKezLPhNX_guUjW8QYB5rrb1AqUD9PP4VlCuobnDr3M1Eh4qV5cvMRhnvYbusKE1CgGrpSBXXzBWtrptkcDLR747gYVwacehMoDcwtsT6m9rW9pn2rC_Sb13KY89XFr1yQ9waukt-O87qtf-EvZC1UGNCrcj86x4vLibTmkhzYDgIgDhQ4OY2H6l4iwSYT56qu4snIoLkJPGGrOpTRx71tf7Etrk9hWecHvKRxj_MyZJWQ1DKfkMS8xYbtX7OjoFbyg47GNiQg96VPYHzRTk9oXGKNukSM4_N6cUmYDdCwAzWkwfEcOtIGr5QuldfOpCaazQ-59bkVSkV_l_OKCTFrKAfAToUB8LBAbNmF-F3tjHA0zz1eDGnSRx81Fgi5a-hf7vHSY_wic6l2dRyj1HJ-yacnIPrustc6UqD8JTdK4Q7TwMhXaz2WG0I2sFspwz-TLEJ5sZxoEWe1TmhwbtWVf18SIe9X_DAc_glsbHZ9hHFVrSXvm1zzXzou4CH91OI5C8IfEdKPpBl3MLthyc1UgDe2TkQaUcPOfMWGo2IjUkV4hHQECJR_FlfpASQ_B9bJHLNl13vXgn_jGSUEwopCVX0Z5fm8XxMAjf--FbG4",
+   "mode": "open",
+   "expect": {
+    "kind": "tgd",
+    "body": "{\"tgd\":\"1.0\",\"sum\":\"dc4d7576cf76924eba27e1f49daf9e014738b2d2f4d2b6099b14735d74619124\",\"format\":\"csv\",\"name\":\"people.csv\",\"created\":\"2026-10-18T00:00:00Z\",\"by\":\"tg-data/1.0\",\"read\":\"TGD·1:·JSON,·each·middle·dot·stands·for·one·space,·\\\\uXXXX·is·one·character.\",\"lossy\":[\"types:·every·cell·is·text\",\"quoting·style:·fields·are·quoted·only·where·needed\",\"an·empty·quoted·field·(\\\"\\\")·and·an·empty·field·are·the·same\"],\"data\":{\"kind\":\"workbook\",\"dialect\":{\"delimiter\":\",\",\"eol\":\"\\r\\n\",\"final\":true},\"sheets\":[{\"name\":\"people\",\"rows\":[[\"Name\",\"Age\",\"City\"],[\"Alice·Müller\",\"34\",\"Zürich\"],[\"Bob\",\"41\",null]]}]}}"
+   }
+  },
+  {
+   "name": "message-unbound-128",
+   "work": null,
+   "key": "tgx1.phou8J2FseBeEyCKsb3Q2nMxvY",
+   "record": "tgs1.AQAPo6u5vVvIK6zkXG4Hp2vneVgFzF4l-A3f3R-pHcH_FukJdYV3uVTHUVZzf8SCFg1fsxXbneNcWvQIR0W5v10NIKevO8k",
+   "mode": "exact",
+   "expect": {
+    "kind": "text",
+    "text": "Meet at the harbour, 6 pm. Zürich 😀"
+   }
+  },
+  {
+   "name": "bytes-inline-padded",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.2VTUcuhMC91tPU5sr7wtcJofB7TXdMmSBxSS55cqzhypp9H9spuB94EA9D5zbJsjoPw9HVtDvsy4LzEwWueD5Fe2UJa2baLhrh1u2iYnkEWKugnc4J7FckxazNR9AYsnFyDHKs4nmZmAeYpBjjUjqNYj4XAFPgLk7PSHXYocThtkaecC6SPxwrsUP88B",
+   "record": "tgs1.AQHTb9zFM4eZRCqzRC1Hxxbedo7mxz6CmOrs2XwO9V8w3y_XCgDZs2CH1zIZem2jY9_tUxmKi43EwkUVIVD4cYOsukTOfSaUALRvFcaAn8dZKirfM2F_USrU--eACQ",
+   "mode": "exact",
+   "expect": {
+    "kind": "bytes",
+    "hex": "00010203fafbfcfdfeff"
+   }
+  },
+  {
+   "name": "message-password-100k",
+   "work": null,
+   "key": null,
+   "password": "correct horse battery staple",
+   "record": "tgs1.AQTYIUmRmY_1bfIXe7EhIv6FoI0Gl7h1kMaNP75acz9_ffRNeiBt8w08x6TwMaojfyHC256wPh7F62Lyuwc",
+   "mode": "exact",
+   "expect": {
+    "kind": "text",
+    "text": "Open sesame"
+   }
+  },
+  {
+   "name": "message-bound-brotli",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxQA17jDjAFEVPdE9CTDDU86dhsfq6zeQMCRB3GHbPAjbnhDT1jV8cMXkQS",
+   "record": "tgs1.AQnmRXRQ3lzYNEODYUN0a93JHpFnupuy4Z4ANISxKDcyiwbWW5aAAZp65rebsNAmRmb0Qzeov7im",
+   "mode": "open",
+   "needs": "brotli",
+   "expect": {
+    "kind": "text",
+    "text": "brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test brotli test "
+   }
+  }
+ ],
+ "negatives": [
+  {
+   "name": "wrong-work",
+   "work": "Typographic Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxbYrrN5MbfUK4vbZN4yRQn5e7jgqgsxEDXLHXr5aRSNNtPkopuaBFVQzwV",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGK8b2mjN9NGEPO9Yevjb3_wrDsQ_QKK1SoRoXprvbUdaDlxrvEwXzTDnPovPcblP_g-O_s35VYsIj9pM8yuXN2pAIoWVDQJGy6qkbTvWgQdRrHnjlxwa99QYxiLA_5T9NcpJtn4IWOG9bOODeYvwwravzOEQRWKI5s0-CEXLVW8KbFrDUB4vINCdvia42HIrcGKJDOy__LlW99ii17ASfJH8rUvL5XcPbKijCrSoA18My5hMawAutrzoH-xISiXAro2bpAuEGe3Zf9_CuFe1dD_0xtNcRBb1ucYx1N6yccbCzmbE_XpR3b12nXjX-SiOZVopu2xFNlfv6NZNqtTOUHI-5T4VMBlb_YDXJCgFfDQ9vlakLOGicytn9ik-GiLHZpM3D9Hf-vugNXjiW0JaDDKdmaFxoYERakOwBthvRKFsVb178GmGqTbIuU8x1mEchDfJFK_X6xzL9fXafglf1_FpgdbQbnWABxZ1Egm1LVx0tpi7DAYRb6ai8-OxMC-MXBPn9IQ_ZHvBPgC2m_s4wZ1jdJZbyA3HXvq25Q6PgTQkaYgsoydhoK-S-MtG5UzVgH0L1cSPClb98LQKwmPNTkJukekny46LikhFfI7a3xm-bW1lSjAu8s28c3hyHK5V--iKDY2TokB7asafy_KW6l52J32DOtJ8GYk3NYuPOuFQg7VfAn4qZfxqGhvXT3g50xirHoMnElI_jU_gNkTGA7HVjMU6jefnn2cIHl6unU88hkaUob_TRwx3ZST-IQUsFHg328ArytODMlSuRH3PEb1eS9B63ikwKwACmxAIgqs-afsOfef1cEedvpfpDsN24RxpGW8-xYR8ULxaAD_4irDd_aY4gKIyQ8",
+   "expect": {
+    "error": "wrong-work"
+   }
+  },
+  {
+   "name": "wrong-key-right-shape",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KzFnnTbxyXU5Ync3M2i2mFRuL17EfRBZH5iF8Y6vJKNQmwQdFmdfKPERdp3",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGK8b2mjN9NGEPO9Yevjb3_wrDsQ_QKK1SoRoXprvbUdaDlxrvEwXzTDnPovPcblP_g-O_s35VYsIj9pM8yuXN2pAIoWVDQJGy6qkbTvWgQdRrHnjlxwa99QYxiLA_5T9NcpJtn4IWOG9bOODeYvwwravzOEQRWKI5s0-CEXLVW8KbFrDUB4vINCdvia42HIrcGKJDOy__LlW99ii17ASfJH8rUvL5XcPbKijCrSoA18My5hMawAutrzoH-xISiXAro2bpAuEGe3Zf9_CuFe1dD_0xtNcRBb1ucYx1N6yccbCzmbE_XpR3b12nXjX-SiOZVopu2xFNlfv6NZNqtTOUHI-5T4VMBlb_YDXJCgFfDQ9vlakLOGicytn9ik-GiLHZpM3D9Hf-vugNXjiW0JaDDKdmaFxoYERakOwBthvRKFsVb178GmGqTbIuU8x1mEchDfJFK_X6xzL9fXafglf1_FpgdbQbnWABxZ1Egm1LVx0tpi7DAYRb6ai8-OxMC-MXBPn9IQ_ZHvBPgC2m_s4wZ1jdJZbyA3HXvq25Q6PgTQkaYgsoydhoK-S-MtG5UzVgH0L1cSPClb98LQKwmPNTkJukekny46LikhFfI7a3xm-bW1lSjAu8s28c3hyHK5V--iKDY2TokB7asafy_KW6l52J32DOtJ8GYk3NYuPOuFQg7VfAn4qZfxqGhvXT3g50xirHoMnElI_jU_gNkTGA7HVjMU6jefnn2cIHl6unU88hkaUob_TRwx3ZST-IQUsFHg328ArytODMlSuRH3PEb1eS9B63ikwKwACmxAIgqs-afsOfef1cEedvpfpDsN24RxpGW8-xYR8ULxaAD_4irDd_aY4gKIyQ8",
+   "expect": {
+    "error": "auth-failed"
+   }
+  },
+  {
+   "name": "typo-in-key",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxbYrrN5MbfUK4vAZN4yRQn5e7jgqgsxEDXLHXr5aRSNNtPkopuaBFVQzwV",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGK8b2mjN9NGEPO9Yevjb3_wrDsQ_QKK1SoRoXprvbUdaDlxrvEwXzTDnPovPcblP_g-O_s35VYsIj9pM8yuXN2pAIoWVDQJGy6qkbTvWgQdRrHnjlxwa99QYxiLA_5T9NcpJtn4IWOG9bOODeYvwwravzOEQRWKI5s0-CEXLVW8KbFrDUB4vINCdvia42HIrcGKJDOy__LlW99ii17ASfJH8rUvL5XcPbKijCrSoA18My5hMawAutrzoH-xISiXAro2bpAuEGe3Zf9_CuFe1dD_0xtNcRBb1ucYx1N6yccbCzmbE_XpR3b12nXjX-SiOZVopu2xFNlfv6NZNqtTOUHI-5T4VMBlb_YDXJCgFfDQ9vlakLOGicytn9ik-GiLHZpM3D9Hf-vugNXjiW0JaDDKdmaFxoYERakOwBthvRKFsVb178GmGqTbIuU8x1mEchDfJFK_X6xzL9fXafglf1_FpgdbQbnWABxZ1Egm1LVx0tpi7DAYRb6ai8-OxMC-MXBPn9IQ_ZHvBPgC2m_s4wZ1jdJZbyA3HXvq25Q6PgTQkaYgsoydhoK-S-MtG5UzVgH0L1cSPClb98LQKwmPNTkJukekny46LikhFfI7a3xm-bW1lSjAu8s28c3hyHK5V--iKDY2TokB7asafy_KW6l52J32DOtJ8GYk3NYuPOuFQg7VfAn4qZfxqGhvXT3g50xirHoMnElI_jU_gNkTGA7HVjMU6jefnn2cIHl6unU88hkaUob_TRwx3ZST-IQUsFHg328ArytODMlSuRH3PEb1eS9B63ikwKwACmxAIgqs-afsOfef1cEedvpfpDsN24RxpGW8-xYR8ULxaAD_4irDd_aY4gKIyQ8",
+   "expect": {
+    "error": "checksum"
+   }
+  },
+  {
+   "name": "not-a-key",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "hello",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGK8b2mjN9NGEPO9Yevjb3_wrDsQ_QKK1SoRoXprvbUdaDlxrvEwXzTDnPovPcblP_g-O_s35VYsIj9pM8yuXN2pAIoWVDQJGy6qkbTvWgQdRrHnjlxwa99QYxiLA_5T9NcpJtn4IWOG9bOODeYvwwravzOEQRWKI5s0-CEXLVW8KbFrDUB4vINCdvia42HIrcGKJDOy__LlW99ii17ASfJH8rUvL5XcPbKijCrSoA18My5hMawAutrzoH-xISiXAro2bpAuEGe3Zf9_CuFe1dD_0xtNcRBb1ucYx1N6yccbCzmbE_XpR3b12nXjX-SiOZVopu2xFNlfv6NZNqtTOUHI-5T4VMBlb_YDXJCgFfDQ9vlakLOGicytn9ik-GiLHZpM3D9Hf-vugNXjiW0JaDDKdmaFxoYERakOwBthvRKFsVb178GmGqTbIuU8x1mEchDfJFK_X6xzL9fXafglf1_FpgdbQbnWABxZ1Egm1LVx0tpi7DAYRb6ai8-OxMC-MXBPn9IQ_ZHvBPgC2m_s4wZ1jdJZbyA3HXvq25Q6PgTQkaYgsoydhoK-S-MtG5UzVgH0L1cSPClb98LQKwmPNTkJukekny46LikhFfI7a3xm-bW1lSjAu8s28c3hyHK5V--iKDY2TokB7asafy_KW6l52J32DOtJ8GYk3NYuPOuFQg7VfAn4qZfxqGhvXT3g50xirHoMnElI_jU_gNkTGA7HVjMU6jefnn2cIHl6unU88hkaUob_TRwx3ZST-IQUsFHg328ArytODMlSuRH3PEb1eS9B63ikwKwACmxAIgqs-afsOfef1cEedvpfpDsN24RxpGW8-xYR8ULxaAD_4irDd_aY4gKIyQ8",
+   "expect": {
+    "error": "bad-prefix"
+   }
+  },
+  {
+   "name": "record-tampered",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxbYrrN5MbfUK4vbZN4yRQn5e7jgqgsxEDXLHXr5aRSNNtPkopuaBFVQzwV",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGKAb2mjN9NGEPO9Yevjb3_wrDsQ_QKK1SoRoXprvbUdaDlxrvEwXzTDnPovPcblP_g-O_s35VYsIj9pM8yuXN2pAIoWVDQJGy6qkbTvWgQdRrHnjlxwa99QYxiLA_5T9NcpJtn4IWOG9bOODeYvwwravzOEQRWKI5s0-CEXLVW8KbFrDUB4vINCdvia42HIrcGKJDOy__LlW99ii17ASfJH8rUvL5XcPbKijCrSoA18My5hMawAutrzoH-xISiXAro2bpAuEGe3Zf9_CuFe1dD_0xtNcRBb1ucYx1N6yccbCzmbE_XpR3b12nXjX-SiOZVopu2xFNlfv6NZNqtTOUHI-5T4VMBlb_YDXJCgFfDQ9vlakLOGicytn9ik-GiLHZpM3D9Hf-vugNXjiW0JaDDKdmaFxoYERakOwBthvRKFsVb178GmGqTbIuU8x1mEchDfJFK_X6xzL9fXafglf1_FpgdbQbnWABxZ1Egm1LVx0tpi7DAYRb6ai8-OxMC-MXBPn9IQ_ZHvBPgC2m_s4wZ1jdJZbyA3HXvq25Q6PgTQkaYgsoydhoK-S-MtG5UzVgH0L1cSPClb98LQKwmPNTkJukekny46LikhFfI7a3xm-bW1lSjAu8s28c3hyHK5V--iKDY2TokB7asafy_KW6l52J32DOtJ8GYk3NYuPOuFQg7VfAn4qZfxqGhvXT3g50xirHoMnElI_jU_gNkTGA7HVjMU6jefnn2cIHl6unU88hkaUob_TRwx3ZST-IQUsFHg328ArytODMlSuRH3PEb1eS9B63ikwKwACmxAIgqs-afsOfef1cEedvpfpDsN24RxpGW8-xYR8ULxaAD_4irDd_aY4gKIyQ8",
+   "expect": {
+    "error": "auth-failed"
+   }
+  },
+  {
+   "name": "record-truncated",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxbYrrN5MbfUK4vbZN4yRQn5e7jgqgsxEDXLHXr5aRSNNtPkopuaBFVQzwV",
+   "record": "tgs1.AQEWZAXtMWTtwrB7UCX7EV-SXmE7dUu5KGK8b2mjN9NGEPO9Yevjb3_wrDsQ",
+   "expect": {
+    "error": "auth-failed"
+   }
+  },
+  {
+   "name": "record-not-a-record",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tgx1.KxbYrrN5MbfUK4vbZN4yRQn5e7jgqgsxEDXLHXr5aRSNNtPkopuaBFVQzwV",
+   "record": "tgs2.AAAA",
+   "expect": {
+    "error": "bad-prefix"
+   }
+  }
+ ],
+ "book": [
+  {
+   "name": "tg1",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tg1.Lo77lvObqvBDV6YBD4kCBtwBjgLOAvQCowHpAg",
+   "expect": {
+    "text": "meet at noon"
+   }
+  },
+  {
+   "name": "tg2-fixed",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tg2.tpznoY9LH7mNN9C5if7fZJL8k7P4PdvwG6e",
+   "expect": {
+    "text": "meet at noon"
+   }
+  },
+  {
+   "name": "tg2-near-1",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tg2.p1meZJ3QFqR38DCMXSAAhQTs93hS",
+   "expect": {
+    "text": "meet at noon"
+   }
+  },
+  {
+   "name": "tg2-short-fingerprint",
+   "work": "Typographics Art sets a text character for character so that it forms a picture, and the text stays readable text: every word of it can be selected, searched and copied, quite as in any book; this short work only exists to give the conformance vectors a public text with a good many different letters, digits like 2026 and a little punctuation, so that a key can point into it.",
+   "key": "tg2.AH5xW7rRowLnksQAGdX144axYAmycV",
+   "expect": {
+    "text": "meet at noon"
+   }
+  }
+ ],
+ "anchor": {
+  "commitment": "4e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c3347",
+  "payload": "54474131004e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c3347",
+  "payloadWithHint": "54474131014e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c33476578616d706c652e6f72672f722f31",
+  "script": "6a2554474131004e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c3347",
+  "scriptMaxLength": "6a4c50544741",
+  "cid": "bafkreicobv6xtid2bdcsgxgi6vjup3qay2madnhseiddo4b6cluiyhbti4",
+  "feeSat": {
+   "payload37": 48000,
+   "payload80": 56600
+  }
+ },
+ "alphabets": {
+  "bytesHex": "00000102fffefd6432",
+  "base58": "113DyWyZXds",
+  "base64url": "AAABAv_-_WQy",
+  "emptyBase58": "",
+  "zeros": "111"
+ }
+}

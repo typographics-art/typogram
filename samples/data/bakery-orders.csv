@@ -1,0 +1,31 @@
+Order,Date,Customer,Item,Qty,Price CHF,Note
+1029,2026-09-01,Hotel Alpenblick,Zopf,4,5.20,"Rechnung, bitte"
+1004,2026-09-02,Café Müller,Croissant,21,1.90,"Abholung, 2 Kisten"
+1008,2026-09-02,Bäckerei Rot,Croissant,25,1.90,
+1024,2026-09-02,Bäckerei Rot,Roggenbrötchen,33,1.10,
+1017,2026-09-05,Hotel Alpenblick,Apfelkuchen,8,18.50,Lieferung vor 7 Uhr
+1016,2026-09-06,Bäckerei Rot,Croissant,9,1.90,ohne Nüsse
+1002,2026-09-08,Kita Sonnenschein,Sauerteigbrot,27,4.80,Lieferung vor 7 Uhr
+1006,2026-09-08,Café Müller,Croissant,39,1.90,
+1005,2026-09-09,Hotel Alpenblick,Zopf,12,5.20,ohne Nüsse
+1019,2026-09-11,Zoë & Söhne,Zopf,26,5.20,ohne Nüsse
+1027,2026-09-11,Hotel Alpenblick,Apfelkuchen,34,18.50,"Abholung, 2 Kisten"
+1010,2026-09-12,Bäckerei Rot,Croissant,11,1.90,
+1001,2026-09-13,Hotel Alpenblick,Zopf,40,5.20,
+1012,2026-09-14,Kita Sonnenschein,Croissant,5,1.90,
+1020,2026-09-14,Bäckerei Rot,Sauerteigbrot,5,4.80,ohne Nüsse
+1003,2026-09-15,Hotel Alpenblick,Apfelkuchen,26,18.50,ohne Nüsse
+1018,2026-09-16,Kita Sonnenschein,Croissant,3,1.90,
+1030,2026-09-16,Kita Sonnenschein,Sauerteigbrot,15,4.80,"Rechnung, bitte"
+1021,2026-09-17,Hotel Alpenblick,Apfelkuchen,28,18.50,ohne Nüsse
+1028,2026-09-18,Bäckerei Rot,Sauerteigbrot,29,4.80,ohne Nüsse
+1015,2026-09-19,Mensa Nord,Nussgipfel,14,2.40,
+1022,2026-09-24,Café Müller,Croissant,39,1.90,"Rechnung, bitte"
+1026,2026-09-24,Bäckerei Rot,Roggenbrötchen,35,1.10,
+1009,2026-09-25,Zoë & Söhne,Zopf,16,5.20,
+1013,2026-09-25,Mensa Nord,Zopf,28,5.20,ohne Nüsse
+1025,2026-09-25,Zoë & Söhne,Nussgipfel,8,2.40,ohne Nüsse
+1007,2026-09-27,Hotel Alpenblick,Zopf,6,5.20,
+1011,2026-09-27,Zoë & Söhne,Nussgipfel,2,2.40,"Abholung, 2 Kisten"
+1023,2026-09-27,Zoë & Söhne,Nussgipfel,22,2.40,Lieferung vor 7 Uhr
+1014,2026-09-28,Kita Sonnenschein,Sauerteigbrot,23,4.80,

@@ -1,0 +1,296 @@
+[
+  {
+    "id": "ch-bundesverfassung",
+    "title": "Bundes­verfassung",
+    "subtitle": "Schweizerische Eidgenossenschaft · 102 Seiten auf einer",
+    "document": "Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024",
+    "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
+    "file": "ch-bundesverfassung.pdf",
+    "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
+    "category": "law",
+    "motif": "motifs/ch-bundesverfassung-1874.jpg",
+    "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
+    "color": "photo"
+  },
+  {
+    "id": "de-grundgesetz",
+    "title": "Grund­gesetz",
+    "subtitle": "Bundesrepublik Deutschland · 51 Seiten auf einer",
+    "document": "Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de",
+    "url": "https://www.gesetze-im-internet.de/gg/GG.pdf",
+    "file": "de-grundgesetz.pdf",
+    "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
+    "category": "law"
+  },
+  {
+    "id": "us-constitution",
+    "title": "Consti­tution",
+    "subtitle": "of the United States · 85 pages on one",
+    "document": "The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)",
+    "url": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
+    "file": "us-constitution.pdf",
+    "licence": "Public domain (work of the United States Government)",
+    "category": "law",
+    "motif": "motifs/us-constitution-hintermeister-1925.jpg",
+    "motifCredit": "Henry Hintermeister, \"The Foundation of American Government\" (1925), Library of Congress. Public domain in the United States (published 1925).",
+    "color": "photo"
+  },
+  {
+    "id": "eu-ai-act",
+    "title": "AI Act",
+    "subtitle": "Regulation (EU) 2024/1689 · 144 pages on one",
+    "document": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal",
+    "url": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
+    "file": "eu-ai-act.pdf",
+    "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
+    "category": "law",
+    "motif": "recipe:aiActNetwork",
+    "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
+    "color": "photo"
+  },
+  {
+    "id": "un-human-rights",
+    "title": "Human Rights",
+    "subtitle": "Universal Declaration · 1948",
+    "document": "Universal Declaration of Human Rights, English text, OHCHR",
+    "url": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
+    "file": "un-human-rights.pdf",
+    "licence": "United Nations text, freely reproducible",
+    "category": "declaration"
+  },
+  {
+    "id": "pep-8",
+    "title": "PEP 8",
+    "subtitle": "Style Guide for Python Code",
+    "document": "PEP 8 – Style Guide for Python Code (reStructuredText source)",
+    "url": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst",
+    "file": "pep-8.rst",
+    "licence": "Public domain (stated in the document)",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "code-review-agent",
+    "title": "AI",
+    "subtitle": "Code review agent · operating instructions",
+    "document": "Code review agent: operating instructions (written for this repository)",
+    "local": "instructions/code-review-agent.md",
+    "licence": "MIT, Typographics Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "support-assistant",
+    "title": "Support",
+    "subtitle": "Policy for a customer support assistant",
+    "document": "Customer support assistant: policy (fictional shop, written for this repository)",
+    "local": "instructions/support-assistant.md",
+    "licence": "MIT, Typographics Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "research-assistant",
+    "title": "Research",
+    "subtitle": "Rules for sources and claims",
+    "document": "Research assistant: rules for sources and claims (written for this repository)",
+    "local": "instructions/research-assistant.md",
+    "licence": "MIT, Typographics Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "agents-md",
+    "title": "AGENTS.md",
+    "subtitle": "How AI agents work on Typographics Art",
+    "document": "AGENTS.md of this repository",
+    "local": "../AGENTS.md",
+    "licence": "MIT, Typographics Art contributors",
+    "category": "ai-instructions"
+  },
+  {
+    "id": "agent-bibliothek",
+    "title": "AGENT",
+    "subtitle": "Wissens- und Aufgabenbibliothek für KI-Agenten · alle Teile",
+    "document": "Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)",
+    "local": "agent-library/bibliothek.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-library-readme",
+    "title": "LIB",
+    "subtitle": "Bibliothek für KI-Agenten · Übersicht und Prompt-Felder",
+    "document": "Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts",
+    "local": "agent-library/README.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-library-wissen",
+    "title": "W",
+    "subtitle": "Wissen, das man einem Agenten bereitstellt",
+    "document": "Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)",
+    "local": "agent-library/wissen.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-quellen",
+    "title": "§1",
+    "subtitle": "Regel: Quellen und Belege",
+    "document": "Agenten-Regel 1: Quellen und Belege",
+    "local": "agent-library/regeln/quellen-und-belege.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-unsicherheit",
+    "title": "§2",
+    "subtitle": "Regel: Unsicherheit",
+    "document": "Agenten-Regel 2: Unsicherheit",
+    "local": "agent-library/regeln/unsicherheit.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-aufgaben",
+    "title": "§3",
+    "subtitle": "Regel: Aufgabenbearbeitung",
+    "document": "Agenten-Regel 3: Aufgabenbearbeitung",
+    "local": "agent-library/regeln/aufgabenbearbeitung.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-berechtigungen",
+    "title": "§4",
+    "subtitle": "Regel: Berechtigungen",
+    "document": "Agenten-Regel 4: Berechtigungen",
+    "local": "agent-library/regeln/berechtigungen.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-datenschutz",
+    "title": "§5",
+    "subtitle": "Regel: Datenschutz",
+    "document": "Agenten-Regel 5: Datenschutz",
+    "local": "agent-library/regeln/datenschutz.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-qualitaet",
+    "title": "§6",
+    "subtitle": "Regel: Qualitätsprüfung",
+    "document": "Agenten-Regel 6: Qualitätsprüfung",
+    "local": "agent-library/regeln/qualitaetspruefung.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-ausgabe",
+    "title": "§7",
+    "subtitle": "Regel: Ausgabeformate",
+    "document": "Agenten-Regel 7: Ausgabeformate",
+    "local": "agent-library/regeln/ausgabeformate.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-regel-fremdinhalte",
+    "title": "§8",
+    "subtitle": "Regel: Umgang mit Fremdinhalten",
+    "document": "Agenten-Regel 8: Umgang mit Fremdinhalten",
+    "local": "agent-library/regeln/umgang-mit-fremdinhalten.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-code",
+    "title": "CODE",
+    "subtitle": "Aufgaben-Prompts: Softwareentwicklung",
+    "document": "Agenten-Prompts: Softwareentwicklung (7 Prompts)",
+    "local": "agent-library/prompts/softwareentwicklung.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-sec",
+    "title": "SEC",
+    "subtitle": "Aufgaben-Prompts: Software-Sicherheit",
+    "document": "Agenten-Prompts: Software-Sicherheit (4 Prompts)",
+    "local": "agent-library/prompts/software-sicherheit.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-recherche",
+    "title": "FAKT",
+    "subtitle": "Aufgaben-Prompts: Recherche",
+    "document": "Agenten-Prompts: Recherche (5 Prompts)",
+    "local": "agent-library/prompts/recherche.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-dokumente",
+    "title": "DOKU",
+    "subtitle": "Aufgaben-Prompts: Dokumente",
+    "document": "Agenten-Prompts: Dokumente (5 Prompts)",
+    "local": "agent-library/prompts/dokumente.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-daten",
+    "title": "DATA",
+    "subtitle": "Aufgaben-Prompts: Datenanalyse",
+    "document": "Agenten-Prompts: Datenanalyse (5 Prompts)",
+    "local": "agent-library/prompts/datenanalyse.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-schreiben",
+    "title": "TEXT",
+    "subtitle": "Aufgaben-Prompts: Schreiben",
+    "document": "Agenten-Prompts: Schreiben (5 Prompts)",
+    "local": "agent-library/prompts/schreiben.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-unternehmen",
+    "title": "BIZ",
+    "subtitle": "Aufgaben-Prompts: Unternehmen",
+    "document": "Agenten-Prompts: Unternehmen (4 Prompts)",
+    "local": "agent-library/prompts/unternehmen.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-projekt",
+    "title": "PLAN",
+    "subtitle": "Aufgaben-Prompts: Projektmanagement",
+    "document": "Agenten-Prompts: Projektmanagement (5 Prompts)",
+    "local": "agent-library/prompts/projektmanagement.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-design",
+    "title": "UX",
+    "subtitle": "Aufgaben-Prompts: Design und Produkt",
+    "document": "Agenten-Prompts: Design und Produkt (4 Prompts)",
+    "local": "agent-library/prompts/design-und-produkt.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  },
+  {
+    "id": "agent-prompts-betrieb",
+    "title": "OPS",
+    "subtitle": "Aufgaben-Prompts: Agentenbetrieb",
+    "document": "Agenten-Prompts: Agentenbetrieb (5 Prompts)",
+    "local": "agent-library/prompts/agentenbetrieb.md",
+    "licence": "Written for this repository (MIT)",
+    "category": "agent-library"
+  }
+]

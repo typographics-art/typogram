@@ -1,0 +1,167 @@
+{
+  "generated": "2026-10-17",
+  "source": "benchmark/testdoc.md",
+  "sourceChars": 1459,
+  "facts": [
+    "number",
+    "negation",
+    "percentage",
+    "clause",
+    "code",
+    "id"
+  ],
+  "results": [
+    {
+      "name": "Markdown",
+      "format": "text/markdown",
+      "bytes": 1508,
+      "extractedChars": 1459,
+      "wordRecall": 0.996,
+      "factsFound": 6,
+      "factsTotal": 6,
+      "facts": [
+        {
+          "k": "number",
+          "found": true
+        },
+        {
+          "k": "negation",
+          "found": true
+        },
+        {
+          "k": "percentage",
+          "found": true
+        },
+        {
+          "k": "clause",
+          "found": true
+        },
+        {
+          "k": "code",
+          "found": true
+        },
+        {
+          "k": "id",
+          "found": true
+        }
+      ],
+      "approxTokens": 365,
+      "extractMs": 0,
+      "note": ""
+    },
+    {
+      "name": "Ordinary PDF",
+      "format": "application/pdf",
+      "bytes": 44526,
+      "extractedChars": 1420,
+      "wordRecall": 0.988,
+      "factsFound": 6,
+      "factsTotal": 6,
+      "facts": [
+        {
+          "k": "number",
+          "found": true
+        },
+        {
+          "k": "negation",
+          "found": true
+        },
+        {
+          "k": "percentage",
+          "found": true
+        },
+        {
+          "k": "clause",
+          "found": true
+        },
+        {
+          "k": "code",
+          "found": true
+        },
+        {
+          "k": "id",
+          "found": true
+        }
+      ],
+      "approxTokens": 355,
+      "extractMs": 17,
+      "note": ""
+    },
+    {
+      "name": "Typographics Art PDF",
+      "format": "application/pdf",
+      "bytes": 72659,
+      "extractedChars": 1459,
+      "wordRecall": 0.996,
+      "factsFound": 6,
+      "factsTotal": 6,
+      "facts": [
+        {
+          "k": "number",
+          "found": true
+        },
+        {
+          "k": "negation",
+          "found": true
+        },
+        {
+          "k": "percentage",
+          "found": true
+        },
+        {
+          "k": "clause",
+          "found": true
+        },
+        {
+          "k": "code",
+          "found": true
+        },
+        {
+          "k": "id",
+          "found": true
+        }
+      ],
+      "approxTokens": 365,
+      "extractMs": 42,
+      "note": ""
+    },
+    {
+      "name": "Typographics Art as a flat image (OCR)",
+      "format": "image/png",
+      "bytes": 223948,
+      "extractedChars": 247,
+      "wordRecall": 0.219,
+      "factsFound": 0,
+      "factsTotal": 6,
+      "facts": [
+        {
+          "k": "number",
+          "found": false
+        },
+        {
+          "k": "negation",
+          "found": false
+        },
+        {
+          "k": "percentage",
+          "found": false
+        },
+        {
+          "k": "clause",
+          "found": false
+        },
+        {
+          "k": "code",
+          "found": false
+        },
+        {
+          "k": "id",
+          "found": false
+        }
+      ],
+      "approxTokens": 62,
+      "extractMs": 558,
+      "note": ""
+    }
+  ]
+}

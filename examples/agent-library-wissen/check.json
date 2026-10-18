@@ -1,0 +1,42 @@
+{
+  "id": "agent-library-wissen",
+  "document": "Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "3614307dd61db1261b6661fedd2240d2ee76bb5f4c5e6650ebcd11307eec4066",
+  "sourcePages": null,
+  "sourceBytes": 8582,
+  "extractor": "utf-8",
+  "characters": 8441,
+  "words": 1094,
+  "lines": 126,
+  "paper": "a4",
+  "fontSizeMm": 2.018,
+  "overflow": false,
+  "toneFidelity": 0.781,
+  "layoutMs": 565,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 7348,
+    "sha256Source": "caf999df5bccc8aaa732cdc2f66ccd988a0cc6f8090faa275f942b059a1448ec",
+    "sha256ReadBack": "caf999df5bccc8aaa732cdc2f66ccd988a0cc6f8090faa275f942b059a1448ec"
+  },
+  "pdfBytes": 166307,
+  "pdfBytesUnoptimized": 261875,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 7348,
+    "runs": 3783,
+    "outlines": 391,
+    "fonts": 10
+  },
+  "sizeFactor": 19.38,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "eu-ai-act",
+  "document": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal",
+  "category": "law",
+  "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
+  "url": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
+  "sourceSha256": "bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e",
+  "sourcePages": 144,
+  "sourceBytes": 2583319,
+  "extractor": "mutool draw -F txt",
+  "characters": 595706,
+  "words": 91421,
+  "lines": 637,
+  "paper": "a4",
+  "fontSizeMm": 0.446,
+  "overflow": false,
+  "toneFidelity": 0.892,
+  "layoutMs": 14865,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": false,
+    "visibleIdentical": true,
+    "visibleCharacters": 504285,
+    "sha256Source": "06e6651a20c6eb02d38b2899c03d0288c56f900f0cd9acdbce47f92e7d6de6e0",
+    "sha256ReadBack": "c50683aae1982de735acf2486b96406ad40ee1710e49941c2c3386a7cc1bdba6"
+  },
+  "pdfBytes": 2308016,
+  "pdfBytesUnoptimized": 2733371,
+  "printStrips": 3,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 504286,
+    "runs": 183827,
+    "outlines": 667,
+    "fonts": 10
+  },
+  "sizeFactor": 0.89,
+  "motif": "recipe:aiActNetwork",
+  "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT."
+}

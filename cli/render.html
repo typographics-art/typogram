@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>tg-art render</title>
+<style id="pageSize"></style>
+<style>html,body{margin:0;background:#fff}</style>
+</head>
+<body>
+<script type="module">
+// Rendering page driven by cli/core.mjs through the Chrome DevTools Protocol.
+import { typeset, toPng, ensureFont, measureGlyphs, readImage } from '../src/browser.js';
+import {
+  toStandaloneHtml, toSvg, toHtml, svgHead, svgLines, SVG_TAIL, forEachGlyph, isFaithful, lorem, normalizeText,
+  typesetSections, typesetWith, graphemes, FONTS, STRETCH_KEYWORD, GLYPH_CSS, rgbCss, pdfStats,
+} from '../src/index.js';
+import { RECIPES } from '../gallery/recipes.js';
+
+let poster = null; // the sheet the print, tile and preview helpers below work on
+
+async function loadImage(src) {
+  if (src.startsWith('recipe:')) return RECIPES[src.slice(7)]();
+  const img = new Image();
+  img.src = src;
+  await img.decode();
+  return img;
+}
+
+window.tgRender = async (text, src, opts, format) => {
+  let source = normalizeText(text), filler = 0;
+  if (opts.fill && opts.fill > source.length + 20) {
+    const original = source.length;
+    source = original ? source + ' ' + lorem(opts.fill - original - 1, original + 7) : lorem(opts.fill, 7);
+    filler = source.length - original;
+  }
+  const sheet = await typeset(source, await loadImage(src), opts);
+  const meta = {
+    faithful: isFaithful(sheet), toneFidelity: sheet.toneFidelity, lines: sheet.result.lines.length,
+    baseSize: sheet.result.fs, width: sheet.outW, height: sheet.outH, characters: sheet.text.length, filler,
+    overflow: sheet.result.overflow,
+  };
+  if (format === 'svg') return { meta, data: toSvg(sheet) };
+  if (format === 'html') {
+    return { meta, data: `<!doctype html>\n<html><head><meta charset="utf-8"><title>Typographics Art</title></head><body style="margin:0">\n${toStandaloneHtml(sheet)}\n</body></html>\n` };
+  }
+  if (format === 'png' || format === 'jpg') {
+    return { meta, data: toPng(sheet, opts.scale || 1, format === 'jpg' ? 'image/jpeg' : 'image/png') };
+  }
+  if (format === 'pdf') { // the CLI prints one page at physical size (cli/core.mjs printPoster)
+    poster = sheet;
+    return { meta: { ...meta, mmPerPx: opts.printWidthMm ? opts.printWidthMm / sheet.outW : 25.4 / 96 } };
+  }
+  throw new Error(`Unknown format: ${format}`);
+};
+// ---------- Posters with several panels (used by demo builders) ----------
+
+/** Sets a multi-panel poster. cfg: { sourceUrl, sections:[{from,to,motif,title}], options, imageWidth } */
+window.tgPoster = async (cfg) => {
+  const source = await (await fetch(cfg.sourceUrl)).text();
+  const font = FONTS[cfg.options.font || 'roboto'];
+  await ensureFont(font);
+  const sections = cfg.sections.map((p) => {
+    const { imageData } = readImage(RECIPES[p.motif](), null, cfg.imageWidth || 1600);
+    return { text: source.slice(p.from, p.to), image: imageData, title: p.title };
+  });
+  const metric = measureGlyphs(cfg.options.font || 'roboto', new Set(graphemes(normalizeText(source))));
+  const t0 = performance.now();
+  poster = typesetSections({ sections, metric, options: cfg.options });
+  return {
+    ms: Math.round(performance.now() - t0), faithful: isFaithful(poster), characters: poster.text.length,
+    lines: poster.result.lines.length, lineHeight: poster.result.L, fontSize: poster.result.fs, width: poster.outW,
+    height: poster.outH, pad: poster.pad, toneFidelity: poster.toneFidelity, sections: poster.sections,
+    font: font.label, weights: poster.weights,
+  };
+};
+window.tgSvg = (part, from, to) => (part === 'head' ? svgHead(poster) : part === 'tail' ? SVG_TAIL : svgLines(poster, from, to));
+window.tgLinesInfo = () => ({ pad: poster.pad, L: poster.result.L, fs: poster.result.fs, lines: poster.result.lines.length, outW: poster.outW, outH: poster.outH });
+window.tgLineLengths = () => poster.result.lines.map((l) => l.items.reduce((n, it) => n + it.ch.length, 0));
+window.tgLineTexts = (from, to) => poster.result.lines.slice(from, to).map((l) => l.items.map((it) => it.ch).join(''));
+
+// Draws the glyphs of the poster region [x, y, size×size in output px at `scale`] into a canvas.
+function drawRegion(c, scale, x0, y0, w, h) {
+  const g = c.getContext('2d');
+  const { font, weights, paper, colorOf, result, pad } = poster, { L, fs } = result;
+  g.fillStyle = rgbCss(paper.paper); g.fillRect(0, 0, c.width, c.height);
+  g.save(); g.scale(scale, scale); g.translate(-x0 / scale, -y0 / scale);
+  g.textBaseline = 'alphabetic';
+  const top = y0 / scale, bottom = (y0 + h) / scale, left = x0 / scale, right = (x0 + w) / scale;
+  const from = Math.max(0, Math.floor((top - pad) / L) - 1), to = Math.min(result.lines.length, Math.ceil((bottom - pad) / L) + 1);
+  let last = '';
+  forEachGlyph(poster, (it, x, y, i) => {
+    if (it.ch === ' ' || x > right || x + it.adv < left) return;
+    const f = `${weights[it.wi]} ${STRETCH_KEYWORD[font.widths[it.wd]] || 'normal'} ${(fs * it.s).toFixed(3)}px ${font.canvas}`;
+    if (f !== last) { g.font = f; last = f; }
+    g.fillStyle = colorOf(it, i) || rgbCss(paper.ink);
+    g.fillText(it.ch, x, y);
+  }, from, to);
+  g.restore();
+}
+/** One tile of a zoom pyramid, rendered from the glyphs. */
+window.tgTile = (scale, x, y, w, h, quality = 0.82) => {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  drawRegion(c, scale, x, y, w, h);
+  return c.toDataURL('image/jpeg', quality);
+};
+/** The whole poster at a small scale, kept for building the lower pyramid levels by halving. */
+let base = null;
+window.tgBase = (scale) => {
+  base = document.createElement('canvas');
+  base.width = Math.ceil(poster.outW * scale); base.height = Math.ceil(poster.outH * scale);
+  drawRegion(base, scale, 0, 0, base.width, base.height);
+  return [base.width, base.height];
+};
+window.tgHalveBase = () => {
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.ceil(base.width / 2)); c.height = Math.max(1, Math.ceil(base.height / 2));
+  const g = c.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(base, 0, 0, c.width, c.height);
+  base = c;
+  return [c.width, c.height];
+};
+window.tgBaseTile = (x, y, w, h, quality = 0.82) => {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  c.getContext('2d').drawImage(base, x, y, w, h, 0, 0, w, h);
+  return c.toDataURL('image/jpeg', quality);
+};
+window.tgBaseImage = (width, quality = 0.85) => {
+  let src = base; // halve step by step: one large downscale would alias the fine type
+  while (src.width > width * 2) {
+    const h = document.createElement('canvas'); h.width = Math.ceil(src.width / 2); h.height = Math.ceil(src.height / 2);
+    const hg = h.getContext('2d'); hg.imageSmoothingQuality = 'high'; hg.drawImage(src, 0, 0, h.width, h.height); src = h;
+  }
+  const c = document.createElement('canvas'); c.width = width; c.height = Math.round(src.height * width / src.width);
+  const g = c.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(src, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', quality);
+};
+/** Lines [from, to) at full width as PNG, for OCR. */
+window.tgLinesPng = (from, to, scale) => {
+  const { pad, result, outW } = poster, y0 = (pad + from * result.L) * scale, h = Math.ceil((to - from) * result.L * scale + result.L * scale * 0.4);
+  const c = document.createElement('canvas'); c.width = Math.ceil(outW * scale); c.height = h;
+  drawRegion(c, scale, 0, y0 - result.L * scale * 0.2, c.width, h);
+  return c.toDataURL('image/png');
+};
+/**
+ * One poster line cut at word boundaries into `parts` segments, each as PNG plus the exact text of the
+ * glyphs it contains. OCR engines read a 12 000 px line as several blocks in arbitrary order; segments
+ * with their own ground truth measure recognition instead of layout analysis.
+ */
+window.tgLineSegments = (line, parts, scale) => {
+  const { result, pad } = poster, { L } = result, glyphs = [];
+  forEachGlyph(poster, (it, x) => glyphs.push({ ch: it.ch, x, w: it.adv }), line, line + 1);
+  const end = glyphs.length ? glyphs[glyphs.length - 1].x + glyphs[glyphs.length - 1].w : pad;
+  const cuts = [0];
+  for (let k = 1; k < parts; k++) {
+    const target = pad + ((end - pad) * k) / parts;
+    let best = -1;
+    glyphs.forEach((g, i) => { if (g.ch === ' ' && i > cuts[cuts.length - 1] && (best < 0 || Math.abs(g.x - target) < Math.abs(glyphs[best].x - target))) best = i; });
+    if (best > 0) cuts.push(best + 1);
+  }
+  cuts.push(glyphs.length);
+  const out = [];
+  for (let k = 0; k + 1 < cuts.length; k++) {
+    const seg = glyphs.slice(cuts[k], cuts[k + 1]);
+    if (!seg.length) continue;
+    const x0 = seg[0].x - L * 0.6, x1 = seg[seg.length - 1].x + seg[seg.length - 1].w + L * 0.6;
+    const y0 = pad + (line - 0.35) * L, y1 = pad + (line + 1.35) * L;
+    const c = document.createElement('canvas');
+    c.width = Math.ceil((x1 - x0) * scale); c.height = Math.ceil((y1 - y0) * scale);
+    // draw only this line: blank out neighbours by clipping
+    const g = c.getContext('2d');
+    drawRegion(c, scale, x0 * scale, y0 * scale, c.width, c.height);
+    const top = (pad + line * L - y0) * scale, bottom = (pad + (line + 1) * L - y0) * scale;
+    g.fillStyle = rgbCss(poster.paper.paper);
+    g.fillRect(0, 0, c.width, Math.max(0, top - L * scale * 0.18));
+    g.fillRect(0, bottom + L * scale * 0.18, c.width, c.height);
+    out.push({ png: c.toDataURL('image/png'), truth: seg.map((x) => x.ch).join('') });
+  }
+  return out;
+};
+/** Puts lines [from, to) on the page as HTML at physical size, ready for printing one strip. */
+window.tgPrintStrip = async (from, to, mmPerPx) => {
+  const { pad, result, outW, paper, font } = poster, { L } = result;
+  const first = from === 0, lastStrip = to === result.lines.length;
+  // The last strip reaches down to the sheet's full height, so the page is exactly as tall as the sheet
+  // (an A4 one-pager is 297 mm even when the text ends a few lines above the bottom margin).
+  const top = first ? 0 : pad + from * L;
+  const hPx = lastStrip ? poster.outH - top : (to - from) * L + (first ? pad : 0);
+  const zoom = mmPerPx * 96 / 25.4; // CSS px per poster px
+  document.getElementById('pageSize').textContent = `@page{size:${(outW * mmPerPx).toFixed(2)}mm ${(hPx * mmPerPx).toFixed(2)}mm;margin:0}`;
+  // The outer box has the physical page size: transforms do not change layout size, and Chrome paginates by layout.
+  document.body.innerHTML = `<div style="width:${(outW * mmPerPx).toFixed(3)}mm;height:${(hPx * mmPerPx).toFixed(3)}mm;overflow:hidden">` +
+    `<div style="width:${outW}px;height:${hPx}px;box-sizing:border-box;padding:${first ? pad : 0}px ${pad}px 0;` +
+    `transform:scale(${zoom});transform-origin:0 0;background:${rgbCss(paper.paper)};color:${rgbCss(paper.ink)};` +
+    `font-family:${font.css};font-variation-settings:${font.variations};${GLYPH_CSS};-webkit-print-color-adjust:exact;print-color-adjust:exact">` +
+    toHtml(poster, from, to) + '</div></div>';
+  document.body.style.background = rgbCss(paper.paper);
+  await document.fonts.ready;
+  return { widthMm: outW * mmPerPx, heightMm: hPx * mmPerPx };
+};
+
+// ---------- One-pagers: a whole document on one page, its title formed by the text ----------
+
+/** Title card: the title in heavy type, as large as fits, a smaller subtitle below. */
+function titleCard(title, subtitle, w, h, family, image) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+  if (image) return imageCard(c, g, title, subtitle, w, h, family, image);
+  g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  // Pieces: words, further split at soft hyphens (U+00AD) where the title may break with a visible hyphen.
+  const pieces = [];
+  for (const word of title.split(/\s+/).filter(Boolean)) {
+    const parts = word.split('\u00ad');
+    parts.forEach((t, i) => pieces.push({ t, hyphen: i < parts.length - 1 }));
+  }
+  const maxW = w * 0.9, maxH = h * (subtitle ? 0.66 : 0.78);
+  const wrap = (size) => {
+    g.font = `900 ${size}px ${family}`;
+    const lines = []; let cur = '', prevHyphen = false;
+    for (const p of pieces) {
+      const joined = cur ? cur + (prevHyphen ? '' : ' ') + p.t : p.t;
+      const shown = joined + (p.hyphen ? '-' : '');
+      if (!cur || g.measureText(shown).width <= maxW) { cur = joined; }
+      else { lines.push(cur + (prevHyphen ? '-' : '')); cur = p.t; }
+      prevHyphen = p.hyphen;
+    }
+    if (cur) lines.push(cur);
+    const widest = Math.max(...lines.map((l) => g.measureText(l).width));
+    return { lines, fits: widest <= maxW && lines.length * size * 1.02 <= maxH };
+  };
+  let lo = 8, hi = h, best = wrap(lo);
+  for (let i = 0; i < 24; i++) { const mid = (lo + hi) / 2, r = wrap(mid); if (r.fits) { best = { ...r, size: mid }; lo = mid; } else hi = mid; }
+  const size = best.size || lo, lineH = size * 1.02, sub = subtitle ? size * 0.24 : 0;
+  const block = best.lines.length * lineH + (subtitle ? sub * 2.2 : 0);
+  let y = (h - block) / 2 + size * 0.82;
+  g.font = `900 ${size}px ${family}`;
+  for (const l of best.lines) { g.fillText(l, w / 2, y); y += lineH; }
+  if (subtitle) {
+    g.font = `600 ${sub}px ${family}`;
+    g.fillText(subtitle, w / 2, y - lineH + size * 0.2 + sub * 1.6, maxW);
+  }
+  return c;
+}
+
+/** Diagnostic: each glyph drawn as a box shaded by its chosen ink coverage, and the target tone next to it. */
+window.tgCoverageMap = (width) => {
+  const { result, pad, outW, outH } = poster, sc = width / outW;
+  const c = document.createElement('canvas'); c.width = width * 2 + 10; c.height = Math.ceil(outH * sc);
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+  let max = 0; for (const ln of result.lines) for (const it of ln.items) max = Math.max(max, it.eff, it.base);
+  forEachGlyph(poster, (it, x, y, i) => {
+    const top = (pad + i * result.L) * sc, h = result.L * sc;
+    for (const [off, v] of [[0, it.eff], [width + 10, it.base]]) {
+      const k = Math.round(255 * (1 - v / max)); g.fillStyle = `rgb(${k},${k},${k})`;
+      g.fillRect(off + x * sc, top, Math.max(0.5, it.adv * sc), h);
+    }
+  });
+  return c.toDataURL('image/png');
+};
+/** The title card alone, for inspection. */
+window.tgTitleCard = async (title, subtitle, w, h, fontKey = 'roboto') => { await ensureFont(FONTS[fontKey]); return titleCard(title, subtitle, w, h, FONTS[fontKey].canvas).toDataURL('image/png'); };
+
+/** Image card: the motif fills the upper part of the page, a light band below carries the title. */
+function imageCard(c, g, title, subtitle, w, h, family, img) {
+  const bandH = Math.round(h * 0.2), ih = h - bandH;
+  const iw0 = img.naturalWidth || img.width, ih0 = img.naturalHeight || img.height;
+  // Fit the whole motif (no cropping of figures); fill the rest with the motif's average colour.
+  const px = document.createElement('canvas'); px.width = px.height = 1;
+  const pg = px.getContext('2d'); pg.drawImage(img, 0, 0, 1, 1);
+  const [r0, g0, b0] = pg.getImageData(0, 0, 1, 1).data;
+  g.fillStyle = `rgb(${r0},${g0},${b0})`; g.fillRect(0, 0, w, ih);
+  const s = Math.min(w / iw0, ih / ih0), dw = iw0 * s, dh = ih0 * s;
+  g.drawImage(img, (w - dw) / 2, (ih - dh) / 2, dw, dh);
+  g.fillStyle = '#fff'; g.fillRect(0, ih, w, bandH);
+  g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  const plain = title.replace(/\u00ad/g, '');
+  let size = bandH * 0.62;
+  g.font = `900 ${size}px ${family}`;
+  while (g.measureText(plain).width > w * 0.92 && size > 8) { size *= 0.95; g.font = `900 ${size}px ${family}`; }
+  const sub = subtitle ? Math.min(bandH * 0.16, size * 0.3) : 0;
+  const block = size * 0.78 + (subtitle ? sub * 1.5 : 0);
+  const top = ih + (bandH - block) / 2;
+  g.fillText(plain, w / 2, top + size * 0.78);
+  if (subtitle) { g.font = `600 ${sub}px ${family}`; g.fillText(subtitle, w / 2, top + size * 0.78 + sub * 1.45, w * 0.92); }
+  return c;
+}
+async function loadMotif(src) {
+  if (!src) return null;
+  if (src.startsWith('recipe:')) return RECIPES[src.slice(7)]();
+  const img = new Image(); img.src = src; await img.decode(); return img;
+}
+
+let lastCard = null;
+/** The picture the last one-pager was set to (title card or motif card), as PNG: what scripts/size-study.mjs compares against. */
+window.tgOnePageTarget = () => lastCard.toDataURL('image/png');
+/** The same picture scaled to w × h, as base64 RGB bytes (for comparisons without an image decoder). */
+window.tgOnePageTargetRgb = (w, h) => {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d'); g.drawImage(lastCard, 0, 0, w, h);
+  const d = g.getImageData(0, 0, w, h).data;
+  let bin = '';
+  for (let i = 0; i < d.length; i += 4) bin += String.fromCharCode(d[i], d[i + 1], d[i + 2]);
+  return btoa(bin);
+};
+
+/** Sets a whole document on one page. Afterwards tgPrintStrip / tgBase / tgBaseImage work on it. */
+window.tgOnePage = async ({ text, title, subtitle, options, motif }) => {
+  const fontKey = options.font || 'roboto', font = FONTS[fontKey];
+  await ensureFont(font);
+  document.title = title.replace(/\u00ad/g, ''); // becomes the PDF's Title metadata
+  const source = normalizeText(text);
+  const metric = measureGlyphs(fontKey, new Set(graphemes(source)));
+  const pad = Math.round(options.width * (options.margin ?? 0.025));
+  const card = titleCard(title, subtitle, 1400, Math.round(1400 * options.aspect), font.canvas, await loadMotif(motif));
+  lastCard = card;
+  const image = card.getContext('2d').getImageData(0, 0, card.width, card.height);
+  const t0 = performance.now();
+  poster = typesetWith({ text: source, metric, image, options });
+  return {
+    ms: Math.round(performance.now() - t0), faithful: isFaithful(poster), characters: poster.text.length,
+    lines: poster.result.lines.length, fontSize: poster.result.fs, width: poster.outW, height: poster.outH,
+    pad, overflow: poster.result.overflow, toneFidelity: poster.toneFidelity, pdf: pdfStats(poster),
+  };
+};
+
+/** A procedural motif as PNG (for publishing the motif next to its artwork). */
+window.tgRecipe = (name) => RECIPES[name]().toDataURL('image/png');
+
+window.tgReady = true;
+</script>
+</body>
+</html>

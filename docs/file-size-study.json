@@ -1,0 +1,566 @@
+{
+  "dpi": 50,
+  "blurMm": 1.5,
+  "results": [
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "full",
+      "label": "all weights, widths and sizes, colour step 6, tagged PDF",
+      "bytes": 4748234,
+      "bytesBeforeQpdf": 6908689,
+      "visibleChange": 0,
+      "readBackExact": true,
+      "reprints": 1,
+      "glyphs": 197448,
+      "runs": 150085,
+      "outlines": 3542,
+      "fonts": 98,
+      "pdfFonts": 282,
+      "seconds": 93,
+      "likeness": {
+        "brightness": 0.94,
+        "colour": 0.924
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "current",
+      "label": "as published so far (colour step 24)",
+      "bytes": 3696554,
+      "bytesBeforeQpdf": 5287198,
+      "visibleChange": 0.25,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 135217,
+      "outlines": 3542,
+      "fonts": 98,
+      "pdfFonts": 193,
+      "seconds": 68,
+      "likeness": {
+        "brightness": 0.939,
+        "colour": 0.923
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "untagged",
+      "label": "without accessibility tags",
+      "bytes": 3271534,
+      "bytesBeforeQpdf": 4846294,
+      "visibleChange": 0.25,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 135217,
+      "outlines": 3542,
+      "fonts": 98,
+      "pdfFonts": 193,
+      "seconds": 59,
+      "likeness": {
+        "brightness": 0.939,
+        "colour": 0.923
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "no-widths",
+      "label": "one width (no condensed/expanded)",
+      "bytes": 2887461,
+      "bytesBeforeQpdf": 4174149,
+      "visibleChange": 1.16,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 127756,
+      "outlines": 2971,
+      "fonts": 50,
+      "pdfFonts": 100,
+      "seconds": 52,
+      "likeness": {
+        "brightness": 0.938,
+        "colour": 0.924
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "weights-4",
+      "label": "4 weights, one width",
+      "bytes": 2025955,
+      "bytesBeforeQpdf": 2673879,
+      "visibleChange": 1.38,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 121774,
+      "outlines": 1386,
+      "fonts": 20,
+      "pdfFonts": 40,
+      "seconds": 47,
+      "likeness": {
+        "brightness": 0.942,
+        "colour": 0.927
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "weights-2",
+      "label": "2 weights, one width",
+      "bytes": 1598413,
+      "bytesBeforeQpdf": 1963028,
+      "visibleChange": 1.28,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 117906,
+      "outlines": 739,
+      "fonts": 10,
+      "pdfFonts": 20,
+      "seconds": 47,
+      "likeness": {
+        "brightness": 0.945,
+        "colour": 0.93
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "weights-1",
+      "label": "1 weight, one width (a single font)",
+      "bytes": 1404771,
+      "bytesBeforeQpdf": 1617989,
+      "visibleChange": 3.32,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 120735,
+      "outlines": 385,
+      "fonts": 5,
+      "pdfFonts": 10,
+      "seconds": 49,
+      "likeness": {
+        "brightness": 0.943,
+        "colour": 0.945
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "sizes-2",
+      "label": "2 sizes, one width",
+      "bytes": 2013553,
+      "bytesBeforeQpdf": 2650567,
+      "visibleChange": 1.24,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 130271,
+      "outlines": 1368,
+      "fonts": 20,
+      "pdfFonts": 40,
+      "seconds": 51,
+      "likeness": {
+        "brightness": 0.949,
+        "colour": 0.935
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "sizes-1",
+      "label": "1 size, one width",
+      "bytes": 1726495,
+      "bytesBeforeQpdf": 2100764,
+      "visibleChange": 1.46,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 139973,
+      "outlines": 741,
+      "fonts": 10,
+      "pdfFonts": 20,
+      "seconds": 59,
+      "likeness": {
+        "brightness": 0.963,
+        "colour": 0.954
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "color-48",
+      "label": "colour step 48, one width",
+      "bytes": 2782928,
+      "bytesBeforeQpdf": 4061739,
+      "visibleChange": 1.2,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 119827,
+      "outlines": 2971,
+      "fonts": 50,
+      "pdfFonts": 100,
+      "seconds": 54,
+      "likeness": {
+        "brightness": 0.938,
+        "colour": 0.923
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "color-96",
+      "label": "colour step 96, one width",
+      "bytes": 2753523,
+      "bytesBeforeQpdf": 4027546,
+      "visibleChange": 1.39,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 118387,
+      "outlines": 2971,
+      "fonts": 50,
+      "pdfFonts": 100,
+      "seconds": 50,
+      "likeness": {
+        "brightness": 0.931,
+        "colour": 0.918
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "w2-s1",
+      "label": "2 weights, 1 size, one width",
+      "bytes": 1185796,
+      "bytesBeforeQpdf": 1307326,
+      "visibleChange": 1.82,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 121680,
+      "outlines": 160,
+      "fonts": 2,
+      "pdfFonts": 4,
+      "seconds": 49,
+      "likeness": {
+        "brightness": 0.946,
+        "colour": 0.939
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "w1-s2",
+      "label": "1 weight, 2 sizes, one width",
+      "bytes": 1124787,
+      "bytesBeforeQpdf": 1240242,
+      "visibleChange": 3.4,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 108470,
+      "outlines": 159,
+      "fonts": 2,
+      "pdfFonts": 4,
+      "seconds": 39,
+      "likeness": {
+        "brightness": 0.951,
+        "colour": 0.951
+      }
+    },
+    {
+      "example": "ch-bundesverfassung",
+      "variant": "w1-s1",
+      "label": "1 weight, 1 size, one width: only colour or grey is left",
+      "bytes": 891122,
+      "bytesBeforeQpdf": 973230,
+      "visibleChange": 4.03,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 197448,
+      "runs": 86232,
+      "outlines": 83,
+      "fonts": 1,
+      "pdfFonts": 2,
+      "seconds": 36,
+      "likeness": {
+        "brightness": 0.911,
+        "colour": 0.9
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "full",
+      "label": "all weights, widths and sizes, colour step 6, tagged PDF",
+      "bytes": 765463,
+      "bytesBeforeQpdf": 935558,
+      "visibleChange": 0,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 40806,
+      "outlines": 617,
+      "fonts": 19,
+      "pdfFonts": 22,
+      "seconds": 35,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "current",
+      "label": "as published so far (colour step 24)",
+      "bytes": 765463,
+      "bytesBeforeQpdf": 935558,
+      "visibleChange": 0,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 40806,
+      "outlines": 617,
+      "fonts": 19,
+      "pdfFonts": 22,
+      "seconds": 35,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "untagged",
+      "label": "without accessibility tags",
+      "bytes": 637563,
+      "bytesBeforeQpdf": 803928,
+      "visibleChange": 0,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 40806,
+      "outlines": 617,
+      "fonts": 19,
+      "pdfFonts": 22,
+      "seconds": 35,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "no-widths",
+      "label": "one width (no condensed/expanded)",
+      "bytes": 573768,
+      "bytesBeforeQpdf": 718608,
+      "visibleChange": 0.3,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 34902,
+      "outlines": 540,
+      "fonts": 15,
+      "pdfFonts": 17,
+      "seconds": 28,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "weights-4",
+      "label": "4 weights, one width",
+      "bytes": 574755,
+      "bytesBeforeQpdf": 712135,
+      "visibleChange": 0.6,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 34306,
+      "outlines": 523,
+      "fonts": 12,
+      "pdfFonts": 15,
+      "seconds": 27,
+      "likeness": {
+        "brightness": 0.983,
+        "colour": 0.983
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "weights-2",
+      "label": "2 weights, one width",
+      "bytes": 606332,
+      "bytesBeforeQpdf": 758676,
+      "visibleChange": 0.77,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 34809,
+      "outlines": 608,
+      "fonts": 10,
+      "pdfFonts": 12,
+      "seconds": 24,
+      "likeness": {
+        "brightness": 0.977,
+        "colour": 0.977
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "weights-1",
+      "label": "1 weight, one width (a single font)",
+      "bytes": 714450,
+      "bytesBeforeQpdf": 805603,
+      "visibleChange": 2.2,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 62802,
+      "outlines": 325,
+      "fonts": 5,
+      "pdfFonts": 6,
+      "seconds": 39,
+      "likeness": {
+        "brightness": 0.982,
+        "colour": 0.982
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "sizes-2",
+      "label": "2 sizes, one width",
+      "bytes": 571781,
+      "bytesBeforeQpdf": 712720,
+      "visibleChange": 0.31,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 34830,
+      "outlines": 536,
+      "fonts": 10,
+      "pdfFonts": 12,
+      "seconds": 24,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "sizes-1",
+      "label": "1 size, one width",
+      "bytes": 755676,
+      "bytesBeforeQpdf": 909781,
+      "visibleChange": 0.43,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 55992,
+      "outlines": 575,
+      "fonts": 10,
+      "pdfFonts": 13,
+      "seconds": 36,
+      "likeness": {
+        "brightness": 0.994,
+        "colour": 0.994
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "color-48",
+      "label": "colour step 48, one width",
+      "bytes": 573768,
+      "bytesBeforeQpdf": 718608,
+      "visibleChange": 0.3,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 34902,
+      "outlines": 540,
+      "fonts": 15,
+      "pdfFonts": 17,
+      "seconds": 24,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "color-96",
+      "label": "colour step 96, one width",
+      "bytes": 573768,
+      "bytesBeforeQpdf": 718608,
+      "visibleChange": 0.3,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 34902,
+      "outlines": 540,
+      "fonts": 15,
+      "pdfFonts": 17,
+      "seconds": 25,
+      "likeness": {
+        "brightness": 0.995,
+        "colour": 0.995
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "w2-s1",
+      "label": "2 weights, 1 size, one width",
+      "bytes": 563292,
+      "bytesBeforeQpdf": 610601,
+      "visibleChange": 0.42,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 50006,
+      "outlines": 149,
+      "fonts": 2,
+      "pdfFonts": 4,
+      "seconds": 30,
+      "likeness": {
+        "brightness": 0.994,
+        "colour": 0.994
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "w1-s2",
+      "label": "1 weight, 2 sizes, one width",
+      "bytes": 634225,
+      "bytesBeforeQpdf": 684076,
+      "visibleChange": 2.72,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 60118,
+      "outlines": 150,
+      "fonts": 2,
+      "pdfFonts": 3,
+      "seconds": 36,
+      "likeness": {
+        "brightness": 0.979,
+        "colour": 0.979
+      }
+    },
+    {
+      "example": "de-grundgesetz",
+      "variant": "w1-s1",
+      "label": "1 weight, 1 size, one width: only colour or grey is left",
+      "bytes": 630895,
+      "bytesBeforeQpdf": 663303,
+      "visibleChange": 5.12,
+      "readBackExact": true,
+      "reprints": 0,
+      "glyphs": 164107,
+      "runs": 63491,
+      "outlines": 79,
+      "fonts": 1,
+      "pdfFonts": 2,
+      "seconds": 43,
+      "likeness": {
+        "brightness": 0.961,
+        "colour": 0.961
+      }
+    }
+  ]
+}

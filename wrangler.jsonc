@@ -1,0 +1,16 @@
+// Cloudflare Workers static-assets deployment of the website (typographics-art.org).
+//   node scripts/build-site.mjs && npx wrangler deploy
+// The GitHub Pages workflow is an alternative host for the same _site/ folder.
+{
+  "name": "typographics-art",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "routes": [
+    { "pattern": "typographics-art.org", "custom_domain": true },
+    { "pattern": "www.typographics-art.org", "custom_domain": true }
+  ]
+}

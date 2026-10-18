@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-code",
+  "document": "Agenten-Prompts: Softwareentwicklung (7 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "05e2e167ec72debb82e929104b11228239df80d016326c7152f5a5b63f0d3158",
+  "sourcePages": null,
+  "sourceBytes": 19703,
+  "extractor": "utf-8",
+  "characters": 19347,
+  "words": 2572,
+  "lines": 108,
+  "paper": "a4",
+  "fontSizeMm": 2.64,
+  "overflow": false,
+  "toneFidelity": 0.977,
+  "layoutMs": 586,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 16776,
+    "sha256Source": "158fca6875b57107fcc9ac5a219f3ea6b68b02bc0e4b286999364e13d164aea4",
+    "sha256ReadBack": "158fca6875b57107fcc9ac5a219f3ea6b68b02bc0e4b286999364e13d164aea4"
+  },
+  "pdfBytes": 211868,
+  "pdfBytesUnoptimized": 312772,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 16776,
+    "runs": 7253,
+    "outlines": 432,
+    "fonts": 10
+  },
+  "sizeFactor": 10.75,
+  "motif": null,
+  "motifCredit": null
+}

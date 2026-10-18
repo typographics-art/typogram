@@ -1,0 +1,168 @@
+{
+ "bip39": [
+  {
+   "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+   "passphrase": "TREZOR",
+   "seed": "c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04"
+  },
+  {
+   "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+   "passphrase": "",
+   "seed": "5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
+  },
+  {
+   "mnemonic": "all all all all all all all all all all all all",
+   "passphrase": "",
+   "seed": "c76c4ac4f4e4a00d6b274d5c39c700bb4a7ddc04fbc6f78e85ca75007b5b495f74a9043eeb77bdd53aa6fc3a0e31462270316fa04b8c19114c8798706cd02ac8"
+  },
+  {
+   "mnemonic": "all all all all all all all all all all all all",
+   "passphrase": "Zürich ✓",
+   "seed": "057e4dac6426c80642bee4ac2531ebc2343660c4732180ea8b681167f0293126ff906b194de9ba8488d94c835eb0f5eebbacbefe995303783d5b33e47046fa12"
+  }
+ ],
+ "entropy": [
+  {
+   "entropy": "00000000000000000000000000000000",
+   "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+  },
+  {
+   "entropy": "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
+   "mnemonic": "legal winner thank year wave sausage worth useful legal winner thank yellow"
+  },
+  {
+   "entropy": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+   "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo vote"
+  },
+  {
+   "entropy": "808080808080808080808080808080808080808080808080",
+   "mnemonic": "letter advice cage absurd amount doctor acoustic avoid letter advice cage absurd amount doctor acoustic avoid letter always"
+  }
+ ],
+ "slip21": [
+  {
+   "path": [],
+   "key": "dbf12b44133eaab506a740f6565cc117228cbf1dd70635cfa8ddfdc9af734756"
+  },
+  {
+   "path": [
+    "SLIP-0021"
+   ],
+   "key": "1d065e3ac1bbe5c7fad32cf2305f7d709dc070d672044a19e610c77cdf33de0d"
+  },
+  {
+   "path": [
+    "SLIP-0021",
+    "Master encryption key"
+   ],
+   "key": "ea163130e35bbafdf5ddee97a17b39cef2be4b4f390180d65b54cf05c6a82fde"
+  },
+  {
+   "path": [
+    "SLIP-0021",
+    "Authentication key"
+   ],
+   "key": "47194e938ab24cc82bfa25f6486ed54bebe79c40ae2a5a32ea6db294d81861a6"
+  }
+ ],
+ "master": {
+  "seedHex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "master": "da3426c8491db9cda8110552a9fbc1133b619ad3bbe7a4b81f0f379ecf194b5f",
+  "text": "tgmk1.BimBzkFKDJuisr52hS8o6jawWFAhKWAPga4yurcJPU9A2JN"
+ },
+ "recordKeys": [
+  {
+   "id": "a",
+   "context": "",
+   "key": "bd2aab075776f116bc60d48f309f33430039fcf86c7937c5d66f2f4f8152d4ab"
+  },
+  {
+   "id": "b",
+   "context": "",
+   "key": "a001d41b7efdb501930f8052ac4c6769fa456fb54475b44b9e9759d1945e6d73"
+  },
+  {
+   "id": "a",
+   "context": "x",
+   "key": "abda8478e519226fedad10ec4a023196ba47fa0932573686affd1eaa7a453e71"
+  },
+  {
+   "id": "Rechnung 2026/ä",
+   "context": "",
+   "key": "5b03885ea0d11291b706c8ce8836a6e6f7b0dc705fe23aaf49eca84c445f9f12"
+  },
+  {
+   "id": "x*512",
+   "context": "c",
+   "key": "7f330e7e7d5685e6e5aa30b91d6ae219a1a7a800379c1f528f4c103c04dea95e"
+  }
+ ],
+ "recipient": {
+  "secret0": "08977eaf39f2cf430093254f44c1a8cc4e1483164f3cb66c6d51eae44820057a",
+  "public0": "tgp1.7W79JZUy4EfXjtPGFeYuDUmnQTgW3XiQp4869BzzZJRiNie",
+  "secretText0": "tgq1.6yveQZkf37vXmdTCBaLndydWkaixCKhtXZV3Fqq87czrMzM",
+  "secret1": "313706cdd71f900234b82d8d0e50806510d0a6a795c1c2674023d79bfe4c62d5",
+  "public1": "tgp1.6tVBcprrUKSE7w87jVDtx6yoyMseXwjri32USwkrsXyMxPL"
+ },
+ "tgx2": {
+  "key": "df1c2eaf609eb7ef23cd0dc4bb89483ed14bb199a477a0a8ff94675322afbb03",
+  "digest": "8b87700e89a3dfbc44a04aa0fa3678a54e9bf4a2c719d1054544267a2768af54",
+  "tag": "c492da59",
+  "keyText": "tgx2.6nX85vRpfpfaxVv4KYhbndg7pKnicoTxs8GhDycDGVtvKyzhAHNQnW",
+  "unbound": "tgx2.tB7GPs61dJ45MFHtKXSEwFFJTyegKD6i82W4gDaNktNAXT6V",
+  "key16": "tgx2.BhPLyB91bfN4rn6HZSkdHVWpesQd5oYU"
+ },
+ "sealedWithSecret": {
+  "key": "tgx2.6nX85vRpfpfaxVv4KYhbndg7pKnicoTxs8GhDycDGVtvKyzhAHNQnW",
+  "record": "tgs1.AQGIDdSKsWtVfHoMj4HQyErGfJZmMqE3laAILDxVUTWkXj0DGW5Ag6Rx0I3NiuQ",
+  "plain": "secret note ✓"
+ },
+ "sealTo": [
+  {
+   "record": "tgr1.AQAwAQeVnFM1-X2dU9U2dG68TSnayGGCl_PI-ci6CenqGVKKKcMlMJ7sMKeotvc2zQ4Byq6XXPKMjlbZM_AGljab7qsXDuNVo9zOTQ",
+   "context": "work:abc",
+   "plain": "for the owner"
+  },
+  {
+   "record": "tgr1.AQG7Hu_QBV_9SOQF6Ts5ftFEzD8vYPGHTQ5Hh5yaRyVCOmak3Tyqsq6b6BDC0YdRrAnST0Xy819A-87tMUxmW-_KwkLqPSfyZbToGIsOuFFqprfzFco",
+   "context": "",
+   "plainHex": "000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b"
+  }
+ ],
+ "xor": [
+  "tgsh1.2Sfw2PmS43KQvoSaSys4HN7ixeo8REyC3pK96NFC42GygjG5Udz734trY1TZ5",
+  "tgsh1.2Sfw2PmS43KRbVHWRHQtSzkUgKzHhyTQJE29y7J3Qspgja33MHRxSckD25sjN",
+  "tgsh1.2Sfw2PmS43KUr9xDqt4juZRhev2Nq6hBQAFmpGLKZDgZ13iKb3hhawhpJUUFD"
+ ],
+ "shamir": [
+  "tgsh1.2Sx1T9i4FEasvHzkTLVfshU8Q3bJKhXgveJwAQuYcQytHWEfNz6TQki6LLuua",
+  "tgsh1.2Sx1T9i4FEatqeifkepooph6i4m1jWC6sVSUwB9T9BwVLPgFiXfihTd7QF1Uu",
+  "tgsh1.2Sx1T9i4FEawTfRYigBdpSXckaFp71P8DjyYcVrdg376cKHtUvNT2wh26oswE",
+  "tgsh1.2Sx1T9i4FEayGhk8ZbRTgL1FCWqTSDv7umF4KBYAPJ44wBpxhrm7fot4QaaAQ",
+  "tgsh1.2Sx1T9i4FEazS1UtQfwJavnVT7WaXjumaKnaqHemLGXasvbK5NsJyhrokDAAW"
+ ],
+ "secretHex": "01080f161d242b323940474e555c636a71787f868d949ba2a9b0b7bec5ccd3da",
+ "mixed": [
+  {
+   "password": "correct horse",
+   "half": "tgxm1.f7Q99xWvdBYqJhi48WWFewBib6EZ7qcuQRdRva45zFKRSQH6FWZU",
+   "key": "2a9d0940da2394079694cc6ef389478759be13a895b79cb3ada0a0ec5adaa14b"
+  },
+  {
+   "password": "Zürich ✓",
+   "half": "tgxm1.3unLSX5pQGR7h7RC6nJLPg3YULzZiWg8crwrA3pRtafGkmVT5bN8PH",
+   "key": "503f6a4b8361f36a81beeca9212a5c7f3e8fe8cfa4db822caabbce101f216937"
+  }
+ ],
+ "vault": {
+  "vault": "tgv1.AQIDEixdXwRzZWVkAQC743sjO8-FZIbuj-pK27HQHce52ZIiwvD6e4iaifN16Gbf74SV-VXb6uzINfEJx5vpP1NB_CQzFNTcup8HcGFzc2tleQIAKO7pZFzJWxe5WerQxitduRUpnprSRjMpT7Qat5sEV8s8qtAKdFaQj9ZV93PLrzgGw-SB8TDJklZHPMv-CnBhc3NwaHJhc2UDFQKAQAEBqSONu9YdEhfdI1diRNKwUbNQ1arzBhrur9WTaaGCDmRdqoZAijDE-kekLpBS2tNgjgvAUM_jcj3bp_5zzB54UODoDTngP8_brMwlCXqJny0",
+  "secret": "00bc7d850b68c6ee16b8a3ae916431c8ac57541b53b730af4d5829ab38c7f870",
+  "passphrase": "alpha beta gamma"
+ },
+ "passphrase": "begin lucky vivid trip despair tube mechanic fold",
+ "prf": {
+  "input": "070eebf6071887c48ac30210ba7e356782b5c676cd57e1dfc8138d33936cf0d5",
+  "factor": "0dd5b24f8961ce642fbb806301b1261ce42cddbeb87ef514278191c19e9ed455",
+  "seedFactor": "a619f899e2be7eb14504b6443397382b7629ede01c4c90357c9e8218c74effe1"
+ }
+}

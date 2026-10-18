@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found – Typographics Art</title>
+<meta name="description" content="This page does not exist. Typographics Art sets a text character for character so that it forms a picture.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<style>
+:root{--bg:#f4f4f1;--ink:#15171c;--muted:#5a6070;--line:#dcdfe5;--accent:#b8145a;color-scheme:light}
+@media (prefers-color-scheme: dark){:root{--bg:#101217;--ink:#e8eaef;--muted:#a1a8b5;--line:#2a2f39;--accent:#ff5c9d;color-scheme:dark}}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Roboto Flex',system-ui,sans-serif;box-sizing:border-box;display:flex;flex-direction:column;min-height:100vh}
+a{color:var(--accent);font-weight:700}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+a.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;font-weight:700;text-decoration:none}
+a.skip:focus{left:8px}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
+header .brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;font-variation-settings:'wdth' 112,'opsz' 48;margin-right:auto}
+.lang{display:flex;gap:4px}
+.lang button{font:inherit;font-size:13px;font-weight:700;min-width:44px;min-height:44px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+main{flex:1;display:grid;place-content:center;padding:32px 24px;text-align:center}
+h1{margin:0}
+.n{font-size:clamp(80px,18vw,180px);line-height:1;letter-spacing:-.02em;font-weight:400}
+.n span:nth-child(1){font-weight:150}.n span:nth-child(2){font-weight:550}.n span:nth-child(3){font-weight:1000;color:var(--accent)}
+p{color:var(--muted);font-size:18px;max-width:40ch;margin:16px auto}
+nav ul{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;list-style:none;padding:0;margin:20px 0 0}
+nav a{display:inline-block;padding:12px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none}
+nav a:hover{border-color:var(--accent)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<header>
+  <a class="brand" href="/">Typo<span>graphics Art</span></a>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div>
+</header>
+<main id="main">
+  <h1><span class="n" role="img" aria-label="404"><span>4</span><span>0</span><span>4</span></span></h1>
+  <p data-i18n="msg">This page does not exist. Every letter of it would still be readable, if it did.</p>
+  <nav aria-label="Where to go">
+    <ul>
+      <li><a href="/" data-i18n="home">Typographics Art home</a></li>
+      <li><a href="/app" data-i18n="make">Make your own</a></li>
+      <li><a href="/gallery" data-i18n="gallery">Gallery</a></li>
+      <li><a href="/examples" data-i18n="examples">One-pagers</a></li>
+    </ul>
+  </nav>
+</main>
+<script>
+const DE = { msg: 'Diese Seite gibt es nicht. Jeder Buchstabe davon wäre trotzdem lesbar, wenn es sie gäbe.', skip: 'Zum Inhalt springen', home: 'Zur Startseite', make: 'Selbst gestalten', gallery: 'Galerie', examples: 'One-Pager', title: 'Seite nicht gefunden – Typographics Art' };
+const EN = Object.fromEntries([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
+function setLang(l, remember) {
+  document.documentElement.lang = l;
+  document.title = l === 'de' ? DE.title : 'Page not found – Typographics Art';
+  document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = (l === 'de' ? DE : EN)[el.dataset.i18n]; });
+  document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+  if (remember) { try { localStorage.setItem('tg-art.lang', l); } catch { /* not remembered */ } }
+}
+let lang = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
+try { lang = localStorage.getItem('tg-art.lang') || lang; } catch { /* default */ }
+setLang(lang, false);
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang, true)));
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "name": "tg-art",
+  "version": "0.1.0",
+  "description": "Typographics Art: set a text character for character so that it forms a picture. The text stays readable text.",
+  "type": "module",
+  "author": "d0n <d0n@typographics-art.org> (https://typographics-art.org)",
+  "exports": {
+    ".": "./src/index.js",
+    "./browser": "./src/browser.js"
+  },
+  "files": [
+    "src",
+    "cli",
+    "gallery/recipes.js",
+    "assets/fonts",
+    "assets/vendor/pdfjs",
+    "assets/vendor/noble-hashes"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dev": "python3 -m http.server 8080",
+    "gallery": "node cli/build-gallery.mjs",
+    "render": "node cli/tg-art.mjs",
+    "assets": "node cli/build-assets.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "typographics-art",
+    "tg-art",
+    "ascii-art",
+    "typography",
+    "variable-fonts",
+    "text-art",
+    "calligram",
+    "generative-art"
+  ],
+  "homepage": "https://typographics-art.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typ0graphic5/tg-art.git"
+  },
+  "bugs": {
+    "url": "https://github.com/typ0graphic5/tg-art/issues"
+  },
+  "license": "MIT",
+  "bin": {
+    "tg-art": "./cli/tg-art.mjs",
+    "tg-secret": "./cli/tg-secret.mjs",
+    "tg-data": "./cli/tg-data.mjs",
+    "tg-crypt": "./cli/tg-crypt.mjs"
+  }
+}

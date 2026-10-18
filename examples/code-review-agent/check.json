@@ -1,0 +1,42 @@
+{
+  "id": "code-review-agent",
+  "document": "Code review agent: operating instructions (written for this repository)",
+  "category": "ai-instructions",
+  "licence": "MIT, Typographics Art contributors",
+  "url": null,
+  "sourceSha256": "3c97f8eaa214c237c2b21ef1b9d2dfb544281e1579065bfa3226e74ac3084cb0",
+  "sourcePages": null,
+  "sourceBytes": 3531,
+  "extractor": "utf-8",
+  "characters": 3514,
+  "words": 594,
+  "lines": 80,
+  "paper": "a4",
+  "fontSizeMm": 3.161,
+  "overflow": false,
+  "toneFidelity": 0.74,
+  "layoutMs": 417,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 2921,
+    "sha256Source": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3",
+    "sha256ReadBack": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3"
+  },
+  "pdfBytes": 108761,
+  "pdfBytesUnoptimized": 176147,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 2921,
+    "runs": 1653,
+    "outlines": 274,
+    "fonts": 10
+  },
+  "sizeFactor": 30.8,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

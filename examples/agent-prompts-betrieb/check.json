@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-betrieb",
+  "document": "Agenten-Prompts: Agentenbetrieb (5 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "10477cfa2d8bca96d2f8936d8561b1ce38a2c1d448e08bc57bcf0b8aa2548b4e",
+  "sourcePages": null,
+  "sourceBytes": 20600,
+  "extractor": "utf-8",
+  "characters": 20107,
+  "words": 2771,
+  "lines": 109,
+  "paper": "a4",
+  "fontSizeMm": 2.592,
+  "overflow": false,
+  "toneFidelity": 0.978,
+  "layoutMs": 628,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 17337,
+    "sha256Source": "d605486e33169f9da895c79da9c4cdda94d5fd8f8794e1184cfe3e964215df36",
+    "sha256ReadBack": "d605486e33169f9da895c79da9c4cdda94d5fd8f8794e1184cfe3e964215df36"
+  },
+  "pdfBytes": 212750,
+  "pdfBytesUnoptimized": 311357,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 17337,
+    "runs": 7786,
+    "outlines": 420,
+    "fonts": 10
+  },
+  "sizeFactor": 10.33,
+  "motif": null,
+  "motifCredit": null
+}

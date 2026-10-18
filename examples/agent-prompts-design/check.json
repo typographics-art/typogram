@@ -1,0 +1,41 @@
+{
+  "id": "agent-prompts-design",
+  "document": "Agenten-Prompts: Design und Produkt (4 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "04f2ac94ceaced50cf5517069ea79586e8e73fede88f4c35015374d939aef61e",
+  "sourcePages": null,
+  "sourceBytes": 20449,
+  "extractor": "utf-8",
+  "characters": 20051,
+  "words": 2637,
+  "lines": 111,
+  "paper": "a4",
+  "fontSizeMm": 2.565,
+  "overflow": false,
+  "toneFidelity": 0.972,
+  "layoutMs": 563,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 17415,
+    "sha256Source": "bdbd3579031cf65af2862c12d01b7fb714835a6e68df3c78d6554af9045b4d1b",
+    "sha256ReadBack": "bdbd3579031cf65af2862c12d01b7fb714835a6e68df3c78d6554af9045b4d1b"
+  },
+  "pdfBytes": 233996,
+  "pdfBytesUnoptimized": 346278,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 17415,
+    "runs": 7747,
+    "outlines": 490,
+    "fonts": 10
+  },
+  "sizeFactor": 11.44,
+  "motif": null,
+  "motifCredit": null
+}

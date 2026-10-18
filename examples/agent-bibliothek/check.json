@@ -1,0 +1,41 @@
+{
+  "id": "agent-bibliothek",
+  "document": "Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "3bc46de284cd57dc04cef8b9f55b0a699beb34a7e3b158547346aa8c8b411c84",
+  "sourcePages": null,
+  "sourceBytes": 229791,
+  "extractor": "utf-8",
+  "characters": 225554,
+  "words": 30205,
+  "lines": 361,
+  "paper": "a4",
+  "fontSizeMm": 0.786,
+  "overflow": false,
+  "toneFidelity": 0.972,
+  "layoutMs": 4580,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 195350,
+    "sha256Source": "32419a48b02767c5c6deeea55cfc121bb5e1f96780a98193f46e9b1367615ccc",
+    "sha256ReadBack": "32419a48b02767c5c6deeea55cfc121bb5e1f96780a98193f46e9b1367615ccc"
+  },
+  "pdfBytes": 911656,
+  "pdfBytesUnoptimized": 1161400,
+  "printStrips": 2,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 195350,
+    "runs": 53018,
+    "outlines": 634,
+    "fonts": 10
+  },
+  "sizeFactor": 3.97,
+  "motif": null,
+  "motifCredit": null
+}

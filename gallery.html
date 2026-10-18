@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Typographics Art Gallery</title>
+<meta name="description" content="Works of Typographics Art, ASCII art for the age of AI: texts set character for character so that they form a picture, and stay readable for machines.">
+<meta property="og:title" content="Typographics Art Gallery">
+<meta property="og:description" content="Fifteen works of Typographics Art: public-domain texts set character for character into a picture. Open the SVG and select, copy or search the text.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://typographics-art.org/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://typographics-art.org/gallery">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+/* Layout: header, then a responsive grid of works; each card is preview, title, source, settings, links. */
+:root{
+  --bg:#e9ecf1; --panel:#ffffff; --fg:#15171c; --muted:#596070; --line:#d3d8e0; --accent:#b8145a;
+  --f-ui:'Roboto Flex',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{--bg:#111318;--panel:#1a1d24;--fg:#e7e9ee;--muted:#9aa1ae;--line:#2c313b;--accent:#ff5c9d;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.5}
+.page{max-width:1300px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+h1{margin:0;font-size:30px;line-height:1.1;font-variation-settings:'wdth' 125,'opsz' 96;font-weight:850}
+h1 span{font-weight:150;font-variation-settings:'wdth' 60,'opsz' 96}
+h1 a{color:inherit;text-decoration:none}
+header p{margin:0;color:var(--muted);max-width:70ch;flex:1 1 320px}
+.nav{display:flex;gap:14px;margin-left:auto;font-size:14px;font-weight:600}
+.nav a,.lang button{color:var(--fg)}
+.nav a{text-decoration:none;border-bottom:1.5px solid var(--accent)}
+.lang{display:flex;gap:4px}
+.lang button{font:inherit;font-size:13px;font-weight:600;padding:4px 9px;border-radius:6px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;z-index:60;font-weight:700;text-decoration:none}
+.skip:focus{left:8px}
+@media (pointer:coarse),(max-width:900px){nav a,footer a,.links a{display:inline-block;padding:11px 6px}.lang button{min-height:44px;min-width:44px}}
+@media (pointer:coarse),(max-width:900px){.toolbar button,.flip{min-height:44px}}
+.card .pic{position:relative}
+.card a.preview{display:block;background:var(--line);aspect-ratio:4/5;overflow:hidden}
+.flip{position:absolute;right:10px;bottom:10px;font:inherit;font-size:13px;font-weight:700;padding:5px 11px;border-radius:999px;border:0;background:rgba(15,17,22,.78);color:#fff;cursor:pointer}
+.flip[aria-pressed="true"]{background:var(--accent)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.toolbar button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+.toolbar button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.toolbar span{color:var(--muted);font-size:13.5px}
+.credit{margin:0;color:var(--muted);font-size:12.5px}
+.card img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .4s}
+.card a.preview:hover img{transform:scale(1.04)}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.body h2 a.title{color:inherit;text-decoration:none}
+.body h2 a.title:hover{color:var(--accent)}
+.body h2{margin:0;font-size:18px;font-variation-settings:'wdth' 110,'opsz' 36;font-weight:750}
+.src{margin:0;color:var(--muted);font-size:13.5px}
+.facts{display:flex;flex-wrap:wrap;gap:4px 10px;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.links{display:flex;gap:12px;margin-top:auto;padding-top:6px;font-size:14px;font-weight:600}
+.links a{color:var(--accent)}
+.submit{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.submit h2{margin:0 0 4px;font-size:18px}
+.submit p{margin:0;max-width:70ch}
+.submit a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.card img{transition:none}}
+footer.foot{margin-top:40px;padding-block:24px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 24px}
+footer.foot a{color:inherit}
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+  <header>
+    <h1><a href="./">Typo<span>graphics Art</span></a></h1>
+    <p data-i18n="intro">Each work is real text: open the SVG and select, copy or search it. The picture comes only from size, weight and colour of the letters.</p>
+    <nav class="nav"><a href="demo/moby-dick/">Moby-Dick</a><a href="app" data-i18n="nav.make">Make your own</a><a href="https://github.com/typ0graphic5/tg-art">GitHub</a></nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="de" aria-pressed="false">DE</button>
+    </div>
+  </header>
+
+  <div class="toolbar" role="group" aria-label="View"><button type="button" id="show-tg" aria-pressed="true" data-i18n="view.tg">Typographics</button><button type="button" id="show-orig" aria-pressed="false" data-i18n="view.orig">Originals</button><span data-i18n="view.hint">or switch a single work with the button on its picture</span></div>
+  <main class="grid" id="main"><div id="grid" style="display:contents"></div></main>
+
+  <section class="submit">
+    <h2 data-i18n="submit.h">Show your work</h2>
+    <p><span data-i18n="submit.p">Made something with Typographics Art? Submit the SVG through an</span> <a href="https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml" data-i18n="submit.link">artwork issue</a>.</p>
+  </section>
+  <footer class="foot"><span>typographics-art.org</span><span data-i18n="footer.licence">MIT licence</span><a href="NOTICE.md">NOTICE</a><a href="https://github.com/typ0graphic5/tg-art">GitHub</a></footer>
+</div>
+
+<script type="module">
+const T = {
+  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview', original: 'Original', image: 'Image', views: 'Three views' },
+  de: {
+    intro: 'Jedes Werk ist echter Text: Öffne das SVG und markiere, kopiere oder durchsuche ihn. Das Bild entsteht nur aus Grösse, Stärke und Farbe der Buchstaben.',
+    skip: 'Zum Inhalt springen', 'footer.licence': 'MIT-Lizenz', 'nav.make': 'Selbst gestalten', 'submit.h': 'Zeig dein Werk', 'submit.p': 'Etwas mit Typographics Art gemacht? Reiche das SVG über ein', 'submit.link': 'Werk-Issue ein',
+    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau', original: 'Original', image: 'Bild', views: 'Drei Ansichten',
+    'view.tg': 'Typographics', 'view.orig': 'Originale', 'view.hint': 'oder ein einzelnes Werk mit dem Knopf auf seinem Bild umschalten',
+  },
+};
+const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+let lang = 'en', works = [], allOriginal = false;
+const flipped = new Set(); // works shown the other way than the toolbar says
+const orig = (w) => allOriginal !== flipped.has(w.id);
+const t = (k) => T[lang][k] ?? T.en[k];
+const fmt = (n) => n.toLocaleString(lang === 'de' ? 'de-CH' : 'en-US');
+
+function render() {
+  document.getElementById('grid').innerHTML = works.map((w) => `
+    <article class="card">
+      <div class="pic">
+        <a class="preview" href="${orig(w) ? esc(w.original) : `work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery`}"><img src="gallery/thumbs/${esc(w.id)}${orig(w) ? '-original' : ''}.jpg" decoding="async" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy"></a>
+        <button type="button" class="flip" data-id="${esc(w.id)}" aria-pressed="${orig(w)}">${orig(w) ? 'Typographics' : t('original')}</button>
+      </div>
+      <div class="body">
+        <h2><a class="title" href="work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery">${esc(w.title)}</a></h2>
+        <p class="src">${esc(w.source)}</p>
+        ${w.photoCredit ? `<p class="credit">${t('image')}: ${esc(w.photoCredit)}</p>` : ''}
+        <div class="facts">
+          <span>${fmt(w.meta.characters)} ${t('characters')}</span>
+          ${w.meta.filler ? `<span>${fmt(w.meta.filler)} ${t('filler')}</span>` : ''}
+          <span>${t('fidelity')} ${w.meta.toneFidelity.toFixed(2)}</span>
+        </div>
+        <div class="links"><a href="work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery">${t('views')}</a><a href="${esc(w.svg)}">${t('svg')}</a><a href="${esc(w.original)}">${t('original')}</a></div>
+      </div>
+    </article>`).join('');
+}
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const v = l === 'en' ? EN.get(el.dataset.i18n) : T.de[el.dataset.i18n];
+    if (v != null) el.textContent = v;
+  });
+  document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+  try { localStorage.setItem('tg-art.lang', l); } catch { /* not remembered */ }
+  render();
+}
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+document.getElementById('grid').addEventListener('click', (e) => {
+  const b = e.target.closest('.flip');
+  if (!b) return;
+  flipped.has(b.dataset.id) ? flipped.delete(b.dataset.id) : flipped.add(b.dataset.id);
+  render();
+});
+for (const [id, value] of [['show-tg', false], ['show-orig', true]]) {
+  document.getElementById(id).addEventListener('click', () => {
+    allOriginal = value; flipped.clear();
+    document.getElementById('show-tg').setAttribute('aria-pressed', String(!value));
+    document.getElementById('show-orig').setAttribute('aria-pressed', String(value));
+    render();
+  });
+}
+let initial = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
+try { initial = localStorage.getItem('tg-art.lang') || JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || initial; } catch { /* default */ }
+works = await (await fetch('gallery/works.json')).json();
+setLang(initial);
+</script>
+</body>
+</html>

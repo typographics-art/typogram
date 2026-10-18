@@ -1,0 +1,42 @@
+{
+  "id": "research-assistant",
+  "document": "Research assistant: rules for sources and claims (written for this repository)",
+  "category": "ai-instructions",
+  "licence": "MIT, Typographics Art contributors",
+  "url": null,
+  "sourceSha256": "52cfe9839a6554f128f7ebe512e102bb5cb6726e048f0605006f8b4e30565022",
+  "sourcePages": null,
+  "sourceBytes": 2640,
+  "extractor": "utf-8",
+  "characters": 2625,
+  "words": 444,
+  "lines": 109,
+  "paper": "a4",
+  "fontSizeMm": 1.528,
+  "overflow": false,
+  "toneFidelity": 0.815,
+  "layoutMs": 443,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 2182,
+    "sha256Source": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
+    "sha256ReadBack": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9"
+  },
+  "pdfBytes": 103407,
+  "pdfBytesUnoptimized": 168428,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 2182,
+    "runs": 1397,
+    "outlines": 268,
+    "fonts": 10
+  },
+  "sizeFactor": 39.17,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "agent-regel-berechtigungen",
+  "document": "Agenten-Regel 4: Berechtigungen",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "45d62506650619c1f80354ed3ed886ca2a58a3b946e6e25cbb4e6d01bbffca12",
+  "sourcePages": null,
+  "sourceBytes": 3688,
+  "extractor": "utf-8",
+  "characters": 3625,
+  "words": 521,
+  "lines": 81,
+  "paper": "a4",
+  "fontSizeMm": 2.971,
+  "overflow": false,
+  "toneFidelity": 0.799,
+  "layoutMs": 511,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 3105,
+    "sha256Source": "21717813aed0720f5ea0532bd009ceb0c8abb905ac68c99b4492618bb0b0d348",
+    "sha256ReadBack": "21717813aed0720f5ea0532bd009ceb0c8abb905ac68c99b4492618bb0b0d348"
+  },
+  "pdfBytes": 122636,
+  "pdfBytesUnoptimized": 200008,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 3105,
+    "runs": 1802,
+    "outlines": 319,
+    "fonts": 10
+  },
+  "sizeFactor": 33.25,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

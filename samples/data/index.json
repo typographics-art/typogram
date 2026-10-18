@@ -1,0 +1,16 @@
+[
+ {
+  "file": "bakery-orders.csv",
+  "format": "csv",
+  "title": "Bakery orders (CSV)",
+  "licence": "MIT",
+  "note": "Invented data: a fictional bakery. 30 orders."
+ },
+ {
+  "file": "bakery-orders.xlsx",
+  "format": "xlsx",
+  "title": "Bakery orders (Excel)",
+  "licence": "MIT",
+  "note": "The same orders with typed dates and a formula, plus a price sheet."
+ }
+]

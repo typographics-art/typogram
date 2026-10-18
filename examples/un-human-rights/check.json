@@ -1,0 +1,42 @@
+{
+  "id": "un-human-rights",
+  "document": "Universal Declaration of Human Rights, English text, OHCHR",
+  "category": "declaration",
+  "licence": "United Nations text, freely reproducible",
+  "url": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
+  "sourceSha256": "e75f479c5cc632e88dcf3da247bbef96b093462610c0eee53d281f1fe379661c",
+  "sourcePages": 8,
+  "sourceBytes": 195195,
+  "extractor": "mutool draw -F txt",
+  "characters": 10733,
+  "words": 1779,
+  "lines": 163,
+  "paper": "a4",
+  "fontSizeMm": 1.24,
+  "overflow": false,
+  "toneFidelity": 0.729,
+  "layoutMs": 965,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 8955,
+    "sha256Source": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb",
+    "sha256ReadBack": "8d547646f7a264d30b5c9f7594f2457db540eb482ec48585ddecd778f91268bb"
+  },
+  "pdfBytes": 142901,
+  "pdfBytesUnoptimized": 218128,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 8955,
+    "runs": 4414,
+    "outlines": 297,
+    "fonts": 10
+  },
+  "sizeFactor": 0.73,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

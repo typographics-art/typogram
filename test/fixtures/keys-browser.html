@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>keys browser test</title>
+<script type="module">
+import { mnemonicToSeed, slip21Master, masterFromSeed, formatMaster, recordKey, recipientSecret } from '/src/keys.js';
+import { publicFromSecret, formatPublic, openFrom } from '/src/keys-seal.js';
+import { formatKey2, openAny, workTag } from '/src/keys-work.js';
+import { joinShares, openVault, factorFromMaster, mixedKey, prfInput, factorFromPrf } from '/src/keys-split.js';
+import { stretch } from '/src/keys-kdf.js';
+import { toHex, fromHex } from '/src/crypt-codec.js';
+import { workDigest } from '/src/crypt.js';
+
+window.runKeys = async (v, work) => {
+  const out = {};
+  out.bip39 = []; for (const x of v.bip39) out.bip39.push(toHex(await mnemonicToSeed(x.mnemonic, x.passphrase)));
+  const s21 = await mnemonicToSeed('all all all all all all all all all all all all', '');
+  out.slip21master = toHex((await slip21Master(s21)).key);
+  const master = await masterFromSeed(fromHex(v.master.seedHex));
+  out.masterText = await formatMaster(master);
+  out.recordKeys = []; for (const r of v.recordKeys) out.recordKeys.push(toHex(await recordKey(master, r.id.startsWith('x*') ? 'x'.repeat(Number(r.id.slice(2))) : r.id, r.context)));
+  const rs = await recipientSecret(master, 0);
+  out.recipientPublic = await formatPublic(await publicFromSecret(rs));
+  out.tgx2 = await formatKey2({ secret: await recordKey(master, 'tgx2-vector'), digest: await workDigest(work) });
+  out.opened = (await openAny(work, { key: v.sealedWithSecret.key, record: v.sealedWithSecret.record })).text;
+  out.openedTo = (await openFrom(rs, v.sealTo[0].record, { context: v.sealTo[0].context })).text;
+  out.shamir = toHex(await joinShares([v.shamir[4], v.shamir[0], v.shamir[2]]));
+  out.xor = toHex(await joinShares(v.xor));
+  out.mixed = []; for (const m of v.mixed) out.mixed.push(toHex(await mixedKey(m.half, m.password)));
+  out.vault = toHex((await openVault(v.vault.vault, { seed: { key: await factorFromMaster(master) }, passphrase: { passphrase: v.vault.passphrase } })).secret);
+  const t0 = performance.now();
+  out.argon = toHex(await stretch('browser', new Uint8Array(16).fill(2), { kdf: 'argon2id', memoryKiB: 65536, passes: 3, parallelism: 1 }));
+  out.argonMs = Math.round(performance.now() - t0);
+  const t1 = performance.now();
+  out.pbkdf2 = toHex(await stretch('browser', new Uint8Array(16).fill(2), { kdf: 'pbkdf2-sha512', iterations: 600000 }));
+  out.pbkdf2Ms = Math.round(performance.now() - t1);
+  out.x25519 = await crypto.subtle.generateKey('X25519', true, ['deriveBits']).then(() => true, () => false);
+  out.secure = window.isSecureContext;
+  out.ua = navigator.userAgent;
+  out.storage = { local: localStorage.length, session: sessionStorage.length };
+  return out;
+};
+window.ready = true;
+// ?report: run on the frozen vectors and POST the result (for browsers that cannot be driven over the DevTools protocol, e.g. Firefox)
+if (location.search.includes('report')) {
+  const v = await (await fetch('/test/fixtures/key-management-vectors.json')).json();
+  const work = await (await fetch('/test/fixtures/work.txt')).text();
+  let body;
+  try { body = JSON.stringify(await window.runKeys(v, work)); } catch (e) { body = JSON.stringify({ error: String(e) }); }
+  await fetch('/report', { method: 'POST', body });
+}
+</script>

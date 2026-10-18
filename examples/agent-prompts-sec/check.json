@@ -1,0 +1,42 @@
+{
+  "id": "agent-prompts-sec",
+  "document": "Agenten-Prompts: Software-Sicherheit (4 Prompts)",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "75834069b7cd86442740597a27b6fd4e41e61e233fc300050c2adb4edcbc804d",
+  "sourcePages": null,
+  "sourceBytes": 13747,
+  "extractor": "utf-8",
+  "characters": 13532,
+  "words": 1695,
+  "lines": 166,
+  "paper": "a4",
+  "fontSizeMm": 1.23,
+  "overflow": false,
+  "toneFidelity": 0.794,
+  "layoutMs": 998,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 11838,
+    "sha256Source": "6e8f8d377b1307327e950a8d5bcdee04080172ded7bc54746fb8619ccd7011d9",
+    "sha256ReadBack": "6e8f8d377b1307327e950a8d5bcdee04080172ded7bc54746fb8619ccd7011d9"
+  },
+  "pdfBytes": 208122,
+  "pdfBytesUnoptimized": 318018,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 11838,
+    "runs": 5785,
+    "outlines": 479,
+    "fonts": 10
+  },
+  "sizeFactor": 15.14,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

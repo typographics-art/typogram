@@ -1,0 +1,42 @@
+{
+  "id": "agent-library-readme",
+  "document": "Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts",
+  "category": "agent-library",
+  "licence": "Written for this repository (MIT)",
+  "url": null,
+  "sourceSha256": "8aa8057291fb3d1e5642736c9706a91a5d894d12bbdba8e686a25f0f7c2e84d6",
+  "sourcePages": null,
+  "sourceBytes": 7449,
+  "extractor": "utf-8",
+  "characters": 7350,
+  "words": 950,
+  "lines": 121,
+  "paper": "a4",
+  "fontSizeMm": 1.801,
+  "overflow": false,
+  "toneFidelity": 0.768,
+  "layoutMs": 551,
+  "check": {
+    "extractor": "mutool draw -F txt",
+    "pages": 1,
+    "exact": true,
+    "visibleIdentical": true,
+    "visibleCharacters": 6401,
+    "sha256Source": "60c208a49776f9fbf2f087585331b8b60a7b95629486a5e6f045e2d29c0c7772",
+    "sha256ReadBack": "60c208a49776f9fbf2f087585331b8b60a7b95629486a5e6f045e2d29c0c7772"
+  },
+  "pdfBytes": 158750,
+  "pdfBytesUnoptimized": 251826,
+  "printStrips": 1,
+  "reprints": 0,
+  "pdfStats": {
+    "glyphs": 6401,
+    "runs": 3456,
+    "outlines": 384,
+    "fonts": 10
+  },
+  "sizeFactor": 21.31,
+  "motif": null,
+  "motifCredit": null,
+  "text": "source.txt"
+}

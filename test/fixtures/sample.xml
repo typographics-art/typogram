@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a comment that is dropped -->
+<catalog xmlns="urn:example:catalog" xmlns:x="urn:example:extra" version="2">
+  <book id="b1" x:lang="de">
+    <title>Müller &amp; Söhne</title>
+    <price currency="CHF">19.90</price>
+    <note>Mixed <b>content</b> with  two  spaces and a <![CDATA[<cdata & stuff>]]> section.</note>
+    <empty/>
+  </book>
+  <book id="b2">
+    <title>Zoë 😀</title>
+  </book>
+</catalog>

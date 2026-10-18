@@ -1,0 +1,167 @@
+{
+  "generated": "2026-10-17T14:20:55.829Z",
+  "source": {
+    "title": "Moby-Dick; or, The Whale",
+    "author": "Herman Melville",
+    "year": 1851,
+    "status": "public domain",
+    "origin": "Project Gutenberg eBook #2701",
+    "url": "https://www.gutenberg.org/cache/epub/2701/pg2701.txt",
+    "rawSha256": "b5e88b71a1cda068e9ab1d94344c9d932338ba6da1a66def97a1aecd9cfcc87d",
+    "sha256": "b8d4a465cfb1eb0c7c8a3bd597f0af7666d00caa5d3a40aa52f7af9819e31d7b",
+    "characters": 1218974,
+    "chapters": 135,
+    "epilogueAt": 1217466
+  },
+  "poster": {
+    "widthMm": 2000,
+    "heightMm": 3000,
+    "mmPerPx": 0.5,
+    "margin": 0.025,
+    "options": {
+      "font": "roboto",
+      "legibility": "medium",
+      "color": "photo",
+      "paper": "light",
+      "unit": "char",
+      "contrast": 1.9,
+      "edges": 0.8,
+      "lineSpacing": 1,
+      "width": 3810,
+      "aspect": 1.5249343832020998
+    },
+    "characters": 1214967,
+    "lines": 885,
+    "fontSizeMm": 3.2578125,
+    "toneFidelity": 0.8968102428672086,
+    "sections": [
+      {
+        "title": "Part I – Ashore and out to sea",
+        "firstLine": 0,
+        "lineCount": 313,
+        "characters": 409272,
+        "y": 0,
+        "height": 2039.390625,
+        "motif": "harbour",
+        "firstChapter": "Etymology",
+        "heightMm": 1019.6953125
+      },
+      {
+        "title": "Part II – The whaling voyage",
+        "firstLine": 313,
+        "lineCount": 276,
+        "characters": 400736,
+        "y": 2039.390625,
+        "height": 1798.3125,
+        "motif": "hunt",
+        "firstChapter": "Chapter 42",
+        "heightMm": 899.15625
+      },
+      {
+        "title": "Part III – The white whale",
+        "firstLine": 589,
+        "lineCount": 296,
+        "characters": 404957,
+        "y": 3837.703125,
+        "height": 1928.625,
+        "motif": "whiteWhale",
+        "firstChapter": "Chapter 86",
+        "heightMm": 964.3125
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Full text from the SVG equals the source (SHA-256)",
+      "pass": true,
+      "detail": {
+        "source": "744a89261a75f10e4f5da3f37fd59eb8618c859147b902584f08dadf3ab69028",
+        "extracted": "744a89261a75f10e4f5da3f37fd59eb8618c859147b902584f08dadf3ab69028",
+        "characters": 1214967
+      }
+    },
+    {
+      "id": "T2",
+      "name": "Every visible character of the print PDF equals the source (MuPDF)",
+      "pass": true,
+      "detail": {
+        "extractor": "mutool draw -F txt",
+        "visibleCharacters": 1002170,
+        "exact": false,
+        "bidiMarksInSource": 2,
+        "characters": 1214964
+      }
+    },
+    {
+      "id": "T3",
+      "name": "100 random 160-character passages are found at their original position",
+      "pass": true,
+      "detail": {
+        "found": 100,
+        "of": 100
+      }
+    },
+    {
+      "id": "T4",
+      "name": "Chapter structure intact (table of contents and 135 chapters, in order)",
+      "pass": true,
+      "detail": {
+        "headings": 271
+      }
+    },
+    {
+      "id": "T5",
+      "name": "Opening and closing of the book intact",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "id": "T6",
+      "name": "Word frequencies (top 25) identical",
+      "pass": true,
+      "detail": {
+        "top": [
+          "the 14535",
+          "of 6624",
+          "and 6447",
+          "a 4747",
+          "to 4627",
+          "in 4184",
+          "that 3085",
+          "his 2532"
+        ]
+      }
+    },
+    {
+      "id": "T7",
+      "name": "Question set: every answer has its evidence in the extracted text",
+      "pass": true,
+      "detail": {
+        "grounded": 8,
+        "of": 8
+      }
+    }
+  ],
+  "ocr": {
+    "lines": 16,
+    "segments": 128,
+    "words": 3904,
+    "recognised": 2838,
+    "accuracy": 0.7269467213114754,
+    "pxPerMm": 2
+  },
+  "poppler": {
+    "exact": false,
+    "characters": 1005124,
+    "wordsInSource": 0.5456645300731722
+  },
+  "vision": {
+    "model": "Claude (Anthropic, Opus 5.5), reading the segment images directly",
+    "procedure": "The three segments with the lowest Tesseract scores were stacked into one image without looking at their ground truth; the transcription was written down before comparing. Cut-off fragments of neighbouring words at the left edge were left out; a cut-off letter at the right edge was transcribed as seen.",
+    "segments": 3,
+    "words": 146,
+    "accuracy": 1,
+    "tesseractOnSameSegments": 0.04794520547945205
+  }
+}
