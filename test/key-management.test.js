@@ -571,6 +571,8 @@ test('cli: seal to a public key, open with the secret or with the master key plu
   } finally { rmSync(dir, { recursive: true }); }
 });
 test('cli: a password alone no longer seals a record without --accept-password-only, and publish refuses such records', () => {
+  // `publish` is an experiment and hidden from the public command list; the test switches it on for its own runs.
+  const runX = (args, o = {}) => run(args, { ...o, env: { ...(o.env || {}), TG_CRYPT_EXPERIMENTAL: '1' } });
   const dir = mkdtempSync(join(tmpdir(), 'tgkeys-'));
   try {
     const rec = join(dir, 'p.tgs');
@@ -579,12 +581,12 @@ test('cli: a password alone no longer seals a record without --accept-password-o
     const yes = run(['seal', '-', '--message', 'x', '--no-bind', '--password-stdin', '--accept-password-only', '--iterations', '100000', '-o', rec], { input: 'correct horse\n' });
     assert.equal(yes.status, 0, yes.stderr);
     const chain = join(dir, 'chain.json'), store = join(dir, 'store');
-    const pub = run(['publish', rec, '--chain', chain, '--store', store]);
+    const pub = runX(['publish', rec, '--chain', chain, '--store', store]);
     assert.equal(pub.status, 1); assert.match(pub.stderr, /password alone/);
-    assert.equal(run(['publish', rec, '--chain', chain, '--store', store, '--accept-password-only']).status, 0);
+    assert.equal(runX(['publish', rec, '--chain', chain, '--store', store, '--accept-password-only']).status, 0);
     const keyed = join(dir, 'k.tgs');
     assert.equal(run(['seal', '-', '--message', 'x', '--no-bind', '-o', keyed]).status, 0);
-    assert.equal(run(['publish', keyed, '--chain', chain, '--store', store]).status, 0);
+    assert.equal(runX(['publish', keyed, '--chain', chain, '--store', store]).status, 0);
     const help = run(['--help']).stdout;
     for (const w of ['master', 'derive', 'recipient', 'split', 'join', '--to', 'TG_CRYPT_MASTER', 'TG_CRYPT_MNEMONIC', '--accept-password-only']) assert.ok(help.includes(w), w);
     assert.doesNotMatch(help, /--master </);

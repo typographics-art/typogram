@@ -11,7 +11,6 @@ Companion of [encrypted-data.md](encrypted-data.md). Every number below comes fr
 | `tgx1.` | key of a sealed record: 16 or 32 random bytes, optional work fingerprint, optionally the whole record | base58 | **encryption** (AES-256-GCM) | implemented (`src/crypt.js`) |
 | `tgs1.` | the sealed record itself (public ciphertext) | base64url | needs the key; carries no secret | implemented |
 | `TGS1[ … ]TGS1` | a sealed record inside a work's text, whitespace-tolerant like `TGD1[ … ]TGD1` | base64url | – | implemented (`findSealedBlocks`) |
-| `TGA1` + … | the 37 to 80 byte payload of the on-chain anchor (a commitment) | binary | – | implemented (`anchorPayload`), chain access designed only |
 
 The rule for structured data is therefore: **a TGD block is sealed (`tgx1.` + `tgs1.`), never book-ciphered.** Section 4 of [encrypted-data.md](encrypted-data.md) has the measurements that decided it.
 
@@ -86,14 +85,6 @@ kind   : 1 TGD body (the block without its frame, whitespace removed), 2 UTF-8 t
 
 After opening, a `kind` 1 body is wrapped in `TGD1[` … `]TGD1` and decoded by the TGD reader, which verifies its own `sum`; the result is recognised as TGD by the kind byte **and** the envelope checksum.
 
-### 2.5 `TGA1` anchor payload
-
-```
-payload = "TGA1" , flags(1) , commitment(32) , [hint]       37 to 80 bytes, the OP_RETURN limit
-flags   : bit 0 = a hint follows (UTF-8, at most 43 bytes: a short URL or label, never a secret)
-commitment = SHA-256 of the record's bytes (not of the `tgs1.` text)
-```
-
 ## 3. Measured lengths
 
 ### 3.1 The book cipher: characters of key, by message length and work length
@@ -166,7 +157,7 @@ The overhead of the format is exactly 2 (header) + 12 (nonce) + 16 (tag) + 1 (in
 | Rice-code distances with the encoder choosing one of the next K occurrences (`tg2` near) | 58 to 71 % shorter for 1 000 characters | the format is lossless; **the policy is not** | randomness per character falls from 11.2 bits (all occurrences, 50k work) to 5.0 (K=32), 3.0 (K=8), 1.0 (K=2), 0 (K=1); a holder of the key without the work learns 0.47 to 0.63 of the 4.15 bits of entropy of each message character (11 to 15 %); two keys of the same message are no longer unrelated |
 | 4-byte instead of 8-byte fingerprint | 7 characters | yes | wrong-work detection fails once in 2^32 instead of 2^64 |
 | base58 instead of base64url | +2.4 % length (59 instead of 58 characters for 43 bytes) | yes | none; survives chat (section 5) |
-| 128-bit instead of 256-bit secret (`tgx1.`) | 42 instead of 64 characters | yes | 2^128 against 2^256 guesses; a record on a blockchain is permanent, so 256 stays the default |
+| 128-bit instead of 256-bit secret (`tgx1.`) | 42 instead of 64 characters | yes | 2^128 against 2^256 guesses; a public record is permanent, so 256 stays the default |
 | unbound key (no fingerprint) | 11 characters | yes | the key fits any work, loses the "wrong work" message |
 | 2-byte check in `tg2.`/`tgx1.` | costs 3 characters | – | a typo is reported as a typo (1 in 65 536 slips through to the next layer, which still catches it for `tgx1.` through the GCM tag) |
 | word-level book cipher (designed only) | a 15-word, 87-character message: 144 bytes against 218 (-34 %); 10 of 15 words occurred in the 600k work, the other 5 had to be spelled | yes | not built: the gain depends on the words occurring, and it still is not encryption |
