@@ -8,13 +8,55 @@ const ENTITIES = { lt: '<', gt: '>', quot: '"', apos: "'", amp: '&' };
 const decodeEntities = (s) => s.replace(/&(#x[0-9a-f]+|#\d+|lt|gt|quot|apos|amp);/gi, (m, e) =>
   e[0] === '#' ? String.fromCodePoint(e[1].toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10)) : ENTITIES[e.toLowerCase()]);
 
+// The two scans below replace the regexes /<(script|style|title|head)\b[\s\S]*?<\/\1>/gi and /<[^>]+>/g, which were
+// quadratic in the file size when a "<" was never closed (minutes for a megabyte); they keep the same results.
+const SECTIONS = ['script', 'style', 'title', 'head'];
+/** Drops every closed <script>…</script>, <style>, <title>, <head> section (case-insensitive); an unclosed one stays. */
+function stripSections(raw) {
+  const low = raw.toLowerCase();
+  const next = new Map(); // tag -> index of its next usable opener (or -1 once none is left)
+  const opener = (tag, from) => {
+    let i = low.indexOf('<' + tag, from);
+    while (i >= 0 && /\w/.test(low[i + 1 + tag.length] || '')) i = low.indexOf('<' + tag, i + 1); // "<scripts>" is no opener
+    return i;
+  };
+  let out = '', pos = 0;
+  for (;;) {
+    let best = -1, tag = null;
+    for (const t of SECTIONS) {
+      if (!next.has(t) || (next.get(t) >= 0 && next.get(t) < pos)) next.set(t, opener(t, pos));
+      const i = next.get(t);
+      if (i >= 0 && (best < 0 || i < best)) { best = i; tag = t; }
+    }
+    if (best < 0) break;
+    const close = low.indexOf('</' + tag + '>', best);
+    if (close < 0) { next.set(tag, -1); continue; } // no closer anywhere after: no later opener of this tag can match either
+    out += raw.slice(pos, best);
+    pos = close + tag.length + 3;
+  }
+  return out + raw.slice(pos);
+}
+/** Drops every "<…>" that holds at least one character; a "<" with no ">" after it stays, as does "<>". */
+function stripTags(s) {
+  let out = '', i = 0;
+  for (;;) {
+    const lt = s.indexOf('<', i);
+    if (lt < 0) break;
+    const gt = s.indexOf('>', lt + 1);
+    if (gt < 0) break;
+    if (gt === lt + 1) { out += s.slice(i, gt + 1); i = gt + 1; continue; }
+    out += s.slice(i, lt); i = gt + 1;
+  }
+  return out + s.slice(i);
+}
+
 /** Text of an SVG or HTML work (`kind` 'svg' or 'html'), without tags, scripts and styles. */
 export function markupText(raw, kind) {
   const end = raw.lastIndexOf('</text>');
   const body = kind === 'svg'
     ? raw.slice(Math.max(0, raw.indexOf('<text')), end < 0 ? raw.length : end)
-    : raw.replace(/<(script|style|title|head)\b[\s\S]*?<\/\1>/gi, '');
-  return decodeEntities(body.replace(/<[^>]+>/g, ''));
+    : stripSections(raw);
+  return decodeEntities(stripTags(body));
 }
 
 /**
