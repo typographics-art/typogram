@@ -399,3 +399,57 @@ test('sealBound2 draws a fresh secret each time and its tgx2 key hides the work 
   const t = await sealItem(WORK, { kind: 'text', payload: Buffer.from('h') });
   assert.ok(b58dec(t.key.slice(5)).indexOf(WORK_DIGEST.subarray(0, 8)) >= 0);
 });
+
+// ================================ round trips over random option sets ========================================================
+test('property: 120 random seal/open round trips (kind, size 0 to 20 000, content, bind, strength, compression, padding, inline) and a wrong work, a wrong key and a damaged record always refuse', async () => {
+  const { makeRng } = await import('../scripts/fuzz-crypto.mjs');
+  const rng = makeRng('roundtrips-2026-10');
+  let inline = 0, refusedInline = 0; // refusedInline: inline keys whose record is over 32 KiB are refused by design
+  for (let i = 0; i < 120; i++) {
+    const n = rng.pick([0, 1, 2, 15, 16, 17, 255, 256, 1000, 4096, rng.int(20000)]), kind = rng.pick(['text', 'bytes', 'bytes']);
+    const bytes = Buffer.from(Uint8Array.from({ length: n }, (_, j) => rng.pick([0, j & 255, rng.int(256), 97 + (j % 26)])));
+    const payload = kind === 'text' ? Buffer.from(bytes.toString('latin1').replace(/[^\x20-\x7e]/g, 'e') + (rng.chance(0.3) ? ' ü€😀' : '')) : bytes;
+    const o = { bind: rng.chance(0.7), strength: rng.pick([128, 256]), compress: rng.pick([true, false, 'brotli']), pad: rng.pick([0, 0, 1, 16, 255, 1000]), inline: rng.chance(0.2) };
+    let s;
+    try { s = await sealItem(o.bind ? WORK : null, { kind, payload }, o); } catch (e) { assert.equal(e.code, 'too-large', `${e.code}: ${e.message}`); assert.ok(o.inline); refusedInline++; continue; }
+    if (o.inline) inline++;
+    const out = await openSealed(o.bind ? WORK : null, { key: s.key, record: o.inline ? undefined : s.record });
+    assert.equal(out.kind, kind); assert.deepEqual(Buffer.from(out.bytes), payload, `case ${i}: ${JSON.stringify(o)} n=${n}`);
+    if (kind === 'text') assert.equal(out.text, payload.toString());
+    if (o.bind) await assert.rejects(openSealed(WORK + ' changed', { key: s.key, record: s.record }), { code: 'wrong-work' });
+    const rec = Buffer.from(s.record.slice(5), 'base64url'); rec[rec.length - 1 - rng.int(Math.min(20, rec.length - 14))] ^= 1 << rng.int(8);
+    await assert.rejects(openSealed(o.bind ? WORK : null, { key: o.inline ? s.key : s.key, record: 'tgs1.' + rec.toString('base64url') }), (e) => e.name === 'CryptError');
+    // the same record opens with the independent reader as well
+    const k = refParseKey1(s.key);
+    assert.deepEqual(refOpenTgs1(s.record, k.secret, WORK_DIGEST).body, payload, `case ${i}: the independent reader disagrees`);
+  }
+  assert.ok(inline > 3, `inline ${inline}, refused ${refusedInline}`);
+});
+test('property: tgx2 / openAny, sealWithSecret in both key versions, tgr1 with and without context, and vaults: 150 random round trips', async () => {
+  const { makeRng } = await import('../scripts/fuzz-crypto.mjs');
+  const rng = makeRng('roundtrips-keys-2026-10');
+  const rcpt = await newRecipient(seededRandom('prop-rcpt'));
+  for (let i = 0; i < 150; i++) {
+    const n = rng.pick([0, 1, 100, 5000, rng.int(30000)]);
+    const payload = Buffer.from(Uint8Array.from({ length: n }, () => rng.pick([0, 1, rng.int(256)])));
+    const which = rng.int(4);
+    if (which === 0) {
+      const s = await sealBound2(WORK, { kind: 'bytes', payload }, { strength: rng.pick([128, 256]), compress: rng.chance(0.5) });
+      assert.deepEqual(Buffer.from((await openAny(WORK, { key: s.key, record: s.record })).bytes), payload);
+      await assert.rejects(openAny('other work', { key: s.key, record: s.record }), (e) => e.name === 'CryptError');
+    } else if (which === 1) {
+      const secret = Uint8Array.from({ length: rng.pick([16, 32]) }, () => rng.int(256));
+      const s = await sealWithSecret(WORK, { kind: 'bytes', payload }, secret, { keyVersion: rng.pick([1, 2]) });
+      assert.deepEqual(Buffer.from((await openAny(WORK, { key: s.key, record: s.record })).bytes), payload);
+    } else if (which === 2) {
+      const ctx = rng.pick(['', 'ctx', Buffer.from([rng.int(256)])]);
+      const s = await sealTo(rcpt.public, { kind: 'bytes', payload }, { context: ctx, compress: rng.chance(0.5) });
+      assert.deepEqual(Buffer.from((await openFrom(rcpt.secret, s.record, { context: ctx })).bytes), payload);
+      await assert.rejects(openFrom(rcpt.secret, s.record, { context: 'wrong context' }), { code: 'auth-failed' });
+    } else {
+      const secret = randomBytes(32), shares = await splitShamir(secret, 3, 6);
+      const pick = [0, 1, 2, 3, 4, 5].sort(() => rng.int(3) - 1).slice(0, 3 + rng.int(4)).map((j) => shares[j]);
+      assert.deepEqual(Buffer.from(await joinShares(pick)), secret);
+    }
+  }
+});
