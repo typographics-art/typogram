@@ -88,7 +88,7 @@ const DE = {
   'g.kicker': 'Galerie', 'g.h': 'Porträts, Gemälde, Weltraum: Jedes Bild ist aus echtem Text gesetzt.', 'g.all': 'Zur Galerie →',
   'os.kicker': 'Open Source', 'os.h': 'Eine Technik für alle, wie ASCII-Art.',
   'os.lead': 'Verfahren, Web-App, Bibliothek und Befehlszeile stehen unter der MIT-Lizenz. Keine Abhängigkeiten, kein Build-Schritt, einfaches JavaScript. Schriften, Algorithmen, Übersetzungen, Messungen und Werke sind willkommen.',
-  'os.gh': 'GitHub-Repository', 'os.contrib': 'Mitmachen', 'os.roadmap': 'Roadmap & offene Aufgaben',
+  'os.gh': 'GitHub-Repository', 'os.contrib': 'Mitmachen', 'os.roadmap': 'Roadmap &amp; offene Aufgaben',
   'ask.svg': 'Der KI erklären — eine SVG',
   'cs.kicker': 'Bald — hilf mit', 'cs.h': 'Eine selbst­entpackende verschlüsselte Datei, in Rust — die Community könnte sie übernehmen.',
   'cs.p': 'Eine doppelklickbare <code>.exe</code>, <code>.app</code> oder Linux-Datei, die ein Passwort oder eine Schlüsseldatei abfragt und genau ein verschlüsseltes Bild oder Video abspielt — im Speicher, nie auf die Platte geschrieben. Der Entwurf und die Entscheidungen stehen fest; die Verschlüsselung hat eine Spezifikation und Testvektoren zum Nachbauen. Es ist das größte Einzelstück, das ein Mitwirkender übernehmen könnte.',
@@ -104,12 +104,14 @@ const DE = {
   'end.h': 'Gestalte dein erstes eigenes Typographics Art.', 'end.lead': 'Text einfügen, Foto hineinziehen, ein PDF exportieren, das Menschen anschauen und Maschinen lesen können.', 'end.press': 'Pressekit',
   'ft.mit': 'MIT-Lizenz', 'ft.def': 'Definition',
 };
-const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
+// innerHTML (not textContent) so the few strings with an inline <a>/<code> (u5.p, u6.p, cs.p, f6.a) keep their link/markup in
+// both languages. Safe: every i18n string is static author copy, never user input; literal < and & are written as entities.
+const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.innerHTML]));
 let lang = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
 try { lang = localStorage.getItem('tg-art.lang') || JSON.parse(localStorage.getItem('tg-art.v1') || '{}').lang || lang; } catch { /* default */ }
 function setLang(l) {
   lang = l; document.documentElement.lang = l;
-  document.querySelectorAll('[data-i18n]').forEach((el) => { const v = l === 'de' ? DE[el.dataset.i18n] : EN.get(el.dataset.i18n); if (v != null) el.textContent = v; });
+  document.querySelectorAll('[data-i18n]').forEach((el) => { const v = l === 'de' ? DE[el.dataset.i18n] : EN.get(el.dataset.i18n); if (v != null) el.innerHTML = v; });
   document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
   document.querySelectorAll('[data-href-de]').forEach((a) => { a.href = l === 'de' ? a.dataset.hrefDe : a.dataset.hrefEn; }); // links that have a German page
   try { localStorage.setItem('tg-art.lang', l); } catch { /* not remembered */ }
