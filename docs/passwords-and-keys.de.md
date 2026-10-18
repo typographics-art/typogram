@@ -71,6 +71,7 @@ Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 ## 6. Was wir nicht versprechen
 
 - **Kein externes Audit.** Das Verfahren ist Standard, der Code darum herum ist unserer. Abschnitt 9 sagt, was getan wurde; nichts davon ersetzt eine Prüfung durch Fachleute. Wir empfehlen sie, bevor etwas Wertvolles auf einer öffentlichen Chain versiegelt wird.
+- **Die interne Prüfung ist kein Audit.** Ein KI-Agent hat den kryptografischen Code im Oktober 2026 gezielt angreifend geprüft ([Bericht](security-review-internal-2026-10.md)): Er hat die Bausteine gegen veröffentlichte Testvektoren geprüft, unabhängige Nachbauten zum Vergleich geschrieben, jeden Parser mit Zufallseingaben beschossen und echte Fehler gefunden und behoben. Das ist ein einzelner Leser mit frischem Kontext und einer Shell, kein Kryptograf, und er kann übersehen, was ein menschlicher Fachmann findet; bitte nicht als Audit lesen.
 - **Ein verlorener Schlüssel sind verlorene Daten.** Es gibt keine Wiederherstellung, kein Zurücksetzen, keinen Support, der es öffnen könnte.
 - **Ein kompromittiertes Gerät hebelt alles aus.** Eine bösartige Browser-Erweiterung, Schadsoftware oder ein gestohlenes entsperrtes Handy können lesen, was du tippst, und sehen, was die Seite entschlüsselt. Verschlüsselung schützt ruhende und übertragene Daten, nicht einen Rechner, der schon feindlich ist.
 - **Metadaten sind nicht verborgen.** Ein versiegelter Datensatz zeigt seine Grösse (ausser mit Auffüllung) und, wenn er auf einer Chain verankert ist, Zeit und zahlende Adresse.

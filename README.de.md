@@ -131,6 +131,8 @@ Schlüssel werden mit einem einzigen Seed-Backup verwaltet: ein Master-Schlüsse
 
 **Ist das sicher, und kann es in eine Blockchain?** Die Verschlüsselung (AES-256-GCM, zufälliger 256-Bit-Schlüssel) ist solide; der Code darum herum ist getestet, aber **nicht unabhängig geprüft**, und die ganze Sicherheit liegt in der Geheimhaltung des Schlüssels. Eine Blockchain würde nur eine Verpflichtung (einen Hash) des versiegelten Datensatzes halten, nicht die Daten: Sie belegt, dass der Datensatz existierte und unverändert ist, sie hält ihn nicht am Leben und macht ihn nicht für immer unlesbar. Man darf sagen „ohne den Schlüssel nicht lesbar, soweit die heutige Kryptografie bekannt ist“, nicht „niemand kommt je an die Daten“. Die klaren Antworten mit Begründung stehen am Anfang von [docs/encrypted-data.md](docs/encrypted-data.md).
 
+Eine interne Gegenprüfung des kryptografischen Codes durch einen KI-Agenten (Oktober 2026, mit Korrekturen und Tests) steht in [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md). Sie ist **kein** unabhängiges Audit und ersetzt keines.
+
 ## Die drei Regeln
 
 1. **Treue.** Der Text wird nie verändert, umgestellt oder gekürzt. Fülltext (etwa Lorem ipsum für ein feineres Bild) ist nur erlaubt, wenn er ausgewiesen ist.

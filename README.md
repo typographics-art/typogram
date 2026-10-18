@@ -131,6 +131,8 @@ Keys are managed with one seed backup: a master key and one key per record, seal
 
 **Is this secure, and can it go on a blockchain?** The cipher (AES-256-GCM, random 256-bit key) is sound; the code around it is tested but **not independently audited**, and all of the security is the secrecy of the key. A blockchain would hold only a commitment (a hash) of the sealed record, not the data: it proves that the record existed and is unchanged, it does not keep it alive, and it does not make it unreadable for ever. You can say "cannot be read without the key as far as today's cryptography is known", not "nobody can ever get at it". The plain answers, with the reasons, are at the top of [docs/encrypted-data.md](docs/encrypted-data.md).
 
+An internal adversarial review of the cryptographic code by an AI agent (October 2026, with fixes and tests) is in [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md). It is **not** an independent audit and does not replace one.
+
 ## The three rules
 
 1. **Fidelity.** The text is never changed, reordered or shortened. Filler text (for example Lorem ipsum for a finer picture) is allowed only if it is declared.

@@ -6,7 +6,7 @@ The rule behind every message in this document comes from this project's own his
 
 ## Implementation status
 
-Built in `app.html` (panel `<details id="data">`, reachable as `app#data`), `work.html` (Machine view) and `src/data-panel.js`, `src/data-ui.js`, `src/data-panel-ui.js`, `src/data-reader-ui.js`, `src/data-worker.js`. The labels and messages of sections 1.4, 1.5, 2.3 and 3 are in `src/data-panel.js` (English and German, one dictionary, tested for equal keys and placeholders). `scripts/check-web-data.mjs` drives all of it in headless Chrome (155 checks, 158 with mutool installed; run by `test/web-data.test.js`). Where the build differs from the design below:
+Built in `app.html` (panel `<details id="data">`, reachable as `app#data`), `work.html` (Machine view) and `src/data-panel.js`, `src/data-ui.js`, `src/data-panel-ui.js`, `src/data-reader-ui.js`, `src/data-worker.js`. The labels and messages of sections 1.4, 1.5, 2.3 and 3 are in `src/data-panel.js` (English and German, one dictionary, tested for equal keys and placeholders). `scripts/check-web-data.mjs` drives all of it in headless Chrome (158 checks, 161 with mutool installed; run by `test/web-data.test.js`). Where the build differs from the design below:
 
 | Design | As built |
 |---|---|

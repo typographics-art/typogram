@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Security
+
+- **Internal adversarial review of the cryptographic code** by an AI agent (not an independent audit): [docs/security-review-internal-2026-10.md](docs/security-review-internal-2026-10.md). Known-answer tests of every building block (`test/known-answer.test.js`), differential tests against independent re-implementations, a deterministic fuzzer (`scripts/fuzz-crypto.mjs`), local Semgrep rules, hostile-data checks in the browser test. Fixed: quadratic regular expressions in the YAML, Markdown, XML and text-structure readers; the encoder wrote data blocks the decoder refused (a sealed record of one never opened); damaged workbooks, unknown model shapes, long `tg1.` secrets and sparse sheets failed with raw errors; an error message went into markup on the generator page.
+
 ## [0.1.0] - 2026-10-18
 
 First public version.
