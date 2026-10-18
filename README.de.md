@@ -87,17 +87,6 @@ Also: **Gib Maschinen das HTML oder SVG**, dann bekommen sie den Text fehlerfrei
 
 Eine Einschränkung bei PDF: Poppler-`pdftotext` behält pro Seite nur die ersten 50 000 kleinen Zeichen. Bei Seiten mit mehr Text (ein One-Pager eines langen Dokuments) liest man das PDF mit MuPDF oder ruft `pdftotext -r 600` auf ([Einzelheiten](docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely), Englisch).
 
-## Demonstrator: Moby-Dick in einem Bild
-
-Der stärkste Beleg ist ein ganzes Buch. [**typographics-art.org/demo/moby-dick**](https://typographics-art.org/demo/moby-dick/) setzt den vollständigen Text von *Moby-Dick* (1,2 Millionen Zeichen, 135 Kapitel) als ein einziges Poster von 2 × 3 m in drei Feldern, ein Motiv je Teil des Buches. Neben dem zoombaren Poster steht der Nachweis:
-
-- **Vollständig:** Der aus dem Kunstwerk zurückgelesene Text hat denselben SHA-256-Hash wie der Ausgangstext.
-- **Korrekt ausgelesen:** Aus dem SVG-Master und aus dem Druck-PDF werden 100 zufällige Passagen an ihrer Originalposition gefunden, Kapitelstruktur und Worthäufigkeiten sind identisch.
-- **Für KI verwendbar:** Ein definierter Fragensatz (Erzähler, Schiff, Kapitän, …) hat jede Antwort im ausgelesenen Text belegt; Texterkennungs-Stichproben messen, was in einem blossen Foto des Posters übrig bleibt.
-- **Nachprüfbar:** Buch bei Project Gutenberg laden, zwei Skripte ausführen, Hashes vergleichen. Vollständiger Bericht: [demo/moby-dick/proof.md](demo/moby-dick/proof.md).
-
-Ein Klick auf das Poster zeigt den Text an genau dieser Stelle, gelesen aus den Zeilenpositionen des Kunstwerks selbst.
-
 ## One-Pager: ein ganzes Dokument auf einer Seite
 
 `cli/onepage.mjs` setzt den vollständigen Text eines mehrseitigen PDFs (oder einer Textdatei) auf eine einzige Seite. Die Buchstaben sind winzig und formen zusammen den Titel des Dokuments in grosser Schrift oder, mit `--motif`, ein Bild über dem Titel. Ein Mensch erkennt sofort, was die Seite enthält. Ein Modell liest jedes Wort aus der Textebene des PDFs, die Schriftgrösse spielt dafür keine Rolle.
@@ -273,9 +262,7 @@ npm test          # node --test, keine Abhängigkeiten (wenige Sekunden)
 npm run dev       # braucht Python 3; Startseite auf http://localhost:8080, Generator unter /app.html
 npm run gallery   # Galerie neu rendern (braucht Chrome/Chromium)
 
-# nur zum Veröffentlichen der Website: erst die Moby-Dick-Zoomkacheln (Chrome, etwa 4 Minuten, 522 Kacheln), dann die Seite
-node demo/moby-dick/build.mjs zoom
-node scripts/build-site.mjs
+node scripts/build-site.mjs   # die Website nach _site/ bauen
 ```
 
 Du schreibst über Typographics Art? Das [Pressekit](docs/press-kit.md) (Englisch) hat Texte, Fakten und Bilder.
@@ -292,7 +279,6 @@ Du schreibst über Typographics Art? Das [Pressekit](docs/press-kit.md) (Englisc
 | `gallery/` | die 15 Werke |
 | `examples/` | One-Pager-Beispiele (31) mit ihren veröffentlichten Quelltexten |
 | `samples/` | Beispieltexte für den Generator (erzeugt von `scripts/build-samples.mjs`) |
-| `demo/` | das Moby-Dick-Poster |
 | `docs/` | Messungen und Regeln |
 | `about/` | erzeugte Ein-Datei-Beschreibung für KI-Assistenten |
 | `benchmark/` | das Testdokument für [docs/ai-benefit.md](docs/ai-benefit.md) |
