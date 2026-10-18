@@ -544,6 +544,64 @@ async function main() {
       console.log(`perf: ${chars} - set and checked in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
     }
 
+    // ======== 4b. hostile data: markup, script and javascript: URLs in every place a file can put text; nothing may run ========
+    if (want('hostile')) {
+      const PAYLOADS = ['<img src=x onerror="window.__pwned=1">', '<script>window.__pwned=2</script>', 'javascript:window.__pwned=3', '"><svg onload=window.__pwned=4>', "'-window.__pwned=5-'", '<a href="javascript:window.__pwned=6">x</a>', '‮<b>rtl</b>', '=cmd|\' /C calc\'!A0', '${window.__pwned=7}', '{{constructor.constructor("window.__pwned=8")()}}'];
+      const q = (t) => `"${t.replace(/"/g, '""')}"`;
+      const hostileFiles = {
+        csv: PAYLOADS.map((t) => PAYLOADS.slice(0, 4).map(q).join(',') + ',' + q(t)).join('\n') + '\n',
+        json: JSON.stringify({ [PAYLOADS[0]]: PAYLOADS, nested: Object.fromEntries(PAYLOADS.map((t, i) => [t, { [t]: i }])), __proto__x: PAYLOADS[1] }),
+        md: PAYLOADS.map((t) => `# ${t}\n\n${t}\n\n- ${t}\n\n| ${t} | b |\n|---|---|\n| ${t} | ${t} |\n`).join('\n'),
+        xml: `<root ${'a'}="${PAYLOADS[3].replace(/[<>&"]/g, '_')}">${PAYLOADS.map((t, i) => `<t${i} k="v">${t.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</t${i}>`).join('')}</root>`,
+        yaml: PAYLOADS.map((t, i) => `k${i}: ${JSON.stringify(t)}`).join('\n') + '\n',
+        vcf: `BEGIN:VCARD\r\nVERSION:3.0\r\nFN:${PAYLOADS[0]}\r\nURL:${PAYLOADS[2]}\r\nNOTE:${PAYLOADS[1]}\r\nEND:VCARD\r\n`,
+      };
+      const pwned = (page) => page.js('window.__pwned === undefined ? null : window.__pwned');
+      const noInjected = (page, root) => page.js(`(() => { const r = document.querySelector(${JSON.stringify(root)}); return !r.querySelector('img[src="x"], script, svg[onload], a[href^="javascript:"], [onerror], [onload]'); })()`);
+      // A. the generator: every file type through the file chooser
+      for (const [fmt, body] of Object.entries(hostileFiles)) {
+        const file = join(tmp, `<img src=x onerror=window.__pwned=9>.${fmt}`);
+        writeFileSync(file, body);
+        const app = await open([1280, 900]);
+        await app.goto(`${web.origin}/app#data`);
+        await app.waitFor(`document.querySelector('#aiText')?.textContent.length > 20`, { what: 'the first work is set' });
+        await app.setFile('#dataFile', file);
+        await app.waitFor(`document.querySelector('#dataCard') && !document.querySelector('#dataCard').hidden`, { what: `the data card for hostile ${fmt}` });
+        await sleep(300);
+        check(`hostile ${fmt} in the generator: no script ran`, (await pwned(app)) === null, await pwned(app));
+        check(`hostile ${fmt} in the generator: no element was created from the text`, await noInjected(app, '#dataCard'));
+        check(`hostile ${fmt} in the generator: the file name is shown as text`, (await app.text('#dataName')).includes('<img src=x onerror='), await app.text('#dataName'));
+        await sweep(app);
+      }
+      // B. the work page: the same data as a block in a work's text, and the sealed form of it
+      for (const fmt of ['csv', 'json', 'md', 'xml', 'yaml', 'vcf']) {
+        const enc = await encode({ bytes: new TextEncoder().encode(hostileFiles[fmt]), name: `<img src=x onerror=window.__pwned=9>.${fmt}` }, { created: false });
+        const svgOf = (t) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><text x="2" y="10">Hostile ${fmt} ${t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</text></svg>`;
+        web.works.set(`hostile-${fmt}.svg`, Buffer.from(svgOf(enc.text)));
+        const work = await open([1280, 900]);
+        await work.goto(`${web.origin}/work?art=__work/hostile-${fmt}.svg#machine`);
+        await work.waitFor(`document.querySelector('#dataSection .dui-card')`, { what: `the hostile ${fmt} card on the work page` });
+        for (const tab of ['model', 'text', 'table']) { await work.click(`#dataSection [data-tab="${tab}"]`).catch(() => {}); await sleep(50); }
+        await sleep(300);
+        check(`hostile ${fmt} on the work page: no script ran`, (await pwned(work)) === null, await pwned(work));
+        check(`hostile ${fmt} on the work page: no element was created from the data`, await noInjected(work, '#view-machine') && await noInjected(work, '#reading'));
+        // sealed: key + record typed into the form
+        const sealedWork = await (await import('../src/crypt.js')).sealData(canonicalText(markupText(svgOf('x'), 'svg')), enc.text, {});
+        web.works.set(`hostile-sealed-${fmt}.svg`, Buffer.from(svgOf('x')));
+        const sw = await open([1280, 900]);
+        await sw.goto(`${web.origin}/work?art=__work/hostile-sealed-${fmt}.svg#machine`);
+        await sw.waitFor(`document.querySelector('#sealedBox')`);
+        await sw.click('#sealedBox > summary');
+        await sw.setValue('#openKey', sealedWork.key); await sw.setValue('#openRecord', sealedWork.record);
+        await sw.click('#openGo');
+        await sw.waitFor(`document.querySelector('#openedData .dui-card') || document.querySelector('#openErr .dui-box')`, { what: `the opened hostile ${fmt}` });
+        await sleep(300);
+        check(`hostile ${fmt} opened from a sealed record: the data is shown`, await sw.js(`!!document.querySelector('#openedData .dui-card')`), await sw.text('#openErr'));
+        check(`hostile ${fmt} opened from a sealed record: no script ran, no element created`, (await pwned(sw)) === null && await noInjected(sw, '#openedData'));
+        await sweep(work); await sweep(sw);
+      }
+    }
+
     // ======== 5. a work whose data was changed, and a work opened from a file on the person's computer ========
     if (want('damaged')) {
       const good = web.works.get('xlsx-work.svg')?.toString('utf8');

@@ -549,7 +549,7 @@ What is done and what is not. Each step is independent.
 | 12.6 Read view cut-out | **done** |
 | 12.7 what a model sees | unchanged (a property of the block) |
 
-Browser behaviour is checked by `scripts/check-web-data.mjs` (headless Chrome, real Content-Security-Policy, run by `test/web-data.test.js`): 113 checks.
+Browser behaviour is checked by `scripts/check-web-data.mjs` (headless Chrome, real Content-Security-Policy, run by `test/web-data.test.js`): 155 checks (158 with mutool installed; 45 of them are the hostile-data checks of the 2026-10 review).
 
 ### 12.1 `src/index.js` (done)
 
