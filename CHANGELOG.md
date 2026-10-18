@@ -14,6 +14,10 @@ All notable changes to this project are documented here. The format follows [Kee
 - **base58**: the converter works on a BigInt; a key at the maximum length (44,800 characters, a 32 KiB inline record) converts in about 0.1 s instead of 0.8 s per direction (review 2026-10, I-1 / F14).
 - **Data panel**: the browser reads data files with tighter limits than the library (`BROWSER_LIMITS`: 1,000,000 cells, an archive part up to 64 MiB), gives up a read after two minutes and stops the worker of a file that a newer file replaced.
 
+### Added
+
+- **Encrypted media and the adapter** ([docs/encrypted-media-adapter.md](docs/encrypted-media-adapter.md)): seal a picture or a video so it only opens with the key, and `cli/tg-adapter.mjs` serves it to any player over `http://127.0.0.1:…` with HTTP Range, decrypting only the frames a byte range touches (a video seeks and streams; nothing is written to disk or uploaded). Large media is a new seekable `tgst1` stream file (per-file HKDF key, per-frame AES-256-GCM, header and frame index in the AAD); a small file stays a `tgs1.` record and is served as its native format (a sealed CSV comes out as `text/csv`). Every sealed file now carries an encrypted metadata envelope (media type, name, size, created, title, sha256).
+
 ### Changed
 
 - **Wording on text fidelity**: the generator, the website and the READMEs no longer say “1:1” or “exactly the source text”; they say what is kept (every character, in order) and what changes (line breaks and runs of spaces become one space), on the result itself.

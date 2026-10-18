@@ -21,4 +21,5 @@ export { structuredText, sha256Hex } from './structure.js';
 // Data in a work: structured data (TGD, docs/structured-data.md), sealing (docs/encrypted-data.md) and the panels' pure logic.
 export { encode, decode, decodeAll, findBlocks, stripBlocks, verify, toFile, modelJson, TgdError } from './structured.js';
 export { sealData, openSealed, findSealedBlocks, describeRecord, parseRecord, CryptError } from './crypt.js';
+export { sealStream, StreamReader, DEFAULT_FRAME } from './stream.js';
 export * as dataPanel from './data-panel.js';

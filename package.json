@@ -39,16 +39,17 @@
   "homepage": "https://typographics-art.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/typ0graphic5/tg-art.git"
+    "url": "git+https://github.com/typographics-art/tg-art.git"
   },
   "bugs": {
-    "url": "https://github.com/typ0graphic5/tg-art/issues"
+    "url": "https://github.com/typographics-art/tg-art/issues"
   },
   "license": "MIT",
   "bin": {
     "tg-art": "./cli/tg-art.mjs",
     "tg-secret": "./cli/tg-secret.mjs",
     "tg-data": "./cli/tg-data.mjs",
-    "tg-crypt": "./cli/tg-crypt.mjs"
+    "tg-crypt": "./cli/tg-crypt.mjs",
+    "tg-adapter": "./cli/tg-adapter.mjs"
   }
 }

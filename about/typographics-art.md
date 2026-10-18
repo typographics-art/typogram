@@ -24,7 +24,7 @@ The README and the main documents in one file: **[about/typographics-art.md](htt
 | | ASCII art | Typographics Art |
 |---|---|---|
 | What is chosen | the **character** for each cell of a grid | the **typography** for each character of a text |
-| The text | lost, replaced by shading characters | kept 1:1, in reading order |
+| The text | lost, replaced by shading characters | every character kept, in reading order (whitespace collapsed) |
 | What a machine reads | `@@%%##**++==--::..` | *"Wer reitet so spät durch Nacht und Wind? …"* |
 | Fonts | monospace, one size | a variable font: size, weight and colour per glyph (width is an optional axis) |
 | Format | plain text | HTML, SVG, PDF with a text layer |
@@ -39,7 +39,7 @@ of the other slave children. I was not old enough to work in the field, and ther
 else than field work to do, I had a great deal of leisure time. …
 ```
 
-That is the whole point: **the artwork is also the document.** No alt text needed; the content *is* the alt text.
+That is the whole point: **the artwork is also the document.** The text is the content; what the picture *shows* still gets a short description of its own, which the generator writes into the file (the SVG title, the HTML figure label).
 
 ## Readable for AI, measured
 
@@ -117,12 +117,14 @@ Keys are managed with one seed backup: a master key and one key per record, seal
 
 **Is this secure?** The cipher (AES-256-GCM, random 256-bit key) is sound; the code around it is tested but **not independently audited**, and all of the security is the secrecy of the key. You can say "cannot be read without the key as far as today's cryptography is known", not "nobody can ever get at it": a lost key loses the data, a compromised device defeats everything, and a password alone never protects anything public. The plain answers, with the reasons, are at the top of [docs/encrypted-data.md](https://typographics-art.org/docs/encrypted-data.md).
 
+**Encrypted media and the adapter.** A picture or a video can be sealed so it only opens with the key, and an **adapter** (`cli/tg-adapter.mjs`) makes the sealed file readable by *any* ordinary player, on the fly: it serves the plaintext at `http://127.0.0.1:…` with the right type and HTTP Range, decrypting only the frames a byte range touches, so a video seeks and streams without the plaintext ever touching the disk and without anything being uploaded. Large media is a seekable `tgst1` stream file (the one-pager is its printable cover); a small image or a data file stays a `tgs1.` record and is served as its native format (a sealed CSV comes out as `text/csv`). Every sealed file now carries private metadata (type, name, size). See [docs/encrypted-media-adapter.md](https://typographics-art.org/docs/encrypted-media-adapter.md).
+
 An internal adversarial review of the cryptographic code by an AI agent (October 2026, with fixes and tests) is in [docs/security-review-internal-2026-10.md](https://typographics-art.org/docs/security-review-internal-2026-10.md); a second review by a different model, done blind to the first, is in [docs/security-review-internal-2026-10-b.md](https://typographics-art.org/docs/security-review-internal-2026-10-b.md). Neither is an independent audit, and they do not replace one.
 
 ## The three rules
 
 1. **Fidelity.** The text is never changed, reordered or shortened. Filler text (for example Lorem ipsum for a finer picture) is allowed only if it is declared.
-2. **Text stays text.** The work is published as real text: HTML, SVG, or PDF with a text layer. Extracting it yields exactly the source.
+2. **Text stays text.** The work is published as real text: HTML, SVG, or PDF with a text layer. Extracting it yields the source text, with one space in place of each line break and run of spaces.
 3. **Only typography varies.** No shapes, backgrounds or images besides the glyphs.
 
 Full definition: [docs/technique.md](https://typographics-art.org/docs/technique.md).
@@ -151,7 +153,7 @@ Details and formulas: [docs/algorithm.md](https://typographics-art.org/docs/algo
 
 ### In the browser
 
-Go to **[typographics-art.org/app.html](https://typographics-art.org/app.html)**, paste a text (or pick one of 28 sample texts) and drop a photo. Presets: *AI-safe* (always legible), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF.
+Go to **[typographics-art.org/app.html](https://typographics-art.org/app.html)**, paste a text (or pick one of 28 sample texts) and drop a photo. Presets: *High legibility* (whole words, light paper), *Portrait*, *Poster*. Export HTML, SVG, PNG, or print to PDF.
 
 Your text and photo are processed in your browser and never uploaded; the site loads no third-party resources. One honest detail: SVG and HTML files exported from the generator reference the font stylesheet at `https://typographics-art.org/assets/fonts/fonts.css`, so opening such a file contacts typographics-art.org (not Google). PDFs embed their fonts.
 
@@ -215,7 +217,7 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 ## Where this is useful
 
 - **Art that explains itself.** A portrait made of the sitter's biography, a city made of its history. Any reader, human or machine, gets both.
-- **Accessible images.** The content is the description: screen readers read the text, no separate alt text is needed.
+- **Accessible images.** The text is real text, so a screen reader reads it; what the picture shows has a short description of its own. Measured in Chrome’s accessibility tree ([docs/technique.md](https://typographics-art.org/docs/technique.md), rule 2), not yet tested with NVDA, JAWS or VoiceOver.
 - **Findable art.** Search engines and AI crawlers index the words, not just a file name.
 - **Provenance.** The text inside a work can carry a statement, a licence or a signature that survives copy and paste.
 - **Datasets and posters.** Poems, manifestos, lyrics and code as pictures that stay quotable.
@@ -290,13 +292,14 @@ A work is Typographics Art when it follows all three rules.
 - No character is replaced, inserted, reordered or dropped.
 - Whitespace may be normalised: runs of spaces, tabs and line breaks become a single space, and line breaks may fall at any space.
 - Whitespace is layout, not text: a work may leave areas blank and widen the gap at a space (or indent a line) so that glyphs stand only where the picture needs ink. Only an existing space may grow; no character, not even a space, is inserted, and the normalised text stays identical.
-- A word longer than a line may be broken between two characters. No hyphen is added.
+- An ordinary word (up to 24 characters) is never broken: when a text is so short that its largest size would not hold a word on one line, the type size is reduced instead. A longer token (a URL, a base64 string, the dot-joined lines of a data block) may be broken between two characters. No hyphen is added.
 - **Filler** (for example Lorem ipsum to reach a higher resolution) is allowed only when it is declared: it follows the source text, and the work states how many characters are filler.
 
 ### 2. Text stays text
 
 - The work is published in a format that keeps the characters as text: HTML, SVG, or a PDF with a text layer.
 - Extracting the text, by copy and paste, a screen reader or a program, yields the source text (rule 1 applies after whitespace normalisation).
+- **Screen readers, measured (2026-10-18):** in Chrome’s accessibility tree the generator’s set text (1,281 characters, character mode) is 1,132 text nodes, one per styled run and so nearly one per glyph; concatenated they equal the text, and no word is split across lines. A reader that moves object by object gets fragments; one that reads by line gets whole lines. The generator page therefore hides the set text from assistive technology (`aria-hidden`) and offers the plain text once beside it, and the picture carries its own short description (the SVG `<title>`, the HTML `role="figure"` label). Exported HTML and SVG keep the text once, in the set form, so that extractors see it once. Not yet listened to with NVDA, JAWS or VoiceOver.
 - A raster export (PNG, JPEG) is a reproduction of the work, not the work itself.
 
 ### 3. Only typography varies
@@ -389,7 +392,7 @@ Cost: the type is smaller (the one-pager examples of 3 000 characters go from 6.
 
 ### Two edge cases found with real data
 
-**A word longer than the line in the gap layout.** A token without spaces that is wider than the layout width (a 200-character URL, a base64 string, the `·`-joined lines of a structured-data block) is broken between characters. In the gap layout the line had already been entered by its indent (`x` = start of the first ink segment), but the break filled the full width `W` from zero, so a line ended `indent` pixels past the page edge. Chrome printed the glyphs outside the page box, and the PDF text layer (MuPDF) drops them: the printing check failed with `Line N does not read back from the PDF even when printed on its own`. Measured on a 1 163-character structured-data block (46 lines, `gaps: 'auto'`): line 35 had an indent of 1 329 px, 147 characters without a space, and a rendered width of 1 692 px (W = 1 698), so the line ended at 3 021 px on a 1 800 px page; MuPDF read back 40 of its 147 characters. With `gaps: 'off'` the indent is 0 and the same text works. Layout alone (fake metrics, no browser) reproduces it: every line was 50 px (bar picture) to 200 px (ink in the right half) too wide. Not Chrome, not `word-spacing`, not the text layer: plain geometry. The break now fills `W - x`; if not even one glyph fits behind the indent, that line starts at the margin instead (the indent is only a blank, so no text changes). A long token on a short text therefore costs a few extra lines, nothing else.
+**A word longer than the line in the gap layout.** A token without spaces that is wider than the layout width (a 200-character URL, a base64 string, the `·`-joined lines of a structured-data block) is broken between characters (an ordinary word of up to 24 graphemes never is: `fit` caps the line height so that it fits, `maxLineForWords`). In the gap layout the line had already been entered by its indent (`x` = start of the first ink segment), but the break filled the full width `W` from zero, so a line ended `indent` pixels past the page edge. Chrome printed the glyphs outside the page box, and the PDF text layer (MuPDF) drops them: the printing check failed with `Line N does not read back from the PDF even when printed on its own`. Measured on a 1 163-character structured-data block (46 lines, `gaps: 'auto'`): line 35 had an indent of 1 329 px, 147 characters without a space, and a rendered width of 1 692 px (W = 1 698), so the line ended at 3 021 px on a 1 800 px page; MuPDF read back 40 of its 147 characters. With `gaps: 'off'` the indent is 0 and the same text works. Layout alone (fake metrics, no browser) reproduces it: every line was 50 px (bar picture) to 200 px (ink in the right half) too wide. Not Chrome, not `word-spacing`, not the text layer: plain geometry. The break now fills `W - x`; if not even one glyph fits behind the indent, that line starts at the margin instead (the indent is only a blank, so no text changes). A long token on a short text therefore costs a few extra lines, nothing else.
 
 **Measured units equal laid-out units.** Metrics are measured for `graphemes(text)`; the layout split the text at every space and measured its words again. A space followed by a combining mark (Thai sara am after a space, a lone accent) is ONE cluster in the whole text but a space and a mark in the token, so the mark was looked up without ever being measured (`reading 'adv'`). `tokenize` now cuts along the same grapheme clusters: a cluster that is not exactly `' '` belongs to its word, so the units laid out are exactly the units measured, and joining the tokens still gives the normalised text. Emoji with skin-tone modifiers, ZWJ sequences, flags, Arabic and Devanagari did not crash before (their clusters contain no space); they are covered by `test/layout-edge.test.js` together with Thai.
 
