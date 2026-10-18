@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { absolutize } from '../scripts/absolute-links.mjs';
 
-const SITE = 'https://typographics-art.org/', REPO = 'https://github.com/typ0graphic5/tg-art/';
+const SITE = 'https://typographics-art.org/', REPO = 'https://github.com/typographics-art/typogram/';
 
 test('absolutize: files the site publishes link to the site, everything else to GitHub', () => {
   const out = absolutize('[a](docs/technique.md) [b](examples/ch-bundesverfassung/onepage.pdf) [c](gallery/douglass.svg) [d](CONTRIBUTING.md) [e](src/layout.js) [f](examples/)', 'README.md');

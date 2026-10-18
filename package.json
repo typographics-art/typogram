@@ -1,5 +1,5 @@
 {
-  "name": "tg-art",
+  "name": "typogram",
   "version": "0.1.0",
   "description": "Typographics Art: set a text character for character so that it forms a picture. The text stays readable text.",
   "type": "module",
@@ -39,10 +39,10 @@
   "homepage": "https://typographics-art.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/typographics-art/tg-art.git"
+    "url": "git+https://github.com/typographics-art/typogram.git"
   },
   "bugs": {
-    "url": "https://github.com/typographics-art/tg-art/issues"
+    "url": "https://github.com/typographics-art/typogram/issues"
   },
   "license": "MIT",
   "bin": {

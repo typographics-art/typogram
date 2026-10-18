@@ -70,5 +70,5 @@ d0n, creator of Typographics Art: **d0n@typographics-art.org**
 
 - Website and tool: https://typographics-art.org
 - Gallery: https://typographics-art.org/gallery.html
-- Source code: https://github.com/typ0graphic5/tg-art
+- Source code: https://github.com/typographics-art/typogram
 - Definition of the technique: [docs/technique.md](technique.md)

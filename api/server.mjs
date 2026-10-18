@@ -217,7 +217,7 @@ createServer(async (req, res) => {
     if (req.method === 'GET' && url.pathname === '/health') return send(res, 200, { ok: true });
     if (req.method === 'GET' && url.pathname === '/') {
       return send(res, 200, {
-        service: 'Typographics Art one-pager API', docs: 'https://github.com/typ0graphic5/tg-art/blob/main/api/README.md',
+        service: 'Typographics Art one-pager API', docs: 'https://github.com/typographics-art/typogram/blob/main/api/README.md',
         pay: { address: CFG.address, amount_dgb: CFG.minDgb, confirmations: CFG.minConfirmations, currency: 'DGB (DigiByte)' },
         usage: 'POST /v1/onepage with the document as body and the transaction hash in X-DGB-Tx; then GET the status_url.',
       });

@@ -1,6 +1,6 @@
 # Typographics Art: everything in one file
 
-This file contains the README and the main documents of the open-source project Typographics Art (https://typographics-art.org, https://github.com/typ0graphic5/tg-art). It is meant to be handed to an AI assistant as a whole. Good first questions: What is Typographics Art? How is it different from ASCII art? Can a machine still read a work? How big do the PDFs get, and why?
+This file contains the README and the main documents of the open-source project Typographics Art (https://typographics-art.org, https://github.com/typographics-art/typogram). It is meant to be handed to an AI assistant as a whole. Good first questions: What is Typographics Art? How is it different from ASCII art? Can a machine still read a work? How big do the PDFs get, and why?
 
 
 ---
@@ -55,7 +55,7 @@ We do not just claim it. Every number below is measured and reproducible ([metho
 | **Only the picture**: OCR (Tesseract 5.5) on a PNG at 2× | legibility *high*: **98.9–99.6 %** of words · *medium*: 88.7–92.7 % · *free*: 68.8–82.3 % |
 | **Only the picture**: a vision-language model (Claude) reading crops | **100 %** of 217 words, at *high*, *medium* and *free* (first sample) |
 
-So: **give machines the HTML or SVG**, and they get the text perfectly, at any artistic setting. PDF works the same when read in stored order, and with every tool at legibility *high*. If only an image travels (a screenshot, a social post), choose legibility *high* and the text survives even pure image recognition. A first sample with a vision-language model read every word, even at *free*, where classic OCR stumbles. More models and larger samples: [help is welcome](https://github.com/typ0graphic5/tg-art/blob/main/CONTRIBUTING.md).
+So: **give machines the HTML or SVG**, and they get the text perfectly, at any artistic setting. PDF works the same when read in stored order, and with every tool at legibility *high*. If only an image travels (a screenshot, a social post), choose legibility *high* and the text survives even pure image recognition. A first sample with a vision-language model read every word, even at *free*, where classic OCR stumbles. More models and larger samples: [help is welcome](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md).
 
 One caveat for PDF: Poppler's `pdftotext` keeps only the first 50 000 small characters per page. For pages with more text than that (a one-pager of a long document), read the PDF with MuPDF, or run `pdftotext -r 600` ([details](https://typographics-art.org/docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely)).
 
@@ -66,7 +66,7 @@ The strongest proof is a whole book. [**typographics-art.org/demo/moby-dick**](h
 - **Complete:** the text read back from the artwork has the same SHA-256 hash as the source text.
 - **Read back correctly:** from the SVG master and from the print PDF, 100 random passages are found at their original positions, chapter structure and word frequencies are identical.
 - **Usable by AI:** a defined question set (narrator, ship, captain, …) has every answer grounded in the extracted text; OCR samples measure what survives in a mere photo of the poster.
-- **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md).
+- **Reproducible:** download the book from Project Gutenberg, run two scripts, compare the hashes. Full report: [demo/moby-dick/proof.md](https://github.com/typographics-art/typogram/blob/main/demo/moby-dick/proof.md).
 
 Click anywhere on the poster and the page shows the text at that spot, read from the artwork's own line offsets.
 
@@ -78,14 +78,14 @@ Click anywhere on the poster and the page shows the text at that spot, read from
 |---|---|---|
 | <br>**Swiss Federal Constitution**<br>102 pages, 228 576 characters | <br>**EU AI Act**<br>144 pages, 595 706 characters | <br>**AI instructions**<br>a code review agent's rules |
 
-Every example is read back with MuPDF and compared with its source; every visible character matches. 31 examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](https://github.com/typ0graphic5/tg-art/blob/main/AGENTS.md)) are in [examples/](https://github.com/typ0graphic5/tg-art/tree/main/examples), each with its published source text.
+Every example is read back with MuPDF and compared with its source; every visible character matches. 31 examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](https://github.com/typographics-art/typogram/blob/main/AGENTS.md)) are in [examples/](https://github.com/typographics-art/typogram/tree/main/examples), each with its published source text.
 
 ```sh
 node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png preview.jpg
 node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o onepage.pdf
 ```
 
-**File size.** Every glyph can carry its own weight, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). Of the five examples with a PDF source (Swiss constitution, German Basic Law, US Constitution, EU AI Act, Universal Declaration of Human Rights), three are *smaller* than their source (US Constitution 1.6 MB from 3.8 MB, EU AI Act 2.2 MB from 2.5 MB, Declaration 137 KB from 191 KB); the Swiss constitution is 1.6 times and the Basic Law 2.8 times larger; short plain-text sources grow most (3 KB of instructions → 67–105 KB). `--weights 2` makes a one-pager smaller still. The [examples table](https://github.com/typ0graphic5/tg-art/blob/main/examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](https://typographics-art.org/examples/motifs/).
+**File size.** Every glyph can carry its own weight, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). Of the five examples with a PDF source (Swiss constitution, German Basic Law, US Constitution, EU AI Act, Universal Declaration of Human Rights), three are *smaller* than their source (US Constitution 1.6 MB from 3.8 MB, EU AI Act 2.2 MB from 2.5 MB, Declaration 137 KB from 191 KB); the Swiss constitution is 1.6 times and the Basic Law 2.8 times larger; short plain-text sources grow most (3 KB of instructions → 67–105 KB). `--weights 2` makes a one-pager smaller still. The [examples table](https://github.com/typographics-art/typogram/blob/main/examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](https://typographics-art.org/examples/motifs/).
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
@@ -186,7 +186,7 @@ toSvg(sheet);              // SVG, text as characters
 toPng(sheet);              // PNG data URL (image only)
 ```
 
-The pure modules (`layout`, `tone`, `color`, `render`, `typeset`) run anywhere; `browser.js` measures real fonts and reads pixels. All options and defaults: [src/options.js](https://github.com/typ0graphic5/tg-art/blob/main/src/options.js).
+The pure modules (`layout`, `tone`, `color`, `render`, `typeset`) run anywhere; `browser.js` measures real fonts and reads pixels. All options and defaults: [src/options.js](https://github.com/typographics-art/typogram/blob/main/src/options.js).
 
 ### On the command line
 
@@ -202,7 +202,7 @@ The output format follows the file extension: `.svg`, `.html`, `.pdf` (text stay
 
 ### Paid API
 
-The one place where a document is uploaded: [`api/`](https://github.com/typ0graphic5/tg-art/blob/main/api/README.md) makes a one-pager from a document you send, paid with a DigiByte transaction (no account, no API key). Details and self-hosting: [api/README.md](https://github.com/typ0graphic5/tg-art/blob/main/api/README.md).
+The one place where a document is uploaded: [`api/`](https://github.com/typographics-art/typogram/blob/main/api/README.md) makes a one-pager from a document you send, paid with a DigiByte transaction (no account, no API key). Details and self-hosting: [api/README.md](https://github.com/typographics-art/typogram/blob/main/api/README.md).
 
 ## Gallery
 
@@ -212,9 +212,9 @@ The one place where a document is uploaded: [`api/`](https://github.com/typ0grap
 | <br>**The Great Wave** · Melville · Hokusai | <br>**La Gioconda** · Walter Pater · Leonardo | <br>**The House of Usher** · Edgar Allan Poe |
 | <br>**Fuji-no-Yama** · Lafcadio Hearn · Hokusai | <br>**The Star** · H. G. Wells · Hubble | <br>**Earthrise** · Genesis · Apollo 8 |
 
-All fifteen works, each switchable to its original image: [typographics-art.org/gallery](https://typographics-art.org/gallery). Every image is in the public domain ([sources](https://typographics-art.org/gallery/photos/README.md)); every text is a contiguous passage of a public-domain work, except the Universal Declaration of Human Rights (a UN text, freely reproducible), which is set in full; no filler. Third-party materials and credits: [NOTICE.md](https://github.com/typ0graphic5/tg-art/blob/main/NOTICE.md). **Yours?** [Submit an artwork](https://github.com/typ0graphic5/tg-art/issues/new?template=artwork.yml).
+All fifteen works, each switchable to its original image: [typographics-art.org/gallery](https://typographics-art.org/gallery). Every image is in the public domain ([sources](https://typographics-art.org/gallery/photos/README.md)); every text is a contiguous passage of a public-domain work, except the Universal Declaration of Human Rights (a UN text, freely reproducible), which is set in full; no filler. Third-party materials and credits: [NOTICE.md](https://github.com/typographics-art/typogram/blob/main/NOTICE.md). **Yours?** [Submit an artwork](https://github.com/typographics-art/typogram/issues/new?template=artwork.yml).
 
-Each preview links to the SVG, which is the work itself: open it and search the text. All works are reproducible from [`gallery/works.config.json`](https://github.com/typ0graphic5/tg-art/blob/main/gallery/works.config.json) with `npm run gallery`.
+Each preview links to the SVG, which is the work itself: open it and search the text. All works are reproducible from [`gallery/works.config.json`](https://github.com/typographics-art/typogram/blob/main/gallery/works.config.json) with `npm run gallery`.
 
 ## Where this is useful
 
@@ -232,11 +232,11 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 **Why variable fonts?** A weight axis (and sometimes a width axis) gives each glyph a continuous range of ink, so tones can be matched precisely without changing the letter.
 
-**Can I use it commercially?** Yes. The code is MIT-licensed; the fonts are under the SIL Open Font License ([NOTICE.md](https://github.com/typ0graphic5/tg-art/blob/main/NOTICE.md)). Mind the rights to the texts and photos you use.
+**Can I use it commercially?** Yes. The code is MIT-licensed; the fonts are under the SIL Open Font License ([NOTICE.md](https://github.com/typographics-art/typogram/blob/main/NOTICE.md)). Mind the rights to the texts and photos you use.
 
 ## Contributing
 
-Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](https://github.com/typ0graphic5/tg-art/blob/main/CONTRIBUTING.md); please follow the [code of conduct](https://github.com/typ0graphic5/tg-art/blob/main/CODE_OF_CONDUCT.md).
+Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md); please follow the [code of conduct](https://github.com/typographics-art/typogram/blob/main/CODE_OF_CONDUCT.md).
 
 ```sh
 npm test          # node --test, no dependencies (a few seconds)
@@ -270,7 +270,7 @@ Writing about Typographics Art? The [press kit](https://typographics-art.org/doc
 
 ## Licence
 
-[MIT](https://github.com/typ0graphic5/tg-art/tree/main/LICENSE) © The Typographics Art contributors, covering the code, the project's own texts and motifs and `assets/`. Third-party materials (fonts, photographs, source documents) keep their own licences: see [NOTICE.md](https://github.com/typ0graphic5/tg-art/blob/main/NOTICE.md).
+[MIT](https://github.com/typographics-art/typogram/tree/main/LICENSE) © The Typographics Art contributors, covering the code, the project's own texts and motifs and `assets/`. Third-party materials (fonts, photographs, source documents) keep their own licences: see [NOTICE.md](https://github.com/typographics-art/typogram/blob/main/NOTICE.md).
 
 ---
 
@@ -814,7 +814,7 @@ node cli/tg-crypt.mjs --help            # the commands; secrets only by file, st
 - Every limit is enforced before work is done (a 5 MB "key", a 200 MB record or a compression bomb is refused in well under a second; tested).
 - Error messages never contain a key, password or message (tested), and secrets are never accepted as command-line arguments.
 
-If you find a mistake in the design, the code or this page, please say so: see [SECURITY.md](https://github.com/typ0graphic5/tg-art/blob/main/SECURITY.md) for private reports and [CONTRIBUTING.md](https://github.com/typ0graphic5/tg-art/blob/main/CONTRIBUTING.md) for the rest. A mistake found and fixed in the open is how this kind of project earns trust.
+If you find a mistake in the design, the code or this page, please say so: see [SECURITY.md](https://github.com/typographics-art/typogram/blob/main/SECURITY.md) for private reports and [CONTRIBUTING.md](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md) for the rest. A mistake found and fixed in the open is how this kind of project earns trust.
 
 ## 10. Glossary
 
@@ -948,7 +948,7 @@ What is done about it, each step measured in [docs/file-size.md](https://typogra
 
 ## Why AI instructions?
 
-Instructions for AI systems (system prompts, policies, agent rules such as [AGENTS.md](https://github.com/typ0graphic5/tg-art/blob/main/AGENTS.md)) are long texts that people rarely read in full. As a one-pager, a person recognises at a glance which instructions a page carries, and a model still receives every rule. That only works if it stays honest: the visible title must name the document, and the full text must be the declared document. Tiny text must never be used to hide instructions from the people who see the page.
+Instructions for AI systems (system prompts, policies, agent rules such as [AGENTS.md](https://github.com/typographics-art/typogram/blob/main/AGENTS.md)) are long texts that people rarely read in full. As a one-pager, a person recognises at a glance which instructions a page carries, and a model still receives every rule. That only works if it stays honest: the visible title must name the document, and the full text must be the declared document. Tiny text must never be used to hide instructions from the people who see the page.
 
 ## Make your own
 

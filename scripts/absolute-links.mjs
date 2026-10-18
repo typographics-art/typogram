@@ -3,7 +3,7 @@ import { posix } from 'node:path';
 // A file read as /llms-full.txt or from about/ has no repository around it: relative links would lead nowhere.
 // Each one is resolved against the file it came from and made absolute: to the website when the build publishes
 // that file (scripts/build-site.mjs), otherwise to the repository on GitHub. Anchors inside the same part stay.
-const SITE = 'https://typographics-art.org/', REPO = 'https://github.com/typ0graphic5/tg-art/';
+const SITE = 'https://typographics-art.org/', REPO = 'https://github.com/typographics-art/typogram/';
 const onSite = (path) => /^(docs\/|about\/|samples\/|gallery\/(?!works\.config\.json)|assets\/(?!brand\.html)|examples\/(motifs\/|[^/]+\/(onepage\.pdf|preview\.jpg|source\.txt)$))/.test(path)
   || /^(index|app|gallery|examples|work)\.html$|^llms\.txt$|^favicon\.svg$/.test(path);
 /** Markdown `md` that came from `file` (a repository path), with every relative link made absolute. */
