@@ -13,8 +13,9 @@ export {
 } from './layout.js';
 export { typesetWith, typesetSections, plainText, isFaithful } from './typeset.js';
 export {
-  toHtml, toStandaloneHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS, pdfStats, estimatePdfBytes,
+  toHtml, toStandaloneHtml, pictureHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS, pdfStats, estimatePdfBytes,
 } from './render.js';
+export { markdownToHtml } from './md-html.js';
 export { hideSecret, revealSecret, canonicalText } from './secret.js';
 export { markupText, pdfItemsText, readWorkFile } from './work-text.js';
 export { structuredText, sha256Hex } from './structure.js';
@@ -22,5 +23,5 @@ export { structuredText, sha256Hex } from './structure.js';
 export { encode, decode, decodeAll, findBlocks, stripBlocks, verify, toFile, modelJson, TgdError } from './structured.js';
 export { sealData, openSealed, findSealedBlocks, describeRecord, parseRecord, CryptError } from './crypt.js';
 export { sealStream, StreamReader, DEFAULT_FRAME } from './stream.js';
-export { writeMeta, readMeta, withMeta, embedStream, readEmbeddedStream, embedSource, readSource, TYPOGRAM_NS, TYPOGRAM_STREAM_NS, TYPOGRAM_SOURCE_NS } from './typogram.js';
+export { buildDataLayer, readDataMarkdown, readJsonld, stripDataLayer, buildJsonld, embedStream, readEmbeddedStream, TYPOGRAM_NS, TYPOGRAM_STREAM_NS } from './typogram.js';
 export * as dataPanel from './data-panel.js';

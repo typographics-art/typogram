@@ -2,6 +2,8 @@
 // exactly this text (src/secret.js). SVG and HTML: the text without markup. PDF: pdf.js in the browser
 // (readWorkFile), MuPDF in the CLI; both give the same canonical text (measured on all 31 example PDFs).
 
+import { stripDataLayer } from './typogram.js';
+
 const PDFJS = new URL('../assets/vendor/pdfjs/', import.meta.url).href; // pdf.js 4.4.168, Apache-2.0, hosted with the project
 
 const ENTITIES = { lt: '<', gt: '>', quot: '"', apos: "'", amp: '&' };
@@ -50,8 +52,14 @@ function stripTags(s) {
   return out + s.slice(i);
 }
 
-/** Text of an SVG or HTML work (`kind` 'svg' or 'html'), without tags, scripts and styles. */
+/** Text of an SVG or HTML work (`kind` 'svg' or 'html'), without tags, scripts and styles. Returns the IMAGE layer only. */
 export function markupText(raw, kind) {
+  // The data layer (a <metadata> block with a CDATA source that can itself contain "<text"/"</text>") sits before the
+  // artwork; strip it first so the image-layer extraction anchors on the real <text>, not on CDATA content.
+  if (kind === 'svg') raw = stripDataLayer(raw);
+  // A standalone HTML Typogram holds a second, DATA view (the Markdown rendered to an <article>) next to the picture; drop it
+  // so markupText returns the image layer (the picture) only, mirroring the SVG. The <head> data scripts go with stripSections.
+  if (kind === 'html') raw = raw.replace(/<article class="tg-article">[\s\S]*?<\/article>/, '');
   const end = raw.lastIndexOf('</text>');
   const body = kind === 'svg'
     ? raw.slice(Math.max(0, raw.indexOf('<text')), end < 0 ? raw.length : end)

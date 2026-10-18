@@ -19,7 +19,7 @@ import { parseKey2, formatKey2 } from '../src/keys-work.js';
 import { decode, toFile, OPEN, CLOSE } from '../src/structured.js';
 import { markupText } from '../src/work-text.js';
 import { canonicalText } from '../src/secret.js';
-import { readMeta, withMeta, embedStream, readEmbeddedStream, readSource } from '../src/typogram.js';
+import { readDataMarkdown, readJsonld, embedStream, readEmbeddedStream } from '../src/typogram.js';
 
 const MIME = {
   '.mp4': 'video/mp4', '.m4v': 'video/mp4', '.webm': 'video/webm', '.mkv': 'video/x-matroska', '.mov': 'video/quicktime', '.ogv': 'video/ogg',
@@ -144,8 +144,8 @@ async function serveWork(text, ext, keyString, workText) {
     if (!keyString) die('this Typogram holds sealed data: give the key with --key-file/--key-stdin');
     return serveRecord(sealed[0], keyString, workText ?? visible); // the work's own text binds the key
   }
-  const src = await readSource(text); // the exact source (Markdown, code): formatting the visible text normalised away
-  if (src) return staticServer(Buffer.from(src.bytes), src.media, 'source' + (src.media.includes('markdown') ? '.md' : '.txt'));
+  const src = readDataMarkdown(text); // the exact source (Markdown, code) from the data layer: formatting the picture normalised away
+  if (src) return staticServer(Buffer.from(src.markdown, 'utf8'), src.media, 'source' + (src.media.includes('markdown') ? '.md' : '.txt'));
   die('no data found in this Typogram (it is a picture only)');
 }
 
@@ -216,13 +216,15 @@ async function cmdInfo(_values, positionals) {
     info = { kind: 'tgst1 stream', bound: r.bound, size: r.size, frameSize: r.frameSize, frameCount: r.frameCount, note: 'media type and name are in the encrypted metadata; open with the key to read them' };
   } else {
     const txt = raw.toString('utf8');
-    const meta = readMeta(txt);
+    const jsonld = readJsonld(txt);
+    const source = readDataMarkdown(txt);
     const visible = ext === '.svg' ? markupText(txt, 'svg') : (ext === '.html' || ext === '.htm') ? markupText(txt, 'html') : txt;
-    const source = await readSource(txt);
+    const hasDataBlock = canonicalText(visible).includes(OPEN), hasSealed = /tgs1\.[A-Za-z0-9_-]+/.test(txt), hasEmbeddedStream = !!readEmbeddedStream(txt);
+    const kind = hasEmbeddedStream ? 'typogram (stream)' : hasSealed ? 'typogram (sealed)' : hasDataBlock ? 'typogram (data)'
+      : (jsonld || source) ? 'typogram (art)' : txt.trimStart().startsWith('tgs1.') ? 'tgs1 record' : 'unknown';
     info = {
-      kind: meta ? `typogram (${meta.kind || 'art'})` : txt.trimStart().startsWith('tgs1.') ? 'tgs1 record' : 'unknown',
-      metadata: meta, hasDataBlock: canonicalText(visible).includes(OPEN), hasSealed: /tgs1\.[A-Za-z0-9_-]+/.test(txt),
-      hasEmbeddedStream: !!readEmbeddedStream(txt), source: source ? { media: source.media, bytes: source.bytes.length } : null,
+      kind, jsonld, hasDataBlock, hasSealed, hasEmbeddedStream,
+      source: source ? { media: source.media, chars: source.markdown.length } : null,
     };
   }
   console.log(JSON.stringify(info, null, 2));
@@ -232,10 +234,11 @@ async function cmdInfo(_values, positionals) {
 // the visible picture text normalised away.
 async function cmdSource(values, positionals) {
   const src = positionals[0] || die('give the Typogram to read the source from');
-  const source = await readSource(readFileSync(src, 'utf8'));
+  const source = readDataMarkdown(readFileSync(src, 'utf8'));
   if (!source) die('this Typogram carries no embedded source');
-  if (values.out) { const fd = openSync(values.out, 'wx', 0o600); try { writeSync(fd, Buffer.from(source.bytes)); } finally { closeSync(fd); } console.error(`tg-adapter: wrote ${source.bytes.length} bytes of ${source.media} to ${values.out}`); }
-  else process.stdout.write(Buffer.from(source.bytes));
+  const bytes = Buffer.from(source.markdown, 'utf8');
+  if (values.out) { const fd = openSync(values.out, 'wx', 0o600); try { writeSync(fd, bytes); } finally { closeSync(fd); } console.error(`tg-adapter: wrote ${bytes.length} bytes of ${source.media} to ${values.out}`); }
+  else process.stdout.write(bytes);
 }
 
 // Embeds a media file into a cover Typogram SVG as a sealed stream, so the ONE SVG holds the whole video and still opens as
@@ -252,7 +255,8 @@ async function cmdEmbed(values, positionals) {
   const digest = await workDigest(workText);
   const secret = new Uint8Array(32); globalThis.crypto.getRandomValues(secret);
   const stream = await sealStream({ secret, workDigest: digest, bytes, media, name: basename(mediaFile), frameSize: values.frame ? Number(values.frame) : undefined });
-  const out = withMeta(embedStream(svgText, stream), { ...(readMeta(svgText) || {}), kind: 'stream', created: new Date().toISOString() });
+  // The cover's data layer (its exact source + JSON-LD) stays as it is; the sealed video is appended as <tgstream> before </svg>.
+  const out = embedStream(svgText, stream);
   const dest = values.out || cover.replace(/\.svg$/, '') + '.typogram.svg';
   const fd = openSync(dest, 'wx', 0o600); try { writeSync(fd, out); } finally { closeSync(fd); }
   const key = await formatKey2({ secret, digest });

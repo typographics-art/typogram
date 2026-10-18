@@ -46,6 +46,7 @@
   },
   "license": "MIT",
   "bin": {
+    "tg": "./cli/tg.mjs",
     "tg-art": "./cli/tg-art.mjs",
     "tg-secret": "./cli/tg-secret.mjs",
     "tg-data": "./cli/tg-data.mjs",

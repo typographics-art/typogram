@@ -1,5 +1,5 @@
 // The page script of app.html (a file, not an inline block, so the site's Content-Security-Policy needs no 'unsafe-inline' for scripts).
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml, canonicalText, sha256Hex, meanLuminance, paperFor, embedSource } from '../../src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml, canonicalText, sha256Hex, meanLuminance, paperFor, buildJsonld } from '../../src/index.js';
 import { typeset, toPng } from '../../src/browser.js';
 import { mountDataPanel } from '../../src/data-panel-ui.js';
 import { saveBlob } from '../../src/data-ui.js';
@@ -249,7 +249,7 @@ async function run() {
     st.innerHTML = toHtml(sheet);
     applyScale(); applyOverlay();
     plain = st.innerText;
-    $('#export').value = toStandaloneHtml(sheet, { description: describe() });
+    $('#export').value = toStandaloneHtml(sheet, { description: describe(), markdown: $('#text').value });
     $('#png').hidden = true;
 
     // A data block does not depend on whitespace (docs/structured-data.md 1.2): the layout may cut a long token with a space, so the check ignores spaces there.
@@ -409,22 +409,21 @@ async function copy(txt, what) {
   try { await navigator.clipboard.writeText(txt); m.textContent = t('copied', { what, n: fmt(txt.length) }); }
   catch { ta.focus(); ta.select(); m.textContent = t('selected', { what }); }
 }
-$('#copyHtml').addEventListener('click', () => sheet && copy(toStandaloneHtml(sheet, { description: describe() }), 'HTML'));
-// Every exported SVG is a Typogram: a valid picture that also carries a documented metadata block (src/typogram.js).
-async function typogramMeta() {
-  const text = normalizeText(plain);
-  return {
-    ...(describe() ? { title: describe() } : {}),
-    created: new Date().toISOString(),
-    textSha256: await sha256Hex(canonicalText(text)),
-    kind: text.includes('TGD1[') ? 'data' : 'art',
-  };
+$('#copyHtml').addEventListener('click', async () => { if (sheet) copy(toStandaloneHtml(sheet, await typogramData()), 'HTML'); });
+// The data layer of an exported Typogram (docs/typogram-file.md): a JSON-LD record whose tgart.hash binds the image layer
+// to the exact source. The exact typed source (its line breaks and any Markdown structure, which the picture normalises
+// away) is carried in the same data layer as `markdown`.
+async function typogramData() {
+  const md = $('#text').value, media = 'text/plain; charset=utf-8';
+  const jsonld = buildJsonld({
+    name: describe() || undefined, dateCreated: new Date().toISOString(),
+    sourceFormat: media, charCount: md.length, hash: await sha256Hex(canonicalText(md)),
+  });
+  return { description: describe(), markdown: md, media, jsonld };
 }
-// The SVG with metadata AND the exact typed source embedded losslessly (its line breaks and any Markdown structure survive,
-// which the visible picture text normalises away).
+// The SVG Typogram: a valid picture that also carries the data layer (the exact source + a JSON-LD record with the hash).
 async function typogramSvg() {
-  const svg = toSvg(sheet, { description: describe(), metadata: await typogramMeta() });
-  return embedSource(svg, new TextEncoder().encode($('#text').value), { media: 'text/plain; charset=utf-8' });
+  return toSvg(sheet, await typogramData());
 }
 $('#copySvg').addEventListener('click', async () => { if (sheet) copy(await typogramSvg(), 'SVG'); });
 $('#copyText').addEventListener('click', () => sheet && copy(plain, t('plain')));
@@ -435,7 +434,7 @@ $('#makePng').addEventListener('click', () => {
 });
 
 $('#saveSvg').addEventListener('click', async () => { if (sheet) { saveBlob(await typogramSvg(), 'typographics-art.svg', 'image/svg+xml'); $('#copyMsg').textContent = t('saved', { what: 'SVG' }); } });
-$('#saveHtml').addEventListener('click', () => { if (sheet) { saveBlob(toStandaloneHtml(sheet, { description: describe() }), 'typographics-art.html', 'text/html'); $('#copyMsg').textContent = t('saved', { what: 'HTML' }); } });
+$('#saveHtml').addEventListener('click', async () => { if (sheet) { saveBlob(toStandaloneHtml(sheet, await typogramData()), 'typographics-art.html', 'text/html'); $('#copyMsg').textContent = t('saved', { what: 'HTML' }); } });
 $('#printPdf').addEventListener('click', () => sheet && window.print());
 // Hidden message: a book cipher over the work's public text (src/secret.js). The work itself is not changed.
 const say = (msg, kind) => { const m = $('#secretMsg'); m.textContent = msg; m.className = 'hint ' + kind; $('#secretSuggest').replaceChildren(); };

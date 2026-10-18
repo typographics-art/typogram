@@ -4,6 +4,33 @@ Typographics Art claims that its works stay readable for machines. This page sho
 
 Measured on 2026-10-17 with the reference implementation (v0.1.0), Chromium headless, Tesseract 5.5.3 (`eng`), Poppler `pdftotext` 26.08.
 
+## What a model reads
+
+A Typogram has two views of one text. A **human** sees the *image layer*: the artwork, the text set character for character so
+it forms the picture. A **machine** should read the *data layer*: the exact source (Markdown, with its headings, tables, lists
+and code) and a JSON-LD record, carried losslessly inside the same file ([typogram-file.md](typogram-file.md)). The data layer
+is read directly — not OCR'd from the pixels — so it is exact and cheap:
+
+```sh
+tg extract work.svg --markdown   # the exact source, byte for byte (also .html, .pdf)
+tg extract work.svg --json       # the JSON-LD record (title, author, the hash, …)
+```
+
+The numbers below measure the **fallback**: what survives when only a *picture* of the work travels (a screenshot, a social
+post) and the data layer is gone. That is the hard case, and it is why the image layer is engineered to read back at all. When
+the file itself travels, a model reads the data layer and gets the source perfectly, structure and all.
+
+**The two views are bound by a hash.** The JSON-LD stores the SHA-256 of the canonical text ([canonical-text.md](canonical-text.md));
+`tg verify work.svg` recomputes it from the glyphs and requires it to equal both the stored hash and the hash of the embedded
+source. If the three agree, the readable source and the picture demonstrably say the same thing.
+
+**The prompt-injection objection.** "A file that hands a model its own ready-made text could carry *different* text from what a
+person sees, and smuggle instructions past the human." The hash is the answer: `tg verify` fails the moment the data layer and
+the image layer diverge, and its lint flags a visible title that does not match the source. A model (or an agent framework)
+should **verify before trusting** the data layer, and fall back to the glyphs (`tg extract --from-glyphs`) if it will not, or
+cannot. The honesty rule for authors is the same in both directions: the visible title must name the document, and the tiny
+text must never hide instructions from the people who see the page.
+
 ## Setup
 
 - **Text:** Shakespeare's Sonnet 18 (620 characters), filled with declared Lorem ipsum to 3 000 characters. The filler contains words like *officia*, which matters for ligatures (see below).

@@ -5,7 +5,8 @@
 import { justify } from './layout.js';
 import { fontStylesheetUrl, normalWidthIndex, variationsFor } from './fonts.js';
 import { rgbCss } from './color.js';
-import { writeMeta } from './typogram.js';
+import { buildDataLayer } from './typogram.js';
+import { markdownToHtml } from './md-html.js';
 
 /**
  * Every glyph must stay its own character: ligatures would merge "ffi" into one glyph (Chrome's PDF
@@ -85,14 +86,54 @@ export function estimatePdfBytes({ outlines, runs, glyphs }, { optimized = false
     : 555 * outlines + 7.2 * runs + 0.9 * glyphs + 14400;
 }
 
-/** Self-contained HTML snippet including the font link and the paper. `description` (what the picture shows) names the figure for assistive technology. */
-export function toStandaloneHtml(sheet, { description = '' } = {}) {
+// Base styles for the standalone HTML document: the two views side by side on wide screens, stacked on a phone. No executable
+// script, no external resource except the Google-Fonts stylesheet — the page stays CSP-safe.
+const HTML_DOC_CSS =
+  ':root{color-scheme:light dark}' +
+  'body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6;color:#1a1a1a;background:#fff}' +
+  '@media(prefers-color-scheme:dark){body{color:#e8e8e8;background:#121212}}' +
+  '.tg-wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;max-width:1400px;margin:0 auto;padding:16px}' +
+  '.tg-figure{margin:0;flex:1 1 320px;min-width:0}.tg-figure svg,.tg-figure .tg-pic{max-width:100%;height:auto}' +
+  '.tg-pic{display:block}' +
+  '.tg-article{flex:1 1 360px;min-width:0;max-width:72ch}' +
+  '.tg-article img{max-width:100%;height:auto}' +
+  '.tg-article pre{overflow:auto;padding:12px;background:rgba(127,127,127,.12);border-radius:6px}' +
+  '.tg-article code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}' +
+  '.tg-article table{border-collapse:collapse;width:100%}' +
+  '.tg-article th,.tg-article td{border:1px solid rgba(127,127,127,.4);padding:6px 10px}' +
+  '.tg-article blockquote{margin:0 0 1em;padding-left:1em;border-left:3px solid rgba(127,127,127,.4);color:inherit;opacity:.85}';
+
+/** The picture of a sheet as an inline HTML block (paper, font, one span per run), scaled to fit its column. */
+export function pictureHtml(sheet, { description = '' } = {}) {
   const { outW, outH, pad, font, paper } = sheet;
   const q = (s) => s.replace(/'/g, '&quot;');
-  return `<link rel="stylesheet" href="${fontStylesheetUrl()}">\n` +
-    `<div${description ? ` role="figure" aria-label="${escapeXml(description)}"` : ''} style="box-sizing:border-box;width:${outW}px;height:${outH}px;padding:${pad}px;overflow:hidden;` +
+  return `<div class="tg-pic"${description ? ` role="img" aria-label="${escapeXml(description)}"` : ''} style="box-sizing:border-box;width:${outW}px;height:${outH}px;padding:${pad}px;overflow:hidden;` +
     `background:${rgbCss(paper.paper)};color:${rgbCss(paper.ink)};font-family:${q(font.css)};font-variation-settings:${q(font.variations)};${q(GLYPH_CSS)}">` +
     toHtml(sheet) + '</div>';
+}
+
+/**
+ * A standalone HTML Typogram: a full document with two views — the picture as a <figure role="img">, and the real content as
+ * an <article> with true headings, paragraphs, tables, code and lists rendered from the data-layer Markdown (src/md-html.js).
+ * The JSON-LD record and the exact Markdown ride along as data scripts in <head>, so a machine reads the structured source
+ * directly. `description` names the picture for assistive technology. CSP-safe: no executable inline script.
+ */
+export function toStandaloneHtml(sheet, { description = '', markdown = '', jsonld = null, lang = '' } = {}) {
+  const title = (jsonld && jsonld.name) || description || 'Typographics Art';
+  const ld = jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>\n` : '';
+  // An HTML <script> ends at the first "</script"; split that sequence so the Markdown rides along intact (tg extract reverses it).
+  const mdScript = markdown ? `<script type="text/markdown">${String(markdown).replace(/<\/(script)/gi, '<\\/$1')}</script>\n` : '';
+  const article = markdown ? `<article class="tg-article">${markdownToHtml(markdown)}</article>` : '';
+  return `<!doctype html>\n<html lang="${escapeXml(lang || 'en')}">\n<head>\n<meta charset="utf-8">\n` +
+    `<meta name="viewport" content="width=device-width, initial-scale=1">\n` +
+    `<title>${escapeXml(title)}</title>\n` +
+    `<link rel="stylesheet" href="${fontStylesheetUrl()}">\n` +
+    ld + mdScript +
+    `<style>${HTML_DOC_CSS}</style>\n</head>\n<body>\n` +
+    `<div class="tg-wrap">\n` +
+    `<figure class="tg-figure"${description ? ` role="img" aria-label="${escapeXml(description)}"` : ''}>${pictureHtml(sheet)}</figure>\n` +
+    (article ? article + '\n' : '') +
+    `</div>\n</body>\n</html>\n`;
 }
 
 /** Calls fn(item, x, baselineY, lineIndex) for every glyph of lines [from, to), in reading order, in sheet coordinates. */
@@ -110,30 +151,72 @@ export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length
   }
 }
 
-/** Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given). */
-export function svgHead(sheet, { description = '' } = {}) {
+/**
+ * The attributes most tspans share, hoisted to the parent <text> so they are written once and inherited (SVG attribute
+ * inheritance), not repeated on every run. Derived from the whole sheet so svgHead and svgLines compute the same defaults
+ * independently (parts concatenate to the same document). `size` is set only when every glyph shares one size (the common
+ * one-pager case: then no <tspan> carries font-size at all). The <text> fill stays the paper ink (NOT the commonest glyph
+ * colour): an uncoloured run (empty colour) inherits that fill, so changing it would recolour those glyphs. Purely a byte
+ * saving — colorOf is read only here, never twice per glyph during emit, and the rendered picture is unchanged.
+ */
+function svgDefaults(sheet) {
+  const { weights, result } = sheet, fs = result.fs;
+  const wCount = new Map(), sizes = new Set();
+  forEachGlyph(sheet, (it) => {
+    if (it.ch === ' ') return;
+    const w = weights[it.wi]; wCount.set(w, (wCount.get(w) || 0) + 1);
+    sizes.add((fs * it.s).toFixed(2));
+  });
+  let weight, n = -1;
+  for (const [k, v] of wCount) if (v > n) { n = v; weight = k; }
+  return { weight, size: sizes.size === 1 ? [...sizes][0] : null };
+}
+
+/**
+ * Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given). The
+ * run attributes most glyphs share (weight, a single size, the common fill) sit on <text> and are inherited (svgDefaults).
+ * When `markdown` or `jsonld` is given, the data layer (docs/typogram-file.md) goes right after the opening <svg …>,
+ * before <title>/<text>: the exact source in CDATA + a JSON-LD record with the identity hash. Being CDATA/escaped it
+ * never shifts the text anchors markupText() uses (readers strip it first), so the character-for-character read-back stays
+ * exact whether or not a data layer is present.
+ */
+export function svgHead(sheet, { description = '', markdown, jsonld, media } = {}) {
   const { outW, outH, font, paper } = sheet;
+  const d = svgDefaults(sheet);
+  const data = (markdown != null || jsonld != null)
+    ? buildDataLayer({ markdown: markdown ?? '', ...(media ? { media } : {}), jsonld: jsonld ?? null }) : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${outW}" height="${outH}" viewBox="0 0 ${outW} ${outH}">` +
+    data +
     (description ? `<title>${escapeXml(description)}</title>` : '') +
     `<style>@import url('${escapeXml(fontStylesheetUrl())}');</style>` +
     `<rect width="100%" height="100%" fill="${rgbCss(paper.paper)}"/>` +
-    `<text xml:space="preserve" font-family="${escapeXml(font.css)}" style="font-variation-settings:${escapeXml(font.variations)};${escapeXml(GLYPH_CSS)}" fill="${rgbCss(paper.ink)}">`;
+    `<text xml:space="preserve" font-family="${escapeXml(font.css)}"` +
+    (d.weight != null ? ` font-weight="${d.weight}"` : '') +
+    (d.size != null ? ` font-size="${d.size}"` : '') +
+    ` style="font-variation-settings:${escapeXml(font.variations)};${escapeXml(GLYPH_CSS)}" fill="${rgbCss(paper.ink)}">`;
 }
 
 export const SVG_TAIL = '</text></svg>';
 
 /** The glyphs of lines [from, to) as SVG tspans. Parts concatenate to the same document as toSvg. */
 export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
-  const { font, colorOf, weights, result } = sheet, fs = result.fs;
-  const nw = normalWidthIndex(font);
+  const { font, colorOf, weights, result, paper } = sheet, fs = result.fs;
+  const nw = normalWidthIndex(font), d = svgDefaults(sheet), ink = rgbCss(paper.ink);
   let out = '', open = false, key = null, needX = true;
   forEachGlyph(sheet, (it, x, y, i) => {
     const col = it.ch === ' ' ? '' : colorOf(it, i), k = it.wi + '|' + it.wd + '|' + it.s + '|' + col + '|' + i;
     if (k !== key || needX) {
       if (open) out += '</tspan>';
-      out += `<tspan x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${(fs * it.s).toFixed(2)}" font-weight="${weights[it.wi]}"` +
+      const size = (fs * it.s).toFixed(2), weight = weights[it.wi];
+      // Each attribute is written only when it differs from the <text> default; it is inherited otherwise (font-size when
+      // every glyph shares one size, the dominant font-weight, and the ink fill). Coordinates stay at one decimal; font-size
+      // keeps two, so the picture is byte-for-byte the same pixels (measured AE 0 vs the per-run form, docs/file-size.md).
+      out += `<tspan x="${x.toFixed(1)}" y="${y.toFixed(1)}"` +
+        (size !== d.size ? ` font-size="${size}"` : '') +
+        (weight !== d.weight ? ` font-weight="${weight}"` : '') +
         (it.wd !== nw ? ` font-stretch="${font.widths[it.wd]}%" style="font-variation-settings:${escapeXml(variationsFor(font, font.widths[it.wd]))}"` : '') +
-        `${col ? ` fill="${col}"` : ''}>`;
+        (col && col !== ink ? ` fill="${col}"` : '') +
+        `>`;
       open = true; key = k; needX = false;
     }
     out += escapeXml(it.ch);
@@ -143,9 +226,11 @@ export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
   return out;
 }
 
-/** `description` (what the picture shows) becomes the SVG's <title>, its accessible name. */
+/**
+ * A Typogram SVG. `o.description` (what the picture shows) becomes the <title>, its accessible name; `o.markdown`/`o.jsonld`/
+ * `o.media` add the data layer (the exact source + a JSON-LD record), placed before <text> by svgHead so the read-back of
+ * the artwork text stays exact (src/typogram.js, docs/typogram-file.md).
+ */
 export function toSvg(sheet, o = {}) {
-  // `o.metadata` (the Typogram envelope) goes after </text> as an escaped-JSON <metadata> element, so it never shifts the
-  // text anchors markupText() uses and the read-back stays exact (src/typogram.js, docs/typogram-file.md).
-  return svgHead(sheet, o) + svgLines(sheet) + '</text>' + writeMeta(o.metadata) + '</svg>';
+  return svgHead(sheet, o) + svgLines(sheet) + SVG_TAIL;
 }

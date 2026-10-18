@@ -55,3 +55,22 @@ test('data layer: tolerant readers return null on absence or breakage', () => {
   assert.equal(readJsonld('<svg></svg>'), null);
   assert.equal(stripDataLayer('<svg><text>x</text></svg>').includes('<text>x'), true);
 });
+
+// An HTML Typogram carries the JSON-LD in <head> (before the <script type="text/markdown"> that holds the source). readJsonld
+// must read it there, and must NOT be spoofed by a counterfeit <script type="application/ld+json"> hidden in the Markdown.
+const htmlOf = (headLd, md) =>
+  `<!doctype html>\n<html><head><script type="application/ld+json">${headLd}</script>\n` +
+  `<script type="text/markdown">${String(md).replace(/<\/(script)/gi, '<\\/$1')}</script>\n</head>` +
+  `<body><article>doc</article></body></html>\n`;
+
+test('data layer (HTML): readJsonld reads the head record (SVG-scoped fix must not break HTML verify)', () => {
+  const j = readJsonld(htmlOf('{"@type":"DigitalDocument","tgart":{"hash":"REALHTML"}}', '# doc'));
+  assert.ok(j, 'HTML JSON-LD is found');
+  assert.equal(j.tgart.hash, 'REALHTML');
+});
+
+test('data layer (HTML): a fake JSON-LD hidden in the text/markdown block cannot spoof the record', () => {
+  const evilMd = '# doc\n<script type="application/ld+json">{"@type":"DigitalDocument","tgart":{"hash":"EVIL"}}</script>\n';
+  const svg = htmlOf('{"@type":"DigitalDocument","tgart":{"hash":"REALHTML"}}', evilMd);
+  assert.equal(readJsonld(svg).tgart.hash, 'REALHTML', 'the head record is read, not the one hidden in the Markdown');
+});
