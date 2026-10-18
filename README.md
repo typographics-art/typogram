@@ -103,6 +103,24 @@ node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o one
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
+## The three views: picture, source, and a hash that binds them
+
+A Typogram is one file with **three guaranteed views**:
+
+- the **image layer** — the artwork, a person's view: the text set character for character so it forms the picture;
+- the **data layer** — a machine's view: the exact source (Markdown, with its headings, tables, lists and code) and a schema.org JSON-LD record, carried losslessly *inside the same file* (an SVG `<metadata>` before the artwork, a `<script type="text/markdown">` + JSON-LD in an HTML `<head>`, attached files in a PDF);
+- an **identity hash** — the SHA-256 of the canonical text ([docs/canonical-text.md](docs/canonical-text.md)), stored in the data layer, that proves both views carry the same text.
+
+What a machine reads is the **data layer**, read directly, not OCR'd from the pixels:
+
+```sh
+tg extract about/typographics-art.svg --markdown   # the exact source, byte for byte
+tg extract about/typographics-art.svg --json       # the JSON-LD record (title, author, hash, …)
+tg verify  about/typographics-art.svg              # prove the picture, the source and the hash are one text
+```
+
+`tg verify` recomputes the hash from the glyphs and requires it to equal both the stored hash and the hash of the embedded source — so a model can trust that the readable source and the picture say the same thing, and refuse the file if they do not. The same works on the `.html` and `.pdf` views. A standalone reference, [tools/tg_extract.py](tools/tg_extract.py) (Python standard library only), reads and verifies the same files and produces the same hash. The format is [docs/typogram-file.md](docs/typogram-file.md); why a model should prefer the data layer, and the prompt-injection answer, is [docs/ai-readability.md](docs/ai-readability.md#what-a-model-reads).
+
 ## Hidden messages
 
 A work can carry a message that only the holder of a key can read. The work itself does not change: it holds only its public text, nothing invisible. The key records, for every character of the message, one position in that text where the same character stands, chosen at random among all its occurrences (a book cipher). With the key and the right work, the message comes back; with any other work, the key's text fingerprint does not match.
