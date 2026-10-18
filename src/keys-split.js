@@ -275,6 +275,9 @@ async function parseVault(text) {
     }
   } catch { throw fail('damaged', 'The vault is damaged'); }
   if (at !== body.length) throw fail('damaged', 'The vault is damaged (extra bytes)');
+  // Unique names and shares (createVault guarantees it): a repeated factor would multiply the per-entry KDF time bound
+  // on one openVault() call (review 2026-10, M-1).
+  if (new Set(entries.map((e) => e.name)).size !== entries.length || new Set(entries.map((e) => e.x)).size !== entries.length) throw fail('damaged', 'The vault is damaged (a factor is repeated)');
   return { header: body.slice(0, 7), entries, k };
 }
 /**
@@ -295,7 +298,11 @@ export async function openVault(text, available) {
       else { if (!(a.key instanceof Uint8Array) || a.key.length !== 32) continue; key = a.key; }
       const share = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: e.nonce, additionalData: concat(utf8('tgv1'), header, e.head), tagLength: 128 }, await wrapKey(key, e.name), e.ct));
       points.push({ x: e.x, y: share }); used.push(e.name);
-    } catch (err) { if (err.name === 'CryptError' && err.code !== 'no-key') throw err; /* a wrong factor: skip */ }
+    } catch (err) {
+      // Skip only a genuinely wrong factor (AES-GCM auth failure, or an empty passphrase); surface anything else
+      // (e.g. a failed Argon2 allocation) instead of reading it as "wrong factor" (review 2026-10, L-2).
+      if (!(err?.name === 'OperationError' || (err?.name === 'CryptError' && err.code === 'no-key'))) throw err;
+    }
   }
   if (points.length < k) throw fail('vault-too-few', `${k} factors are needed to open this vault; ${points.length} worked`, { need: k, have: points.length });
   const use = points.slice(0, k);

@@ -23,7 +23,11 @@ async function wrapKey(factorKey, name) {
   const k = await hkdf(factorKey, utf8('tgv2/wrap'), utf8(name), 32);
   return crypto.subtle.importKey('raw', k, 'AES-GCM', false, ['encrypt', 'decrypt']);
 }
-const verifyOf = async (master) => (await hmac('SHA-256', master, utf8('tgv2/check'))).slice(0, 4);
+// The verify bytes derive the check value from the master through HKDF (a distinct salt/info), never by keying HMAC with
+// the master itself — the master is the HKDF input of every record key, so it must not also serve as a raw HMAC key
+// (review 2026-10, L-3; the same "no key for two primitives" rule the tgx2 tag now follows). tgv2 is not public, so the
+// verify bytes change here cost nothing.
+const verifyOf = async (master) => hkdf(master, utf8('tgv2/check'), utf8('tgv2/verify'), 4);
 function splitRaw(secret, k, n, random) {
   const polys = Array.from(secret, (s) => Uint8Array.of(s, ...randomBytes(k - 1, random)));
   return Array.from({ length: n }, (_, i) => ({ x: i + 1, y: Uint8Array.from(polys, (c) => gfEval(c, i + 1)) }));
@@ -103,6 +107,9 @@ async function parseVault2(text) {
     }
   } catch { throw fail('damaged', 'The vault is damaged'); }
   if (at !== body.length) throw fail('damaged', 'The vault is damaged (extra bytes)');
+  // Names and shares are unique (createVault guarantees it). A hostile vault that repeats a factor name would make one
+  // openVault() run that factor's KDF once per copy, multiplying the per-entry time bound (review 2026-10, M-1).
+  if (new Set(entries.map((e) => e.name)).size !== entries.length || new Set(entries.map((e) => e.x)).size !== entries.length) throw fail('damaged', 'The vault is damaged (a factor is repeated)');
   return { header, entries, k, n };
 }
 
@@ -138,7 +145,11 @@ export async function openVaultDefault(text, available) {
       else { if (!(a.key instanceof Uint8Array) || a.key.length !== 32) continue; key = a.key; }
       const share = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: e.nonce, additionalData: concat(utf8('tgv2'), header, e.head), tagLength: 128 }, await wrapKey(key, e.name), e.ct));
       points.push({ x: e.x, y: share }); used.push(e.name);
-    } catch (err) { if (err.name === 'CryptError' && err.code !== 'no-key') throw err; /* a wrong factor: skip */ }
+    } catch (err) {
+      // Skip only a genuinely wrong factor: an AES-GCM auth failure (OperationError) or an empty passphrase (no-key).
+      // Any other error (e.g. a failed Argon2 allocation) is real and must surface, not read as "wrong passphrase".
+      if (!(err?.name === 'OperationError' || (err?.name === 'CryptError' && err.code === 'no-key'))) throw err;
+    }
   }
   if (points.length < k) throw fail('vault-too-few', `${k} factors are needed to open this vault without the seed; ${points.length} worked`, { need: k, have: points.length });
   const use = points.slice(0, k);
