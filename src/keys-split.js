@@ -3,6 +3,7 @@
 //   XOR n-of-n and Shamir k-of-n (GF(2^8), the AES polynomial) -> text shares "tgsh1." + base58(...)  (shares.*)
 //   password mixing: a random secret + a memorised password -> the key; guessing the password alone gets nowhere (mix.*)
 //   the vault: a random vault secret wrapped by k-of-n FACTORS (seed, passkey, passphrase), the passphrase never alone
+//   (that is `mode: 'strict'`, `tgv1.`; the default vault, V = the master so the seed alone recovers everything, is keys-vault2.js)
 //   a passphrase generator from the BIP-39 list, and the WebAuthn PRF input/output helpers
 //
 // A share, a half key or a vault entry stored on a public chain protects nothing by itself it is not meant to: the
@@ -11,6 +12,7 @@ import { fail, utf8, concat, equalBytes, sha256, b58Encode, b58Decode, b64urlEnc
 import { hkdf, hmac } from './keys.js';
 import { BIP39_ENGLISH } from './keys-wordlist-en.js';
 import { stretch, encodeParams, decodeParams, checkParams, DEFAULT_PARAMS } from './keys-kdf.js';
+import { createVaultDefault, openVaultDefault, describeVaultDefault, VAULT2_PREFIX } from './keys-vault2.js';
 
 const rnd = (random) => random ?? ((a) => crypto.getRandomValues(a));
 const randomBytes = (n, random) => { const a = new Uint8Array(n); rnd(random)(a); return a; };
@@ -196,7 +198,11 @@ async function wrapKey(factorKey, name) {
  * passphrase against its own share, which is one share and so worth nothing alone.
  * @returns {Promise<{vault:string, secret:Uint8Array}>}
  */
-export async function createVault(factors, { k = 2, random } = {}) {
+export async function createVault(factors, { k, mode = 'default', random } = {}) {
+  // mode 'default' (decision 13.2): V = the master, the seed alone recovers everything -> `tgv2.` (keys-vault2.js); 'strict': this function, `tgv1.`
+  if (mode === 'default') return createVaultDefault(factors, { k, random });
+  if (mode !== 'strict') throw fail('bad-option', 'mode is "default" (the seed alone recovers everything) or "strict" (the seed is one share)');
+  k ??= 2;
   if (!Array.isArray(factors) || factors.length < 2 || factors.length > 8) throw fail('bad-option', 'A vault has 2 to 8 factors');
   if (!Number.isInteger(k) || k < 2 || k > factors.length) throw fail('bad-option', 'k is 2 to the number of factors');
   const names = factors.map((f) => f?.name);
@@ -235,12 +241,13 @@ async function splitShamirRaw(secret, k, n, random) {
 }
 /** Reads a vault without any factor: threshold and the names of its factors. */
 export async function describeVault(text) {
+  if (squeeze(text).startsWith(VAULT2_PREFIX)) return describeVaultDefault(text);
   const { header, entries, k } = await parseVault(text);
-  return { k, factors: entries.map((e) => ({ name: e.name, passphrase: !!e.params, params: e.params })), n: entries.length, headerBytes: header.length };
+  return { mode: 'strict', k, factors: entries.map((e) => ({ name: e.name, passphrase: !!e.params, params: e.params })), n: entries.length, headerBytes: header.length };
 }
 async function parseVault(text) {
   const t = squeeze(text);
-  if (!t.startsWith(VAULT_PREFIX)) throw fail(t ? 'bad-prefix' : 'no-key', 'Not a vault (it starts with "tgv1.")');
+  if (!t.startsWith(VAULT_PREFIX)) throw fail(t ? 'bad-prefix' : 'no-key', 'Not a vault (it starts with "tgv1." or "tgv2.")');
   if (t.length > 4096) throw fail('damaged', 'This is too long to be a vault');
   let b;
   try { b = b64urlDecode(t.slice(VAULT_PREFIX.length), 4096); } catch { throw fail('damaged', 'The vault is damaged'); }
@@ -276,6 +283,7 @@ async function parseVault(text) {
  * @throws {CryptError} vault-too-few (fewer than k factors worked: `have`, `need`), vault-mismatch, damaged, checksum
  */
 export async function openVault(text, available) {
+  if (squeeze(text).startsWith(VAULT2_PREFIX)) return openVaultDefault(text, available);
   const { header, entries, k } = await parseVault(text);
   const points = [], used = [];
   for (const e of entries) {

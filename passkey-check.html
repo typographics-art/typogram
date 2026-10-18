@@ -209,7 +209,7 @@ async function run() {
     if (!r.stable) { say($('#testMsg'), t('notStable'), 'bad'); return render(); }
     // a small vault: this passkey plus a random second high-entropy factor, 2 of 2
     const seedFactor = crypto.getRandomValues(new Uint8Array(32));
-    const { vault, secret } = await createVault([{ name: 'seed', key: seedFactor }, { name: 'passkey', key: fa }], { k: 2 });
+    const { vault, secret } = await createVault([{ name: 'seed', key: seedFactor }, { name: 'passkey', key: fa }], { k: 2, mode: 'strict' });
     const opened = await openVault(vault, { seed: { key: seedFactor }, passkey: { key: await factorFromPrf(b) } });
     r.vaultOpen = toHex(opened.secret) === toHex(secret);
     try { await openVault(vault, { passkey: { key: fa } }); r.vaultLock = false; } catch { r.vaultLock = true; }

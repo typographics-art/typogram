@@ -51,10 +51,13 @@ export async function build() {
     v.mixed.push({ password: pw, half: r.half, key: hex(r.key) });
   }
   const factors = [{ name: 'seed', key: await factorFromMaster(master) }, { name: 'passkey', key: await factorFromPrf(Uint8Array.from({ length: 32 }, (_, i) => 255 - i)) }, { name: 'passphrase', passphrase: 'alpha beta gamma', params: { kdf: 'argon2id', memoryKiB: 8192, passes: 1, parallelism: 1 } }];
-  const vault = await createVault(factors, { k: 2, random: seededRandom('vault') });
+  const vault = await createVault(factors, { k: 2, mode: 'strict', random: seededRandom('vault') });
   v.vault = { vault: vault.vault, secret: hex(vault.secret), passphrase: 'alpha beta gamma' };
   v.passphrase = generatePassphrase(8, { random: seededRandom('words') });
   v.prf = { input: hex(await prfInput('vault-1')), factor: hex(await factorFromPrf(Uint8Array.from({ length: 32 }, (_, i) => 255 - i))), seedFactor: hex(await factorFromMaster(master)) };
+  // the default vault (decision 13.2, tgv2.): V = the master; the same passkey and passphrase as the strict vector, 2-of-2 without the seed
+  const vd = await createVault([{ name: 'seed', master }, factors[1], factors[2]], { random: seededRandom('vault-default') });
+  v.vaultDefault = { vault: vd.vault, secret: hex(vd.secret), passphrase: 'alpha beta gamma' };
   return v;
 }
 if (process.argv[1] && new URL(import.meta.url).pathname === process.argv[1]) {
