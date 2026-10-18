@@ -10,7 +10,8 @@
 // The seed is printed first; the same seed and iteration count replay the same cases. In a long run the driver restarts
 // itself as a watched child process, so that a hang is reported with the input that caused it (written to --last-case).
 // Used by test/fuzz-crypto.test.js with a fixed seed and a few thousand cases.
-import { createHash } from 'node:crypto';
+import { createHash, createCipheriv, hkdfSync } from 'node:crypto';
+import { deflateRawSync } from 'node:zlib';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -163,6 +164,19 @@ async function sealTgdModel(modelText) {
   return seal(plain, { format: 'xlsx', name: 'm.xlsx', created: false });
 }
 
+
+const leb = (n) => { const o = []; do { let b = n % 128; n = Math.floor(n / 128); if (n) b |= 0x80; o.push(b); } while (n); return Buffer.from(o); };
+/** An unbound tgs1 record written by hand (no project code): any kind byte and inner body, authenticated like a real one. */
+function sealRaw(kindByte, body, deflate, rng) {
+  const secret = Buffer.from(Uint8Array.from({ length: 32 }, () => rng.int(256))), nonce = Buffer.from(Uint8Array.from({ length: 12 }, () => rng.int(256)));
+  const flags = deflate ? 2 : 0, data = Buffer.concat([Buffer.from([kindByte]), deflate ? deflateRawSync(body) : Buffer.from(body)]), plain = Buffer.concat([leb(data.length), data]);
+  const head = Buffer.from([1, flags]), k = Buffer.from(hkdfSync('sha256', secret, 'tgx1/salt', 'tgx1/aes-256-gcm', 32));
+  const c = createCipheriv('aes-256-gcm', k, nonce); c.setAAD(Buffer.concat([Buffer.from('tgs1'), head]));
+  const record = 'tgs1.' + Buffer.concat([head, nonce, c.update(plain), c.final(), c.getAuthTag()]).toString('base64url');
+  const raw = Buffer.concat([Buffer.from([1, 0]), secret]);
+  return { record, key: 'tgx1.' + b58Encode(Buffer.concat([raw, sum('tgx1', raw, 2)])) };
+}
+
 /** What the pages do with a decoded block: summary, tables, outline, warnings, JSON view. None of it may throw anything but a named error. */
 function uiCheck(block) {
   const model = block.model;
@@ -243,11 +257,12 @@ export async function runFuzz({ seed = 1, iterations = 3000, seconds = 0, target
       const r = mutateRecordText(rng, S.tgr1[0]);
       await run('records', 'tgr1', r, async () => { parseSealedTo(r); await openFrom(S.rcpt.secret, r, { context: 'ctx' }); });
     } else if (want('records') && roll < 76) {
-      // authenticated structure: the KEY HOLDER seals attacker-shaped inner data (a bad TGD block, a bomb, odd kinds)
-      const kind = rng.pick(['tgd', 'tgd', 'text', 'bytes']), body = mutateBytes(rng, enc.encode(stripText(S.tgdBlock).slice(5, -5)));
+      // authenticated structure: the KEY HOLDER seals attacker-shaped inner data (a bad TGD block, a bomb, odd kinds); written by hand
+      // with node:crypto because the project's own sealer refuses a block it could not open again
+      const kind = rng.pick([1, 1, 2, 3]), body = mutateBytes(rng, enc.encode(stripText(S.tgdBlock).slice(5, -5))), deflate = rng.chance(0.5);
       await run('records', 'sealed-shape ' + kind, body, async () => {
-        const s = await sealItem(WORK, { kind, payload: body }, { compress: rng.chance(0.5), pad: rng.pick([0, 0, 7, 64]), random: seededRandom(`r${count}`) });
-        await openSealed(WORK, { key: s.key, record: s.record });
+        const s = sealRaw(kind, body, deflate, rng);
+        await openSealed(null, { key: s.key, record: s.record });
       });
     } else if (want('structured') && roll < 84) {
       const fmts = Object.keys(F).filter((f) => f !== 'xlsx'), fmt = rng.pick(fmts), [name, bytes] = rng.pick(F[fmt]);

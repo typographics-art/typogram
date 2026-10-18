@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { encode, decode, toFile, seal, TgdError } from '../src/structured.js';
 import { readXlsx } from '../src/structured-xlsx.js';
+import { sealData, openSealed } from '../src/crypt.js';
 import { writeZip } from '../src/structured-zip.js';
 import { hideSecret, revealSecret } from '../src/secret.js';
 import { columnTypes, summarize } from '../src/data-panel.js';
@@ -82,6 +83,16 @@ test('F10 seal: more than 4 000 000 values, a text of more than 8 000 000 charac
   let deep = [1]; for (let i = 0; i < 70; i++) deep = [deep];
   await assert.rejects(seal({ kind: 'json', value: deep }, { created: false }), (e) => e.code === 'limit' && /nested/.test(e.message));
   assert.match(await seal({ kind: 'json', value: [1, 'a'.repeat(1000)] }, { created: false }), /^TGD1\[/);
+});
+
+
+test('F11 sealData: a block that the decoder would refuse (a changed checksum) is not sealed, because its key would open it and then report not-tgd', async () => {
+  const good = (await encode({ bytes: enc.encode('a,b\n1,2\n'), name: 'x.csv', format: 'csv' }, { created: false })).text;
+  const sealed = await sealData('A work text', good, {});
+  assert.equal((await openSealed('A work text', { key: sealed.key, record: sealed.record })).block.model.kind, 'workbook');
+  const bad = good.replace(/"sum":"([0-9a-f])/, (m, c) => `"sum":"${c === '0' ? '1' : '0'}`);
+  assert.notEqual(bad, good);
+  await assert.rejects(sealData('A work text', bad, {}), (e) => e.code === 'not-tgd');
 });
 
 // ---- tripwires: the places that handle keys and decrypted data keep their hygiene -------------------------------------------

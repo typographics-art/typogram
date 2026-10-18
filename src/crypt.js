@@ -131,6 +131,10 @@ export async function sealItem(workText, item, o = {}) {
 export async function sealData(workText, tgdBlockText, o) {
   // Whitespace is not significant in a block, so the block is stored without any: one canonical text per block.
   const body = stripFrame(tgdBlockText);
+  // Never seal what cannot be opened again: a block the decoder refuses (a wrong checksum, nesting deeper than 64 levels, more than
+  // 4 million values, ...) would give a sealed record whose key opens it and then reports not-tgd. The encoder only writes readable blocks;
+  // this guards blocks that come from elsewhere.
+  try { await decodeTgd(BLOCK_TGD_OPEN + body + BLOCK_TGD_CLOSE); } catch (e) { throw fail('not-tgd', `This data block cannot be read back, so it is not sealed: ${e.message}`); }
   return sealItem(workText, { kind: 'tgd', payload: utf8(body) }, o);
 }
 /** Seals a message (text) for a work. */
