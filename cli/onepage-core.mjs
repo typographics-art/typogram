@@ -9,6 +9,7 @@ import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { normalizeText, canonicalText, sha256Hex, buildJsonld } from '../src/index.js';
 import { visibleText, TOOL_TIMEOUT_MS } from './core.mjs';
+import { embedFontInSvg } from '../scripts/embed-font.mjs';
 
 export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -121,7 +122,7 @@ export async function makeOnePage(session, job) {
     // The <title> (the picture's accessible name) is claimed only when a heading backs it at the start of the source, so
     // `tg verify`'s title lint holds for what we generate.
     const svg = await session.call('tgOnePageSvg', { description: dl.heading ?? undefined, markdown: dl.md, media: dl.media, jsonld: dl.jsonld });
-    writeFileSync(job.svg, svg);
+    writeFileSync(job.svg, embedFontInSvg(svg));
   }
   if (job.preview) {
     // Small type dissolves into grey in a flat raster: at 1200 px an A4 one-pager has ~6 px per mm, so sub-2 mm

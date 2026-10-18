@@ -6,6 +6,7 @@
 //   node cli/build-gallery.mjs            # every work
 //   node cli/build-gallery.mjs aldrin     # only these works; the other entries of works.json stay
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { embedFontInSvg } from '../scripts/embed-font.mjs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openSession } from './core.mjs';
@@ -29,7 +30,7 @@ try {
     const svg = await session.render(w.text, image, w.options, 'svg');
     const jpg = await session.render(w.text, image, w.options, 'jpg');
     if (!svg.meta.faithful) throw new Error(`${w.id}: text not preserved`);
-    writeFileSync(join(DIR, `${w.id}.svg`), svg.data);
+    writeFileSync(join(DIR, `${w.id}.svg`), embedFontInSvg(svg.data));
     writeFileSync(join(DIR, `${w.id}.jpg`), jpg.data);
     const { text, ...rest } = w;
     out.push({ ...rest, textLength: text.length, meta: svg.meta, svg: `gallery/${w.id}.svg`, preview: `gallery/${w.id}.jpg`, original });

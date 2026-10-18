@@ -5,7 +5,7 @@
 // (opsz/wght/wdth) so the per-glyph weight and width still apply. Build-time only (needs pyftsubset + brotli, see FONT_SUBSET_BIN).
 //
 // CLI: node scripts/embed-font.mjs <in.svg> [<out.svg>]   (out defaults to in-place)
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -53,6 +53,7 @@ function rangeMatches(range, cps) {
  */
 export function embedFontInSvg(svgText) {
   if (typeof svgText !== 'string' || !/<style>@import url\(/.test(svgText)) return svgText;
+  if (!existsSync(PYFTSUBSET)) { console.warn(`embed-font: ${PYFTSUBSET} not found — leaving @import (NOT self-contained). Set FONT_SUBSET_BIN or create the font venv.`); return svgText; }
   const text = markupText(svgText, 'svg');
   if (!text) return svgText;
   const cps = [...new Set([...text].map((c) => c.codePointAt(0)))].sort((a, b) => a - b);
