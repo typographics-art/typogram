@@ -441,7 +441,7 @@ footer a{color:inherit}
 <button type="button" class="jump" id="jump" hidden></button>
 
 <script type="module">
-import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret } from './src/index.js';
+import { lorem, normalizeText, toHtml, toStandaloneHtml, toSvg, pdfStats, estimatePdfBytes, REF_SIZE, hideSecret, revealSecret, escapeXml } from './src/index.js';
 import { typeset, toPng } from './src/browser.js';
 import { mountDataPanel } from './src/data-panel-ui.js';
 import { saveBlob } from './src/data-ui.js';
@@ -760,7 +760,7 @@ async function run() {
 let idleWaiters = [];
 const idle = () => new Promise((r) => { if (!running && !again) r(); else idleWaiters.push(r); });
 function rerun() {
-  run().catch((e) => { $('#meta').innerHTML = chip(e.message || String(e), 'warn'); });
+  run().catch((e) => { $('#meta').innerHTML = chip(escapeXml(e.message || String(e)), 'warn'); }); // an error message is text, never markup
   return idle();
 }
 

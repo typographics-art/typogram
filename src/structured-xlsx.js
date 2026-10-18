@@ -63,6 +63,7 @@ export function isoToSerial(iso, date1904 = false) {
 }
 
 const resolveTarget = (base, target) => {
+  if (typeof target !== 'string') throw new TgdError('shape', 'A relationship in the workbook has no target');
   const parts = (target.startsWith('/') ? target.slice(1) : base.replace(/[^/]*$/, '') + target).split('/');
   const out = [];
   for (const p of parts) { if (p === '..') { if (!out.length) throw new TgdError('zip-slip', 'A relationship points outside the archive'); out.pop(); } else if (p && p !== '.') out.push(p); }
@@ -85,7 +86,14 @@ function readStyles(root) {
   return xfs.map((xf) => { const id = Number(xmlAttr(xf, 'numFmtId') || 0); return dateKind(id, fmts.get(id) ?? null); });
 }
 
-export async function readXlsx(bytes, { limits } = {}) {
+/** Reads a workbook; whatever a damaged or hostile file does to the readers below, the caller sees a TgdError. */
+export async function readXlsx(bytes, opts = {}) {
+  try { return await readWorkbook(bytes, opts); } catch (e) {
+    if (e instanceof TgdError) throw e;
+    throw new TgdError('shape', `The workbook is damaged (${e?.name || 'error'} while reading it)`);
+  }
+}
+async function readWorkbook(bytes, { limits } = {}) {
   const zip = openZip(bytes, limits?.zip);
   const xml = async (name) => { if (!zip.has(name)) return null; return parseXml(new TextDecoder().decode(await zip.read(name)), limits?.xml); };
   const wbXml = await xml('xl/workbook.xml');
@@ -175,6 +183,7 @@ export async function readXlsx(bytes, { limits } = {}) {
     for (const rel2 of sheetRels.values()) {
       if (!/\/comments$/.test(rel2.type)) continue;
       const cx = await xml(resolveTarget(path, rel2.target));
+      if (!cx) throw new TgdError('format', `The comments part of sheet ${JSON.stringify(xmlAttr(sh, 'name'))} is missing`);
       for (const cm of xmlElems(xmlElems(cx.root, 'commentList')[0] || ['x'], 'comment')) comments[xmlAttr(cm, 'ref')] = unx(xmlElems(xmlElems(cm, 'text')[0] || ['x'], 't').map(xmlText).join('') + xmlElems(xmlElems(cm, 'text')[0] || ['x'], 'r').flatMap((r) => xmlElems(r, 't')).map(xmlText).join(''));
     }
     const state = xmlAttr(sh, 'state');

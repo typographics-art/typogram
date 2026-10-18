@@ -9,6 +9,9 @@ import { keepLiteral, modelJson } from './structured.js';
 
 // ---- formats ------------------------------------------------------------------------------------------------------
 /** The file types the web panel takes (the library also reads `kv`, a settings file: not offered here, see the docs). */
+/** The largest of `values` (and `floor`); a loop, because Math.max(...values) overflows the call stack for more than about 100 000 values (a sparse sheet with a cell in row 1 048 576 has that many entries). */
+const maxOf = (values, floor) => { let m = floor; for (const v of values) if (v > m) m = v; return m; };
+
 export const WEB_FORMATS = ['xlsx', 'csv', 'tsv', 'json', 'md', 'yaml', 'xml', 'ics', 'vcf'];
 export const ACCEPT = WEB_FORMATS.flatMap((id) => FORMATS[id].ext).join(',');
 const LABELS = { xlsx: 'Excel', csv: 'CSV', tsv: 'TSV', json: 'JSON', md: 'Markdown', yaml: 'YAML', xml: 'XML', ics: 'iCalendar', vcf: 'vCard', kv: 'Settings file' };
@@ -97,7 +100,7 @@ export function summarize(model, format) {
   if (kind === 'workbook') {
     const sheets = (model.sheets || []).map((s) => ({ name: s.name, hidden: !!s.state, header: hasHeader(s), ...sheetStats(s) }));
     const sum = (k) => sheets.reduce((n, s) => n + s[k], 0);
-    return { ...base, sheets, rows: sum('rows'), cells: sum('cells'), formulas: sum('formulas'), longestCell: Math.max(0, ...sheets.map((s) => s.longest)) };
+    return { ...base, sheets, rows: sum('rows'), cells: sum('cells'), formulas: sum('formulas'), longestCell: maxOf(sheets.map((s) => s.longest), 0) };
   }
   if (kind === 'json') return { ...base, nodes: countNodes(model.value) };
   if (kind === 'markdown') {
@@ -167,7 +170,7 @@ export function sheetPreview(sheet, { maxRows = 8, maxCols = 12, noValue } = {})
     total = ks.length;
     list = ks.slice(0, maxRows).map((r) => ({ n: r + 1, cells: Array.from(byRow.get(r), (v) => (v === undefined ? null : v)) }));
   }
-  const width = Math.max(1, ...list.map((r) => r.cells.length));
+  const width = maxOf(list.map((r) => r.cells.length), 1);
   const cols = Math.min(width, maxCols);
   return {
     columns: Array.from({ length: cols }, (_, c) => colName(c)),
@@ -180,8 +183,13 @@ export function sheetPreview(sheet, { maxRows = 8, maxCols = 12, noValue } = {})
 /** The types found in each column of a sheet: [{ col, header, kinds: { text: n, … }, main }] (the header row is not counted). */
 export function columnTypes(sheet, { maxRows = 5000 } = {}) {
   let grid;
-  try { grid = gridOf({ ...sheet, rows: Array.isArray(sheet.rows) ? sheet.rows.slice(0, maxRows) : undefined }, { maxDense: 2e6 }); } catch { return []; }
-  const width = Math.max(0, ...grid.map((r) => (r ? r.length : 0)));
+  try {
+    // Only the first `maxRows` rows are looked at. A sparse sheet is cut to them BEFORE it becomes a grid: with a cell in row
+    // 1 048 576 the grid has a million entries and filling it took seconds (and the spread in the width below overflowed the stack).
+    const cells = Array.isArray(sheet.rows) ? undefined : Object.fromEntries(Object.entries(sheet.cells || {}).filter(([a]) => parseAddr(a).r < maxRows));
+    grid = gridOf({ ...sheet, rows: Array.isArray(sheet.rows) ? sheet.rows.slice(0, maxRows) : undefined, ...(cells ? { cells } : {}) }, { maxDense: 2e6 });
+  } catch { return []; }
+  const width = maxOf(grid.map((r) => (r ? r.length : 0)), 0);
   const out = [];
   for (let c = 0; c < width; c++) {
     const kinds = {};

@@ -273,7 +273,12 @@ export async function encode(input, opts = {}) {
  */
 export async function toFile(block, format = block.format, opts = {}) {
   const f = formatFor(format);
-  return await f.write(block, { safe: opts.safe !== false, formulas: !!opts.formulas, sheet: opts.sheet, indent: opts.indent, delimiter: opts.delimiter });
+  try { return await f.write(block, { safe: opts.safe !== false, formulas: !!opts.formulas, sheet: opts.sheet, indent: opts.indent, delimiter: opts.delimiter }); } catch (e) {
+    // A block may hold a model of any shape (its envelope is checked, its data only for a "kind"): a writer that meets a shape
+    // it does not know must say so by name, not fail with a TypeError.
+    if (e instanceof TgdError) throw e;
+    throw new TgdError('shape', `The data does not have the shape a ${format} file needs (${e?.name || 'error'})`);
+  }
 }
 
 /** The decoded model as pretty JSON (the `.tgd.json` form). */

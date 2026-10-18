@@ -21,7 +21,8 @@ async function fingerprint(clusters) {
   return new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)).slice(0, 8);
 }
 
-const b64url = (bytes) => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+// (in slices: String.fromCharCode(...bytes) and an array spread overflow the call stack beyond about 100 000 values, which a long secret reaches)
+const b64url = (bytes) => { let bin = ''; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64url = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
 
 function varints(numbers) {
@@ -63,7 +64,9 @@ export async function hideSecret(publicText, secret, { random = (a) => crypto.ge
   const missing = [...new Set(wanted.filter((c) => !where.has(c)))];
   if (missing.length) throw Object.assign(new Error(`Not in the text: ${missing.map((c) => JSON.stringify(c)).join(' ')}`), { missing, code: 'missing' });
   const positions = wanted.map((c) => { const list = where.get(c); return list[randomBelow(list.length, random)]; });
-  return PREFIX + b64url(new Uint8Array([...(await fingerprint(clusters)), ...varints(positions)]));
+  const head = await fingerprint(clusters), body = varints(positions), all = new Uint8Array(head.length + body.length);
+  all.set(head); for (let i = 0; i < body.length; i++) all[head.length + i] = body[i];
+  return PREFIX + b64url(all);
 }
 
 /**
