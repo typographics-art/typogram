@@ -338,8 +338,8 @@ const EN = {
   'b.zip': ['This file looks damaged or unsafe', '{message}'],
   'b.unknown': ['The data could not be shown', '{message}'],
   // --- errors of opening sealed data (all appear under the Open button)
-  'o.no-key': 'Paste the key first. It starts with “tgx1.”.',
-  'o.bad-prefix': 'This is not a key. A key starts with “tgx1.”, “tg2.” or “tg1.”.',
+  'o.no-key': 'Paste the key first. It starts with “tgx2.” (older keys: “tgx1.”).',
+  'o.bad-prefix': 'This is not a key. A key starts with “tgx2.”, “tgx1.”, “tg2.” or “tg1.”.',
   'o.bad-record': 'This is not a sealed record. A record starts with “tgs1.”.',
   'o.checksum': 'The key has a typing error. Copy it again in full.',
   'o.damaged': 'The key or the record is damaged or incomplete. Copy it again in full.',
@@ -365,7 +365,7 @@ const EN = {
   'r.lost': 'Not carried over: {list}.', 'r.inRead': 'Data: {name} · open in Machine', 'r.showBlock': 'Show the block text', 'r.downloadBlock': 'Download the block text', 'r.code': 'Code: {code}',
   'r.structure': 'Structure', 'r.types': 'Types',
   'r.sealedH': 'Sealed data', 'r.sealedHelp': 'Paste the key and, if it is not inside the key or this work, the sealed record. The key stays in this page: it is not sent anywhere, not put into the address and not stored.',
-  'r.keyLabel': 'Key (starts with tgx1.)', 'r.recordLabel': 'Sealed record (starts with tgs1.)', 'r.open': 'Open', 'r.clearKey': 'Clear key', 'r.keyCleared': 'The key is cleared from this page.',
+  'r.keyLabel': 'Key (starts with tgx2. or tgx1.)', 'r.recordLabel': 'Sealed record (starts with tgs1.)', 'r.open': 'Open', 'r.clearKey': 'Clear key', 'r.keyCleared': 'The key is cleared from this page.',
   'r.recordFile': 'Load a record file (.tgs)', 'r.recordFromWork': 'The record was found in this work’s text.', 'r.working': 'Opening …',
   'r.localH': 'Open a work file from your computer', 'r.localHelp': 'A work you saved (.svg, .html or .pdf) can be read here without uploading it: its text is read in this browser, and any data in it is shown below.',
   'r.localChoose': 'Choose a work file …', 'r.localLoaded': 'Read {name}: {chars} characters.', 'r.localFail': 'This file could not be read as a work ({message}).', 'r.noWorkTitle': 'Open a work file', 'r.noWorkBody': 'No work was given in the address. Choose a work file below to see the data in it.',
@@ -423,8 +423,8 @@ const DE = {
   'b.format': ['Diese Daten lassen sich nicht als {format} schreiben', '{message}'],
   'b.zip': ['Diese Datei wirkt beschädigt oder unsicher', '{message}'],
   'b.unknown': ['Die Daten konnten nicht angezeigt werden', '{message}'],
-  'o.no-key': 'Zuerst den Schlüssel einfügen. Er beginnt mit „tgx1.“.',
-  'o.bad-prefix': 'Das ist kein Schlüssel. Ein Schlüssel beginnt mit „tgx1.“, „tg2.“ oder „tg1.“.',
+  'o.no-key': 'Zuerst den Schlüssel einfügen. Er beginnt mit „tgx2.“ (ältere Schlüssel: „tgx1.“).',
+  'o.bad-prefix': 'Das ist kein Schlüssel. Ein Schlüssel beginnt mit „tgx2.“, „tgx1.“, „tg2.“ oder „tg1.“.',
   'o.bad-record': 'Das ist kein versiegelter Datensatz. Ein Datensatz beginnt mit „tgs1.“.',
   'o.checksum': 'Der Schlüssel enthält einen Tippfehler. Bitte noch einmal ganz kopieren.',
   'o.damaged': 'Der Schlüssel oder der Datensatz ist beschädigt oder unvollständig. Bitte noch einmal ganz kopieren.',
@@ -449,7 +449,7 @@ const DE = {
   'r.lost': 'Nicht übernommen: {list}.', 'r.inRead': 'Daten: {name} · in „Maschine“ öffnen', 'r.showBlock': 'Blocktext zeigen', 'r.downloadBlock': 'Blocktext herunterladen', 'r.code': 'Code: {code}',
   'r.structure': 'Aufbau', 'r.types': 'Typen',
   'r.sealedH': 'Versiegelte Daten', 'r.sealedHelp': 'Füge den Schlüssel ein und, falls er nicht im Schlüssel oder in diesem Werk steckt, den versiegelten Datensatz. Der Schlüssel bleibt in dieser Seite: Er wird nirgends hin gesendet, nicht in die Adresse geschrieben und nicht gespeichert.',
-  'r.keyLabel': 'Schlüssel (beginnt mit tgx1.)', 'r.recordLabel': 'Versiegelter Datensatz (beginnt mit tgs1.)', 'r.open': 'Öffnen', 'r.clearKey': 'Schlüssel löschen', 'r.keyCleared': 'Der Schlüssel ist von dieser Seite gelöscht.',
+  'r.keyLabel': 'Schlüssel (beginnt mit tgx2. oder tgx1.)', 'r.recordLabel': 'Versiegelter Datensatz (beginnt mit tgs1.)', 'r.open': 'Öffnen', 'r.clearKey': 'Schlüssel löschen', 'r.keyCleared': 'Der Schlüssel ist von dieser Seite gelöscht.',
   'r.recordFile': 'Datensatz-Datei laden (.tgs)', 'r.recordFromWork': 'Der Datensatz wurde im Text dieses Werks gefunden.', 'r.working': 'Wird geöffnet …',
   'r.localH': 'Eine Werkdatei von deinem Rechner öffnen', 'r.localHelp': 'Ein gespeichertes Werk (.svg, .html oder .pdf) lässt sich hier lesen, ohne es hochzuladen: Sein Text wird in diesem Browser gelesen, und enthaltene Daten erscheinen unten.',
   'r.localChoose': 'Werkdatei wählen …', 'r.localLoaded': '{name} gelesen: {chars} Zeichen.', 'r.localFail': 'Diese Datei konnte nicht als Werk gelesen werden ({message}).', 'r.noWorkTitle': 'Eine Werkdatei öffnen', 'r.noWorkBody': 'In der Adresse wurde kein Werk angegeben. Wähle unten eine Werkdatei, um die Daten darin zu sehen.',
@@ -576,4 +576,4 @@ export function openError(err, lang, ctx = {}) {
 }
 
 /** Which field a "bad prefix" error is about: the key if it is filled in and does not start like a key, else the record. */
-export const badPrefixField = (key, record) => (String(key ?? '').trim() && !/^(tgx1|tg2|tg1)\./.test(String(key).trim()) ? 'key' : record ? 'record' : 'key');
+export const badPrefixField = (key, record) => (String(key ?? '').trim() && !/^(tgx2|tgx1|tg2|tg1)\./.test(String(key).trim()) ? 'key' : record ? 'record' : 'key');

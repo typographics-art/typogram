@@ -8,6 +8,7 @@
 import { sealItem, openSealed, parseKey, parseRecord, parseRecordBytes, workDigest, KEY_PREFIX } from './crypt.js';
 import { fail, utf8, concat, equalBytes, b58Encode, b58Decode, checksum } from './crypt-codec.js';
 import { hmac } from './keys.js';
+import { stripText } from './structured.js';
 
 export const KEY2_PREFIX = 'tgx2.';
 const K_BOUND = 1, K_INLINE = 2, K_SECRET16 = 4, K_RESERVED = 0xf8;
@@ -89,6 +90,13 @@ export async function sealBound2(workText, item, o = {}) {
   (o.random ?? ((a) => crypto.getRandomValues(a)))(secret);
   const out = await sealWithSecret(workText, item, secret, { ...o, strength: undefined, random: undefined });
   return out;
+}
+
+/** Seals a TGD data block (`TGD1[ … ]TGD1`, the encoder's output) for a work with a `tgx2.` key: what the generator panel writes (decision 13.4). The record is `tgs1.` as with sealData. */
+export async function sealData2(workText, tgdBlockText, o) {
+  const s = stripText(tgdBlockText); // whitespace is not significant in a block: one canonical text per block, as in sealData
+  if (!s.startsWith('TGD1[') || !s.endsWith(']TGD1')) throw fail('not-tgd', 'This is not a TGD data block (it must start with "TGD1[" and end with "]TGD1")');
+  return sealBound2(workText, { kind: 'tgd', payload: utf8(s.slice(5, -5)) }, o);
 }
 
 /** Opens a record with a raw secret (and the work's text if the record is bound). */

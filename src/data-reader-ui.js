@@ -3,7 +3,8 @@
 // src/data-panel.js (tested in Node). The key goes into one text box, is sent nowhere, is never put into the address and is
 // never stored; every error appears directly under the button that caused it.
 import { decodeAll, toFile, TgdError } from './structured.js';
-import { openSealed, findSealedBlocks } from './crypt.js';
+import { findSealedBlocks } from './crypt.js';
+import { openAny } from './keys-work.js';
 import { readWorkFile } from './work-text.js';
 import { canonicalText } from './secret.js';
 import {
@@ -66,7 +67,7 @@ export function mountDataReader(ctx) {
     say(openStatus, 'r.working');
     const key = keyBox.value, record = recBox.value;
     try {
-      const r = await openSealed(ctx.work() || null, { key, record: record.trim() ? record : undefined });
+      const r = await openAny(ctx.work() || null, { key, record: record.trim() ? record : undefined });
       R.opened = r;
       if (r.kind === 'tgd') {
         say(openStatus, 'o.opened', { sum: r.block.sum.slice(0, 16) + '…' }, 'good');

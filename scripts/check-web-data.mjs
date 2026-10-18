@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { findChrome } from '../cli/core.mjs';
 import { encode, decode, decodeAll, toFile, verify, canonicalText, markupText, sealData } from '../src/index.js';
+import { sealData2 } from '../src/keys-work.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const { values: args } = parseArgs({ options: { site: { type: 'string' }, verbose: { type: 'boolean' }, only: { type: 'string' }, shots: { type: 'string' } } });
@@ -431,9 +432,9 @@ async function main() {
       await app.click('input[name=dataChoice][value=seal]');
       check('seal: the options change to padding and compression', await app.js(`!document.querySelector('#dataSealOpts').hidden && document.querySelector('#dataTextOpts').hidden`) && (await app.text('#dataGo')) === 'Seal the data');
       await app.click('#dataGo');
-      await app.waitFor(`document.querySelector('#dataKey').value.startsWith('tgx1.')`, { what: 'the key' });
+      await app.waitFor(`document.querySelector('#dataKey').value.startsWith('tgx2.')`, { what: 'the key' });
       const key = await app.js(`document.querySelector('#dataKey').value`), record = await app.js(`document.querySelector('#dataRecord').value`);
-      check('seal: a key (tgx1.) and a sealed record (tgs1.) are shown', /^tgx1\.[1-9A-HJ-NP-Za-km-z]+$/.test(key) && /^tgs1\.[\w-]+$/.test(record), `${key.slice(0, 12)} ${record.slice(0, 12)}`);
+      check('seal: a tgx2. key of 59 characters and a sealed record (tgs1.) are shown', /^tgx2\.[1-9A-HJ-NP-Za-km-z]+$/.test(key) && key.length === 59 && /^tgs1\.[\w-]+$/.test(record), `${key.slice(0, 12)} (${key.length}) ${record.slice(0, 12)}`);
       check('seal: the status names the lengths', /^Sealed\. Key: \d+ characters, record: [\d,]+ characters\./.test(await app.text('#dataResult')), await app.text('#dataResult'));
       check('seal: the key box is read-only and the reminder is visible', await app.js(`document.querySelector('#dataKey').readOnly && document.querySelector('#dataKey').getClientRects().length > 0`) && /not stored anywhere/.test(await app.text('#dataSealOut')));
       check('seal: the work text is untouched (no block, no ciphertext)', (await app.js(`document.querySelector('#aiText').textContent`)) === originalText);
@@ -454,7 +455,7 @@ async function main() {
       const svg = readFileSync(svgPath, 'utf8');
       web.works.set('sealed-work.svg', Buffer.from(svg));
       const store = await app.js(`JSON.stringify([localStorage, sessionStorage]) + location.href`);
-      check('seal: the key, the record and the data are in no URL and no browser storage', !store.includes(key) && !store.includes(record.slice(6, 40)) && !store.includes('Alpenblick') && !store.includes('tgx1'));
+      check('seal: the key, the record and the data are in no URL and no browser storage', !store.includes(key) && !store.includes(record.slice(6, 40)) && !store.includes('Alpenblick') && !store.includes('tgx2') && !store.includes('tgx1'));
       await app.shot('app-sealed');
       const kb = await keyboardReach(app, '#data', { start: '#data > summary' });
       check('keyboard: every control of the Data panel can be reached with Tab', kb.missing.length === 0, `missing: ${kb.missing.join(', ')} of ${kb.focusables.length}`);
@@ -477,8 +478,9 @@ async function main() {
       await work.click('#sealedBox > summary');
       const workText = canonicalText(markupText(svg, 'svg'));
       const block = (await encode({ bytes: new Uint8Array(readFileSync(SAMPLE_XLSX)), name: 'bakery-orders.xlsx' })).text;
-      const otherKey = (await sealData(workText, block)).key;           // same work, another secret
-      const alienKey = (await sealData('some other work entirely', block)).key; // another work
+      const otherKey = (await sealData2(workText, block)).key;           // same work, another secret (tgx2.)
+      const alienKey = (await sealData2('some other work entirely', block)).key; // another work (tgx2.)
+      const alienKey1 = (await sealData('some other work entirely', block)).key; // another work, the older tgx1. form
       const tamperedKey = key.slice(0, -1) + (key.endsWith('2') ? '3' : '2');
       const tamperedRecord = record.slice(0, 40) + (record[40] === 'A' ? 'B' : 'A') + record.slice(41);
       const tryOpen = async (k, r) => {
@@ -495,6 +497,10 @@ async function main() {
       check('open: a key of another work says so', r.err?.startsWith('This key belongs to a different work') && underOpen(r) && !r.card, JSON.stringify(r));
       r = await tryOpen(tamperedKey, record);
       check('open: a key with a typing error says so', r.err?.startsWith('The key has a typing error') && underOpen(r) && !r.card, JSON.stringify(r));
+      r = await tryOpen(key.slice(0, -6), record);
+      check('open: a truncated key is refused cleanly, under Open', /^(The key has a typing error|The key or the record is damaged)/.test(r.err || '') && underOpen(r) && !r.card, JSON.stringify(r));
+      r = await tryOpen(alienKey1, record);
+      check('open: an older tgx1. key of another work says so too', r.err?.startsWith('This key belongs to a different work') && underOpen(r) && !r.card, JSON.stringify(r));
       r = await tryOpen(key, tamperedRecord);
       check('open: one changed character of the record is detected and shown', /^(The key does not open this record|The key or the record is damaged)/.test(r.err || '') && underOpen(r) && !r.card, JSON.stringify(r));
       r = await tryOpen('', record);
@@ -513,6 +519,14 @@ async function main() {
       check('open: the status line says the block is intact', /^Opened\. The data block is intact \(sha256 [0-9a-f]{16}…\)\.$/.test(await work.text('#openStatus')), await work.text('#openStatus'));
       check('open: the opened data is the sample (first row)', (await work.js(`document.querySelector('#openedData tbody tr:nth-child(2)').textContent`)).includes('Customer'));
       check('open: a record pasted with line breaks (as saved in a file) opens too', (await tryOpen(key, record.replace(/(.{60})/g, '$1\n') + '\n')).card);
+      // a tgx1. key and record made by the command line (tg-crypt seal still writes tgx1.) open on the work page through the same form
+      const svgFile = join(tmp, 'sealed-work.svg'); writeFileSync(svgFile, svg);
+      const cliRec = join(tmp, 'cli.tgs');
+      const cli = spawnSync(process.execPath, [join(ROOT, 'cli/tg-crypt.mjs'), 'seal', svgFile, '--data', SAMPLE_XLSX, '-o', cliRec], { encoding: 'utf8' });
+      const key1 = cli.stdout.trim();
+      check('cli: tg-crypt seal writes a tgx1. key for the saved work', cli.status === 0 && /^tgx1\.[1-9A-HJ-NP-Za-km-z]+$/.test(key1) && key1.length === 64, cli.stderr);
+      r = await tryOpen(key1, readFileSync(cliRec, 'utf8'));
+      check('open: a tgx1. key made by the CLI opens its record on the work page', r.card && r.tables === 1 && r.err === null, JSON.stringify(r));
       await work.shot('work-opened');
       const kbw = await keyboardReach(work, '#dataSection', { start: '#sealedBox > summary' });
       check('keyboard: every control of the sealed form and the card can be reached with Tab', kbw.missing.length === 0, `missing: ${kbw.missing.join(', ')} of ${kbw.focusables.length}`);

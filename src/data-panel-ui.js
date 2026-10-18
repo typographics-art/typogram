@@ -3,7 +3,7 @@
 // Node); this file only connects them to the page. Nothing is uploaded, and no key, record or data goes into the address,
 // local storage or a log: the key lives in one read-only text box until the person clears it.
 import { encode, verify, stripText, TgdError, DEFAULT_LIMITS } from './structured.js';
-import { sealData } from './crypt.js';
+import { sealData2 } from './keys-work.js';
 import { canonicalText } from './secret.js';
 import {
   ACCEPT, T, applyLang, detectWebFormat, summarize, summaryLine, isEmptyModel, capacity, composeWork, warningsFor, lossyText, generatorError,
@@ -229,7 +229,7 @@ export function mountDataPanel(ctx) {
     if (!work.trim()) { S.goErr = () => errorBox({ title: T(L(), 'd.seal'), body: T(L(), 'd.sealNeedWork') }, [], { lang: L() }); paintErrors(true); return; }
     busy(true);
     try {
-      const r = await sealData(work, S.enc.text, { pad: Number(el.pad.value) || 0, compress: el.deflate.checked });
+      const r = await sealData2(work, S.enc.text, { pad: Number(el.pad.value) || 0, compress: el.deflate.checked });
       S.sealedFor = canonicalText(work);
       el.key.value = r.key;
       el.record.value = r.record;
