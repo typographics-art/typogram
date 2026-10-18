@@ -27,6 +27,23 @@ const MIME = {
 const mimeByName = (name) => MIME[extname(name).toLowerCase()] || 'application/octet-stream';
 const die = (m) => { console.error(`tg-adapter: ${m}`); process.exit(1); };
 
+// The metadata (media type, name) of a sealed stream is set by whoever sealed it, so it is untrusted. A browser that
+// navigates to the served URL would run script if we echoed e.g. text/html or image/svg+xml as the Content-Type. So only
+// media that a browser renders without executing anything is served inline with its own type; everything else is served
+// as an octet-stream download. nosniff stops the browser from guessing a different type, and the CSP neutralises any
+// document that is shown directly.
+const SAFE_INLINE = (m) => /^(audio|video)\//.test(m) || (/^image\//.test(m) && m !== 'image/svg+xml') || m === 'application/pdf';
+const SECURITY_HEADERS = { 'X-Content-Type-Options': 'nosniff', 'Content-Security-Policy': "default-src 'none'; sandbox", 'Cache-Control': 'no-store' };
+const asciiName = (name, fallback) => (name || fallback).replace(/[^\w.\- ]/g, '_');
+/** Content-Type and Content-Disposition for a (possibly untrusted) media type: render it inline only if it is safe. */
+function presentation(media, name, fallback) {
+  const safe = SAFE_INLINE(media);
+  return {
+    'Content-Type': safe ? media : 'application/octet-stream',
+    'Content-Disposition': `${safe ? 'inline' : 'attachment'}; filename="${asciiName(name, fallback)}"`,
+  };
+}
+
 function readText(opt, env, values) {
   if (values[`${opt}-file`]) return readFileSync(values[`${opt}-file`], 'utf8');
   if (values[`${opt}-stdin`]) return readFileSync(0, 'utf8');
@@ -67,9 +84,8 @@ async function serveStream(file, keyString, workText, port) {
       if (range?.invalid) { res.writeHead(416, { 'Content-Range': `bytes */${reader.size}` }).end(); return; }
       const start = range ? range.start : 0, end = range ? range.end : reader.size - 1;
       res.writeHead(range ? 206 : 200, {
-        'Content-Type': meta.media, 'Content-Length': String(end - start + 1), 'Accept-Ranges': 'bytes',
-        'Cache-Control': 'no-store', ...(range ? { 'Content-Range': `bytes ${start}-${end}/${reader.size}` } : {}),
-        ...(meta.name ? { 'Content-Disposition': `inline; filename="${meta.name.replace(/[^\w.\- ]/g, '_')}"` } : {}),
+        ...presentation(meta.media, meta.name, 'stream'), 'Content-Length': String(end - start + 1), 'Accept-Ranges': 'bytes',
+        ...SECURITY_HEADERS, ...(range ? { 'Content-Range': `bytes ${start}-${end}/${reader.size}` } : {}),
       });
       if (req.method === 'HEAD' || reader.size === 0) { res.end(); return; }
       // stream frame by frame: one frame in memory at a time, each still authenticated
@@ -99,8 +115,11 @@ async function serveRecord(recordText, keyString, workText, port) {
   }
   const server = createServer((req, res) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405).end(); return; }
-    res.writeHead(200, { 'Content-Type': media, 'Content-Length': String(body.length), 'Accept-Ranges': 'none', 'Cache-Control': 'no-store',
-      'Content-Disposition': `inline; filename="${name.replace(/[^\w.\- ]/g, '_')}"` });
+    // `media` here is a native data type from our own writer (text/csv, application/json, …), never text/html or svg, so
+    // the type is safe to keep; it is served as a download (a program's fetch ignores the disposition) with nosniff + CSP
+    // so a browser never renders it as a page.
+    res.writeHead(200, { 'Content-Type': media, 'Content-Length': String(body.length), 'Accept-Ranges': 'none',
+      'Content-Disposition': `attachment; filename="${asciiName(name, 'data')}"`, ...SECURITY_HEADERS });
     res.end(req.method === 'HEAD' ? undefined : body);
   });
   return { server, name, media, size: body.length };

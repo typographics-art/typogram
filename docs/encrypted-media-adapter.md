@@ -85,6 +85,12 @@ that expects a CSV gets a CSV.
   its lifetime only. Nothing is uploaded; the key never leaves the machine.
 - **Any player.** HTTP + Range is what every media player already speaks, so there is nothing to install on the player's
   side. (A later step can mount the same content as an ordinary file via FUSE for programs that take a path, not a URL.)
+- **The declared type is untrusted.** The media type in a stream's metadata is set by whoever sealed it, so the adapter
+  serves inline, with its own type, only audio, video, images (not SVG) and PDF; anything else (and so any `text/html` or
+  `image/svg+xml` a hostile sender might declare) is served as an `application/octet-stream` download. Every response
+  carries `X-Content-Type-Options: nosniff` and `Content-Security-Policy: default-src 'none'; sandbox`, so a browser that
+  opens the URL never runs script from a crafted file. A sealed data file is served from the project's own writer types
+  (`text/csv`, `application/json`, …), always as a download.
 
 ## 5. What is and is not promised
 

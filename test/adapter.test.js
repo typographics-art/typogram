@@ -90,6 +90,32 @@ test('adapter: serves a sealed data block as its native format (CSV in, CSV out)
   assert.equal(body, csv.trim());
 });
 
+test('adapter: an unsafe declared media type is served as a download, not rendered (no XSS from a crafted file)', async () => {
+  const data = Buffer.from('<script>alert(1)</script>');
+  const html = join(dir, 'evil.bin'); writeFileSync(html, data);
+  const sealed = join(dir, 'evil.tgst');
+  // the metadata type is set by whoever seals: a hostile sender could declare text/html or svg
+  const { out } = await run(['seal', html, '-o', sealed, '--type', 'text/html']);
+  const key = out.trim().split('\n').pop();
+  const { url } = await serve([sealed], key);
+  const r = await fetch(url);
+  assert.equal(r.headers.get('content-type'), 'application/octet-stream', 'text/html is downgraded');
+  assert.match(r.headers.get('content-disposition') || '', /^attachment/, 'served as a download');
+  assert.equal(r.headers.get('x-content-type-options'), 'nosniff');
+  assert.match(r.headers.get('content-security-policy') || '', /default-src 'none'/);
+});
+
+test('adapter: a real video keeps its type and is served inline with nosniff', async () => {
+  const media = join(dir, 'ok.mp4'); writeFileSync(media, Buffer.from('a tiny clip body'));
+  const sealed = join(dir, 'ok.tgst');
+  const { out } = await run(['seal', media, '-o', sealed]);
+  const { url } = await serve([sealed], out.trim().split('\n').pop());
+  const r = await fetch(url);
+  assert.equal(r.headers.get('content-type'), 'video/mp4');
+  assert.match(r.headers.get('content-disposition') || '', /^inline/);
+  assert.equal(r.headers.get('x-content-type-options'), 'nosniff');
+});
+
 test('adapter: refuses to start on a wrong key', async () => {
   const data = Buffer.from('hello world, a small clip');
   const media = join(dir, 'x.mp4'); writeFileSync(media, data);
