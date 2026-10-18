@@ -15,7 +15,7 @@
   "fontSizeMm": 1.148,
   "overflow": false,
   "toneFidelity": 0.754,
-  "layoutMs": 502,
+  "layoutMs": 559,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,

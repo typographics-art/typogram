@@ -8,7 +8,6 @@ This page is for people who want to know whether they can trust the way Typograp
 - **A password is the weak point of every lock like this, so a password never stands alone.** For anything public or permanent, the real protection is a long random secret that nobody types. A password can only be an *additional* factor mixed with it. The tools refuse to publish a record that is protected by a password only.
 - **You hold the key; we cannot recover it.** The page does its work in your browser and does not send your data, key, seed or password anywhere (the site loads nothing from third parties, and the browser enforces that with a content security policy). That also means: if you lose the key, the data is gone, and nobody can help you.
 - **It is not independently audited.** The cipher is standard; the code around it (formats, binding, key handling) was written for this project, tested, and reviewed by automated tools, but no outside cryptographer has reviewed it. If losing or leaking the data would really hurt, get a review first.
-- **A blockchain does not make data unreadable for ever.** See [encrypted-data.md](encrypted-data.md), "Plain answers": a chain would hold a hash, and a record that is public for ever can be attacked for ever.
 
 ## 2. The secrets, and what each one is for
 
@@ -45,7 +44,7 @@ Two things decide the design:
 
 ## 4. The rule, and what enforces it
 
-> **A human-chosen password is never the only secret protecting a record that is public, permanent or anchored.**
+> **A human-chosen password is never the only secret protecting a record that is public or permanent.**
 
 What the code does about it (all tested, see section 9):
 
@@ -72,13 +71,12 @@ What the code does about it (all tested, see section 9):
 
 ## 6. What we do not promise
 
-- **No outside audit.** The cipher is standard, the code around it is ours. Section 9 says what was done; none of it replaces an expert review. We recommend one before anything valuable is sealed on a public chain.
+- **No outside audit.** The cipher is standard, the code around it is ours. Section 9 says what was done; none of it replaces an expert review. We recommend one before anything valuable is sealed and shared.
 - **A lost key is lost data.** There is no recovery, no reset, no support desk that can open it.
 - **A compromised device defeats everything.** A malicious browser extension, malware or a stolen unlocked phone can read what you type and see what the page decrypts. Encryption protects data at rest and in transit, not a machine that is already hostile.
-- **Metadata is not hidden.** A sealed record shows its size (unless padded) and, if anchored on a chain, the time and the paying address.
+- **Metadata is not hidden.** A sealed record shows its size (unless padded), and whoever receives it knows that it exists and when it was shared.
 - **The book-cipher hidden messages are not encryption.** They hide a message in a work's public text from someone who does not know the scheme; use sealed data for anything that must stay secret ([hidden-messages.md](hidden-messages.md)).
 - **Quantum computers:** AES-256 keeps 128 bits against the best known quantum search, which is still out of reach. The *asymmetric* part (sealing to a public key, `tgr1.`) uses X25519, which a large quantum computer would break; a hybrid with a post-quantum scheme is designed, not built, because browsers do not offer one yet.
-- **Not a legal opinion.** Putting even an encrypted commitment to personal data on a public chain may conflict with erasure rights; get advice.
 
 ## 7. Why we did not choose something else
 
@@ -104,7 +102,6 @@ What the code does about it (all tested, see section 9):
 - Do not rely on a password alone for anything that is public.
 - Do not put a key or seed into a chat, an e-mail, a screenshot or a URL.
 - Do not type your seed into a page that is not the one you opened from typographics-art.org, and not on a device you do not trust.
-- Do not assume a blockchain makes data private or keeps it alive.
 
 ## 9. Check it yourself
 

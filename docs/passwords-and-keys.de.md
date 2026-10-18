@@ -8,7 +8,6 @@ Diese Seite ist für Menschen, die wissen wollen, ob sie dem Schutz von Daten in
 - **Ein Passwort ist die Schwachstelle jedes solchen Schlosses, deshalb steht es nie allein.** Für alles Öffentliche oder Dauerhafte ist der eigentliche Schutz ein langes Zufallsgeheimnis, das niemand eintippt. Ein Passwort kann nur ein *zusätzlicher* Faktor sein, der damit gemischt wird. Die Werkzeuge weigern sich, einen Datensatz zu veröffentlichen, der nur durch ein Passwort geschützt ist.
 - **Du hältst den Schlüssel, wir können ihn nicht wiederherstellen.** Die Seite arbeitet in deinem Browser und schickt Daten, Schlüssel, Seed oder Passwort nirgendwohin (die Website lädt nichts von Dritten, und der Browser erzwingt das mit einer Content-Security-Policy). Das heisst auch: Wenn du den Schlüssel verlierst, sind die Daten weg, und niemand kann helfen.
 - **Es ist nicht unabhängig geprüft.** Das Verfahren ist Standard; der Code darum herum (Formate, Werkbindung, Schlüsselbehandlung) wurde für dieses Projekt geschrieben, getestet und von automatischen Werkzeugen geprüft, aber keine externe Kryptografin hat ihn begutachtet. Wenn Verlust oder Preisgabe der Daten wirklich schaden würde, lass ihn vorher prüfen.
-- **Eine Blockchain macht Daten nicht für immer unlesbar.** Siehe [encrypted-data.md](encrypted-data.md), „Plain answers": Eine Chain hielte einen Hash, und ein für immer öffentlicher Datensatz kann für immer angegriffen werden.
 
 ## 2. Die Geheimnisse und wofür jedes da ist
 
@@ -45,7 +44,7 @@ Zwei Dinge bestimmen den Aufbau:
 
 ## 4. Die Regel, und was sie durchsetzt
 
-> **Ein von Menschen gewähltes Passwort ist nie das einzige Geheimnis, das einen öffentlichen, dauerhaften oder verankerten Datensatz schützt.**
+> **Ein von Menschen gewähltes Passwort ist nie das einzige Geheimnis, das einen öffentlichen oder dauerhaften Datensatz schützt.**
 
 Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 
@@ -72,13 +71,12 @@ Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 
 ## 6. Was wir nicht versprechen
 
-- **Kein externes Audit.** Das Verfahren ist Standard, der Code darum herum ist unserer. Abschnitt 9 sagt, was getan wurde; nichts davon ersetzt eine Prüfung durch Fachleute. Wir empfehlen sie, bevor etwas Wertvolles auf einer öffentlichen Chain versiegelt wird.
+- **Kein externes Audit.** Das Verfahren ist Standard, der Code darum herum ist unserer. Abschnitt 9 sagt, was getan wurde; nichts davon ersetzt eine Prüfung durch Fachleute. Wir empfehlen sie, bevor etwas Wertvolles versiegelt und weitergegeben wird.
 - **Ein verlorener Schlüssel sind verlorene Daten.** Es gibt keine Wiederherstellung, kein Zurücksetzen, keinen Support, der es öffnen könnte.
 - **Ein kompromittiertes Gerät hebelt alles aus.** Eine bösartige Browser-Erweiterung, Schadsoftware oder ein gestohlenes entsperrtes Handy können lesen, was du tippst, und sehen, was die Seite entschlüsselt. Verschlüsselung schützt ruhende und übertragene Daten, nicht einen Rechner, der schon feindlich ist.
-- **Metadaten sind nicht verborgen.** Ein versiegelter Datensatz zeigt seine Grösse (ausser mit Auffüllung) und, wenn er auf einer Chain verankert ist, Zeit und zahlende Adresse.
+- **Metadaten sind nicht verborgen.** Ein versiegelter Datensatz zeigt seine Grösse (ausser mit Auffüllung), und wer ihn erhält, weiss, dass es ihn gibt und wann er geteilt wurde.
 - **Die versteckten Nachrichten mit der Buchchiffre sind keine Verschlüsselung.** Sie verbergen eine Nachricht im öffentlichen Text eines Werks vor jemandem, der das Verfahren nicht kennt; nimm für alles, was geheim bleiben muss, versiegelte Daten ([hidden-messages.md](hidden-messages.md)).
 - **Quantencomputer:** AES-256 behält gegen die beste bekannte Quantensuche 128 Bit, was noch ausser Reichweite ist. Der *asymmetrische* Teil (Versiegeln für einen öffentlichen Schlüssel, `tgr1.`) nutzt X25519, das ein grosser Quantencomputer brechen würde; eine Hybridvariante mit einem quantensicheren Verfahren ist entworfen, nicht gebaut, weil Browser noch keines anbieten.
-- **Keine Rechtsberatung.** Selbst eine verschlüsselte Verpflichtung auf personenbezogene Daten auf einer öffentlichen Chain kann mit Löschrechten kollidieren; lass dich beraten.
 
 ## 7. Warum wir nichts anderes gewählt haben
 
@@ -104,7 +102,6 @@ Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 - Verlass dich für nichts Öffentliches auf ein Passwort allein.
 - Schreib keinen Schlüssel oder Seed in einen Chat, eine E-Mail, einen Screenshot oder eine URL.
 - Tipp deinen Seed nicht auf einer Seite ein, die du nicht von typographics-art.org geöffnet hast, und nicht auf einem Gerät, dem du nicht traust.
-- Geh nicht davon aus, dass eine Blockchain Daten privat macht oder am Leben hält.
 
 ## 9. Selbst nachprüfen
 

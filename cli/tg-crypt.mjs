@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // tg-crypt: encrypted structured data (and messages) tied to a Typographics Art work, compact book-cipher keys, and a
-// publish/fetch flow against a FAKE chain for trying the DigiAssets design (docs/encrypted-data.md). It never talks to a
-// real blockchain. Needs Node 20+, and MuPDF for PDF works.
+// Needs Node 20+, and MuPDF for PDF works. (An experimental publish/fetch flow against a fake chain exists for the
+// draft in docs/drafts/chain-anchoring.md; it is hidden unless TG_CRYPT_EXPERIMENTAL=1 and never talks to a real chain.)
 //
 // Suggested package.json bin line (not added here):  "tg-crypt": "cli/tg-crypt.mjs"
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
@@ -23,9 +23,6 @@ const HELP = `Usage:
   tg-crypt inspect <record.tgs>                                                           what a record shows without a key
   tg-crypt hide    <work> --secret <text> [--near <K>]                                    compact book-cipher key (tg2.; obfuscation, not encryption)
   tg-crypt reveal  <work> [--key-file <f> | --key-stdin]                                  tg1. or tg2. key
-  tg-crypt publish <record.tgs> --chain <chain.json> --store <dir> [--hint <text>] [--no-mine]    fake chain only
-  tg-crypt fetch   <assetId> --chain <chain.json> --store <dir> [-o record.tgs] [--confirmations <n>]
-  tg-crypt verify  <assetId> <record.tgs> --chain <chain.json> --store <dir>
 
 <work> is a .pdf (needs MuPDF), .svg, .html or .txt. With --no-bind use "-" instead of a work.
 
@@ -65,7 +62,8 @@ const { values, positionals } = (() => {
   }
 })();
 const [command, target, extra] = positionals;
-const COMMANDS = ['seal', 'open', 'inspect', 'hide', 'reveal', 'publish', 'fetch', 'verify', ...KEY_COMMANDS];
+const EXPERIMENTAL = process.env.TG_CRYPT_EXPERIMENTAL === '1';
+const COMMANDS = ['seal', 'open', 'inspect', 'hide', 'reveal', ...(EXPERIMENTAL ? ['publish', 'fetch', 'verify'] : []), ...KEY_COMMANDS];
 if (values.help || !COMMANDS.includes(command) || (!target && !KEY_NO_TARGET.includes(command))) { process.stdout.write(HELP); process.exit(values.help ? 0 : 1); }
 
 const die = (m) => { console.error(m); process.exit(1); };
