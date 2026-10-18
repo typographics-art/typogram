@@ -16,6 +16,10 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Added
 
+- **The Typogram file is one SVG** ([docs/typogram-file.md](docs/typogram-file.md)): a generated work is a valid SVG that opens as the one-pager picture in any viewer (its icon/thumbnail is the picture) and also carries, in the same file, a documented `<metadata>` block (`format`, `v`, `title`, `created`, `textSha256`, `kind`) and its payload — structured data as the `TGD1[…]TGD1` block in the visible text, sealed data/media inside. The metadata is XML-escaped JSON after `</text>`, so it never disturbs the character-for-character read-back. `tg-adapter serve <file.svg>` serves the data in its native format (a data Typogram needs no key); `tg-adapter info <file>` prints what a file is. The generator's SVG export now writes this metadata.
+
+### Added
+
 - **Encrypted media and the adapter** ([docs/encrypted-media-adapter.md](docs/encrypted-media-adapter.md)): seal a picture or a video so it only opens with the key, and `cli/tg-adapter.mjs` serves it to any player over `http://127.0.0.1:…` with HTTP Range, decrypting only the frames a byte range touches (a video seeks and streams; nothing is written to disk or uploaded). Large media is a new seekable `tgst1` stream file (per-file HKDF key, per-frame AES-256-GCM, header and frame index in the AAD); a small file stays a `tgs1.` record and is served as its native format (a sealed CSV comes out as `text/csv`). Every sealed file now carries an encrypted metadata envelope (media type, name, size, created, title, sha256).
 
 ### Changed

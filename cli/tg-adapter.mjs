@@ -17,6 +17,9 @@ import { sealStream, StreamReader } from '../src/stream.js';
 import { openSealed, parseKey, workDigest, CryptError } from '../src/crypt.js';
 import { parseKey2, formatKey2 } from '../src/keys-work.js';
 import { decode, toFile, OPEN, CLOSE } from '../src/structured.js';
+import { markupText } from '../src/work-text.js';
+import { canonicalText } from '../src/secret.js';
+import { readMeta } from '../src/typogram.js';
 
 const MIME = {
   '.mp4': 'video/mp4', '.m4v': 'video/mp4', '.webm': 'video/webm', '.mkv': 'video/x-matroska', '.mov': 'video/quicktime', '.ogv': 'video/ogg',
@@ -102,22 +105,12 @@ async function serveStream(file, keyString, workText, port) {
 }
 
 // ---- serve a small sealed record (a data file, or a small media file): decrypt once, serve native format ----------
-async function serveRecord(recordText, keyString, workText, port) {
-  const opened = await openSealed(workText ?? '', { key: trimKey(keyString), record: recordText });
-  let body, media, name;
-  if (opened.kind === 'tgd') {
-    // the record holds the inner block (no markers); decode() looks for a full TGD1[…]TGD1, so re-wrap it
-    const block = await decode(OPEN + new TextDecoder().decode(opened.bytes) + CLOSE);
-    const out = await toFile(block); // native format (block.format), e.g. .csv/.json/.xlsx
-    body = Buffer.from(out.bytes); media = out.mime; name = out.name;
-  } else {
-    body = Buffer.from(opened.bytes); media = 'application/octet-stream'; name = 'data';
-  }
+// A one-shot server for a small payload already decrypted/decoded in memory. `media` is a native data type from our own
+// writer (text/csv, application/json, …), never text/html or svg; it is served as a download (a program's fetch ignores
+// the disposition) with nosniff + CSP so a browser never renders it as a page.
+function staticServer(body, media, name) {
   const server = createServer((req, res) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405).end(); return; }
-    // `media` here is a native data type from our own writer (text/csv, application/json, …), never text/html or svg, so
-    // the type is safe to keep; it is served as a download (a program's fetch ignores the disposition) with nosniff + CSP
-    // so a browser never renders it as a page.
     res.writeHead(200, { 'Content-Type': media, 'Content-Length': String(body.length), 'Accept-Ranges': 'none',
       'Content-Disposition': `attachment; filename="${asciiName(name, 'data')}"`, ...SECURITY_HEADERS });
     res.end(req.method === 'HEAD' ? undefined : body);
@@ -125,17 +118,51 @@ async function serveRecord(recordText, keyString, workText, port) {
   return { server, name, media, size: body.length };
 }
 
+/** A decoded TGD block served as its native format (.csv/.json/.xlsx …). */
+async function serveTgd(block) {
+  const out = await toFile(block);
+  return staticServer(Buffer.from(out.bytes), out.mime, out.name);
+}
+
+async function serveRecord(recordText, keyString, workText) {
+  const opened = await openSealed(workText ?? '', { key: trimKey(keyString), record: recordText });
+  // a tgd record holds the inner block (no markers); decode() looks for a full TGD1[…]TGD1, so re-wrap it
+  if (opened.kind === 'tgd') return serveTgd(await decode(OPEN + new TextDecoder().decode(opened.bytes) + CLOSE));
+  return staticServer(Buffer.from(opened.bytes), 'application/octet-stream', 'data');
+}
+
+// ---- serve a Typogram work file (.svg/.html/.txt): extract its data and serve it as the native format ---------------
+async function serveWork(text, ext, keyString, workText) {
+  const visible = ext === '.svg' ? markupText(text, 'svg') : (ext === '.html' || ext === '.htm') ? markupText(text, 'html') : text;
+  const canon = canonicalText(visible);
+  if (canon.includes(OPEN)) { // a plain (unsealed) TGD data block sits in the work's visible text
+    try { return await serveTgd(await decode(canon)); }
+    catch (e) { die(`the data block in this Typogram could not be read: ${e?.message || e}`); }
+  }
+  const sealed = /tgs1\.[A-Za-z0-9_-]+/.exec(text);
+  if (sealed) {
+    if (!keyString) die('this Typogram holds sealed data: give the key with --key-file/--key-stdin');
+    return serveRecord(sealed[0], keyString, workText ?? visible); // the work's own text binds the key
+  }
+  die('no data found in this Typogram (it is a picture only)');
+}
+
 async function cmdServe(values, positionals) {
-  const src = positionals[0] || die('give the sealed file to serve');
-  const keyString = readText('key', 'TG_CRYPT_KEY', values) || die('give the key: --key-file <f>, --key-stdin or TG_CRYPT_KEY');
+  const src = positionals[0] || die('give the file to serve');
+  const keyString = readText('key', 'TG_CRYPT_KEY', values); // optional: unsealed data in a Typogram needs no key
   const workText = values.work ? readFileSync(values.work, 'utf8') : null;
   const raw = readFileSync(src);
-  const asText = Buffer.from(raw.subarray(0, 5)).toString('latin1');
+  const head = Buffer.from(raw.subarray(0, 5)).toString('latin1');
+  const ext = extname(src).toLowerCase();
   let built;
   try {
-    if (asText === 'TGST1') built = await serveStream(new Uint8Array(raw), keyString, workText, values.port);
-    else if (raw.toString('utf8', 0, 5) === 'tgs1.') built = await serveRecord(raw.toString('utf8').trim(), keyString, workText, values.port);
-    else die('not a sealed source (expected a .tgst stream or a tgs1. record)');
+    if (head === 'TGST1') built = await serveStream(new Uint8Array(raw), keyString || die('this stream needs a key: --key-file/--key-stdin'), workText);
+    else {
+      const txt = raw.toString('utf8');
+      if (txt.trimStart().startsWith('tgs1.')) built = await serveRecord(txt.trim(), keyString || die('this record needs a key: --key-file/--key-stdin'), workText);
+      else if (['.svg', '.html', '.htm', '.txt'].includes(ext) || txt.includes('<svg') || txt.includes(OPEN)) built = await serveWork(txt, ext || '.txt', keyString, workText);
+      else die('not a Typogram or sealed source (expected .svg, .tgst or .tgs, or a work holding a data block)');
+    }
   } catch (e) { die(e?.code === 'bad-key' ? 'the key does not open this file' : e?.message || String(e)); }
   const token = Buffer.from((globalThis.crypto.getRandomValues(new Uint8Array(9)))).toString('base64url');
   const { server, name, media, size } = built;
@@ -173,8 +200,31 @@ const OPTIONS = {
   'key-file': { type: 'string' }, 'key-stdin': { type: 'boolean' }, work: { type: 'string' },
   port: { type: 'string' }, out: { type: 'string', short: 'o' }, type: { type: 'string' }, frame: { type: 'string' },
 };
+// Prints what a file is and the Typogram metadata it carries — no key needed (the metadata of a sealed stream stays encrypted).
+async function cmdInfo(_values, positionals) {
+  const src = positionals[0] || die('give the file to inspect');
+  const raw = readFileSync(src);
+  const head = Buffer.from(raw.subarray(0, 5)).toString('latin1');
+  const ext = extname(src).toLowerCase();
+  let info;
+  if (head === 'TGST1') {
+    const r = new StreamReader(new Uint8Array(raw));
+    info = { kind: 'tgst1 stream', bound: r.bound, size: r.size, frameSize: r.frameSize, frameCount: r.frameCount, note: 'media type and name are in the encrypted metadata; open with the key to read them' };
+  } else {
+    const txt = raw.toString('utf8');
+    const meta = readMeta(txt);
+    const visible = ext === '.svg' ? markupText(txt, 'svg') : (ext === '.html' || ext === '.htm') ? markupText(txt, 'html') : txt;
+    info = {
+      kind: meta ? `typogram (${meta.kind || 'art'})` : txt.trimStart().startsWith('tgs1.') ? 'tgs1 record' : 'unknown',
+      metadata: meta, hasDataBlock: canonicalText(visible).includes(OPEN), hasSealed: /tgs1\.[A-Za-z0-9_-]+/.test(txt),
+    };
+  }
+  console.log(JSON.stringify(info, null, 2));
+}
+
 const { values, positionals } = parseArgs({ allowPositionals: true, options: OPTIONS });
 const cmd = positionals.shift();
 if (cmd === 'seal') await cmdSeal(values, positionals);
 else if (cmd === 'serve') await cmdServe(values, positionals);
-else die('usage: tg-adapter seal <file> [-o out.tgst] [--work <f>] [--type <mime>]  |  tg-adapter serve <sealed> --key-file <f> [--work <f>] [--port <n>]');
+else if (cmd === 'info') await cmdInfo(values, positionals);
+else die('usage: tg-adapter seal <file> [-o out.tgst] [--work <f>] [--type <mime>]  |  tg-adapter serve <file.svg|.tgst|.tgs> [--key-file <f>] [--work <f>] [--port <n>]  |  tg-adapter info <file>');

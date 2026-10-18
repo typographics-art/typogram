@@ -5,6 +5,7 @@
 import { justify } from './layout.js';
 import { fontStylesheetUrl, normalWidthIndex, variationsFor } from './fonts.js';
 import { rgbCss } from './color.js';
+import { writeMeta } from './typogram.js';
 
 /**
  * Every glyph must stay its own character: ligatures would merge "ffi" into one glyph (Chrome's PDF
@@ -144,5 +145,7 @@ export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
 
 /** `description` (what the picture shows) becomes the SVG's <title>, its accessible name. */
 export function toSvg(sheet, o = {}) {
-  return svgHead(sheet, o) + svgLines(sheet) + SVG_TAIL;
+  // `o.metadata` (the Typogram envelope) goes after </text> as an escaped-JSON <metadata> element, so it never shifts the
+  // text anchors markupText() uses and the read-back stays exact (src/typogram.js, docs/typogram-file.md).
+  return svgHead(sheet, o) + svgLines(sheet) + '</text>' + writeMeta(o.metadata) + '</svg>';
 }

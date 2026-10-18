@@ -9,6 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { encode } from '../src/structured.js';
 import { sealData } from '../src/crypt.js';
+import { writeMeta } from '../src/typogram.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CLI = join(ROOT, 'cli', 'tg-adapter.mjs');
@@ -114,6 +115,25 @@ test('adapter: a real video keeps its type and is served inline with nosniff', a
   assert.equal(r.headers.get('content-type'), 'video/mp4');
   assert.match(r.headers.get('content-disposition') || '', /^inline/);
   assert.equal(r.headers.get('x-content-type-options'), 'nosniff');
+});
+
+test('adapter: a Typogram SVG (one file: picture + data block + metadata) is served as its native format, no key', async () => {
+  const csv = 'name,qty\nBrot,3\nMilch,2\n';
+  const block = (await encode({ bytes: new TextEncoder().encode(csv), name: 'orders.csv' }, { created: false })).text;
+  const meta = writeMeta({ title: 'Orders', kind: 'data', textSha256: 'abc' });
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="2" y="10" xml:space="preserve">${block}</text>${meta}</svg>`;
+  const f = join(dir, 'orders.svg'); writeFileSync(f, svg);
+
+  const info = await run(['info', f]);
+  assert.equal(info.code, 0);
+  assert.match(info.out, /typogram \(data\)/);
+  assert.match(info.out, /"title": "Orders"/);
+
+  const { url } = await serve([f], ''); // no key: unsealed data in the Typogram
+  const r = await fetch(url);
+  assert.equal(r.status, 200);
+  assert.equal(r.headers.get('content-type'), 'text/csv');
+  assert.equal((await r.text()).replace(/\r\n/g, '\n').trim(), csv.trim());
 });
 
 test('adapter: refuses to start on a wrong key', async () => {
