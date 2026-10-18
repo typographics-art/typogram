@@ -52,6 +52,8 @@ try {
   const r = await makeOnePage(session, {
     text: md, title: 'TG Art', subtitle: 'Typographics Art · everything about this project on one page · ask your AI what it is',
     pdf: join(OUT, 'typographics-art.pdf'), preview: join(OUT, 'preview.jpg'), previewWidth: 1240,
+    // The same explanation as one downloadable Typogram SVG: it opens as a picture and a machine reads the whole text back.
+    svg: join(OUT, 'typographics-art.svg'), meta: { title: 'Typographics Art — everything about this project', kind: 'art' },
   });
   console.log(`about/typographics-art.pdf: ${(r.pdfBytes / 1048576).toFixed(2)} MB, read back: ${r.check.visibleIdentical ? 'identical' : 'DIFFERS'}${r.check.exact ? ' (exact)' : ''}`);
   if (!r.check.visibleIdentical) process.exitCode = 2;

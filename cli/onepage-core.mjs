@@ -60,6 +60,10 @@ export async function makeOnePage(session, job) {
 
   let printed = null;
   if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx, tagged: !!job.tagged });
+  if (job.svg) { // a Typogram SVG: opens as the picture, carries the metadata, a machine reads the text back
+    const meta = { ...(job.meta || {}), created: (job.meta?.created ?? new Date().toISOString()), textSha256: sha(source), kind: job.meta?.kind || 'art' };
+    writeFileSync(job.svg, await session.call('tgOnePageSvg', meta));
+  }
   if (job.preview) {
     // Render at twice the layout scale: at ~9 px per glyph the browser draws hairlines darker than their ink.
     await session.call('tgBase', Math.min(2, 6000 / info.width));

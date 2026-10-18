@@ -322,6 +322,9 @@ window.tgOnePage = async ({ text, title, subtitle, options, motif }) => {
   };
 };
 
+/** The last one-pager as a Typogram SVG (opens as the picture, carries the metadata). Call after tgOnePage. */
+window.tgOnePageSvg = (meta) => toSvg(poster, { metadata: meta || undefined });
+
 /** A procedural motif as PNG (for publishing the motif next to its artwork). */
 window.tgRecipe = (name) => RECIPES[name]().toDataURL('image/png');
 

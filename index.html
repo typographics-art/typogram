@@ -24,7 +24,7 @@
     { "@type": "WebSite", "name": "Typographics Art", "url": "https://typographics-art.org/", "inLanguage": ["en", "de"] },
     { "@type": "SoftwareApplication", "name": "Typographics Art", "url": "https://typographics-art.org/app",
       "applicationCategory": "DesignApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true,
-      "license": "https://opensource.org/licenses/MIT", "codeRepository": "https://github.com/typ0graphic5/tg-art",
+      "license": "https://opensource.org/licenses/MIT", "codeRepository": "https://github.com/typographics-art/tg-art",
       "description": "Sets any text letter by letter so that it forms a picture of a photo, while the text stays readable for machines.",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" } }
   ]
@@ -170,6 +170,8 @@ nav.main a:hover{color:var(--accent)}
 /* code + footer */
 pre.code{background:var(--night);color:#e9ecf3;border-radius:10px;padding:18px;overflow-x:auto;font:14px/1.6 var(--f-mono);margin:22px 0 0}
 .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin-top:32px}
+.comingsoon{margin-top:40px;padding-top:28px;border-top:1px solid var(--line)}
+.comingsoon .lead{max-width:760px}
 @media (max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
 details{border-bottom:1px solid var(--line);padding:14px 0}
 summary{cursor:pointer;font-weight:700;font-size:18px}
@@ -196,7 +198,7 @@ footer a{color:inherit}
       <a href="gallery" data-i18n="nav.gallery">Gallery</a>
       <a href="#data" data-i18n="nav.data">Data</a>
       <a href="#ai" data-i18n="nav.ai">For AI</a>
-      <a href="https://github.com/typ0graphic5/tg-art">GitHub</a>
+      <a href="https://github.com/typographics-art/tg-art">GitHub</a>
     </nav>
     <a class="cta" href="app" data-i18n="cta.try">Try it free</a>
     <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div>
@@ -258,7 +260,7 @@ footer a{color:inherit}
       <div class="num"><b id="n-ex">10/10</b><span data-i18n="n.ex">one-pagers read back and verified</span></div>
       <div class="num"><b id="n-vlm">146/146</b><span data-i18n="n.vlm">words read by a vision model, where classic OCR got 5 %</span></div>
     </div>
-    <p class="source"><span data-i18n="proof.src">Every number comes from a script in the repository:</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/demo/moby-dick/proof.md">proof.md</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-readability.md">ai-readability.md</a> · <a href="examples" data-i18n="proof.ex">one-pager checks</a></p>
+    <p class="source"><span data-i18n="proof.src">Every number comes from a script in the repository:</span> <a href="https://github.com/typographics-art/tg-art/blob/main/demo/moby-dick/proof.md">proof.md</a> · <a href="https://github.com/typographics-art/tg-art/blob/main/docs/ai-readability.md">ai-readability.md</a> · <a href="examples" data-i18n="proof.ex">one-pager checks</a></p>
   </div>
 </section>
 
@@ -269,7 +271,7 @@ footer a{color:inherit}
     <p class="lead" data-i18n="bn.lead">We took one invented document — fictional, so nothing can be answered from memory — and shared it as Markdown, an ordinary PDF, a Typographics Art one-pager, and a flat image of that one-pager. Then we read each back the way a machine would and checked whether planted facts (an exact number, a negation, a clause id) survived.</p>
     <div class="table-wrap"><table class="compare" id="benefitTable"><tbody><tr><td data-i18n="bn.loading">Measuring …</td></tr></tbody></table></div>
     <p class="source"><span data-i18n="bn.src">The Typographics Art PDF reaches a machine like an ordinary PDF; only flattening the work to a picture loses the text — so share the PDF, not a screenshot.</span></p>
-    <p class="source"><span data-i18n="bn.repro">Measured and reproducible:</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/ai-benefit.md">ai-benefit.md</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/scripts/ai-benefit.mjs" data-i18n="bn.script">the script</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/benchmark/testdoc.md" data-i18n="bn.doc">the test document</a></p>
+    <p class="source"><span data-i18n="bn.repro">Measured and reproducible:</span> <a href="https://github.com/typographics-art/tg-art/blob/main/docs/ai-benefit.md">ai-benefit.md</a> · <a href="https://github.com/typographics-art/tg-art/blob/main/scripts/ai-benefit.mjs" data-i18n="bn.script">the script</a> · <a href="https://github.com/typographics-art/tg-art/blob/main/benchmark/testdoc.md" data-i18n="bn.doc">the test document</a></p>
   </div>
 </section>
 
@@ -301,7 +303,7 @@ footer a{color:inherit}
         </tbody>
       </table>
     </div>
-    <p class="source" style="margin-top:18px"><span data-i18n="idea.fid">What “kept” means exactly, and how it is checked:</span> <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/text-fidelity.md">text-fidelity.md</a> · <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/prior-art.md" data-i18n="idea.prior">where it comes from</a></p>
+    <p class="source" style="margin-top:18px"><span data-i18n="idea.fid">What “kept” means exactly, and how it is checked:</span> <a href="https://github.com/typographics-art/tg-art/blob/main/docs/text-fidelity.md">text-fidelity.md</a> · <a href="https://github.com/typographics-art/tg-art/blob/main/docs/prior-art.md" data-i18n="idea.prior">where it comes from</a></p>
   </div>
 </section>
 
@@ -364,10 +366,12 @@ footer a{color:inherit}
       <div class="use"><h3 data-i18n="u2.h">Accessible images</h3><p data-i18n="u2.p">The text is real text, so a screen reader reads it; what the picture shows gets a short description of its own, written into the file. Measured in Chrome’s accessibility tree, not yet tested with NVDA, JAWS or VoiceOver.</p></div>
       <div class="use"><h3 data-i18n="u3.h">Findable art</h3><p data-i18n="u3.p">Search engines and AI crawlers index the words, not just a file name.</p></div>
       <div class="use"><h3 data-i18n="u4.h">Provenance</h3><p data-i18n="u4.p">A statement, a licence or a signature inside the work survives copy and paste.</p></div>
+      <div class="use"><h3 data-i18n="u5.h">Agent instructions, ready to paste</h3><p data-i18n="u5.p">System prompts, agent rules and policies as a page you can read and a model reads whole — ready-made examples: <a href="examples">AGENTS.md, code-review and support agents, PEP 8, whole laws</a>.</p></div>
+      <div class="use"><h3 data-i18n="u6.h">Encrypted media in one file</h3><p data-i18n="u6.p">Seal a picture or a video into one Typogram (a valid SVG). It opens as a cover picture everywhere; with the key, the <a href="#data">adapter</a> streams the video — in memory, nothing to disk, nothing uploaded.</p></div>
     </div>
     <div class="askai">
-      <div><h3 data-i18n="ask.h">Ask your AI what this is</h3><p data-i18n="ask.p">The whole project, README and documents, in one file. Drop it into any assistant and ask what Typographics Art is. The PDF is the same text as a one-pager, set with the technique itself.</p></div>
-      <div class="askai-links"><a class="cta" href="about/typographics-art.md" download data-i18n="ask.md">Download as text (.md)</a><a class="cta ghost" href="about/typographics-art.pdf" download data-i18n="ask.pdf">Download as one-pager (.pdf)</a></div>
+      <div><h3 data-i18n="ask.h">Ask your AI what this is</h3><p data-i18n="ask.p">The whole project, README and documents, in one file. Drop it into any assistant and ask what Typographics Art is. One click gives you the explanation as a Typogram SVG — a picture that is also its own full text, so an AI reads everything from the one file.</p></div>
+      <div class="askai-links"><a class="cta" href="about/typographics-art.svg" download data-i18n="ask.svg">Explain to your AI — one SVG</a><a class="cta ghost" href="about/typographics-art.md" download data-i18n="ask.md">As text (.md)</a><a class="cta ghost" href="about/typographics-art.pdf" download data-i18n="ask.pdf">As a one-pager (.pdf)</a></div>
     </div>
     <p class="note" data-i18n="ai.note">Honest by design: the visible title always names the document, and the full text is the declared document. Tiny text must never hide instructions from the people who see the page.</p>
   </div>
@@ -399,7 +403,7 @@ footer a{color:inherit}
       <div class="step"><h3 data-i18n="sec3.h">Share</h3><p data-i18n="sec3.p">The work goes public, the key goes only to the person who should read the message. Keep it like a password.</p></div>
       <div class="step"><h3 data-i18n="sec4.h">Read</h3><p data-i18n="sec4.p">Key plus work gives the message back. With any other work the key's fingerprint does not match.</p></div>
     </div>
-    <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="app" data-i18n="sec.try">Try it in the generator</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/hidden-messages.md" data-i18n="sec.docs">How it works</a></p>
+    <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="app" data-i18n="sec.try">Try it in the generator</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/docs/hidden-messages.md" data-i18n="sec.docs">How it works</a></p>
   </div>
 </section>
 
@@ -419,7 +423,7 @@ footer a{color:inherit}
       <p data-i18n="dat.safe.p">The cipher is sound; the code around it is tested but not independently audited, and all the security is the secrecy of the key. “Cannot be read without the key, as far as today's cryptography is known” is true; “nobody can ever get at it” is not: a lost key loses the data, a compromised device defeats everything, and a password alone never protects anything public.</p>
       <p data-i18n="dat.status">Status: in the browser you can attach a file, write it into a work or seal it, and read both back on the work page (no server, no third party). Still command line only: passwords, compact book keys, inline keys and a sealed block inside a work.</p>
     </div>
-    <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/structured-data.md" data-i18n="dat.docs1">Structured data</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/encrypted-data.md" data-i18n="dat.docs2">Sealing</a><a class="cta" href="app#data" data-i18n="dat.try">Try it in the generator</a><a class="cta ghost" href="samples/data/bakery-orders.xlsx" download data-i18n="dat.sample1">Sample: Excel</a><a class="cta ghost" href="samples/data/bakery-orders.csv" download data-i18n="dat.sample2">Sample: CSV</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/passwords-and-keys.md" data-href-en="https://github.com/typ0graphic5/tg-art/blob/main/docs/passwords-and-keys.md" data-href-de="https://github.com/typ0graphic5/tg-art/blob/main/docs/passwords-and-keys.de.md" data-i18n="dat.docs3">Passwords, explained</a></p>
+    <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="https://github.com/typographics-art/tg-art/blob/main/docs/structured-data.md" data-i18n="dat.docs1">Structured data</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/docs/encrypted-data.md" data-i18n="dat.docs2">Sealing</a><a class="cta" href="app#data" data-i18n="dat.try">Try it in the generator</a><a class="cta ghost" href="samples/data/bakery-orders.xlsx" download data-i18n="dat.sample1">Sample: Excel</a><a class="cta ghost" href="samples/data/bakery-orders.csv" download data-i18n="dat.sample2">Sample: CSV</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/docs/passwords-and-keys.md" data-href-en="https://github.com/typographics-art/tg-art/blob/main/docs/passwords-and-keys.md" data-href-de="https://github.com/typographics-art/tg-art/blob/main/docs/passwords-and-keys.de.md" data-i18n="dat.docs3">Passwords, explained</a></p>
   </div>
 </section>
 
@@ -430,7 +434,7 @@ footer a{color:inherit}
     <div class="two">
       <div>
         <p class="lead" style="margin-top:0" data-i18n="os.lead">The method, the web app, the library and the command-line tool are MIT licensed. No dependencies, no build step, plain JavaScript. Fonts, algorithms, translations, benchmarks and artworks are welcome.</p>
-        <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="https://github.com/typ0graphic5/tg-art" data-i18n="os.gh">GitHub repository</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/CONTRIBUTING.md" data-i18n="os.contrib">How to contribute</a></p>
+        <p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px"><a class="cta" href="https://github.com/typographics-art/tg-art" data-i18n="os.gh">GitHub repository</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/CONTRIBUTING.md" data-i18n="os.contrib">How to contribute</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/ROADMAP.md" data-i18n="os.roadmap">Roadmap &amp; open tasks</a></p>
       </div>
       <div>
 <pre class="code"># a poster, 2 m wide, one PDF page for the print shop
@@ -439,6 +443,12 @@ node cli/tg-art.mjs photo.jpg --text poem.txt --print-width 2000 -o poster.pdf
 # a 100-page PDF on one page
 node cli/onepage.mjs law.pdf --title "Short title" -o onepage.pdf</pre>
       </div>
+    </div>
+    <div class="comingsoon">
+      <p class="kicker" data-i18n="cs.kicker">Coming soon — help build it</p>
+      <h3 data-i18n="cs.h">A self-extracting encrypted file, in Rust — and the community could own it.</h3>
+      <p class="lead" data-i18n="cs.p">A double-clickable <code>.exe</code>, <code>.app</code> or Linux binary that asks for a password or a key file and plays exactly one encrypted picture or video — in memory, never written to disk. The design and the decisions are written down; the crypto has a spec and test vectors to build against. It is the biggest single piece a contributor could take on.</p>
+      <p style="display:flex;flex-wrap:wrap;gap:12px"><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/docs/self-extractor-plan.md" data-i18n="cs.plan">Read the plan</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/ROADMAP.md" data-i18n="cs.tasks">What else is open</a></p>
     </div>
   </div>
 </section>
@@ -453,7 +463,7 @@ node cli/onepage.mjs law.pdf --title "Short title" -o onepage.pdf</pre>
       <details><summary data-i18n="f3.q">Is it a calligram?</summary><p data-i18n="f3.a">No. Calligrams arrange text along a shape, usually by hand. Typographics Art keeps a normal reading layout and creates the picture only through the typography of each letter, computed from any photo.</p></details>
       <details><summary data-i18n="f4.q">Does it cost anything? Can I use it commercially?</summary><p data-i18n="f4.a">It is free and MIT licensed, also for commercial use. Mind the rights to the texts and photos you use.</p></details>
       <details><summary data-i18n="f5.q">Is my text uploaded somewhere?</summary><p data-i18n="f5.a">No. The web app runs entirely in your browser.</p></details>
-      <details><summary data-i18n="f6.q">Has this been done before?</summary><p data-i18n="f6.a">Making a picture from text is old: micrography wrote scripture into images by hand from about the 9th century, and ASCII art turns images into glyphs by machine. What is new is the combination — a given text set once in reading order, the picture made only from per-letter typography, and the result verified to read back as the source. See <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/prior-art.md">prior-art.md</a>.</p></details>
+      <details><summary data-i18n="f6.q">Has this been done before?</summary><p data-i18n="f6.a">Making a picture from text is old: micrography wrote scripture into images by hand from about the 9th century, and ASCII art turns images into glyphs by machine. What is new is the combination — a given text set once in reading order, the picture made only from per-letter typography, and the result verified to read back as the source. See <a href="https://github.com/typographics-art/tg-art/blob/main/docs/prior-art.md">prior-art.md</a>.</p></details>
     </div>
   </div>
 </section>
@@ -462,7 +472,7 @@ node cli/onepage.mjs law.pdf --title "Short title" -o onepage.pdf</pre>
   <div class="wrap">
     <h2 data-i18n="end.h">Make the first Typographics Art of your own.</h2>
     <p class="lead" data-i18n="end.lead">Paste a text, drop a photo, export a PDF that people can look at and machines can read.</p>
-    <div class="ctas"><a class="cta" href="app" data-i18n="cta.make">Make your own, free</a><a class="cta ghost" href="https://github.com/typ0graphic5/tg-art/blob/main/docs/press-kit.md" data-i18n="end.press">Press kit</a></div>
+    <div class="ctas"><a class="cta" href="app" data-i18n="cta.make">Make your own, free</a><a class="cta ghost" href="https://github.com/typographics-art/tg-art/blob/main/docs/press-kit.md" data-i18n="end.press">Press kit</a></div>
   </div>
 </section>
 </main>
@@ -472,9 +482,9 @@ node cli/onepage.mjs law.pdf --title "Short title" -o onepage.pdf</pre>
     <strong>Typographics Art</strong>
     <span data-i18n="ft.mit">MIT licence</span>
     <a href="mailto:d0n@typographics-art.org">d0n@typographics-art.org</a>
-    <a href="https://github.com/typ0graphic5/tg-art">GitHub</a>
+    <a href="https://github.com/typographics-art/tg-art">GitHub</a>
     <a href="llms.txt">llms.txt</a>
-    <a href="https://github.com/typ0graphic5/tg-art/blob/main/docs/technique.md" data-i18n="ft.def">Definition</a>
+    <a href="https://github.com/typographics-art/tg-art/blob/main/docs/technique.md" data-i18n="ft.def">Definition</a>
   </div>
 </footer>
 
