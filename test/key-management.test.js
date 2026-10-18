@@ -637,7 +637,7 @@ test('cli: files with secrets are created exclusively with mode 0600; existing f
     assert.notEqual(readFileSync(`${prefix}.1`, 'utf8'), old1); assert.equal(mode(`${prefix}.1`), 0o600);
     // decrypted output: open -o is private and exclusive as well
     const rec = join(dir, 'r.tgs'); assert.equal(run(['seal', '-', '--message', 'plain text', '--no-bind', '-o', rec]).status, 0);
-    const key = run(['seal', '-', '--message', 'plain text', '--no-bind', '-o', rec]).stdout.trim();
+    const key = run(['seal', '-', '--message', 'plain text', '--no-bind', '-o', join(dir, 'r2.tgs')]).stdout.trim(); // (a second seal into rec would be refused: see security-regression-controls)
     const out = join(dir, 'out.txt'); writeFileSync(out, 'x');
     const bytesRec = join(dir, 'b.tgs'); const datafile = join(dir, 'd.bin'); writeFileSync(datafile, Buffer.from([1, 2, 3]));
     const bkey = run(['seal', '-', '--data', datafile, '--raw', '--no-bind', '-o', bytesRec]).stdout.trim();

@@ -2,7 +2,10 @@
 // Regression tests for the findings of the internal security review of 2026-10 (docs/security-review-internal-2026-10.md).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { createHash, createCipheriv, hkdfSync, randomBytes } from 'node:crypto';
 import { deflateRawSync, brotliCompressSync } from 'node:zlib';
 import { encode, decode, decodeAll, TgdError } from '../src/structured.js';
@@ -11,6 +14,7 @@ import { equalBytes } from '../src/crypt-codec.js';
 import { newRecipient, openFrom } from '../src/keys-seal.js';
 
 const enc = new TextEncoder();
+const CLI = new URL('../cli/tg-crypt.mjs', import.meta.url).pathname;
 
 // ---- F6: hostile keys cannot reach Object.prototype ---------------------------------------------------------------------
 test('F6 prototype pollution: "__proto__", "constructor" and "prototype" keys in JSON, YAML, XML, CSV and key=value files stay ordinary data', async () => {
@@ -51,6 +55,28 @@ test('F8 equalBytes: same answers as before for equal, different, shorter and lo
   assert.equal(equalBytes(a, Buffer.from([1, 2, 3, 4])), true);
   for (const b of [[0, 2, 3, 4], [1, 2, 3, 5], [1, 2, 3], [1, 2, 3, 4, 5], []]) assert.equal(equalBytes(a, Uint8Array.from(b)), false);
   assert.equal(equalBytes(new Uint8Array(0), new Uint8Array(0)), true);
+});
+
+
+// ---- F13: the CLI does not replace an existing record file ---------------------------------------------------------------
+test('F13 tg-crypt seal: a second seal into the same default file is refused and leaves the first record (and the key printed for it) intact; --force replaces it', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'tg-f13-'));
+  try {
+    const run = (...args) => spawnSync(process.execPath, [CLI, 'seal', '-', '--no-bind', ...args], { cwd: dir, encoding: 'utf8' });
+    const first = run('--message', 'first', '-o', 'rec.tgs');
+    assert.equal(first.status, 0, first.stderr);
+    const before = readFileSync(join(dir, 'rec.tgs'), 'utf8');
+    const second = run('--message', 'second', '-o', 'rec.tgs');
+    assert.equal(second.status, 1);
+    assert.match(second.stderr, /already exists; it was not touched/);
+    assert.equal(second.stdout, '', 'no key is printed for a record that was not written');
+    assert.equal(readFileSync(join(dir, 'rec.tgs'), 'utf8'), before);
+    const forced = run('--message', 'third', '-o', 'rec.tgs', '--force');
+    assert.equal(forced.status, 0, forced.stderr);
+    assert.notEqual(readFileSync(join(dir, 'rec.tgs'), 'utf8'), before);
+    const open = spawnSync(process.execPath, [CLI, 'open', '-', '--record', 'rec.tgs', '--key-stdin'], { cwd: dir, encoding: 'utf8', input: forced.stdout });
+    assert.equal(open.stdout.trim(), 'third');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
 // ---- the all-zero small-order point: refused by tgr1 (RFC 7748 section 6.1 advice) ---------------------------------------------

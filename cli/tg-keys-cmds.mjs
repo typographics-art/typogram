@@ -27,6 +27,18 @@ export function writeSecretFile(path, data, { force = false } = {}) {
   try { fchmodSync(fd, 0o600); writeSync(fd, data); } finally { closeSync(fd); }
 }
 
+/**
+ * Writes a file that holds no secret (a sealed record, a fetched record) without replacing one that is already there: the key printed
+ * for an earlier record would then open nothing. Created with O_EXCL, so an existing file or a symlink is refused and not followed;
+ * `--force` replaces the file. Throws CryptError('file-exists') naming the path.
+ */
+export function writeNewFile(path, data, { force = false } = {}) {
+  try { writeFileSync(path, data, { flag: force ? 'w' : 'wx' }); } catch (e) {
+    if (e.code === 'EEXIST') throw fail('file-exists', `${path} already exists; it was not touched (give --force to replace it)`);
+    throw e;
+  }
+}
+
 export const KEY_COMMANDS = ['master', 'derive', 'recipient', 'split', 'join'];
 export const KEY_NO_TARGET = ['master', 'recipient', 'split', 'join'];
 export const KEY_OPTIONS = {
@@ -117,13 +129,13 @@ export async function runKeyCommand(command, v, positionals, h) {
     if (v.to) {
       await parsePublic(v.to);
       const r = await sealTo(v.to, item, { context: await ctxOf(work) });
-      writeFileSync(out, r.record + '\n');
+      writeNewFile(out, r.record + '\n', { force: v.force });
       console.error(`${r.bytes.length} bytes sealed for the public key; record in ${out}; no key exists: only the owner of the matching secret key can open it`);
     } else {
       const secret = await recordKey(await masterBytes(), v['record-id'], v.context ?? '');
       const text = work && work !== '-' ? await h.workText(work) : null;
       const r = await sealWithSecret(text, item, secret, { bind: text !== null });
-      writeFileSync(out, r.record + '\n');
+      writeNewFile(out, r.record + '\n', { force: v.force });
       console.error(`${r.stats.plainBytes} bytes sealed with the key of record "${v['record-id'].slice(0, 40)}"; record in ${out}; derive the key again with the master key`);
     }
   } else if (command === 'open') {

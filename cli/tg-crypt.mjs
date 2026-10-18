@@ -14,7 +14,7 @@ import { encode, toFile, modelJson, TgdError } from '../src/structured.js';
 import { FORMATS } from '../src/structured-formats.js';
 import { markupText } from '../src/work-text.js';
 import { b64urlEncode, sha256, toHex } from '../src/crypt-codec.js';
-import { KEY_COMMANDS, KEY_NO_TARGET, KEY_OPTIONS, KEY_HELP, isKeyInvocation, runKeyCommand, writeSecretFile } from './tg-keys-cmds.mjs';
+import { KEY_COMMANDS, KEY_NO_TARGET, KEY_OPTIONS, KEY_HELP, isKeyInvocation, runKeyCommand, writeSecretFile, writeNewFile } from './tg-keys-cmds.mjs';
 import { assertPublishable, openAny } from '../src/keys-work.js';
 
 const HELP = `Usage:
@@ -40,6 +40,7 @@ seal options
   --iterations <n>     PBKDF2 iterations with a password (default 600000)
   --pad <n>            pad up to a multiple of n bytes (hides the exact size)
   --compress <m>       deflate (default), brotli (smaller, not readable in every browser), none
+  --force              replace an existing record file (without it, an existing file is refused: the key you printed earlier would open nothing)
 Secrets never go on the command line (the process list and the shell history would show them). There is no --key option and no
 --password option. A key comes from, in this order:  --key-file <path>,  --key-stdin,  the environment variable TG_CRYPT_KEY.
 A password comes from:  --password-file <path>,  --password-stdin,  the environment variable TG_CRYPT_PASSWORD
@@ -132,7 +133,7 @@ try {
       else sealed = await sealData(text, (await encode({ bytes, name: basename(values.data) })).text, o);
     }
     const out = values.out || (values.data ? `${values.data}.tgs` : 'message.tgs');
-    if (!values.inline) writeFileSync(out, sealed.record + '\n');
+    if (!values.inline) writeNewFile(out, sealed.record + '\n', { force: values.force });
     if (sealed.key) console.log(sealed.key);
     const s = sealed.stats;
     console.error(`${s.plainBytes} bytes sealed (${s.method}); record ${s.recordBytes} bytes / ${s.recordChars} characters${values.inline ? ' inside the key' : ` in ${out}`}; key ${s.keyChars} characters${sealed.key ? '' : ' (password: no key string)'}`);
@@ -178,7 +179,7 @@ try {
     const { adapter } = chainTools();
     const r = await adapter.fetch(target);
     const text = 'tgs1.' + b64urlEncode(r.record);
-    if (values.out) writeFileSync(values.out, text + '\n'); else process.stdout.write(text + '\n');
+    if (values.out) writeNewFile(values.out, text + '\n', { force: values.force }); else process.stdout.write(text + '\n');
     console.error(`record verified against the chain (${r.confirmations} confirmations)`);
   } else if (command === 'verify') {
     if (!extra) die('verify needs an asset id and a record file');
