@@ -5,7 +5,7 @@
 // The DOM glue is src/data-panel-ui.js (generator) and src/data-reader-ui.js (work page).
 import { gridOf, colName, parseAddr, cellText } from './structured-model.js';
 import { FORMATS, detectFormat } from './structured-formats.js';
-import { keepLiteral, modelJson } from './structured.js';
+import { keepLiteral, modelJson, READ_NOTE } from './structured.js';
 
 // ---- formats ------------------------------------------------------------------------------------------------------
 /** The file types the web panel takes (the library also reads `kv`, a settings file: not offered here, see the docs). */
@@ -274,7 +274,8 @@ export function exportFormats(kind, source) {
 }
 
 /** The decoded block as the `.tgd.json` form (the same as `tg-data decode`): envelope members plus the exact data, pretty. */
-export const blockJson = (block) => modelJson({ data: new Map([['tgd', block.version], ['format', block.format], ['name', block.name], ['sum', block.sum], ['data', block.data]]) });
+// The copied JSON carries the same one-line reading note as the block, so it stays self-describing wherever it is pasted.
+export const blockJson = (block) => modelJson({ data: new Map([['tgd', block.version], ['format', block.format], ['name', block.name], ['sum', block.sum], ['read', READ_NOTE], ['data', block.data]]) });
 
 /** A file name from the block's name with a new extension; no path, no control characters. */
 export function downloadName(name, ext) {

@@ -1,11 +1,11 @@
 # Key management: one seed, a key per record, sealing to a recipient, splitting
 
-Design and reference for `src/keys*.js` and the new commands of `cli/tg-crypt.mjs`. Companions: [encrypted-data.md](encrypted-data.md) (threat models, DigiAssets), [key-format.md](key-format.md) (existing formats), [cipher-review.md](cipher-review.md) (is AES-256-GCM enough; the numbers behind the password rule). Everything below was built and tested unless the heading says **designed only**. "Measured" means run on this machine (Node 26.11.1, Chromium 154, Firefox 153).
+Design and reference for `src/keys*.js` and the new commands of `cli/tg-crypt.mjs`. Companions: [encrypted-data.md](encrypted-data.md) (threat models), [key-format.md](key-format.md) (existing formats), [cipher-review.md](cipher-review.md) (is AES-256-GCM enough; the numbers behind the password rule). Everything below was built and tested unless the heading says **designed only**. "Measured" means run on this machine (Node 26.11.1, Chromium 154, Firefox 153).
 
 ## 0. Principles
 
-1. **A human-chosen password is never the only secret of a record that is public, permanent or anchored.** The default secret is random (256 bits); a password or passphrase can be an *additional* factor. Enforced: password-only sealing needs `--accept-password-only` (local files), `publish` refuses password-only records, `assertPublishable()` is the library check. Numbers in [cipher-review.md](cipher-review.md) section 0.
-2. **A book on a chain stores nothing and protects nothing.** In the book cipher the data is in the key and the book is a lookup table; "which book" is security by obscurity worth `log2(number of candidate books)`, about 17 to 20 bits for public corpora. Not a protection; not built.
+1. **A human-chosen password is never the only secret of a record that is public or permanent.** The default secret is random (256 bits); a password or passphrase can be an *additional* factor. Enforced: password-only sealing needs `--accept-password-only` (local files), `publish` refuses password-only records, `assertPublishable()` is the library check. Numbers in [cipher-review.md](cipher-review.md) section 0.
+2. **A public book stores nothing and protects nothing.** In the book cipher the data is in the key and the book is a lookup table; "which book" is security by obscurity worth `log2(number of candidate books)`, about 17 to 20 bits for public corpora. Not a protection; not built.
 3. **Derive, never reuse.** Keys come from a seed by a *separate* derivation. The wallet's signing key (DigiByte is BIP-44 coin type 20, `m/44'/20'/0'/0/i`) is never used, and the derivation cannot reach it (section 2.3).
 4. **One key per message.** Nonce limits and key-compromise damage stay tiny.
 5. **Secrets only in files, standard input, environment or memory; never in arguments, URLs, logs, error messages, storage.** Error messages never quote a word, key or share (tested).
@@ -141,7 +141,7 @@ It does not grow where it matters (bound keys are 5 characters shorter) and an u
 
 ## 5. Splitting and the second factor
 
-A share, a half key or a vault that sits on a public chain protects nothing **by itself it is not meant to protect**: each is one part of several. **Nothing that is split protects anything if all parts are stored in the same place.** And: a share put on a public chain is public; the other shares must be where the chain is not.
+A share, a half key or a vault that is public protects nothing **by itself it is not meant to protect**: each is one part of several. **Nothing that is split protects anything if all parts are stored in the same place.** And: a share that is made public is public; the other shares must stay private.
 
 | Construction | Protects against | Does not protect against |
 |---|---|---|
@@ -209,6 +209,8 @@ Consequences: losing the passkey (a phone, a reset) is survived by seed + passph
 
 ### 7.2 Passkeys (WebAuthn PRF), design
 
+**Check your own device:** [`passkey-check.html`](../passkey-check.html) (on the site: `https://typographics-art.org/passkey-check`) runs exactly this flow on the device in front of you: it creates a test passkey, asks for the PRF secret three times (twice with the same input, once with another), runs a small 2-of-2 vault test (passkey plus a random second factor opens it, the passkey alone does not) and prints a result block to copy. It stores nothing and sends nothing; the result block contains no key and no credential id, only yes/no facts, the browser string and a 4-byte fingerprint. A test with Chromium's virtual authenticator is part of the suite (`test/passkey-check.test.js`); results from **real** devices are what is still missing, and the page exists so that they can be collected.
+
 `prfInput(label)` gives the 32-byte `eval.first` input (SHA-256 of `"tgart/webauthn-prf/v1\0" + label`). Page flow: create the credential with `extensions: { prf: {} }` (learn `prf.enabled`), then `get` with `prf: { eval: { first: input } }`, take `results.first` (32 bytes), pass it to `factorFromPrf`, and discard it. Measured in Chromium with a virtual authenticator: enabled, 32 bytes, deterministic. **Unverified on real hardware, Safari and Windows Hello.** The relying party ID is part of the secret: the factor does not survive a change of domain. Synced passkeys are as strong as the cloud account that syncs them. Recovery: the seed backup and the passphrase remain.
 
 ## 8. Threat model per construction
@@ -220,7 +222,7 @@ Consequences: losing the passkey (a phone, a reset) is survived by seed + passph
 | Record key `K_i` | holds one `K_i` | cannot get the master or other records | the master or seed leaks |
 | Master / seed | holds the master | – (it is everything) | any leak; seed kept with the wallet |
 | `tgr1.` to a public key | has the record and the public key | cannot open without the secret key | recipient secret leaks (no forward secrecy); quantum computer later (X25519), if the record was published |
-| XOR / Shamir shares | holds fewer than the threshold | no information (proved) | threshold reached; shares stored together or on one public chain |
+| XOR / Shamir shares | holds fewer than the threshold | no information (proved) | threshold reached; shares stored together or in one public place |
 | Half key + password (`tgxm1.`) | has the record and the half key | password alone is nothing; half key alone is nothing | weak password **and** record **and** half key: offline guessing at Argon2id cost |
 | Vault `tgv1.` (2 of 3) | holds one factor, or has the public vault | one factor; the passphrase alone | any two factors |
 | Password only (legacy `tgs1.` password mode) | has a public record | only a very strong, truly random password | any human-chosen password (section 0.1 of the cipher review): **refused for publishing** |
@@ -309,7 +311,7 @@ Secrets only from files, standard input or the environment; **an option that wou
 
 - Nothing old breaks: `tgs1.` records, `tgx1.` keys, `tg1.`/`tg2.` book keys and all conformance vectors open as before (the existing 237 tests pass unchanged except one CLI test line that now gives the explicit password-only flag). `src/crypt*.js` were not changed.
 - `tgx1.` bound keys can be replaced by `tgx2.` for the **same record** without re-sealing: read the secret and the work, call `formatKey2`. (The `tgx1.` key's fingerprint is not needed.) New records can be sealed with `sealBound2`.
-- Records meant for a chain: seal with a random key or a derived `K_i`; add a half key if a memorable factor is wanted; never a password alone.
+- Records meant to be public: seal with a random key or a derived `K_i`; add a half key if a memorable factor is wanted; never a password alone.
 - **Designed only:** `tgx2.` in the generator panel; the key-committing record version; `tgr2.` post-quantum hybrid (cipher review 1.6).
 
 ## 12. What a host must merge (the files that were not touched)
@@ -325,12 +327,12 @@ Secrets only from files, standard input or the environment; **an option that wou
 
 **CSP:** `src/keys-kdf.js` imports `../assets/vendor/noble-hashes/argon2.js` from the same origin; no new origin is needed.
 
-## 13. Open questions for the owner
+## 13. Decisions (2026-10-18)
 
-1. Seed and funds: use a **separate** seed (or BIP-39 passphrase) for data, so that the wallet's seed never opens private data? (Recommended: yes.)
-2. Vault trade-off (section 7): is it acceptable that **the seed alone does not open the vault** (a stolen paper backup is not enough, but a lost vault file plus only the seed loses the data), or should the seed always recover everything (`V = master`, passkey and passphrase as convenience wrappers)?
-3. Argon2id default 64 MiB × 3 passes (about 1 s Chromium, 2 s Firefox): keep, or lower for phones?
-4. Should the generator write `tgx2.` instead of `tgx1.` from now on? (Recommended: yes; bound keys get shorter and stop naming the work.)
-5. Build now or later: the post-quantum hybrid `tgr2.`; the key-committing record version; a `tgxm1.`/vault CLI?
-6. Real-device test of the passkey factor (a security key, Safari, Windows Hello, Android) before the page offers it.
-7. Add `assets/vendor/noble-hashes` to `package.json` `files` and the two rows to `NOTICE.md` (above).
+1. **A separate seed (or BIP-39 passphrase) for data**, never the seed of a wallet that holds money.
+2. **The seed alone recovers everything.** The vault's secret is the master itself (`V = master`); passkey and passphrase are convenience wrappers that open it without the seed, and the passphrase alone still never opens anything. The stricter variant (the seed alone does not open the vault) stays available as an option for people whose main risk is theft of the written seed. (Implementation pending; see section 7.)
+3. Argon2id stays at 64 MiB × 3 passes until a phone has been measured.
+4. **The generator writes `tgx2.` keys** from now on; `tgx1.` stays readable.
+5. A vault command line (`vault create`, `vault open`) is built now; the post-quantum hybrid and the key-committing record version wait until after the public launch.
+6. Real devices: owners test their passkeys with `/passkey-check` and report; the page is live, the documents say the factor is unverified on real devices until then.
+7. Done: `assets/vendor/noble-hashes` is in the package `files` list, both NOTICE rows exist.

@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 // Experiments behind docs/structured-data.md. Every number in that document comes from here.
 //
-//   node scripts/structured-data-experiments.mjs delimiters --pdfjs <dir with build/pdf.mjs>   candidate characters through a real PDF
+//   node scripts/structured-data-experiments.mjs delimiters [--pdfjs <dir with pdf.min.mjs>]   candidate characters through a real PDF
 //   node scripts/structured-data-experiments.mjs sizes                                       size inflation and token estimates per encoding
 //   node scripts/structured-data-experiments.mjs visual <out-dir>                            renders a small sheet and a prose control
 //
-// `delimiters` and `visual` need Chrome and MuPDF (like cli/onepage.mjs). pdf.js 4.4.168 is what the site loads
-// from cdnjs and is not vendored in this repository; `--pdfjs` points at an unpacked pdfjs-dist@4.4.168 package.
+// `delimiters` and `visual` need Chrome and MuPDF (like cli/onepage.mjs). pdf.js 4.4.168 is read from the copy the site
+// ships (assets/vendor/pdfjs); `--pdfjs` may point at another directory holding pdf.min.mjs and pdf.worker.min.mjs.
 import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+const PDFJS_DIR = fileURLToPath(new URL('../assets/vendor/pdfjs', import.meta.url));
 import { spawnSync } from 'node:child_process';
 import { openSession } from '../cli/core.mjs';
 import { makeOnePage } from '../cli/onepage-core.mjs';
@@ -22,8 +23,8 @@ const flag = (name) => { const i = rest.indexOf(name); return i < 0 ? null : res
 const mutoolText = (pdf) => spawnSync('mutool', ['draw', '-q', '-F', 'txt', '-o', '-', pdf], { encoding: 'utf8', maxBuffer: 1 << 28 }).stdout;
 
 async function pdfjsText(pdf, dir) {
-  const pdfjs = await import(pathToFileURL(join(dir, 'build/pdf.mjs')).href);
-  pdfjs.GlobalWorkerOptions.workerSrc = pathToFileURL(join(dir, 'build/pdf.worker.mjs')).href;
+  const pdfjs = await import(pathToFileURL(join(dir, 'pdf.min.mjs')).href);
+  pdfjs.GlobalWorkerOptions.workerSrc = pathToFileURL(join(dir, 'pdf.worker.min.mjs')).href;
   const { readFileSync } = await import('node:fs');
   const doc = await pdfjs.getDocument({ data: new Uint8Array(readFileSync(pdf)), disableFontFace: true, verbosity: 0 }).promise;
   const pages = [];
@@ -57,7 +58,7 @@ function segmentFor(n, c, reps = 24) {
 }
 
 async function delimiters() {
-  const dir = flag('--pdfjs');
+  const dir = flag('--pdfjs') || PDFJS_DIR;
   if (!dir) throw new Error('--pdfjs <dir> is needed (unpacked pdfjs-dist@4.4.168)');
   const work = mkdtempSync(join(tmpdir(), 'sd-delim-'));
   const session = await openSession();
@@ -87,7 +88,7 @@ async function delimiters() {
 
 // ---- spaces: does a plain space survive next to characters that come from a fallback font? -------------------
 async function spaces() {
-  const dir = flag('--pdfjs');
+  const dir = flag('--pdfjs') || PDFJS_DIR;
   const work = mkdtempSync(join(tmpdir(), 'sd-space-'));
   const session = await openSession();
   const PATTERNS = {
@@ -122,7 +123,7 @@ const BLOCKS = [
 ];
 const NOT_SAFE = /[\p{Emoji_Modifier}\p{White_Space}\p{Default_Ignorable_Code_Point}\p{C}\p{M}"\\·]/u;
 async function scripts() {
-  const dir = flag('--pdfjs');
+  const dir = flag('--pdfjs') || PDFJS_DIR;
   const work = mkdtempSync(join(tmpdir(), 'sd-scripts-'));
   const session = await openSession();
   const strip = (t) => t.normalize('NFC').replace(/[\p{White_Space}\p{Default_Ignorable_Code_Point}\p{Cc}]/gu, '');

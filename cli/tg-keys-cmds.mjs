@@ -64,7 +64,7 @@ Key management (docs/key-management.md); secrets only from a file, standard inpu
   tg-crypt split  (--xor <n> | --shamir <k>:<n>) [-o <prefix>]    splits the key given with --key-file/--key-stdin/TG_CRYPT_KEY into "tgsh1." shares, one per line
   tg-crypt join   <share file>... | --shares-stdin                 recombines shares; prints the secret
 Files with secrets (recipient --new, split -o, open -o) are created with mode 0600 and refused if the path exists or is a symlink; --force replaces the path (unlinks it first).
-A password alone never protects a published record: "seal --password-*" needs --accept-password-only (local files) and "publish" refuses such records.
+A password alone never protects a record that others may get: "seal --password-*" needs --accept-password-only (local files only).
 `;
 
 export const isKeyInvocation = (command, v) => KEY_COMMANDS.includes(command) || ((command === 'seal' || command === 'open') && (v.to || v['record-id'] || v['recipient-key-file'] || v['recipient-key-stdin'] || v['master-file'] || v['master-stdin'] || process.env.TG_CRYPT_RECIPIENT_KEY));
@@ -113,7 +113,7 @@ export async function runKeyCommand(command, v, positionals, h) {
     if (v.xor) shares = await splitXor(bytes, Number(v.xor));
     else { const m = /^(\d{1,3}):(\d{1,3})$/.exec(v.shamir) ?? die('--shamir takes k:n, for example 2:3'); shares = await splitShamir(bytes, Number(m[1]), Number(m[2])); }
     if (v.out) { shares.forEach((s, i) => writeSecretFile(`${v.out}.${i + 1}`, s + '\n', { force: v.force })); console.error(`${shares.length} share files written: ${v.out}.1 ...`); } else console.log(shares.join('\n'));
-    console.error('Give each share to a different person or place. A share on a public chain protects nothing: it must be one part of several.');
+    console.error('Give each share to a different person or place. A share that is public protects nothing: it must be one part of several.');
   } else if (command === 'join') {
     const texts = v['shares-stdin'] ? readStdin().split(/\s+/).filter(Boolean) : positionals.slice(1).map((f) => readSecretFile(f).trim());
     if (!v['shares-stdin'] && positionals[1] === undefined) die('join needs share files, or --shares-stdin');

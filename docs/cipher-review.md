@@ -4,7 +4,7 @@ Companion of [encrypted-data.md](encrypted-data.md) and [key-management.md](key-
 
 ## 0. The verdict, in one paragraph
 
-**Keep AES-256-GCM. The cipher is not the weak point; the password is.** The answer to "choose an encryption in which the password is not the problem" is a rule, and the code now enforces it: **a human-chosen password is never the only secret protecting a record that is public, permanent or anchored.** The default protection is a random 256-bit secret (a random key, or a record key derived from a seed). A password or passphrase is only an additional factor: it is mixed with the random secret, or it wraps one share of a k-of-n vault, so that guessing it alone gets an attacker nowhere. Password-only sealing of a record that could be published is refused by the CLI (`--accept-password-only` for a local file only, and `publish` refuses such records regardless), and `assertPublishable()` is the library form of the same rule.
+**Keep AES-256-GCM. The cipher is not the weak point; the password is.** The answer to "choose an encryption in which the password is not the problem" is a rule, and the code now enforces it: **a human-chosen password is never the only secret protecting a record that is public or permanent.** The default protection is a random 256-bit secret (a random key, or a record key derived from a seed). A password or passphrase is only an additional factor: it is mixed with the random secret, or it wraps one share of a k-of-n vault, so that guessing it alone gets an attacker nowhere. Password-only sealing of a record that could be published is refused by the CLI (`--accept-password-only` for a local file only, and `publish` refuses such records regardless), and `assertPublishable()` is the library form of the same rule.
 
 ### 0.1 The password rule, with the numbers
 
@@ -57,7 +57,7 @@ NIST SP 800-38D (cited) allows random 96-bit IVs only while one key encrypts at 
 
 (All **measured** except the Safari column and the citation marks. The Web Crypto "modern algorithms" proposal that would add ChaCha20-Poly1305, AES-OCB, Argon2 and ML-KEM is being implemented in Node first; browsers lag.) Consequence: AES-GCM-SIV and XChaCha20-Poly1305 are available to a browser only through a JavaScript library. Because our keys are single-use, the property they add (surviving an accidentally repeated nonce) protects against a mistake that cannot happen here. **Not worth a dependency.**
 
-One real property that AES-GCM lacks: it is not *key-committing* (a ciphertext can be crafted that opens under two different keys). For this project an attacker would have to choose both keys, which contradicts a single owner's own key; the record's SHA-256 on a chain commits to the record bytes, not to a plaintext. It matters for designs where several parties hold keys to the same record (the hand-out of a record key, section 6 of [key-management.md](key-management.md)). Open question for the owner: add an explicit key-check output to a new record version (cheap: one more HKDF output compared in constant time). Not done, because it changes the record format.
+One real property that AES-GCM lacks: it is not *key-committing* (a ciphertext can be crafted that opens under two different keys). For this project an attacker would have to choose both keys, which contradicts a single owner's own key; a published SHA-256 of the record commits to the record bytes, not to a plaintext. It matters for designs where several parties hold keys to the same record (the hand-out of a record key, section 6 of [key-management.md](key-management.md)). Open question for the owner: add an explicit key-check output to a new record version (cheap: one more HKDF output compared in constant time). Not done, because it changes the record format.
 
 ### 1.3 ChaCha20-Poly1305
 
@@ -126,7 +126,7 @@ Honest limits:
 
 ## 4. Where the realistic weaknesses are
 
-AES-256-GCM through Web Crypto is a conservative, strong choice. The realistic ways to lose data are, in order: **the key or seed being lost or copied** (no recovery by design; the vault gives a recovery path that does not weaken anything); **the password** (section 0); **the code around the cipher** (formats, binding, bounds, compression: written for this project, covered by tests and conformance vectors but **not independently audited**; an outside review is worth more than any change of cipher); **metadata** (record size unless padded, time, funding address on a chain; see [encrypted-data.md](encrypted-data.md) section 7.5); and **the device** (a malicious extension or a compromised computer reads a seed typed into a page: no cipher helps).
+AES-256-GCM through Web Crypto is a conservative, strong choice. The realistic ways to lose data are, in order: **the key or seed being lost or copied** (no recovery by design; the vault gives a recovery path that does not weaken anything); **the password** (section 0); **the code around the cipher** (formats, binding, bounds, compression: written for this project, covered by tests and conformance vectors but **not independently audited**; an outside review is worth more than any change of cipher); **metadata** (record size unless padded, and whatever the place it is shared at records about it); and **the device** (a malicious extension or a compromised computer reads a seed typed into a page: no cipher helps).
 
 ## 5. How to reproduce
 
@@ -143,5 +143,5 @@ node scripts/build-key-vectors.mjs            # prints the vectors that test/fix
 2. Argon2id default of 64 MiB, 3 passes (about 1 s in Chromium, 2 s in Firefox): acceptable for unlock, or lower for slow phones (19 MiB, 2 passes is the OWASP minimum)?
 3. Key-committing record version: wanted now (breaks nothing old, adds a version) or only when records are shared between several key holders?
 4. Post-quantum hybrid `tgr2.`: build it now with a vendored `@noble/post-quantum`, or wait for browsers to ship ML-KEM in Web Crypto?
-5. Independent review: commission an outside review of `src/crypt*.js` and `src/keys*.js` before any real value is sealed on a public chain.
+5. Independent review: commission an outside review of `src/crypt*.js` and `src/keys*.js` before any real value is sealed and made public.
 6. Test on real authenticators (a security key, Safari, Windows Hello, Android) before the passkey factor is offered in the page.

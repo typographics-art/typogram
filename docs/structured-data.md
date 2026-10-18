@@ -623,11 +623,11 @@ The API's 20 MB upload limit stays; the TGD limits apply on top (16 MiB input), 
 
 Given only the PDF text layer, a model gets the canonical text: prose, then the block as one run of JSON-looking text with `·` for spaces and a first-line explanation in `read`. A model that has never seen TGD reads it correctly because (a) the `read` sentence tells it, (b) rows are arrays under a header row in a format it reads natively, (c) `lossy` tells it what is absent. The page text a model sees has no line breaks inside a record only if the layout puts none; it does not matter, the data does not depend on them.
 
-## 13. Open questions for the owner
+## 13. Decisions (2026-10-18)
 
-1. Name and markers: `TGD`/`TGD1[`…`]TGD1` are free to change before 1.0 is announced.
-2. Whether the decoded model may be shown with the `read` explanation also in the Machine view's "Copy JSON" (it is in the block).
-3. Splitting across pages is designed only (§6): a decision on `n/m` naming and on whether `onepage` should do it.
-4. Whether `unicode: 'plain'` should ever be the default for Chinese, Japanese and Korean ideographs (measured: 1.3 % of the ideographs are altered by pdf.js; escaping makes them 6 times longer but exact).
-5. ODS as the next format.
-6. Whether to vendor pdf.js 4.4.168 for the test suite (`scripts/structured-data-experiments.mjs` needs it; the unit tests do not).
+1. The name and the markers `TGD1[ … ]TGD1` stay.
+2. "Copy JSON" in the Machine view includes the `read` explanation, so the copied text is self-describing wherever it lands.
+3. Splitting across pages stays designed only (§6) until a real document needs it.
+4. Escaping stays the default for Chinese, Japanese and Korean ideographs (exact; `unicode: 'plain'` remains an option): 1.3 % of the ideographs are altered by pdf.js when written plain.
+5. ODS is the next format, after the public launch.
+6. `scripts/structured-data-experiments.mjs` reads pdf.js from the copy the site ships (`assets/vendor/pdfjs`); nothing else to vendor.

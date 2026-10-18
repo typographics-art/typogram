@@ -1,3 +1,4 @@
+// EXPERIMENT, not offered: see docs/drafts/chain-anchoring.md. Nothing in the website or the public documents refers to it.
 // Sealed records on a blockchain (docs/encrypted-data.md section 7): the chain carries a COMMITMENT (a SHA-256 of the
 // sealed record, in one OP_RETURN of at most 80 bytes); the record itself is stored off chain, at a place anyone can find
 // from the commitment (content addressed). Whoever fetches the record checks it against the chain; only the holder of the

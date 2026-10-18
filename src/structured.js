@@ -20,7 +20,7 @@ export const CLOSE = ']TGD1';
 export const MARKER = '\u00b7';
 export const MEDIA_TYPE = 'application/vnd.tgart.tgd+json';
 export const TOOL = 'tg-data/1.0';
-const READ_NOTE = 'TGD 1: JSON, each middle dot stands for one space, \\uXXXX is one character.';
+export const READ_NOTE = 'TGD 1: JSON, each middle dot stands for one space, \\uXXXX is one character.';
 
 export const DEFAULT_LIMITS = { maxInputBytes: 16 * 1024 * 1024, maxBlockChars: 64 * 1024 * 1024, maxBlocks: 64 };
 

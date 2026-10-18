@@ -8,7 +8,6 @@ Diese Seite ist für Menschen, die wissen wollen, ob sie dem Schutz von Daten in
 - **Ein Passwort ist die Schwachstelle jedes solchen Schlosses, deshalb steht es nie allein.** Für alles Öffentliche oder Dauerhafte ist der eigentliche Schutz ein langes Zufallsgeheimnis, das niemand eintippt. Ein Passwort kann nur ein *zusätzlicher* Faktor sein, der damit gemischt wird. Die Werkzeuge weigern sich, einen Datensatz zu veröffentlichen, der nur durch ein Passwort geschützt ist.
 - **Du hältst den Schlüssel, wir können ihn nicht wiederherstellen.** Die Seite arbeitet in deinem Browser und schickt Daten, Schlüssel, Seed oder Passwort nirgendwohin (die Website lädt nichts von Dritten, und der Browser erzwingt das mit einer Content-Security-Policy). Das heisst auch: Wenn du den Schlüssel verlierst, sind die Daten weg, und niemand kann helfen.
 - **Es ist nicht unabhängig geprüft.** Das Verfahren ist Standard; der Code darum herum (Formate, Werkbindung, Schlüsselbehandlung) wurde für dieses Projekt geschrieben, getestet und von automatischen Werkzeugen geprüft, aber keine externe Kryptografin hat ihn begutachtet. Wenn Verlust oder Preisgabe der Daten wirklich schaden würde, lass ihn vorher prüfen.
-- **Eine Blockchain macht Daten nicht für immer unlesbar.** Siehe [encrypted-data.md](encrypted-data.md), „Plain answers": Eine Chain hielte einen Hash, und ein für immer öffentlicher Datensatz kann für immer angegriffen werden.
 
 ## 2. Die Geheimnisse und wofür jedes da ist
 
@@ -18,7 +17,7 @@ Diese Seite ist für Menschen, die wissen wollen, ob sie dem Schutz von Daten in
 | **Seed** (12, 18 oder 24 Wiederherstellungswörter, oder Hex) | Das eine Backup, aus dem ein **Master-Schlüssel** und **ein Schlüssel pro Datensatz** abgeleitet werden | Wörter werden aufgeschrieben und selten getippt | Öffnet alles, was daraus versiegelt wurde; ein einzelner Datensatz-Schlüssel lässt sich weitergeben, ohne den Rest preiszugeben. |
 | **Passwort / Passphrase** | Etwas, das sich ein Mensch merkt | Ja | Nur als *zusätzlicher* Faktor (nie allein für öffentliche Daten). |
 | **Anteil** (`tgsh1.…`) | Ein Stück eines in mehrere Teile zerlegten Schlüssels | Nein | Ein Schlüssel, der mehrere Teile aus verschiedenen Händen braucht (beliebige k von n). |
-| **Passkey** (WebAuthn, Handy oder Sicherheitsschlüssel) | Ein an die Hardware gebundenes Geheimnis, das man nicht erraten kann | Nein: das Gerät erledigt es | Ein Faktor eines 2-aus-3-Tresors; entworfen, noch nicht auf echten Geräten getestet. |
+| **Passkey** (WebAuthn, Handy oder Sicherheitsschlüssel) | Ein an die Hardware gebundenes Geheimnis, das man nicht erraten kann | Nein: das Gerät erledigt es | Ein Faktor eines 2-aus-3-Tresors; funktioniert in einem Testbrowser mit virtuellem Passkey, **noch nicht auf echten Geräten geprüft** (du kannst deines prüfen: `/passkey-check`). |
 
 ## 3. Warum ein Passwort die Schwachstelle ist
 
@@ -45,7 +44,7 @@ Zwei Dinge bestimmen den Aufbau:
 
 ## 4. Die Regel, und was sie durchsetzt
 
-> **Ein von Menschen gewähltes Passwort ist nie das einzige Geheimnis, das einen öffentlichen, dauerhaften oder verankerten Datensatz schützt.**
+> **Ein von Menschen gewähltes Passwort ist nie das einzige Geheimnis, das einen öffentlichen oder dauerhaften Datensatz schützt.**
 
 Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 
@@ -64,20 +63,21 @@ Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 | **B. Ein Seed, viele Datensätze** | Wer viel versiegelt | Den Seed (12 bis 24 Wörter, auf Papier, sicher verwahrt). Jeder Datensatz bekommt daraus einen eigenen Schlüssel | den Seed: alles daraus Versiegelte ist verloren; wer den Seed stiehlt, öffnet alles |
 | **C. Ein Tresor mit 2 von 3 Faktoren** | Wer bequemen Zugang *und* ein Sicherheitsnetz will | Beliebige zwei von: Seed-Backup, Passkey, Passphrase | einen Faktor: nichts, die anderen zwei öffnen ihn noch; eine Passphrase allein öffnet nichts |
 
+**Prüfe dein Gerät, bevor du dich auf einen Passkey verlässt**, mit der Geräteprüfung unter [typographics-art.org/passkey-check](https://typographics-art.org/passkey-check): Sie testet in deinem Browser und ohne etwas zu senden, ob dein Passkey oder Sicherheitsschlüssel jedes Mal dasselbe Geheimnis liefert. Nicht jeder Browser und nicht jedes Gerät unterstützt das, und ein synchronisierter Passkey kann sich anders verhalten als ein Hardware-Schlüssel. Das Seed-Backup bleibt in jedem Fall der Weg zurück.
+
 **Nimm einen eigenen Seed für Daten.** Nimm nicht den Seed einer Wallet, in der Geld liegt: Wer ihn stiehlt, bekäme auch deine Daten, und ein verlorener Wallet-Seed würde deine Daten verlieren. (Die Wallet der Plattform ist reine Beobachtung, und ihren Seed verwaltet der Betreiber; sie ist deshalb nie ein Ort für private Nutzerdaten.)
 
 **Eine gute Passphrase wird erzeugt, nicht erfunden.** Die Werkzeuge ziehen Wörter gleichverteilt aus der BIP-39-Liste (2048 Wörter, 11 Bit pro Wort, exakt gleichverteilt): 6 Wörter sind 66 Bit, 8 Wörter 88 Bit. Acht erzeugte Wörter sind ein starker *zusätzlicher* Faktor; als *einzigen* Schutz eines dauerhaften öffentlichen Datensatzes raten wir trotzdem nicht dazu (88 Bit sind nicht 128, und Menschen gehen mit Wörtern um, nicht mit Zufallsbytes, mit allen Lecks aus Abschnitt 3).
 
 ## 6. Was wir nicht versprechen
 
-- **Kein externes Audit.** Das Verfahren ist Standard, der Code darum herum ist unserer. Abschnitt 9 sagt, was getan wurde; nichts davon ersetzt eine Prüfung durch Fachleute. Wir empfehlen sie, bevor etwas Wertvolles auf einer öffentlichen Chain versiegelt wird.
+- **Kein externes Audit.** Das Verfahren ist Standard, der Code darum herum ist unserer. Abschnitt 9 sagt, was getan wurde; nichts davon ersetzt eine Prüfung durch Fachleute. Wir empfehlen sie, bevor etwas Wertvolles versiegelt und weitergegeben wird.
 - **Die interne Prüfung ist kein Audit.** Ein KI-Agent hat den kryptografischen Code im Oktober 2026 gezielt angreifend geprüft ([Bericht](security-review-internal-2026-10.md)): Er hat die Bausteine gegen veröffentlichte Testvektoren geprüft, unabhängige Nachbauten zum Vergleich geschrieben, jeden Parser mit Zufallseingaben beschossen und echte Fehler gefunden und behoben. Das ist ein einzelner Leser mit frischem Kontext und einer Shell, kein Kryptograf, und er kann übersehen, was ein menschlicher Fachmann findet; bitte nicht als Audit lesen.
 - **Ein verlorener Schlüssel sind verlorene Daten.** Es gibt keine Wiederherstellung, kein Zurücksetzen, keinen Support, der es öffnen könnte.
 - **Ein kompromittiertes Gerät hebelt alles aus.** Eine bösartige Browser-Erweiterung, Schadsoftware oder ein gestohlenes entsperrtes Handy können lesen, was du tippst, und sehen, was die Seite entschlüsselt. Verschlüsselung schützt ruhende und übertragene Daten, nicht einen Rechner, der schon feindlich ist.
-- **Metadaten sind nicht verborgen.** Ein versiegelter Datensatz zeigt seine Grösse (ausser mit Auffüllung) und, wenn er auf einer Chain verankert ist, Zeit und zahlende Adresse.
+- **Metadaten sind nicht verborgen.** Ein versiegelter Datensatz zeigt seine Grösse (ausser mit Auffüllung), und wer ihn erhält, weiss, dass es ihn gibt und wann er geteilt wurde.
 - **Die versteckten Nachrichten mit der Buchchiffre sind keine Verschlüsselung.** Sie verbergen eine Nachricht im öffentlichen Text eines Werks vor jemandem, der das Verfahren nicht kennt; nimm für alles, was geheim bleiben muss, versiegelte Daten ([hidden-messages.md](hidden-messages.md)).
 - **Quantencomputer:** AES-256 behält gegen die beste bekannte Quantensuche 128 Bit, was noch ausser Reichweite ist. Der *asymmetrische* Teil (Versiegeln für einen öffentlichen Schlüssel, `tgr1.`) nutzt X25519, das ein grosser Quantencomputer brechen würde; eine Hybridvariante mit einem quantensicheren Verfahren ist entworfen, nicht gebaut, weil Browser noch keines anbieten.
-- **Keine Rechtsberatung.** Selbst eine verschlüsselte Verpflichtung auf personenbezogene Daten auf einer öffentlichen Chain kann mit Löschrechten kollidieren; lass dich beraten.
 
 ## 7. Warum wir nichts anderes gewählt haben
 
@@ -103,7 +103,6 @@ Was der Code dafür tut (alles getestet, siehe Abschnitt 9):
 - Verlass dich für nichts Öffentliches auf ein Passwort allein.
 - Schreib keinen Schlüssel oder Seed in einen Chat, eine E-Mail, einen Screenshot oder eine URL.
 - Tipp deinen Seed nicht auf einer Seite ein, die du nicht von typographics-art.org geöffnet hast, und nicht auf einem Gerät, dem du nicht traust.
-- Geh nicht davon aus, dass eine Blockchain Daten privat macht oder am Leben hält.
 
 ## 9. Selbst nachprüfen
 
