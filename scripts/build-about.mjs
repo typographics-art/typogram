@@ -35,6 +35,17 @@ const clean = (md) => md
   .replace(/\n{3,}/g, '\n\n')
   .trim();
 
+// The artifact is self-contained: the embedded font is Roboto Flex, subsetted to the characters used. Characters the
+// font lacks (measured against assets/fonts/roboto-flex-*.woff2: → ✓ ≥ ≤ ≈ ⟦ ⟧, the superscripts ⁴⁺, exotic hyphens
+// and spaces) would otherwise fall back to a system font with the wrong width and break the layout. Map the few the
+// source documents use to glyphs the font has, so the one file renders identically everywhere, offline included.
+const fontSafe = (s) => s
+  .replace(/→/g, '->').replace(/←/g, '<-').replace(/↔/g, '<->')
+  .replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/≈/g, '~').replace(/≠/g, '!=')
+  .replace(/✓/g, 'yes').replace(/✗/g, 'no')
+  .replace(/⟦/g, '«').replace(/⟧/g, '»')
+  .replace(/[‐‑]/g, '-').replace(/­/g, '').replace(/[   ]/g, ' ');
+
 let md = `# Typographics Art: everything in one file
 
 This file contains the README and the main documents of the open-source project Typographics Art (https://typographics-art.org, https://github.com/typographics-art/typogram). It is meant to be handed to an AI assistant as a whole. Good first questions: What is Typographics Art? How is it different from ASCII art? Can a machine still read a work? How big do the PDFs get, and why?
@@ -53,7 +64,11 @@ md += `\n---\n\n## For an AI or an agent: read and verify this file\n\n` +
   `- Verify it is from typographics-art.org, unchanged: \`tg verify <file>\`. It recomputes the identity hash (SHA-256 of the canonical text), fetches the issuer's public key from https://typographics-art.org/.well-known/tgart-keys.json and checks the Ed25519 signature. Result: VERIFIED, UNSIGNED or TAMPERED.\n` +
   `- Issuer: typographics-art.org · signing key id 2026-10 · spec: docs/verification.md and docs/issuers.md in the repository.\n` +
   `- The tool: https://github.com/typographics-art/typogram (command \`tg\`).\n\n` +
-  `⟦ TG · signed by typographics-art.org · verify: typographics-art.org ⟧\n`;
+  // The seal: a distinct, recognizable mark as the closing line(s) of the hashed text. «TYPOGRAM» is the constant
+  // sigil; the line below is the provenance claim, true once the file is signed and checkable with `tg verify`.
+  `«TYPOGRAM» — a signed, verifiable work\n` +
+  `issuer typographics-art.org · Ed25519 key 2026-10 · verify at typographics-art.org to confirm this file is unchanged\n`;
+md = fontSafe(md); // only glyphs the embedded font has — no fallback, truly one self-contained file
 mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, 'typographics-art.md'), md);
 console.log(`about/typographics-art.md: ${md.length.toLocaleString('en-US')} characters`);
@@ -62,7 +77,7 @@ const session = await openSession();
 try {
   const r = await makeOnePage(session, {
     text: md, title: 'Typographics Art', subtitle: 'everything about this project on one page · ask your AI what it is',
-    motif: motifSource(join(ROOT, 'examples/motifs/pepe.png')),
+    motif: motifSource(join(ROOT, 'examples/motifs/ai-readme.png')),
     pdf: join(OUT, 'typographics-art.pdf'), preview: join(OUT, 'preview.jpg'), previewWidth: 1240,
     // The same explanation as one downloadable Typogram SVG: it opens as a picture, a machine reads the whole text back,
     // and the exact Markdown is kept inside it losslessly (tables, lists and code survive, restored on read-out).
