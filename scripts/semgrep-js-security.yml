@@ -1,0 +1,225 @@
+# Local Semgrep rules for the JavaScript / Node code of this repository (no network, no registry): written for the internal
+# security review of 2026-10 (docs/security-review-internal-2026-10.md) because the registry packs are not available offline.
+# Run through scripts/semgrep-scan.mjs, which also extracts the inline scripts of the HTML pages. A hit is a question, not a verdict:
+# every hit of the review is triaged in the report.
+rules:
+  - id: tg-no-eval
+    languages: [javascript]
+    severity: ERROR
+    message: "eval / new Function / string timers run text as code"
+    pattern-either:
+      - pattern: 'eval(...)'
+      - pattern: 'new Function(...)'
+      - pattern: 'Function(...)'
+      - pattern: 'setTimeout("...", ...)'
+      - pattern: 'setInterval("...", ...)'
+  - id: tg-html-sink
+    languages: [javascript]
+    severity: WARNING
+    message: "assignment to an HTML-parsing sink; the value must be escaped or a constant"
+    pattern-either:
+      - pattern: '$X.innerHTML = $V'
+      - pattern: '$X.innerHTML += $V'
+      - pattern: '$X.outerHTML = $V'
+      - pattern: '$X.insertAdjacentHTML($P, $V)'
+      - pattern: 'document.write(...)'
+      - pattern: 'document.writeln(...)'
+      - pattern: '$X.srcdoc = $V'
+  - id: tg-domparser
+    languages: [javascript]
+    severity: INFO
+    message: "DOMParser on data; check what is done with the resulting tree"
+    pattern: 'new DOMParser().parseFromString(...)'
+  - id: tg-url-sink
+    languages: [javascript]
+    severity: WARNING
+    message: "a URL taken from data is assigned to a navigation or loading sink; scheme must be checked"
+    pattern-either:
+      - pattern: 'location.href = $V'
+      - pattern: 'location = $V'
+      - pattern: 'location.assign($V)'
+      - pattern: 'location.replace($V)'
+      - pattern: 'window.open($V, ...)'
+      - pattern: '$X.href = $V'
+      - pattern: '$X.src = $V'
+  - id: tg-math-random
+    languages: [javascript]
+    severity: ERROR
+    message: "Math.random is not a source of randomness for anything secret; use crypto.getRandomValues"
+    pattern: 'Math.random()'
+  - id: tg-weak-hash
+    languages: [javascript]
+    severity: WARNING
+    message: "MD5 / SHA-1 are not collision resistant"
+    pattern-either:
+      - pattern: 'createHash("md5")'
+      - pattern: 'createHash("sha1")'
+      - pattern: 'crypto.createHash("md5")'
+      - pattern: 'crypto.createHash("sha1")'
+      - pattern: 'crypto.subtle.digest("SHA-1", ...)'
+      - pattern: 'crypto.subtle.digest({name: "SHA-1"}, ...)'
+  - id: tg-weak-cipher
+    languages: [javascript]
+    severity: ERROR
+    message: "deprecated createCipher / ECB / CBC without authentication / RC4 / DES"
+    pattern-either:
+      - pattern: 'createCipher(...)'
+      - pattern: 'createDecipher(...)'
+      - pattern: 'createCipheriv("$A", ...)'
+      - pattern: 'createDecipheriv("$A", ...)'
+    metavariable-regex:
+      metavariable: $A
+      regex: '(?i).*(ecb|cbc|rc4|des|bf-).*'
+  - id: tg-webcrypto-weak-alg
+    languages: [javascript]
+    severity: WARNING
+    message: "Web Crypto algorithm that is unauthenticated or weak"
+    pattern-either:
+      - pattern: 'crypto.subtle.$F({name: "AES-CBC", ...}, ...)'
+      - pattern: 'crypto.subtle.$F({name: "AES-CTR", ...}, ...)'
+      - pattern: 'crypto.subtle.$F({name: "RSA-PKCS1-v1_5", ...}, ...)'
+  - id: tg-pbkdf2-low-iterations
+    languages: [javascript]
+    severity: WARNING
+    message: "PBKDF2 with fewer than 100000 iterations"
+    patterns:
+      - pattern: |
+          {name: "PBKDF2", ..., iterations: $N, ...}
+      - metavariable-comparison:
+          metavariable: $N
+          comparison: $N < 100000
+  - id: tg-gcm-fixed-iv
+    languages: [javascript]
+    severity: ERROR
+    message: "AES-GCM with a literal IV / nonce"
+    pattern-either:
+      - pattern: 'crypto.subtle.encrypt({name: "AES-GCM", iv: new Uint8Array([...]), ...}, ...)'
+      - pattern: 'crypto.subtle.encrypt({name: "AES-GCM", iv: new Uint8Array($N), ...}, ...)'
+      - pattern: 'createCipheriv("aes-256-gcm", $K, Buffer.alloc(...))'
+  - id: tg-child-process-dynamic
+    languages: [javascript]
+    severity: ERROR
+    message: "shell command built from a non-literal; use execFile with an argument array"
+    pattern-either:
+      - pattern: '$CP.exec($X, ...)'
+      - pattern: '$CP.execSync($X, ...)'
+      - pattern: 'exec($X, ...)'
+      - pattern: 'execSync($X, ...)'
+      - pattern: 'spawn($X, ..., {shell: true, ...})'
+      - pattern: 'spawnSync($X, ..., {shell: true, ...})'
+  - id: tg-fs-dynamic-path
+    languages: [javascript]
+    severity: WARNING
+    message: "file path built from a non-literal; check it cannot leave the intended directory"
+    pattern-either:
+      - pattern: 'readFileSync($P, ...)'
+      - pattern: 'writeFileSync($P, ...)'
+      - pattern: 'createReadStream($P, ...)'
+      - pattern: 'createWriteStream($P, ...)'
+      - pattern: 'readFile($P, ...)'
+      - pattern: 'writeFile($P, ...)'
+      - pattern: 'unlinkSync($P)'
+      - pattern: 'openSync($P, ...)'
+    metavariable-pattern:
+      metavariable: $P
+      patterns:
+        - pattern-not: '"..."'
+        - pattern-not: 'new URL("...", ...)'
+  - id: tg-new-regexp-dynamic
+    languages: [javascript]
+    severity: WARNING
+    message: "RegExp built from a non-literal; ReDoS / injection if the text is untrusted"
+    patterns:
+      - pattern: 'new RegExp($X, ...)'
+      - pattern-not: 'new RegExp("...", ...)'
+  - id: tg-proto-pollution-assign
+    languages: [javascript]
+    severity: WARNING
+    message: "assignment with a computed key on a plain object; with a key from data this can reach __proto__ / constructor"
+    pattern-either:
+      - pattern: '$O[$K] = $V'
+      - pattern: '$O[$K][$J] = $V'
+      - pattern: 'Object.assign($O, $DATA)'
+  - id: tg-json-merge
+    languages: [javascript]
+    severity: INFO
+    message: "object spread / merge of data"
+    pattern-either:
+      - pattern: 'Object.assign({}, ...)'
+      - pattern: "{...$X, ...$Y}"
+  - id: tg-hardcoded-secret
+    languages: [generic]
+    severity: ERROR
+    message: "looks like a hard-coded key or token"
+    pattern-regex: '(?i)(api[_-]?key|secret|token|passw(or)?d)\s*[:=]\s*["''][A-Za-z0-9+/_\-]{24,}["'']'
+  - id: tg-http-url
+    languages: [javascript]
+    severity: INFO
+    message: "cleartext http URL"
+    pattern-regex: '["'']http://(?!localhost|127\.0\.0\.1|www\.w3\.org|\[::1\])[^"'']+["'']'
+  - id: tg-postmessage-star
+    languages: [javascript]
+    severity: WARNING
+    message: "postMessage to any origin"
+    pattern: '$W.postMessage($M, "*")'
+  - id: tg-storage-write
+    languages: [javascript]
+    severity: INFO
+    message: "persistent browser storage; must never hold keys, seeds or decrypted data"
+    pattern-either:
+      - pattern: 'localStorage.setItem(...)'
+      - pattern: 'sessionStorage.setItem(...)'
+      - pattern: 'localStorage[$K] = $V'
+      - pattern: 'document.cookie = $V'
+      - pattern: 'indexedDB.open(...)'
+  - id: tg-console-log
+    languages: [javascript]
+    severity: INFO
+    message: "console output; must never carry a key, a seed, a password or decrypted data"
+    pattern-either:
+      - pattern: 'console.log(...)'
+      - pattern: 'console.info(...)'
+      - pattern: 'console.debug(...)'
+  - id: tg-throw-secret-in-message
+    languages: [javascript]
+    severity: INFO
+    message: "an error message built from a template; check it cannot contain a secret"
+    pattern: 'fail($C, `...`)'
+  - id: tg-dynamic-import
+    languages: [javascript]
+    severity: INFO
+    message: "dynamic import of a non-literal"
+    patterns:
+      - pattern: 'import($X)'
+      - pattern-not: 'import("...")'
+  - id: tg-open-redirect-or-ssrf
+    languages: [javascript]
+    severity: WARNING
+    message: "request or redirect target built from a non-literal; check it against an allow-list"
+    patterns:
+      - pattern-either:
+          - pattern: 'fetch($X, ...)'
+          - pattern: '$R.redirect($X)'
+          - pattern: '$R.writeHead($S, {Location: $X, ...})'
+          - pattern: 'new URL($X)'
+      - pattern-not: 'fetch("...", ...)'
+  - id: tg-unvalidated-json-parse-keys
+    languages: [javascript]
+    severity: INFO
+    message: "JSON.parse of data followed by use as a dictionary; check for __proto__ / constructor keys"
+    pattern: 'JSON.parse($X)'
+  - id: tg-timing-unsafe-compare
+    languages: [javascript]
+    severity: INFO
+    message: "secret-looking value compared with === or equalBytes; use a constant-time comparison when an attacker can observe timing"
+    pattern-either:
+      - pattern: '$A.tag === $B'
+      - pattern: '$A.mac === $B'
+      - pattern: '$A.digest === $B'
+      - pattern: '$A.signature === $B'
+      - pattern: '$A.token === $B'
+  - id: tg-target-blank
+    languages: [generic]
+    severity: INFO
+    message: "link that opens a new tab without rel=noopener"
+    pattern-regex: '<a\b[^>]*target="_blank"(?![^>]*noopener)[^>]*>'
