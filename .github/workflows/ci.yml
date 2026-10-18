@@ -1,9 +1,13 @@
 name: CI
 
+# CI is switched off (operator, 2026-10-18): it runs only on manual dispatch, so pushes and pull requests no longer trigger
+# it. The deterministic gate is run locally instead: `TG_SKIP_BROWSER=1 npm test`. Some newer tests (the tg CLI PDF path,
+# the Python reference) need MuPDF/Python that the GitHub runner lacks. To turn CI back on, restore the two triggers below:
+#   push:
+#     branches: [main]
+#   pull_request:
 on:
-  push:
-    branches: [main]
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
