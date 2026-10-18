@@ -166,3 +166,18 @@ test('B-5 xlsx: a defined name or a comment keyed "__proto__" is kept in the mod
   assert.deepEqual(Object.keys(back.model.names).sort(), ['__proto__', 'constructor', 'plain']);
   assert.equal(Object.getPrototypeOf(back.model.names), Object.prototype);
 });
+
+test('B-6 xlsx: a sheet relationship that points to a missing comments part is refused as a TgdError, not a TypeError (found by the fuzzer)', async () => {
+  const { readXlsx } = await import('../src/structured-xlsx.js');
+  const { writeZip } = await import('../src/structured-zip.js');
+  const { TgdError } = await import('../src/structured.js');
+  const enc = new TextEncoder();
+  const REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  const bytes = await writeZip([
+    { name: 'xl/workbook.xml', data: enc.encode(`<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="${REL}"><sheets><sheet name="S" sheetId="1" r:id="rId1"/></sheets></workbook>`) },
+    { name: 'xl/_rels/workbook.xml.rels', data: enc.encode(`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${REL}/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`) },
+    { name: 'xl/worksheets/sheet1.xml', data: enc.encode('<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>x</t></is></c></row></sheetData></worksheet>') },
+    { name: 'xl/worksheets/_rels/sheet1.xml.rels', data: enc.encode(`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId2" Type="${REL}/comments" Target="../comments9.xml"/></Relationships>`) },
+  ]);
+  await assert.rejects(() => readXlsx(bytes), (e) => e instanceof TgdError && e.code === 'format' && /comments9\.xml/.test(e.message));
+});

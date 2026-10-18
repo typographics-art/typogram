@@ -174,7 +174,8 @@ export async function readXlsx(bytes, { limits } = {}) {
     const sheetRels = zip.has(path.replace(/([^/]*)$/, '_rels/$1.rels')) ? relsOf(await xml(path.replace(/([^/]*)$/, '_rels/$1.rels'))) : new Map();
     for (const rel2 of sheetRels.values()) {
       if (!/\/comments$/.test(rel2.type)) continue;
-      const cx = await xml(resolveTarget(path, rel2.target));
+      const cpath = resolveTarget(path, rel2.target), cx = await xml(cpath);
+      if (!cx) throw new TgdError('format', `The comments part ${cpath} is missing`); // found by fuzzing: a dangling relationship crashed the reader
       for (const cm of xmlElems(xmlElems(cx.root, 'commentList')[0] || ['x'], 'comment')) Object.defineProperty(comments, xmlAttr(cm, 'ref'), { enumerable: true, writable: true, configurable: true, value: unx(xmlElems(xmlElems(cm, 'text')[0] || ['x'], 't').map(xmlText).join('') + xmlElems(xmlElems(cm, 'text')[0] || ['x'], 'r').flatMap((r) => xmlElems(r, 't')).map(xmlText).join('')) });
     }
     const state = xmlAttr(sh, 'state');
