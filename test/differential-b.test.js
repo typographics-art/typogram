@@ -116,7 +116,7 @@ const refFactorFromMaster = (master) => hkdf(master, Buffer.from('tgart/hkdf/v1'
 const refFactorFromPrf = (prf) => hkdf(prf, Buffer.from('tgart/hkdf/v1'), Buffer.from('tgart/factor/passkey/v1'));
 
 // --- tgx2 (key-management.md 4) ---
-const refWorkTag = (secret, digest) => createHmac('sha256', secret).update(Buffer.concat([Buffer.from('tgx2/work'), digest])).digest().subarray(0, 4);
+const refWorkTag = (secret, digest) => createHmac('sha256', hkdfSync('sha256', secret, 'tgx2/salt', 'tgx2/tag', 32)).update(digest).digest().subarray(0, 4);
 function refParseKey2(text) {
   const body = decodeChecked(text, 'tgx2.', 'tgx2');
   assert.equal(body[0], 2); const f = body[1]; const sl = f & 4 ? 16 : 32; let at = 2;
@@ -285,7 +285,7 @@ test('DIFF master, record keys, recipient secrets, factors: the SLIP-21 and HKDF
   for (const v of KV.bip39) { assert.equal(hex(refBip39Seed(v.mnemonic, v.passphrase)), v.seed); assert.equal(hex(await mnemonicToSeed(v.mnemonic, v.passphrase)), v.seed); }
 });
 
-test('DIFF tgx2: the work tag is HMAC-SHA-256(secret, "tgx2/work" || digest)[0..4]; keys of both versions open the same record', async () => {
+test('DIFF tgx2: the work tag is HMAC-SHA-256(HKDF(secret, "tgx2/salt", "tgx2/tag"), digest)[0..4]; keys of both versions open the same record', async () => {
   const t = KV.tgx2;
   assert.equal(hex(refWorkTag(H(t.key), H(t.digest))), t.tag);
   const k2 = refParseKey2(t.keyText);

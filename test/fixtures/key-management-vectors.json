@@ -107,13 +107,13 @@
  "tgx2": {
   "key": "df1c2eaf609eb7ef23cd0dc4bb89483ed14bb199a477a0a8ff94675322afbb03",
   "digest": "8b87700e89a3dfbc44a04aa0fa3678a54e9bf4a2c719d1054544267a2768af54",
-  "tag": "c492da59",
-  "keyText": "tgx2.6nX85vRpfpfaxVv4KYhbndg7pKnicoTxs8GhDycDGVtvKyzhAHNQnW",
+  "tag": "b4b5c321",
+  "keyText": "tgx2.6nX85vRpfpfaxVv4KYhbndg7pKnicoTxs8GhDycDGVtvKyrnywK2xR",
   "unbound": "tgx2.tB7GPs61dJ45MFHtKXSEwFFJTyegKD6i82W4gDaNktNAXT6V",
-  "key16": "tgx2.BhPLyB91bfN4rn6HZSkdHVWpesQd5oYU"
+  "key16": "tgx2.BhPLyB91bfN4rn6HZSkdHVWoQRqxaBue"
  },
  "sealedWithSecret": {
-  "key": "tgx2.6nX85vRpfpfaxVv4KYhbndg7pKnicoTxs8GhDycDGVtvKyzhAHNQnW",
+  "key": "tgx2.6nX85vRpfpfaxVv4KYhbndg7pKnicoTxs8GhDycDGVtvKyrnywK2xR",
   "record": "tgs1.AQGIDdSKsWtVfHoMj4HQyErGfJZmMqE3laAILDxVUTWkXj0DGW5Ag6Rx0I3NiuQ",
   "plain": "secret note ✓"
  },

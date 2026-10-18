@@ -25,7 +25,7 @@ const KIND_NAME = { 1: 'tgd', 2: 'text', 3: 'bytes' };
 export const LIMITS = {
   maxPlain: 16 * 1024 * 1024,   // after unpacking
   maxRecord: 24 * 1024 * 1024,  // sealed record, bytes
-  maxInlineRecord: 32 * 1024,   // a key may carry at most this many record bytes (base58 conversion is quadratic)
+  maxInlineRecord: 32 * 1024,   // a key may carry at most this many record bytes (a key is converted whole: 44 800 characters take about 0.1 s)
   maxIterations: 5_000_000,
   minIterations: 100_000,
 };

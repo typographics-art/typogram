@@ -37,7 +37,8 @@ test('passkey check page: a virtual passkey with PRF passes every step, nothing 
     for (const d of ['Page', 'Runtime', 'Network', 'WebAuthn']) await send(`${d}.enable`);
     await send('WebAuthn.addVirtualAuthenticator', { options: { protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true, hasPrf: true, automaticPresenceSimulation: true } });
     await send('Page.navigate', { url: `http://localhost:${server.address().port}/passkey-check.html` });
-    for (let i = 0; i < 300 && !(await evaluate('document.documentElement.dataset.ready === "1"')); i++) await new Promise((r) => setTimeout(r, 100));
+    // documentElement is null for a moment while the browser swaps about:blank for the page, so the probe tolerates it (it raced once under the full suite)
+    for (let i = 0; i < 300 && !(await evaluate('document.documentElement?.dataset.ready === "1"')); i++) await new Promise((r) => setTimeout(r, 100));
     const wait = async (cond, what) => { for (let i = 0; i < 300; i++) { if (await evaluate(cond)) return; await new Promise((r) => setTimeout(r, 100)); } throw new Error(`timeout waiting for ${what}`); };
 
     await evaluate("document.querySelector('[data-lang=en]').click()"); // the browser's own language must not decide the test

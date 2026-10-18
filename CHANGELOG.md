@@ -10,6 +10,8 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - **Website**: the pages' scripts are files (`assets/js/`, `demo/moby-dick/viewer.js`), so the Content-Security-Policy allows no inline script any more (`script-src 'self'`); `frame-ancestors 'self'` and `X-Frame-Options: SAMEORIGIN` stop other sites from framing the pages. An error message on the generator page is set as text, never as markup.
 - **Key derivation**: Argon2id parameters read from a vault or half key are bounded in their product as well (`memoryKiB × passes ≤ 1,048,576`: 256 MiB × 4, 128 MiB × 8, 64 MiB × 10), so a hostile public value cannot keep a reader busy for longer than a few seconds.
+- **`tgx2.` keys**: the 4-byte work tag is keyed with a tag key derived by HKDF from the secret (salt `tgx2/salt`, info `tgx2/tag`) instead of the secret itself, so no key serves two primitives (review 2026-10, I-2). The format version byte stays 2: no `tgx2.` key had left the repository.
+- **base58**: the converter works on a BigInt; a key at the maximum length (44,800 characters, a 32 KiB inline record) converts in about 0.1 s instead of 0.8 s per direction (review 2026-10, I-1 / F14).
 - **Data panel**: the browser reads data files with tighter limits than the library (`BROWSER_LIMITS`: 1,000,000 cells, an archive part up to 64 MiB), gives up a read after two minutes and stops the worker of a file that a newer file replaced.
 
 ### Changed

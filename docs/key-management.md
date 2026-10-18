@@ -114,11 +114,12 @@ What it does **not** give: the sender is **not authenticated** (anyone with the 
 A `tgx1.` key contains the first 8 bytes of the work's SHA-256, so anyone holding a list of candidate works recognises *which work* a key is for. A **`tgx2.`** key contains instead a 4-byte tag:
 
 ```
-tag = first 4 bytes of HMAC-SHA-256( secret, "tgx2/work" || SHA-256(canonical work text) )
+tagKey = HKDF-SHA-256( secret, salt "tgx2/salt", info "tgx2/tag", 32 bytes )
+tag    = first 4 bytes of HMAC-SHA-256( tagKey, SHA-256(canonical work text) )
 bytes  = 0x02, flags, secret (16 or 32), [tag 4 if bound], [record if inline], check 2        flags as tgx1: bound 1, inline 2, 16-byte secret 4
 ```
 
-The sealed record (`tgs1.`) is **unchanged**: bound records still derive their content key from the work digest through HKDF, so `tgx2.` is a new key version beside `tgx1.`, not a new record. Opening: the reader derives the tag from the key's own secret and the work, compares, and only then decrypts.
+The tag key is derived, not the secret itself: the secret is also the HKDF input of the record's content key (salt `tgx1/salt`), so every use of it goes through HKDF under a salt of its own and no key serves two primitives (the internal review of 2026-10 noted the earlier direct use as sound but less clean, I-2; changed before any `tgx2.` key was public). The sealed record (`tgs1.`) is **unchanged**: bound records still derive their content key from the work digest through HKDF, so `tgx2.` is a new key version beside `tgx1.`, not a new record. Opening: the reader derives the tag from the key's own secret and the work, compares, and only then decrypts.
 
 **Lengths (measured):**
 
@@ -359,3 +360,4 @@ Secrets only from files, standard input or the environment; **an option that wou
 5. A vault command line (`vault create`, `vault open`, `vault inspect`) is built (section 10); the post-quantum hybrid and the key-committing record version wait until after the public launch.
 6. Real devices: owners test their passkeys with `/passkey-check` and report; the page is live, the documents say the factor is unverified on real devices until then.
 7. Done: `assets/vendor/noble-hashes` is in the package `files` list, both NOTICE rows exist.
+8. **The `tgx2.` tag key is derived** (`HKDF(secret, "tgx2/salt", "tgx2/tag")`, section 4) rather than the secret used directly; done before any `tgx2.` key was public, so the version byte stays 2.

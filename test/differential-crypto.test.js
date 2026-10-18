@@ -163,10 +163,10 @@ test('tgs1 work binding: a bound record fails on any other work text, and on the
 });
 
 // ================================ tgx2 ===================================================================================
-test('tgx2: the 4-byte work tag HMAC-SHA-256(secret, "tgx2/work" || SHA-256(work)) and the key layout agree with an independent builder; the tgx2 key opens, a tgx2 key for another work is refused before decryption', async () => {
+test('tgx2: the 4-byte work tag HMAC-SHA-256(HKDF(secret, "tgx2/salt", "tgx2/tag"), SHA-256(work)) and the key layout agree with an independent builder; the tgx2 key opens, a tgx2 key for another work is refused before decryption', async () => {
   const secret = Buffer.alloc(32, 0x5a);
   const mine = await formatKey2({ secret, digest: WORK_DIGEST });
-  const tag = createHmac('sha256', secret).update(Buffer.concat([Buffer.from('tgx2/work'), WORK_DIGEST])).digest().subarray(0, 4);
+  const tag = createHmac('sha256', hk(secret, 'tgx2/salt', 'tgx2/tag')).update(WORK_DIGEST).digest().subarray(0, 4);
   const raw = Buffer.concat([Buffer.from([2, 1]), secret, tag]);
   assert.equal(mine, 'tgx2.' + b58enc(Buffer.concat([raw, check('tgx2', raw)])));
   assert.equal(toHex(await workTag(secret, WORK_DIGEST)), tag.toString('hex'));

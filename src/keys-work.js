@@ -1,13 +1,15 @@
 // Hidden work binding (docs/key-management.md section 5): key version `tgx2.`. A `tgx1.` key carries the first 8 bytes
 // of the work's SHA-256 in the clear, so anybody with a list of candidate works can see WHICH work it belongs to. A
-// `tgx2.` key carries instead a 4-byte tag HMAC-SHA-256(secret, "tgx2/work" || SHA-256(work text)) that only the
-// holder of the key can test. The sealed record (`tgs1.`) is unchanged: it is built, and opened, by src/crypt.js.
+// `tgx2.` key carries instead a 4-byte tag HMAC-SHA-256(tagKey, SHA-256(work text)) that only the holder of the key can
+// test, with tagKey = HKDF-SHA-256(secret, salt "tgx2/salt", info "tgx2/tag"): the secret itself is the HKDF input of the
+// content key (src/crypt.js, salt "tgx1/salt"), so each use of the secret goes through HKDF under its own salt and no key
+// is used by two primitives (review 2026-10, I-2). The sealed record (`tgs1.`) is unchanged: it is built, and opened, by src/crypt.js.
 //
 // Also here: sealing and opening with a secret that is given (a per-record key from keys.js, or a mixed key from
 // keys-split.js) instead of a fresh random one.
 import { sealItem, openSealed, parseKey, parseRecord, parseRecordBytes, workDigest, KEY_PREFIX } from './crypt.js';
 import { fail, utf8, concat, equalBytes, b58Encode, b58Decode, checksum } from './crypt-codec.js';
-import { hmac } from './keys.js';
+import { hmac, hkdf } from './keys.js';
 import { stripText } from './structured.js';
 
 export const KEY2_PREFIX = 'tgx2.';
@@ -17,7 +19,7 @@ const MAX_INLINE = 32 * 1024;
 export const MAX_KEY2_CHARS = KEY2_PREFIX.length + Math.ceil((2 + 32 + TAG_BYTES + MAX_INLINE + 2) * Math.log(256) / Math.log(58)) + 2;
 
 const squeeze = (s) => String(s ?? '').replace(/\s+/g, '');
-export async function workTag(secret, digest) { return (await hmac('SHA-256', secret, concat(utf8('tgx2/work'), digest))).slice(0, TAG_BYTES); }
+export async function workTag(secret, digest) { return (await hmac('SHA-256', await hkdf(secret, utf8('tgx2/salt'), utf8('tgx2/tag'), 32), digest)).slice(0, TAG_BYTES); }
 
 /** Builds a `tgx2.` key from its parts. `digest` is the work's SHA-256 (or null for an unbound key). */
 export async function formatKey2({ secret, digest = null, inline = null }) {

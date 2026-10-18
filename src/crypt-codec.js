@@ -84,52 +84,43 @@ export function b64urlDecode(s, maxChars = MAX_TEXT_CHARS) {
 // ---- base58 (Bitcoin alphabet: no 0 O I l, no punctuation, double-click selects it whole) -----------------------
 const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const B58_INDEX = new Map([...B58].map((c, i) => [c, i]));
-// The conversion is quadratic in the length (a key that carries a 32 KiB record is 44 800 characters). It works on limbs: 58^5 per
-// limb on the text side, 16 bits on the byte side, and takes two bytes (or five characters) per pass over the limbs; one byte or one
-// character per pass, as it did first, took 1.6 s for such a key in each direction. Every intermediate value stays below 2^53.
-const B58_LIMB = 58 ** 5; // 656 356 768
+// The conversion goes through a BigInt (bytes <-> hex <-> BigInt, 8 base58 digits per division or multiply-add, 58^8 < 2^53 so
+// each chunk is an exact Number). It is still quadratic in the length, but in native big-number arithmetic: a key that carries a
+// 32 KiB record (44 800 characters) takes about 0.1 s in each direction (the limb arithmetic in plain Numbers that was here first
+// took 0.8 s, and one digit per pass 1.6 s). Leading zero bytes are leading '1' characters, as in Bitcoin's base58.
+const B58_CHUNK = 58n ** 8n; // 128 063 081 718 016 < 2^53
+const hexOf = (bytes) => Array.from(bytes, (x) => x.toString(16).padStart(2, '0')).join('');
 export function b58Encode(bytes) {
   let zeros = 0;
   while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
-  const limbs = []; // the number after the leading zero bytes, little-endian limbs of base 58^5
-  const mulAdd = (mul, carry) => {
-    for (let j = 0; j < limbs.length; j++) { const v = limbs[j] * mul + carry; limbs[j] = v % B58_LIMB; carry = Math.floor(v / B58_LIMB); }
-    while (carry) { limbs.push(carry % B58_LIMB); carry = Math.floor(carry / B58_LIMB); }
-  };
-  let i = zeros;
-  if ((bytes.length - i) % 2) { mulAdd(256, bytes[i]); i++; }
-  for (; i < bytes.length; i += 2) mulAdd(65536, bytes[i] * 256 + bytes[i + 1]);
+  let v = zeros < bytes.length ? BigInt('0x' + hexOf(bytes.subarray(zeros))) : 0n;
   let digits = '';
-  for (let j = 0; j < limbs.length; j++) {
-    let v = limbs[j], part = '';
-    for (let d = 0; d < 5; d++) { part = B58[v % 58] + part; v = Math.floor(v / 58); }
+  while (v > 0n) {
+    let r = Number(v % B58_CHUNK), part = '';
+    v /= B58_CHUNK;
+    for (let d = 0; d < 8; d++) { part = B58[r % 58] + part; r = Math.floor(r / 58); }
     digits = part + digits;
   }
-  digits = digits.replace(/^1+/, '');
-  return '1'.repeat(zeros) + digits;
+  return '1'.repeat(zeros) + digits.replace(/^1+/, '');
 }
 export function b58Decode(s, maxChars = 100_000) {
   if (s.length > maxChars) throw fail('damaged', 'The key is too long to be a key');
   let zeros = 0;
   while (zeros < s.length && s[zeros] === '1') zeros++;
-  const limbs = []; // little-endian limbs of base 65536
-  const mulAdd = (mul, carry) => {
-    for (let j = 0; j < limbs.length; j++) { const x = limbs[j] * mul + carry; limbs[j] = x % 65536; carry = Math.floor(x / 65536); }
-    while (carry) { limbs.push(carry % 65536); carry = Math.floor(carry / 65536); }
-  };
-  let i = zeros;
+  let v = 0n, i = zeros;
   const take = (n) => {
-    let v = 0;
-    for (let k = 0; k < n; k++) { const d = B58_INDEX.get(s[i++]); if (d === undefined) throw fail('damaged', 'Not base58'); v = v * 58 + d; }
-    return v;
+    let c = 0;
+    for (let k = 0; k < n; k++) { const d = B58_INDEX.get(s[i++]); if (d === undefined) throw fail('damaged', 'Not base58'); c = c * 58 + d; }
+    return c;
   };
-  const head = (s.length - zeros) % 5;
-  if (head) mulAdd(58 ** head, take(head));
-  while (i < s.length) mulAdd(B58_LIMB, take(5));
-  const top = limbs.length ? limbs[limbs.length - 1] : 0, skip = top > 0 && top < 256 ? 1 : 0;
-  const out = new Uint8Array(zeros + limbs.length * 2 - skip);
-  let o = zeros;
-  for (let j = limbs.length - 1; j >= 0; j--) { if (!(skip && j === limbs.length - 1)) out[o++] = limbs[j] >> 8; out[o++] = limbs[j] & 255; }
+  const head = (s.length - zeros) % 8;
+  if (head) v = BigInt(take(head));
+  while (i < s.length) v = v * B58_CHUNK + BigInt(take(8));
+  let hex = v.toString(16);
+  if (hex.length % 2) hex = '0' + hex;
+  const body = v === 0n ? [] : hex.match(/../g).map((h) => parseInt(h, 16));
+  const out = new Uint8Array(zeros + body.length);
+  out.set(body, zeros);
   return out;
 }
 
