@@ -1,4 +1,4 @@
-// Sealed data, compact keys, key formats and the chain flow (docs/encrypted-data.md, docs/key-format.md).
+// Sealed data, compact keys and key formats (docs/encrypted-data.md, docs/key-format.md).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
-  sealData, sealMessage, sealBytes, sealItem, openSealed, parseKey, parseRecord, describeRecord, findSealedBlocks, recordDigest, CryptError, LIMITS, MAX_KEY_CHARS, MAX_RECORD_CHARS,
+  sealData, sealMessage, sealBytes, sealItem, openSealed, parseKey, parseRecord, describeRecord, findSealedBlocks, CryptError, LIMITS, MAX_KEY_CHARS, MAX_RECORD_CHARS,
 } from '../src/crypt.js';
 import { hideCompact, revealCompact, revealAny, packPositions, choosePositions, MAX_COMPACT_KEY_CHARS, MAX_TG1_KEY_CHARS } from '../src/crypt-book.js';
 import { hideSecret } from '../src/secret.js';
@@ -14,10 +14,6 @@ import { canonicalText } from '../src/secret.js';
 import {
   b58Encode, b58Decode, b64urlEncode, b64urlDecode, deflateRaw, inflateRaw, brotliAvailable, seededRandom, sha256, utf8, toHex, fromHex, concat,
 } from '../src/crypt-codec.js';
-import {
-  anchorPayload, parseAnchorPayload, opReturnScript, estimateFeeSat, recordCid, FakeChain, FakeStore, FakeChainAdapter, ChainAdapter,
-  publishSealed, openFromChain, verifyAsset, OP_RETURN_MAX,
-} from '../src/crypt-chain.js';
 import { encode } from '../src/structured.js';
 import { file as built } from '../scripts/build-crypt-vectors.mjs';
 
@@ -284,123 +280,9 @@ test('tg2: Rice distances are chosen only when they are shorter; positions come 
   }
 });
 
-// ---- the chain --------------------------------------------------------------------------------------------------------
-const flow = async (opts = {}) => {
-  const chain = new FakeChain(), store = new FakeStore();
-  return { chain, store, adapter: new FakeChainAdapter(chain, store, opts) };
-};
-
-test('chain: anchor payload layout, limits and script', async () => {
-  const c = await sha256(utf8('x'));
-  const p = anchorPayload(c);
-  assert.equal(p.length, 37);
-  assert.deepEqual(parseAnchorPayload(p), { commitment: c, hint: null });
-  assert.equal(parseAnchorPayload(anchorPayload(c, 'example.org/r')).hint, 'example.org/r');
-  assert.equal(anchorPayload(c, 'x'.repeat(43)).length, OP_RETURN_MAX);
-  assert.throws(() => anchorPayload(c, 'x'.repeat(44)), (e) => e.code === 'payload-too-large');
-  assert.throws(() => opReturnScript(new Uint8Array(81)), (e) => e.code === 'payload-too-large');
-  assert.equal(toHex(opReturnScript(p)).slice(0, 4), '6a25');
-  assert.equal(toHex(opReturnScript(new Uint8Array(80))).slice(0, 6), '6a4c50');
-  for (const bad of [new Uint8Array(0), p.slice(0, 36), concat(p, Uint8Array.of(1)), concat(utf8('TGA2'), p.slice(4)), Uint8Array.of(...p.slice(0, 4), 2, ...p.slice(5))]) assert.throws(() => parseAnchorPayload(bad), (e) => e.code === 'bad-anchor');
-  assert.ok(estimateFeeSat(37) >= 10_000 && estimateFeeSat(80) > estimateFeeSat(37));
-});
-
-test('chain: CID derivation is a pure function of the commitment', async () => {
-  const c = await sha256(utf8('record bytes'));
-  assert.equal(recordCid(c), vectors.anchor.cid);
-  assert.match(recordCid(c), /^bafkrei[a-z2-7]{52}$/);
-});
-
-test('chain: publish, fetch, verify and open with the key, end to end', async () => {
-  const { chain, adapter } = await flow();
-  const pub = await publishSealed(adapter, WORK, { kind: 'tgd', text: BLOCK }, { hint: 'example.org/r/1' });
-  assert.match(pub.assetId, /^fake:fake:[0-9a-f]{64}:0$/);
-  assert.ok(pub.feeSat >= 10_000);
-  assert.match(pub.cid, /^bafkrei/);
-  chain.mine(2);
-  const got = await openFromChain(adapter, pub.assetId, WORK, { key: pub.key });
-  assert.equal(got.kind, 'tgd');
-  assert.equal(got.confirmations, 2);
-  assert.equal((await verifyAsset(adapter, pub.assetId, pub.record)).ok, true);
-  // the chain alone shows a commitment: no key, no plaintext, no work
-  const tx = chain.getTx(pub.txid);
-  const onChain = toHex(fromHex(tx.script));
-  assert.ok(!onChain.includes(toHex(utf8('Alice'))));
-  assert.equal(parseAnchorPayload(FakeChain.dataOf(tx.script)).hint, 'example.org/r/1');
-  assert.equal(toHex(parseAnchorPayload(FakeChain.dataOf(tx.script)).commitment), toHex(await recordDigest(pub.record)));
-});
-
-test('chain: wrong key or wrong work on a fetched record is named', async () => {
-  const { chain, adapter } = await flow();
-  const pub = await publishSealed(adapter, WORK, { kind: 'text', text: 'private note' });
-  chain.mine();
-  await clean(openFromChain(adapter, pub.assetId, WORK2, { key: pub.key }), 'wrong-work');
-  const other = await sealMessage(WORK, 'x');
-  await clean(openFromChain(adapter, pub.assetId, WORK, { key: other.key }), 'auth-failed');
-  assert.equal((await openFromChain(adapter, pub.assetId, WORK, { key: pub.key })).text, 'private note');
-});
-
-test('chain: availability is not guaranteed (store loses the record), integrity is (store replaces it)', async () => {
-  const { chain, store, adapter } = await flow();
-  const pub = await publishSealed(adapter, WORK, { kind: 'text', text: 'note' });
-  chain.mine();
-  const loc = pub.commitment;
-  const copy = await store.get(loc);
-  store.replace(loc, concat(copy.slice(0, -1), Uint8Array.of(copy.at(-1) ^ 1)));
-  await clean(adapter.fetch(pub.assetId), 'commitment-mismatch');
-  store.delete(loc);
-  await clean(adapter.fetch(pub.assetId), 'unavailable');
-  // the anchor alone still verifies a copy somebody kept
-  assert.equal((await adapter.verify(pub.assetId, copy)).ok, true);
-  assert.equal((await adapter.verify(pub.assetId, concat(copy.slice(0, -1), Uint8Array.of(copy.at(-1) ^ 1)))).ok, false);
-});
-
-test('chain: unconfirmed, unknown, foreign and unrelated outputs', async () => {
-  const { chain, adapter } = await flow({ minConfirmations: 2 });
-  const pub = await publishSealed(adapter, WORK, { kind: 'text', text: 'note' });
-  await clean(adapter.fetch(pub.assetId), 'unconfirmed');
-  chain.mine();
-  await clean(adapter.fetch(pub.assetId), 'unconfirmed');
-  chain.mine();
-  assert.ok((await adapter.fetch(pub.assetId)).record);
-  await clean(adapter.fetch('fake:fake:' + '0'.repeat(64) + ':0'), 'not-found');
-  await clean(adapter.fetch('dgb:tx:abc'), 'bad-asset');
-  await clean(adapter.fetch(undefined), 'bad-asset');
-  const { txid } = await chain.sendData(utf8('some other protocol payload that is not ours, 37+ bytes long.....'));
-  chain.mine(3);
-  await clean(adapter.fetch(`fake:fake:${txid}:0`), 'bad-anchor');
-  assert.equal((await adapter.verify(`fake:fake:${txid}:0`, new Uint8Array(1))).ok, false);
-  await clean(publishSealed(adapter, WORK, { kind: 'text', text: 'x' }, { seal: { inline: true } }), 'bad-option');
-  await clean(new ChainAdapter().publish(), 'not-implemented');
-});
-
-test('chain: a password-only record is not published unless the risk is accepted', async () => {
-  const { chain, adapter } = await flow();
-  const o = { password: 'correct horse', ...FAST, bind: false };
-  await clean(publishSealed(adapter, null, { kind: 'text', text: 'x' }, { seal: o }), 'weak-for-chain');
-  const pub = await publishSealed(adapter, null, { kind: 'text', text: 'x' }, { seal: { ...o, allowPassword: true } });
-  chain.mine();
-  assert.equal((await openFromChain(adapter, pub.assetId, null, { password: 'correct horse' })).text, 'x');
-});
-
-test('chain: the whole record cannot go on chain, only a commitment (80-byte limit measured)', async () => {
-  const { chain } = await flow();
-  const s = await sealData(WORK, BLOCK);
-  assert.ok(s.bytes.length > OP_RETURN_MAX);
-  await assert.rejects(chain.sendData(s.bytes), (e) => e.code === 'payload-too-large');
-});
-
-test('chain: the fake chain persists as JSON and reloads', async () => {
-  const { chain, adapter } = await flow();
-  const pub = await publishSealed(adapter, WORK, { kind: 'text', text: 'x' });
-  chain.mine(4);
-  const again = FakeChain.fromJSON(JSON.parse(JSON.stringify(chain)));
-  assert.equal(again.getTx(pub.txid).confirmations, 4);
-});
-
 // ---- conformance vectors -----------------------------------------------------------------------------------------------
 test('vectors: the committed file is what the builder produces (deterministic parts), and every vector opens', async () => {
-  for (const key of ['sealed', 'negatives', 'book', 'anchor', 'alphabets']) assert.deepEqual(vectors[key].filter ? vectors[key].filter((x) => x.mode !== 'open') : vectors[key], built[key].filter ? built[key].filter((x) => x.mode !== 'open') : built[key], `vector group ${key} drifted: run node scripts/build-crypt-vectors.mjs`);
+  for (const key of ['sealed', 'negatives', 'book', 'alphabets']) assert.deepEqual(vectors[key].filter ? vectors[key].filter((x) => x.mode !== 'open') : vectors[key], built[key].filter ? built[key].filter((x) => x.mode !== 'open') : built[key], `vector group ${key} drifted: run node scripts/build-crypt-vectors.mjs`);
   for (const v of vectors.sealed) {
     if (v.needs === 'brotli' && !brotliAvailable()) continue;
     const o = await openSealed(v.work, { key: v.key ?? undefined, password: v.password, record: v.record });
@@ -413,9 +295,6 @@ test('vectors: the committed file is what the builder produces (deterministic pa
   for (const b of vectors.book) assert.equal(await revealAny(b.work, b.key), b.expect.text, b.name);
   assert.equal(b58Encode(fromHex(vectors.alphabets.bytesHex)), vectors.alphabets.base58);
   assert.equal(b64urlEncode(fromHex(vectors.alphabets.bytesHex)), vectors.alphabets.base64url);
-  const c = fromHex(vectors.anchor.commitment);
-  assert.equal(toHex(anchorPayload(c)), vectors.anchor.payload);
-  assert.equal(toHex(opReturnScript(anchorPayload(c))), vectors.anchor.script);
 });
 
 // ---- hardening: nothing quadratic or unbounded on hostile input -------------------------------------------------------

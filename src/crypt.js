@@ -298,7 +298,7 @@ export function describeRecord(text) {
   return { bytes: r.bytes.length, bound: r.bound, compressed: r.deflate || r.brotli, method: r.brotli ? 'brotli' : r.deflate ? 'deflate' : 'none', password: r.pbkdf2, iterations: r.iterations };
 }
 
-/** SHA-256 of a record's bytes: its commitment on a chain (src/crypt-chain.js). */
+/** SHA-256 of a record's bytes: a stable content digest of the sealed record. */
 export async function recordDigest(record) {
   return sha256(record instanceof Uint8Array ? record : parseRecord(record).bytes);
 }

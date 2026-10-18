@@ -109,7 +109,7 @@ test('F12 outline: calendar, contact, key=value and Markdown models of an unexpe
 
 // ---- tripwires: the places that handle keys and decrypted data keep their hygiene -------------------------------------------
 test('tripwire: the code that handles keys, records and decrypted data uses no HTML sink, eval, browser storage, console output or Math.random', () => {
-  const files = ['data-ui.js', 'data-panel.js', 'data-panel-ui.js', 'data-reader-ui.js', 'crypt.js', 'crypt-codec.js', 'crypt-book.js', 'crypt-chain.js', 'keys.js', 'keys-kdf.js', 'keys-seal.js', 'keys-work.js', 'keys-split.js', 'secret.js',
+  const files = ['data-ui.js', 'data-panel.js', 'data-panel-ui.js', 'data-reader-ui.js', 'crypt.js', 'crypt-codec.js', 'crypt-book.js', 'keys.js', 'keys-kdf.js', 'keys-seal.js', 'keys-work.js', 'keys-split.js', 'secret.js',
     'structured.js', 'structured-json.js', 'structured-model.js', 'structured-formats.js', 'structured-csv.js', 'structured-xlsx.js', 'structured-md.js', 'structured-xml.js', 'structured-yaml.js', 'structured-lines.js', 'structured-zip.js'];
   const bad = /\binnerHTML\b|\bouterHTML\b|insertAdjacentHTML|document\.write|\beval\s*\(|new Function|\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b|\bconsole\.|Math\.random|\bdocument\.cookie\b/;
   for (const f of files) {

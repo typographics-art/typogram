@@ -172,18 +172,6 @@
    }
   }
  ],
- "anchor": {
-  "commitment": "4e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c3347",
-  "payload": "54474131004e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c3347",
-  "payloadWithHint": "54474131014e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c33476578616d706c652e6f72672f722f31",
-  "script": "6a2554474131004e0d7d79a07a08c5235cc8f55347ee00c69801b4f2220637703e12e88c1c3347",
-  "scriptMaxLength": "6a4c50544741",
-  "cid": "bafkreicobv6xtid2bdcsgxgi6vjup3qay2madnhseiddo4b6cluiyhbti4",
-  "feeSat": {
-   "payload37": 48000,
-   "payload80": 56600
-  }
- },
  "alphabets": {
   "bytesHex": "00000102fffefd6432",
   "base58": "113DyWyZXds",

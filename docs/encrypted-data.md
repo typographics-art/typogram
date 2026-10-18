@@ -2,15 +2,15 @@
 
 Specification, rationale and design of two connected things: (1) structured data ([TGD](structured-data.md)) that is **sealed** with a key so that a work carries only its public text and the key carries the data, (2) the length of such keys and how to shorten them without loss. Companion: [key-format.md](key-format.md) (formats side by side, grammar, all size tables).
 
-Every number was measured with `node scripts/crypt-measure.mjs` on Node 26.11 with the code in `src/crypt*.js`; the conformance vectors are in `test/fixtures/conformance/crypt-vectors.json`; 36 tests cover the code (`test/encrypted-data.test.js`). Where a statement is not measured here it says so.
+Every number was measured with `node scripts/crypt-measure.mjs` on Node 26.11 with the code in `src/crypt*.js`; the conformance vectors are in `test/fixtures/conformance/crypt-vectors.json`; 27 tests cover the code (`test/encrypted-data.test.js`). Where a statement is not measured here it says so.
 
 ## Plain answers
 
 **Is the encryption secure?** The cipher is. Sealed data uses AES-256-GCM from the platform's Web Crypto (Node's `crypto` behaves the same), with a random 256-bit secret, HKDF-SHA-256 to derive the key, and the record's header authenticated, so a wrong key, a wrong work and any changed byte are detected instead of decoded to garbage. Nothing here invents a cipher. What is *not* established:
 
-- The code around the cipher (formats, work binding, bounds, compression, key encoding) was written for this project and tested (36 tests, conformance vectors, a review by an automated security tool that found and led to fixes). It has **not been independently audited**. For secrets whose loss would hurt, have it reviewed first.
+- The code around the cipher (formats, work binding, bounds, compression, key encoding) was written for this project and tested (27 tests, conformance vectors, a review by an automated security tool that found and led to fixes). It has **not been independently audited**. For secrets whose loss would hurt, have it reviewed first.
 - The security is the secrecy of the key. Whoever has the key (and the work, if the key is bound to it) opens the data. A lost key means lost data; there is no recovery.
-- A **password** is much weaker than a random key (about 10 guesses per second per core at the default 600 000 PBKDF2 iterations, far more on a GPU), and a record that is public can be attacked for ever. `publishSealed` therefore refuses password-only records unless you explicitly accept that.
+- A **password** is much weaker than a random key (about 10 guesses per second per core at the default 600 000 PBKDF2 iterations, far more on a GPU), and a record that is public can be attacked for ever. Sealing with a password alone therefore needs `--accept-password-only`.
 - The hidden messages of the generator (the book cipher, keys `tg1.`/`tg2.`) are **obfuscation, not encryption**: use sealed data for anything that must stay secret.
 
 ## 0. Status: implemented, designed only
@@ -212,7 +212,7 @@ Rules: the same box for key and record errors, placed under **Open**, never unde
 
 ## 10. Conformance vectors
 
-`test/fixtures/conformance/crypt-vectors.json`, built by `node scripts/build-crypt-vectors.mjs`: sealed records of every mode (bound stored, bound deflate, unbound 128-bit message, inline padded, password, brotli), seven negatives with their error codes, `tg1.`, `tg2.` (fixed, near, short fingerprint) keys, the experiment vectors (see `docs/drafts/`), and base alphabet vectors. "exact" vectors must be reproduced byte for byte from the seeded random source; "open" vectors (deflate, brotli: compressor output differs between implementations) must only open to the stated plaintext. One complete vector, unbound 128-bit message, stored (not compressed), seeded random `tg-crypt/3`:
+`test/fixtures/conformance/crypt-vectors.json`, built by `node scripts/build-crypt-vectors.mjs`: sealed records of every mode (bound stored, bound deflate, unbound 128-bit message, inline padded, password, brotli), seven negatives with their error codes, `tg1.`, `tg2.` (fixed, near, short fingerprint) keys, and base alphabet vectors. "exact" vectors must be reproduced byte for byte from the seeded random source; "open" vectors (deflate, brotli: compressor output differs between implementations) must only open to the stated plaintext. One complete vector, unbound 128-bit message, stored (not compressed), seeded random `tg-crypt/3`:
 
 ```
 plaintext  "Meet at the harbour, 6 pm. Zürich 😀"

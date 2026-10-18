@@ -1,21 +1,18 @@
 #!/usr/bin/env node
-// tg-crypt: encrypted structured data (and messages) tied to a Typographics Art work, compact book-cipher keys, and a
-// Needs Node 20+, and MuPDF for PDF works. (An experimental publish/fetch flow against a fake chain exists for the
-// draft in docs/drafts/chain-anchoring.md; it is hidden unless TG_CRYPT_EXPERIMENTAL=1 and never talks to a real chain.)
+// tg-crypt: encrypted structured data (and messages) tied to a Typographics Art work, and compact book-cipher keys.
+// Needs Node 20+, and MuPDF for PDF works.
 //
 // Suggested package.json bin line (not added here):  "tg-crypt": "cli/tg-crypt.mjs"
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { extname, basename, join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { extname, basename } from 'node:path';
 import { parseArgs } from 'node:util';
-import { sealData, sealBytes, sealMessage, openSealed, describeRecord, parseRecord, CryptError } from '../src/crypt.js';
+import { sealData, sealBytes, sealMessage, openSealed, describeRecord, CryptError } from '../src/crypt.js';
 import { hideCompact, revealAny } from '../src/crypt-book.js';
-import { FakeChain, FakeChainAdapter, ChainAdapter, recordCid, publishSealed, openFromChain } from '../src/crypt-chain.js';
 import { encode, toFile, modelJson, TgdError } from '../src/structured.js';
 import { FORMATS } from '../src/structured-formats.js';
 import { markupText } from '../src/work-text.js';
-import { b64urlEncode, sha256, toHex } from '../src/crypt-codec.js';
 import { KEY_COMMANDS, KEY_NO_TARGET, KEY_OPTIONS, KEY_HELP, isKeyInvocation, runKeyCommand, writeSecretFile, writeNewFile } from './tg-keys-cmds.mjs';
-import { assertPublishable, openAny } from '../src/keys-work.js';
+import { openAny } from '../src/keys-work.js';
 
 const HELP = `Usage:
   tg-crypt seal    <work> (--data <file> | --message <text> | --message-file <f>) [-o record.tgs] [options]   prints the KEY; the sealed record goes to a file
@@ -52,8 +49,8 @@ const { values, positionals } = (() => {
     return parseArgs({ allowPositionals: true, options: {
       data: { type: 'string' }, raw: { type: 'boolean' }, message: { type: 'string' }, strength: { type: 'string' }, inline: { type: 'boolean' }, 'no-bind': { type: 'boolean' },
       'password-env': { type: 'string' }, 'password-file': { type: 'string' }, 'password-stdin': { type: 'boolean' }, 'key-stdin': { type: 'boolean' }, 'message-file': { type: 'string' }, 'secret-file': { type: 'string' }, iterations: { type: 'string' }, pad: { type: 'string' }, compress: { type: 'string' }, 'key-file': { type: 'string' },
-      record: { type: 'string' }, out: { type: 'string', short: 'o' }, format: { type: 'string' }, secret: { type: 'string' }, near: { type: 'string' }, chain: { type: 'string' },
-      store: { type: 'string' }, ...KEY_OPTIONS, hint: { type: 'string' }, 'no-mine': { type: 'boolean' }, confirmations: { type: 'string' }, help: { type: 'boolean', short: 'h' },
+      record: { type: 'string' }, out: { type: 'string', short: 'o' }, format: { type: 'string' }, secret: { type: 'string' }, near: { type: 'string' },
+      ...KEY_OPTIONS, help: { type: 'boolean', short: 'h' },
     } });
   } catch (e) {
     // never echo the text of the command line: it may hold a secret that was typed in the wrong place
@@ -62,9 +59,8 @@ const { values, positionals } = (() => {
     process.exit(1);
   }
 })();
-const [command, target, extra] = positionals;
-const EXPERIMENTAL = process.env.TG_CRYPT_EXPERIMENTAL === '1';
-const COMMANDS = ['seal', 'open', 'inspect', 'hide', 'reveal', ...(EXPERIMENTAL ? ['publish', 'fetch', 'verify'] : []), ...KEY_COMMANDS];
+const [command, target] = positionals;
+const COMMANDS = ['seal', 'open', 'inspect', 'hide', 'reveal', ...KEY_COMMANDS];
 if (values.help || !COMMANDS.includes(command) || (!target && !KEY_NO_TARGET.includes(command))) { process.stdout.write(HELP); process.exit(values.help ? 0 : 1); }
 
 const die = (m) => { console.error(m); process.exit(1); };
@@ -96,20 +92,6 @@ const passwordFromArgs = (forSeal = false) => {
   return forSeal ? undefined : process.env.TG_CRYPT_PASSWORD;
 };
 const textArg = (inline, fileOpt) => (values[fileOpt] ? trimEnd(readSecretFile(values[fileOpt])) : inline);
-
-// ---- the fake chain on disk -------------------------------------------------------------------------------------
-function loadChain(path) { return existsSync(path) ? FakeChain.fromJSON(JSON.parse(readFileSync(path, 'utf8'))) : new FakeChain(); }
-const saveChain = (chain, path) => writeFileSync(path, JSON.stringify(chain, null, 1) + '\n');
-class DirStore {
-  constructor(dir) { this.dir = dir; mkdirSync(dir, { recursive: true }); }
-  async put(bytes) { const loc = toHex(await sha256(bytes)); writeFileSync(join(this.dir, loc), bytes); return loc; }
-  async get(loc) { if (!/^[0-9a-f]{64}$/.test(loc)) return null; const p = join(this.dir, loc); return existsSync(p) ? new Uint8Array(readFileSync(p)) : null; }
-}
-function chainTools() {
-  if (!values.chain || !values.store) die('--chain <file> and --store <dir> are needed (this is the fake chain; nothing real is touched)');
-  const chain = loadChain(values.chain);
-  return { chain, adapter: new FakeChainAdapter(chain, new DirStore(values.store), { minConfirmations: Number(values.confirmations || 0) }) };
-}
 
 try {
   if (isKeyInvocation(command, values)) await runKeyCommand(command, values, positionals, { workText, readStdin, readSecretFile, trimEnd, die });
@@ -164,27 +146,6 @@ try {
   } else if (command === 'reveal') {
     const key = keyFromArgs() ?? die('No key: use --key-file, --key-stdin or TG_CRYPT_KEY');
     console.log(await revealAny(await workText(target), key));
-  } else if (command === 'publish') {
-    const { chain, adapter } = chainTools();
-    const rec = parseRecord(readFileSync(target, 'utf8'));
-    assertPublishable(rec.bytes, { acceptPasswordOnly: values['accept-password-only'] });
-    const r = await adapter.publish(rec.bytes, { hint: values.hint });
-    if (!values['no-mine']) chain.mine(1);
-    saveChain(chain, values.chain);
-    console.log(r.assetId);
-    console.error(`commitment sha256 ${r.commitment}\nIPFS CID the record has when added with raw leaves: ${recordCid(Uint8Array.from(r.commitment.match(/../g), (h) => parseInt(h, 16)))}\nestimated fee ${r.feeSat} satoshi (${(r.feeSat / 1e8).toFixed(8)} DGB)`);
-  } else if (command === 'fetch') {
-    const { adapter } = chainTools();
-    const r = await adapter.fetch(target);
-    const text = 'tgs1.' + b64urlEncode(r.record);
-    if (values.out) writeNewFile(values.out, text + '\n', { force: values.force }); else process.stdout.write(text + '\n');
-    console.error(`record verified against the chain (${r.confirmations} confirmations)`);
-  } else if (command === 'verify') {
-    if (!extra) die('verify needs an asset id and a record file');
-    const { adapter } = chainTools();
-    const v = await adapter.verify(target, parseRecord(readFileSync(extra, 'utf8')).bytes);
-    console.log(v.ok ? `ok: the chain commits to exactly this record (${v.confirmations} confirmations)` : `NOT OK: ${v.reason}`);
-    process.exit(v.ok ? 0 : 1);
   }
 } catch (e) {
   if (e instanceof CryptError || e instanceof TgdError) { console.error(e.message); process.exit(1); }
