@@ -1,4 +1,4 @@
-// Key-management commands of tg-crypt (docs/key-management.md section 10): master, derive, recipient, split, join, and
+// Key-management commands of tg-crypt (docs/key-management.md section 10): master, derive, recipient, split, join, vault (create, open, inspect), and
 // `seal --to` / `seal --record-id` / `open` with the new key forms. Secrets come from files, standard input or the
 // environment, never from arguments; stdout carries the result only; progress goes to stderr and never holds a secret.
 import { readFileSync, writeFileSync, openSync, writeSync, closeSync, unlinkSync, fchmodSync } from 'node:fs';
@@ -7,9 +7,9 @@ import { mnemonicToSeed, seedFromHex, masterFromSeed, formatMaster, parseMaster,
 import { formatKey2, sealWithSecret, openWithSecret } from '../src/keys-work.js';
 import { workDigest } from '../src/crypt.js';
 import { newRecipient, parsePublic, parseSecret, formatSecret, formatPublic, publicFromSecret, sealTo, openFrom, RECORD_PREFIX as RP } from '../src/keys-seal.js';
-import { splitXor, splitShamir, joinShares } from '../src/keys-split.js';
+import { splitXor, splitShamir, joinShares, createVault, openVault, describeVault, factorFromPrf, factorFromMaster } from '../src/keys-split.js';
 import { encode } from '../src/structured.js';
-import { toHex, fail } from '../src/crypt-codec.js';
+import { toHex, fromHex, fail } from '../src/crypt-codec.js';
 
 /**
  * Writes a file that holds a secret (a secret key, a share, decrypted data): created with O_CREAT|O_EXCL and mode 0600, so an
@@ -27,7 +27,7 @@ export function writeSecretFile(path, data, { force = false } = {}) {
   try { fchmodSync(fd, 0o600); writeSync(fd, data); } finally { closeSync(fd); }
 }
 
-export const KEY_COMMANDS = ['master', 'derive', 'recipient', 'split', 'join'];
+export const KEY_COMMANDS = ['master', 'derive', 'recipient', 'split', 'join', 'vault'];
 export const KEY_NO_TARGET = ['master', 'recipient', 'split', 'join'];
 export const KEY_OPTIONS = {
   'mnemonic-file': { type: 'string' }, 'mnemonic-stdin': { type: 'boolean' }, 'seed-file': { type: 'string' }, 'seed-stdin': { type: 'boolean' },
@@ -35,6 +35,7 @@ export const KEY_OPTIONS = {
   'record-id': { type: 'string' }, context: { type: 'string' }, to: { type: 'string' }, index: { type: 'string' }, new: { type: 'boolean' }, work: { type: 'string' }, recipient: { type: 'boolean' },
   'recipient-key-file': { type: 'string' }, 'recipient-key-stdin': { type: 'boolean' }, xor: { type: 'string' }, shamir: { type: 'string' }, 'shares-stdin': { type: 'boolean' },
   'accept-password-only': { type: 'boolean' }, force: { type: 'boolean' },
+  'passkey-file': { type: 'string' }, 'passphrase-file': { type: 'string' }, 'passphrase-stdin': { type: 'boolean' }, mode: { type: 'string' },
 };
 export const KEY_HELP = `
 Key management (docs/key-management.md); secrets only from a file, standard input or the environment, never as an argument
@@ -51,7 +52,14 @@ Key management (docs/key-management.md); secrets only from a file, standard inpu
   tg-crypt open <work> --record <f> --record-id <id> --master-file <f>                      with the derived key
   tg-crypt split  (--xor <n> | --shamir <k>:<n>) [-o <prefix>]    splits the key given with --key-file/--key-stdin/TG_CRYPT_KEY into "tgsh1." shares, one per line
   tg-crypt join   <share file>... | --shares-stdin                 recombines shares; prints the secret
-Files with secrets (recipient --new, split -o, open -o) are created with mode 0600 and refused if the path exists or is a symlink; --force replaces the path (unlinks it first).
+  tg-crypt vault create [--mode default|strict] [-o <vault file>]   the seed as for "master" (--seed-file <f> | --seed-stdin | TG_CRYPT_SEED, or a mnemonic) or the master key
+                                                    as for "derive"; a passkey: --passkey-file <f> | TG_CRYPT_PASSKEY (its 32-byte PRF output, hex; the factor is derived here);
+                                                    a passphrase: --passphrase-file <f> | --passphrase-stdin | TG_CRYPT_PASSPHRASE.   Prints the vault, or writes it with -o.
+                                                    default: the seed alone opens everything (also without the vault); passkey + passphrase open it without the seed.
+                                                    strict:  any 2 of the factors open it; the seed alone does not.   A passphrase alone never opens a vault (refused).
+  tg-crypt vault open <vault file> [-o <secret file>]   the same inputs; prints "Vault opened with <factors>" and nothing secret; -o writes the secret (a tgmk1. master key)
+  tg-crypt vault inspect <vault file>                   mode, threshold and factor names; no secret
+Files with secrets (recipient --new, split -o, open -o, vault create -o, vault open -o) are created with mode 0600 and refused if the path exists or is a symlink; --force replaces the path (unlinks it first).
 A password alone never protects a record that others may get: "seal --password-*" needs --accept-password-only (local files only).
 `;
 
@@ -59,7 +67,7 @@ export const isKeyInvocation = (command, v) => KEY_COMMANDS.includes(command) ||
 
 export async function runKeyCommand(command, v, positionals, h) {
   const { die, readStdin, readSecretFile, trimEnd } = h;
-  const stdinFlags = ['key-stdin', 'password-stdin', 'mnemonic-stdin', 'seed-stdin', 'master-stdin', 'recipient-key-stdin', 'shares-stdin'].filter((f) => v[f]);
+  const stdinFlags = ['key-stdin', 'password-stdin', 'mnemonic-stdin', 'seed-stdin', 'master-stdin', 'recipient-key-stdin', 'shares-stdin', 'passphrase-stdin'].filter((f) => v[f]);
   if (stdinFlags.length > 1) die('Only one of the --...-stdin options can read standard input');
   const src = (file, stdin, env) => (v[file] ? readSecretFile(v[file]).trim() : v[stdin] ? readStdin().trim() : process.env[env]?.trim());
   const index = v.index !== undefined ? (/^\d{1,10}$/.test(v.index) ? Number(v.index) : die('--index is a whole number')) : 0;
@@ -137,5 +145,52 @@ export async function runKeyCommand(command, v, positionals, h) {
       r = await openWithSecret(work && work !== '-' ? await h.workText(work) : null, secret, recordText);
     }
     if (r.kind === 'bytes') { if (!v.out) die('The record holds a file: give -o <file>'); writeSecretFile(v.out, r.bytes, { force: v.force }); console.error(`${r.bytes.length} bytes written to ${v.out}`); } else if (v.out) writeSecretFile(v.out, r.text + '\n', { force: v.force }); else process.stdout.write(r.text + '\n');
+  } else if (command === 'vault') {
+    // docs/key-management.md section 7 and 10: the seed factor is the master (from a seed or the master key), the passkey
+    // factor is derived from the passkey's 32-byte PRF output, the passphrase is stretched inside the vault. Nothing secret
+    // is printed: the vault is encrypted shares, the opened secret goes only to a 0600 file.
+    const sub = positionals[1];
+    if (!['create', 'open', 'inspect'].includes(sub)) die('vault needs a subcommand: create, open or inspect (see --help)');
+    if (sub === 'inspect') { console.log(JSON.stringify(await describeVault(readSecretFile(positionals[2] ?? die('vault inspect needs the vault file'))), null, 1)); return; }
+    const seedMaster = async () => {
+      const mt = src('master-file', 'master-stdin', 'TG_CRYPT_MASTER');
+      if (mt) return parseMaster(mt);
+      const phrase = src('mnemonic-file', 'mnemonic-stdin', 'TG_CRYPT_MNEMONIC'), hex = src('seed-file', 'seed-stdin', 'TG_CRYPT_SEED');
+      if (phrase && hex) die('Give one seed: a mnemonic or a hex seed');
+      if (!phrase && !hex) return null;
+      const pass = v['bip39-passphrase-file'] ? trimEnd(readSecretFile(v['bip39-passphrase-file'])) : process.env.TG_CRYPT_BIP39_PASSPHRASE ?? '';
+      return masterFromSeed(phrase ? await mnemonicToSeed(phrase, pass) : seedFromHex(hex));
+    };
+    const passkeyFactor = async () => {
+      const t = v['passkey-file'] ? readSecretFile(v['passkey-file']).trim() : process.env.TG_CRYPT_PASSKEY?.trim();
+      if (!t) return null;
+      if (!/^[0-9a-fA-F]{64}$/.test(t)) die('The passkey file holds the 32-byte PRF output of the passkey as 64 hex characters');
+      return factorFromPrf(fromHex(t));
+    };
+    const passphrase = () => (v['passphrase-file'] ? trimEnd(readSecretFile(v['passphrase-file'])) : v['passphrase-stdin'] ? trimEnd(readStdin()) : process.env.TG_CRYPT_PASSPHRASE);
+    const m = await seedMaster(), pk = await passkeyFactor(), pp = passphrase();
+    if (sub === 'create') {
+      const mode = v.mode ?? 'default';
+      if (!['default', 'strict'].includes(mode)) die('--mode is default (the seed alone recovers everything) or strict (the seed is one of the shares)');
+      if (!m) die('vault create needs the seed (--seed-file, --seed-stdin, TG_CRYPT_SEED, or a mnemonic) or the master key (--master-file, --master-stdin, TG_CRYPT_MASTER)');
+      const factors = [mode === 'default' ? { name: 'seed', master: m } : { name: 'seed', key: await factorFromMaster(m) }];
+      if (pk) factors.push({ name: 'passkey', key: pk });
+      if (pp !== undefined) factors.push({ name: 'passphrase', passphrase: pp });
+      const r = await createVault(factors, { mode });
+      if (v.out) { writeSecretFile(v.out, r.vault + '\n', { force: v.force }); console.error(`Vault written to ${v.out}.`); } else console.log(r.vault);
+      console.error(mode === 'default'
+        ? `Default vault: the seed alone opens everything (and so does whoever holds the seed); without the seed it takes ${factors.slice(1).map((f) => f.name).join(' + ')}; a passphrase alone never.`
+        : `Strict vault: any 2 of ${factors.map((f) => f.name).join(', ')} open it; the seed alone does not; a passphrase alone never.`);
+    } else {
+      const text = readSecretFile(positionals[2] ?? die('vault open needs the vault file'));
+      const d = await describeVault(text), available = {};
+      if (m) { if (d.mode === 'default') available.master = m; else available.seed = { key: await factorFromMaster(m) }; }
+      if (pk) available.passkey = { key: pk };
+      if (pp !== undefined) available.passphrase = { passphrase: pp };
+      const r = await openVault(text, available);
+      const line = `Vault opened with ${r.used.join(' + ')} (${d.mode} mode)`;
+      if (v.out) { writeSecretFile(v.out, await formatMaster(r.secret) + '\n', { force: v.force }); console.error(`${line}; the secret is in ${v.out} (a tgmk1. master key, mode 0600).`); }
+      else console.log(`${line}. Nothing secret was printed: give -o <file> to write the secret.`);
+    }
   }
 }

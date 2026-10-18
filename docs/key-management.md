@@ -24,11 +24,11 @@ Design and reference for `src/keys*.js` and the new commands of `cli/tg-crypt.mj
 | Vault, default `tgv2.` (V = the master: the seed alone recovers everything; passkey + passphrase as 2-of-2 convenience wrappers) and strict `tgv1.` (random V, the seed one of k-of-n shares), passkey (WebAuthn PRF) and seed as factors | **implemented**, tested (frozen vectors for both modes; Chromium with a virtual passkey); real authenticators **unverified** |
 | Passphrase generator from the word list | **implemented** |
 | Browser module API (the same modules; Chromium and Firefox equal Node on the vectors) | **implemented**, tested |
-| CLI: `master`, `derive`, `recipient`, `split`, `join`, `seal --to`, `seal --record-id`, `open` | **implemented**, tested |
+| CLI: `master`, `derive`, `recipient`, `split`, `join`, `seal --to`, `seal --record-id`, `open`, `vault create`, `vault open`, `vault inspect` | **implemented**, tested |
 | Panels in `app.html` / `work.html` | **designed only** (section 9; another agent builds the panels) |
 | `tgx2.` in the generator (`app.html` writes `tgx2.`; `work.html` and the CLI open `tgx1.` and `tgx2.`) | **implemented**, checked in headless Chrome (`scripts/check-web-data.mjs`) |
 | Post-quantum hybrid `tgr2.`, key-committing record version | **designed only** |
-| CLI for password mixing and the vault | **designed only** (library works; commands not added) |
+| CLI for password mixing | **designed only** (library works; the command is not added) |
 
 ## 2. Master key and per-record keys
 
@@ -319,7 +319,14 @@ tg-crypt open <work> --record <f> --record-id <id> --master-file <f>
 tg-crypt open <work> --key-file <f> --record <f>      also reads tgx2. keys
 tg-crypt split (--xor <n> | --shamir <k>:<n>) [-o <prefix>]       key from --key-file / --key-stdin / TG_CRYPT_KEY; shares one per line, or <prefix>.1 …
 tg-crypt join <share file>… | --shares-stdin                                                                    prints the secret
+tg-crypt vault create [--mode default|strict] [-o <vault file>]   the seed: --seed-file <f> | --seed-stdin | TG_CRYPT_SEED (or a mnemonic as for `master`, or the master key as for `derive`)
+                                                                   a passkey: --passkey-file <f> | TG_CRYPT_PASSKEY (the passkey's 32-byte PRF output, hex; the factor is derived here)
+                                                                   a passphrase: --passphrase-file <f> | --passphrase-stdin | TG_CRYPT_PASSPHRASE.      prints the vault, or writes it with -o
+tg-crypt vault open <vault file> [-o <secret file>]                the same inputs; prints "Vault opened with <factors>", nothing secret; -o writes the secret as a tgmk1. master key
+tg-crypt vault inspect <vault file>                                mode, threshold k, factor names and KDF parameters; no secret
 ```
+
+`vault create` makes the **default** vault (section 7) unless `--mode strict` is given: `vault open --seed-file` (or any seed or master input) opens it by the seed alone, and so do passkey and passphrase together; seed + passphrase only is **refused at creation**, since the passphrase would then open it alone. In strict mode the seed is one share: `open` with the seed alone fails with the numbers, any two factors succeed. `--passkey-file` holds the **PRF output** of the passkey (32 bytes as 64 hex characters, what `passkey-check.html` and `prfInput` produce), not the derived factor: the CLI derives the factor with `factorFromPrf`, as the page does, so the same passkey opens the vault in both. The vault file and the opened secret go through the 0600 exclusive writer below (tested: an existing file and a symlink are refused, `--force` replaces); the opened secret is written as a `tgmk1.` master key, which in the default mode *is* the seed's master key and in strict mode is the vault's own `V` (usable with `--master-file` everywhere).
 
 Secrets only from files, standard input or the environment; **an option that would take a secret as an argument does not exist** (`--master`, `--mnemonic`, `--key` are refused as unknown options without echoing the value; tested). stdout carries the result only; progress goes to stderr and never contains a secret (tested). Files that hold secrets (`recipient --new`, `split -o`, `open -o`) are created with `O_CREAT|O_EXCL` and mode `0600` (and `fchmod` again on the open descriptor, so a permissive umask cannot widen it): **an existing file or a symlink, even a dangling one, is refused with a message naming the path and the target is never touched; `--force` unlinks the path first (a symlink itself, not what it points to) and creates it again** (tested, mode checked with `stat`). `seal --password-*` now needs `--accept-password-only`, and `publish` refuses password-only records (`--accept-password-only` overrides, for a test chain only).
 
@@ -349,6 +356,6 @@ Secrets only from files, standard input or the environment; **an option that wou
 2. **The seed alone recovers everything.** The vault's secret is the master itself (`V = master`); passkey and passphrase are convenience wrappers that open it without the seed, and the passphrase alone still never opens anything. The stricter variant (the seed alone does not open the vault) stays available as an option for people whose main risk is theft of the written seed. (Built: `tgv2.` is the default of `createVault` and of `tg-crypt vault create`; the strict variant is `mode: 'strict'` / `--mode strict` and stays `tgv1.`; section 7.)
 3. Argon2id stays at 64 MiB × 3 passes until a phone has been measured.
 4. **The generator writes `tgx2.` keys** from now on; `tgx1.` stays readable. (Built: `sealData2` in the panel; the work page and the CLI open both through `openAny`.)
-5. A vault command line (`vault create`, `vault open`) is built now; the post-quantum hybrid and the key-committing record version wait until after the public launch.
+5. A vault command line (`vault create`, `vault open`, `vault inspect`) is built (section 10); the post-quantum hybrid and the key-committing record version wait until after the public launch.
 6. Real devices: owners test their passkeys with `/passkey-check` and report; the page is live, the documents say the factor is unverified on real devices until then.
 7. Done: `assets/vendor/noble-hashes` is in the package `files` list, both NOTICE rows exist.

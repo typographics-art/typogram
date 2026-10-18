@@ -718,3 +718,75 @@ test('cli: files with secrets are created exclusively with mode 0600; existing f
     assert.ok(key.startsWith('tgx1.'));
   } finally { rmSync(dir, { recursive: true }); }
 });
+test('cli: vault create, open and inspect; the seed alone opens the default vault, a passphrase alone never; secrets only from files, stdin or the environment; -o is 0600 and exclusive', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'tgkeys-'));
+  const mode = (p) => statSync(p).mode & 0o777;
+  try {
+    const seedf = join(dir, 'seed'); writeFileSync(seedf, vectors.master.seedHex + '\n');
+    const pkf = join(dir, 'prf'); writeFileSync(pkf, toHex(Uint8Array.from({ length: 32 }, (_, i) => 255 - i)) + '\n');
+    const ppf = join(dir, 'pp'); writeFileSync(ppf, 'alpha beta gamma\n');
+    const vf = join(dir, 'vault.tgv');
+    // create (the default mode): the vault goes to a 0600 file; nothing secret in stdout or stderr
+    const c = run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf, '-o', vf]);
+    assert.equal(c.status, 0, c.stderr); assert.equal(c.stdout, ''); assert.equal(mode(vf), 0o600);
+    const vault = readFileSync(vf, 'utf8').trim(); assert.match(vault, /^tgv2\./);
+    assert.doesNotMatch(c.stdout + c.stderr, /alpha beta|tgmk1\.|tgv2\./); assert.match(c.stderr, /seed alone/);
+    // inspect: mode, threshold, factor names; no secret
+    const i = run(['vault', 'inspect', vf]); assert.equal(i.status, 0, i.stderr);
+    const info = JSON.parse(i.stdout);
+    assert.deepEqual([info.mode, info.k, info.n, info.seed, info.factors.map((f) => f.name)], ['default', 2, 2, true, ['passkey', 'passphrase']]);
+    assert.doesNotMatch(i.stdout, /alpha beta|tgmk1\./);
+    // open with the seed alone: a success line naming the factor, no secret printed; with -o the secret (the master key of the seed) goes to a 0600 file
+    const o1 = run(['vault', 'open', vf, '--seed-file', seedf]);
+    assert.equal(o1.status, 0, o1.stderr); assert.match(o1.stdout, /^Vault opened with master\b/); assert.doesNotMatch(o1.stdout + o1.stderr, /tgmk1\./);
+    const sf = join(dir, 'secret');
+    const o2 = run(['vault', 'open', vf, '--seed-stdin', '-o', sf], { input: vectors.master.seedHex });
+    assert.equal(o2.status, 0, o2.stderr); assert.equal(o2.stdout, ''); assert.equal(mode(sf), 0o600);
+    assert.equal(readFileSync(sf, 'utf8').trim(), vectors.master.text, 'the default vault\'s secret IS the master of the seed');
+    assert.equal(run(['vault', 'open', vf], { env: { TG_CRYPT_SEED: vectors.master.seedHex } }).status, 0);
+    assert.equal(run(['vault', 'open', vf, '--master-file', sf]).status, 0, 'the master key text opens it too');
+    // open without the seed: passkey + passphrase; either alone is refused with the numbers; a wrong seed does not belong
+    const o3 = run(['vault', 'open', vf, '--passkey-file', pkf, '--passphrase-stdin'], { input: 'alpha beta gamma\n' });
+    assert.equal(o3.status, 0, o3.stderr); assert.match(o3.stdout, /^Vault opened with passkey \+ passphrase\b/);
+    assert.equal(run(['vault', 'open', vf, '--passkey-file', pkf, '--passphrase-file', ppf]).status, 0);
+    assert.equal(run(['vault', 'open', vf, '--passkey-file', pkf], { env: { TG_CRYPT_PASSPHRASE: 'alpha beta gamma' } }).status, 0);
+    const alone = run(['vault', 'open', vf, '--passphrase-file', ppf]); assert.equal(alone.status, 1); assert.match(alone.stderr, /2 factors are needed.*1 worked/);
+    assert.equal(run(['vault', 'open', vf, '--passkey-file', pkf]).status, 1);
+    assert.equal(run(['vault', 'open', vf]).status, 1);
+    const wrong = run(['vault', 'open', vf, '--seed-stdin'], { input: 'ff'.repeat(32) }); assert.equal(wrong.status, 1); assert.match(wrong.stderr, /does not belong/);
+    // the rule at creation: seed + passphrase only would let the passphrase open it alone, so it is refused and no file is made
+    const bad = run(['vault', 'create', '--seed-file', seedf, '--passphrase-file', ppf, '-o', join(dir, 'bad.tgv')]);
+    assert.equal(bad.status, 1); assert.match(bad.stderr, /passphrase/); assert.equal(existsSync(join(dir, 'bad.tgv')), false);
+    // strict mode: tgv1., the seed is one share and does not open it alone; its secret is not the master
+    const sv = join(dir, 'strict.tgv');
+    const sc = run(['vault', 'create', '--mode', 'strict', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf, '-o', sv]);
+    assert.equal(sc.status, 0, sc.stderr); assert.match(readFileSync(sv, 'utf8'), /^tgv1\./);
+    assert.equal(JSON.parse(run(['vault', 'inspect', sv]).stdout).mode, 'strict');
+    assert.equal(run(['vault', 'open', sv, '--seed-file', seedf]).status, 1, 'strict: the seed alone is one share');
+    const ss = join(dir, 'strict-secret');
+    assert.equal(run(['vault', 'open', sv, '--seed-file', seedf, '--passphrase-file', ppf, '-o', ss]).status, 0);
+    assert.match(readFileSync(ss, 'utf8'), /^tgmk1\./); assert.notEqual(readFileSync(ss, 'utf8').trim(), vectors.master.text);
+    assert.equal(run(['vault', 'open', sv, '--passkey-file', pkf, '--passphrase-file', ppf]).status, 0);
+    assert.equal(run(['vault', 'create', '--mode', 'loose', '--seed-file', seedf, '--passkey-file', pkf]).status, 1);
+    // secrets never as arguments (refused without echoing them); standard input only once; an unknown subcommand
+    for (const args of [['vault', 'create', '--seed', vectors.master.seedHex, '--passkey-file', pkf], ['vault', 'open', vf, '--passphrase', 'alpha beta gamma'], ['vault', 'open', vf, '--master', vectors.master.text], ['vault', 'create', '--passkey', 'ff', '--seed-file', seedf]]) {
+      const r = run(args); assert.equal(r.status, 1); assert.match(r.stderr, /Unknown option/); assert.doesNotMatch(r.stdout + r.stderr, /alpha beta|tgmk1\.[1-9A-Za-z]{10}|000102030405/);
+    }
+    assert.equal(run(['vault', 'open', vf, '--seed-stdin', '--passphrase-stdin'], { input: 'x' }).status, 1);
+    assert.equal(run(['vault', 'frobnicate']).status, 1);
+    // -o: exclusive, 0600, a symlink refused and never followed, --force replaces (the same writer as recipient --new)
+    const again = run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf, '-o', vf]);
+    assert.equal(again.status, 1); assert.ok(again.stderr.includes(vf)); assert.equal(readFileSync(vf, 'utf8').trim(), vault);
+    const victim = join(dir, 'victim'); writeFileSync(victim, 'precious'); const link = join(dir, 'link'); symlinkSync(victim, link);
+    assert.equal(run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '-o', link]).status, 1);
+    assert.equal(readFileSync(victim, 'utf8'), 'precious'); assert.ok(lstatSync(link).isSymbolicLink());
+    assert.equal(run(['vault', 'open', vf, '--seed-file', seedf, '-o', link]).status, 1); assert.equal(readFileSync(victim, 'utf8'), 'precious');
+    assert.equal(run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '-o', vf, '--force']).status, 0);
+    assert.notEqual(readFileSync(vf, 'utf8').trim(), vault); assert.equal(mode(vf), 0o600);
+    // without -o the vault is printed (it is encrypted shares, storable anywhere); the help names the commands
+    const printed = run(['vault', 'create', '--seed-file', seedf, '--passkey-file', pkf, '--passphrase-file', ppf]);
+    assert.equal(printed.status, 0, printed.stderr); assert.match(printed.stdout, /^tgv2\.\S+\n$/);
+    const help = run(['--help']).stdout;
+    for (const w of ['vault create', 'vault open', 'vault inspect', '--mode', '--passkey-file', '--passphrase-file', 'TG_CRYPT_PASSPHRASE']) assert.ok(help.includes(w), w);
+  } finally { rmSync(dir, { recursive: true }); }
+});
