@@ -44,18 +44,32 @@ export function publicKeyOf(privatePem) {
   return publicKeyRaw(createPublicKey(createPrivateKey(privatePem)).export({ format: 'jwk' }));
 }
 
+/** Low-level: sign arbitrary bytes with a PKCS#8 PEM private key; returns the signature, base64url. */
+export function signBytes(message, privatePem) {
+  const msg = Buffer.isBuffer(message) ? message : Buffer.from(String(message), 'utf8');
+  return b64u(edSign(null, msg, createPrivateKey(privatePem)));
+}
+
+/** Low-level: verify a base64url signature over bytes against a raw base64url public key. Never throws on bad input. */
+export function verifyBytes(message, signature, publicKey) {
+  try {
+    const msg = Buffer.isBuffer(message) ? message : Buffer.from(String(message), 'utf8');
+    const pub = createPublicKey({ key: { kty: 'OKP', crv: 'Ed25519', x: String(publicKey) }, format: 'jwk' });
+    return edVerify(null, msg, pub, unb64u(signature));
+  } catch {
+    return false;
+  }
+}
+
 /** Sign the identity hash for an issuer. `privatePem` is the PKCS#8 PEM secret. Returns the signature, base64url. */
 export function signHash({ hash, issuer, kid, created }, privatePem) {
-  const msg = Buffer.from(sigString({ hash, issuer, kid, created }), 'utf8');
-  return b64u(edSign(null, msg, createPrivateKey(privatePem)));
+  return signBytes(sigString({ hash, issuer, kid, created }), privatePem);
 }
 
 /** Verify a signature over the identity hash against a raw base64url public key. Returns true/false; never throws on bad input. */
 export function verifyHash({ hash, issuer, kid, created, signature }, publicKey) {
   try {
-    const msg = Buffer.from(sigString({ hash, issuer, kid, created }), 'utf8');
-    const pub = createPublicKey({ key: { kty: 'OKP', crv: 'Ed25519', x: String(publicKey) }, format: 'jwk' });
-    return edVerify(null, msg, pub, unb64u(signature));
+    return verifyBytes(sigString({ hash, issuer, kid, created }), signature, publicKey);
   } catch {
     return false;
   }
@@ -85,4 +99,64 @@ export function findKey(keyfile, { issuer, kid, alg = 'Ed25519', at = new Date()
   if (!k || k.revoked) return null;
   if (k.expires && String(at) > String(k.expires)) return null;
   return k.publicKey || null;
+}
+
+// ---- the self-contained signed key statement (docs/issuers.md) -------------------------------------------------------
+// A key statement says "this public key belongs to this issuer, valid from this date, replacing this earlier key" and is
+// signed with the key itself — and, on rotation, also with the key it replaces. Because the proof travels inside the
+// statement, it stays checkable wherever it goes: on the domain, in the repo, in an archive, or beside a Typogram. Anchors
+// (tgart.anchors in docs/verification.md) are added AFTER signing and are deliberately NOT part of the signed core, so
+// adding one later never invalidates the signature.
+export const KEY_SPEC = 'tgart-key-v1';
+const CORE_FIELDS = ['spec', 'issuer', 'kid', 'alg', 'publicKey', 'created', 'expires', 'predecessor', 'revokes'];
+
+/** Deterministic JSON: object keys sorted recursively, so two implementations sign and verify byte-for-byte the same message. */
+export function canonicalJson(v) {
+  if (Array.isArray(v)) return '[' + v.map(canonicalJson).join(',') + ']';
+  if (v && typeof v === 'object') return '{' + Object.keys(v).sort().map((k) => JSON.stringify(k) + ':' + canonicalJson(v[k])).join(',') + '}';
+  return JSON.stringify(v === undefined ? null : v);
+}
+
+const statementCore = (s) => { const c = {}; for (const k of CORE_FIELDS) c[k] = k in s && s[k] !== undefined ? s[k] : (k === 'revokes' ? [] : null); return c; };
+const keyStatementMessage = (core) => Buffer.from(KEY_SPEC + '\n' + canonicalJson(core), 'utf8');
+
+/** The SHA-256 (hex) of a key statement's signed core — what an anchor pins. */
+export async function keyStatementDigest(statement) {
+  const { subtle } = await import('node:crypto');
+  const d = await subtle.digest('SHA-256', keyStatementMessage(statementCore(statement)));
+  return Buffer.from(d).toString('hex');
+}
+
+/**
+ * Build a signed key statement. `privatePem` is THIS key's secret (the self-signature). For a rotation, pass the previous
+ * key as `predecessor` ({ kid, publicKey }) and its secret as `predecessorPem`, so the old key endorses the new one.
+ */
+export function signKeyStatement(
+  { issuer, kid, publicKey, created = new Date().toISOString().slice(0, 10), expires = null, predecessor = null, revokes = [] },
+  privatePem,
+  { predecessorPem = null } = {},
+) {
+  const core = { spec: KEY_SPEC, issuer: String(issuer), kid: String(kid), alg: 'Ed25519', publicKey: String(publicKey), created, expires, predecessor, revokes };
+  const msg = keyStatementMessage(core);
+  const statement = { ...core, sig: { by: 'self', signature: signBytes(msg, privatePem) } };
+  if (predecessor && predecessorPem) statement.prevSig = { by: predecessor.kid, signature: signBytes(msg, predecessorPem) };
+  statement.anchors = [];
+  return statement;
+}
+
+/**
+ * Verify a key statement: the self-signature by its own key, and (on rotation) the predecessor's endorsement. Returns
+ * { ok, selfSig, predSig, expired, issuer, kid, publicKey }. `predSig` is null when there is no predecessor.
+ */
+export function verifyKeyStatement(statement, { at = new Date().toISOString().slice(0, 10) } = {}) {
+  const r = { ok: false, selfSig: false, predSig: null, expired: false, issuer: statement?.issuer, kid: statement?.kid, publicKey: statement?.publicKey };
+  if (!statement || statement.spec !== KEY_SPEC || typeof statement.publicKey !== 'string') return r;
+  const msg = keyStatementMessage(statementCore(statement));
+  r.selfSig = statement.sig?.by === 'self' && verifyBytes(msg, statement.sig?.signature, statement.publicKey);
+  if (statement.predecessor) {
+    r.predSig = !!(statement.prevSig && statement.predecessor.publicKey && verifyBytes(msg, statement.prevSig.signature, statement.predecessor.publicKey));
+  }
+  r.expired = !!(statement.expires && String(at) > String(statement.expires));
+  r.ok = r.selfSig && r.predSig !== false && !r.expired;
+  return r;
 }
