@@ -34,7 +34,7 @@ The README and the main documents in one file: **[about/typographics-art.md](abo
 For centuries, letterhead, a signature and a seal showed at a glance what a paper was and who it was from. **Typographics Art** brings that to the AI age, in three layers:
 
 1. **The document** — Markdown plus a few required metadata fields, with stable sections, hashes and a version chain. On its own, already a useful "llms.txt with structure."
-2. **The provenance** — keys on domains, signatures, a visible seal, a verify tool. This is the piece missing in the world today: signatures exist for software and for photos, but not yet a widespread, readable one for texts addressed to AIs. Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps. (Shipping in this release.)
+2. **The provenance** — keys on domains, signatures, a visible seal, a verify tool. This is the piece missing in the world today: signatures exist for software and for photos, but not yet a widespread, readable one for texts addressed to AIs. Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps. The anchors are pluggable and open to the community — not tied to one chain. (Shipping in this release.)
 3. **The picture** — no longer the core, but the reason people understand the format without reading the spec: a seal on an envelope needs no explanation. It turns a crypto protocol into an object you recognise, show and hang up.
 
 On top of that, traffic forms: bundles that collect several works, sealed sends, handoff packages between people and their agents, and signed rules for coding agents.
@@ -284,6 +284,8 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); please follow the [code of conduct](CODE_OF_CONDUCT.md).
 
+Want to anchor keys in another log or chain? The anchor plugins are pluggable — see [`anchors/README.md`](anchors/README.md); DigiByte is a good first task.
+
 ```sh
 npm test          # node --test, no dependencies (a few seconds)
 npm run dev       # needs Python 3; landing page at http://localhost:8080, generator at /app.html
@@ -302,6 +304,7 @@ Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, fa
 |---|---|
 | `src/` | the library |
 | `cli/` | command-line tools |
+| `anchors/` | pluggable key-transparency anchor plugins (community contributions welcome) |
 | `api/` | the paid one-pager API server |
 | `scripts/` | site and documentation builders |
 | `gallery/` | the 15 works |

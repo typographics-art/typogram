@@ -34,7 +34,7 @@ Die README und die wichtigsten Dokumente in einer Datei: **[about/typographics-a
 Seit Jahrhunderten zeigen Briefkopf, Unterschrift und Siegel auf einen Blick, was ein Papier ist und von wem. **Typographics Art** bringt das ins KI-Zeitalter, in drei Schichten:
 
 1. **Das Dokument** — Markdown plus ein paar Pflicht-Metadaten, mit festen Abschnitten, Hashes und einer Versionskette. Für sich schon ein nützliches „llms.txt mit Struktur“.
-2. **Die Herkunft** — Schlüssel auf Domains, Signaturen, ein sichtbares Siegel, ein Prüfwerkzeug. Das ist das Stück, das heute in der Welt fehlt: Für Software und Fotos gibt es Signaturen, für Texte an KIs noch keine verbreitete, lesbare. Schlüssel und Signaturen werden in öffentlichen Transparenz-Logs verankert, optional über OpenTimestamps in Bitcoin. (Kommt mit diesem Release.)
+2. **Die Herkunft** — Schlüssel auf Domains, Signaturen, ein sichtbares Siegel, ein Prüfwerkzeug. Das ist das Stück, das heute in der Welt fehlt: Für Software und Fotos gibt es Signaturen, für Texte an KIs noch keine verbreitete, lesbare. Schlüssel und Signaturen werden in öffentlichen Transparenz-Logs verankert, optional über OpenTimestamps in Bitcoin. Die Anker sind einsteckbar und offen für die Community — nicht an eine Kette gebunden. (Kommt mit diesem Release.)
 3. **Das Bild** — nicht mehr der Kern, aber der Grund, warum man das Format ohne Spezifikation versteht: Ein Siegel auf einem Umschlag braucht keine Erklärung. Es macht aus einem Krypto-Protokoll einen Gegenstand, den man erkennt, zeigt und aufhängt.
 
 Darauf baut der Verkehr auf: Bündel, die mehrere Werke sammeln, versiegelte Sendungen, Übergabepakete zwischen Menschen und ihren Agenten und signierte Regeln für Coding-Agenten.
@@ -266,6 +266,8 @@ Jede Vorschau verlinkt auf das SVG, das das Werk selbst ist: öffnen und den Tex
 
 Typographics Art soll eine gemeinsame Technik werden, so wie ASCII-Art. Ideen, Schriften für Schriftsysteme, die Roboto Flex fehlen, bessere Algorithmen, Übersetzungen, Messungen und Werke sind willkommen. Los geht es mit [CONTRIBUTING.md](CONTRIBUTING.md); bitte beachte den [Verhaltenskodex](CODE_OF_CONDUCT.md). Issues und Pull Requests auf Deutsch sind willkommen.
 
+Schlüssel in einem weiteren Log oder einer anderen Kette verankern? Die Anker-Plugins sind einsteckbar — siehe [`anchors/README.md`](anchors/README.md); DigiByte ist eine gute erste Aufgabe.
+
 ```sh
 npm test          # node --test, keine Abhängigkeiten (wenige Sekunden)
 npm run dev       # braucht Python 3; Startseite auf http://localhost:8080, Generator unter /app.html
@@ -284,6 +286,7 @@ Du schreibst über Typographics Art? Das [Pressekit](docs/press-kit.md) (Englisc
 |---|---|
 | `src/` | die Bibliothek |
 | `cli/` | Befehlszeilenwerkzeuge |
+| `anchors/` | einsteckbare Plugins zur Schlüssel-Transparenz-Verankerung (Beiträge der Community willkommen) |
 | `api/` | der Server der kostenpflichtigen One-Pager-API |
 | `scripts/` | Bauwerkzeuge für Website und Dokumentation |
 | `gallery/` | die 15 Werke |
