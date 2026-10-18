@@ -119,20 +119,21 @@ rules:
     languages: [javascript]
     severity: WARNING
     message: "file path built from a non-literal; check it cannot leave the intended directory"
-    pattern-either:
-      - pattern: 'readFileSync($P, ...)'
-      - pattern: 'writeFileSync($P, ...)'
-      - pattern: 'createReadStream($P, ...)'
-      - pattern: 'createWriteStream($P, ...)'
-      - pattern: 'readFile($P, ...)'
-      - pattern: 'writeFile($P, ...)'
-      - pattern: 'unlinkSync($P)'
-      - pattern: 'openSync($P, ...)'
-    metavariable-pattern:
-      metavariable: $P
-      patterns:
-        - pattern-not: '"..."'
-        - pattern-not: 'new URL("...", ...)'
+    patterns:
+      - pattern-either:
+          - pattern: 'readFileSync($P, ...)'
+          - pattern: 'writeFileSync($P, ...)'
+          - pattern: 'createReadStream($P, ...)'
+          - pattern: 'createWriteStream($P, ...)'
+          - pattern: 'readFile($P, ...)'
+          - pattern: 'writeFile($P, ...)'
+          - pattern: 'unlinkSync($P)'
+          - pattern: 'openSync($P, ...)'
+      - metavariable-pattern:
+          metavariable: $P
+          patterns:
+            - pattern-not: '"..."'
+            - pattern-not: "'...'"
   - id: tg-new-regexp-dynamic
     languages: [javascript]
     severity: WARNING
