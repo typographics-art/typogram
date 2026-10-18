@@ -9,12 +9,13 @@
 // A Typogram is a picture made of its own readable text (the IMAGE layer) that also carries, in a DATA layer, the exact
 // source and a JSON-LD record whose tgart.hash binds the two. `tg verify` recomputes the hash from the image layer and
 // requires it to equal both the stored hash and the hash of the embedded source. Works on .svg, .html and .pdf.
-import { readFileSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, chmodSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { extname, join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { markupText, canonicalText, sha256Hex, stripDataLayer, readDataMarkdown, readJsonld } from '../src/index.js';
+import { generateIssuerKey, signKeyStatement, verifyKeyStatement } from '../src/sign.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -173,6 +174,53 @@ async function cmdExtract(file, mode, fromGlyphs) {
   process.stdout.write(out.endsWith('\n') ? out : out + '\n');
 }
 
+// ---- keygen ----------------------------------------------------------------------------------------------------------
+/** A valued flag from argv: `--name value`. Returns `def` if absent or if the next token is itself a flag. */
+function opt(name, def = null) {
+  const i = argv.indexOf(`--${name}`);
+  return i >= 0 && argv[i + 1] != null && !argv[i + 1].startsWith('--') ? argv[i + 1] : def;
+}
+const readKeyfile = (p) => { try { return JSON.parse(readFileSync(p, 'utf8')); } catch { return null; } };
+const writeJson = (p, obj) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(obj, null, 2) + '\n'); };
+
+/**
+ * `tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]` — a new Ed25519 issuer key, written as a
+ * self-signed key statement into the issuer's key file (the repo mirror keys/<domain>.json and the served
+ * .well-known/tgart-keys.json). The private key goes to --private-out (mode 600) or, if omitted, to stdout, clearly marked.
+ */
+function cmdKeygen() {
+  const issuer = opt('issuer');
+  if (!issuer) die('usage: tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]');
+  const kid = opt('kid') || new Date().toISOString().slice(0, 7); // YYYY-MM
+  const outDir = opt('out') || process.cwd();
+  const privateOut = opt('private-out');
+
+  const key = generateIssuerKey();
+  const statement = signKeyStatement({ issuer, kid, publicKey: key.publicKey, created: key.created }, key.privatePem);
+  if (!verifyKeyStatement(statement).ok) die('internal error: the generated key statement did not verify');
+
+  const keysPath = join(outDir, 'keys', `${issuer}.json`);
+  const wellKnownPath = join(outDir, '.well-known', 'tgart-keys.json');
+  const existing = readKeyfile(keysPath) || readKeyfile(wellKnownPath) || { issuer, keys: [] };
+  const keys = (Array.isArray(existing.keys) ? existing.keys : []).filter((k) => k && k.kid !== kid).concat([statement]);
+  const keyfile = { issuer, keys };
+  writeJson(keysPath, keyfile);
+  writeJson(wellKnownPath, keyfile);
+
+  if (privateOut) { writeFileSync(privateOut, key.privatePem, { mode: 0o600 }); chmodSync(privateOut, 0o600); }
+  console.log(`tg: new Ed25519 issuer key for ${issuer}`);
+  console.log(`  kid:        ${kid}`);
+  console.log(`  public key: ${key.publicKey}`);
+  console.log(`  key file:   ${keysPath}`);
+  console.log(`  served at:  ${wellKnownPath}  (publish at https://${issuer}/.well-known/tgart-keys.json)`);
+  if (privateOut) {
+    console.log(`  PRIVATE key -> ${privateOut} (mode 600). It is the SECRET; it is NOT in the key file. Store it safely.`);
+  } else {
+    console.log('\n  PRIVATE key (PKCS#8 PEM) — SECRET. Store it safely (a secret manager); it is NOT in the key file:\n');
+    process.stdout.write(key.privatePem.endsWith('\n') ? key.privatePem : key.privatePem + '\n');
+  }
+}
+
 // ---- argv ------------------------------------------------------------------------------------------------------------
 const argv = process.argv.slice(2);
 const cmd = argv.shift();
@@ -183,4 +231,5 @@ const mode = flags.has('--json') ? 'json' : flags.has('--text') ? 'text' : 'mark
 
 if (cmd === 'verify') { if (!file) die('usage: tg verify <file>'); await cmdVerify(file); }
 else if (cmd === 'extract') { if (!file) die('usage: tg extract <file> [--markdown|--json|--text] [--from-glyphs]'); await cmdExtract(file, mode, flags.has('--from-glyphs')); }
-else { console.error('usage: tg verify <file>  |  tg extract <file> [--markdown|--json|--text] [--from-glyphs]'); process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1); }
+else if (cmd === 'keygen') { cmdKeygen(); }
+else { console.error('usage: tg verify <file>  |  tg extract <file> [--markdown|--json|--text] [--from-glyphs]  |  tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]'); process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1); }
