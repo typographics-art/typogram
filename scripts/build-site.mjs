@@ -21,6 +21,7 @@ copy('src');
 copy('assets', 'assets', (p) => !p.endsWith('brand.html'));
 copy('gallery', 'gallery', (p) => !p.endsWith('works.config.json'));
 copy('docs');
+copy('.well-known'); // the issuer's public signing key (Ed25519), served at /.well-known/tgart-keys.json — tg verify fetches it
 copy('examples/index.json');
 copy('samples');
 copy('examples/motifs', 'examples/motifs', (p) => !p.endsWith('.md'));
