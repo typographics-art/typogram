@@ -2,7 +2,8 @@
 
 Status: **PLANNED**, not built. Comes **after Phase H** (signing / issuers / seal), because it reuses H2 (signature
 over the canonical hash), H3 (the visible seal block) and H4 (the embedded verify-instructions), and the issuer key
-file H introduces. Sequencing relative to the public launch is an operator decision (see "Open decisions").
+file H introduces. **Operator decision 18.10.: Phase I ships _before_ the public launch**, as part of the first public
+release — so the launch now gates on the three-view core (B–G) + Phase H + Phase I.
 
 This file is the specification of record (Rule 0: docs before code). The operator's spec is captured faithfully below;
 anything added here beyond it is marked **[plan]** and is a recommendation, not a commitment.
@@ -88,10 +89,9 @@ anything added here beyond it is marked **[plan]** and is a recommendation, not 
    CLI can still open it — interop, not a dependency. Alternative: shell out to `age` (reference implementation, no JS
    dependency, but a required external binary and no in-process/browser path). Default unless the operator chooses the
    CLI.
-2. **Sequencing vs. public — [plan] recommend shipping Phase I after the initial public launch (as 0.2).** Basis:
-   Phase H already moved the launch; the three-view core + signatures are enough for a credible first public release,
-   and bundles/handoff are a strong but separable second chapter. Alternative: gate public on I too. Default: after
-   public, unless the operator wants it before.
+2. **Sequencing vs. public — DECIDED (operator, 18.10.): ship Phase I _before_ the public launch**, as part of the
+   first public release. The earlier recommendation to defer to 0.2 is superseded. The public launch now gates on:
+   three-view (B–G) + Phase H + Phase I.
 
 ## Build order (when Phase I starts)
 
