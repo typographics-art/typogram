@@ -51,9 +51,9 @@ Showing an **image** in RAM is straightforward: decode in memory, draw in a wind
 | **B. In-memory server + OS webview** | the stub runs a localhost server (like our adapter) serving the decrypted stream from RAM with Range, and opens an embedded webview (`wry`) with `<video>` | small | everything the OS plays | **Mostly** — the OS media stack may cache to disk; we cannot fully guarantee it |
 
 Route A keeps the "never to disk" promise honestly but is a heavy binary and real decoder work. Route B is small and plays
-anything, but the honest claim becomes "we never write it; the OS might cache it." **Recommendation:** start with Route A
-for images and a common video codec (H.264/AAC in MP4) so the no-disk promise holds, and treat Route B as an explicit,
-labelled fallback for exotic formats. **This is the main decision to confirm before building.**
+anything, but the honest claim becomes "we never write it; the OS might cache it." **Decided (operator, 2026-10-18): the
+hybrid** — images and a common video codec (H.264/AAC in MP4) go through an own in-process decoder so the no-disk promise
+holds; exotic formats fall back to Route B, clearly labelled as "the OS may cache this one."
 
 RAM-only hardening either way: `mlock` the key and plaintext buffers (best effort), zeroize on exit, disable core dumps.
 Honest limits to state plainly: OS **swap** can page RAM to disk under memory pressure (mitigated by `mlock`, not fully on
@@ -67,7 +67,10 @@ is true.
     **notarization** (an Apple Developer account, $99/yr) and a hardened runtime, Linux (no central gate; ship a checksum
     and ideally a signature).
   - **Antivirus false positives** are likely for a self-extracting binary; signing and reputation reduce them, not remove.
-- These are operator decisions (money, accounts, certificates) — flagged, not assumed.
+- **Decided (operator, 2026-10-18): unsigned, checksums only.** We do not sign; we ship a SHA-256 and a detached
+  signature, and users click through the OS warning (SmartScreen "more info → run anyway", macOS right-click → open). This
+  is cheap and avoids certificate costs; the trade-off is more friction and a higher chance of antivirus false positives,
+  stated plainly on the download page.
 
 ## 6. Threat model (stated honestly)
 
@@ -81,14 +84,14 @@ and, in Route B, the OS media cache. Same honesty as the rest of the project.
 - A Rust workspace `self-extractor/` with `tgx-stub` (the per-OS player) and the packer (`tg-pack`, or `tg-adapter pack`).
 - Crypto crate reimplementing `tgst1`/`tgs1` to our vectors; a conformance test in CI that the Rust decrypt matches the JS.
 - CI matrix builds the stubs for the 6 targets; the packer ships with them (or downloads them).
-- **Phase 1:** image + any file, Route A (truly RAM), password and key-file, per-file salt, the footer format, the packer,
-  the JS↔Rust conformance test. **Phase 2:** video (confirm Route A vs B). **Phase 3:** signing/notarization and
-  distribution. (No GSD phase numbers here — this is the tg-art repo; its own planning.)
+- **Phase 1:** image + any file **+ MP4 (H.264/AAC) through the own decoder** (truly RAM), password and key-file, per-file
+  salt, the footer format, the packer, the JS↔Rust conformance test, checksums + a detached signature. **Phase 2:** the
+  webview fallback for other codecs (labelled) and more targets. **Phase 3:** polish and the download page. (No GSD phase
+  numbers here — this is the tg-art repo; its own planning.)
 
 ## 8. Open decisions for the operator
 
-1. **Video playback route** (§4): Route A (truly no-disk, heavy binary, limited codecs) vs Route B (small, any codec, OS may
-   cache) vs the recommended hybrid.
-2. **Signing** (§5): pay for Windows + macOS signing/notarization now, or ship unsigned with checksums first (users must
-   click through OS warnings)?
-3. **Scope of phase 1**: image + file only, or image + file + one video codec?
+1. ~~Video playback route~~ — **decided: hybrid** (own decoder for image + H.264/AAC MP4, webview fallback for the rest).
+2. ~~Signing~~ — **decided: unsigned, checksums + a detached signature only.**
+3. **Scope of phase 1** — proposed: image + file + MP4 (H.264/AAC) through the own decoder (the hybrid core), since the
+   point of the tool is an encrypted video you can double-click; the webview fallback and more codecs come in phase 2.
