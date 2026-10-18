@@ -5,7 +5,7 @@
 import { justify } from './layout.js';
 import { fontStylesheetUrl, normalWidthIndex, variationsFor } from './fonts.js';
 import { rgbCss } from './color.js';
-import { writeMeta } from './typogram.js';
+import { buildDataLayer } from './typogram.js';
 
 /**
  * Every glyph must stay its own character: ligatures would merge "ffi" into one glyph (Chrome's PDF
@@ -110,10 +110,19 @@ export function forEachGlyph(sheet, fn, from = 0, to = sheet.result.lines.length
   }
 }
 
-/** Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given). */
-export function svgHead(sheet, { description = '' } = {}) {
+/**
+ * Opening of an SVG document for the sheet (paper, font, the <text> element; a <title> when a description is given).
+ * When `markdown` or `jsonld` is given, the data layer (docs/typogram-file.md) goes right after the opening <svg …>,
+ * before <title>/<text>: the exact source in CDATA + a JSON-LD record with the identity hash. Being CDATA/escaped it
+ * never shifts the text anchors markupText() uses (readers strip it first), so the character-for-character read-back stays
+ * exact whether or not a data layer is present.
+ */
+export function svgHead(sheet, { description = '', markdown, jsonld, media } = {}) {
   const { outW, outH, font, paper } = sheet;
+  const data = (markdown != null || jsonld != null)
+    ? buildDataLayer({ markdown: markdown ?? '', ...(media ? { media } : {}), jsonld: jsonld ?? null }) : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${outW}" height="${outH}" viewBox="0 0 ${outW} ${outH}">` +
+    data +
     (description ? `<title>${escapeXml(description)}</title>` : '') +
     `<style>@import url('${escapeXml(fontStylesheetUrl())}');</style>` +
     `<rect width="100%" height="100%" fill="${rgbCss(paper.paper)}"/>` +
@@ -143,9 +152,11 @@ export function svgLines(sheet, from = 0, to = sheet.result.lines.length) {
   return out;
 }
 
-/** `description` (what the picture shows) becomes the SVG's <title>, its accessible name. */
+/**
+ * A Typogram SVG. `o.description` (what the picture shows) becomes the <title>, its accessible name; `o.markdown`/`o.jsonld`/
+ * `o.media` add the data layer (the exact source + a JSON-LD record), placed before <text> by svgHead so the read-back of
+ * the artwork text stays exact (src/typogram.js, docs/typogram-file.md).
+ */
 export function toSvg(sheet, o = {}) {
-  // `o.metadata` (the Typogram envelope) goes after </text> as an escaped-JSON <metadata> element, so it never shifts the
-  // text anchors markupText() uses and the read-back stays exact (src/typogram.js, docs/typogram-file.md).
-  return svgHead(sheet, o) + svgLines(sheet) + '</text>' + writeMeta(o.metadata) + '</svg>';
+  return svgHead(sheet, o) + svgLines(sheet) + SVG_TAIL;
 }

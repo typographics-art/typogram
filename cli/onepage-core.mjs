@@ -5,12 +5,23 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { extname } from 'node:path';
-import { normalizeText, embedSource } from '../src/index.js';
+import { normalizeText, canonicalText, sha256Hex, buildJsonld } from '../src/index.js';
 import { visibleText, TOOL_TIMEOUT_MS } from './core.mjs';
 
 export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
 const sha = (s) => createHash('sha256').update(s).digest('hex');
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
+
+/** The text of the first ATX heading in a Markdown source, or null (the first non-blank line is not a heading). */
+function firstHeading(md) {
+  for (const raw of String(md).split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    const m = /^(#{1,6})\s+(.+?)\s*#*$/.exec(line);
+    return m ? m[2].trim() : null; // the first non-blank line decides: a heading gives the title, anything else gives none
+  }
+  return null;
+}
 
 /** Text of a document: PDFs through MuPDF (exact with the text layer), everything else read as UTF-8. */
 export function readDocument(path) {
@@ -62,12 +73,22 @@ export async function makeOnePage(session, job) {
 
   let printed = null;
   if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx, tagged: !!job.tagged });
-  if (job.svg) { // a Typogram SVG: opens as the picture, carries the metadata, a machine reads the text back
-    const meta = { ...(job.meta || {}), created: (job.meta?.created ?? new Date().toISOString()), textSha256: sha(source), kind: job.meta?.kind || 'art' };
-    let svg = await session.call('tgOnePageSvg', meta);
-    // Keep the exact source (its line breaks, Markdown tables, lists and code) losslessly in the same file, so a reader
-    // restores the original formatting while the picture still shows the prose (docs/typogram-file.md).
-    if (job.source) svg = await embedSource(svg, job.source.bytes, { media: job.source.media });
+  if (job.svg) { // a Typogram SVG: opens as the picture, carries the data layer, a machine reads the exact source back
+    // The data layer carries the exact source (its line breaks, Markdown tables, lists and code) losslessly, plus a
+    // schema.org JSON-LD record whose tgart.hash binds the image layer to the source (docs/canonical-text.md). When no
+    // exact source is given, the visible text itself is the source (plain text).
+    const md = job.source ? new TextDecoder().decode(job.source.bytes) : source;
+    const media = job.source ? job.source.media : 'text/plain; charset=utf-8';
+    const heading = firstHeading(md);
+    const name = heading ?? job.meta?.title ?? job.title ?? null;
+    const jsonld = buildJsonld({
+      name: name ?? undefined, author: job.meta?.author, dateCreated: job.meta?.created ?? new Date().toISOString(),
+      inLanguage: job.meta?.inLanguage, license: job.meta?.license, description: job.meta?.description, sourceUrl: job.meta?.sourceUrl,
+      sourceFormat: media, charCount: md.length, hash: await sha256Hex(canonicalText(md)),
+    });
+    // The <title> (the picture's accessible name) is claimed only when a heading backs it at the start of the source, so
+    // `tg verify`'s title lint holds for what we generate.
+    const svg = await session.call('tgOnePageSvg', { description: heading ?? undefined, markdown: md, media, jsonld });
     writeFileSync(job.svg, svg);
   }
   if (job.preview) {

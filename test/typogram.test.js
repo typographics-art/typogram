@@ -1,57 +1,53 @@
-// A Typogram is a valid SVG that also carries a metadata block (src/typogram.js). The metadata must never disturb the
-// character-for-character text of the work (the read-back stays exact), and it must round-trip for anyone who parses it.
+// A Typogram is a valid SVG that also carries the DATA LAYER (src/typogram.js): the exact source in CDATA + a JSON-LD
+// record, placed before the artwork <text>. The data layer must never disturb the character-for-character text of the work
+// (the read-back stays exact), and the source and record must round-trip for anyone who parses them.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { writeMeta, readMeta, embedSource, readSource } from '../src/typogram.js';
-import { typesetWith, toSvg, markupText, canonicalText, normalizeText } from '../src/index.js';
+import { buildJsonld, readDataMarkdown, readJsonld } from '../src/typogram.js';
+import { typesetWith, toSvg, markupText, canonicalText, normalizeText, sha256Hex } from '../src/index.js';
 import { fakeMetric, image, TEXT } from './helpers.js';
 
-test('typogram: writeMeta/readMeta round-trip, and format+v are stamped', () => {
-  const meta = { title: 'Orders', created: '2026-10-18T00:00:00Z', kind: 'data', textSha256: 'deadbeef' };
-  const svg = `<svg><text>x</text>${writeMeta(meta)}</svg>`;
-  const back = readMeta(svg);
-  assert.equal(back.format, 'typogram');
-  assert.equal(back.v, 1);
-  for (const k of Object.keys(meta)) assert.equal(back[k], meta[k]);
-});
+const sheetOf = (text) => typesetWith({ text, metric: fakeMetric, image: image(40, 40, () => [128, 128, 128]), options: { width: 400 } });
 
-test('typogram: readMeta is tolerant — no block, broken JSON or a foreign element is null', () => {
-  assert.equal(readMeta('<svg><text>x</text></svg>'), null);
-  assert.equal(readMeta('<metadata><typogram>{not json</typogram></metadata>'), null);
-  assert.equal(readMeta('nonsense'), null);
-  assert.equal(readMeta(42), null);
-});
-
-test('typogram: a title with < > & survives the escaped metadata (and cannot break the SVG anchors)', () => {
-  const meta = { title: 'a < b & c </text> <script>', kind: 'art' };
-  const svg = `<svg><text>hi</text>${writeMeta(meta)}</svg>`;
-  assert.ok(!svg.includes('</text></text>'), 'the title did not inject a second </text>');
-  // the only real </text> is the artwork's, so a reader still finds the text boundary
-  assert.equal(svg.indexOf('</text>'), svg.lastIndexOf('</text>'));
-  assert.equal(readMeta(svg).title, 'a < b & c </text> <script>');
-});
-
-test('typogram: the exact source (Markdown tables, lists, code, line breaks) round-trips losslessly', async () => {
-  const md = '# Title\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n- one\n- two\n\n```js\nconst x = 1;\n  indented();\n```\n';
-  const bytes = new TextEncoder().encode(md);
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg"><text>Title a b 1 2 one two const x = 1; indented();</text></svg>`;
-  svg = await embedSource(svg, bytes, { media: 'text/markdown' });
-  const back = await readSource(svg);
-  assert.equal(back.media, 'text/markdown');
-  assert.equal(new TextDecoder().decode(back.bytes), md, 'byte-exact source, with its line breaks and structure');
-  // the embedded source does not disturb the picture's text boundary
-  assert.equal(svg.indexOf('</text>'), svg.lastIndexOf('</text>'));
-  assert.equal(await readSource('<svg><text>x</text></svg>'), null);
-});
-
-test('typogram: the metadata does not change the work text (read-back stays exact)', () => {
-  const text = TEXT.repeat(4);
-  const sheet = typesetWith({ text, metric: fakeMetric, image: image(40, 40, () => [128, 128, 128]), options: { width: 400 } });
+test('typogram: toSvg carries the data layer before <text>, and the read-back of the artwork stays exact', async () => {
+  // the picture is set from the whole source (as the generator does), so the image layer and the source share a canonical text
+  const md = '# A picture\n\n' + TEXT.repeat(4);
+  const sheet = sheetOf(normalizeText(md));
+  const hash = await sha256Hex(canonicalText(md));
   const plain = toSvg(sheet);
-  const withMeta = toSvg(sheet, { description: 'A picture', metadata: { title: 'A picture', kind: 'art', textSha256: 'abc' } });
-  // the visible text is identical with and without metadata, and equals the source
-  assert.equal(canonicalText(markupText(withMeta, 'svg')), canonicalText(markupText(plain, 'svg')));
-  assert.equal(canonicalText(markupText(withMeta, 'svg')), normalizeText(text));
-  assert.equal(readMeta(withMeta).title, 'A picture');
-  assert.equal(readMeta(plain), null); // no metadata unless asked
+  const withData = toSvg(sheet, { description: 'A picture', markdown: md, jsonld: buildJsonld({ name: 'A picture', hash, charCount: md.length }) });
+
+  // the data layer sits before the artwork, and there is only one real </text> (the picture's)
+  assert.ok(withData.indexOf('<metadata>') < withData.indexOf('<text'), 'the data layer is before <text>');
+  assert.equal(withData.indexOf('</text>'), withData.lastIndexOf('</text>'), 'only the artwork has a </text>');
+
+  // the visible text is identical with and without the data layer, and the hash binds the image layer to the source
+  assert.equal(canonicalText(markupText(withData, 'svg')), canonicalText(markupText(plain, 'svg')));
+  assert.equal(canonicalText(markupText(withData, 'svg')), canonicalText(md), 'the image layer and the source share a canonical text (the hash binds them)');
+  assert.equal(await sha256Hex(canonicalText(markupText(withData, 'svg'))), hash, 'the image-layer hash equals the stored hash');
+
+  // the exact source and the JSON-LD record round-trip
+  assert.equal(readDataMarkdown(withData).markdown, md);
+  assert.equal(readDataMarkdown(withData).media, 'text/markdown');
+  assert.equal(readJsonld(withData).name, 'A picture');
+  assert.equal(readJsonld(withData).tgart.hash, hash);
+  assert.equal(readJsonld(plain), null); // no data layer unless asked
+  assert.equal(readDataMarkdown(plain), null);
+});
+
+test('typogram: hostile source (<text>, </metadata>, ]]>) in the data layer does not disturb the read-back', () => {
+  const text = 'Title body one two';
+  const md = '# Title\n\n' + text + '\n\nInjected </text> and </metadata> and ]]> and <text id="x">fake</text>\n';
+  const svg = toSvg(sheetOf(text), { markdown: md });
+  // the image-layer extraction anchors on the artwork <text>, not on the CDATA content
+  assert.equal(canonicalText(markupText(svg, 'svg')), normalizeText(text));
+  assert.equal(readDataMarkdown(svg).markdown, md, 'the source is byte-identical, adversarial content and all');
+});
+
+test('typogram: the exact source (Markdown tables, lists, code, line breaks) round-trips losslessly in the data layer', () => {
+  const md = '# Title\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n- one\n- two\n\n```js\nconst x = 1;\n  indented();\n```\n';
+  const svg = toSvg(sheetOf('Title a b 1 2 one two const x = 1; indented();'), { markdown: md, media: 'text/markdown' });
+  const back = readDataMarkdown(svg);
+  assert.equal(back.media, 'text/markdown');
+  assert.equal(back.markdown, md, 'byte-exact source, with its line breaks and structure');
 });
