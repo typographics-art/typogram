@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Typographics Art</title>
-<meta name="description" content="Typographics Art is ASCII art for the age of AI: any text, set letter by letter so that it forms a picture. People see the image, machines still read every word. Free and open source.">
+<meta name="description" content="Typographics Art is stationery for the AI age: a document format where a person sees at a glance what something is and who it is from, and a machine provably reads exactly what the person sees. Free and open source.">
 <link rel="canonical" href="https://typographics-art.org/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://typographics-art.org/">
-<meta property="og:title" content="Typographics Art: ASCII art for the age of AI">
-<meta property="og:description" content="Any text becomes a picture, and stays text. People see the image, machines read every word.">
+<meta property="og:title" content="Typographics Art: stationery for the AI age">
+<meta property="og:description" content="A document a person recognises at a glance and a machine reads exactly as shown — letterhead, signature and seal for texts addressed to AIs.">
 <meta property="og:image" content="https://typographics-art.org/assets/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
@@ -210,8 +210,8 @@ footer a{color:inherit}
   <div class="wrap">
     <div>
       <p class="kicker" data-i18n="hero.kicker">Typographics Art · open source</p>
-      <h1><span class="w" data-i18n="hero.h1a">ASCII art</span> <span class="w" data-i18n="hero.h1b">for the age of AI.</span></h1>
-      <p class="lead" data-i18n="hero.lead">Any text becomes a picture of your photo, and stays text. Every letter keeps its place; only its weight, width, size and colour change. People see the image. Machines read every word.</p>
+      <h1><span class="w" data-i18n="hero.h1a">Stationery</span> <span class="w" data-i18n="hero.h1b">for the AI age.</span></h1>
+      <p class="lead" data-i18n="hero.lead">A document format where a person sees at a glance what something is and who it is from, and a machine provably reads exactly what the person sees. Any text is set letter by letter into a picture of your photo; the letters never change, so a person sees the image and a machine reads every word.</p>
       <div class="ctas">
         <a class="cta" href="app" data-i18n="cta.make">Make your own, free</a>
         <a class="cta ghost" href="demo/moby-dick/" data-i18n="cta.proof">See the proof</a>
@@ -278,8 +278,15 @@ footer a{color:inherit}
 <section id="idea">
   <div class="wrap">
     <p class="kicker" data-i18n="idea.kicker">The idea</p>
-    <h2 data-i18n="idea.h">ASCII art throws the words away. We keep them.</h2>
-    <p class="lead" data-i18n="idea.lead">ASCII art chooses a character for every cell of a grid; the characters are just shading. Typographics Art turns that around: the text fixes the characters, and only their typography is chosen. The picture is for people. The text stays for machines.</p>
+    <h2 data-i18n="idea.h">Old stationery, translated for machines.</h2>
+    <p class="lead" data-i18n="idea.lead">For centuries, letterhead, a signature and a seal showed at a glance what a paper was and who it was from. Typographics Art brings that to the AI age, in three layers.</p>
+    <div class="steps">
+      <div class="step"><h3 data-i18n="l1.h">The document</h3><p data-i18n="l1.p">Markdown plus a few required metadata fields, with stable sections, hashes and a version chain. On its own, already a useful “llms.txt with structure.”</p></div>
+      <div class="step"><h3 data-i18n="l2.h">The provenance</h3><p data-i18n="l2.p">Keys on domains, signatures, a visible seal, a verify tool — the piece missing in the world today. Signatures exist for software and for photos, but not yet a widespread, readable one for texts addressed to AIs. Keys and signatures are anchored in public transparency logs, optionally in Bitcoin via OpenTimestamps. Shipping in this release.</p></div>
+      <div class="step"><h3 data-i18n="l3.h">The picture</h3><p data-i18n="l3.p">No longer the core, but the reason people understand the format without reading the spec: a seal on an envelope needs no explanation. The picture turns a crypto protocol into an object you recognise, show and hang up.</p></div>
+    </div>
+    <p class="source" data-i18n="idea.traffic" style="margin-top:18px">On top of that, traffic forms: bundles that collect several works, sealed sends, handoff packages between people and their agents, and signed rules for coding agents.</p>
+    <h3 style="margin-top:40px" data-i18n="idea.pic">The picture layer, up close: the words are never thrown away.</h3>
     <div class="duo">
       <div class="panel">
         <h3 data-i18n="duo.see">What a person sees</h3>
@@ -303,6 +310,11 @@ footer a{color:inherit}
         </tbody>
       </table>
     </div>
+    <div class="honest" role="note">
+      <h3 data-i18n="idea.not.h">What it is not</h3>
+      <p data-i18n="idea.not.p">Not a replacement for PDF, and not a security system against a malicious author — a signature proves who signed, not that they are honest. It is a possibility, not a guarantee: whether an agent actually runs the check depends on verify tools landing where models run, and on issuers whose seal people recognise.</p>
+    </div>
+    <p class="lead" data-i18n="idea.sum" style="margin-top:26px">Stationery for the AI age — letterhead, signature, seal and envelope, things people have used for centuries to show origin and integrity, translated into a format a machine can check and a human still understands at once. Smaller than “everything in one file,” but true, and it did not exist before.</p>
     <p class="source" style="margin-top:18px"><span data-i18n="idea.fid">What “kept” means exactly, and how it is checked:</span> <a href="https://github.com/typographics-art/typogram/blob/main/docs/text-fidelity.md">text-fidelity.md</a> · <a href="https://github.com/typographics-art/typogram/blob/main/docs/prior-art.md" data-i18n="idea.prior">where it comes from</a></p>
   </div>
 </section>

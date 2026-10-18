@@ -10,7 +10,7 @@ const $ = (s) => document.querySelector(s);
 const I18N = {
   en: {},
   de: {
-    'tagline': 'ASCII-Art für das Zeitalter der KI. Dein Text wird zum Bild und bleibt Text: Menschen sehen das Foto, Maschinen lesen jedes Wort.',
+    'tagline': 'Briefpapier für das KI-Zeitalter. Dein Text wird zu einem Bild, das ein Mensch auf einen Blick erkennt und eine Maschine genau so liest, wie es dasteht.',
     'mode.simple': 'Einfach', 'mode.adv': 'Erweitert',
     'legend.presets': 'Stil', 'preset.ai': 'Hohe Lesbarkeit', 'preset.ai.sub': 'ganze Wörter, hell', 'preset.portrait': 'Porträt', 'preset.portrait.sub': 'fein, 4:5', 'preset.poster': 'Plakat', 'preset.poster.sub': 'dunkel, kräftig',
     'legend.text': 'Text', 'label.text': 'Dein Text', 'btn.loadText': 'Textdatei laden (.txt, .md)', 'label.sample': 'Beispieltext', 'sample.choose': 'Beispieltext wählen …', 'label.fill': 'Mit Lorem ipsum auffüllen auf', 'btn.fill': 'Auffüllen', 'btn.unfill': 'Füllung entfernen',
@@ -27,7 +27,7 @@ const I18N = {
     'btn.copyHtml': 'HTML kopieren', 'btn.copySvg': 'SVG kopieren', 'btn.saveSvg': 'SVG speichern', 'btn.saveHtml': 'HTML speichern', 'btn.copyText': 'Klartext kopieren', 'btn.png': 'PNG erzeugen',
     'about.h': 'Was ist Typographics Art?',
     'about.p1': 'Typographics Art (TG Art) formt aus einem gegebenen Text ein Bild. Der Text wird Zeichen für Zeichen in seiner ursprünglichen Reihenfolge gesetzt. Von Buchstabe zu Buchstabe ändern sich nur typografische Eigenschaften: Grösse, Strichstärke, Farbe.',
-    'about.vs': 'ASCII-Art wählt für jede Zelle eines Rasters ein Zeichen, der Text geht verloren. Typographics Art dreht das um: Die Zeichen gibt der Text vor, gewählt wird nur ihre Typografie. Damit ist es ASCII-Art für das Zeitalter der KI: Menschen sehen das Bild, Maschinen lesen den Text, genau wie geschrieben.',
+    'about.vs': 'ASCII-Art wählt für jede Zelle eines Rasters ein Zeichen, der Text geht verloren. Typographics Art dreht das um: Die Zeichen gibt der Text vor, gewählt wird nur ihre Typografie. Damit ist es Briefpapier für das KI-Zeitalter: ein Dokument, das ein Mensch auf einen Blick erkennt und eine Maschine genau so liest, wie es dasteht, jedes Wort.',
     'about.rulesH': 'Drei Regeln',
     'about.r1': 'Der Text wird nie verändert, umgestellt oder gekürzt. Fülltext ist nur erlaubt, wenn er ausgewiesen ist.',
     'about.r2': 'Text bleibt Text: Das Ergebnis lässt sich kopieren, durchsuchen und maschinell lesen und ergibt den Ausgangstext wieder, mit einem Leerzeichen an Stelle jedes Zeilenumbruchs und jeder Leerzeichenfolge.',

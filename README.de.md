@@ -8,8 +8,8 @@
 <p align="center"><a href="gallery.html"><img src="assets/intro.jpg" width="100%" alt="Vier Werke: Nikola Tesla, Die grosse Welle, Der Wanderer über dem Nebelmeer und Frederick Douglass, jedes aus einem ganzen Text gesetzt; das Originalbild ist der kleine Einschub"></a></p>
 
 <p align="center">
-  <b>ASCII-Art für das Zeitalter der KI.</b><br>
-  Das Bild ist für Menschen. Der Text bleibt für Maschinen.
+  <b>Briefpapier für das KI-Zeitalter.</b><br>
+  Ein Dokument, das ein Mensch auf einen Blick erkennt und eine Maschine genau so liest, wie es dasteht.
 </p>
 
 <p align="center">
@@ -30,6 +30,20 @@
 Die README und die wichtigsten Dokumente in einer Datei: **[about/typographics-art.md](about/typographics-art.md)** (etwa 88 000 Zeichen, auch unter [typographics-art.org/llms-full.txt](https://typographics-art.org/llms-full.txt); Englisch). Oder gib ihr denselben Text als One-Pager, gesetzt mit der Technik selbst: **[about/typographics-art.pdf](about/typographics-art.pdf)**. Dann frag: *Was ist Typographics Art, und kannst du diese Seite noch lesen?*
 
 ## Die Idee
+
+Seit Jahrhunderten zeigen Briefkopf, Unterschrift und Siegel auf einen Blick, was ein Papier ist und von wem. **Typographics Art** bringt das ins KI-Zeitalter, in drei Schichten:
+
+1. **Das Dokument** — Markdown plus ein paar Pflicht-Metadaten, mit festen Abschnitten, Hashes und einer Versionskette. Für sich schon ein nützliches „llms.txt mit Struktur“.
+2. **Die Herkunft** — Schlüssel auf Domains, Signaturen, ein sichtbares Siegel, ein Prüfwerkzeug. Das ist das Stück, das heute in der Welt fehlt: Für Software und Fotos gibt es Signaturen, für Texte an KIs noch keine verbreitete, lesbare. Schlüssel und Signaturen werden in öffentlichen Transparenz-Logs verankert, optional über OpenTimestamps in Bitcoin. (Kommt mit diesem Release.)
+3. **Das Bild** — nicht mehr der Kern, aber der Grund, warum man das Format ohne Spezifikation versteht: Ein Siegel auf einem Umschlag braucht keine Erklärung. Es macht aus einem Krypto-Protokoll einen Gegenstand, den man erkennt, zeigt und aufhängt.
+
+Darauf baut der Verkehr auf: Bündel, die mehrere Werke sammeln, versiegelte Sendungen, Übergabepakete zwischen Menschen und ihren Agenten und signierte Regeln für Coding-Agenten.
+
+**Was es nicht ist:** kein Ersatz für PDF und kein Sicherheitssystem gegen einen bösartigen Autor — eine Signatur beweist, wer unterschrieben hat, nicht dass er ehrlich ist. Es ist eine Möglichkeit, keine Garantie: Ob ein Agent die Prüfung wirklich ausführt, hängt davon ab, dass Prüfwerkzeuge dort landen, wo Modelle laufen, und dass es Aussteller gibt, deren Siegel die Leute wiedererkennen.
+
+Kurz gesagt: Briefpapier für das KI-Zeitalter — Briefkopf, Unterschrift, Siegel und Umschlag, die der Mensch seit Jahrhunderten nutzt, um Herkunft und Unversehrtheit zu zeigen, übersetzt in ein Format, das eine Maschine prüfen und ein Mensch sofort verstehen kann. Kleiner als „alles in einer Datei“, aber wahr — und es gab es vorher nicht.
+
+### Wie das Bild entsteht
 
 **ASCII-Art** baut ein Bild aus Zeichen, aber die Zeichen bedeuten nichts. Ein Mensch sieht ein Gesicht, eine Maschine sieht `@@%#*+=-:.`. Der Text ist weg.
 
