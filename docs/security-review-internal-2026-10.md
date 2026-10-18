@@ -2,7 +2,7 @@
 
 > **What this is, in three lines.** An adversarial review of this repository's cryptographic code and of the parsers that read untrusted files, done by **an AI agent** (a large language model with a shell and this repository, starting with a fresh context). It found and fixed real defects, and it measured many properties. It is **not an independent audit**, it was not done by a cryptographer, and it must not be quoted as one. Section 12 says what it can and cannot show and what a real external review should cover.
 
-Reviewed state: `main` at `6f594be` (Typographics Art 0.1.0). Every fix is a small commit on the branch `security-review`; the commit ids are in section 3 and, in order, in section 13. Language of the code and of this report: English (API terms stay English).
+Reviewed state: `main` at `6f594be` (Typographics Art 0.1.0); `main` at `e028943` (the decisions of 2026-10-18: no blockchain in anything public, the passkey device check) was merged into the review branch afterwards, the suite and the scans were run again on the merged state, and the numbers below are from that state. Every fix is a small commit on the branch `security-review`; the commit ids are in section 3 and, in order, in section 13. Language of the code and of this report: English (API terms stay English).
 
 ## Contents
 
@@ -24,13 +24,13 @@ Reviewed state: `main` at `6f594be` (Typographics Art 0.1.0). Every fix is a sma
 
 - **No break of confidentiality or authenticity was found.** The cipher is used as documented; the glue around it (key derivation, domain separation, additional authenticated data, work binding, record layouts, key encodings) agrees byte for byte with independent re-implementations written from the specification text, and every building block reproduces the published test vectors.
 - **Real defects were found, none of them in the cryptography itself.** They are in the parsers and in the places where the code meets untrusted or unusual input: quadratic regular expressions (a data file could stall a reader for minutes), an encoder that wrote data blocks the decoder refuses (a sealed record of such a block would never open: silent loss of the data), raw exceptions where a named error belongs, a command-line default that overwrote an earlier sealed record, and a few robustness gaps. 14 items were fixed (4 Medium, 7 Low, 3 Info; none High), and 8 observations were not fixed, each with its reason.
-- **Tests:** the suite went from 293 to 365 tests, all green; the browser check from about 110 to 158 checks (48 of them added by this review: 47 hostile-data checks and one on where a key can be found). The regression tests of F1 to F5 and F9 to F13 were run against the code before the fix and failed there; the tests of F8 and F14 and the controls (hostile keys, decompression bombs, small-order points, the hygiene tripwire) pin behaviour that did not change.
+- **Tests:** the suite went from 293 to 366 tests (one of them from `main`), all green; the browser check from about 110 to 158 checks (48 of them added by this review: 47 hostile-data checks and one on where a key can be found). The regression tests of F1 to F5 and F9 to F13 were run against the code before the fix and failed there; the tests of F8 and F14 and the controls (hostile keys, decompression bombs, small-order points, the hygiene tripwire) pin behaviour that did not change.
 - **Fuzzing:** 450 000 deterministic cases on the final code (seeds 301 to 303) plus 17712 hostile run shapes: 0 findings; the slowest ordinary case took 637 ms  the slowest hostile shape 51 ms (earlier runs on earlier code found the defects fixed in section 3).
-- **Semgrep:** 512 hits of the local rules, all triaged in section 8 (no defect remains; the rules that fired most are informational by design); 0 Semgrep errors.
+- **Semgrep:** 516 hits of the local rules, all triaged in section 8 (no defect remains; the rules that fired most are informational by design); 0 Semgrep errors.
 
 ## 2. Scope and method
 
-**Scope** (as asked): `src/crypt.js`, `crypt-codec.js`, `crypt-book.js`, `crypt-chain.js`, `keys.js`, `keys-kdf.js`, `keys-seal.js`, `keys-work.js`, `keys-split.js`, `secret.js` (about 1 700 lines), `src/structured*.js` (the parsers of untrusted files), `src/data-ui.js`, `data-panel.js`, `data-panel-ui.js`, `data-reader-ui.js` (what the pages do with decrypted data and keys), `cli/tg-crypt.mjs`, `cli/tg-keys-cmds.mjs`, `cli/tg-data.mjs`, `api/*.mjs` (payment logic had been reviewed before: spot-check only), the vendored `assets/vendor/noble-hashes` (Argon2id; tested, not read line by line), the inline scripts of the HTML pages (because they show decrypted data), `_headers` (the Content-Security-Policy). Specifications read: `docs/encrypted-data.md`, `docs/key-management.md`, `docs/cipher-review.md`, `docs/passwords-and-keys.md`, `docs/key-format.md`.
+**Scope** (as asked): `src/crypt.js`, `crypt-codec.js`, `crypt-book.js`, `keys.js`, `keys-kdf.js`, `keys-seal.js`, `keys-work.js`, `keys-split.js`, `secret.js` (about 1 700 lines; `src/crypt-chain.js` is an **unlisted experiment**, not a feature of the project: it talks to no real system, the CLI hides its commands unless `TG_CRYPT_EXPERIMENTAL=1`, nothing public refers to it, and this review read it only for its byte-level helpers and its use of `openSealed`), `src/structured*.js` (the parsers of untrusted files), `src/data-ui.js`, `data-panel.js`, `data-panel-ui.js`, `data-reader-ui.js` (what the pages do with decrypted data and keys), `cli/tg-crypt.mjs`, `cli/tg-keys-cmds.mjs`, `cli/tg-data.mjs`, `api/*.mjs` (payment logic had been reviewed before: spot-check only), the vendored `assets/vendor/noble-hashes` (Argon2id; tested, not read line by line), the inline scripts of the HTML pages (because they show decrypted data), `_headers` (the Content-Security-Policy). Specifications read: `docs/encrypted-data.md`, `docs/key-management.md`, `docs/cipher-review.md`, `docs/passwords-and-keys.md`, `docs/key-format.md`.
 
 **Method.** (1) Read the code against the specifications and the checklist of section 7. (2) Known-answer tests of every building block against published vectors (section 5). (3) Differential tests: independent re-implementations written from the specification text with `node:crypto` only, compared in both directions (section 6). (4) Adversarial probes: every size bound, decompression bombs, long runs of one token behind every lead-in of every format, hostile keys. (5) A deterministic fuzzer (section 9). (6) Semgrep with local rules (section 8). (7) Headless Chromium and Firefox for the things only a browser shows (section 10). (8) Fix, with a regression test that fails before and passes after.
 
@@ -63,7 +63,7 @@ Severity scale: **High** = confidentiality or authenticity can be broken; **Medi
 
 **F10 and F11, blocks that cannot be read back.** `parseJson` refuses nesting deeper than 64, more than 4 000 000 values and a string longer than 8 000 000 characters; `decodeAll` refuses a block longer than 64 000 000 characters. The encoder knew none of these limits. Measured before the fix: XML nested 63 or more deep, JSON nested 63 and 64 deep, Markdown lists nested 21 to 32 deep (140 of the depths 1 to 120 tried over ten shapes gave a block that did not decode), a CSV with 5 million cells and a CSV with one 9-million-character cell were all encoded without error and the result did not decode. For a *written* work the panel's read-back check catches that; for a **sealed** record there is no check, so the key and the record were handed over, and opening them later reported `not-tgd`: the data was gone if the original file was gone. Fix: `seal()` in `structured.js` now counts depth, values and string length on the finished model exactly as `parseJson` counts them and refuses with the code `limit` and a message that says why; `sealData` additionally decodes the block it is given before it seals it. Checked: for xml, json, markdown and yaml, at every depth from 1 to 120 either the encoder refuses or the block decodes (no gap).
 
-**F13, silent overwrite.** `tg-crypt seal -` run twice with the default output (`message.tgs`, or `<data>.tgs`) replaced the first record, while the key printed for it stays in the user's notes. The existing test even did exactly that, by accident. Now the record file is created exclusively (`O_EXCL`; a symlink is refused too), `--force` replaces it, and no key is printed for a record that was not written. `fetch -o` behaves the same.
+**F13, silent overwrite.** `tg-crypt seal -` run twice with the default output (`message.tgs`, or `<data>.tgs`) replaced the first record, while the key printed for it stays in the user's notes. The existing test even did exactly that, by accident. Now the record file is created exclusively (`O_EXCL`; a symlink is refused too), `--force` replaces it, and no key is printed for a record that was not written. (The hidden experimental `fetch -o` behaves the same.)
 
 **F4 and the data panel.** `columnTypes` built a grid of a million rows for a sparse sheet and then used `Math.max(...rows)`; now only the first rows are looked at and the maximum is a loop. The same spread pattern in the summary of a workbook with many sheets is replaced too.
 
@@ -148,25 +148,26 @@ Rules: `scripts/semgrep-js-security.yml` (27 local rules, validated). Driver: `s
 | `tg-domparser` | 2 |
 | `tg-dynamic-import` | 4 |
 | `tg-fs-dynamic-path` | 106 |
-| `tg-html-sink` | 19 |
+| `tg-html-sink` | 21 |
 | `tg-http-url` | 12 |
-| `tg-json-merge` | 15 |
+| `tg-json-merge` | 16 |
 | `tg-new-regexp-dynamic` | 11 |
 | `tg-open-redirect-or-ssrf` | 16 |
 | `tg-pbkdf2-low-iterations` | 1 |
 | `tg-proto-pollution-assign` | 106 |
-| `tg-storage-write` | 7 |
+| `tg-storage-write` | 8 |
 | `tg-throw-secret-in-message` | 40 |
 | `tg-unvalidated-json-parse-keys` | 23 |
 | `tg-url-sink` | 15 |
 
-Total: 512 hits, 0 Semgrep errors, 11 inline script blocks from 11 pages scanned.
+Total: 516 hits, 0 Semgrep errors, 12 inline script blocks from 12 pages scanned.
 
 Triage of every rule that fired (all hits read, none is a defect that remains):
 
 - `tg-child-process-dynamic` (the rule matches `.exec(`): all hits are `RegExp.prototype.exec`, or `db.exec` of constant SQL in `api/store.mjs`; the real child-process calls (`cli/core.mjs`, `scripts/`) use argument arrays and no shell. False positives.
 - `tg-console-log`: `api/server.mjs` logs job ids and counts; the CLI prints keys to standard output *by design* (documented), everything else goes to standard error without secrets. Accepted.
 - `tg-html-sink`: `app.html` (`toHtml` escapes with `escapeXml`; chips carry numbers and translations; the one error message is now escaped: **F9**), `work.html` (every value passes `esc()`; checked line by line), `examples`/`gallery`/`index`/`demo` (same-origin JSON written by the site), `cli/render.html` (constants, numbers, `toHtml`). No hit takes data from a user's file unescaped.
+- `tg-html-sink` in `passkey-check.html` (from `main`): the page's own yes/no results, hex fingerprints and its own user-agent string with `<`, `&`, `>` removed; nothing from another party. Accepted.
 - `tg-domparser`: `work.html` sanitises an SVG (removes `script`, `foreignObject`, `iframe`, animation elements, `on*` attributes, and any `href`/`src` that is not `#`, `http(s)` or an image data URL, after stripping control characters); `index.html` parses a same-origin SVG.
 - `tg-url-sink`: data URLs made by the page itself, `blob:` URLs, `sameOrigin()`/`httpUrl()`-checked parameters; one `meta.url` from the site's own `examples/index.json` is not scheme-checked (site-controlled data, Info).
 - `tg-fs-dynamic-path`: paths from command-line arguments by design; `api/server.mjs` builds paths from server-made UUIDs matched by `[0-9a-f-]{36}`. No traversal.
@@ -175,7 +176,7 @@ Triage of every rule that fired (all hits read, none is a defect that remains):
 - `tg-proto-pollution-assign`: index assignments on arrays and typed arrays, `Object.assign(new Error(), { code })`; the only dictionary keyed by data is `kinds[k]` with a fixed set of kind names; the models are `Map`s (measured, F6 control).
 - `tg-storage-write`: the language choice, and the generator's settings and public work text (`tg-art.v1`); confirmed in the browser that no key, record or decrypted datum is stored.
 - `tg-throw-secret-in-message`: constants, counts and version bytes only.
-- `tg-http-url`, `tg-json-merge`, `tg-unvalidated-json-parse-keys`, `tg-dynamic-import`, `tg-open-redirect-or-ssrf`: XML namespace URIs, option spreads, the user's own chain file, constant import paths, operator-configured or same-origin URLs. Accepted.
+- `tg-http-url`, `tg-json-merge`, `tg-unvalidated-json-parse-keys`, `tg-dynamic-import`, `tg-open-redirect-or-ssrf`: XML namespace URIs, option spreads, the user's own JSON file of the hidden experiment, constant import paths, operator-configured or same-origin URLs. Accepted.
 - No hit for: `eval`/`new Function`, `Math.random`, MD5/SHA-1, ECB/CBC/RC4/DES, deprecated `createCipher`, hard-coded secrets, `postMessage('*')`, fixed GCM IVs.
 
 ## 9. Fuzzing
@@ -199,7 +200,7 @@ Acceptable outcomes: a correct result or a `CryptError`/`TgdError` with a string
 | seed 303 | 150 000 | 79 s | 544 ms | 0 |
 | hostile shapes | 17712 | – | 51 ms | 0 |
 
-Cases per target over the three seeds: keys 180,072, models 31,503, records 161,975, structured 36,054, tgd 22,444, xlsx 17,952. Earlier runs on earlier states of the code (seeds 11, 12, 21 to 23, 31, 41, 42, 51, 101 to 103, 102 again after the fix) are where the findings below came from; the numbers above are the runs on the final code.
+Cases per target over the three seeds: keys 180,072, models 31,503, records 161,975, structured 36,054, tgd 22,444, xlsx 17,952. Earlier runs on earlier states of the code (seeds 11, 12, 21 to 23, 31, 41, 42, 51, 101 to 103, 102 again after the fix) are where the findings below came from; the numbers above are the runs on the final code. After `main` (`e028943`) was merged, seed 301 (150 000 cases, slowest 559 ms) and the hostile sweep (17 712 cases, slowest 65 ms) were run once more on the merged code: 0 findings.
 
 What the fuzzer found (each is now a test): the two raw `TypeError`s on damaged workbooks (F2); with the hostile sweep, the XML declaration and the Markdown paragraph expressions (F1); with deep-nesting tokens, nothing new in the parsers but `outline` throwing on a contact/calendar model of the wrong shape (F12); the slow base58 conversion (F14). The fixed-seed subset in the suite (`test/fuzz-crypto.test.js`) runs 6 000 cases and 150 hostile shapes in about 7 seconds.
 
@@ -215,6 +216,7 @@ What the fuzzer found (each is now a test): the two raw `TypeError`s on damaged 
 - **Formal verification** of anything; **side channels** beyond the constant-time comparison (no timing measurement on hardware, no cache or power analysis, no fault injection); the browsers' and Node's implementations of AES-GCM, HKDF, PBKDF2 and X25519 (used through Web Crypto and tested only with published vectors; the 1 000 000-iteration X25519 vector was not run).
 - **The vendored Argon2id code** (`@noble/hashes` 2.4.0, 1 150 lines with its BLAKE2): reproduces RFC 9106 and agrees with Node's native Argon2id, but it was not read line by line, and its own audit statements were not verified.
 - **The layout engine** (`typeset.js`, fonts, PDF/MuPDF handling) and `cli/core.mjs` beyond what the pages show; one suspect, `lines.push(...r.lines)` in `typeset.js:149` (a call-stack limit for extreme texts), was seen and not measured.
+- **`passkey-check.html`** (new on `main` after the review started: a page that tests a passkey's PRF output on a real device) beyond a Semgrep glance (section 8); `docs/drafts/` (unlisted experiments) as designs.
 - **The payment API** beyond a spot-check (`api/server.mjs`, `dgb.mjs`, `limit.mjs`, `store.mjs`, `pipeline.mjs` read once: no new issue; the documented claim-by-hash race stands); deployment (Cloudflare, GitHub workflows), the supply chain of any dependency, `npm audit`.
 - **Browsers**: Safari/WebKit, mobile browsers, other versions; extensions; a compromised device.
 - **Human factors**: whether people keep keys safe, phishing of the pages, social engineering.
@@ -232,7 +234,7 @@ What the review is good for: it removed a number of real defects before anything
 2. `src/crypt*.js`, `src/keys*.js`, `src/secret.js` (about 1 700 lines), line by line, with the test vectors of this report as a starting point: nonce and key lifecycle, error handling, canonicalisation, bounds. (about 3 days)
 3. The vendored Argon2id code and the decision to vendor it; the Web Crypto usage across browsers (X25519 availability, error behaviour). (about 1 day)
 4. The parsers of untrusted files and the pages that show decrypted data (`structured*.js`, `data-*.js`, `work.html`, `app.html`), the CSP and the hosting choice (N1): XSS, denial of service, memory. (about 3 days)
-5. Operational questions the code cannot answer: how keys are generated, stored and recovered by real users, what is published on a chain, the legal side of anchoring personal data. (about 1 day, may be a workshop)
+5. Operational questions the code cannot answer: how keys are generated, stored and recovered by real users, what is shared with whom and for how long, the legal side of sharing sealed personal data. (about 1 day, may be a workshop)
 
 ## 13. How to repeat it
 
@@ -246,8 +248,9 @@ node scripts/semgrep-scan.mjs --list               # local Semgrep rules + the i
 node scripts/check-web-data.mjs --only hostile     # hostile data in headless Chrome/Chromium
 ```
 
-Commits, in order (branch `security-review`):
+Commits, in order (branch `security-review`); the last one, the final revision of this report, follows these:
 
+- `4757fd5` Passkey device check: a page that tests a passkey or security key as a key factor on a real device
 - `5c7f3eb` test: known-answer tests for every cryptographic building block (RFC, NIST, BIP-39, SLIP-0021 vectors)
 - `c08bac9` test: differential tests against independent node:crypto re-implementations of tgs1, tgx1/2, tgr1, vault, shares, mixing, book ciphers
 - `ea0807b` fix: quadratic regular expressions in the YAML, Markdown, XML and text-structure readers (a data file could stall the reader for minutes)
@@ -260,7 +263,10 @@ Commits, in order (branch `security-review`):
 - `852a0fb` fix: sealData refuses a block that cannot be read back (a sealed record that never opens); the fuzzer writes hostile inner shapes by hand
 - `009da9d` test: random round trips over option sets, with the independent reader as a second opinion
 - `8cb61e0` fix: a data block with an unexpected model shape no longer takes the Machine view of a work down (outline reads shapes defensively, one bad card does not drop the others)
+- `e028943` No blockchain in anything public; decisions of 2026-10-18 applied
 - `95f5eac` perf: base58 conversion in limbs of two bytes / five characters (a key that carries a 32 KiB record took 3.3 s to parse, now about 1.5 s); same output, checked on 320 000 cases against the old code
 - `78641c5` scripts: fix the weak-cipher Semgrep rule (the mode filter did not apply) and add the deprecated createCipher rule
 - `adde6f9` scripts: Semgrep fs-path rule applies its literal filter
 - `1dd6c5a` fix: tg-crypt seal and fetch no longer replace an existing record file (the key printed for the old record would open nothing); --force replaces
+- `9fbb93a` docs: internal security review report (draft before the merge of main), links from README, passwords-and-keys and the changelog
+- `6f0f2f7` Merge branch 'main' into security-review
