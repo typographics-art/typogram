@@ -9,7 +9,7 @@
 // A Typogram is a picture made of its own readable text (the IMAGE layer) that also carries, in a DATA layer, the exact
 // source and a JSON-LD record whose tgart.hash binds the two. `tg verify` recomputes the hash from the image layer and
 // requires it to equal both the stored hash and the hash of the embedded source. Works on .svg, .html and .pdf.
-import { readFileSync, writeFileSync, mkdirSync, chmodSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, openSync, writeSync, closeSync, constants as fsConstants, mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { extname, join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -184,6 +184,20 @@ const readKeyfile = (p) => { try { return JSON.parse(readFileSync(p, 'utf8')); }
 const writeJson = (p, obj) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(obj, null, 2) + '\n'); };
 
 /**
+ * Write a private key safely: create a NEW file exclusively (O_EXCL, fail if it exists), mode 600, and never follow a symlink
+ * (O_NOFOLLOW). This avoids a TOCTOU / symlink attack — the secret cannot land on an attacker-planted path or an existing
+ * file whose permissions are looser than 600.
+ */
+function writePrivateKey(path, pem) {
+  mkdirSync(dirname(path), { recursive: true });
+  const flags = fsConstants.O_CREAT | fsConstants.O_EXCL | fsConstants.O_WRONLY | (fsConstants.O_NOFOLLOW || 0);
+  let fd;
+  try { fd = openSync(path, flags, 0o600); }
+  catch (e) { die(e.code === 'EEXIST' ? `refusing to overwrite ${path} — choose a fresh path for the private key` : `could not create ${path}: ${e.message}`); }
+  try { writeSync(fd, pem.endsWith('\n') ? pem : pem + '\n'); } finally { closeSync(fd); }
+}
+
+/**
  * `tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]` — a new Ed25519 issuer key, written as a
  * self-signed key statement into the issuer's key file (the repo mirror keys/<domain>.json and the served
  * .well-known/tgart-keys.json). The private key goes to --private-out (mode 600) or, if omitted, to stdout, clearly marked.
@@ -207,7 +221,7 @@ function cmdKeygen() {
   writeJson(keysPath, keyfile);
   writeJson(wellKnownPath, keyfile);
 
-  if (privateOut) { writeFileSync(privateOut, key.privatePem, { mode: 0o600 }); chmodSync(privateOut, 0o600); }
+  if (privateOut) writePrivateKey(privateOut, key.privatePem);
   console.log(`tg: new Ed25519 issuer key for ${issuer}`);
   console.log(`  kid:        ${kid}`);
   console.log(`  public key: ${key.publicKey}`);

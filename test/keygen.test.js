@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, statSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, statSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -45,4 +45,15 @@ test('tg keygen: requires --issuer', () => {
   const r = run('.', 'keygen');
   assert.notEqual(r.status, 0);
   assert.match(`${r.stderr}${r.stdout}`, /issuer/);
+});
+
+test('tg keygen: refuses to overwrite an existing private-key file (no TOCTOU/symlink clobber)', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'tg-keygen-'));
+  try {
+    const priv = join(dir, 'priv.pem');
+    writeFileSync(priv, 'EXISTING');
+    const r = run(dir, 'keygen', '--issuer', 'x.org', '--kid', 'k1', '--out', dir, '--private-out', priv);
+    assert.notEqual(r.status, 0, 'must fail rather than overwrite an existing file');
+    assert.equal(readFileSync(priv, 'utf8'), 'EXISTING', 'the existing file is left untouched');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });
