@@ -13,8 +13,9 @@ export {
 } from './layout.js';
 export { typesetWith, typesetSections, plainText, isFaithful } from './typeset.js';
 export {
-  toHtml, toStandaloneHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS, pdfStats, estimatePdfBytes,
+  toHtml, toStandaloneHtml, pictureHtml, toSvg, svgHead, svgLines, SVG_TAIL, forEachGlyph, escapeXml, GLYPH_CSS, pdfStats, estimatePdfBytes,
 } from './render.js';
+export { markdownToHtml } from './md-html.js';
 export { hideSecret, revealSecret, canonicalText } from './secret.js';
 export { markupText, pdfItemsText, readWorkFile } from './work-text.js';
 export { structuredText, sha256Hex } from './structure.js';

@@ -249,7 +249,7 @@ async function run() {
     st.innerHTML = toHtml(sheet);
     applyScale(); applyOverlay();
     plain = st.innerText;
-    $('#export').value = toStandaloneHtml(sheet, { description: describe() });
+    $('#export').value = toStandaloneHtml(sheet, { description: describe(), markdown: $('#text').value });
     $('#png').hidden = true;
 
     // A data block does not depend on whitespace (docs/structured-data.md 1.2): the layout may cut a long token with a space, so the check ignores spaces there.
@@ -409,7 +409,7 @@ async function copy(txt, what) {
   try { await navigator.clipboard.writeText(txt); m.textContent = t('copied', { what, n: fmt(txt.length) }); }
   catch { ta.focus(); ta.select(); m.textContent = t('selected', { what }); }
 }
-$('#copyHtml').addEventListener('click', () => sheet && copy(toStandaloneHtml(sheet, { description: describe() }), 'HTML'));
+$('#copyHtml').addEventListener('click', async () => { if (sheet) copy(toStandaloneHtml(sheet, await typogramData()), 'HTML'); });
 // The data layer of an exported Typogram (docs/typogram-file.md): a JSON-LD record whose tgart.hash binds the image layer
 // to the exact source. The exact typed source (its line breaks and any Markdown structure, which the picture normalises
 // away) is carried in the same data layer as `markdown`.
@@ -434,7 +434,7 @@ $('#makePng').addEventListener('click', () => {
 });
 
 $('#saveSvg').addEventListener('click', async () => { if (sheet) { saveBlob(await typogramSvg(), 'typographics-art.svg', 'image/svg+xml'); $('#copyMsg').textContent = t('saved', { what: 'SVG' }); } });
-$('#saveHtml').addEventListener('click', () => { if (sheet) { saveBlob(toStandaloneHtml(sheet, { description: describe() }), 'typographics-art.html', 'text/html'); $('#copyMsg').textContent = t('saved', { what: 'HTML' }); } });
+$('#saveHtml').addEventListener('click', async () => { if (sheet) { saveBlob(toStandaloneHtml(sheet, await typogramData()), 'typographics-art.html', 'text/html'); $('#copyMsg').textContent = t('saved', { what: 'HTML' }); } });
 $('#printPdf').addEventListener('click', () => sheet && window.print());
 // Hidden message: a book cipher over the work's public text (src/secret.js). The work itself is not changed.
 const say = (msg, kind) => { const m = $('#secretMsg'); m.textContent = msg; m.className = 'hint ' + kind; $('#secretSuggest').replaceChildren(); };

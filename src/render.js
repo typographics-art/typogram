@@ -6,6 +6,7 @@ import { justify } from './layout.js';
 import { fontStylesheetUrl, normalWidthIndex, variationsFor } from './fonts.js';
 import { rgbCss } from './color.js';
 import { buildDataLayer } from './typogram.js';
+import { markdownToHtml } from './md-html.js';
 
 /**
  * Every glyph must stay its own character: ligatures would merge "ffi" into one glyph (Chrome's PDF
@@ -85,14 +86,54 @@ export function estimatePdfBytes({ outlines, runs, glyphs }, { optimized = false
     : 555 * outlines + 7.2 * runs + 0.9 * glyphs + 14400;
 }
 
-/** Self-contained HTML snippet including the font link and the paper. `description` (what the picture shows) names the figure for assistive technology. */
-export function toStandaloneHtml(sheet, { description = '' } = {}) {
+// Base styles for the standalone HTML document: the two views side by side on wide screens, stacked on a phone. No executable
+// script, no external resource except the Google-Fonts stylesheet — the page stays CSP-safe.
+const HTML_DOC_CSS =
+  ':root{color-scheme:light dark}' +
+  'body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6;color:#1a1a1a;background:#fff}' +
+  '@media(prefers-color-scheme:dark){body{color:#e8e8e8;background:#121212}}' +
+  '.tg-wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;max-width:1400px;margin:0 auto;padding:16px}' +
+  '.tg-figure{margin:0;flex:1 1 320px;min-width:0}.tg-figure svg,.tg-figure .tg-pic{max-width:100%;height:auto}' +
+  '.tg-pic{display:block}' +
+  '.tg-article{flex:1 1 360px;min-width:0;max-width:72ch}' +
+  '.tg-article img{max-width:100%;height:auto}' +
+  '.tg-article pre{overflow:auto;padding:12px;background:rgba(127,127,127,.12);border-radius:6px}' +
+  '.tg-article code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}' +
+  '.tg-article table{border-collapse:collapse;width:100%}' +
+  '.tg-article th,.tg-article td{border:1px solid rgba(127,127,127,.4);padding:6px 10px}' +
+  '.tg-article blockquote{margin:0 0 1em;padding-left:1em;border-left:3px solid rgba(127,127,127,.4);color:inherit;opacity:.85}';
+
+/** The picture of a sheet as an inline HTML block (paper, font, one span per run), scaled to fit its column. */
+export function pictureHtml(sheet, { description = '' } = {}) {
   const { outW, outH, pad, font, paper } = sheet;
   const q = (s) => s.replace(/'/g, '&quot;');
-  return `<link rel="stylesheet" href="${fontStylesheetUrl()}">\n` +
-    `<div${description ? ` role="figure" aria-label="${escapeXml(description)}"` : ''} style="box-sizing:border-box;width:${outW}px;height:${outH}px;padding:${pad}px;overflow:hidden;` +
+  return `<div class="tg-pic"${description ? ` role="img" aria-label="${escapeXml(description)}"` : ''} style="box-sizing:border-box;width:${outW}px;height:${outH}px;padding:${pad}px;overflow:hidden;` +
     `background:${rgbCss(paper.paper)};color:${rgbCss(paper.ink)};font-family:${q(font.css)};font-variation-settings:${q(font.variations)};${q(GLYPH_CSS)}">` +
     toHtml(sheet) + '</div>';
+}
+
+/**
+ * A standalone HTML Typogram: a full document with two views — the picture as a <figure role="img">, and the real content as
+ * an <article> with true headings, paragraphs, tables, code and lists rendered from the data-layer Markdown (src/md-html.js).
+ * The JSON-LD record and the exact Markdown ride along as data scripts in <head>, so a machine reads the structured source
+ * directly. `description` names the picture for assistive technology. CSP-safe: no executable inline script.
+ */
+export function toStandaloneHtml(sheet, { description = '', markdown = '', jsonld = null, lang = '' } = {}) {
+  const title = (jsonld && jsonld.name) || description || 'Typographics Art';
+  const ld = jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>\n` : '';
+  // An HTML <script> ends at the first "</script"; split that sequence so the Markdown rides along intact (tg extract reverses it).
+  const mdScript = markdown ? `<script type="text/markdown">${String(markdown).replace(/<\/(script)/gi, '<\\/$1')}</script>\n` : '';
+  const article = markdown ? `<article class="tg-article">${markdownToHtml(markdown)}</article>` : '';
+  return `<!doctype html>\n<html lang="${escapeXml(lang || 'en')}">\n<head>\n<meta charset="utf-8">\n` +
+    `<meta name="viewport" content="width=device-width, initial-scale=1">\n` +
+    `<title>${escapeXml(title)}</title>\n` +
+    `<link rel="stylesheet" href="${fontStylesheetUrl()}">\n` +
+    ld + mdScript +
+    `<style>${HTML_DOC_CSS}</style>\n</head>\n<body>\n` +
+    `<div class="tg-wrap">\n` +
+    `<figure class="tg-figure"${description ? ` role="img" aria-label="${escapeXml(description)}"` : ''}>${pictureHtml(sheet)}</figure>\n` +
+    (article ? article + '\n' : '') +
+    `</div>\n</body>\n</html>\n`;
 }
 
 /** Calls fn(item, x, baselineY, lineIndex) for every glyph of lines [from, to), in reading order, in sheet coordinates. */

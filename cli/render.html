@@ -14,6 +14,7 @@ import {
   toStandaloneHtml, toSvg, toHtml, svgHead, svgLines, SVG_TAIL, forEachGlyph, isFaithful, lorem, normalizeText,
   typesetSections, typesetWith, graphemes, FONTS, STRETCH_KEYWORD, GLYPH_CSS, rgbCss, pdfStats, estimatePdfBytes,
   candidates, toneRange, levelFor, REF_RATIO, normalWidthIndex, weightSteps, stretchLevels, meanLuminance, paperFor,
+  canonicalText, sha256Hex, buildJsonld,
 } from '../src/index.js';
 import { RECIPES } from '../gallery/recipes.js';
 
@@ -49,9 +50,14 @@ window.tgRender = async (text, src, opts, format) => {
     baseSize: sheet.result.fs, width: sheet.outW, height: sheet.outH, characters: sheet.text.length, filler,
     overflow: sheet.result.overflow,
   };
-  if (format === 'svg') return { meta, data: toSvg(sheet) };
-  if (format === 'html') {
-    return { meta, data: `<!doctype html>\n<html><head><meta charset="utf-8"><title>Typographics Art</title></head><body style="margin:0">\n${toStandaloneHtml(sheet)}\n</body></html>\n` };
+  if (format === 'svg' || format === 'html') {
+    // The data layer carries the source and binds it to the picture by hash. The picture is set from `source` (including any
+    // filler), so the hash is over that; the carried source is the original text when nothing was appended, else `source`.
+    const md = filler ? source : text, media = 'text/plain; charset=utf-8';
+    const jsonld = buildJsonld({ dateCreated: new Date().toISOString(), sourceFormat: media, charCount: md.length, hash: await sha256Hex(canonicalText(source)) });
+    return format === 'svg'
+      ? { meta, data: toSvg(sheet, { markdown: md, media, jsonld }) }
+      : { meta, data: toStandaloneHtml(sheet, { markdown: md, jsonld }) };
   }
   if (format === 'png' || format === 'jpg') {
     return { meta, data: toPng(sheet, opts.scale || 1, format === 'jpg' ? 'image/jpeg' : 'image/png') };
