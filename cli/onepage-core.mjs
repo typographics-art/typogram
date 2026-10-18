@@ -2,15 +2,39 @@
 // are tiny and together form the document's title in large type: people see what the page is,
 // machines read the whole text from the PDF's text layer.
 import { spawnSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, renameSync, statSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { extname } from 'node:path';
+import { extname, join, dirname } from 'node:path';
+import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
 import { normalizeText, canonicalText, sha256Hex, buildJsonld } from '../src/index.js';
 import { visibleText, TOOL_TIMEOUT_MS } from './core.mjs';
 
 export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
+const HERE = dirname(fileURLToPath(import.meta.url));
 const sha = (s) => createHash('sha256').update(s).digest('hex');
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
+
+/**
+ * Gives a one-pager PDF its data layer: the exact source and the JSON-LD record as attached files, plus Title/Author/Subject/
+ * Keywords (cli/pdf-attach.js, MuPDF). The text layer is untouched. Best-effort: without MuPDF, or on any failure, the PDF is
+ * left exactly as it was (the read-back check still holds). Returns true if the data layer was written.
+ */
+function attachPdfDataLayer(pdfPath, { md, media, name, jsonld, hash }) {
+  if (!has('mutool')) return false;
+  const dir = mkdtempSync(join(tmpdir(), 'tg-pdf-attach-'));
+  try {
+    const srcName = media.includes('markdown') ? 'source.md' : 'source.txt';
+    const srcPath = join(dir, srcName), metaPath = join(dir, 'metadata.json'), out = pdfPath + '.attach';
+    writeFileSync(srcPath, md);
+    writeFileSync(metaPath, JSON.stringify(jsonld, null, 2));
+    const r = spawnSync('mutool', ['run', join(HERE, 'pdf-attach.js'), pdfPath, out, srcPath, srcName, media, metaPath,
+      name || '', jsonld.author || '', jsonld.description || '', `typogram; sha256=${hash}`], { encoding: 'utf8', timeout: TOOL_TIMEOUT_MS });
+    if (r.status === 0 && statSync(out).size > 0) { renameSync(out, pdfPath); return true; }
+    rmSync(out, { force: true });
+    return false;
+  } catch { return false; } finally { rmSync(dir, { recursive: true, force: true }); }
+}
 
 /** The text of the first ATX heading in a Markdown source, or null (the first non-blank line is not a heading). */
 function firstHeading(md) {
@@ -71,12 +95,11 @@ export async function makeOnePage(session, job) {
   if (!info.faithful) throw new Error('Layout does not preserve the text');
   const mmPerPx = pw / info.width;
 
-  let printed = null;
-  if (job.pdf) printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx, tagged: !!job.tagged });
-  if (job.svg) { // a Typogram SVG: opens as the picture, carries the data layer, a machine reads the exact source back
-    // The data layer carries the exact source (its line breaks, Markdown tables, lists and code) losslessly, plus a
-    // schema.org JSON-LD record whose tgart.hash binds the image layer to the source (docs/canonical-text.md). When no
-    // exact source is given, the visible text itself is the source (plain text).
+  // The data layer (shared by the SVG and the PDF): the exact source (its line breaks, Markdown tables, lists and code)
+  // losslessly, plus a schema.org JSON-LD record whose tgart.hash binds the image layer to the source (docs/canonical-text.md).
+  // When no exact source is given, the visible text itself is the source (plain text).
+  let dl = null;
+  if (job.svg || job.pdf) {
     const md = job.source ? new TextDecoder().decode(job.source.bytes) : source;
     const media = job.source ? job.source.media : 'text/plain; charset=utf-8';
     const heading = firstHeading(md);
@@ -86,9 +109,18 @@ export async function makeOnePage(session, job) {
       inLanguage: job.meta?.inLanguage, license: job.meta?.license, description: job.meta?.description, sourceUrl: job.meta?.sourceUrl,
       sourceFormat: media, charCount: md.length, hash: await sha256Hex(canonicalText(md)),
     });
+    dl = { md, media, heading, name, jsonld, hash: jsonld.tgart.hash };
+  }
+
+  let printed = null;
+  if (job.pdf) {
+    printed = await session.printPoster(job.pdf, { lines: info.lines, characters: info.characters, mmPerPx, tagged: !!job.tagged });
+    attachPdfDataLayer(job.pdf, dl); // embed source + metadata.json and set the document info (best-effort; text layer untouched)
+  }
+  if (job.svg) { // a Typogram SVG: opens as the picture, carries the data layer, a machine reads the exact source back
     // The <title> (the picture's accessible name) is claimed only when a heading backs it at the start of the source, so
     // `tg verify`'s title lint holds for what we generate.
-    const svg = await session.call('tgOnePageSvg', { description: heading ?? undefined, markdown: md, media, jsonld });
+    const svg = await session.call('tgOnePageSvg', { description: dl.heading ?? undefined, markdown: dl.md, media: dl.media, jsonld: dl.jsonld });
     writeFileSync(job.svg, svg);
   }
   if (job.preview) {
