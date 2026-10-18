@@ -455,6 +455,8 @@ async function main() {
       web.works.set('sealed-work.svg', Buffer.from(svg));
       const store = await app.js(`JSON.stringify([localStorage, sessionStorage]) + location.href`);
       check('seal: the key, the record and the data are in no URL and no browser storage', !store.includes(key) && !store.includes(record.slice(6, 40)) && !store.includes('Alpenblick') && !store.includes('tgx1'));
+      const keyElsewhere = await app.js(`((key) => [...document.querySelectorAll('*')].filter((e) => e.id !== 'dataKey' && e.tagName !== 'SCRIPT' && ([...e.attributes].some((a) => a.value.includes(key)) || (e.children.length === 0 && e.tagName !== 'TEXTAREA' && e.textContent.includes(key)))).map((e) => e.tagName + '#' + e.id))(${JSON.stringify(key)})`);
+      check('seal: the key is in no element of the page except its own read-only box (no attribute, no text)', keyElsewhere.length === 0, keyElsewhere.join(', '));
       await app.shot('app-sealed');
       const kb = await keyboardReach(app, '#data', { start: '#data > summary' });
       check('keyboard: every control of the Data panel can be reached with Tab', kb.missing.length === 0, `missing: ${kb.missing.join(', ')} of ${kb.focusables.length}`);

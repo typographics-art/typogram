@@ -100,7 +100,7 @@ test('PBKDF2-HMAC-SHA-512: the project KDF (keys-kdf.js stretch, iterations >= 1
   const got = await stretch('pässwörd', salt, { kdf: 'pbkdf2-sha512', iterations: 100_000 });
   assert.equal(toHex(got), pbkdf2Sync('pässwörd'.normalize('NFC'), salt, 100_000, 32, 'sha512').toString('hex'));
   // NFC: the same password typed decomposed gives the same key
-  assert.equal(toHex(await stretch('pässword', salt, { kdf: 'pbkdf2-sha512', iterations: 100_000 })), toHex(await stretch('pässword', salt, { kdf: 'pbkdf2-sha512', iterations: 100_000 })));
+  assert.equal(toHex(await stretch('pa\u0308ssword', salt, { kdf: 'pbkdf2-sha512', iterations: 100_000 })), toHex(await stretch('pässword', salt, { kdf: 'pbkdf2-sha512', iterations: 100_000 })));
 });
 
 // ---- X25519 (RFC 7748) --------------------------------------------------------------------------------------------

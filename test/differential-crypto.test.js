@@ -118,7 +118,7 @@ test('tgs1: records sealed by an independent writer (hkdfSync + createCipheriv, 
   }
 });
 test('tgs1 with a password: PBKDF2-HMAC-SHA-256 by hand (salt and iterations from the record head, NFC password) opens; independent writer opens with the project', async () => {
-  const pw = 'pässwörd ß'; // decomposed a-umlaut: NFC is what both sides must use
+  const pw = 'pa\u0308sswörd ß'; // decomposed a-umlaut: NFC is what both sides must use
   const s = await sealItem(WORK, { kind: 'text', payload: Buffer.from('by password') }, { password: pw, iterations: 100_000, random: seededRandom('pw1') });
   const r = refOpenTgs1(s.record, ({ salt, iters }) => { assert.equal(iters, 100_000); return pbkdf2Sync(pw.normalize('NFC'), salt, iters, 32, 'sha256'); }, WORK_DIGEST);
   assert.equal(r.body.toString(), 'by password'); assert.ok(r.flags & 4);
@@ -159,7 +159,7 @@ test('tgs1 work binding: a bound record fails on any other work text, and on the
   for (const other of [WORK + '.', WORK.replace('quick', 'quack'), WORK.toUpperCase(), 'another work']) await assert.rejects(openSealed(other, { key: s.key, record: s.record }), { code: 'wrong-work' });
   // whitespace and invisible characters are not part of the canonical text, so these ARE the same work
   assert.equal((await openSealed(WORK.replace(/ /g, '  ') + '\n', { key: s.key, record: s.record })).text, 'x');
-  assert.equal((await openSealed(WORK.replace('quick', 'qu​ick'), { key: s.key, record: s.record })).text, 'x');
+  assert.equal((await openSealed(WORK.replace('quick', 'qu\u200bick'), { key: s.key, record: s.record })).text, 'x');
 });
 
 // ================================ tgx2 ===================================================================================
@@ -184,7 +184,7 @@ test('tgx2: the 4-byte work tag HMAC-SHA-256(secret, "tgx2/work" || SHA-256(work
 test('record keys: HKDF-SHA-256(master, salt "tgart/hkdf/v1", info "tgart/record-key/v1" 00 framed(id) framed(context)) by hand, NFC ids, empty and non-empty context; recipient secret likewise', async () => {
   const master = Buffer.alloc(32).fill(0x42);
   const frame = (s) => { const b = Buffer.from(s.normalize('NFC')); return Buffer.concat([leb(b.length), b]); };
-  for (const [id, ctx] of [['invoice-1', ''], ['invoice-1', 'work-a'], ['récord ü', 'ctx'], ['x'.repeat(512), 'y'.repeat(256)]]) {
+  for (const [id, ctx] of [['invoice-1', ''], ['invoice-1', 'work-a'], ['re\u0301cord ü', 'ctx'], ['x'.repeat(512), 'y'.repeat(256)]]) {
     const want = hk(master, 'tgart/hkdf/v1', Buffer.concat([Buffer.from('tgart/record-key/v1'), Buffer.from([0]), frame(id), frame(ctx)]));
     assert.equal(toHex(await recordKey(master, id, ctx)), want.toString('hex'));
   }

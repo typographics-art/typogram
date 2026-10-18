@@ -62,7 +62,7 @@ export function mutateBytes(rng, input, rounds = 1 + rng.int(3)) {
   }
   return b.length > 262144 ? b.subarray(0, 262144) : b;
 }
-const TOKENS = ['\0', '﻿', ' ', '‮', '"', "'", '\\', '\\u', '<', '>', '&', '&#x0;', '&amp;', '&lt;', '#', '|', '\n', '\r\n', '\t', ' ', ',', ';', ':', '---', '```', '- ', '* ', '[', ']', '{', '}', '$', '__proto__', 'constructor', '=1', '=cmd|', '@SUM(', '%', '\ud800', '·', 'TGD1[', ']TGD1', '́', '😀'];
+const TOKENS = ['\0', '\ufeff', '\u2028', '\u202e', '"', "'", '\\', '\\u', '<', '>', '&', '&#x0;', '&amp;', '&lt;', '#', '|', '\n', '\r\n', '\t', ' ', ',', ';', ':', '---', '```', '- ', '* ', '[', ']', '{', '}', '$', '__proto__', 'constructor', '=1', '=cmd|', '@SUM(', '%', '\ud800', '·', 'TGD1[', ']TGD1', '\u0301', '😀', '<a>', '</a>', '{"a":', '[[', '\n  - ', '\n> ', '\n  k:'];
 export function mutateText(rng, text, rounds = 1 + rng.int(4)) {
   let s = text;
   for (let r = 0; r < rounds; r++) {

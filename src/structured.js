@@ -9,7 +9,7 @@
 //     measured-safe set) is written as a \uXXXX escape, so the text layer stays plain, exact characters;
 //   - a block is TGD1[ ... ]TGD1, and carries SHA-256 of its own text (the checksum field counted as zeros).
 // Pure; browser and Node 20+ (Web Crypto).
-import { TgdError, Dec, parseJson, fromPlain, toPlain, stringifyJson } from './structured-json.js';
+import { TgdError, Dec, DEFAULT_JSON_LIMITS, parseJson, fromPlain, toPlain, stringifyJson } from './structured-json.js';
 import { sha256Hex } from './structure.js';
 import { FORMATS, formatFor, detectFormat } from './structured-formats.js';
 
@@ -159,11 +159,36 @@ export async function seal(data, meta = {}, opts = {}) {
   if (meta.lossy?.length) env.set('lossy', [...meta.lossy]);
   env.set('data', fromPlain(data));
   if (meta.attach?.length) env.set('attach', await Promise.all(meta.attach.map(attachment)));
+  assertReadable(env);
   const text = emit(env, opts);
   const body = stripText(text);
+  if (body.length > DEFAULT_LIMITS.maxBlockChars) throw new TgdError('limit', `The data would be ${body.length} characters as a data block; a block holds at most ${DEFAULT_LIMITS.maxBlockChars}, so it could not be read back.`);
   if (body.includes(OPEN) || body.includes(CLOSE)) throw new TgdError('syntax', 'Internal error: a frame marker leaked into the payload');
   const sum = await sumOf(body);
   return OPEN + text.replace(`"sum":"${ZEROS}"`, `"sum":"${sum}"`) + CLOSE;
+}
+
+/**
+ * The decoder refuses a block that is nested more than DEFAULT_JSON_LIMITS.maxDepth levels deep, that has more than maxNodes
+ * values or that holds a text longer than maxStringChars. The encoder must refuse the same, at the moment of writing: a block it
+ * wrote and the decoder cannot read is worse than an error, above all as a sealed record that never opens (found by the internal
+ * security review of 2026-10: XML nested 63 deep, CSV with 5 million cells and a 9-million-character cell were all written).
+ * Counts exactly what parseJson counts (a typed number is an object with two members in the block).
+ */
+function assertReadable(root) {
+  const { maxDepth, maxNodes, maxStringChars } = DEFAULT_JSON_LIMITS;
+  const tooDeep = () => new TgdError('limit', `The data is nested more than about ${maxDepth - 3} levels deep; a data block holds no more, so it could not be read back.`);
+  const tooLong = () => new TgdError('limit', `The data holds a text longer than ${maxStringChars} characters; a data block holds no more, so it could not be read back.`);
+  let nodes = 0;
+  const stack = [[root, 0]];
+  while (stack.length) {
+    const [v, d] = stack.pop();
+    if (d > maxDepth) throw tooDeep();
+    if (++nodes > maxNodes) throw new TgdError('limit', `The data has more than ${maxNodes} values; a data block holds no more, so it could not be read back.`);
+    if (typeof v === 'string') { if (v.length > maxStringChars) throw tooLong(); } else if (Array.isArray(v)) { for (const x of v) stack.push([x, d + 1]); } else if (v instanceof Map) {
+      for (const [k, x] of v) { if (k.length > maxStringChars) throw tooLong(); stack.push([x, d + 1]); }
+    } else if (v instanceof Dec) { if (d + 1 > maxDepth) throw tooDeep(); if (v.lit.length > maxStringChars) throw tooLong(); nodes += 2; }
+  }
 }
 
 const safeName = (n) => String(n).replace(/^.*[\\/]/, '').replace(/\p{Cc}/gu, '').slice(0, 255);

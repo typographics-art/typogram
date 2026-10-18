@@ -21,7 +21,7 @@ test('F1 YAML: a value or a flow collection followed by a long run of white spac
   assert.ok(b.ms < FAST_MS, `${b.ms.toFixed(0)} ms`); assert.equal(b.r, 'syntax');
 });
 test('F1 YAML: cutComment equals the old regular expressions on every string of length 0 to 6 over { space, tab, #, a, newline, U+2028 }', () => {
-  const alpha = [' ', '\t', '#', 'a', '\n', ' '];
+  const alpha = [' ', '\t', '#', 'a', '\n', '\u2028'];
   const gen = (len, f, pre = '') => { if (pre.length === len) return f(pre); for (const c of alpha) gen(len, f, pre + c); };
   let n = 0;
   for (let len = 0; len <= 6; len++) gen(len, (s) => { n++; assert.equal(cutComment(s, true), s.replace(/\s+#.*$/, ''), JSON.stringify(s)); assert.equal(cutComment(s, false), s.replace(/\s*#.*$/, ''), JSON.stringify(s)); });

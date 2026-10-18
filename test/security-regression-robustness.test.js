@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { decode, toFile, seal, TgdError } from '../src/structured.js';
+import { encode, decode, toFile, seal, TgdError } from '../src/structured.js';
 import { readXlsx } from '../src/structured-xlsx.js';
 import { writeZip } from '../src/structured-zip.js';
 import { hideSecret, revealSecret } from '../src/secret.js';
@@ -53,6 +53,36 @@ test('F5 toFile: a block whose model does not have the shape of its kind gives a
   await assert.rejects(toFile(b, 'md', {}), (e) => e instanceof TgdError && e.code === 'shape');
 });
 
+
+
+// ---- F10: the encoder must not write a block the decoder refuses ----------------------------------------------------------
+test('F10 encode: input nested deeper than a data block can hold is refused when it is written (it used to be written, and the block then did not read back; sealed, it never opened)', async () => {
+  const E = (text, fmt) => encode({ bytes: enc.encode(text), name: 'x.' + fmt, format: fmt }, { created: false });
+  await assert.rejects(E('<a>'.repeat(100) + 'x' + '</a>'.repeat(100), 'xml'), (e) => e instanceof TgdError && e.code === 'limit');
+  await assert.rejects(E('['.repeat(64) + ']'.repeat(64), 'json'), (e) => e.code === 'limit');
+  await assert.rejects(E(Array.from({ length: 40 }, (_, i) => ' '.repeat(2 * i) + '- a').join('\n'), 'md'), (e) => e.code === 'limit');
+  const ok = await E('<a>'.repeat(40) + 'x' + '</a>'.repeat(40), 'xml');
+  assert.equal((await decode(ok.text)).model.root[0], 'a');
+});
+test('F10 encode: whatever depth the input has, a block that was written can be read (xml, json, markdown, yaml: depths 1 to 70)', async () => {
+  const gens = { xml: (d) => '<a>'.repeat(d) + 'x' + '</a>'.repeat(d), json: (d) => '['.repeat(d) + '12345678901234567890' + ']'.repeat(d), md: (d) => Array.from({ length: d }, (_, i) => ' '.repeat(2 * i) + '- a').join('\n'), yaml: (d) => Array.from({ length: d }, (_, i) => ' '.repeat(2 * i) + 'k:').join('\n') + ' 1' };
+  for (const [fmt, mk] of Object.entries(gens)) {
+    let written = 0;
+    for (let d = 1; d <= 70; d++) {
+      let r; try { r = await encode({ bytes: enc.encode(mk(d)), name: 'x.' + fmt, format: fmt }, { created: false }); } catch (e) { assert.equal(e.code, 'limit'); continue; }
+      written++;
+      await decode(r.text); // throws if the block cannot be read back
+    }
+    assert.ok(written >= 20, `${fmt}: only ${written} depths were written`);
+  }
+});
+test('F10 seal: more than 4 000 000 values, a text of more than 8 000 000 characters and a nesting of 70 levels are refused by the encoder, as the decoder would refuse them', async () => {
+  await assert.rejects(seal({ kind: 'json', value: new Array(4_000_001).fill(0) }, { created: false }), (e) => e.code === 'limit' && /values/.test(e.message));
+  await assert.rejects(seal({ kind: 'json', value: 'a'.repeat(8_000_001) }, { created: false }), (e) => e.code === 'limit');
+  let deep = [1]; for (let i = 0; i < 70; i++) deep = [deep];
+  await assert.rejects(seal({ kind: 'json', value: deep }, { created: false }), (e) => e.code === 'limit' && /nested/.test(e.message));
+  assert.match(await seal({ kind: 'json', value: [1, 'a'.repeat(1000)] }, { created: false }), /^TGD1\[/);
+});
 
 // ---- tripwires: the places that handle keys and decrypted data keep their hygiene -------------------------------------------
 test('tripwire: the code that handles keys, records and decrypted data uses no HTML sink, eval, browser storage, console output or Math.random', () => {
