@@ -119,7 +119,11 @@ async function cmdVerify(file) {
   const storedHash = dl.jsonld && dl.jsonld.tgart ? dl.jsonld.tgart.hash : null;
 
   const problems = [];
+  // storedHash is attacker-controlled (straight from the file's tgart.hash); a real one is 64 lowercase hex (canonical-text.md).
+  // Validate before printing it raw, so a crafted hash cannot inject ANSI/newline escapes into the terminal — and so a non-hex
+  // value is itself a tamper signal. imgHash/mdHash come from sha256Hex and are always safe hex.
   if (!storedHash) problems.push('the data layer carries no identity hash (tgart.hash)');
+  else if (typeof storedHash !== 'string' || !/^[0-9a-f]{64}$/.test(storedHash)) problems.push('the stored identity hash is not a valid SHA-256 (64 lowercase hex)');
   else if (imgHash !== storedHash) problems.push(`image-layer hash ${imgHash} ≠ stored hash ${storedHash}`);
   if (mdHash == null) problems.push('the data layer carries no embedded source');
   else if (imgHash !== mdHash) problems.push(`image-layer hash ${imgHash} ≠ embedded-source hash ${mdHash}`);

@@ -69,6 +69,16 @@ test('tg verify: a tampered data layer (wrong stored hash) fails', () => {
   assert.match(r.stderr, /stored hash/);
 });
 
+test('tg verify: a stored hash that is not valid SHA-256 fails without echoing the crafted value (no terminal injection)', () => {
+  const bad = join(dir, 'bad-hash.svg');
+  // a crafted hash carrying an ANSI escape + newline; it must never be printed raw into the terminal
+  writeFileSync(bad, readFileSync(svgFile, 'utf8').replace(/"hash":"[0-9a-f]+"/, '"hash":"\\u001b[31mPWNED\\nnot-a-hash"'));
+  const r = run('verify', bad);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /not a valid SHA-256/);
+  assert.ok(!r.stderr.includes('PWNED'), 'the attacker-controlled hash is not echoed');
+});
+
 test('tg verify: a tampered image layer (one changed glyph) fails and locates the divergence', () => {
   const bad = join(dir, 'bad-image.svg');
   const svg = readFileSync(svgFile, 'utf8').replace(/(<tspan[^>]*>)([A-Za-z])/, (m, a, c) => a + (c === 'z' ? 'y' : 'z'));

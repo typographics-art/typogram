@@ -4,24 +4,29 @@
 // shown as text (never injected), and link/image URLs are restricted to safe schemes, so hostile source cannot run anything.
 import { readMarkdown } from './structured-md.js';
 
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const ALIGN = { l: 'left', r: 'right', c: 'center' };
 
-// A URL is kept only if it is relative or uses a safe scheme; anything else (javascript:, vbscript:, …) becomes inert.
-const scheme = (u) => (/^([a-z][a-z0-9+.\-]*):/i.exec(u) || [])[1];
-function linkUrl(u) { const s = u.trim(), p = scheme(s); return p && !/^(https?|mailto)$/i.test(p) ? '#' : s; }
-function imgUrl(u) { const s = u.trim(), p = scheme(s); return p && !/^(https?|data)$/i.test(p) ? '' : s; }
+// A URL is kept only if it is relative or uses a safe scheme. Browsers strip C0 controls and whitespace before resolving a
+// scheme (so "\x01javascript:…" runs on click), so strip those first, then allow only safe schemes or relative URLs.
+const cleanUrl = (u) => String(u).replace(/[\u0000- \u007f]/g, '');
+const hasScheme = (s) => /^[a-z][a-z0-9+.\-]*:/i.test(s);
+function linkUrl(u) { const s = cleanUrl(u); return !hasScheme(s) ? s : (/^(https?|mailto):/i.test(s) ? s : '#'); }
+function imgUrl(u) { const s = cleanUrl(u); return !hasScheme(s) ? s : (/^(https?|data):/i.test(s) ? s : ''); }
 
-/** Inline Markdown (code spans, bold, italic, links, images) as safe HTML. Everything is escaped first. */
+/** Inline Markdown as safe HTML. Links, images and code spans are parked as opaque tokens BEFORE escaping, so the emphasis
+ *  passes can never rewrite generated markup, and every attribute value is escaped (including ' ). */
 function inline(s) {
-  const codes = [];
-  let t = String(s).replace(/`([^`]+)`/g, (_, c) => { codes.push(c); return `\u0000${codes.length - 1}\u0000`; }); // park code spans
+  const toks = [];
+  const park = (html) => { toks.push(html); return `\u0000${toks.length - 1}\u0000`; };
+  let t = String(s);
+  t = t.replace(/`([^`]+)`/g, (_, c) => park(`<code>${esc(c)}</code>`));
+  t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^)]*)?\)/g, (_, alt, url) => { const u = imgUrl(url); return park(u ? `<img src="${esc(u)}" alt="${esc(alt)}">` : esc(alt)); });
+  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^)]*)?\)/g, (_, text, url) => park(`<a href="${esc(linkUrl(url))}">${esc(text)}</a>`));
   t = esc(t);
-  t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;[^)]*)?\)/g, (_, alt, url) => { const u = imgUrl(url); return u ? `<img src="${u}" alt="${alt}">` : alt; });
-  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^)]*)?\)/g, (_, text, url) => `<a href="${linkUrl(url)}">${text}</a>`);
   t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/__([^_]+)__/g, '<strong>$1</strong>');
   t = t.replace(/(^|[^*])\*(?!\s)([^*]+?)\*/g, '$1<em>$2</em>').replace(/(^|[^_\w])_(?!\s)([^_]+?)_/g, '$1<em>$2</em>');
-  return t.replace(/\u0000(\d+)\u0000/g, (_, i) => `<code>${esc(codes[Number(i)])}</code>`); // restore code spans, escaped
+  return t.replace(/\u0000(\d+)\u0000/g, (_, i) => toks[Number(i)]);
 }
 
 function item(blocks) { // a tight single-paragraph list item renders inline, without a wrapping <p>
