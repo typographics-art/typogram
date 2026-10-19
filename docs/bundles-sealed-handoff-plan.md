@@ -8,7 +8,7 @@ fixture. **Deferred within I2** (not yet built, called out in docs/sealed.md): t
 attachment for payloads over 64 KB (payload is inline-only today), the envelope table of contents, and the browser
 generator's seal flow with its cleartext-title warning. **Still needed for the LIVE issuer:** an X25519 sealing key in
 `typographics-art.org`'s key file via the ceremony (`tg seal-keygen` → store the private identity in Infisical →
-publish the `alg:"X25519"` entry). **I3 (handoff) still PLANNED.** Comes **after Phase H** (signing / issuers / seal),
+publish the `alg:"X25519"` entry). **I3 (handoff) CLI BUILT** (2026-10-19): `tg handoff <files…>` packs the files into a `tgart-handoff-v1` archive, seals it to the recipient(s) and signs it; `tg open` detects a handoff, shows the manifest and writes the files on `--yes`. `cli/handoff.mjs` (archive + warn-only secret scan + `origin` enforcement), the manifest shown before build, confirmation via `--yes`. [docs/handoff.md](handoff.md), tests `test/handoff.test.js` + CLI round-trip. **Deferred within I3:** the `tg_handoff` / `tg_open` MCP tools (confirmation passed through, not auto-answered). Comes **after Phase H** (signing / issuers / seal),
 because it reuses H2 (signature over the canonical hash), H3 (the visible seal block) and H4 (the embedded
 verify-instructions), and the issuer key file H introduces. **Operator decision 18.10.: Phase I ships _before_ the public
 launch**, as part of the first public release — so the launch now gates on the three-view core (B–G) + Phase H + Phase I.

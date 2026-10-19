@@ -9,9 +9,9 @@
 // A Typogram is a picture made of its own readable text (the IMAGE layer) that also carries, in a DATA layer, the exact
 // source and a JSON-LD record whose tgart.hash binds the two. `tg verify` recomputes the hash from the image layer and
 // requires it to equal both the stored hash and the hash of the embedded source. Works on .svg, .html and .pdf.
-import { readFileSync, writeFileSync, mkdirSync, openSync, writeSync, closeSync, constants as fsConstants, mkdtempSync, rmSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, openSync, writeSync, closeSync, constants as fsConstants, mkdtempSync, rmSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { extname, join, dirname } from 'node:path';
+import { extname, join, dirname, basename, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { markupText, canonicalText, sha256Hex, stripDataLayer, readDataMarkdown, readJsonld, withJsonld } from '../src/index.js';
@@ -22,6 +22,7 @@ import { makeOnePage } from './onepage-core.mjs';
 import { sealText, openSealedText, isSealed, parseEnvelope } from './seal.mjs';
 import { generateX25519Identity, identityToRecipient } from '../vendor/age-encryption.mjs';
 import { buildRegistry, verifyRegistry, verifiedMap, fetchIssuerKeyfile, validateKeyfile } from './keys-registry.mjs';
+import { buildArchive, archiveToText, readArchive, archiveFiles, scanSecrets, ORIGINS } from './handoff.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -251,6 +252,12 @@ function opts(name) {
   for (let i = 0; i < argv.length; i++) if (argv[i] === `--${name}` && argv[i + 1] != null && !argv[i + 1].startsWith('--')) out.push(argv[i + 1]);
   return out;
 }
+/** Positional args, excluding the values consumed by the named valued flags (so `--to X` does not count X as positional). */
+function positionalArgs(valued) {
+  const consumed = new Set();
+  for (let i = 0; i < argv.length; i++) if (argv[i].startsWith('--') && valued.includes(argv[i].slice(2)) && argv[i + 1] != null && !argv[i + 1].startsWith('--')) consumed.add(i + 1);
+  return argv.filter((a, i) => !a.startsWith('--') && !consumed.has(i));
+}
 const readKeyfile = (p) => { try { return JSON.parse(readFileSync(p, 'utf8')); } catch { return null; } };
 const writeJson = (p, obj) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(obj, null, 2) + '\n'); };
 
@@ -394,37 +401,31 @@ const AGE_IDENTITY_LINE = /^AGE-SECRET-KEY-/;      // an age identity (private, 
  * a Typogram, mark the record sealed (tgart.mode="sealed", cipher, recipients), and sign it. The whole sealed text (the
  * envelope AND the ciphertext) is what the signature covers, so `tg verify` proves it before anyone decrypts.
  */
-async function cmdSeal(file) {
-  const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid'), tos = opts('to');
-  if (!file || !keyFile || !issuer || !kid || !tos.length)
-    die('usage: tg seal <file.md> --to [<issuer:kid>=]<age1…> [--to …] --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>] [--title <text>]');
-  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
-  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
-  const recipients = tos.map((t) => {
+/** Parse `--to` recipients: `age1…` or `issuer:kid=age1…`. */
+function parseRecipients(tos) {
+  return tos.map((t) => {
     const eq = t.indexOf('=');
     const label = eq >= 0 ? t.slice(0, eq) : null, publicKey = eq >= 0 ? t.slice(eq + 1) : t;
     if (!AGE_RECIPIENT.test(publicKey)) die(`--to recipient is not an age public key (age1…): ${JSON.stringify(t)}`);
     if (label && label.includes(':')) { const [ri, rk] = label.split(':'); return { issuer: ri, kid: rk || '-', publicKey }; }
     return { label: label || `recipient-${publicKey.slice(4, 14)}`, publicKey };
   });
-  const md = readFileSync(file, 'utf8');
-  // The envelope (title, sender, recipients, date) is CLEARTEXT — only the body is encrypted. Never derive the title
-  // from the plaintext (that would leak the document's first heading); default to a neutral title and warn it is public.
-  const title = opt('title') || 'Sealed note';
-  console.error(`tg: note — the envelope is PUBLIC (title ${JSON.stringify(title)}, sender, recipients, date). Only the document body is encrypted; do not put a secret in --title.`);
-  const { text, recipients: recMeta, cipher } = await sealText({ plaintext: md, title, sender: issuer, recipients });
+}
 
-  const outFile = opt('out') || file.replace(/\.(md|markdown|txt)$/i, '') + '.sealed.tg.svg';
+/**
+ * Seal `plaintext` to `recipients`, render it as a Typogram, mark the record (`mode`) and sign it with the sender's key.
+ * Shared by `tg seal` (mode "sealed") and `tg handoff` (mode "handoff"). The whole sealed text — the cleartext envelope
+ * AND the ciphertext — is what the signature covers, so `tg verify` proves it before anyone decrypts. Returns the hash.
+ */
+async function sealRenderSign({ plaintext, title, issuer, kid, keyFile, recipients, outFile, mode, toc }) {
+  const { text, recipients: recMeta, cipher } = await sealText({ plaintext, title, sender: issuer, recipients, toc });
   const session = await openSession();
-  try {
-    await makeOnePage(session, { text, title, source: { bytes: Buffer.from(text, 'utf8'), media: 'text/markdown' }, svg: outFile, meta: { title } });
-  } finally { await session.close(); }
-
-  // mark the record sealed (does not touch the glyphs or the embedded source, so the identity hash is unchanged), then sign.
+  try { await makeOnePage(session, { text, title, source: { bytes: Buffer.from(text, 'utf8'), media: 'text/markdown' }, svg: outFile, meta: { title } }); }
+  finally { await session.close(); }
   let svg = readFileSync(outFile, 'utf8');
   const rec = readJsonld(svg);
   if (!rec || !rec.tgart || typeof rec.tgart.hash !== 'string') die('internal error: the rendered Typogram has no identity hash');
-  rec.tgart = { ...rec.tgart, mode: 'sealed', cipher, recipients: recMeta };
+  rec.tgart = { ...rec.tgart, mode: mode || 'sealed', cipher, recipients: recMeta };
   svg = withJsonld(svg, rec);
   const imgHash = await sha256Hex(canonicalText(imageLayerText('svg', outFile, svg)));
   if (imgHash !== rec.tgart.hash) die(`internal error: sealed image hash ${imgHash} ≠ stored ${rec.tgart.hash}`);
@@ -432,8 +433,75 @@ async function cmdSeal(file) {
   const signature = signHash({ hash: rec.tgart.hash, issuer, kid, created }, readFileSync(keyFile, 'utf8'));
   rec.tgart = { ...rec.tgart, spec: SIG_SPEC, issuer, kid, created, signature, keys: `https://${issuer}/.well-known/tgart-keys.json`, verify: `https://${issuer}/v` };
   writeFileSync(outFile, withJsonld(svg, rec));
+  return { hash: rec.tgart.hash, recMeta, cipher };
+}
+
+async function cmdSeal(file) {
+  const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid'), tos = opts('to');
+  if (!file || !keyFile || !issuer || !kid || !tos.length)
+    die('usage: tg seal <file.md> --to [<issuer:kid>=]<age1…> [--to …] --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>] [--title <text>]');
+  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
+  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
+  const recipients = parseRecipients(tos);
+  const md = readFileSync(file, 'utf8');
+  // The envelope (title, sender, recipients, date) is CLEARTEXT — only the body is encrypted. Never derive the title
+  // from the plaintext (that would leak the document's first heading); default to a neutral title and warn it is public.
+  const title = opt('title') || 'Sealed note';
+  console.error(`tg: note — the envelope is PUBLIC (title ${JSON.stringify(title)}, sender, recipients, date). Only the document body is encrypted; do not put a secret in --title.`);
+  const outFile = opt('out') || file.replace(/\.(md|markdown|txt)$/i, '') + '.sealed.tg.svg';
+  const { hash, recMeta, cipher } = await sealRenderSign({ plaintext: md, title, issuer, kid, keyFile, recipients, outFile, mode: 'sealed' });
   console.log(`tg: sealed ${file} -> ${outFile} as ${issuer} (kid ${kid})`);
-  console.log(`  sealed (${cipher}) to ${recMeta.map((x) => (x.issuer ? `${x.issuer}:${x.kid}` : x.label)).join(', ')}; sha256 ${rec.tgart.hash}`);
+  console.log(`  sealed (${cipher}) to ${recMeta.map((x) => (x.issuer ? `${x.issuer}:${x.kid}` : x.label)).join(', ')}; sha256 ${hash}`);
+}
+
+/** Gather files from the given sources (files or folders, walked recursively) into handoff entries with their origin. */
+function gatherSources(sources, origin) {
+  const entries = [];
+  const walk = (abs, rel) => {
+    if (statSync(abs).isDirectory()) { for (const name of readdirSync(abs).sort()) walk(join(abs, name), rel ? `${rel}/${name}` : name); }
+    else entries.push({ path: rel, bytes: readFileSync(abs), origin });
+  };
+  for (const s of sources) {
+    if (!existsSync(s)) die(`no such file or folder: ${s}`);
+    walk(s, basename(s.replace(/[/\\]+$/, '')));
+  }
+  return entries;
+}
+
+/**
+ * `tg handoff <file|folder>… --to [<issuer:kid>=]<age1…> --key <private-key.pem> --issuer <domain> --kid <id> [--out
+ * <file.svg>] [--title <text>] [--origin human|ai-summary|ai-generated] [--no-scan] [--yes]` — pack the named files into
+ * one archive, seal it to the recipient(s) and sign it. The tool filters nothing: it shows every file (path, size,
+ * origin), runs a warn-only secret scan, and only builds the package when confirmed with --yes.
+ */
+async function cmdHandoff() {
+  const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid'), tos = opts('to'), origin = opt('origin') || 'human';
+  const sources = positionalArgs(['to', 'key', 'issuer', 'kid', 'out', 'title', 'origin']);
+  if (!sources.length || !keyFile || !issuer || !kid || !tos.length)
+    die('usage: tg handoff <file|folder>… --to [<issuer:kid>=]<age1…> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>] [--title <text>] [--origin human|ai-summary|ai-generated] [--no-scan] [--yes]');
+  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
+  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
+  if (!ORIGINS.has(origin)) die(`--origin must be one of ${[...ORIGINS].join(', ')}`);
+  const recipients = parseRecipients(tos);
+  const entries = gatherSources(sources, origin);
+  let archive;
+  try { archive = buildArchive(entries, { title: opt('title') }); } catch (e) { die(e.message); }
+
+  console.error(`tg: handoff of ${archive.manifest.length} file(s):`);
+  for (const m of archive.manifest) console.error(`  ${m.origin.padEnd(12)} ${String(m.size).padStart(9)}  ${m.path}`);
+  if (!flags.has('--no-scan')) {
+    const hits = scanSecrets(entries);
+    for (const h of hits) console.error(`tg: warning — ${h.path} looks like it contains ${h.what}`);
+    if (hits.length) console.error('  (a warning only — the files are encrypted; pass --no-scan to silence.)');
+  }
+  if (!flags.has('--yes')) { console.error('tg: review the manifest above, then re-run with --yes to build the sealed, signed handoff.'); process.exit(0); }
+
+  const title = opt('title') || 'Handoff package';
+  const toc = [`${archive.manifest.length} file(s):`, ...archive.manifest.map((m) => `- ${m.path} (${m.size} bytes, ${m.origin})`)].join('\n');
+  const outFile = opt('out') || 'handoff.tg.svg';
+  const { hash, recMeta } = await sealRenderSign({ plaintext: archiveToText(archive), title, issuer, kid, keyFile, recipients, outFile, mode: 'handoff', toc });
+  console.log(`tg: handoff -> ${outFile} as ${issuer} (kid ${kid}); sealed to ${recMeta.map((x) => (x.issuer ? `${x.issuer}:${x.kid}` : x.label)).join(', ')}`);
+  console.log(`  ${archive.manifest.length} file(s); sha256 ${hash}. Open with: tg open ${outFile} --identity <age-id> --keys <dir> --out <dir> --yes`);
 }
 
 /**
@@ -458,6 +526,27 @@ async function cmdOpen(file) {
   let plaintext;
   try { plaintext = await openSealedText(r.dl.markdown, { identities }); }
   catch (e) { die(`could not open ${file}: ${e.message} — is it sealed to one of your keys?`); }
+
+  // A handoff package decrypts to an archive of files; a plain sealed document decrypts to its text.
+  const archive = readArchive(plaintext);
+  if (archive) {
+    console.error(`tg: opened handoff (verified ${r.issuer} kid ${r.kid}) — ${archive.manifest.length} file(s):`);
+    for (const m of archive.manifest) console.error(`  ${m.origin.padEnd(12)} ${String(m.size).padStart(9)}  ${m.path}`);
+    const out = opt('out');
+    if (!out) { console.error('tg: pass --out <dir> --yes to write these files.'); process.exit(0); }
+    if (!flags.has('--yes')) { console.error(`tg: review the manifest; re-run with --out ${out} --yes to write the files.`); process.exit(0); }
+    let n = 0;
+    try {
+      for (const f of archiveFiles(archive)) {
+        const dest = join(out, f.path);
+        if (dest !== join(out) && !dest.startsWith(join(out) + sep)) die(`refusing to write outside ${out}: ${f.path}`);
+        mkdirSync(dirname(dest), { recursive: true });
+        writeFileSync(dest, f.bytes); n++;
+      }
+    } catch (e) { die(`could not write the handoff: ${e.message}`); }
+    console.error(`tg: wrote ${n} file(s) to ${out}`);
+    return;
+  }
   const out = opt('out');
   if (out) { writeFileSync(out, plaintext); console.error(`tg: opened ${file} (verified ${r.issuer} kid ${r.kid}) -> ${out}`); }
   else process.stdout.write(plaintext.endsWith('\n') ? plaintext : plaintext + '\n');
@@ -575,6 +664,7 @@ else if (cmd === 'sign') { if (!file) die('usage: tg sign <file> --key <private-
 else if (cmd === 'bundle') { await cmdBundle(file); }
 else if (cmd === 'seal') { await cmdSeal(file); }
 else if (cmd === 'open') { await cmdOpen(file); }
+else if (cmd === 'handoff') { await cmdHandoff(); }
 else if (cmd === 'seal-keygen') { await cmdSealKeygen(); }
 else if (cmd === 'keys') { await cmdKeys(positionals[0], positionals[1]); }
 else {
@@ -587,7 +677,8 @@ else {
     '  tg bundle <folder> -o <out-dir> --key <private-key.pem> --issuer <domain> --kid <id> [--title <text>]',
     '  tg seal-keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]  new X25519 sealing key',
     '  tg seal <file.md> --to [<issuer:kid>=]<age1…> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>]',
-    '  tg open <file.svg> --identity <age-identity-file> [--keys <dir|file>] [--out <file>]  verify, then decrypt',
+    '  tg open <file.svg> --identity <age-identity-file> [--keys <dir|file>] [--out <file|dir>] [--yes]  verify, decrypt (unpacks a handoff)',
+    '  tg handoff <file|folder>… --to [<issuer:kid>=]<age1…> --key <pem> --issuer <domain> --kid <id> [--out <file.svg>] [--origin …] [--no-scan] [--yes]',
     '  tg keys <build|verify|list>                 the verified-issuer registry (keys/registry.json)',
     '  tg keys add <domain> [--from <keyfile.json>]  verify a domain\'s key (served at its .well-known) and add it',
   ].join('\n'));
