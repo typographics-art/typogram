@@ -26,7 +26,8 @@
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung",
-    "rev": "2182f50562"
+    "rev": "2182f50562",
+    "signed": true
   },
   {
     "id": "de-grundgesetz",
@@ -55,7 +56,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Grundgesetz",
-    "rev": "97597c1da1"
+    "rev": "97597c1da1",
+    "signed": true
   },
   {
     "id": "us-constitution",
@@ -84,7 +86,8 @@
     "textMatchesArt": true,
     "motifFile": "motifs/us-constitution-hintermeister-1925.jpg",
     "title": "Constitution",
-    "rev": "4159d3e754"
+    "rev": "4159d3e754",
+    "signed": true
   },
   {
     "id": "eu-ai-act",
@@ -113,7 +116,8 @@
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AI Act",
-    "rev": "c14f7f81c0"
+    "rev": "c14f7f81c0",
+    "signed": true
   },
   {
     "id": "un-human-rights",
@@ -142,7 +146,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Human Rights",
-    "rev": "9c6697030c"
+    "rev": "9c6697030c",
+    "signed": true
   },
   {
     "id": "pep-8",
@@ -171,7 +176,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "PEP 8",
-    "rev": "0c324c2995"
+    "rev": "0c324c2995",
+    "signed": false
   },
   {
     "id": "code-review-agent",
@@ -200,7 +206,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AI",
-    "rev": "6470456f85"
+    "rev": "6470456f85",
+    "signed": false
   },
   {
     "id": "support-assistant",
@@ -229,7 +236,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Support",
-    "rev": "614de76768"
+    "rev": "614de76768",
+    "signed": false
   },
   {
     "id": "research-assistant",
@@ -258,7 +266,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Research",
-    "rev": "bca2a6cb35"
+    "rev": "bca2a6cb35",
+    "signed": false
   },
   {
     "id": "agents-md",
@@ -287,7 +296,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENTS.md",
-    "rev": "491e97ff0f"
+    "rev": "491e97ff0f",
+    "signed": false
   },
   {
     "id": "agent-bibliothek",
@@ -316,7 +326,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENT",
-    "rev": "203473e68e"
+    "rev": "203473e68e",
+    "signed": false
   },
   {
     "id": "agent-library-readme",
@@ -345,7 +356,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "LIB",
-    "rev": "b9015c612d"
+    "rev": "b9015c612d",
+    "signed": false
   },
   {
     "id": "agent-library-wissen",
@@ -374,7 +386,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "W",
-    "rev": "6dba3fca50"
+    "rev": "6dba3fca50",
+    "signed": false
   },
   {
     "id": "agent-regel-quellen",
@@ -403,7 +416,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§1",
-    "rev": "f57f9610ff"
+    "rev": "f57f9610ff",
+    "signed": false
   },
   {
     "id": "agent-regel-unsicherheit",
@@ -432,7 +446,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§2",
-    "rev": "df90d68d31"
+    "rev": "df90d68d31",
+    "signed": false
   },
   {
     "id": "agent-regel-aufgaben",
@@ -461,7 +476,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§3",
-    "rev": "2359c9d9d2"
+    "rev": "2359c9d9d2",
+    "signed": false
   },
   {
     "id": "agent-regel-berechtigungen",
@@ -490,7 +506,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§4",
-    "rev": "67f9010e91"
+    "rev": "67f9010e91",
+    "signed": false
   },
   {
     "id": "agent-regel-datenschutz",
@@ -519,7 +536,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§5",
-    "rev": "f5d5d7216f"
+    "rev": "f5d5d7216f",
+    "signed": false
   },
   {
     "id": "agent-regel-qualitaet",
@@ -548,7 +566,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§6",
-    "rev": "41d2f547a9"
+    "rev": "41d2f547a9",
+    "signed": false
   },
   {
     "id": "agent-regel-ausgabe",
@@ -577,7 +596,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§7",
-    "rev": "71c8dbf40f"
+    "rev": "71c8dbf40f",
+    "signed": false
   },
   {
     "id": "agent-regel-fremdinhalte",
@@ -606,7 +626,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§8",
-    "rev": "a9e1e46f64"
+    "rev": "a9e1e46f64",
+    "signed": false
   },
   {
     "id": "agent-prompts-code",
@@ -635,7 +656,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "CODE",
-    "rev": "4d1c91e783"
+    "rev": "4d1c91e783",
+    "signed": false
   },
   {
     "id": "agent-prompts-sec",
@@ -664,7 +686,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "SEC",
-    "rev": "888b53e8d1"
+    "rev": "888b53e8d1",
+    "signed": false
   },
   {
     "id": "agent-prompts-recherche",
@@ -693,7 +716,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "FAKT",
-    "rev": "c48fa3baac"
+    "rev": "c48fa3baac",
+    "signed": false
   },
   {
     "id": "agent-prompts-dokumente",
@@ -722,7 +746,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "DOKU",
-    "rev": "1049116a81"
+    "rev": "1049116a81",
+    "signed": false
   },
   {
     "id": "agent-prompts-daten",
@@ -751,7 +776,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "DATA",
-    "rev": "424e75ffe8"
+    "rev": "424e75ffe8",
+    "signed": false
   },
   {
     "id": "agent-prompts-schreiben",
@@ -780,7 +806,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "TEXT",
-    "rev": "9755e17deb"
+    "rev": "9755e17deb",
+    "signed": false
   },
   {
     "id": "agent-prompts-unternehmen",
@@ -809,7 +836,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "BIZ",
-    "rev": "3dc57a8007"
+    "rev": "3dc57a8007",
+    "signed": false
   },
   {
     "id": "agent-prompts-projekt",
@@ -838,7 +866,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "PLAN",
-    "rev": "1064adeda1"
+    "rev": "1064adeda1",
+    "signed": false
   },
   {
     "id": "agent-prompts-design",
@@ -867,7 +896,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "UX",
-    "rev": "8ab48b7bda"
+    "rev": "8ab48b7bda",
+    "signed": false
   },
   {
     "id": "agent-prompts-betrieb",
@@ -896,6 +926,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "OPS",
-    "rev": "acc234a518"
+    "rev": "acc234a518",
+    "signed": false
   }
 ]

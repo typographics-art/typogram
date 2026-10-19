@@ -1,10 +1,10 @@
 // The page script of gallery.html (a file, not an inline block, so the site's Content-Security-Policy needs no 'unsafe-inline' for scripts).
 const T = {
-  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview', original: 'Original', image: 'Image', views: 'Three views' },
+  en: { characters: 'characters', filler: 'filler', fidelity: 'tone fidelity', svg: 'Open SVG (text)', preview: 'Preview', original: 'Original', image: 'Image', views: 'Three views', signedBy: 'Signed by typographics-art.org — verify at /v' },
   de: {
     intro: 'Jedes Werk ist echter Text: Öffne das SVG und markiere, kopiere oder durchsuche ihn. Das Bild entsteht nur aus Grösse, Stärke und Farbe der Buchstaben.',
     skip: 'Zum Inhalt springen', 'footer.licence': 'MIT-Lizenz', 'nav.make': 'Selbst gestalten', 'submit.h': 'Zeig dein Werk', 'submit.p': 'Etwas mit Typographics Art gemacht? Reiche das SVG über ein', 'submit.link': 'Werk-Issue ein',
-    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau', original: 'Original', image: 'Bild', views: 'Drei Ansichten',
+    characters: 'Zeichen', filler: 'Fülltext', fidelity: 'Tontreue', svg: 'SVG öffnen (Text)', preview: 'Vorschau', original: 'Original', image: 'Bild', views: 'Drei Ansichten', signedBy: 'Signiert von typographics-art.org — prüfbar unter /v',
     'view.tg': 'Typographics', 'view.orig': 'Originale', 'view.hint': 'oder ein einzelnes Werk mit dem Knopf auf seinem Bild umschalten',
   },
 };
@@ -20,7 +20,7 @@ function render() {
   document.getElementById('grid').innerHTML = works.map((w) => `
     <article class="card">
       <div class="pic">
-        <a class="preview" href="${orig(w) ? esc(w.original) : `work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery`}"><img src="gallery/thumbs/${esc(w.id)}${orig(w) ? '-original' : ''}.jpg" decoding="async" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy"></a>
+        <a class="preview${w.signed && !orig(w) ? ' signed' : ''}"${w.signed && !orig(w) ? ` title="${t('signedBy')}"` : ''} href="${orig(w) ? esc(w.original) : `work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery`}"><img src="gallery/thumbs/${esc(w.id)}${orig(w) ? '-original' : ''}.jpg" decoding="async" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy">${w.signed && !orig(w) ? `<span class="sr">${t('signedBy')}</span>` : ''}</a>
         <button type="button" class="flip" data-id="${esc(w.id)}" aria-pressed="${orig(w)}">${orig(w) ? 'Typographics' : t('original')}</button>
       </div>
       <div class="body">

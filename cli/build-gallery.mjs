@@ -6,6 +6,7 @@
 //   node cli/build-gallery.mjs            # every work
 //   node cli/build-gallery.mjs aldrin     # only these works; the other entries of works.json stay
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { embedFontInSvg } from '../scripts/embed-font.mjs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,7 +34,10 @@ try {
     writeFileSync(join(DIR, `${w.id}.svg`), embedFontInSvg(svg.data));
     writeFileSync(join(DIR, `${w.id}.jpg`), jpg.data);
     const { text, ...rest } = w;
-    out.push({ ...rest, textLength: text.length, meta: svg.meta, svg: `gallery/${w.id}.svg`, preview: `gallery/${w.id}.jpg`, original });
+    // `signed` from verifying the just-written svg (unsigned after a render, until scripts/sign-works.mjs runs) — so the
+    // gallery's green "signed" corner never shows on an unsigned work.
+    const signed = spawnSync('node', [join(DIR, '..', 'cli', 'tg.mjs'), 'verify', join(DIR, `${w.id}.svg`), '--keys', join(DIR, '..', 'keys', 'registry.json')], { stdio: 'ignore' }).status === 0;
+    out.push({ ...rest, textLength: text.length, meta: svg.meta, svg: `gallery/${w.id}.svg`, preview: `gallery/${w.id}.jpg`, original, signed });
     console.log(`${w.id}: ${svg.meta.characters} characters (${svg.meta.filler} filler), tone fidelity ${svg.meta.toneFidelity.toFixed(2)}`);
   }
 } finally {

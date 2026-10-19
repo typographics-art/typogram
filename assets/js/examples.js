@@ -1,10 +1,10 @@
 // The page script of examples.html (a file, not an inline block, so the site's Content-Security-Policy needs no 'unsafe-inline' for scripts).
 const T = {
-  en: { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions', 'agent-library': 'Agent library', pages: 'pages', words: 'words', chars: 'characters', type: 'type', pdf: 'Open PDF', original: 'Original', orig: 'original', motif: 'Motif', views: 'Three views', ok: '✓ text read back identical', okv: '✓ every visible character identical', bad: '✗ differs' },
+  en: { law: 'Laws', declaration: 'Declarations', 'ai-instructions': 'AI instructions', 'agent-library': 'Agent library', pages: 'pages', words: 'words', chars: 'characters', type: 'type', pdf: 'Open PDF', original: 'Original', orig: 'original', motif: 'Motif', views: 'Three views', ok: '✓ text read back identical', okv: '✓ every visible character identical', bad: '✗ differs', signedBy: 'Signed by typographics-art.org — verify at /v' },
   de: { law: 'Gesetze', declaration: 'Erklärungen', 'ai-instructions': 'KI-Anweisungen', 'agent-library': 'Agenten-Bibliothek', pages: 'Seiten', words: 'Wörter', chars: 'Zeichen', type: 'Schrift', pdf: 'PDF öffnen', original: 'Original', orig: 'Original', motif: 'Motiv', views: 'Drei Ansichten', ok: '✓ Text identisch zurückgelesen', okv: '✓ jedes sichtbare Zeichen identisch', bad: '✗ weicht ab',
     skip: 'Zum Inhalt springen', 'nav.make': 'Selbst gestalten', 'nav.gallery': 'Galerie', h1: 'Ganze Dokumente auf einer Seite',
     lead: 'Jeder One-Pager enthält den vollständigen Text eines Dokuments. Die Buchstaben sind winzig und bilden zusammen den Titel oder ein Bild darüber (die Originalbilder sind als „Motiv“ verlinkt). Jede Seite unten wurde mit MuPDF zurückgelesen und mit ihrer Quelle verglichen. Ein One-Pager ist grösser als seine Quelldatei; jede Karte nennt beide Grössen.',
-    warn: 'Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Der Text steckt in der Textebene des PDFs.', 'make.h': 'Selbst erstellen' },
+    warn: 'Teile das PDF, nicht ein Bild davon: In dieser Grösse ist ein reines Bild für Texterkennung und Bildmodelle nur graue Textur. Der Text steckt in der Textebene des PDFs.', 'make.h': 'Selbst erstellen', signedBy: 'Signiert von typographics-art.org — prüfbar unter /v' },
 };
 const EN = new Map([...document.querySelectorAll('[data-i18n]')].map((el) => [el.dataset.i18n, el.textContent]));
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -20,7 +20,7 @@ function render() {
     if (!list.length) continue;
     html += `<h2>${t(cat)}</h2><div class="grid">` + list.map((x) => `
       <article class="card">
-        <a class="pic" href="work.html?example=${encodeURIComponent(x.id)}&back=examples"><img src="examples/${esc(x.id)}/thumb.jpg${x.rev ? `?v=${esc(x.rev)}` : ''}" alt="${esc(x.title)}" width="560" height="792" loading="lazy" decoding="async"></a>
+        <a class="pic${x.signed ? ' signed' : ''}"${x.signed ? ` title="${t('signedBy')}"` : ''} href="work.html?example=${encodeURIComponent(x.id)}&back=examples"><img src="examples/${esc(x.id)}/thumb.jpg${x.rev ? `?v=${esc(x.rev)}` : ''}" alt="${esc(x.title)}" width="560" height="792" loading="lazy" decoding="async">${x.signed ? `<span class="sr">${t('signedBy')}</span>` : ''}</a>
         <div class="body">
           <h3><a class="title" href="work.html?example=${encodeURIComponent(x.id)}&back=examples">${esc(x.document)}</a></h3>
           <div class="facts">${x.sourcePages ? `<span>${x.sourcePages} ${t('pages')} → 1</span>` : ''}<span>${fmt(x.words)} ${t('words')}</span><span>${fmt(x.characters)} ${t('chars')}</span><span>${t('type')} ${x.fontSizeMm} mm</span></div>

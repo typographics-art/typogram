@@ -185,6 +185,9 @@ writeFileSync(join(DIR, 'README.md'), md);
 // A short content hash of the card thumbnail. The examples page appends it as `thumb.jpg?v=<rev>`, so a regenerated
 // poster gets a new URL and is seen at once \u2014 the old URL (cached up to a day by `_headers`) is never reused.
 const thumbRev = (id) => { try { return createHash('sha256').update(readFileSync(join(DIR, id, 'thumb.jpg'))).digest('hex').slice(0, 10); } catch { return null; } };
+// `signed` is recomputed by VERIFYING the rendered onepage.svg against the registry — so a re-render (which produces an
+// UNSIGNED svg until `scripts/sign-works.mjs` runs) can never leave a stale "signed" flag that shows a false green corner.
+const verifySigned = (id) => { const f = join(DIR, id, 'onepage.svg'); return existsSync(f) && spawnSync('node', [join(DIR, '..', 'cli', 'tg.mjs'), 'verify', f, '--keys', join(DIR, '..', 'keys', 'registry.json')], { stdio: 'ignore' }).status === 0; };
 writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
   id: r.id, document: r.document, category: r.category, licence: r.licence, url: r.url, sourcePages: r.sourcePages,
   words: r.words, characters: r.characters, fontSizeMm: r.fontSizeMm, readBack: r.check,
@@ -192,5 +195,6 @@ writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
   motifFile: r.motif ? (r.motif.startsWith('recipe:') ? 'motifs/eu-ai-act-network.png' : r.motif) : null,
   title: (all.find((x) => x.id === r.id) || {}).title?.replace(/\u00ad/g, ''),
   rev: thumbRev(r.id),
+  signed: verifySigned(r.id),
 })), null, 2) + '\n');
 log(`README.md: ${rows.length} examples`);

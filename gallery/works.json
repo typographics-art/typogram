@@ -31,7 +31,8 @@
     },
     "svg": "gallery/earthrise.svg",
     "preview": "gallery/earthrise.jpg",
-    "original": "gallery/photos/earthrise.jpg"
+    "original": "gallery/photos/earthrise.jpg",
+    "signed": true
   },
   {
     "id": "blue-marble",
@@ -65,7 +66,8 @@
     },
     "svg": "gallery/blue-marble.svg",
     "preview": "gallery/blue-marble.jpg",
-    "original": "gallery/photos/blue-marble.jpg"
+    "original": "gallery/photos/blue-marble.jpg",
+    "signed": true
   },
   {
     "id": "starry-night",
@@ -98,7 +100,8 @@
     },
     "svg": "gallery/starry-night.svg",
     "preview": "gallery/starry-night.jpg",
-    "original": "gallery/photos/starry-night.jpg"
+    "original": "gallery/photos/starry-night.jpg",
+    "signed": true
   },
   {
     "id": "great-wave",
@@ -131,7 +134,8 @@
     },
     "svg": "gallery/great-wave.svg",
     "preview": "gallery/great-wave.jpg",
-    "original": "gallery/photos/great-wave.jpg"
+    "original": "gallery/photos/great-wave.jpg",
+    "signed": true
   },
   {
     "id": "lincoln",
@@ -164,7 +168,8 @@
     },
     "svg": "gallery/lincoln.svg",
     "preview": "gallery/lincoln.jpg",
-    "original": "gallery/photos/lincoln.jpg"
+    "original": "gallery/photos/lincoln.jpg",
+    "signed": true
   },
   {
     "id": "mona-lisa",
@@ -197,7 +202,8 @@
     },
     "svg": "gallery/mona-lisa.svg",
     "preview": "gallery/mona-lisa.jpg",
-    "original": "gallery/photos/mona-lisa.jpg"
+    "original": "gallery/photos/mona-lisa.jpg",
+    "signed": true
   },
   {
     "id": "darwin",
@@ -230,7 +236,8 @@
     },
     "svg": "gallery/darwin.svg",
     "preview": "gallery/darwin.jpg",
-    "original": "gallery/photos/darwin.jpg"
+    "original": "gallery/photos/darwin.jpg",
+    "signed": true
   },
   {
     "id": "pillars-of-creation",
@@ -263,7 +270,8 @@
     },
     "svg": "gallery/pillars-of-creation.svg",
     "preview": "gallery/pillars-of-creation.jpg",
-    "original": "gallery/photos/pillars-of-creation.jpg"
+    "original": "gallery/photos/pillars-of-creation.jpg",
+    "signed": true
   },
   {
     "id": "wanderer",
@@ -296,7 +304,8 @@
     },
     "svg": "gallery/wanderer.svg",
     "preview": "gallery/wanderer.jpg",
-    "original": "gallery/photos/wanderer.jpg"
+    "original": "gallery/photos/wanderer.jpg",
+    "signed": true
   },
   {
     "id": "red-fuji",
@@ -330,7 +339,8 @@
     },
     "svg": "gallery/red-fuji.svg",
     "preview": "gallery/red-fuji.jpg",
-    "original": "gallery/photos/red-fuji.jpg"
+    "original": "gallery/photos/red-fuji.jpg",
+    "signed": true
   },
   {
     "id": "douglass",
@@ -363,7 +373,8 @@
     },
     "svg": "gallery/douglass.svg",
     "preview": "gallery/douglass.jpg",
-    "original": "gallery/photos/douglass.jpg"
+    "original": "gallery/photos/douglass.jpg",
+    "signed": true
   },
   {
     "id": "twain",
@@ -397,7 +408,8 @@
     },
     "svg": "gallery/twain.svg",
     "preview": "gallery/twain.jpg",
-    "original": "gallery/photos/twain.jpg"
+    "original": "gallery/photos/twain.jpg",
+    "signed": true
   },
   {
     "id": "poe",
@@ -430,7 +442,8 @@
     },
     "svg": "gallery/poe.svg",
     "preview": "gallery/poe.jpg",
-    "original": "gallery/photos/poe.jpg"
+    "original": "gallery/photos/poe.jpg",
+    "signed": true
   },
   {
     "id": "tesla",
@@ -464,7 +477,8 @@
     },
     "svg": "gallery/tesla.svg",
     "preview": "gallery/tesla.jpg",
-    "original": "gallery/photos/tesla.jpg"
+    "original": "gallery/photos/tesla.jpg",
+    "signed": true
   },
   {
     "id": "herschel",
@@ -498,6 +512,7 @@
     },
     "svg": "gallery/herschel.svg",
     "preview": "gallery/herschel.jpg",
-    "original": "gallery/photos/herschel.jpg"
+    "original": "gallery/photos/herschel.jpg",
+    "signed": true
   }
 ]
