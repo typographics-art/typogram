@@ -285,6 +285,14 @@ npm run gallery   # re-render the gallery (needs Chrome/Chromium)
 node scripts/build-site.mjs   # build the website into _site/
 ```
 
+Self-contained SVGs — the font embedded as a subset, no web-font `@import`, so a work renders identically offline — need `pyftsubset` with brotli. Create the font venv once:
+
+```sh
+python3 -m venv ~/.cache/tg-fontenv && ~/.cache/tg-fontenv/bin/pip install fonttools brotli
+```
+
+(or point `FONT_SUBSET_BIN` at a `pyftsubset`). Without it the build still works, but generated SVGs keep the `@import` and `scripts/embed-font.mjs` says so. The embedded subset is checked against [`assets/fonts/roboto-flex-coverage.json`](assets/fonts/roboto-flex-coverage.json); a character the font lacks is warned about at build time.
+
 Writing about Typographics Art? The [press kit](docs/press-kit.md) has texts, facts and images.
 
 ## Repository map
