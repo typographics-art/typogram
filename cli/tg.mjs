@@ -23,7 +23,7 @@ import { sealText, openSealedText, isSealed, parseEnvelope } from './seal.mjs';
 import { generateX25519Identity, identityToRecipient } from '../vendor/age-encryption.mjs';
 import { buildRegistry, verifyRegistry, verifiedMap, fetchIssuerKeyfile, validateKeyfile } from './keys-registry.mjs';
 import { buildArchive, archiveToText, readArchive, archiveFiles, scanSecrets, ORIGINS } from './handoff.mjs';
-import { stampSvg } from '../src/stamp.js';
+import { stampSvg, sealGeometry, SEAL_GREEN } from '../src/stamp.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -341,10 +341,63 @@ function loadKeyfile(keysArg, issuer) {
   return issuer ? tryfile(join(process.cwd(), 'keys', `${issuer}.json`)) : null;
 }
 
+/** The first page's MediaBox (points): { l, b, r, t }. */
+function pdfPageBox(file) {
+  if (!has('mutool')) die('reading a PDF needs MuPDF (mutool)');
+  const r = spawnSync('mutool', ['pages', file, '1'], { encoding: 'utf8' });
+  const s = r.stdout || '';
+  const g = (k) => { const m = new RegExp(`\\b${k}="(-?[\\d.]+)"`).exec(s); return m ? parseFloat(m[1]) : null; };
+  const box = { l: g('l'), b: g('b'), r: g('r'), t: g('t') };
+  if (Object.values(box).some((v) => v == null)) die(`could not read the page size of ${file}`);
+  return box;
+}
+
+/** A one-line PDF content stream that draws the green "signed" seal in the top-right corner of a PDF's first page, from
+ *  sealGeometry — the same corner as the SVG/raster seal. PDF space is y-up, so y flips: pdfX = l + sx, pdfY = t - sy. */
+function pdfSealContentStream(file) {
+  const { l, b, r, t } = pdfPageBox(file);
+  const g = sealGeometry(r - l, t - b);
+  const rgb = [1, 3, 5].map((i) => (parseInt(SEAL_GREEN.slice(i, i + 2), 16) / 255).toFixed(3));
+  const X = (sx) => (l + Number(sx)).toFixed(2), Y = (sy) => (t - Number(sy)).toFixed(2);
+  const tri = g.triangle.split(' ').map((p) => p.split(',').map(Number));
+  const c = g.check.match(/M ([\d.]+) ([\d.]+) L ([\d.]+) ([\d.]+) L ([\d.]+) ([\d.]+)/).slice(1).map(Number);
+  return [
+    'q', `${rgb[0]} ${rgb[1]} ${rgb[2]} rg`,
+    `${X(tri[0][0])} ${Y(tri[0][1])} m ${X(tri[1][0])} ${Y(tri[1][1])} l ${X(tri[2][0])} ${Y(tri[2][1])} l f`,
+    `1 1 1 RG ${g.stroke.toFixed(2)} w 1 J 1 j`,
+    `${X(c[0])} ${Y(c[1])} m ${X(c[2])} ${Y(c[3])} l ${X(c[4])} ${Y(c[5])} l S`, 'Q',
+  ].join(' ');
+}
+
+/** Sign a Typogram PDF in place of SVG signing: sign the record carried in its metadata.json attachment, re-embed it, and
+ *  (unless --no-stamp) draw the visible seal on page 1. The text layer and the identity hash are untouched. */
+async function signPdf(file, keyFile, issuer, kid) {
+  const { jsonld: record } = pdfAttachments(file);
+  if (!record || !record.tgart || typeof record.tgart.hash !== 'string') die(`${file} has no identity hash to sign — is it a Typogram made by this tool?`);
+  const imgHash = await sha256Hex(canonicalText(imageLayerText('pdf', file, '')));
+  if (imgHash !== record.tgart.hash) die(`refusing to sign: image-layer hash ${imgHash} ≠ stored hash ${record.tgart.hash} — the file is inconsistent, verify it first`);
+  const created = new Date().toISOString().slice(0, 10);
+  const signature = signHash({ hash: record.tgart.hash, issuer, kid, created }, readFileSync(keyFile, 'utf8'));
+  record.tgart = { ...record.tgart, spec: SIG_SPEC, issuer, kid, created, signature, keys: `https://${issuer}/.well-known/tgart-keys.json`, verify: `https://${issuer}/v` };
+  const tmp = mkdtempSync(join(tmpdir(), 'tg-pdf-sign-'));
+  try {
+    const metaPath = join(tmp, 'metadata.json');
+    writeFileSync(metaPath, JSON.stringify(record, null, 2));
+    const seal = flags.has('--no-stamp') ? '' : pdfSealContentStream(file);
+    const outFile = opt('out') || file, tmpOut = join(tmp, 'out.pdf');
+    const r = spawnSync('mutool', ['run', join(HERE, 'pdf-sign-apply.js'), file, tmpOut, metaPath, seal], { encoding: 'utf8' });
+    if (r.status !== 0) die(`MuPDF could not sign ${file}: ${String(r.stderr || '').trim().split('\n')[0] || ''}`);
+    writeFileSync(outFile, readFileSync(tmpOut));
+    console.log(`tg: signed ${file} as ${issuer} (kid ${kid})${outFile !== file ? ` -> ${outFile}` : ''}${flags.has('--no-stamp') ? '' : ' + sealed corner'}`);
+    console.log(`  sha256 ${record.tgart.hash}`);
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+}
+
 /**
  * `tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]` — sign a Typogram's identity hash and
- * write the signature into its data-layer record. SVG/HTML only. The image layer and the exact source are untouched, so the
- * identity hash is unchanged; only the record gains spec/issuer/kid/created/signature/keys/verify.
+ * write the signature into its data-layer record. Works on .svg, .html and .pdf (a PDF carries its record in a metadata.json
+ * attachment). The image layer and the exact source are untouched, so the identity hash is unchanged; only the record gains
+ * spec/issuer/kid/created/signature/keys/verify. Unless --no-stamp, the visible green "signed" corner is drawn into the work.
  */
 async function cmdSign(file) {
   const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid');
@@ -352,7 +405,7 @@ async function cmdSign(file) {
   if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
   if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
   const raw = readFileSync(file), kind = kindOf(file, raw);
-  if (kind === 'pdf') die('tg sign supports .svg and .html (a PDF carries its record in an attachment)');
+  if (kind === 'pdf') { await signPdf(file, keyFile, issuer, kid); return; }
   const text = raw.toString('utf8');
   const record = readJsonld(text);
   if (!record || !record.tgart || typeof record.tgart.hash !== 'string') die(`${file} has no identity hash to sign — is it a Typogram made by this tool?`);
