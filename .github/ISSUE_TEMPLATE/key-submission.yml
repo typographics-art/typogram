@@ -1,0 +1,35 @@
+name: Key submission
+description: Add your Typographics Art issuer signing key to the verified registry
+labels: [keys]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Publishes your **public** Ed25519 signing key (and optionally your X25519 sealing key) in the verified-issuer
+        registry so anyone — including agents that can only reach GitHub or npm — can check your signed works. See
+        [docs/key-registry.md](https://github.com/typographics-art/typogram/blob/main/docs/key-registry.md).
+        Never paste a private key here; this is public.
+  - type: input
+    id: domain
+    attributes:
+      label: Your issuer domain
+      description: The hostname your key is issued for, e.g. example.org
+      placeholder: example.org
+    validations:
+      required: true
+  - type: checkboxes
+    id: published
+    attributes:
+      label: Domain control
+      options:
+        - label: The exact key is served at https://<my-domain>/.well-known/tgart-keys.json (made with `tg keygen`)
+          required: true
+        - label: This is a public signing key; I have not pasted any private key
+          required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes (optional)
+      description: Anything we should know — a rotation, a revocation, multiple kids.
+    validations:
+      required: false

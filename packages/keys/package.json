@@ -1,0 +1,41 @@
+{
+  "name": "@typographics-art/keys",
+  "version": "0.1.0",
+  "description": "Verified Typographics Art issuer signing keys (Ed25519) and sealing keys (X25519). Published immutably so agents that can only reach npm or GitHub can still verify signed Typograms. No private keys.",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./registry.json": "./registry.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "registry.json",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "homepage": "https://typographics-art.org/keys",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typographics-art/typogram.git",
+    "directory": "packages/keys"
+  },
+  "keywords": [
+    "typographics-art",
+    "typogram",
+    "ed25519",
+    "signing-keys",
+    "provenance",
+    "verification",
+    "signatures"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

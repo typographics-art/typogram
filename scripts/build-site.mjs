@@ -16,12 +16,13 @@ const copy = (from, to = from, filter) => {
   cpSync(src, join(OUT, to), { recursive: true, filter: filter ? (p) => filter(p) : undefined });
 };
 
-for (const f of ['index.html', 'app.html', 'gallery.html', 'examples.html', 'work.html', 'v.html', '404.html', 'favicon.svg', 'robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME', '_headers', 'passkey-check.html']) copy(f);
+for (const f of ['index.html', 'app.html', 'gallery.html', 'examples.html', 'work.html', 'v.html', 'keys.html', '404.html', 'favicon.svg', 'robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME', '_headers', 'passkey-check.html']) copy(f);
 copy('src');
 copy('assets', 'assets', (p) => !p.endsWith('brand.html'));
 copy('gallery', 'gallery', (p) => !p.endsWith('works.config.json'));
 copy('docs');
 copy('.well-known'); // the issuer's public signing key (Ed25519), served at /.well-known/tgart-keys.json — tg verify fetches it
+copy('keys'); // the verified-issuer registry, served at /keys/registry.json (also on GitHub raw + the @typographics-art/keys npm package)
 copy('examples/index.json');
 copy('samples');
 copy('examples/motifs', 'examples/motifs', (p) => !p.endsWith('.md'));

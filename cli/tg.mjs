@@ -21,6 +21,7 @@ import { openSession } from './core.mjs';
 import { makeOnePage } from './onepage-core.mjs';
 import { sealText, openSealedText, isSealed, parseEnvelope } from './seal.mjs';
 import { generateX25519Identity, identityToRecipient } from '../vendor/age-encryption.mjs';
+import { buildRegistry, verifyRegistry, verifiedMap, fetchIssuerKeyfile, validateKeyfile } from './keys-registry.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -318,7 +319,16 @@ const isIsoDate = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
 
 function loadKeyfile(keysArg, issuer) {
   if (issuer != null && !isHostname(issuer)) return null; // never build a key-file path from a non-hostname issuer (path traversal)
-  const tryfile = (p) => { try { const o = JSON.parse(readFileSync(p, 'utf8')); return o && Array.isArray(o.keys) ? o : null; } catch { return null; } };
+  const tryfile = (p) => { try {
+    const o = JSON.parse(readFileSync(p, 'utf8'));
+    if (o && Array.isArray(o.keys)) return o; // a plain issuer key file { issuer, keys }
+    // the verified-issuer registry (keys/registry.json): pick the matching issuer, so --keys can be the whole registry
+    if (o && o.spec === 'tgart-registry-v1' && Array.isArray(o.issuers) && issuer) {
+      const e = o.issuers.find((x) => x && x.issuer === issuer);
+      return e && Array.isArray(e.keys) ? { issuer: e.issuer, keys: e.keys } : null;
+    }
+    return null;
+  } catch { return null; } };
   if (keysArg) return tryfile(keysArg) || (issuer && (tryfile(join(keysArg, `${issuer}.json`)) || tryfile(join(keysArg, 'keys', `${issuer}.json`)))) || tryfile(join(keysArg, '.well-known', 'tgart-keys.json')) || null;
   return issuer ? tryfile(join(process.cwd(), 'keys', `${issuer}.json`)) : null;
 }
@@ -494,6 +504,63 @@ async function cmdSealKeygen() {
   }
 }
 
+// ---- keys registry (verified issuer keys, published for GitHub/npm-only agents) ------------------------------------
+const readRegistry = (dir) => { try { return JSON.parse(readFileSync(join(dir, 'registry.json'), 'utf8')); } catch { return null; } };
+
+async function cmdKeys(sub, arg) {
+  const dir = opt('keys') || 'keys';
+  if (sub === 'build') {
+    const { registry, problems } = buildRegistry(dir, { verified: verifiedMap(readRegistry(dir)) });
+    if (problems.length) die(`refusing to build the registry — these did not verify:\n  - ${problems.join('\n  - ')}`);
+    writeJson(join(dir, 'registry.json'), registry);
+    console.log(`tg: built ${join(dir, 'registry.json')} — ${registry.issuers.length} issuer(s): ${registry.issuers.map((e) => e.issuer).join(', ')}`);
+    return;
+  }
+  if (sub === 'verify') {
+    const reg = readRegistry(dir);
+    if (!reg) die(`no registry at ${join(dir, 'registry.json')} — run: tg keys build`);
+    const v = verifyRegistry(reg);
+    if (!v.ok) { console.error(`tg: registry INVALID\n  - ${v.problems.join('\n  - ')}`); process.exit(1); }
+    console.log(`tg: registry OK — ${reg.issuers.length} issuer(s), every key statement verifies`);
+    return;
+  }
+  if (sub === 'list') {
+    const reg = readRegistry(dir);
+    if (!reg) die(`no registry at ${join(dir, 'registry.json')} — run: tg keys build`);
+    for (const e of reg.issuers) console.log(`${e.issuer}  ${e.keys.map((k) => `${k.alg || 'Ed25519'}:${k.kid}`).join(' ')}  (verified ${e.verifiedAt || '—'} via ${e.verifiedVia})`);
+    return;
+  }
+  if (sub === 'add') {
+    const domain = arg;
+    if (!domain) die('usage: tg keys add <domain> [--from <keyfile.json>] [--keys <dir>]');
+    if (!isHostname(domain)) die('the issuer must be a hostname, e.g. example.org');
+    const from = opt('from');
+    let keyfile, via;
+    if (from) {
+      try { keyfile = JSON.parse(readFileSync(from, 'utf8')); } catch (e) { die(`cannot read ${from}: ${e.message}`); }
+      const vr = validateKeyfile(keyfile);
+      if (!vr.ok) die(`the key file did not verify:\n  - ${vr.problems.join('\n  - ')}`);
+      if (keyfile.issuer !== domain) die(`--from file names issuer ${JSON.stringify(keyfile.issuer)}, not ${domain}`);
+      via = `file:${from}`;
+      console.error(`tg: note — added from a FILE; domain control was NOT checked. Confirm the same key is served at https://${domain}/.well-known/tgart-keys.json before trusting it.`);
+    } else {
+      let r;
+      try { r = await fetchIssuerKeyfile(domain); } catch (e) { die(`could not verify ${domain}: ${e.message}`); }
+      keyfile = r.keyfile; via = r.url;
+      console.log(`tg: fetched and verified ${via} (self-signatures + domain control)`);
+    }
+    // keys/<domain>.json stays byte-identical to the issuer's published file; verification metadata lives in the registry.
+    writeJson(join(dir, `${domain}.json`), { issuer: keyfile.issuer, keys: keyfile.keys });
+    const verified = { ...verifiedMap(readRegistry(dir)), [domain]: { verifiedAt: new Date().toISOString().slice(0, 10), verifiedVia: via } };
+    const { registry, problems } = buildRegistry(dir, { verified });
+    if (problems.length) die(`refusing to write the registry — these did not verify:\n  - ${problems.join('\n  - ')}`);
+    writeJson(join(dir, 'registry.json'), registry);
+    console.log(`tg: added ${domain}; registry now has ${registry.issuers.length} issuer(s)`);
+    return;
+  }
+  die('usage: tg keys <build|verify|list|add> [<domain>] [--keys <dir>] [--from <file>]');
+}
+
 const argv = process.argv.slice(2);
 const cmd = argv.shift();
 const flags = new Set(argv.filter((a) => a.startsWith('--')));
@@ -509,6 +576,7 @@ else if (cmd === 'bundle') { await cmdBundle(file); }
 else if (cmd === 'seal') { await cmdSeal(file); }
 else if (cmd === 'open') { await cmdOpen(file); }
 else if (cmd === 'seal-keygen') { await cmdSealKeygen(); }
+else if (cmd === 'keys') { await cmdKeys(positionals[0], positionals[1]); }
 else {
   console.error([
     'usage:',
@@ -520,6 +588,8 @@ else {
     '  tg seal-keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]  new X25519 sealing key',
     '  tg seal <file.md> --to [<issuer:kid>=]<age1…> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>]',
     '  tg open <file.svg> --identity <age-identity-file> [--keys <dir|file>] [--out <file>]  verify, then decrypt',
+    '  tg keys <build|verify|list>                 the verified-issuer registry (keys/registry.json)',
+    '  tg keys add <domain> [--from <keyfile.json>]  verify a domain\'s key (served at its .well-known) and add it',
   ].join('\n'));
   process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1);
 }

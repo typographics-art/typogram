@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verified issuer keys</title>
+<meta name="description" content="The verified Typographics Art issuer signing keys (Ed25519) and sealing keys (X25519), published on GitHub, on this site and as an immutable npm package so any verifier — including agents that can only reach GitHub or npm — can check a signed work.">
+<link rel="canonical" href="https://typographics-art.org/keys">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://typographics-art.org/keys">
+<meta property="og:title" content="Verified Typographics Art issuer keys">
+<meta property="og:description" content="Issuer signing keys published on GitHub, this site and npm, so any verifier can check a signed Typogram. Each key self-verifies and is served at the issuer's own domain.">
+<meta property="og:image" content="https://typographics-art.org/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/json" href="keys/registry.json" title="Verified issuer key registry">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+:root{--bg:#f4f4f1;--band:#fff;--ink:#15171c;--muted:#5a6070;--line:#dcdfe5;--accent:#b8145a;--ok:#1f7a4d;
+  --f-ui:'Roboto Flex',system-ui,-apple-system,'Segoe UI',sans-serif;--f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root{--bg:#101217;--band:#171a21;--ink:#e8eaef;--muted:#a1a8b5;--line:#2a2f39;--accent:#ff5c9d;--ok:#5fd39a;color-scheme:dark}}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;z-index:60;font-weight:700;text-decoration:none}
+.skip:focus{left:8px}
+*{box-sizing:border-box}
+@media (pointer:coarse),(max-width:900px){nav a,footer a{display:inline-block;padding:11px 6px}}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.55}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:18px;border-bottom:1px solid var(--line)}
+header a.home{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;font-variation-settings:'wdth' 112,'opsz' 48}
+nav{display:flex;gap:16px;margin-left:auto;font-weight:600;font-size:15px}
+nav a{color:var(--ink);text-decoration:none}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.05;margin:40px 0 10px;font-variation-settings:'wdth' 112,'opsz' 96;font-weight:840;text-wrap:balance}
+h2{font-size:24px;margin:40px 0 8px;font-variation-settings:'opsz' 48}
+.lead{font-size:19px;color:var(--muted);max-width:68ch;margin:0}
+p{max-width:72ch}
+code{font-family:var(--f-mono);font-size:0.92em;background:var(--band);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+pre{background:#0d1220;color:#e9ecf3;border-radius:10px;padding:16px;overflow-x:auto;font:14px/1.6 var(--f-mono)}
+pre code{background:none;border:none;padding:0;color:inherit}
+table{border-collapse:collapse;width:100%;margin-top:10px;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.src td{font-family:var(--f-mono);font-size:13px;word-break:break-all}
+.issuer{font-weight:700}
+.kid{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.v{color:var(--ok);font-weight:600}
+footer{margin-top:56px;padding-block:28px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 24px}
+footer a{color:inherit}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Verified Typographics Art issuer keys",
+  "description": "Public Ed25519 signing keys and X25519 sealing keys of Typographics Art issuers, each self-verifying and confirmed served at the issuer's own domain, for verifying signed Typograms.",
+  "url": "https://typographics-art.org/keys",
+  "license": "https://opensource.org/licenses/MIT",
+  "creator": { "@type": "Organization", "name": "Typographics Art", "url": "https://typographics-art.org/" },
+  "distribution": [
+    { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://typographics-art.org/keys/registry.json" },
+    { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json" }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header>
+    <a class="home" href="./">Typographics Art</a>
+    <nav><a href="v">Verify</a><a href="examples">One-pagers</a><a href="app">Make your own</a><a href="gallery">Gallery</a></nav>
+  </header>
+  <main id="main">
+  <h1>Verified issuer keys</h1>
+  <p class="lead">To check a signed <a href="v">Typogram</a> you need the issuer's public signing key. These keys are published in several places so any verifier can reach one — including an automated agent whose allowlist is only GitHub or npm, not the open web.</p>
+
+  <h2>Fetch the registry</h2>
+  <p>One file lists every verified issuer. Each entry's key statement self-verifies, and the same key was confirmed served at the issuer's own domain.</p>
+  <table>
+    <thead><tr><th>Source</th><th>URL</th></tr></thead>
+    <tbody class="src">
+      <tr><td>GitHub (raw)</td><td><a href="https://raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json">raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json</a></td></tr>
+      <tr><td>This site</td><td><a href="keys/registry.json">typographics-art.org/keys/registry.json</a></td></tr>
+      <tr><td>npm (immutable)</td><td><a href="https://www.npmjs.com/package/@typographics-art/keys">@typographics-art/keys</a></td></tr>
+      <tr><td>Per issuer</td><td><code>https://&lt;issuer&gt;/.well-known/tgart-keys.json</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Verified issuers</h2>
+  <noscript><p>Enable JavaScript to list the issuers here, or open <a href="keys/registry.json">keys/registry.json</a>.</p></noscript>
+  <div id="issuers"><p class="muted">Loading…</p></div>
+
+  <h2>Verify a work</h2>
+  <p>Point <code>tg verify</code> at the registry; it picks the issuer the work names. In the browser, the <a href="v">verify page</a> does the same with no install.</p>
+  <pre><code>tg verify work.tg.svg --keys keys/registry.json</code></pre>
+
+  <h2>Add your key</h2>
+  <p>Make a key with <code>tg keygen --issuer your-domain</code>, serve it at <code>/.well-known/tgart-keys.json</code>, then submit it (a <a href="https://github.com/typographics-art/typogram/issues/new?template=key-submission.yml">key-submission issue</a> or a pull request adding <code>keys/your-domain.json</code>). We verify domain control and publish it. Full flow: <a href="https://github.com/typographics-art/typogram/blob/main/docs/key-registry.md">docs/key-registry.md</a>.</p>
+  </main>
+  <footer><span>Typographics Art</span><a href="mailto:d0n@typographics-art.org">d0n@typographics-art.org</a><a href="https://github.com/typographics-art/typogram/tree/main/keys">keys/ on GitHub</a><a href="https://typographics-art.org/.well-known/tgart-keys.json">our .well-known key</a></footer>
+</div>
+<script type="module" src="assets/js/keys.js"></script>
+</body>
+</html>
