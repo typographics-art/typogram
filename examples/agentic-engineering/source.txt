@@ -193,6 +193,6 @@ Lead or planner (plan-based):
 - Keep a human at the end.
 - It is software: name the control and the state, log it, cap the loops, handle failure.
 
-## Credits and provenance
+## Provenance
 
-The framing (the two questions; the explicit-to-emergent spectrum; the six patterns; start with a workflow and add autonomy only where it breaks; try several models and let a human pick; evaluate before you scale) is from Kem's "Agentic Engineering: Demystifying Orchestration" live class at the Glitch Cat Club. This page is an independent written synthesis for machine reading, set as a Typographics Art one-pager and signed by typographics-art.org. Each section carries its own hash, so you can verify a single quoted section against the sealed document; the whole page carries the issuer's Ed25519 signature.
+This page is an original written synthesis by typographics-art.org — the field's common agent-building patterns, set out for a machine to read and act on. It is set as a Typographics Art one-pager: each section carries its own hash, so you can verify a single quoted section against the sealed document, and the whole page carries the issuer's Ed25519 signature.

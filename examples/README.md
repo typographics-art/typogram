@@ -58,7 +58,7 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 | [<img src="agent-prompts-projekt/preview.jpg" width="120" alt="agent-prompts-projekt">](agent-prompts-projekt/onepage.pdf) | **[Agenten-Prompts: Projektmanagement (5 Prompts)](agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.74 mm | 217 KB (original 18 KB) | ✓ every visible character identical (exact) |
 | [<img src="agent-prompts-design/preview.jpg" width="120" alt="agent-prompts-design">](agent-prompts-design/onepage.pdf) | **[Agenten-Prompts: Design und Produkt (4 Prompts)](agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.567 mm | 249 KB (original 20 KB) | ✓ every visible character identical (exact) |
 | [<img src="agent-prompts-betrieb/preview.jpg" width="120" alt="agent-prompts-betrieb">](agent-prompts-betrieb/onepage.pdf) | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.589 mm | 232 KB (original 20 KB) | ✓ every visible character identical (exact) |
-| [<img src="agentic-engineering/preview.jpg" width="120" alt="agentic-engineering">](agentic-engineering/onepage.pdf) | **[Agentic Engineering: Building Multi-Agent Systems (a general, by-use-case build guide; framing by Kem, Glitch Cat Club)](agentic-engineering/onepage.pdf)** | 2,485 words | 14,234 characters at 0.811 mm | 209 KB (original 14 KB) | ✓ every visible character identical (exact) |
+| [<img src="agentic-engineering/preview.jpg" width="120" alt="agentic-engineering">](agentic-engineering/onepage.pdf) | **[Agentic Engineering: Building Multi-Agent Systems (a general, by-use-case build guide)](agentic-engineering/onepage.pdf)** | 2,449 words | 13,972 characters at 0.824 mm | 206 KB (original 14 KB) | ✓ every visible character identical (exact) |
 
 ## File size, honestly
 
@@ -112,7 +112,7 @@ What is done about it, each step measured in [docs/file-size.md](../docs/file-si
 | agent-prompts-projekt | Written for this repository (MIT) |
 | agent-prompts-design | Written for this repository (MIT) |
 | agent-prompts-betrieb | Written for this repository (MIT) |
-| agentic-engineering | Original written synthesis by typographics-art.org; framing credited to Kem (Glitch Cat Club). CC BY 4.0. |
+| agentic-engineering | Original written synthesis by typographics-art.org. CC BY 4.0. |
 
 ## Why AI instructions?
 
