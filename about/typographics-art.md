@@ -110,6 +110,44 @@ tg verify  about/typographics-art.svg              # prove the picture, the sour
 
 `tg verify` recomputes the hash from the glyphs and requires it to equal both the stored hash and the hash of the embedded source — so a model can trust that the readable source and the picture say the same thing, and refuse the file if they do not. The same works on the `.html` and `.pdf` views. A standalone reference, [tools/tg_extract.py](https://github.com/typographics-art/typogram/blob/main/tools/tg_extract.py) (Python standard library only), reads and verifies the same files and produces the same hash. The format is [docs/typogram-file.md](https://typographics-art.org/docs/typogram-file.md); why a model should prefer the data layer, and the prompt-injection answer, is [docs/ai-readability.md](https://typographics-art.org/docs/ai-readability.md#what-a-model-reads).
 
+## Signing & verifying
+
+A Typogram can be **signed** by its issuer, so a reader — a person or an AI — checks **who published it** and that **not one character changed**. The signature covers the identity hash above; it survives copy, paste and export and lives in the data layer, so the picture is untouched. On the website, a signed work carries a small **green yes corner**.
+
+`tg verify` gives one of three answers:
+
+| Result | Exit | Means |
+|---|---|---|
+| **VERIFIED** | 0 | signed by this issuer; picture, embedded source and signature all carry one text |
+| **UNSIGNED** | 2 | consistent (picture = source = hash), but not signed |
+| **TAMPERED** | 1 | the signature, the hash or the two layers disagree |
+
+To check a signature you need the issuer's **public key**. Every verified issuer key is published four ways, so any verifier can reach one — including an agent whose allowlist is only npm, PyPI or GitHub:
+
+```js
+// npm — @typographics-art/keys, immutable per published version
+import { getIssuer, issuers } from '@typographics-art/keys';
+issuers();                            // ['typographics-art.org', …]
+getIssuer('typographics-art.org');    // { issuer, verifiedAt, keys: [...] }
+```
+```python
+# PyPI — tgart-keys, immutable per published version
+import tgart_keys
+tgart_keys.get_issuer('typographics-art.org')
+```
+- **GitHub (raw):** `https://raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json`
+- **The issuer's own domain:** `https://<issuer>/.well-known/tgart-keys.json`
+
+Then verify a work against the registry — it picks the issuer the work names:
+
+```sh
+tg verify work.tg.svg --keys keys/registry.json     # VERIFIED / UNSIGNED / TAMPERED
+```
+
+No install needed: the browser verifier at [typographics-art.org/v](https://typographics-art.org/v) does the same (nothing is uploaded), and an AI agent can call the read-only **MCP server** — `tg_verify`, `tg_extract`, `tg_keys` ([docs/mcp.md](https://typographics-art.org/docs/mcp.md)).
+
+The signature format and reproducible test vectors are in [docs/verification.md](https://typographics-art.org/docs/verification.md); the verified-key registry and how to get a key listed in [docs/key-registry.md](https://typographics-art.org/docs/key-registry.md); issuer key publication, rotation and revocation in [docs/issuers.md](https://typographics-art.org/docs/issuers.md). Signing extends to collections and encryption: sign a whole folder as a **bundle** with a signed index ([docs/bundles.md](https://typographics-art.org/docs/bundles.md)), **seal** a work to named recipients so only a key holder reads it ([docs/sealed.md](https://typographics-art.org/docs/sealed.md)), or hand a set of files to another party as one sealed, signed **handoff** package ([docs/handoff.md](https://typographics-art.org/docs/handoff.md)).
+
 ## Hidden messages
 
 A work can carry a message that only the holder of a key can read. The work itself does not change: it holds only its public text, nothing invisible. The key records, for every character of the message, one position in that text where the same character stands, chosen at random among all its occurrences (a book cipher). With the key and the right work, the message comes back; with any other work, the key's text fingerprint does not match.
@@ -255,6 +293,27 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 
 **Can I use it commercially?** Yes. The code is MIT-licensed; the fonts are under the SIL Open Font License ([NOTICE.md](https://github.com/typographics-art/typogram/blob/main/NOTICE.md)). Mind the rights to the texts and photos you use.
 
+## Known issues & limitations
+
+- **Short texts need filler.** A picture is made of the letters, so it needs enough of them — roughly 15–20k characters for a photo motif; shorter texts form only the title, not a picture. Declared filler makes up the difference: the app and the CLI report exactly how many characters are filler, and it always comes *after* your text, so nothing of yours is dropped or reordered.
+- **A flat image of a work is not machine-readable.** At this tiny type a screenshot (PNG/JPEG) is grey texture to OCR and vision models. Share the **PDF, SVG or HTML** — the text lives in the file's text layer, not in the pixels.
+- **Only SVG/HTML works are signed today.** The law one-pagers and the gallery works are signed (green corner); the PDF-only example one-pagers are not yet signable (`tg sign` takes `.svg`/`.html`). Signing PDFs is on the roadmap.
+- **A one-pager is larger than its source.** Every glyph carries its own weight, size and colour, so the file grows; the trade-offs are measured in [docs/file-size.md](https://typographics-art.org/docs/file-size.md).
+- **Sealed payloads over ~64 KB are inline-only** for now (no data-layer attachment split yet).
+- **Key anchoring is not active yet.** The anchor format and a pluggable plugin contract are defined, but no key is anchored and `tg verify` does not check anchors — it is a designed extension, not a live feature.
+
+## Roadmap
+
+Planned, not promised — contributions welcome:
+
+- **A Rust self-extracting client** — a small native binary that opens, verifies and extracts a Typogram (and sealed/handoff packages) with no Node install.
+- **Animated Typogram envelopes** — a moving seal/cover (e.g. an APNG/GIF) for a sealed or handoff work.
+- **Signing the PDF one-pagers**, so every example can carry a verified signature and green corner, not only the SVG works.
+- **Live key anchoring** — the first anchor plugins (OpenTimestamps on Bitcoin, Sigstore Rekor, a chain such as DigiByte) going from designed to active, so a key's existence is provable in a public log.
+- **A seal flow in the browser generator**, alongside today's command-line `tg seal`.
+
+Already shipping (not a plan): the **sealed-media adapter** — point any ordinary player at a sealed image, video or data file and it is served and decrypted on the fly, only the bytes a range touches, nothing written to disk. See [docs/encrypted-media-adapter.md](https://typographics-art.org/docs/encrypted-media-adapter.md).
+
 ## Contributing
 
 Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md); please follow the [code of conduct](https://github.com/typographics-art/typogram/blob/main/CODE_OF_CONDUCT.md).
@@ -268,6 +327,14 @@ npm run gallery   # re-render the gallery (needs Chrome/Chromium)
 
 node scripts/build-site.mjs   # build the website into _site/
 ```
+
+Self-contained SVGs — the font embedded as a subset, no web-font `@import`, so a work renders identically offline — need `pyftsubset` with brotli. Create the font venv once:
+
+```sh
+python3 -m venv ~/.cache/tg-fontenv && ~/.cache/tg-fontenv/bin/pip install fonttools brotli
+```
+
+(or point `FONT_SUBSET_BIN` at a `pyftsubset`). Without it the build still works, but generated SVGs keep the `@import` and `scripts/embed-font.mjs` says so. The embedded subset is checked against [`assets/fonts/roboto-flex-coverage.json`](https://typographics-art.org/assets/fonts/roboto-flex-coverage.json); a character the font lacks is warned about at build time.
 
 Writing about Typographics Art? The [press kit](https://typographics-art.org/docs/press-kit.md) has texts, facts and images.
 
@@ -886,56 +953,56 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024](https://typographics-art.org/examples/ch-bundesverfassung/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/ch-bundesverfassung-1874.jpg) | 102 pages, 31,129 words · [original](https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf) | 228,576 characters at 0.757 mm | 1.60 MB (original 1.05 MB) | yes every visible character identical (exact) |
-|  | **[Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de](https://typographics-art.org/examples/de-grundgesetz/onepage.pdf)** | 51 pages, 26,180 words · [original](https://www.gesetze-im-internet.de/gg/GG.pdf) | 190,286 characters at 0.844 mm | 738 KB (original 266 KB) | yes every visible character identical (exact) |
-|  | **[The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)](https://typographics-art.org/examples/us-constitution/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/us-constitution-hintermeister-1925.jpg) | 85 pages, 44,527 words · [original](https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf) | 303,928 characters at 0.68 mm | 1.77 MB (original 3.83 MB) | yes every visible character identical (exact) |
-|  | **[Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal](https://typographics-art.org/examples/eu-ai-act/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/eu-ai-act-network.png) | 144 pages, 91,421 words · [original](https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1) | 595,706 characters at 0.446 mm | 2.20 MB (original 2.46 MB) | yes every visible character identical |
+|  | **[Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024](https://typographics-art.org/examples/ch-bundesverfassung/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/ch-bundesverfassung-1874.jpg) | 17,894 words · [original](https://www.fedlex.admin.ch/eli/cc/1999/404/de) | 132,347 characters at 0.97 mm | 1.51 MB (original 133 KB) | yes every visible character identical (exact) |
+|  | **[Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de](https://typographics-art.org/examples/de-grundgesetz/onepage.pdf)** | 23,963 words · [original](https://www.gesetze-im-internet.de/gg/) | 176,938 characters at 0.875 mm | 796 KB (original 176 KB) | yes every visible character identical (exact) |
+|  | **[The Constitution of the United States, National Archives transcript (Preamble, Articles I–VII, Amendments 1–27)](https://typographics-art.org/examples/us-constitution/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/us-constitution-hintermeister-1925.jpg) | 7,701 words · [original](https://www.archives.gov/founding-docs/constitution-transcript) | 45,071 characters at 1.732 mm | 502 KB (original 44 KB) | yes every visible character identical (exact) |
+|  | **[Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal](https://typographics-art.org/examples/eu-ai-act/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/eu-ai-act-network.png) | 45,955 words · [original](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689) | 293,887 characters at 0.705 mm | 1.60 MB (original 289 KB) | yes every visible character identical (exact) |
 
 ## Declarations
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[Universal Declaration of Human Rights, English text, OHCHR](https://typographics-art.org/examples/un-human-rights/onepage.pdf)** | 8 pages, 1,779 words · [original](https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf) | 10,733 characters at 1.24 mm | 140 KB (original 191 KB) | yes every visible character identical (exact) |
+|  | **[Universal Declaration of Human Rights, English text, OHCHR](https://typographics-art.org/examples/un-human-rights/onepage.pdf)** | 1,811 words · [original](https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf) | 10,858 characters at 1.24 mm | 159 KB (original 11 KB) | yes every visible character identical (exact) |
 
 ## AI instructions
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[PEP 8 – Style Guide for Python Code (reStructuredText source)](https://typographics-art.org/examples/pep-8/onepage.pdf)** | 7,153 words · [original](https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst) | 47,423 characters at 1.704 mm | 327 KB (original 50 KB) | yes every visible character identical (exact) |
-|  | **[Code review agent: operating instructions (written for this repository)](https://typographics-art.org/examples/code-review-agent/onepage.pdf)** | 594 words | 3,514 characters at 3.161 mm | 106 KB (original 3 KB) | yes every visible character identical (exact) |
-|  | **[Customer support assistant: policy (fictional shop, written for this repository)](https://typographics-art.org/examples/support-assistant/onepage.pdf)** | 557 words | 3,165 characters at 1.59 mm | 108 KB (original 3 KB) | yes every visible character identical (exact) |
-|  | **[Research assistant: rules for sources and claims (written for this repository)](https://typographics-art.org/examples/research-assistant/onepage.pdf)** | 444 words | 2,625 characters at 1.528 mm | 101 KB (original 3 KB) | yes every visible character identical (exact) |
-|  | **[AGENTS.md of this repository](https://typographics-art.org/examples/agents-md/onepage.pdf)** | 671 words | 4,495 characters at 1.148 mm | 140 KB (original 5 KB) | yes every visible character identical (exact) |
+|  | **[PEP 8 – Style Guide for Python Code (reStructuredText source)](https://typographics-art.org/examples/pep-8/onepage.pdf)** | 7,153 words · [original](https://raw.githubusercontent.com/python/peps/main/peps/pep-0008.rst) | 47,409 characters at 1.704 mm | 347 KB (original 50 KB) | yes every visible character identical (exact) |
+|  | **[Code review agent: operating instructions (written for this repository)](https://typographics-art.org/examples/code-review-agent/onepage.pdf)** | 594 words | 3,514 characters at 3.186 mm | 113 KB (original 3 KB) | yes every visible character identical (exact) |
+|  | **[Customer support assistant: policy (fictional shop, written for this repository)](https://typographics-art.org/examples/support-assistant/onepage.pdf)** | 557 words | 3,165 characters at 1.586 mm | 115 KB (original 3 KB) | yes every visible character identical (exact) |
+|  | **[Research assistant: rules for sources and claims (written for this repository)](https://typographics-art.org/examples/research-assistant/onepage.pdf)** | 444 words | 2,625 characters at 1.5 mm | 100 KB (original 3 KB) | yes every visible character identical (exact) |
+|  | **[AGENTS.md of this repository](https://typographics-art.org/examples/agents-md/onepage.pdf)** | 671 words | 4,495 characters at 1.141 mm | 146 KB (original 5 KB) | yes every visible character identical (exact) |
 
 ## Agent library
 
 | | Document | Source | On one page | File size | Read back from the PDF |
 |---|---|---|---|---|---|
-|  | **[Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)](https://typographics-art.org/examples/agent-bibliothek/onepage.pdf)** | 30,205 words | 225,554 characters at 0.786 mm | 890 KB (original 224 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts](https://typographics-art.org/examples/agent-library-readme/onepage.pdf)** | 950 words | 7,350 characters at 1.801 mm | 155 KB (original 7 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)](https://typographics-art.org/examples/agent-library-wissen/onepage.pdf)** | 1,094 words | 8,441 characters at 2.018 mm | 162 KB (original 8 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 1: Quellen und Belege](https://typographics-art.org/examples/agent-regel-quellen/onepage.pdf)** | 639 words | 4,432 characters at 2.559 mm | 130 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 2: Unsicherheit](https://typographics-art.org/examples/agent-regel-unsicherheit/onepage.pdf)** | 584 words | 4,022 characters at 2.918 mm | 128 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 3: Aufgabenbearbeitung](https://typographics-art.org/examples/agent-regel-aufgaben/onepage.pdf)** | 567 words | 3,984 characters at 2.842 mm | 116 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 4: Berechtigungen](https://typographics-art.org/examples/agent-regel-berechtigungen/onepage.pdf)** | 521 words | 3,625 characters at 2.971 mm | 120 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 5: Datenschutz](https://typographics-art.org/examples/agent-regel-datenschutz/onepage.pdf)** | 509 words | 3,768 characters at 2.986 mm | 125 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 6: Qualitätsprüfung](https://typographics-art.org/examples/agent-regel-qualitaet/onepage.pdf)** | 537 words | 3,788 characters at 2.917 mm | 118 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 7: Ausgabeformate](https://typographics-art.org/examples/agent-regel-ausgabe/onepage.pdf)** | 553 words | 3,980 characters at 2.774 mm | 134 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Regel 8: Umgang mit Fremdinhalten](https://typographics-art.org/examples/agent-regel-fremdinhalte/onepage.pdf)** | 516 words | 3,835 characters at 2.948 mm | 114 KB (original 4 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Softwareentwicklung (7 Prompts)](https://typographics-art.org/examples/agent-prompts-code/onepage.pdf)** | 2,572 words | 19,347 characters at 2.64 mm | 207 KB (original 19 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Software-Sicherheit (4 Prompts)](https://typographics-art.org/examples/agent-prompts-sec/onepage.pdf)** | 1,695 words | 13,532 characters at 1.23 mm | 203 KB (original 13 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Recherche (5 Prompts)](https://typographics-art.org/examples/agent-prompts-recherche/onepage.pdf)** | 2,548 words | 18,980 characters at 2.674 mm | 200 KB (original 19 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Dokumente (5 Prompts)](https://typographics-art.org/examples/agent-prompts-dokumente/onepage.pdf)** | 2,460 words | 18,345 characters at 2.712 mm | 201 KB (original 18 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Datenanalyse (5 Prompts)](https://typographics-art.org/examples/agent-prompts-daten/onepage.pdf)** | 2,181 words | 16,382 characters at 0.928 mm | 206 KB (original 16 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Schreiben (5 Prompts)](https://typographics-art.org/examples/agent-prompts-schreiben/onepage.pdf)** | 1,966 words | 15,008 characters at 0.963 mm | 207 KB (original 15 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Unternehmen (4 Prompts)](https://typographics-art.org/examples/agent-prompts-unternehmen/onepage.pdf)** | 2,323 words | 17,639 characters at 2.74 mm | 210 KB (original 18 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Projektmanagement (5 Prompts)](https://typographics-art.org/examples/agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.743 mm | 196 KB (original 18 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Design und Produkt (4 Prompts)](https://typographics-art.org/examples/agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.565 mm | 229 KB (original 20 KB) | yes every visible character identical (exact) |
-|  | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](https://typographics-art.org/examples/agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.592 mm | 208 KB (original 20 KB) | yes every visible character identical (exact) |
+|  | **[Wissens- und Aufgabenbibliothek für KI-Agenten: alle 20 Dateien in einem Dokument (written for this repository)](https://typographics-art.org/examples/agent-bibliothek/onepage.pdf)** | 30,205 words | 225,554 characters at 0.784 mm | 1014 KB (original 224 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Bibliothek: Übersicht, drei Teile, Felder eines Standard-Prompts](https://typographics-art.org/examples/agent-library-readme/onepage.pdf)** | 950 words | 7,350 characters at 1.821 mm | 172 KB (original 7 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Bibliothek: Wissen gezielt bereitstellen (neun Bereiche)](https://typographics-art.org/examples/agent-library-wissen/onepage.pdf)** | 1,094 words | 8,441 characters at 2.018 mm | 180 KB (original 8 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 1: Quellen und Belege](https://typographics-art.org/examples/agent-regel-quellen/onepage.pdf)** | 639 words | 4,432 characters at 2.556 mm | 138 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 2: Unsicherheit](https://typographics-art.org/examples/agent-regel-unsicherheit/onepage.pdf)** | 584 words | 4,022 characters at 2.909 mm | 133 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 3: Aufgabenbearbeitung](https://typographics-art.org/examples/agent-regel-aufgaben/onepage.pdf)** | 567 words | 3,984 characters at 2.888 mm | 129 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 4: Berechtigungen](https://typographics-art.org/examples/agent-regel-berechtigungen/onepage.pdf)** | 521 words | 3,625 characters at 2.982 mm | 128 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 5: Datenschutz](https://typographics-art.org/examples/agent-regel-datenschutz/onepage.pdf)** | 509 words | 3,768 characters at 2.99 mm | 135 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 6: Qualitätsprüfung](https://typographics-art.org/examples/agent-regel-qualitaet/onepage.pdf)** | 537 words | 3,788 characters at 2.966 mm | 125 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 7: Ausgabeformate](https://typographics-art.org/examples/agent-regel-ausgabe/onepage.pdf)** | 553 words | 3,980 characters at 2.78 mm | 141 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Regel 8: Umgang mit Fremdinhalten](https://typographics-art.org/examples/agent-regel-fremdinhalte/onepage.pdf)** | 516 words | 3,835 characters at 2.949 mm | 127 KB (original 4 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Softwareentwicklung (7 Prompts)](https://typographics-art.org/examples/agent-prompts-code/onepage.pdf)** | 2,572 words | 19,347 characters at 2.638 mm | 224 KB (original 19 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Software-Sicherheit (4 Prompts)](https://typographics-art.org/examples/agent-prompts-sec/onepage.pdf)** | 1,695 words | 13,532 characters at 1.232 mm | 226 KB (original 13 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Recherche (5 Prompts)](https://typographics-art.org/examples/agent-prompts-recherche/onepage.pdf)** | 2,548 words | 18,980 characters at 2.663 mm | 223 KB (original 19 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Dokumente (5 Prompts)](https://typographics-art.org/examples/agent-prompts-dokumente/onepage.pdf)** | 2,460 words | 18,345 characters at 2.714 mm | 218 KB (original 18 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Datenanalyse (5 Prompts)](https://typographics-art.org/examples/agent-prompts-daten/onepage.pdf)** | 2,181 words | 16,382 characters at 0.93 mm | 233 KB (original 16 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Schreiben (5 Prompts)](https://typographics-art.org/examples/agent-prompts-schreiben/onepage.pdf)** | 1,966 words | 15,008 characters at 0.964 mm | 233 KB (original 15 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Unternehmen (4 Prompts)](https://typographics-art.org/examples/agent-prompts-unternehmen/onepage.pdf)** | 2,323 words | 17,639 characters at 2.74 mm | 229 KB (original 18 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Projektmanagement (5 Prompts)](https://typographics-art.org/examples/agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.74 mm | 217 KB (original 18 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Design und Produkt (4 Prompts)](https://typographics-art.org/examples/agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.567 mm | 249 KB (original 20 KB) | yes every visible character identical (exact) |
+|  | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](https://typographics-art.org/examples/agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.589 mm | 232 KB (original 20 KB) | yes every visible character identical (exact) |
 
 ## File size, honestly
 
-Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is 0.5 to 2.8 times the size of its PDF source (us-constitution 0.5, un-human-rights 0.7, eu-ai-act 0.9, ch-bundesverfassung 1.5, de-grundgesetz 2.8; below 1 means smaller); plain-text sources grow far more (pep-8: 50 KB -> 327 KB; code-review-agent: 3 KB -> 106 KB; support-assistant: 3 KB -> 108 KB; research-assistant: 3 KB -> 101 KB; agents-md: 5 KB -> 140 KB; agent-bibliothek: 224 KB -> 890 KB; agent-library-readme: 7 KB -> 155 KB; agent-library-wissen: 8 KB -> 162 KB; agent-regel-quellen: 4 KB -> 130 KB; agent-regel-unsicherheit: 4 KB -> 128 KB; agent-regel-aufgaben: 4 KB -> 116 KB; agent-regel-berechtigungen: 4 KB -> 120 KB; agent-regel-datenschutz: 4 KB -> 125 KB; agent-regel-qualitaet: 4 KB -> 118 KB; agent-regel-ausgabe: 4 KB -> 134 KB; agent-regel-fremdinhalte: 4 KB -> 114 KB; agent-prompts-code: 19 KB -> 207 KB; agent-prompts-sec: 13 KB -> 203 KB; agent-prompts-recherche: 19 KB -> 200 KB; agent-prompts-dokumente: 18 KB -> 201 KB; agent-prompts-daten: 16 KB -> 206 KB; agent-prompts-schreiben: 15 KB -> 207 KB; agent-prompts-unternehmen: 18 KB -> 210 KB; agent-prompts-projekt: 18 KB -> 196 KB; agent-prompts-design: 20 KB -> 229 KB; agent-prompts-betrieb: 20 KB -> 208 KB), because the source is bare text while the one-pager carries fonts and styling.
+Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. A text source becomes a self-contained one-pager carrying fonts and styling (ch-bundesverfassung: 133 KB -> 1.5 MB; de-grundgesetz: 176 KB -> 796 KB; us-constitution: 44 KB -> 502 KB; eu-ai-act: 289 KB -> 1.6 MB; un-human-rights: 11 KB -> 159 KB; pep-8: 50 KB -> 347 KB; …).
 
 What is done about it, each step measured in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): glyph outlines are rounded to whole units of the 1000-unit glyph grid (invisible: at most 1/2000 of the type size), Chrome's empty accessibility tags are left out, the PDF is repacked with qpdf, photo colours are rounded to steps of 24 (of 255 per channel), and one-pagers use one type size and no width variants, which also makes their pictures sharper. With `--weights` (CLI) or the font-cuts slider (app) fewer weights are used, which makes files much smaller still. The table shows the optimised size next to the original.
 
