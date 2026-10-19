@@ -47,7 +47,7 @@ A lead agent plans the work, hands out tasks, checks the results, and retries fa
 
 ### Handoff
 
-Each agent decides who gets the work next: desk, then billing, then tech. Flexible. Risk: the work can go in circles, agents passing it back and forth with no one finishing.
+Each agent decides who gets the work next: desk, then billing, then tech. Flexible. Risk: the work can go in circles, agents passing it back and forth with no one finishing — so cap the hops (a maximum number of handoffs) and end in a clear failure instead of forever.
 
 ### Group chat
 
@@ -61,7 +61,7 @@ The clash: two agents both write the same file, guide.md. One overwrites the oth
 
 The fix is the one software has always used for parallel work, a copy each plus a system around it:
 
-- A copy each. Give every agent its own workspace, a git worktree (wt-a, wt-b). They never write over each other.
+- A copy each. Give every agent its own workspace — a git worktree for code, or a separate branch, row or document version for data. They never write over each other.
 - Claims. Each unit of work is claimed by exactly one agent (Task 1 to A, Task 2 to B). No two agents take the same task.
 - Merges. Each workspace merges back to the main line. Conflicts are settled at merge time, and the work comes back together.
 
@@ -115,14 +115,17 @@ You cannot improve what you cannot measure. Build the evaluation before you scal
 
 1. Write the test jobs first. Decide what good looks like, and include the awkward cases, the inputs that are easy to get wrong.
 2. Grade two ways. Use code when there is a right answer: check it with code (exact match, a schema, a passing test). Use a judge when it is a judgement call: a second model reviews the output. And check the judge too, grade the grader against a few known-good and known-bad examples, or it will quietly drift.
-3. Run the simplest version alongside the complex one. In one published test, a single model call beat a team of agents on every axis: quality 9.7 against 9.3, tokens 355 against 15,343, model calls 1 against 3 or more. For a simple task, one model call often wins. Do not add agents you cannot justify with a measured gain.
+3. Run the simplest version alongside the complex one. On many tasks a single call to a capable model matches or beats a team of agents at a fraction of the tokens and calls — so for a simple task, one call often wins. Do not add an agent you cannot justify with a measured gain on your own test jobs.
 
 ## 9. Optimisation: where most of the value is
 
-When the system works but is not good enough, optimise in this order. Most of the value is here, not in more agents.
+When the system works but is not good enough, optimise in this order. Most of the value is near the top, not in more agents.
 
 1. Instructions. The prompt and the guidelines each agent follows. Sharper instructions fix more than extra agents do.
 2. Tools. What each agent can actually do. The right tool, well described, beats a clever plan over the wrong tools.
+3. Context and retrieval. What you put in front of the model each turn — the right facts, not more text. Fix what it sees before you change how it thinks.
+4. Model choice. Escalate the one hard step to a stronger model, or try several (section 6), before you add structure.
+5. Only then, more agents. Extra agents and steps are the most expensive change and usually the smallest gain; justify each with a measured win.
 
 ## 10. The agent loop
 
@@ -144,7 +147,7 @@ One concrete system that puts the patterns together. It is an example of the gen
 - Intake: one message (from a phone, Slack, or a client) creates a card on a task board with three columns, NEW, PICKED UP, DONE.
 - Listener: watches the board, picks up a new card, and starts the flow. Everything after is automatic.
 - Report block: an agent gathers sources, does the work, and runs its own checks for accuracy, structure, and writing. Then a judge, a second agent seeing the work for the first time, reads the report. After a few fix cycles it is handed back to the human. During testing, plant a fault on purpose (a quote changed to claim more than it says) and confirm the judge catches it.
-- Fan-out: split the work into several isolated sandboxes, each running a different model (for example Opus, Sonnet, and a GPT model) building the same deliverable. A copy each, no shared state.
+- Fan-out: split the work into several isolated sandboxes, each running a different model (for example three frontier models from different providers) building the same deliverable. A copy each, no shared state.
 - Human at the end: the person picks the best of the several outputs. That is the only human step.
 - Everything is logged: a live event stream and an explicit per-step status, so you can see what each agent did and why.
 
@@ -161,7 +164,8 @@ Do this, in order:
 7. Choose the model per step: cheapest that passes; a stronger one only for the hard step; several in parallel when the output is subjective.
 8. Add a judge for judgement-call outputs, and grade the judge.
 9. Optimise instructions first, then tools.
-10. Keep a human at the end for the pick or the approval, and treat the whole thing as software: log every step, cap every loop, handle every failure.
+10. Scope the authority (section 15): least-privilege, sandboxed tools; a human gate before anything irreversible; treat tool output as untrusted input; set token and time budgets, not just a turn limit.
+11. Keep a human at the end for the pick or the approval, and treat the whole thing as software: log every step, cap every loop, handle every failure.
 
 ## 13. Prompts you can reuse
 
@@ -191,8 +195,21 @@ Lead or planner (plan-based):
 - Define good with test jobs before you build.
 - Most gains come from instructions and tools, not more agents.
 - Keep a human at the end.
+- Scope the agent's authority: least-privilege, sandboxed tools; a human gate before anything irreversible; tool output is untrusted input; cap tokens and time, not just turns.
 - It is software: name the control and the state, log it, cap the loops, handle failure.
+
+## 15. Safety, permissions and cost
+
+An agent that calls tools acts in the world; treat that as the main risk surface, not an afterthought.
+
+- Tool output is untrusted input. A document, web page, or API response the agent reads can carry instructions aimed at the model (prompt injection). Keep the system prompt and the task authoritative; treat retrieved text as data to analyse, never as commands to obey.
+- Least privilege for tools. Give each agent only the tools and scopes it needs, and sandbox anything that runs code or touches the filesystem, network, or a real account. A read-only task gets read-only tools.
+- A human gate before irreversible actions. Spending money, deleting data, sending a message, deploying — put an explicit approval or a hard allowlist in front of these, and show what will happen before it happens.
+- Budgets, not just turn limits. Cap tokens and wall-clock time per task as well as iterations, and stop with a clear "budget exceeded" rather than running up a bill.
+- Idempotency and retries. Tools fail and time out; make each action safe to repeat (an idempotency key, or check-then-act), retry transient failures with backoff, and surface a permanent failure instead of looping.
+
+An agent is software with the authority to act. Scope that authority, log every action, and keep a human in front of anything you cannot undo.
 
 ## Provenance
 
-This page is an original written synthesis by typographics-art.org — the field's common agent-building patterns, set out for a machine to read and act on. It is set as a Typographics Art one-pager: each section carries its own hash, so you can verify a single quoted section against the sealed document, and the whole page carries the issuer's Ed25519 signature.
+This page is a written synthesis by typographics-art.org of the field's common, publicly documented agent-building patterns, set out for a machine to read and act on — not a claim to have invented them. It is set as a Typographics Art one-pager: each section carries its own hash, and the whole page carries the issuer's Ed25519 signature. Verify it at typographics-art.org/v; the signing key is published at typographics-art.org/keys and mirrored on GitHub, npm and PyPI.

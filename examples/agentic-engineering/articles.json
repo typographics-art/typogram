@@ -45,7 +45,7 @@
     "num": "3. Autonomous patterns: emergent control, routed by the model",
     "heading": "",
     "path": [],
-    "hash": "082be4d984c8c2413e08d263804a222d0a1271d723e2befc51543031ef01bcf2"
+    "hash": "e7d08ba97c8de078f880e27df1b9fbfa55a913eac35829bfe2079ef102e9dc43"
   },
   {
     "id": "plan-based",
@@ -63,7 +63,7 @@
     "path": [
       "3. Autonomous patterns: emergent control, routed by the model"
     ],
-    "hash": "082ae4bdb6f6aa52d34ae0887c2e5521e97ce7538e192a00127b964420ae3f83"
+    "hash": "8e8a716a5acde5a8ef5414f912e6ac772b589c9bd18c6bc4776d3cf6ec0b1705"
   },
   {
     "id": "group-chat",
@@ -79,7 +79,7 @@
     "num": "4. State: give each agent its own copy",
     "heading": "",
     "path": [],
-    "hash": "9cb639eac0afe3dd96d3f6fd6bdbe233e032517705525253954f6a0ff96e7264"
+    "hash": "86e4d3497a444bc75e2a2d4efca48d56e386dcf58ba5465125803e90b99952d8"
   },
   {
     "id": "5-memory-and-context",
@@ -116,14 +116,14 @@
     "num": "8. Evaluation: is it working?",
     "heading": "",
     "path": [],
-    "hash": "dc7958299c2deab4efd3ebe637c40774dab1fdb3de627f06ce5705224d214e6d"
+    "hash": "2c0fbe30d7cf5333a779da626b97aded9bc8b2c3ab8aad74a1ed567a3bd6306a"
   },
   {
     "id": "9-optimisation-where-most-of-the-value-is",
     "num": "9. Optimisation: where most of the value is",
     "heading": "",
     "path": [],
-    "hash": "51430f6c29aba3b6aaa9af767a710620c9bcbab3ab88ff1fead9d29c34767549"
+    "hash": "9bae0795f9c5e805ce807f54b64f670279d1d9e572811fdcb8dc1d1bfcbf28ce"
   },
   {
     "id": "10-the-agent-loop",
@@ -137,14 +137,14 @@
     "num": "11. Reference architecture: a working system",
     "heading": "",
     "path": [],
-    "hash": "5dd3c3cf403be67909acc83b5bcddf5780bc9e546079f5b07c279db33e5672a7"
+    "hash": "ed948b70b11924f796717302870c88efa5ea77094452d8e9d7084f2aa7373408"
   },
   {
     "id": "12-build-procedure",
     "num": "12. Build procedure",
     "heading": "",
     "path": [],
-    "hash": "012ca4c5828b4faadacf9ea5558933a16da6ea4c8ec658b9b04a41526ad2487d"
+    "hash": "140dc15002486d30d8d5522ff229962109c57013c5b4cacf28c9c9fc045532ff"
   },
   {
     "id": "13-prompts-you-can-reuse",
@@ -158,13 +158,20 @@
     "num": "14. Guidelines to keep",
     "heading": "",
     "path": [],
-    "hash": "8b510854c9adab6d0854b9016f935686f55cc8196fba250ec41caa16f1dccefa"
+    "hash": "e4eca75bdb200015f6a5cfc922031747f72c4f17a0d6fdc2157b484342e2ae63"
+  },
+  {
+    "id": "15-safety-permissions-and-cost",
+    "num": "15. Safety, permissions and cost",
+    "heading": "",
+    "path": [],
+    "hash": "529b9c142eaa1cc6edc2bf8f09d9e1caec7b539913478897d2b0c6d54fc19b46"
   },
   {
     "id": "provenance",
     "num": "Provenance",
     "heading": "",
     "path": [],
-    "hash": "3d894c50c640c7a8042e2224f4ac010c9900d53fb1b9d56de2aedecf9a7e84e8"
+    "hash": "841b1e2665df0183e0c1ecf5d179bfcfc47fac45848af1140aac9e1c26452d0b"
   }
 ]
