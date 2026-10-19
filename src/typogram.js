@@ -150,6 +150,10 @@ export function buildJsonld({ name, author, dateCreated, inLanguage, license, de
       // is unchanged from the sealed document without re-hashing the whole text. Derived from the signed text, so it is
       // checkable even though it is an index, not part of tgart.hash.
       if (p.hash != null) part.hash = String(p.hash);
+      // Per-article link to the official source of THIS article (e.g. the gov page for one law article), so a reader can
+      // open or cite the authoritative version of a single part. `isBasedOn` matches the document-level isBasedOn above;
+      // it is metadata only (not part of tgart.hash), verified to resolve before it is written.
+      if (p.url != null) part.isBasedOn = String(p.url);
       return part;
     });
   }

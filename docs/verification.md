@@ -26,6 +26,8 @@ points → NFC → collapse whitespace → trim) and reference implementations a
 is stored in the data-layer record as `tgart.hash` and recomputed from the image layer on verify; the two must be equal, and
 both must equal the hash of the embedded source.
 
+**Per-article links (structured works).** Where an official per-article source is reachable and static, each `hasPart` entry also carries an `isBasedOn` link to that article's official page (e.g. the German Basic Law links each article to gesetze-im-internet.de). A source that blocks automated clients or serves its text via JavaScript is left out — an unreachable link is worse than none.
+
 **Per-article hash (structured works).** A structured law also carries, in each `hasPart` entry, a `hash`: the `SHA-256` of
 just that article's canonical span. It lets you prove a single cited article is unchanged from the sealed document without
 re-hashing the whole text. To check one: read the exact source (`tg extract <work> --markdown`); take the cited article's
