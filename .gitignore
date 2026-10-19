@@ -6,3 +6,7 @@ examples/.cache/
 _site/
 .wrangler/
 test/.bundle-*
+
+# Python build artifacts
+__pycache__/
+*.pyc
