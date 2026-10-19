@@ -83,7 +83,7 @@ console.log(`about/typographics-art.md: ${md.length.toLocaleString('en-US')} cha
 const session = await openSession();
 try {
   const r = await makeOnePage(session, {
-    text: md, title: 'Typographics Art', subtitle: 'everything about this project on one page · ask your AI what it is',
+    text: md, title: 'Typographics Art', subtitle: 'the whole project in one file · ask your AI what it is',
     motif: motifSource(join(ROOT, 'examples/motifs/ai-readme.png')),
     pdf: join(OUT, 'typographics-art.pdf'), preview: join(OUT, 'preview.jpg'), previewWidth: 1240,
     // The same explanation as one downloadable Typogram SVG: it opens as a picture, a machine reads the whole text back,

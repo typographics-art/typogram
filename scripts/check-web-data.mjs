@@ -106,7 +106,9 @@ async function startChrome(chrome, downloads) {
       const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank' });
       return new Page(await connect(`ws://127.0.0.1:${port}/devtools/page/${targetId}`), targetId, browser);
     },
-    async close() { try { browser.close(); } catch { /* gone */ } proc.kill(); await sleep(150); rmSync(profile, { recursive: true, force: true }); },
+    // Chrome can still be flushing its profile for a moment after it is killed, so a plain rmSync races it (ENOTEMPTY).
+    // maxRetries/retryDelay make Node retry the removal (it retries ENOTEMPTY/EBUSY) until Chrome has let the files go.
+    async close() { try { browser.close(); } catch { /* gone */ } proc.kill(); await sleep(150); rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); },
   };
 }
 

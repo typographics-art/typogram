@@ -307,7 +307,13 @@ function imageCard(c, g, title, subtitle, w, h, family, img, levels = false, dar
   const block = size * 0.78 + (subtitle ? sub * 1.5 : 0);
   const top = ih + (bandH - block) / 2;
   g.fillText(plain, w / 2, top + size * 0.78);
-  if (subtitle) { g.font = `600 ${sub}px ${family}`; g.fillText(subtitle, w / 2, top + size * 0.78 + sub * 1.45, w * 0.92); }
+  if (subtitle) {
+    // Fit the subtitle by SHRINKING the size (bounded), not by fillText's maxWidth, which squishes a long subtitle into
+    // thin, barely-formable letters — the setting then renders it almost invisible. A heavier weight keeps it legible.
+    let ss = sub; g.font = `700 ${ss}px ${family}`;
+    while (g.measureText(subtitle).width > w * 0.92 && ss > sub * 0.55) { ss *= 0.96; g.font = `700 ${ss}px ${family}`; }
+    g.fillText(subtitle, w / 2, top + size * 0.78 + sub * 1.45);
+  }
   return c;
 }
 async function loadMotif(src) {
