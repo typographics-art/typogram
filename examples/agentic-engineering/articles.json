@@ -4,14 +4,14 @@
     "num": "1. The two questions",
     "heading": "",
     "path": [],
-    "hash": "c6a859091a2f04e19d16955873dac1cd5b8a2ad6a5350ab6f56e1f33acf50de2"
+    "hash": "6dc5f4c4d2e1e33b9aa94004c1afa65314ff16acdd66fd0fab09e7e5ccd3e108"
   },
   {
     "id": "2-workflow-patterns-explicit-control-routed-in-c",
     "num": "2. Workflow patterns: explicit control, routed in code",
     "heading": "",
     "path": [],
-    "hash": "32698c669fbb39d00c40e3fe8adb16fbb08c7987b3884a45b77eaf70daccb6d4"
+    "hash": "2969874a3994301d474ab3325191438835aed668e119e702efbd55f196561df3"
   },
   {
     "id": "sequential",
@@ -38,14 +38,59 @@
     "path": [
       "2. Workflow patterns: explicit control, routed in code"
     ],
-    "hash": "c27e7fcd59b3b79eea26dbcbe4af146c4950e0fead046f2c0516a558ba03d9eb"
+    "hash": "01a5b3e8ef75b48467c1a6574b76d84c78e4f6569545aaf485eed1882a8d4902"
+  },
+  {
+    "id": "prompt-chaining-with-gates",
+    "num": "Prompt chaining with gates",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "6a039d52e4c0d9e9f786faca3d7bebd02ebcf0b95597439dd149a0be7bc8bded"
+  },
+  {
+    "id": "routing-by-complexity",
+    "num": "Routing by complexity",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "7ad09748353a499360933fcd916a0ef204b84df5ff75efb6341293f18cab7017"
+  },
+  {
+    "id": "orchestrator-and-workers",
+    "num": "Orchestrator and workers",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "d0f22323c1b9966d56a00d679b60b05a3abb430172eeb8aef760c22e495e15bb"
+  },
+  {
+    "id": "evaluator-and-optimiser",
+    "num": "Evaluator and optimiser",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "c725b345e802468dc38cece4a57cad9de5969b36de4c7f04e86f03d381026e4c"
+  },
+  {
+    "id": "map-reduce-and-fan-in",
+    "num": "Map-reduce and fan-in",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "19e180bd1173ed244ad32d4ff6a99c8fe010d695f17b5f7a9c6fda4ca873fa9a"
   },
   {
     "id": "3-autonomous-patterns-emergent-control-routed-by",
     "num": "3. Autonomous patterns: emergent control, routed by the model",
     "heading": "",
     "path": [],
-    "hash": "e7d08ba97c8de078f880e27df1b9fbfa55a913eac35829bfe2079ef102e9dc43"
+    "hash": "2e764d0e54d3dd9ff93b6f9c0813fc5264e34008903a81d495d44535a5fba2b9"
   },
   {
     "id": "plan-based",
@@ -72,100 +117,247 @@
     "path": [
       "3. Autonomous patterns: emergent control, routed by the model"
     ],
-    "hash": "78191216de6c2d8be760a1e66d6f4a49e2548642ad2be0e0f06b2bbc1e9fa6f5"
+    "hash": "ace06a3e337b1930c95c52cc4d61ab6a1a4ec3f620239dee4ec0eddcc004b445"
   },
   {
-    "id": "4-state-give-each-agent-its-own-copy",
-    "num": "4. State: give each agent its own copy",
+    "id": "hierarchical-teams",
+    "num": "Hierarchical teams",
     "heading": "",
-    "path": [],
-    "hash": "86e4d3497a444bc75e2a2d4efca48d56e386dcf58ba5465125803e90b99952d8"
+    "path": [
+      "3. Autonomous patterns: emergent control, routed by the model"
+    ],
+    "hash": "5a2f351e5da8af533e46dec9acd28bd0ebd19436d2ab44a6c5113a1a04b91eb5"
   },
   {
-    "id": "5-memory-and-context",
-    "num": "5. Memory and context",
+    "id": "blackboard",
+    "num": "Blackboard",
     "heading": "",
-    "path": [],
-    "hash": "c11c42b124ac613a62cb139a992c8d85a3a7ccea3bd917ce6ddbc377b0f21388"
+    "path": [
+      "3. Autonomous patterns: emergent control, routed by the model"
+    ],
+    "hash": "7ccecf0ce1f0e2a4e6a4d68ad609b0ca3d9605b0b5752b839d77d60753ca66f7"
   },
   {
-    "id": "6-model-choice",
-    "num": "6. Model choice",
+    "id": "debate",
+    "num": "Debate",
     "heading": "",
-    "path": [],
-    "hash": "4ff5c4e8516a163f41f0b0d9901b9bfabc651b0f35a24a707a39784d327ac415"
+    "path": [
+      "3. Autonomous patterns: emergent control, routed by the model"
+    ],
+    "hash": "54cd697e9ccbb2e8cba4aa25f22fce8d1a2cff5b4fbc51046cfda84d2bccc0e4"
   },
   {
-    "id": "7-how-to-choose",
-    "num": "7. How to choose",
+    "id": "4-the-agent-loop",
+    "num": "4. The agent loop",
     "heading": "",
     "path": [],
-    "hash": "625067bfe02ec780f3c76489d0474be211ff635fb69786398981f2fe15e5d796"
+    "hash": "c14760857f3adfec80b3607131690d80e927dcafd42e8cc71de10a94fd48593f"
+  },
+  {
+    "id": "reasoning-patterns-inside-the-loop",
+    "num": "Reasoning patterns inside the loop",
+    "heading": "",
+    "path": [
+      "4. The agent loop"
+    ],
+    "hash": "7be7c74dff5f65f3d5fb6fd8936fbf751036d24d6d692768aef20f813bd4dfa4"
+  },
+  {
+    "id": "5-tools-the-real-interface",
+    "num": "5. Tools: the real interface",
+    "heading": "",
+    "path": [],
+    "hash": "e054be12ba83b9b95d0f52020758751703aa8873485ae71da57555aaedb2b7af"
+  },
+  {
+    "id": "6-state-give-each-agent-its-own-copy",
+    "num": "6. State: give each agent its own copy",
+    "heading": "",
+    "path": [],
+    "hash": "c646153f88310f0e4024af93e78a6a9424fdfee1f26fadf7dae861d908c972b0"
+  },
+  {
+    "id": "7-memory-and-context",
+    "num": "7. Memory and context",
+    "heading": "",
+    "path": [],
+    "hash": "023f6a057966a656273f6545255445449fe05dead405f7bde6a6322460c3ed4d"
+  },
+  {
+    "id": "kinds-of-memory",
+    "num": "Kinds of memory",
+    "heading": "",
+    "path": [
+      "7. Memory and context"
+    ],
+    "hash": "bf122c86b902b0b8b2e8e924d084970d747c8e59a0048f1ffc82e2eceea6a2b1"
+  },
+  {
+    "id": "retrieval",
+    "num": "Retrieval",
+    "heading": "",
+    "path": [
+      "7. Memory and context"
+    ],
+    "hash": "ce0e028c71a37030ee93c1df3d12011e73bdf618fc1872a0e760c6e7638d10b4"
+  },
+  {
+    "id": "compaction-scratchpads-and-the-context-budget",
+    "num": "Compaction, scratchpads and the context budget",
+    "heading": "",
+    "path": [
+      "7. Memory and context"
+    ],
+    "hash": "7b5e9b264582286289f6f033cd96b91bf3922abc6aa4a29a2e3c11167bdda211"
+  },
+  {
+    "id": "8-control-structure-and-reliability",
+    "num": "8. Control structure and reliability",
+    "heading": "",
+    "path": [],
+    "hash": "578ecae8983479393f4a52a0c9856b5f3a11c9071cbdc87ea526725998b2f606"
+  },
+  {
+    "id": "9-model-choice-and-routing",
+    "num": "9. Model choice and routing",
+    "heading": "",
+    "path": [],
+    "hash": "13cff3d540181ffc9e9462e91ac2776e9f1c3b535de6328a6e3d5dae7b31a415"
+  },
+  {
+    "id": "the-model-router",
+    "num": "The model router",
+    "heading": "",
+    "path": [
+      "9. Model choice and routing"
+    ],
+    "hash": "117a5154d66a63cd26936846417954e0976358cd722d292c162c6c014d58f653"
+  },
+  {
+    "id": "escalation",
+    "num": "Escalation",
+    "heading": "",
+    "path": [
+      "9. Model choice and routing"
+    ],
+    "hash": "f991a0b9abd25d590595b6739519d14b76a5de18b5215fed77cebbd3eb50b9d2"
+  },
+  {
+    "id": "10-how-to-choose",
+    "num": "10. How to choose",
+    "heading": "",
+    "path": [],
+    "hash": "9db7ef1065242b545bfaaec5f87dd49c4e21f1fa51dfeff2bd79295207032c9d"
   },
   {
     "id": "by-use-case",
     "num": "By use case",
     "heading": "",
     "path": [
-      "7. How to choose"
+      "10. How to choose"
     ],
-    "hash": "c437f52c1a341647e451e0a650c41b501ad5fb94c999789ff8c0ef8cdf41948f"
+    "hash": "4b5f4a27037dfee69d9ff0677bfed18963f31f0ae82e65397feaf4ce9f8f119e"
   },
   {
-    "id": "8-evaluation-is-it-working",
-    "num": "8. Evaluation: is it working?",
+    "id": "11-evaluation-is-it-working",
+    "num": "11. Evaluation: is it working?",
     "heading": "",
     "path": [],
-    "hash": "2c0fbe30d7cf5333a779da626b97aded9bc8b2c3ab8aad74a1ed567a3bd6306a"
+    "hash": "07f3c0b52d2e94075f3d7c7b8db5fd73525e7793fffee09ffe42bc2eee9fa224"
   },
   {
-    "id": "9-optimisation-where-most-of-the-value-is",
-    "num": "9. Optimisation: where most of the value is",
+    "id": "judges-with-rubrics",
+    "num": "Judges with rubrics",
     "heading": "",
-    "path": [],
-    "hash": "9bae0795f9c5e805ce807f54b64f670279d1d9e572811fdcb8dc1d1bfcbf28ce"
+    "path": [
+      "11. Evaluation: is it working?"
+    ],
+    "hash": "01aa9a415d1f3a12527c5e8eda6e78387df7bacf2e1660166cf644d0ae3626a3"
   },
   {
-    "id": "10-the-agent-loop",
-    "num": "10. The agent loop",
+    "id": "regression-suites",
+    "num": "Regression suites",
     "heading": "",
-    "path": [],
-    "hash": "d5ad7e6bb91e9ad5dc7ba5492d127960223eeb7703884c49cdc3cd3d5a1dc33d"
+    "path": [
+      "11. Evaluation: is it working?"
+    ],
+    "hash": "12eead534d0fef5564e344c29584caae0cfbe540665f90850caef2fd0fb8e301"
   },
   {
-    "id": "11-reference-architecture-a-working-system",
-    "num": "11. Reference architecture: a working system",
+    "id": "adversarial-cases",
+    "num": "Adversarial cases",
     "heading": "",
-    "path": [],
-    "hash": "ed948b70b11924f796717302870c88efa5ea77094452d8e9d7084f2aa7373408"
+    "path": [
+      "11. Evaluation: is it working?"
+    ],
+    "hash": "8f110ee4f54a832c1b8db4cf8e70066000664e53abc296875ba243ecfd8ae7b5"
   },
   {
-    "id": "12-build-procedure",
-    "num": "12. Build procedure",
+    "id": "online-evaluation-and-guardrails",
+    "num": "Online evaluation and guardrails",
     "heading": "",
-    "path": [],
-    "hash": "140dc15002486d30d8d5522ff229962109c57013c5b4cacf28c9c9fc045532ff"
+    "path": [
+      "11. Evaluation: is it working?"
+    ],
+    "hash": "a4997ef40c2524da5ab0bab4bdd5d32a53bd3d39b750664a229f97cbabdf08df"
   },
   {
-    "id": "13-prompts-you-can-reuse",
-    "num": "13. Prompts you can reuse",
+    "id": "tracing-and-observability",
+    "num": "Tracing and observability",
     "heading": "",
-    "path": [],
-    "hash": "71433d84bca2426ff5a65f215aba8e600937670e314c153d460f8c7722b7a04d"
+    "path": [
+      "11. Evaluation: is it working?"
+    ],
+    "hash": "e6972c31768e9afdc7ca5ceb48024d01678ea933b1abfc992d7f333e2fe91bb6"
   },
   {
-    "id": "14-guidelines-to-keep",
-    "num": "14. Guidelines to keep",
+    "id": "12-optimisation-where-most-of-the-value-is",
+    "num": "12. Optimisation: where most of the value is",
     "heading": "",
     "path": [],
-    "hash": "e4eca75bdb200015f6a5cfc922031747f72c4f17a0d6fdc2157b484342e2ae63"
+    "hash": "cb31d4e5f6f9f72add27cee5ac2d8ecee1ac6046b6717013a5f1dfdd643f384e"
   },
   {
-    "id": "15-safety-permissions-and-cost",
-    "num": "15. Safety, permissions and cost",
+    "id": "13-prompting-at-the-system-level",
+    "num": "13. Prompting at the system level",
     "heading": "",
     "path": [],
-    "hash": "529b9c142eaa1cc6edc2bf8f09d9e1caec7b539913478897d2b0c6d54fc19b46"
+    "hash": "966700d22092df483cdda9e328cdc89647991a564092d05df7880063b42e5088"
+  },
+  {
+    "id": "14-reference-architecture-a-working-system",
+    "num": "14. Reference architecture: a working system",
+    "heading": "",
+    "path": [],
+    "hash": "f644e06c4613a1e326e791263ced5f7458643e1a337cbbeeffa0e9cb8bef12b5"
+  },
+  {
+    "id": "15-build-procedure",
+    "num": "15. Build procedure",
+    "heading": "",
+    "path": [],
+    "hash": "01819e8dd834c866fa929fb97b9c77a118d776470730d0813ca4b73f06947790"
+  },
+  {
+    "id": "16-prompts-you-can-reuse",
+    "num": "16. Prompts you can reuse",
+    "heading": "",
+    "path": [],
+    "hash": "d7c010eb931eedfbb0e2324d494e5e3e2fce95779c230407bcfb2b08bdd4b027"
+  },
+  {
+    "id": "17-guidelines-to-keep",
+    "num": "17. Guidelines to keep",
+    "heading": "",
+    "path": [],
+    "hash": "b3555c76ec6e2f36449ba5c68621761c008cc3a3258f8c1498b1d592e6107ebc"
+  },
+  {
+    "id": "18-safety-permissions-and-cost",
+    "num": "18. Safety, permissions and cost",
+    "heading": "",
+    "path": [],
+    "hash": "aa405e13a7538ccfc174a177ce7c5a8a555c0b487124b9451084bf58c84006d2"
   },
   {
     "id": "provenance",
