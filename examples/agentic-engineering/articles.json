@@ -11,7 +11,7 @@
     "num": "2. Workflow patterns: explicit control, routed in code",
     "heading": "",
     "path": [],
-    "hash": "2969874a3994301d474ab3325191438835aed668e119e702efbd55f196561df3"
+    "hash": "750eab9f18885b2987dd251665b4107602397eebcee92f372cbd3a840d856f6d"
   },
   {
     "id": "sequential",
@@ -329,7 +329,7 @@
     "num": "14. Reference architecture: a working system",
     "heading": "",
     "path": [],
-    "hash": "f644e06c4613a1e326e791263ced5f7458643e1a337cbbeeffa0e9cb8bef12b5"
+    "hash": "973dceea6e1d44b9179516548ed3d72471e89646c068e3adebceb0964ea807f7"
   },
   {
     "id": "15-build-procedure",
@@ -364,6 +364,6 @@
     "num": "Provenance",
     "heading": "",
     "path": [],
-    "hash": "841b1e2665df0183e0c1ecf5d179bfcfc47fac45848af1140aac9e1c26452d0b"
+    "hash": "8a6a299cca9bd48b5969a88ad87017375cf00cc6416246323f2586778c8fd1f3"
   }
 ]

@@ -1,6 +1,6 @@
 # Agentic Engineering: Building Multi-Agent Systems
 
-A practical, build-ready guide to orchestrating AI agents, written for a machine to read and act on. It is general: it names the patterns for building agents and, for each kind of application, shows which pattern to reach for, how to hold state and memory, and how to choose the model. The claim throughout: these systems are not magic. They are ordinary software built with AI components. Design them the way you design software, and add intelligence only where it earns its place.
+A practical, build-ready guide to orchestrating AI agents, written for a machine to read and apply. It is general: it names the patterns for building agents and, for each kind of application, shows which pattern to reach for, how to hold state and memory, and how to choose the model. The claim throughout: these systems are not magic. They are ordinary software built with AI components. Design them the way you design software, and add intelligence only where it earns its place.
 
 ## 1. The two questions
 
@@ -15,7 +15,7 @@ The sections follow the build: the shapes of control (2, 3), the loop inside one
 
 ## 2. Workflow patterns: explicit control, routed in code
 
-Use a workflow when you already know the steps. The route is fixed in code; the model only fills in each step. Three basic shapes cover almost everything; the five that follow are the compositions of them you will reach for most.
+Use a workflow when you already know the steps. The route is fixed in code; the model only fills in each step. Three basic shapes cover almost everything; the five that follow are the compositions of them you will reach for most. Two of the five — orchestrator-workers and evaluator-optimiser — let the model set the subtasks or decide when to stop, so they sit nearest the middle of the control spectrum (section 1); the skeleton around them is still explicit.
 
 ### Sequential
 
@@ -297,13 +297,13 @@ The tricks that matter when a prompt is a component of a system, not a message i
 
 ## 14. Reference architecture: a working system
 
-One concrete system that puts the patterns together. It is an example of the general shape, not the only one. One message runs it all, and a human only at the end.
+One concrete system that puts the patterns together. It is an example of the general shape, not the only one. One message runs it all, and a human only at the end of the routine path.
 
 - Intake: one message (from a phone, a chat app, or a client) creates a card on a task board with three columns, NEW, PICKED UP, DONE.
 - Listener: watches the board, picks up a new card, and starts the flow. Everything after is automatic.
 - Report block: an agent gathers sources, does the work, and runs its own checks for accuracy, structure, and writing. Then a judge, a second agent seeing the work for the first time, reads the report. After a few fix cycles it is handed back to the human. During testing, plant a fault on purpose (a quote changed to claim more than it says) and confirm the judge catches it.
 - Fan-out: split the work into several isolated sandboxes, each running a different model (for example three frontier models from different providers) building the same deliverable. A copy each, no shared state.
-- Human at the end: the person picks the best of the several outputs. That is the only human step.
+- Human at the end: the person picks the best of the several outputs. That is the only routine human step; escalation (section 9) and the gate before any irreversible action (section 18) can still bring a human in mid-run — a send or a publish passes through that gate, not straight out.
 - Everything is logged: a live event stream and an explicit per-step status, so you can see what each agent did and why. The board holds the checkpoint; the stream holds the trace.
 
 ## 15. Build procedure
@@ -395,4 +395,4 @@ An agent is software with the authority to act. Scope that authority, log every 
 
 ## Provenance
 
-This page is a written synthesis by typographics-art.org of the field's common, publicly documented agent-building patterns, set out for a machine to read and act on — not a claim to have invented them. It is set as a Typographics Art one-pager: each section carries its own hash, and the whole page carries the issuer's Ed25519 signature. Verify it at typographics-art.org/v; the signing key is published at typographics-art.org/keys and mirrored on GitHub, npm and PyPI.
+This page is a written synthesis by typographics-art.org of the field's common, publicly documented agent-building patterns, set out for a machine to read and apply — not a claim to have invented them. It is set as a Typographics Art one-pager: each section carries its own hash, and the whole page carries the issuer's Ed25519 signature. Verify it at typographics-art.org/v; the signing key is published at typographics-art.org/keys and mirrored on GitHub, npm and PyPI.

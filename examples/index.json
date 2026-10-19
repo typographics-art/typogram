@@ -936,27 +936,27 @@
     "licence": "Original written synthesis by typographics-art.org. CC BY 4.0.",
     "url": null,
     "sourcePages": null,
-    "words": 7223,
-    "characters": 41223,
-    "fontSizeMm": 1.867,
+    "words": 7297,
+    "characters": 41662,
+    "fontSizeMm": 1.856,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 34001,
-      "sha256Source": "14c2c012f22482342b3b2541f2cbd67ca0f0e2b93390d96d5ad6d2b4ca5ccd5f",
-      "sha256ReadBack": "14c2c012f22482342b3b2541f2cbd67ca0f0e2b93390d96d5ad6d2b4ca5ccd5f"
+      "visibleCharacters": 34366,
+      "sha256Source": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8",
+      "sha256ReadBack": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8"
     },
-    "pdfBytes": 294581,
-    "sourceBytes": 41465,
+    "pdfBytes": 302082,
+    "sourceBytes": 41910,
     "motifCredit": null,
     "text": "source.txt",
-    "textSha256": "14c2c012f22482342b3b2541f2cbd67ca0f0e2b93390d96d5ad6d2b4ca5ccd5f",
+    "textSha256": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8",
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENTIC",
-    "rev": "bedc551d51",
+    "rev": "18fbffcf19",
     "signed": true
   }
 ]
