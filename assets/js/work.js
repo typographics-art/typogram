@@ -119,13 +119,15 @@ async function pdfToText(path) {
 /* ---------- load ---------- */
 async function load() {
   // Metadata: either from examples/index.json by ?example=<id>, or from explicit params.
-  let art = P.get('art'), textPath = P.get('text'), title = P.get('title');
+  let art = P.get('art'), textPath = P.get('text'), title = P.get('title'), rev = null;
   const meta = {};
   const example = P.get('example');
   if (example) {
-    const list = await fetchText('examples/index.json').then(JSON.parse).catch(() => []);
+    // Revalidate the catalogue (cached a day by _headers) so a regenerated poster's `rev` is current.
+    const list = await fetch('examples/index.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => []);
     const e = list.find((x) => x.id === example);
     if (e) {
+      rev = e.rev || null;
       art = art || `examples/${e.id}/onepage.pdf`;
       if (e.text) textPath = textPath || `examples/${e.id}/${e.text}`;
       title = title || e.document || e.title;
@@ -135,7 +137,9 @@ async function load() {
   for (const k of ['document', 'version', 'retrieved', 'licence']) if (P.get(k)) meta[k] = P.get(k);
   if (P.get('url')) meta.url = httpUrl(P.get('url'));
   state.meta = meta;
-  const artUrl = sameOrigin(art);
+  const artUrl0 = sameOrigin(art);
+  // A content version (the poster's rev) busts the one-day image cache, so a regenerated poster shows at once.
+  const artUrl = artUrl0 && rev ? artUrl0 + (artUrl0.includes('?') ? '&' : '?') + 'v=' + encodeURIComponent(rev) : artUrl0;
   const textUrl = sameOrigin(textPath);
   if (!P.get('art') && !example) { await openEmpty(); return; }
   if (!artUrl) { fail(u('badArt')); return; }
