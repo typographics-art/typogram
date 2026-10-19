@@ -1,0 +1,30 @@
+{
+  "spec": "tgart-registry-v1",
+  "updated": "2026-10-19",
+  "note": "Verified Typographics Art issuer keys. Each Ed25519 statement self-verifies and is served at the issuer's https://<issuer>/.well-known/tgart-keys.json. Check a signed work with: tg verify <file> --keys <this file>. Submit a key: https://typographics-art.org/keys.",
+  "issuers": [
+    {
+      "issuer": "typographics-art.org",
+      "verifiedAt": "2026-10-19",
+      "verifiedVia": "https://typographics-art.org/.well-known/tgart-keys.json",
+      "keys": [
+        {
+          "spec": "tgart-key-v1",
+          "issuer": "typographics-art.org",
+          "kid": "2026-10",
+          "alg": "Ed25519",
+          "publicKey": "gZ2i5gTPUM7w38p3K8dQsQsaOnnKWZqHillu02ok-14",
+          "created": "2026-10-18",
+          "expires": null,
+          "predecessor": null,
+          "revokes": [],
+          "sig": {
+            "by": "self",
+            "signature": "Lnm8s2iifCk2wTBEoxwr1a6YqNRjzDBFnthwjniky8anyUffA8cN77bFLwQ43HAKnarjcILz1ItrwL2lbeO9BA"
+          },
+          "anchors": []
+        }
+      ]
+    }
+  ]
+}

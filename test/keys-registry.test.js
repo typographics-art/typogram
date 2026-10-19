@@ -72,10 +72,12 @@ test('the committed registry verifies and lists every keys/<domain>.json', () =>
     'keys/registry.json is out of sync with the keys/<domain>.json files — run: tg keys build');
 });
 
-test('the npm package (@typographics-art/keys) is in sync with keys/registry.json', () => {
+test('the npm and PyPI packages are in sync with keys/registry.json', () => {
   const reg = JSON.parse(readFileSync(join(ROOT, 'keys', 'registry.json'), 'utf8'));
-  const pkg = JSON.parse(readFileSync(join(ROOT, 'packages', 'keys', 'registry.json'), 'utf8'));
-  assert.deepEqual(pkg, reg, 'packages/keys is stale — run: node scripts/build-keys-package.mjs');
+  const npm = JSON.parse(readFileSync(join(ROOT, 'packages', 'keys', 'registry.json'), 'utf8'));
+  const pypi = JSON.parse(readFileSync(join(ROOT, 'packages', 'pypi-keys', 'tgart_keys', 'registry.json'), 'utf8'));
+  assert.deepEqual(npm, reg, 'packages/keys is stale — run: node scripts/build-keys-package.mjs');
+  assert.deepEqual(pypi, reg, 'packages/pypi-keys is stale — run: node scripts/build-keys-package.mjs');
 });
 
 test('fetchIssuerKeyfile: accepts a well-formed served file; rejects issuer mismatch and non-2xx', async () => {

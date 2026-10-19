@@ -13,6 +13,7 @@ an arbitrary website. Every entry is checked two ways — each key statement **s
 - **On the website:** `https://typographics-art.org/keys/registry.json` (and the page `https://typographics-art.org/keys`).
 - **As an npm package** (immutable — a published version can never be silently changed):
   `npm view @typographics-art/keys` → the registry ships as `registry.json` inside the package.
+- **As a PyPI package** (immutable; for Python sandboxes): `pip install tgart-keys` → `import tgart_keys; tgart_keys.registry`.
 - **Per issuer, from the source of truth:** `https://<issuer>/.well-known/tgart-keys.json`.
 
 ## Use it

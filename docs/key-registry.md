@@ -26,6 +26,7 @@ recipients (`alg: "X25519"`); the secrets that match them stay with each issuer.
 | GitHub (raw) | `https://raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json` | for GitHub-allowlisted agents |
 | Website | `https://typographics-art.org/keys/registry.json` and the page `/keys` | indexed, linked from the site |
 | npm | `@typographics-art/keys` (`registry.json` + a tiny ESM index) | **immutable** per version |
+| PyPI | `tgart-keys` (`import tgart_keys` → `registry`, `issuers()`, `get_issuer()`) | **immutable** per version; for Python sandboxes |
 | Per issuer | `https://<issuer>/.well-known/tgart-keys.json` | the source of truth each entry is checked against |
 
 ## Verify a work against the registry

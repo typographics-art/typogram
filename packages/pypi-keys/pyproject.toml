@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tgart-keys"
+version = "0.1.0"
+description = "Verified Typographics Art issuer signing keys (Ed25519) and sealing keys (X25519), published immutably so agents that can only reach PyPI can verify signed Typograms. No private keys."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Typographics Art", email = "d0n@typographics-art.org" }]
+keywords = ["typographics-art", "typogram", "ed25519", "signing-keys", "provenance", "verification", "signatures"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security :: Cryptography",
+  "Intended Audience :: Developers",
+]
+
+[project.urls]
+Homepage = "https://typographics-art.org/keys"
+Source = "https://github.com/typographics-art/typogram"
+Registry = "https://typographics-art.org/keys/registry.json"
+
+[tool.hatch.build.targets.wheel]
+include = ["tgart_keys/**"]
+
+[tool.hatch.build.targets.sdist]
+include = ["tgart_keys/**", "README.md", "pyproject.toml"]
