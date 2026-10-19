@@ -8,7 +8,7 @@
     "sourcePages": null,
     "words": 17894,
     "characters": 132347,
-    "fontSizeMm": 0.97,
+    "fontSizeMm": 0.981,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -18,7 +18,7 @@
       "sha256Source": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690",
       "sha256ReadBack": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690"
     },
-    "pdfBytes": 1586793,
+    "pdfBytes": 1418936,
     "sourceBytes": 135747,
     "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
     "text": "source.txt",
@@ -26,7 +26,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung",
-    "rev": "529402c822",
+    "rev": "66d78984ab",
     "signed": true
   },
   {
@@ -36,27 +36,27 @@
     "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
     "url": "https://www.gesetze-im-internet.de/gg/",
     "sourcePages": null,
-    "words": 23963,
-    "characters": 176938,
-    "fontSizeMm": 0.875,
+    "words": 23973,
+    "characters": 176995,
+    "fontSizeMm": 0.871,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 152976,
-      "sha256Source": "ac2bf5a1687c29262c099f4f2458bfbf3b8fa6f7b77cbd8e7f1fbe04d7962265",
-      "sha256ReadBack": "ac2bf5a1687c29262c099f4f2458bfbf3b8fa6f7b77cbd8e7f1fbe04d7962265"
+      "visibleCharacters": 153023,
+      "sha256Source": "09d8a1770cfac067a346ec27a8f09a7b91f9dbfe0208f99cb0457366a702b1a9",
+      "sha256ReadBack": "09d8a1770cfac067a346ec27a8f09a7b91f9dbfe0208f99cb0457366a702b1a9"
     },
-    "pdfBytes": 815122,
-    "sourceBytes": 180565,
+    "pdfBytes": 799405,
+    "sourceBytes": 180628,
     "motifCredit": null,
     "text": "source.txt",
-    "textSha256": "ac2bf5a1687c29262c099f4f2458bfbf3b8fa6f7b77cbd8e7f1fbe04d7962265",
+    "textSha256": "09d8a1770cfac067a346ec27a8f09a7b91f9dbfe0208f99cb0457366a702b1a9",
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Grundgesetz",
-    "rev": "83ad76f6ef",
+    "rev": "3746e46ffa",
     "signed": true
   },
   {
@@ -78,7 +78,7 @@
       "sha256Source": "4b3cd9be54a2539588b8ed6026a65394f9ff3d7db38fe7ec0ada82be01607cba",
       "sha256ReadBack": "4b3cd9be54a2539588b8ed6026a65394f9ff3d7db38fe7ec0ada82be01607cba"
     },
-    "pdfBytes": 513643,
+    "pdfBytes": 512660,
     "sourceBytes": 45305,
     "motifCredit": "Henry Hintermeister, \"The Foundation of American Government\" (1925), Library of Congress. Public domain in the United States (published 1925).",
     "text": "source.txt",
@@ -86,37 +86,37 @@
     "textMatchesArt": true,
     "motifFile": "motifs/us-constitution-hintermeister-1925.jpg",
     "title": "Constitution",
-    "rev": "23248b66ab",
+    "rev": "3a728dd4bc",
     "signed": true
   },
   {
     "id": "eu-ai-act",
-    "document": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal",
+    "document": "Regulation (EU) 2024/1689 (Artificial Intelligence Act), Official Journal — enacting Articles 1–113 (Annexes I–XIII and recitals excluded)",
     "category": "law",
     "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
     "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
     "sourcePages": null,
-    "words": 45955,
-    "characters": 293887,
-    "fontSizeMm": 0.705,
+    "words": 45987,
+    "characters": 294115,
+    "fontSizeMm": 0.704,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 247933,
-      "sha256Source": "812486282b6e1762fb55717a29169505ddedf24d3d9c8faf194ede8df482c518",
-      "sha256ReadBack": "812486282b6e1762fb55717a29169505ddedf24d3d9c8faf194ede8df482c518"
+      "visibleCharacters": 248129,
+      "sha256Source": "de4270889c9fa641c598f1d1e1c0e7e6f3eac2246070e042f70f9a1b13a2e83d",
+      "sha256ReadBack": "de4270889c9fa641c598f1d1e1c0e7e6f3eac2246070e042f70f9a1b13a2e83d"
     },
-    "pdfBytes": 1676668,
-    "sourceBytes": 295815,
+    "pdfBytes": 1615080,
+    "sourceBytes": 296050,
     "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
     "text": "source.txt",
-    "textSha256": "812486282b6e1762fb55717a29169505ddedf24d3d9c8faf194ede8df482c518",
+    "textSha256": "de4270889c9fa641c598f1d1e1c0e7e6f3eac2246070e042f70f9a1b13a2e83d",
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AI Act",
-    "rev": "7b2276dc6d",
+    "rev": "70c01caf4e",
     "signed": true
   },
   {
@@ -146,7 +146,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Human Rights",
-    "rev": "2c47214273",
+    "rev": "34367bd2b9",
     "signed": true
   },
   {
@@ -176,8 +176,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "PEP 8",
-    "rev": "0c324c2995",
-    "signed": false
+    "rev": "40c47f8461",
+    "signed": true
   },
   {
     "id": "code-review-agent",
@@ -206,8 +206,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AI",
-    "rev": "6470456f85",
-    "signed": false
+    "rev": "4f1e5a991f",
+    "signed": true
   },
   {
     "id": "support-assistant",
@@ -236,8 +236,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Support",
-    "rev": "614de76768",
-    "signed": false
+    "rev": "9593c6d5fc",
+    "signed": true
   },
   {
     "id": "research-assistant",
@@ -266,8 +266,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Research",
-    "rev": "bca2a6cb35",
-    "signed": false
+    "rev": "7d7759fa91",
+    "signed": true
   },
   {
     "id": "agents-md",
@@ -296,8 +296,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENTS.md",
-    "rev": "491e97ff0f",
-    "signed": false
+    "rev": "fe03237d43",
+    "signed": true
   },
   {
     "id": "agent-bibliothek",
@@ -326,8 +326,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENT",
-    "rev": "203473e68e",
-    "signed": false
+    "rev": "be2096e56b",
+    "signed": true
   },
   {
     "id": "agent-library-readme",
@@ -356,8 +356,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "LIB",
-    "rev": "b9015c612d",
-    "signed": false
+    "rev": "038b247b03",
+    "signed": true
   },
   {
     "id": "agent-library-wissen",
@@ -386,8 +386,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "W",
-    "rev": "6dba3fca50",
-    "signed": false
+    "rev": "99a4e184a1",
+    "signed": true
   },
   {
     "id": "agent-regel-quellen",
@@ -416,8 +416,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§1",
-    "rev": "f57f9610ff",
-    "signed": false
+    "rev": "7bdc669636",
+    "signed": true
   },
   {
     "id": "agent-regel-unsicherheit",
@@ -446,8 +446,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§2",
-    "rev": "df90d68d31",
-    "signed": false
+    "rev": "5b5c2a509c",
+    "signed": true
   },
   {
     "id": "agent-regel-aufgaben",
@@ -476,8 +476,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§3",
-    "rev": "2359c9d9d2",
-    "signed": false
+    "rev": "2ab4d43338",
+    "signed": true
   },
   {
     "id": "agent-regel-berechtigungen",
@@ -506,8 +506,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§4",
-    "rev": "67f9010e91",
-    "signed": false
+    "rev": "6b064949ad",
+    "signed": true
   },
   {
     "id": "agent-regel-datenschutz",
@@ -536,8 +536,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§5",
-    "rev": "f5d5d7216f",
-    "signed": false
+    "rev": "27ab02efc6",
+    "signed": true
   },
   {
     "id": "agent-regel-qualitaet",
@@ -566,8 +566,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§6",
-    "rev": "41d2f547a9",
-    "signed": false
+    "rev": "78ff377e7c",
+    "signed": true
   },
   {
     "id": "agent-regel-ausgabe",
@@ -596,8 +596,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§7",
-    "rev": "71c8dbf40f",
-    "signed": false
+    "rev": "96dd6f16b8",
+    "signed": true
   },
   {
     "id": "agent-regel-fremdinhalte",
@@ -626,8 +626,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§8",
-    "rev": "a9e1e46f64",
-    "signed": false
+    "rev": "847ba98814",
+    "signed": true
   },
   {
     "id": "agent-prompts-code",
@@ -656,8 +656,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "CODE",
-    "rev": "4d1c91e783",
-    "signed": false
+    "rev": "ad594e3b0a",
+    "signed": true
   },
   {
     "id": "agent-prompts-sec",
@@ -686,8 +686,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "SEC",
-    "rev": "888b53e8d1",
-    "signed": false
+    "rev": "f56dbc43e9",
+    "signed": true
   },
   {
     "id": "agent-prompts-recherche",
@@ -716,8 +716,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "FAKT",
-    "rev": "c48fa3baac",
-    "signed": false
+    "rev": "2520c9434e",
+    "signed": true
   },
   {
     "id": "agent-prompts-dokumente",
@@ -746,8 +746,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "DOKU",
-    "rev": "1049116a81",
-    "signed": false
+    "rev": "4567776764",
+    "signed": true
   },
   {
     "id": "agent-prompts-daten",
@@ -776,8 +776,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "DATA",
-    "rev": "424e75ffe8",
-    "signed": false
+    "rev": "0639878f77",
+    "signed": true
   },
   {
     "id": "agent-prompts-schreiben",
@@ -806,8 +806,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "TEXT",
-    "rev": "9755e17deb",
-    "signed": false
+    "rev": "a82510bc51",
+    "signed": true
   },
   {
     "id": "agent-prompts-unternehmen",
@@ -836,8 +836,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "BIZ",
-    "rev": "3dc57a8007",
-    "signed": false
+    "rev": "ed82467a89",
+    "signed": true
   },
   {
     "id": "agent-prompts-projekt",
@@ -866,8 +866,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "PLAN",
-    "rev": "1064adeda1",
-    "signed": false
+    "rev": "5749c6e92a",
+    "signed": true
   },
   {
     "id": "agent-prompts-design",
@@ -896,8 +896,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "UX",
-    "rev": "8ab48b7bda",
-    "signed": false
+    "rev": "79fb5433a6",
+    "signed": true
   },
   {
     "id": "agent-prompts-betrieb",
@@ -926,7 +926,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "OPS",
-    "rev": "acc234a518",
-    "signed": false
+    "rev": "0eaaaea0ae",
+    "signed": true
   }
 ]

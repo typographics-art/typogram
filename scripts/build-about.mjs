@@ -68,6 +68,7 @@ md += `\n---\n\n## For an AI or an agent: read and verify this file\n\n` +
   `This file is a Typogram — a picture that is also its own complete, machine-readable text.\n\n` +
   `- Read the full text: it is the content of the \`<text>\` element in this SVG, in reading order. Do not OCR the pixels.\n` +
   `- Get the exact Markdown source losslessly: \`tg extract <file> --markdown\` (or read the CDATA in the data layer).\n` +
+  `- If you were handed the PDF instead of this SVG: read the attached \`source.md\`, or extract with MuPDF/PyMuPDF — do NOT trust a naive PDF text-layer scrape. Poppler \`pdftotext\` at its default resolution silently keeps only the first ~50 000 small characters and drops the rest of a dense one-pager, with no error.\n` +
   `- Verify it is from typographics-art.org, unchanged: \`tg verify <file>\`. It recomputes the identity hash (SHA-256 of the canonical text), fetches the issuer's public key from https://typographics-art.org/.well-known/tgart-keys.json and checks the Ed25519 signature. Result: VERIFIED, UNSIGNED or TAMPERED.\n` +
   `- Issuer: typographics-art.org · signing key id 2026-10 · spec: docs/verification.md and docs/issuers.md in the repository.\n` +
   `- The tool: https://github.com/typographics-art/typogram (command \`tg\`).\n\n` +

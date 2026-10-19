@@ -30,8 +30,8 @@
       "type": "requireOrDeclare",
       "pattern": "^## ANNEX |^### Annex ",
       "min": 13,
-      "declare": "Annexes excluded",
-      "label": "13 binding Annexes present, OR \"Annexes excluded\" declared in the source"
+      "declare": "Annexes I–XIII and the recitals are excluded",
+      "label": "13 binding Annexes present, OR an explicit \"Annexes … excluded\" scope note in the source"
     },
     {
       "type": "anchor",

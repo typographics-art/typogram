@@ -142,6 +142,10 @@ export function buildJsonld({ name, author, dateCreated, inLanguage, license, de
       const nm = [p.num, p.heading].filter((x) => x != null && x !== '').join(' — ') || p.name;
       if (nm != null && nm !== '') part.name = String(nm);
       if (Array.isArray(p.path) && p.path.length) part.isPartOf = p.path.map(String).join(' › ');
+      // Per-article identity hash (sha256 of this article's canonical span): lets a reader prove a single cited article
+      // is unchanged from the sealed document without re-hashing the whole text. Derived from the signed text, so it is
+      // checkable even though it is an index, not part of tgart.hash.
+      if (p.hash != null) part.hash = String(p.hash);
       return part;
     });
   }

@@ -3,7 +3,8 @@
     "id": "article-1",
     "num": "Article 1",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "cbc5f0d5a5f23e1c68aa7e891a74cb6166441729c1db3510463ea9ed7c4db4a7"
   },
   {
     "id": "article-1-section-1",
@@ -11,7 +12,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "6180bb36d2fe301c18841738d41d83d643458eee0973570c56c9eab10e0c76ce"
   },
   {
     "id": "article-1-section-2",
@@ -19,7 +21,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "b9ab5c8029a7f37ffdd0a8d6b3df03018372ee3d70d0562a17d71917e88d35b2"
   },
   {
     "id": "article-1-section-3",
@@ -27,7 +30,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "15ba98e2591d734f1bfb63f0b7d004a28ff55c69fd51e390b6e1120a77b5e3f9"
   },
   {
     "id": "article-1-section-4",
@@ -35,7 +39,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "9efd12e6163d1917738e9b0eb2c6c194b9de71b188f24a9b4a611cb1f9ad2faf"
   },
   {
     "id": "article-1-section-5",
@@ -43,7 +48,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "8b7962c132e56f9251554cfd5e1aabb0f811d0a5c81f214b9c86ffeff3a09d2b"
   },
   {
     "id": "article-1-section-6",
@@ -51,7 +57,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "624a9d31110e725988570f8d35ef96566a1c5fb7ffd7ff74074113e5a3e9f409"
   },
   {
     "id": "article-1-section-7",
@@ -59,7 +66,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "9832773c7f77f5c8ab09556ab02c914f3c625246bf31a76256e62e7d09aaa44c"
   },
   {
     "id": "article-1-section-8",
@@ -67,7 +75,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "55d96a18f7ab4dcd011aef2372992606afe65d2dd4a7b2d9bb59abaf59d9628e"
   },
   {
     "id": "article-1-section-9",
@@ -75,7 +84,8 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "7c2ec44fcf251a4ea78343281ab60858a36da6bd6c8080c5f0307d6612a5f984"
   },
   {
     "id": "article-1-section-10",
@@ -83,13 +93,15 @@
     "heading": "",
     "path": [
       "Article 1"
-    ]
+    ],
+    "hash": "9a82a9015797d7b8a9525b68153571869e15a7fa978e1c30f4842b6dd73bcccd"
   },
   {
     "id": "article-2",
     "num": "Article 2",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "cf2e2d043134c3945c2e9ec78b8ee627570eb0d97dfb397d39fdb78de39ad29f"
   },
   {
     "id": "article-2-section-1",
@@ -97,7 +109,8 @@
     "heading": "",
     "path": [
       "Article 2"
-    ]
+    ],
+    "hash": "b08489f70414c1dcaed807c78e88994c8b11ffff5ae358a53411b5979a56e365"
   },
   {
     "id": "article-2-section-2",
@@ -105,7 +118,8 @@
     "heading": "",
     "path": [
       "Article 2"
-    ]
+    ],
+    "hash": "3bfe35fd4d5d55a7631a9e6493f9f3a9859c48734a18c3b132f7d90257ad85bd"
   },
   {
     "id": "article-2-section-3",
@@ -113,7 +127,8 @@
     "heading": "",
     "path": [
       "Article 2"
-    ]
+    ],
+    "hash": "0a31fbcc117eabdf4abc962f8d912f2eb9036337168fe5e0c060cd611599fcc8"
   },
   {
     "id": "article-2-section-4",
@@ -121,13 +136,15 @@
     "heading": "",
     "path": [
       "Article 2"
-    ]
+    ],
+    "hash": "5e3c2b41be80c0ed52521eac5535c405af49f5a01b483a326e1c12c443cdb533"
   },
   {
     "id": "article-3",
     "num": "Article 3",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "e3b28776dbdca3f628a2aa25a47c556a552b61f0fa27444dfa1a0275b49a00ed"
   },
   {
     "id": "article-3-section-1",
@@ -135,7 +152,8 @@
     "heading": "",
     "path": [
       "Article 3"
-    ]
+    ],
+    "hash": "d25c5875f6b8e743e0f316c6bd1fb4e9ad949144b54000432cd6c1fbbab7043c"
   },
   {
     "id": "article-3-section-2",
@@ -143,7 +161,8 @@
     "heading": "",
     "path": [
       "Article 3"
-    ]
+    ],
+    "hash": "c2387ca0a90e00b476867607a15d479b329cba8ab61074895f7eb1e3e3fd1088"
   },
   {
     "id": "article-3-section-3",
@@ -151,13 +170,15 @@
     "heading": "",
     "path": [
       "Article 3"
-    ]
+    ],
+    "hash": "5e953e6193a9dd11a05ef80c16f663204dbea4ffa909fd71e4bc6eeb5d1f7406"
   },
   {
     "id": "article-4",
     "num": "Article 4",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "855711b3606de178b5f802e431611444129c1d655452be150b2189687a6593bd"
   },
   {
     "id": "article-4-section-1",
@@ -165,7 +186,8 @@
     "heading": "",
     "path": [
       "Article 4"
-    ]
+    ],
+    "hash": "e438d2572118daabb8a1bb6437c005b1441a4d502aca58b8c08d4be240ec826c"
   },
   {
     "id": "article-4-section-2",
@@ -173,7 +195,8 @@
     "heading": "",
     "path": [
       "Article 4"
-    ]
+    ],
+    "hash": "76ef40c9b746f8b7227a897043d6b272e495bd939ecf32e6e038e2f4b42d003e"
   },
   {
     "id": "article-4-section-3",
@@ -181,7 +204,8 @@
     "heading": "",
     "path": [
       "Article 4"
-    ]
+    ],
+    "hash": "00d5e5c3981d18b1b411a70f58b7a231c324eeb289409432fc3c2f825e73f29f"
   },
   {
     "id": "article-4-section-4",
@@ -189,186 +213,217 @@
     "heading": "",
     "path": [
       "Article 4"
-    ]
+    ],
+    "hash": "34ceedbd2c3c94b3e66113460369807a1ac46c815126607010a0fc51f5eee020"
   },
   {
     "id": "article-5",
     "num": "Article 5",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "fce7250c0a98916fc57bdd11f3fcd3844a968a8f6cbac71e1c5a072f514bfef4"
   },
   {
     "id": "article-6",
     "num": "Article 6",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "3cf3009c0af9cb0344719ea3e65086cee878bcf488fb213a5b10b599cce32c7b"
   },
   {
     "id": "article-7",
     "num": "Article 7",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "dcd9f614990a2782d0aa58486bd7026a436a8c05751a46350d1c782ce3ab433b"
   },
   {
     "id": "amendment-1",
     "num": "Amendment 1",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "a60bd3fffddb768f8e99cd14daa45cfd852e5b32c32ae13df857736f3c0d4d8e"
   },
   {
     "id": "amendment-2",
     "num": "Amendment 2",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "e66562071a9dee3390da1fe8d4ba0e57fcc9fd9443a3dbb37db7d9f3a7f7d5e0"
   },
   {
     "id": "amendment-3",
     "num": "Amendment 3",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "362a38cd68e85652ed9f3ba986b4fd67b1bd72fcfc497d646c93545b7de2f373"
   },
   {
     "id": "amendment-4",
     "num": "Amendment 4",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "e40d5cf104839404694c2b354514d6eb85fc679b162e2fbf8ef7e6a01949f38c"
   },
   {
     "id": "amendment-5",
     "num": "Amendment 5",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "fe0c5fba28a53f0b51a845cbb296782612736cf9e81ff33d5666f1bcf3b7f2de"
   },
   {
     "id": "amendment-6",
     "num": "Amendment 6",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "e98f6f3c821690b82846b237c3e7c6fbb93341d5f2f8c70ff5446a67d9bb12bd"
   },
   {
     "id": "amendment-7",
     "num": "Amendment 7",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "6e6840d3c45423cc1af64c11b05b8f965d9c947e40509b406876adbf77caa85e"
   },
   {
     "id": "amendment-8",
     "num": "Amendment 8",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "95d576ffb23fd0141dcb85ac16134f8fc893690b5637b6be199a6605d57d415f"
   },
   {
     "id": "amendment-9",
     "num": "Amendment 9",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "171a9b036c3c30647bdc57865382e936e437e4e27b3f831f2d44755e5dd87d87"
   },
   {
     "id": "amendment-10",
     "num": "Amendment 10",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "81ec1408c5f0acc8d1f96087809083cc4b385ebf73768aff6b213c90b44beefe"
   },
   {
     "id": "amendment-11",
     "num": "Amendment 11",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "db09826f8eca2f166582d53fc1e97f5e8efb77f79ef467e742d83095bf94c67d"
   },
   {
     "id": "amendment-12",
     "num": "Amendment 12",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "ee992f3aab71ade4e5b4787529cd8a6b6c2b93a3663705b7bff12d1a2c9a8992"
   },
   {
     "id": "amendment-13",
     "num": "Amendment 13",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "12f95863f9ee89174581e5a70bca6446c9ac9b13b398ff044d774e44983c6fea"
   },
   {
     "id": "amendment-14",
     "num": "Amendment 14",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "fc7a04b177866c2860325bb4feaa0fd21e54b3fe4da70665686aa6268612fad5"
   },
   {
     "id": "amendment-15",
     "num": "Amendment 15",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "4d8faa410711ddf191f9c76467b686ec6b9813138a7000de1a8c5a2c8d05cad4"
   },
   {
     "id": "amendment-16",
     "num": "Amendment 16",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "10c5a0c04439279ec87dffeeae57287481497cbaf61abe6563ca08744e2863db"
   },
   {
     "id": "amendment-17",
     "num": "Amendment 17",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "c8ee5632480409ff7b6435af623425cd31e0749821bd374d1e5eac0aece7e1c5"
   },
   {
     "id": "amendment-18",
     "num": "Amendment 18",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "6b1cb0ae8fdf37a60f96f3670f8c1a3b6cb820617202baf910b5f1e6ea3db78d"
   },
   {
     "id": "amendment-19",
     "num": "Amendment 19",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "44618151cb694312c547c5575a255da1b8b8f6725aaf841c33fb5f67fba42c61"
   },
   {
     "id": "amendment-20",
     "num": "Amendment 20",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "245b238f04012d64fe038d7da6bc815565b0339991e6c6ae89201077b4ce657d"
   },
   {
     "id": "amendment-21",
     "num": "Amendment 21",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "6785e73ef45be6512e7fd7095fecf7615b54f8718694e506f1dc0686b4df2e86"
   },
   {
     "id": "amendment-22",
     "num": "Amendment 22",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "9e475516ee8b8a74804f038fe9d198c65fd7222bb8ce4d195b193472846cdb7d"
   },
   {
     "id": "amendment-23",
     "num": "Amendment 23",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "3f2c878cebd2a5122aec14ac1c31a59c98d445d33efa1cb735e0da8889b1ae09"
   },
   {
     "id": "amendment-24",
     "num": "Amendment 24",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "efedf01892b4759eab804e12e4175368ba385865e55ef17297dff4566240c781"
   },
   {
     "id": "amendment-25",
     "num": "Amendment 25",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "c16447eac9c5988ef7d206f66f954ba66669ae78552442fbfe8304b85825c00b"
   },
   {
     "id": "amendment-26",
     "num": "Amendment 26",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "84640dbf158ebd2693bef3f389bcf015a9f3b8182acb679dac037cc972193131"
   },
   {
     "id": "amendment-27",
     "num": "Amendment 27",
     "heading": "",
-    "path": []
+    "path": [],
+    "hash": "f6b288e101eb5b74c1087a0df43f1c4c65185130c3ad06bf8d45031e041d27a1"
   }
 ]

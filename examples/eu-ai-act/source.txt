@@ -1,5 +1,7 @@
 # Regulation (EU) 2024/1689 — Artificial Intelligence Act
 
+> Scope: this Typogram carries the enacting Articles 1–113 of Regulation (EU) 2024/1689. Annexes I–XIII and the recitals are excluded — see the Official Journal (eur-lex.europa.eu, CELEX 32024R1689) for the complete regulation.
+
 ## CHAPTER I — GENERAL PROVISIONS
 
 ### Article 1 — Subject matter

@@ -291,10 +291,13 @@ function imageCard(c, g, title, subtitle, w, h, family, img, levels = false, dar
     lg.putImageData(new ImageData(lv.data, dw, dh), 0, 0);
     motif = lc;
   }
-  // Fit the whole motif (no cropping of figures); fill the rest with the motif's average colour.
+  // Fit the whole motif (no cropping of figures); fill the letterbox around it with the motif's average colour. On a
+  // DARK poster sink that fill toward the ground (×0.4), so the fill sets as sparse, dark text and the bands recede
+  // instead of reading as flat light-grey strips that cut the page — the motif then carries the eye, not the filler.
   const px = document.createElement('canvas'); px.width = px.height = 1;
   const pg = px.getContext('2d'); pg.drawImage(motif, 0, 0, 1, 1);
-  const [r0, g0, b0] = pg.getImageData(0, 0, 1, 1).data;
+  const f = dark ? 0.4 : 1;
+  const [r0, g0, b0] = Array.from(pg.getImageData(0, 0, 1, 1).data, (v) => Math.round(v * f));
   g.fillStyle = `rgb(${r0},${g0},${b0})`; g.fillRect(0, 0, w, ih);
   g.drawImage(motif, (w - dw) / 2, (ih - dh) / 2, dw, dh);
   g.fillStyle = dark ? '#000' : '#fff'; g.fillRect(0, ih, w, bandH);

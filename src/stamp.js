@@ -13,8 +13,10 @@ export const SEAL_FRACTION = 0.14; // corner size as a fraction of the shorter s
 export function sealGeometry(W, H) {
   const S = Math.round(Math.min(W, H) * SEAL_FRACTION);
   const x0 = +(W - S).toFixed(2);
-  // check mark centred in the inner third of the triangle
-  const cx = W - S * 0.40, cy = S * 0.40, u = S * 0.13;
+  // Check mark centred near the triangle's centroid (right-angle corner side), not its hypotenuse: the earlier placement
+  // pushed the short arm + its stroke past the diagonal edge onto the background. Up (cy) and smaller (u) keep the whole
+  // stroked mark clear of the hypotenuse with margin.
+  const cx = W - S * 0.38, cy = S * 0.33, u = S * 0.115;
   const check = `M ${(cx - 1.5 * u).toFixed(1)} ${(cy - 0.1 * u).toFixed(1)} L ${(cx - 0.4 * u).toFixed(1)} ${(cy + 1.0 * u).toFixed(1)} L ${(cx + 1.6 * u).toFixed(1)} ${(cy - 1.2 * u).toFixed(1)}`;
   return { S, x0, W, H, triangle: `${x0},0 ${W},0 ${W},${S}`, check, stroke: Math.max(2, Math.round(S * 0.085)) };
 }

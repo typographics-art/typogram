@@ -187,7 +187,8 @@ writeFileSync(join(DIR, 'README.md'), md);
 const thumbRev = (id) => { try { return createHash('sha256').update(readFileSync(join(DIR, id, 'thumb.jpg'))).digest('hex').slice(0, 10); } catch { return null; } };
 // `signed` is recomputed by VERIFYING the rendered onepage.svg against the registry — so a re-render (which produces an
 // UNSIGNED svg until `scripts/sign-works.mjs` runs) can never leave a stale "signed" flag that shows a false green corner.
-const verifySigned = (id) => { const f = join(DIR, id, 'onepage.svg'); return existsSync(f) && spawnSync('node', [join(DIR, '..', 'cli', 'tg.mjs'), 'verify', f, '--keys', join(DIR, '..', 'keys', 'registry.json')], { stdio: 'ignore' }).status === 0; };
+// signed = the svg OR the pdf verifies, so PDF-only examples (no onepage.svg) still show as signed once their PDF is.
+const verifySigned = (id) => ['onepage.svg', 'onepage.pdf'].some((n) => { const f = join(DIR, id, n); return existsSync(f) && spawnSync('node', [join(DIR, '..', 'cli', 'tg.mjs'), 'verify', f, '--keys', join(DIR, '..', 'keys', 'registry.json')], { stdio: 'ignore' }).status === 0; });
 writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
   id: r.id, document: r.document, category: r.category, licence: r.licence, url: r.url, sourcePages: r.sourcePages,
   words: r.words, characters: r.characters, fontSizeMm: r.fontSizeMm, readBack: r.check,

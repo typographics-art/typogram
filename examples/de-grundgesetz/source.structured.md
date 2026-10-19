@@ -710,6 +710,10 @@ Im Bereiche der ausschließlichen Gesetzgebung des Bundes haben die Länder die 
 
 (2) Gesetze nach Absatz 1 Nr. 25 und 27 bedürfen der Zustimmung des Bundesrates.
 
+### Art. 74a — (weggefallen)
+
+### Art. 75 — (weggefallen)
+
 ### Art. 76
 
 (1) Gesetzesvorlagen werden beim Bundestage durch die Bundesregierung, aus der Mitte des Bundestages oder durch den Bundesrat eingebracht.

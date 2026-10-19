@@ -5,7 +5,8 @@
     "heading": "Subject matter",
     "path": [
       "CHAPTER I — GENERAL PROVISIONS"
-    ]
+    ],
+    "hash": "175691f94c65bc5dc037ed6910f93ceebdd3f46299483e57a6e239348db8012a"
   },
   {
     "id": "article-2",
@@ -13,7 +14,8 @@
     "heading": "Scope",
     "path": [
       "CHAPTER I — GENERAL PROVISIONS"
-    ]
+    ],
+    "hash": "7d5a0d7ad9960f6ac16c98a8d13851391ebca26178ca28e2b6d3244d59b8276b"
   },
   {
     "id": "article-3",
@@ -21,7 +23,8 @@
     "heading": "Definitions",
     "path": [
       "CHAPTER I — GENERAL PROVISIONS"
-    ]
+    ],
+    "hash": "6a7119c800d8263f341a6424ef225cb280562992413dd19fdd82349db97adb5f"
   },
   {
     "id": "article-4",
@@ -29,7 +32,8 @@
     "heading": "AI literacy",
     "path": [
       "CHAPTER I — GENERAL PROVISIONS"
-    ]
+    ],
+    "hash": "06d1da2b69c9fb084402aef36333e1bc43d0ec7e1cf52a24ee5ea5d22a24fe28"
   },
   {
     "id": "article-5",
@@ -37,7 +41,8 @@
     "heading": "Prohibited AI practices",
     "path": [
       "CHAPTER II — PROHIBITED AI PRACTICES"
-    ]
+    ],
+    "hash": "9e517d0b1a7ba75656cd7dbf54596ec0a1fb8733b6efb3d542118a084761387d"
   },
   {
     "id": "article-6",
@@ -45,7 +50,8 @@
     "heading": "Classification rules for high-risk AI systems",
     "path": [
       "SECTION 1 — Classification of AI systems as high-risk"
-    ]
+    ],
+    "hash": "8138dc1139dce66fa598e5e3c8348793c402dcb1f8d2084d750db593d591779c"
   },
   {
     "id": "article-7",
@@ -53,7 +59,8 @@
     "heading": "Amendments to Annex III",
     "path": [
       "SECTION 1 — Classification of AI systems as high-risk"
-    ]
+    ],
+    "hash": "355912487d21cd58c0fbb50afdaa4f52118af3fd78b98872f2a39ea518de744c"
   },
   {
     "id": "article-8",
@@ -61,7 +68,8 @@
     "heading": "Compliance with the requirements",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "3fdaa44e886c15dd19fe4c8b3076c560eb470ec34663cf81c4fed8bb9edb91d1"
   },
   {
     "id": "article-9",
@@ -69,7 +77,8 @@
     "heading": "Risk management system",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "e201ac02eea00d2229dd15ccca1e5a0c7fb02901022cf313eba1ff916200a5fc"
   },
   {
     "id": "article-10",
@@ -77,7 +86,8 @@
     "heading": "Data and data governance",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "ecaaa3dc73a87aad0bfb003a98b414b01eb474fd7ca4cee0988e4364b48773c0"
   },
   {
     "id": "article-11",
@@ -85,7 +95,8 @@
     "heading": "Technical documentation",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "c4e6e848a0db76d74a9d18c717974e8bdb8b7582287555e988197a8e2a724b41"
   },
   {
     "id": "article-12",
@@ -93,7 +104,8 @@
     "heading": "Record-keeping",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "d19775eff62060bee2c6908f078b1a6249c4393d9d511714be9070a1821d7122"
   },
   {
     "id": "article-13",
@@ -101,7 +113,8 @@
     "heading": "Transparency and provision of information to deployers",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "41dff6b9b4156579a26d1693edd450dc34c07059e26cfd48560029388110f630"
   },
   {
     "id": "article-14",
@@ -109,7 +122,8 @@
     "heading": "Human oversight",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "2c83587c9ee56f06e517d3c091aa290f3afac8d67dce281cbe79fcaada94b149"
   },
   {
     "id": "article-15",
@@ -117,7 +131,8 @@
     "heading": "Accuracy, robustness and cybersecurity",
     "path": [
       "SECTION 2 — Requirements for high-risk AI systems"
-    ]
+    ],
+    "hash": "94c1da2a659683a22ae9b1da31ce53a59c60744d165fed85a94415b91a288404"
   },
   {
     "id": "article-16",
@@ -125,7 +140,8 @@
     "heading": "Obligations of providers of high-risk AI systems",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "d337dfc911c4b9e7d42609f7c4e170c2b4c07abb6ba6c457024a03c834e8f7fe"
   },
   {
     "id": "article-17",
@@ -133,7 +149,8 @@
     "heading": "Quality management system",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "5dd29b1ff73b0cdba5b15d5ae9eed643bc889d55da398c64114073a6e3b7ac66"
   },
   {
     "id": "article-18",
@@ -141,7 +158,8 @@
     "heading": "Documentation keeping",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "dcaf78418a43671cfba287c5acd5581b3b0c382930bc681ce0265602bf883444"
   },
   {
     "id": "article-19",
@@ -149,7 +167,8 @@
     "heading": "Automatically generated logs",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "16a7940bfd8ff3cc7a7cb7895e67aac8eee63908c97f69bd863ae14a43a71d60"
   },
   {
     "id": "article-20",
@@ -157,7 +176,8 @@
     "heading": "Corrective actions and duty of information",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "b4d190c4ba040e66281c3deb8af41a24330f900847102a59b0d7b4fa36ec0da2"
   },
   {
     "id": "article-21",
@@ -165,7 +185,8 @@
     "heading": "Cooperation with competent authorities",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "cf3d0e962ff643f707225f361c247b353ea9f2986165e7104174cd9526797f65"
   },
   {
     "id": "article-22",
@@ -173,7 +194,8 @@
     "heading": "Authorised representatives of providers of high-risk AI systems",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "471f44c1aacb10f3012789042b4870d5839835da2dc37c855e70ec690fc50cee"
   },
   {
     "id": "article-23",
@@ -181,7 +203,8 @@
     "heading": "Obligations of importers",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "33f23d9605d5c45f497dca9547cb76aef96f9eda50d11db5589d95ce32e58728"
   },
   {
     "id": "article-24",
@@ -189,7 +212,8 @@
     "heading": "Obligations of distributors",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "fa94d8519d9430af4a2b3ea4215e32f481586fb95cb9c61b737e7c1a3324ca6e"
   },
   {
     "id": "article-25",
@@ -197,7 +221,8 @@
     "heading": "Responsibilities along the AI value chain",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "ec55b1bad1817a7f72d21f1ce3c9062558df36882460e6a3af0c947efd378d81"
   },
   {
     "id": "article-26",
@@ -205,7 +230,8 @@
     "heading": "Obligations of deployers of high-risk AI systems",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "e26e80f49ebdd6a7175a5d5230282e20ec60b4c967e976ea65a201c9def27b2c"
   },
   {
     "id": "article-27",
@@ -213,7 +239,8 @@
     "heading": "Fundamental rights impact assessment for high-risk AI systems",
     "path": [
       "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
-    ]
+    ],
+    "hash": "9ded173e64cdac3be70cd5af55418adaa9f1724b9928404ed29c7893d3b0b8a0"
   },
   {
     "id": "article-28",
@@ -221,7 +248,8 @@
     "heading": "Notifying authorities",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "f632dcc7f656a2288e13a202dcdc3b107e5cf699801a487d7ace3ba27ef7f570"
   },
   {
     "id": "article-29",
@@ -229,7 +257,8 @@
     "heading": "Application of a conformity assessment body for notification",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "e82bfe46d2af5f638a5b37cef5d3973b70a5617bfa573318e43e357cfc9232b2"
   },
   {
     "id": "article-30",
@@ -237,7 +266,8 @@
     "heading": "Notification procedure",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "66ac98369a7f705ca4b3af044dc5af14cd699d534d117fb09029da7002d8493b"
   },
   {
     "id": "article-31",
@@ -245,7 +275,8 @@
     "heading": "Requirements relating to notified bodies",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "0b480a000e6837a66cb40f153c4331683ce822b3206877e209462814f56fe2d0"
   },
   {
     "id": "article-32",
@@ -253,7 +284,8 @@
     "heading": "Presumption of conformity with requirements relating to notified bodies",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "8b2eea5b8dbb13f193fb74af8598967440adc6ba6fb68bd664e5973d9827ee3d"
   },
   {
     "id": "article-33",
@@ -261,7 +293,8 @@
     "heading": "Subsidiaries of notified bodies and subcontracting",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "d4a226cec595829f4f543af3b7bf470d3d79df4ed769bb84b5cd416af866d153"
   },
   {
     "id": "article-34",
@@ -269,7 +302,8 @@
     "heading": "Operational obligations of notified bodies",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "28c6f5c0e85d1a0dba884e5b263c4eac8440fb6415a52a7b3cb3679b4ddc99d0"
   },
   {
     "id": "article-35",
@@ -277,7 +311,8 @@
     "heading": "Identification numbers and lists of notified bodies",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "76236dcecd1999e9e319edb0a837ac8388660917ed47b5235e51106e05bc2d61"
   },
   {
     "id": "article-36",
@@ -285,7 +320,8 @@
     "heading": "Changes to notifications",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "91e12045394a8d751d3d80672c5a846dcb9be3015e388ac4a2a0512a3514613c"
   },
   {
     "id": "article-37",
@@ -293,7 +329,8 @@
     "heading": "Challenge to the competence of notified bodies",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "c1279bbdd61dbd4dea1f63fb464b2bf8db34e94a3ad23c64989e3995409f091d"
   },
   {
     "id": "article-38",
@@ -301,7 +338,8 @@
     "heading": "Coordination of notified bodies",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "dbb0b9eff14fac7d18e5e69716346c01e153288deed6fbdb9ab4aa0cb47db291"
   },
   {
     "id": "article-39",
@@ -309,7 +347,8 @@
     "heading": "Conformity assessment bodies of third countries",
     "path": [
       "SECTION 4 — Notifying authorities and notified bodies"
-    ]
+    ],
+    "hash": "7c13b13a589b3ab2a903436fee759793674b30fc76da3daa2a20a567a7f17f4b"
   },
   {
     "id": "article-40",
@@ -317,7 +356,8 @@
     "heading": "Harmonised standards and standardisation deliverables",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "0dd2efafe1a68cac0c7683e9758584a082fc465c771e9f44bee9ffd1d17762a8"
   },
   {
     "id": "article-41",
@@ -325,7 +365,8 @@
     "heading": "Common specifications",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "8e4321018a9193f7acd5f7b48aa01ee9e3ef7872d20b741fdae55d4ba06051fc"
   },
   {
     "id": "article-42",
@@ -333,7 +374,8 @@
     "heading": "Presumption of conformity with certain requirements",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "f7c43b67e647840ab22587e56b6c32286de12880ab29d5ef8321cbc5f33b39c8"
   },
   {
     "id": "article-43",
@@ -341,7 +383,8 @@
     "heading": "Conformity assessment",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "0ddb469dde3f5360726900f01ff56f7aba32be1a383c64467d3466acc01820ab"
   },
   {
     "id": "article-44",
@@ -349,7 +392,8 @@
     "heading": "Certificates",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "6d99b37de271dc5caaf044e43f34d5278c47a0351aa219655380128d2126654d"
   },
   {
     "id": "article-45",
@@ -357,7 +401,8 @@
     "heading": "Information obligations of notified bodies",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "e404d5d75415406efb82e4e256f303a5ada2f24d287c0370155148989592c6cd"
   },
   {
     "id": "article-46",
@@ -365,7 +410,8 @@
     "heading": "Derogation from conformity assessment procedure",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "fb12cd70d0c0845675a321b2c0673fcb3adb51981a3f27edcfd260f46277079c"
   },
   {
     "id": "article-47",
@@ -373,7 +419,8 @@
     "heading": "EU declaration of conformity",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "71dae3ec5b8841155b396d661d3535c72b658b871afed9b5d669b4d387da9e04"
   },
   {
     "id": "article-48",
@@ -381,7 +428,8 @@
     "heading": "CE marking",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "cc4ee853f39f7a5d1cbe197f0e541110f6815a7c3e33a634c07069bd35c7306b"
   },
   {
     "id": "article-49",
@@ -389,7 +437,8 @@
     "heading": "Registration",
     "path": [
       "SECTION 5 — Standards, conformity assessment, certificates, registration"
-    ]
+    ],
+    "hash": "266a09f52812e77c53e4492c944d7459cd4b279918e29daf7b5040c6c34d9e94"
   },
   {
     "id": "article-50",
@@ -397,7 +446,8 @@
     "heading": "Transparency obligations for providers and deployers of certain AI systems",
     "path": [
       "CHAPTER IV — TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS"
-    ]
+    ],
+    "hash": "7a27c5e9dc7c70fef2d41f0efa063c4dae8cca93addb16f2e7a8bec009b505a4"
   },
   {
     "id": "article-51",
@@ -405,7 +455,8 @@
     "heading": "Classification of general-purpose AI models as general-purpose AI models with systemic risk",
     "path": [
       "SECTION 1 — Classification rules"
-    ]
+    ],
+    "hash": "4d3b805342fcbbeba939be68720ef9d4f6dae8fdedb5611835c29846641beaf9"
   },
   {
     "id": "article-52",
@@ -413,7 +464,8 @@
     "heading": "Procedure",
     "path": [
       "SECTION 1 — Classification rules"
-    ]
+    ],
+    "hash": "f84f43c067dafb8921178b3068cfccc40087b1eebbb3da3a153c1774d31d20e8"
   },
   {
     "id": "article-53",
@@ -421,7 +473,8 @@
     "heading": "Obligations for providers of general-purpose AI models",
     "path": [
       "SECTION 2 — Obligations for providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "e4f2f18c8d90354d1d55654546c4e161285af77fca058ccd1f30c300f67adcbc"
   },
   {
     "id": "article-54",
@@ -429,7 +482,8 @@
     "heading": "Authorised representatives of providers of general-purpose AI models",
     "path": [
       "SECTION 2 — Obligations for providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "3f321afe2e251957d7a6e259eaf0ca5dd47e4d71807e0274ae03fdd88264abf6"
   },
   {
     "id": "article-55",
@@ -437,7 +491,8 @@
     "heading": "Obligations of providers of general-purpose AI models with systemic risk",
     "path": [
       "SECTION 3 — Obligations of providers of general-purpose AI models with systemic risk"
-    ]
+    ],
+    "hash": "bb3c3291bd0a9aed6fad612833e119fc062c442370a6ecaf2ee65371c4ffdba5"
   },
   {
     "id": "article-56",
@@ -445,7 +500,8 @@
     "heading": "Codes of practice",
     "path": [
       "SECTION 4 — Codes of practice"
-    ]
+    ],
+    "hash": "181d6164f39705cbaa4ffc1f7cf335d5a8172bf7a6f7f29083a8f8b252deda08"
   },
   {
     "id": "article-57",
@@ -453,7 +509,8 @@
     "heading": "AI regulatory sandboxes",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "71e09e043e9999f95090055ae7c469030fd26ffb7716948ca763d55d0200e100"
   },
   {
     "id": "article-58",
@@ -461,7 +518,8 @@
     "heading": "Detailed arrangements for, and functioning of, AI regulatory sandboxes",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "daedf9170f578b0a582069ad38f7c5ea573f590f298930fdfa286528970b1dea"
   },
   {
     "id": "article-59",
@@ -469,7 +527,8 @@
     "heading": "Further processing of personal data for developing certain AI systems in the public interest in the AI regulatory sandbox",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "9297ab1a1818903998c5e9c52d663c6e3f99655455c94f992e74ae2db87e8730"
   },
   {
     "id": "article-60",
@@ -477,7 +536,8 @@
     "heading": "Testing of high-risk AI systems in real world conditions outside AI regulatory sandboxes",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "58dd304ec31cb33e66ae20c8eb2b5aa3d898c5994590270a8774b6783edd6f8e"
   },
   {
     "id": "article-61",
@@ -485,7 +545,8 @@
     "heading": "Informed consent to participate in testing in real world conditions outside AI regulatory sandboxes",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "9ec58a081975c38c6ce70ed796c0544d1e6ecf3bf1cc2a815e0b6c50d4d7bf39"
   },
   {
     "id": "article-62",
@@ -493,7 +554,8 @@
     "heading": "Measures for providers and deployers, in particular SMEs, including start-ups",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "53f589115c4f05606a4a4dccca500876143633272745a9ba0e10f0b86b516832"
   },
   {
     "id": "article-63",
@@ -501,7 +563,8 @@
     "heading": "Derogations for specific operators",
     "path": [
       "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
-    ]
+    ],
+    "hash": "4692c0cc4175a9814263419b21818d7cee1ef74f261a0d8f2d24f3ff68d0074d"
   },
   {
     "id": "article-64",
@@ -509,7 +572,8 @@
     "heading": "AI Office",
     "path": [
       "SECTION 1 — Governance at Union level"
-    ]
+    ],
+    "hash": "f98c9f4126f5baaf265f1afe7c97d1e88a0b52bf4e12f19ae33f85c99ebe7904"
   },
   {
     "id": "article-65",
@@ -517,7 +581,8 @@
     "heading": "Establishment and structure of the European Artificial Intelligence Board",
     "path": [
       "SECTION 1 — Governance at Union level"
-    ]
+    ],
+    "hash": "0c3d18eac5a49570026191babab3174532eaaa38020e2cf09f5b5e049a102594"
   },
   {
     "id": "article-66",
@@ -525,7 +590,8 @@
     "heading": "Tasks of the Board",
     "path": [
       "SECTION 1 — Governance at Union level"
-    ]
+    ],
+    "hash": "8f0633d44da59e0a8994272d176ce86df397b225981d2818ddb3ccfca329cc44"
   },
   {
     "id": "article-67",
@@ -533,7 +599,8 @@
     "heading": "Advisory forum",
     "path": [
       "SECTION 1 — Governance at Union level"
-    ]
+    ],
+    "hash": "440eb92ae242059171083c8fe491fba6a0a047f106c49061d5a654b06f201866"
   },
   {
     "id": "article-68",
@@ -541,7 +608,8 @@
     "heading": "Scientific panel of independent experts",
     "path": [
       "SECTION 1 — Governance at Union level"
-    ]
+    ],
+    "hash": "6a4d538727f0025eaf8d868cace14175453ab521593051134c468c1e7dd1fd56"
   },
   {
     "id": "article-69",
@@ -549,7 +617,8 @@
     "heading": "Access to the pool of experts by the Member States",
     "path": [
       "SECTION 1 — Governance at Union level"
-    ]
+    ],
+    "hash": "9da29af214401f320ca5923aadece6c7cf1c7b134bd47495408560a622d436f8"
   },
   {
     "id": "article-70",
@@ -557,7 +626,8 @@
     "heading": "Designation of national competent authorities and single points of contact",
     "path": [
       "SECTION 2 — National competent authorities"
-    ]
+    ],
+    "hash": "cdf68fc84304f049f405ce039d67ce87c235c283ce056e4491cad3290fd19c9a"
   },
   {
     "id": "article-71",
@@ -565,7 +635,8 @@
     "heading": "EU database for high-risk AI systems listed in Annex III",
     "path": [
       "CHAPTER VIII — EU DATABASE FOR HIGH-RISK AI SYSTEMS"
-    ]
+    ],
+    "hash": "1074ec328fde9d92b371c8764db05811373bec44495efca92bdc633ace91d64e"
   },
   {
     "id": "article-72",
@@ -573,7 +644,8 @@
     "heading": "Post-market monitoring by providers and post-market monitoring plan for high-risk AI systems",
     "path": [
       "SECTION 1 — Post-market monitoring"
-    ]
+    ],
+    "hash": "36fc8accc8b79554834fdb46739928b3eb946da7ecff615e038b2af7ab6cb385"
   },
   {
     "id": "article-73",
@@ -581,7 +653,8 @@
     "heading": "Reporting of serious incidents",
     "path": [
       "SECTION 2 — Sharing of information on serious incidents"
-    ]
+    ],
+    "hash": "9bc7d65a86f5e3f5ba416328802a3c74d34fe5fd1717ff33edac8ea07af8ded2"
   },
   {
     "id": "article-74",
@@ -589,7 +662,8 @@
     "heading": "Market surveillance and control of AI systems in the Union market",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "58a5091628260df586fdd017685ca8a3cff959df79e3efcf82a60fca5a9f78c8"
   },
   {
     "id": "article-75",
@@ -597,7 +671,8 @@
     "heading": "Mutual assistance, market surveillance and control of general-purpose AI systems",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "257c68d13ab981b3af53c8b68cf961d7aa10e5d6280bfc35478a059e57c15ed3"
   },
   {
     "id": "article-76",
@@ -605,7 +680,8 @@
     "heading": "Supervision of testing in real world conditions by market surveillance authorities",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "0a7ea69ad48f3f7a0f79373ea1c4c843138af4932d8f1c6f3ab47ebd575ab4c1"
   },
   {
     "id": "article-77",
@@ -613,7 +689,8 @@
     "heading": "Powers of authorities protecting fundamental rights",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "937494496ef99ec154b0ddd4526ebb3d44a7ce30ee72a64411d88e73b70c4d41"
   },
   {
     "id": "article-78",
@@ -621,7 +698,8 @@
     "heading": "Confidentiality",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "fed269c2f4240d1f3753060ddf1f1376abda5c7c666c714386a8bcc259c1fb5f"
   },
   {
     "id": "article-79",
@@ -629,7 +707,8 @@
     "heading": "Procedure at national level for dealing with AI systems presenting a risk",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "f7a50efa135f572e8e757898bec4ce19996cba24aac3c6c944b20128f6b1c044"
   },
   {
     "id": "article-80",
@@ -637,7 +716,8 @@
     "heading": "Procedure for dealing with AI systems classified by the provider as non-high-risk in application of Annex III",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "8442e497aa7fc6b34e9409116d5c45de8ba80fca2f2218de03cc3ea10ffe909b"
   },
   {
     "id": "article-81",
@@ -645,7 +725,8 @@
     "heading": "Union safeguard procedure",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "c9c06e3577e4f52a7f9fffe30dba77a6135adea914fa4eac106341f7af892408"
   },
   {
     "id": "article-82",
@@ -653,7 +734,8 @@
     "heading": "Compliant AI systems which present a risk",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "1a1692203b77f5d0531b927ef5b16e7132d639edd9995303ac4bc74d771658be"
   },
   {
     "id": "article-83",
@@ -661,7 +743,8 @@
     "heading": "Formal non-compliance",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "ae69a8558c5859acf94b9fa82a8702789bc28a9cd911a41bdcce39b89125c300"
   },
   {
     "id": "article-84",
@@ -669,7 +752,8 @@
     "heading": "Union AI testing support structures",
     "path": [
       "SECTION 3 — Enforcement"
-    ]
+    ],
+    "hash": "1e5900a368a73aa81393abbe8d54f2075a0ada650a8ee4d03d35b93e604021d6"
   },
   {
     "id": "article-85",
@@ -677,7 +761,8 @@
     "heading": "Right to lodge a complaint with a market surveillance authority",
     "path": [
       "SECTION 4 — Remedies"
-    ]
+    ],
+    "hash": "83fdeb88393647280532d9de35e7865d7ac3019b9209c0dc631a27caa4b42d45"
   },
   {
     "id": "article-86",
@@ -685,7 +770,8 @@
     "heading": "Right to explanation of individual decision-making",
     "path": [
       "SECTION 4 — Remedies"
-    ]
+    ],
+    "hash": "fbc8d5704fc4c528a351989e73415d83a60fdf8fdc6a6b3fa2e7bb7d7a17b5f0"
   },
   {
     "id": "article-87",
@@ -693,7 +779,8 @@
     "heading": "Reporting of infringements and protection of reporting persons",
     "path": [
       "SECTION 4 — Remedies"
-    ]
+    ],
+    "hash": "32b91252ca8e40b2442f2f58a6c2473bcf3501af21daa316a6db882c9dd5dbd1"
   },
   {
     "id": "article-88",
@@ -701,7 +788,8 @@
     "heading": "Enforcement of the obligations of providers of general-purpose AI models",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "50b9f7828a00590191240d5c5246484913f8ce9d9e674fc6eaa57ff372280c6f"
   },
   {
     "id": "article-89",
@@ -709,7 +797,8 @@
     "heading": "Monitoring actions",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "e395b2a09ae7631cbcc617ac08f14c35ab6dbcc5a8af27e54e0a6bf2a23707e4"
   },
   {
     "id": "article-90",
@@ -717,7 +806,8 @@
     "heading": "Alerts of systemic risks by the scientific panel",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "6c838fd85cb018cb3096f31a7daefd58bf3a5a22bc0f69785c15edd8bec5c8a8"
   },
   {
     "id": "article-91",
@@ -725,7 +815,8 @@
     "heading": "Power to request documentation and information",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "b1b7820b04eca78cf9d44cad9b022c317ebfaa9bb675460c795071611ec3fb5c"
   },
   {
     "id": "article-92",
@@ -733,7 +824,8 @@
     "heading": "Power to conduct evaluations",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "92b9fdde3c38a159c894c0c38f97b55ad7768126ec7b4a1b8964b7ccca2c9c88"
   },
   {
     "id": "article-93",
@@ -741,7 +833,8 @@
     "heading": "Power to request measures",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "abafd9dbea3c5e8336dc2567faf8aaac9b177d3d402d3c6c34fb725c788baa43"
   },
   {
     "id": "article-94",
@@ -749,7 +842,8 @@
     "heading": "Procedural rights of economic operators of the general-purpose AI model",
     "path": [
       "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
-    ]
+    ],
+    "hash": "76c4c16bbbbcd8e179694af831f9d5fc49f2f642ee65b86b557186010f3650a3"
   },
   {
     "id": "article-95",
@@ -757,7 +851,8 @@
     "heading": "Codes of conduct for voluntary application of specific requirements",
     "path": [
       "CHAPTER X — CODES OF CONDUCT AND GUIDELINES"
-    ]
+    ],
+    "hash": "db73cf390844d9986e4c6c965f559ec436b26b30b6d9689b88d3796bed6903fa"
   },
   {
     "id": "article-96",
@@ -765,7 +860,8 @@
     "heading": "Guidelines from the Commission on the implementation of this Regulation",
     "path": [
       "CHAPTER X — CODES OF CONDUCT AND GUIDELINES"
-    ]
+    ],
+    "hash": "49fd6552c85edeaa785e8e2b6347d5d2b189404cbdc935ee6ad56559158b713a"
   },
   {
     "id": "article-97",
@@ -773,7 +869,8 @@
     "heading": "Exercise of the delegation",
     "path": [
       "CHAPTER XI — DELEGATION OF POWER AND COMMITTEE PROCEDURE"
-    ]
+    ],
+    "hash": "5fffb504fb45b20eabe392823f4940a24da7e2fadacfc54613a3a1da76a4edb6"
   },
   {
     "id": "article-98",
@@ -781,7 +878,8 @@
     "heading": "Committee procedure",
     "path": [
       "CHAPTER XI — DELEGATION OF POWER AND COMMITTEE PROCEDURE"
-    ]
+    ],
+    "hash": "8fdee60a2a0be2c98b6ca1a049ab1b174bfb81111bf153de6329ff7cfb11121a"
   },
   {
     "id": "article-99",
@@ -789,7 +887,8 @@
     "heading": "Penalties",
     "path": [
       "CHAPTER XII — PENALTIES"
-    ]
+    ],
+    "hash": "acc6529d01e3da80f24c6a64b6974a0a716de928d1eb9cd896bdc96d7ae3c1d6"
   },
   {
     "id": "article-100",
@@ -797,7 +896,8 @@
     "heading": "Administrative fines on Union institutions, bodies, offices and agencies",
     "path": [
       "CHAPTER XII — PENALTIES"
-    ]
+    ],
+    "hash": "f23ef0c961dfcb072d1718e44a077d00d69db3db2708b1159585916391ded115"
   },
   {
     "id": "article-101",
@@ -805,7 +905,8 @@
     "heading": "Fines for providers of general-purpose AI models",
     "path": [
       "CHAPTER XII — PENALTIES"
-    ]
+    ],
+    "hash": "ceb2dabe5d59c4772fb269d5c07ad5619fe7eee952599932f1da79852b57e32a"
   },
   {
     "id": "article-102",
@@ -813,7 +914,8 @@
     "heading": "Amendment to Regulation (EC) No 300/2008",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "714562b60648655cf81ed919ebecee081eaa2c94716e28647bd5e4957b6827c0"
   },
   {
     "id": "article-103",
@@ -821,7 +923,8 @@
     "heading": "Amendment to Regulation (EU) No 167/2013",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "c34512031486e4dd65a4bd6893851afb450dcfb9708b59e7ea5087b503cc2451"
   },
   {
     "id": "article-104",
@@ -829,7 +932,8 @@
     "heading": "Amendment to Regulation (EU) No 168/2013",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "65e34147e98ca5002f0e790d06df271a1c56e23a4c94c29b1ba690af34ab200a"
   },
   {
     "id": "article-105",
@@ -837,7 +941,8 @@
     "heading": "Amendment to Directive 2014/90/EU",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "4e11146174bdf07a8f42e3b822c74e9f3a836b58e79f46391a7c7730c82d7f30"
   },
   {
     "id": "article-106",
@@ -845,7 +950,8 @@
     "heading": "Amendment to Directive (EU) 2016/797",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "51e60a3acfaedd76dfa47adfb79b737a86559af4ab7d5718629dc1ed3a9c8df1"
   },
   {
     "id": "article-107",
@@ -853,7 +959,8 @@
     "heading": "Amendment to Regulation (EU) 2018/858",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "81f752168a9785c9aba6e5eab2a77c51e7926dadbad565a10bbfba1d091bee21"
   },
   {
     "id": "article-108",
@@ -861,7 +968,8 @@
     "heading": "Amendments to Regulation (EU) 2018/1139",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "e91b358f5ab07126d21e8bac99a3d93442d8cc7a95b4c835fe25d9a65d152fa3"
   },
   {
     "id": "article-109",
@@ -869,7 +977,8 @@
     "heading": "Amendment to Regulation (EU) 2019/2144",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "bb49e4e71ed860f2cebad7e698f12f2ca5acd81c4236c9ea27c94fe3225bdd9c"
   },
   {
     "id": "article-110",
@@ -877,7 +986,8 @@
     "heading": "Amendment to Directive (EU) 2020/1828",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "08403ebfc2f159cacaa1999ce2b7d0ae4997eb97d83e8270b9de5b828f2ca3e9"
   },
   {
     "id": "article-111",
@@ -885,7 +995,8 @@
     "heading": "AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "54a3962e70e72984ef652c088d1131168489e9d57e7dcec26b4114e43fd2e591"
   },
   {
     "id": "article-112",
@@ -893,7 +1004,8 @@
     "heading": "Evaluation and review",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "fe68a168885ed3ea855c0a5f568a2f0582fcccb2a2dd5be0c8a9ab8d556011f8"
   },
   {
     "id": "article-113",
@@ -901,6 +1013,7 @@
     "heading": "Entry into force and application",
     "path": [
       "CHAPTER XIII — FINAL PROVISIONS"
-    ]
+    ],
+    "hash": "5b104708298e1eb5e403eb81b01cc25d01f3845d881623f43c0d6e92d617438f"
   }
 ]
