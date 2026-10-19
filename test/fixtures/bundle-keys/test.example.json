@@ -1,0 +1,21 @@
+{
+  "issuer": "test.example",
+  "keys": [
+    {
+      "spec": "tgart-key-v1",
+      "issuer": "test.example",
+      "kid": "2026-10",
+      "alg": "Ed25519",
+      "publicKey": "4Yn64TK3ITZUYwAsin2baGiVJ9uF3bbCkKd7-bY2NVM",
+      "created": "2026-10-19",
+      "expires": null,
+      "predecessor": null,
+      "revokes": [],
+      "sig": {
+        "by": "self",
+        "signature": "35mFbk5Sbc_y9s-EimCF14if7wYw3RODuEUh94W_HFjgCsqfza0T4HuMlASzDWqDf4Y4MXZCM_9PVKhrR8kqBg"
+      },
+      "anchors": []
+    }
+  ]
+}

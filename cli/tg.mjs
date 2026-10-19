@@ -9,13 +9,15 @@
 // A Typogram is a picture made of its own readable text (the IMAGE layer) that also carries, in a DATA layer, the exact
 // source and a JSON-LD record whose tgart.hash binds the two. `tg verify` recomputes the hash from the image layer and
 // requires it to equal both the stored hash and the hash of the embedded source. Works on .svg, .html and .pdf.
-import { readFileSync, writeFileSync, mkdirSync, openSync, writeSync, closeSync, constants as fsConstants, mkdtempSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, openSync, writeSync, closeSync, constants as fsConstants, mkdtempSync, rmSync, existsSync, statSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { extname, join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { markupText, canonicalText, sha256Hex, stripDataLayer, readDataMarkdown, readJsonld, withJsonld } from '../src/index.js';
 import { generateIssuerKey, signKeyStatement, verifyKeyStatement, signHash, verifyHash, SIG_SPEC } from '../src/sign.js';
+import { buildBundle, verifyBundle } from './bundle.mjs';
+import { openSession } from './core.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -321,6 +323,28 @@ async function cmdSign(file) {
 }
 
 // ---- argv ------------------------------------------------------------------------------------------------------------
+// Phase I1 — bundle a folder of Markdown docs into signed Typograms + a signed index, and verify such a folder.
+async function cmdBundle(folder) {
+  const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid');
+  const out = opt('out') || (argv.indexOf('-o') >= 0 && argv[argv.indexOf('-o') + 1] && !argv[argv.indexOf('-o') + 1].startsWith('-') ? argv[argv.indexOf('-o') + 1] : null);
+  if (!folder || !keyFile || !issuer || !kid || !out) die('usage: tg bundle <folder> -o <out-dir> --key <private-key.pem> --issuer <domain> --kid <id> [--title <text>]');
+  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
+  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
+  const session = await openSession();
+  try {
+    const m = await buildBundle(folder, out, { session, keyPem: readFileSync(keyFile, 'utf8'), issuer, kid, title: opt('title') });
+    console.log(`tg: bundled ${m.documents.length} document(s) into ${out} as ${issuer} (kid ${kid})`);
+    console.log(`  index ${m.indexHash}  — signing the index seals the whole folder`);
+  } finally { await session.close(); }
+}
+
+async function cmdVerifyBundle(dir) {
+  const r = await verifyBundle(dir, { loadKeyfile: (issuer) => loadKeyfile(opt('keys'), issuer) });
+  console.log(`tg: ${r.state} — ${dir} (${r.documents} document(s), issuer ${r.issuer})`);
+  for (const i of r.issues) console.log(`  - ${i}`);
+  process.exit({ VERIFIED: 0, UNSIGNED: 2, TAMPERED: 1 }[r.state] ?? 1);
+}
+
 const argv = process.argv.slice(2);
 const cmd = argv.shift();
 const flags = new Set(argv.filter((a) => a.startsWith('--')));
@@ -328,17 +352,19 @@ const positionals = argv.filter((a) => !a.startsWith('--'));
 const file = positionals[0];
 const mode = flags.has('--json') ? 'json' : flags.has('--text') ? 'text' : 'markdown';
 
-if (cmd === 'verify') { if (!file) die('usage: tg verify <file>'); await cmdVerify(file); }
+if (cmd === 'verify') { if (!file) die('usage: tg verify <file|folder>'); if (existsSync(file) && statSync(file).isDirectory()) await cmdVerifyBundle(file); else await cmdVerify(file); }
 else if (cmd === 'extract') { if (!file) die('usage: tg extract <file> [--markdown|--json|--text] [--from-glyphs]'); await cmdExtract(file, mode, flags.has('--from-glyphs')); }
 else if (cmd === 'keygen') { cmdKeygen(); }
 else if (cmd === 'sign') { if (!file) die('usage: tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]'); await cmdSign(file); }
+else if (cmd === 'bundle') { await cmdBundle(file); }
 else {
   console.error([
     'usage:',
-    '  tg verify <file> [--keys <dir|file>]        verify a Typogram: VERIFIED (0) / UNSIGNED (2) / TAMPERED (1)',
+    '  tg verify <file|folder> [--keys <dir|file>] verify a Typogram or a bundle folder: VERIFIED (0) / UNSIGNED (2) / TAMPERED (1)',
     '  tg extract <file> [--markdown|--json|--text] [--from-glyphs]',
     '  tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]',
     '  tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]',
+    '  tg bundle <folder> -o <out-dir> --key <private-key.pem> --issuer <domain> --kid <id> [--title <text>]',
   ].join('\n'));
   process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1);
 }

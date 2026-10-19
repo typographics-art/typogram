@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "issuer": "test.example",
+  "created": "2026-10-19",
+  "title": "Project Atlas",
+  "documents": [
+    {
+      "path": "01-overview.svg",
+      "title": "Project Atlas — Overview",
+      "summary": "What this bundle is and how to read it.",
+      "hash": "961bd6b0bcbf9172b117d76cc05cc8b0cf3a70491ee7988f4cdc0979fbd78e1c",
+      "tokens": 44,
+      "role": "overview",
+      "origin": "human",
+      "readOrder": 0,
+      "relations": []
+    },
+    {
+      "path": "02-design.svg",
+      "title": "Core Design",
+      "summary": "The core design decisions.",
+      "hash": "07c01adc684d531b4d62059e229df40840fc2709dd78f3109d5fc8bcd3ad251e",
+      "tokens": 41,
+      "role": "core",
+      "origin": "human",
+      "readOrder": 1,
+      "relations": []
+    },
+    {
+      "path": "03-rules.svg",
+      "title": "Agent Rules",
+      "summary": "Rules a coding agent must follow.",
+      "hash": "3340d51c67b749a5803304e40fffd23d082303edd66876fb0194e6de74e49792",
+      "tokens": 38,
+      "role": "rules",
+      "origin": "ai-summary",
+      "readOrder": 2,
+      "relations": []
+    }
+  ]
+}

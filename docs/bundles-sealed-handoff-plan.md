@@ -1,6 +1,8 @@
 # Bundles, sealed Typograms and handoff packages — plan (Phase I)
 
-Status: **PLANNED**, not built. Comes **after Phase H** (signing / issuers / seal), because it reuses H2 (signature
+Status: **I1 (bundles) BUILT** (2026-10-19): `tg bundle` / `tg verify <folder>`, `cli/bundle.mjs`, [docs/bundles.md](bundles.md),
+deterministic tests. **I2 (sealed) / I3 (handoff) still PLANNED** — they need an X25519 recipient key in the issuer key
+file, which the Phase-H ceremony has not set up yet. Comes **after Phase H** (signing / issuers / seal), because it reuses H2 (signature
 over the canonical hash), H3 (the visible seal block) and H4 (the embedded verify-instructions), and the issuer key
 file H introduces. **Operator decision 18.10.: Phase I ships _before_ the public launch**, as part of the first public
 release — so the launch now gates on the three-view core (B–G) + Phase H + Phase I.
