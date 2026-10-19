@@ -310,6 +310,8 @@
     "document": "Agentic Engineering: Building Multi-Agent Systems (a general, by-use-case build guide)",
     "licence": "Original written synthesis by typographics-art.org. CC BY 4.0.",
     "category": "agent-library",
+    "motif": "recipe:agenticNetwork",
+    "motifCredit": "Drawn for this project (gallery/recipes.js, agenticNetwork). MIT.",
     "structured": true,
     "inLanguage": "en"
   }

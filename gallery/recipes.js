@@ -277,4 +277,33 @@ export const RECIPES = {
     return c;
   },
 
+  /** Agentic engineering: a multi-agent orchestration graph — an orchestrator feeding a row of worker agents,
+   *  each handing to tool leaves, with two handoff agents on the flanks, on near-black teal. Nodes and edges fill
+   *  the frame so the title text forms the whole graph (not just a thin band). */
+  agenticNetwork() {
+    const [c, g] = canvas(1000, 1000);
+    const bg = g.createRadialGradient(500, 420, 50, 500, 520, 760);
+    bg.addColorStop(0, '#132a33'); bg.addColorStop(0.6, '#0a141c'); bg.addColorStop(1, '#05080d');
+    g.fillStyle = bg; g.fillRect(0, 0, 1000, 1000);
+    const orch = [500, 165];
+    const flanks = [[150, 330], [850, 330]];
+    const workers = Array.from({ length: 5 }, (_, i) => [180 + i * 160, 505]);
+    const tools = Array.from({ length: 9 }, (_, i) => [110 + i * 97, 820]);
+    const edge = (a, b, col, w = 3) => { g.strokeStyle = col; g.lineWidth = w; g.beginPath(); g.moveTo(...a); g.lineTo(...b); g.stroke(); };
+    const warm = 'rgba(90,200,215,0.30)', cool = 'rgba(90,200,215,0.20)';
+    for (const w of workers) edge(orch, w, warm);          // orchestrator -> workers
+    for (const f of flanks) edge(orch, f, warm);           // orchestrator -> handoff agents
+    edge(flanks[0], workers[0], cool); edge(flanks[1], workers[4], cool); // handoff into the nearest worker
+    workers.forEach((w, i) => { edge(w, tools[(i * 2) % 9], cool); edge(w, tools[(i * 2 + 1) % 9], cool); }); // workers -> tools
+    const node = (x, y, r, outer, inner) => {
+      g.fillStyle = outer; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+      g.fillStyle = inner; g.beginPath(); g.arc(x, y, r * 0.5, 0, 7); g.fill();
+    };
+    node(...orch, 27, '#eafaff', '#39c9d6');               // orchestrator
+    for (const f of flanks) node(...f, 19, '#dff5f8', '#2fb4c2');
+    for (const w of workers) node(...w, 19, '#e4f7fa', '#39c9d6');
+    for (const t of tools) node(...t, 12, '#bfe9ee', '#277f8b');
+    return c;
+  },
+
 };

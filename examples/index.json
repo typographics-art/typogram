@@ -948,15 +948,15 @@
       "sha256Source": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8",
       "sha256ReadBack": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8"
     },
-    "pdfBytes": 302082,
+    "pdfBytes": 359987,
     "sourceBytes": 41910,
-    "motifCredit": null,
+    "motifCredit": "Drawn for this project (gallery/recipes.js, agenticNetwork). MIT.",
     "text": "source.txt",
     "textSha256": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8",
     "textMatchesArt": true,
-    "motifFile": null,
+    "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AGENTIC",
-    "rev": "18fbffcf19",
+    "rev": "714a529722",
     "signed": true
   }
 ]
