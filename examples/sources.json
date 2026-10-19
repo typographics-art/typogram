@@ -29,12 +29,14 @@
   {
     "id": "us-constitution",
     "title": "Consti­tution",
-    "subtitle": "of the United States · 85 pages on one",
-    "document": "The Constitution of the United States of America, House Document 110-50 (pocket edition, with the Declaration of Independence)",
-    "url": "https://www.govinfo.gov/content/pkg/CDOC-110hdoc50/pdf/CDOC-110hdoc50.pdf",
+    "subtitle": "of the United States · 7 Articles, 27 Amendments",
+    "document": "The Constitution of the United States, National Archives transcript (Preamble, Articles I–VII, Amendments 1–27)",
+    "url": "https://www.archives.gov/founding-docs/constitution-transcript",
     "file": "us-constitution.pdf",
     "licence": "Public domain (work of the United States Government)",
     "category": "law",
+    "structured": true,
+    "inLanguage": "en",
     "motif": "motifs/us-constitution-hintermeister-1925.jpg",
     "motifCredit": "Henry Hintermeister, \"The Foundation of American Government\" (1925), Library of Congress. Public domain in the United States (published 1925).",
     "color": "photo"

@@ -1,0 +1,374 @@
+[
+  {
+    "id": "article-1",
+    "num": "Article 1",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "article-1-section-1",
+    "num": "Section 1",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-2",
+    "num": "Section 2",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-3",
+    "num": "Section 3",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-4",
+    "num": "Section 4",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-5",
+    "num": "Section 5",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-6",
+    "num": "Section 6",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-7",
+    "num": "Section 7",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-8",
+    "num": "Section 8",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-9",
+    "num": "Section 9",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-1-section-10",
+    "num": "Section 10",
+    "heading": "",
+    "path": [
+      "Article 1"
+    ]
+  },
+  {
+    "id": "article-2",
+    "num": "Article 2",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "article-2-section-1",
+    "num": "Section 1",
+    "heading": "",
+    "path": [
+      "Article 2"
+    ]
+  },
+  {
+    "id": "article-2-section-2",
+    "num": "Section 2",
+    "heading": "",
+    "path": [
+      "Article 2"
+    ]
+  },
+  {
+    "id": "article-2-section-3",
+    "num": "Section 3",
+    "heading": "",
+    "path": [
+      "Article 2"
+    ]
+  },
+  {
+    "id": "article-2-section-4",
+    "num": "Section 4",
+    "heading": "",
+    "path": [
+      "Article 2"
+    ]
+  },
+  {
+    "id": "article-3",
+    "num": "Article 3",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "article-3-section-1",
+    "num": "Section 1",
+    "heading": "",
+    "path": [
+      "Article 3"
+    ]
+  },
+  {
+    "id": "article-3-section-2",
+    "num": "Section 2",
+    "heading": "",
+    "path": [
+      "Article 3"
+    ]
+  },
+  {
+    "id": "article-3-section-3",
+    "num": "Section 3",
+    "heading": "",
+    "path": [
+      "Article 3"
+    ]
+  },
+  {
+    "id": "article-4",
+    "num": "Article 4",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "article-4-section-1",
+    "num": "Section 1",
+    "heading": "",
+    "path": [
+      "Article 4"
+    ]
+  },
+  {
+    "id": "article-4-section-2",
+    "num": "Section 2",
+    "heading": "",
+    "path": [
+      "Article 4"
+    ]
+  },
+  {
+    "id": "article-4-section-3",
+    "num": "Section 3",
+    "heading": "",
+    "path": [
+      "Article 4"
+    ]
+  },
+  {
+    "id": "article-4-section-4",
+    "num": "Section 4",
+    "heading": "",
+    "path": [
+      "Article 4"
+    ]
+  },
+  {
+    "id": "article-5",
+    "num": "Article 5",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "article-6",
+    "num": "Article 6",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "article-7",
+    "num": "Article 7",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-1",
+    "num": "Amendment 1",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-2",
+    "num": "Amendment 2",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-3",
+    "num": "Amendment 3",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-4",
+    "num": "Amendment 4",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-5",
+    "num": "Amendment 5",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-6",
+    "num": "Amendment 6",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-7",
+    "num": "Amendment 7",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-8",
+    "num": "Amendment 8",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-9",
+    "num": "Amendment 9",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-10",
+    "num": "Amendment 10",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-11",
+    "num": "Amendment 11",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-12",
+    "num": "Amendment 12",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-13",
+    "num": "Amendment 13",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-14",
+    "num": "Amendment 14",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-15",
+    "num": "Amendment 15",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-16",
+    "num": "Amendment 16",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-17",
+    "num": "Amendment 17",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-18",
+    "num": "Amendment 18",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-19",
+    "num": "Amendment 19",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-20",
+    "num": "Amendment 20",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-21",
+    "num": "Amendment 21",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-22",
+    "num": "Amendment 22",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-23",
+    "num": "Amendment 23",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-24",
+    "num": "Amendment 24",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-25",
+    "num": "Amendment 25",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-26",
+    "num": "Amendment 26",
+    "heading": "",
+    "path": []
+  },
+  {
+    "id": "amendment-27",
+    "num": "Amendment 27",
+    "heading": "",
+    "path": []
+  }
+]
