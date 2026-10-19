@@ -1,11 +1,17 @@
 # Bundles, sealed Typograms and handoff packages — plan (Phase I)
 
 Status: **I1 (bundles) BUILT** (2026-10-19): `tg bundle` / `tg verify <folder>`, `cli/bundle.mjs`, [docs/bundles.md](bundles.md),
-deterministic tests. **I2 (sealed) / I3 (handoff) still PLANNED** — they need an X25519 recipient key in the issuer key
-file, which the Phase-H ceremony has not set up yet. Comes **after Phase H** (signing / issuers / seal), because it reuses H2 (signature
-over the canonical hash), H3 (the visible seal block) and H4 (the embedded verify-instructions), and the issuer key
-file H introduces. **Operator decision 18.10.: Phase I ships _before_ the public launch**, as part of the first public
-release — so the launch now gates on the three-view core (B–G) + Phase H + Phase I.
+deterministic tests. **I2 (sealed Typograms) BUILT** (2026-10-19): `tg seal` / `tg open` / `tg seal-keygen`, `cli/seal.mjs`
+(age via `vendor/age-encryption.mjs`), `tgart.mode="sealed"` + `SEALED VERIFIED/UNSIGNED/TAMPERED` in `tg verify`,
+sign-before-decrypt, [docs/sealed.md](sealed.md), tests `test/seal.test.js` + `test/seal-cli.test.js` + a committed signed
+fixture. **Deferred within I2** (not yet built, called out in docs/sealed.md): the `--inline-limit` + data-layer
+attachment for payloads over 64 KB (payload is inline-only today), the envelope table of contents, and the browser
+generator's seal flow with its cleartext-title warning. **Still needed for the LIVE issuer:** an X25519 sealing key in
+`typographics-art.org`'s key file via the ceremony (`tg seal-keygen` → store the private identity in Infisical →
+publish the `alg:"X25519"` entry). **I3 (handoff) still PLANNED.** Comes **after Phase H** (signing / issuers / seal),
+because it reuses H2 (signature over the canonical hash), H3 (the visible seal block) and H4 (the embedded
+verify-instructions), and the issuer key file H introduces. **Operator decision 18.10.: Phase I ships _before_ the public
+launch**, as part of the first public release — so the launch now gates on the three-view core (B–G) + Phase H + Phase I.
 
 This file is the specification of record (Rule 0: docs before code). The operator's spec is captured faithfully below;
 anything added here beyond it is marked **[plan]** and is a recommendation, not a commitment.

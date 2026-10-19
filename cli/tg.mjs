@@ -18,6 +18,9 @@ import { markupText, canonicalText, sha256Hex, stripDataLayer, readDataMarkdown,
 import { generateIssuerKey, signKeyStatement, verifyKeyStatement, signHash, verifyHash, SIG_SPEC } from '../src/sign.js';
 import { buildBundle, verifyBundle } from './bundle.mjs';
 import { openSession } from './core.mjs';
+import { makeOnePage } from './onepage-core.mjs';
+import { sealText, openSealedText } from './seal.mjs';
+import { generateX25519Identity, identityToRecipient } from '../vendor/age-encryption.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -110,7 +113,12 @@ function plainText(md) {
 }
 
 // ---- verify ----------------------------------------------------------------------------------------------------------
-async function cmdVerify(file) {
+/**
+ * Judge a Typogram without printing or exiting: returns `{ state, imgHash, tgart, sealed, dl, issuer?, kid?, created?,
+ * problems, warnings }`. `state` is VERIFIED / UNSIGNED / TAMPERED. `sealed` is true for a sealed work (tgart.mode).
+ * `cmdVerify` prints and exits on this; `cmdOpen` gates decryption on `state === 'VERIFIED'`.
+ */
+async function evaluate(file) {
   const raw = readFileSync(file), kind = kindOf(file, raw), text = kind === 'pdf' ? '' : raw.toString('utf8');
   const dl = dataLayer(kind, file, text);
   if (dl.markdown == null && dl.jsonld == null) die(`no data layer found in ${file} — is it a Typogram made by this tool?`);
@@ -120,6 +128,9 @@ async function cmdVerify(file) {
   const mdCanon = dl.markdown != null ? canonicalText(dl.markdown) : null;
   const mdHash = mdCanon != null ? await sha256Hex(mdCanon) : null;
   const storedHash = dl.jsonld && dl.jsonld.tgart ? dl.jsonld.tgart.hash : null;
+  const tgart = (dl.jsonld && dl.jsonld.tgart) || {};
+  const sealed = tgart.mode === 'sealed';
+  const base = { file, kind, text, dl, tgart, sealed, imgHash, warnings: [] };
 
   const problems = [];
   // storedHash is attacker-controlled (straight from the file's tgart.hash); a real one is 64 lowercase hex (canonical-text.md).
@@ -131,19 +142,15 @@ async function cmdVerify(file) {
   if (mdHash == null) problems.push('the data layer carries no embedded source');
   else if (imgHash !== mdHash) problems.push(`image-layer hash ${imgHash} ≠ embedded-source hash ${mdHash}`);
 
-  // where the image layer and the source first diverge (helps locate a tamper)
+  // where the image layer and the source first diverge (helps locate a tamper), plus words on one side only
   if (mdCanon != null && imgCanon !== mdCanon) {
     const i = firstDivergence(imgCanon, mdCanon);
     problems.push(`image and source first differ at character ${i}:\n    image : …${around(imgCanon, i)}…\n    source: …${around(mdCanon, i)}…`);
-  }
-
-  // lint: words on one side only (only meaningful when the texts already differ)
-  if (mdCanon != null && imgCanon !== mdCanon) {
     const w = (s) => new Set(s.split(' ').filter(Boolean));
     const img = w(imgCanon), md = w(mdCanon);
     const onlyImg = [...img].filter((x) => !md.has(x)).slice(0, 8), onlyMd = [...md].filter((x) => !img.has(x)).slice(0, 8);
-    if (onlyImg.length) console.error(`tg: warning — words only in the image layer: ${onlyImg.map((x) => JSON.stringify(x)).join(' ')}`);
-    if (onlyMd.length) console.error(`tg: warning — words only in the data layer: ${onlyMd.map((x) => JSON.stringify(x)).join(' ')}`);
+    if (onlyImg.length) base.warnings.push(`words only in the image layer: ${onlyImg.map((x) => JSON.stringify(x)).join(' ')}`);
+    if (onlyMd.length) base.warnings.push(`words only in the data layer: ${onlyMd.map((x) => JSON.stringify(x)).join(' ')}`);
   }
 
   // lint: the visible title must match the source's first heading (SVG/HTML)
@@ -151,21 +158,15 @@ async function cmdVerify(file) {
   if (title && heading && canonicalText(title) !== canonicalText(heading))
     problems.push(`the visible title ${JSON.stringify(title)} is not the start of the data layer (first heading ${JSON.stringify(heading)})`);
 
-  if (problems.length) { console.error(`tg: TAMPERED — ${file}\n  - ${problems.join('\n  - ')}`); process.exit(1); }
+  if (problems.length) return { ...base, state: 'TAMPERED', problems };
 
-  // Phase H signature state: VERIFIED / UNSIGNED / TAMPERED, exit 0 / 2 / 1. The text is consistent here (no problems above).
-  const tgart = (dl.jsonld && dl.jsonld.tgart) || {};
-  if (!tgart.signature) {
-    console.log(`tg: UNSIGNED — ${file}`);
-    console.log(`  image layer, embedded source and stored hash all carry one text (sha256 ${imgHash}) — consistent, but not signed`);
-    process.exit(2);
-  }
+  // Phase H signature state. The text is consistent here (no problems above).
+  if (!tgart.signature) return { ...base, state: 'UNSIGNED', problems };
   const { issuer, kid, created, signature } = tgart;
   // the record's fields are attacker-controlled: validate their shape before any path lookup, trust check or printing
-  if (!isHostname(issuer) || !isKid(kid) || !isIsoDate(created)) {
-    console.error(`tg: TAMPERED — ${file}\n  - the signature record has a malformed issuer, kid or date`);
-    process.exit(1);
-  }
+  if (!isHostname(issuer) || !isKid(kid) || !isIsoDate(created))
+    return { ...base, state: 'TAMPERED', problems: ['the signature record has a malformed issuer, kid or date'] };
+
   const kf = loadKeyfile(opt('keys'), issuer);
   const sigProblems = [];
   let pub = null;
@@ -185,14 +186,30 @@ async function cmdVerify(file) {
     else if (stmt.expires && created > stmt.expires) sigProblems.push(`the signature date ${created} is after the key expired (${stmt.expires})`);
     else pub = kv.publicKey;
   }
-  if (pub && verifyHash({ hash: imgHash, issuer, kid, created, signature }, pub)) {
-    console.log(`tg: VERIFIED — ${file}`);
-    console.log(`  signed by ${issuer} (kid ${kid}, ${created}); the image layer, the embedded source and the signature all cover one text (sha256 ${imgHash})`);
-    process.exit(0);
-  }
+  if (pub && verifyHash({ hash: imgHash, issuer, kid, created, signature }, pub))
+    return { ...base, state: 'VERIFIED', issuer, kid, created, problems };
   if (!sigProblems.length) sigProblems.push('the signature does not match the text and this issuer key');
-  console.error(`tg: TAMPERED — ${file}\n  - ${sigProblems.join('\n  - ')}`);
-  process.exit(1);
+  return { ...base, state: 'TAMPERED', problems: sigProblems };
+}
+
+async function cmdVerify(file) {
+  const r = await evaluate(file);
+  for (const w of r.warnings) console.error(`tg: warning — ${w}`);
+  const seal = r.sealed ? 'SEALED ' : '';
+  if (r.state === 'TAMPERED') { console.error(`tg: ${seal}TAMPERED — ${file}\n  - ${r.problems.join('\n  - ')}`); process.exit(1); }
+  if (r.state === 'UNSIGNED') {
+    console.log(`tg: ${seal}UNSIGNED — ${file}`);
+    console.log(`  image layer, embedded source and stored hash all carry one text (sha256 ${r.imgHash}) — consistent, but not signed`);
+    process.exit(2);
+  }
+  console.log(`tg: ${seal}VERIFIED — ${file}`);
+  if (r.sealed) {
+    const to = (Array.isArray(r.tgart.recipients) ? r.tgart.recipients : []).map((x) => (x.issuer && x.kid ? `${x.issuer}:${x.kid}` : x.label || '?')).join(', ') || '?';
+    console.log(`  signed by ${r.issuer} (kid ${r.kid}, ${r.created}); sealed (${r.tgart.cipher || 'age-v1'}) to ${to} — open with your key to read it (sha256 ${r.imgHash})`);
+  } else {
+    console.log(`  signed by ${r.issuer} (kid ${r.kid}, ${r.created}); the image layer, the embedded source and the signature all cover one text (sha256 ${r.imgHash})`);
+  }
+  process.exit(0);
 }
 
 // ---- extract ---------------------------------------------------------------------------------------------------------
@@ -220,6 +237,12 @@ async function cmdExtract(file, mode, fromGlyphs) {
 function opt(name, def = null) {
   const i = argv.indexOf(`--${name}`);
   return i >= 0 && argv[i + 1] != null && !argv[i + 1].startsWith('--') ? argv[i + 1] : def;
+}
+/** Every value of a repeatable flag `--name v1 --name v2`, in order. */
+function opts(name) {
+  const out = [];
+  for (let i = 0; i < argv.length; i++) if (argv[i] === `--${name}` && argv[i + 1] != null && !argv[i + 1].startsWith('--')) out.push(argv[i + 1]);
+  return out;
 }
 const readKeyfile = (p) => { try { return JSON.parse(readFileSync(p, 'utf8')); } catch { return null; } };
 const writeJson = (p, obj) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(obj, null, 2) + '\n'); };
@@ -345,6 +368,123 @@ async function cmdVerifyBundle(dir) {
   process.exit({ VERIFIED: 0, UNSIGNED: 2, TAMPERED: 1 }[r.state] ?? 1);
 }
 
+// ---- seal / open (Phase I2) ------------------------------------------------------------------------------------------
+const AGE_RECIPIENT = /^age1[0-9a-z]+$/;          // an age public key (X25519 recipient)
+const AGE_IDENTITY_LINE = /^AGE-SECRET-KEY-/;      // an age identity (private, opens a sealed work)
+
+/**
+ * `tg seal <file.md> --to [<issuer:kid>=]<age1…> [--to …] --key <private-key.pem> --issuer <domain> --kid <id> [--out
+ * <file.svg>] [--title <text>]` — encrypt a document to one or more age recipients, set it as the picture + data layer of
+ * a Typogram, mark the record sealed (tgart.mode="sealed", cipher, recipients), and sign it. The whole sealed text (the
+ * envelope AND the ciphertext) is what the signature covers, so `tg verify` proves it before anyone decrypts.
+ */
+async function cmdSeal(file) {
+  const keyFile = opt('key'), issuer = opt('issuer'), kid = opt('kid'), tos = opts('to');
+  if (!file || !keyFile || !issuer || !kid || !tos.length)
+    die('usage: tg seal <file.md> --to [<issuer:kid>=]<age1…> [--to …] --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>] [--title <text>]');
+  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
+  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
+  const recipients = tos.map((t) => {
+    const eq = t.indexOf('=');
+    const label = eq >= 0 ? t.slice(0, eq) : null, publicKey = eq >= 0 ? t.slice(eq + 1) : t;
+    if (!AGE_RECIPIENT.test(publicKey)) die(`--to recipient is not an age public key (age1…): ${JSON.stringify(t)}`);
+    if (label && label.includes(':')) { const [ri, rk] = label.split(':'); return { issuer: ri, kid: rk || '-', publicKey }; }
+    return { label: label || `recipient-${publicKey.slice(4, 14)}`, publicKey };
+  });
+  const md = readFileSync(file, 'utf8');
+  const title = opt('title') || firstHeading(md) || 'Sealed';
+  const { text, recipients: recMeta, cipher } = await sealText({ plaintext: md, title, sender: issuer, recipients });
+
+  const outFile = opt('out') || file.replace(/\.(md|markdown|txt)$/i, '') + '.sealed.tg.svg';
+  const session = await openSession();
+  try {
+    await makeOnePage(session, { text, title, source: { bytes: Buffer.from(text, 'utf8'), media: 'text/markdown' }, svg: outFile, meta: { title } });
+  } finally { await session.close(); }
+
+  // mark the record sealed (does not touch the glyphs or the embedded source, so the identity hash is unchanged), then sign.
+  let svg = readFileSync(outFile, 'utf8');
+  const rec = readJsonld(svg);
+  if (!rec || !rec.tgart || typeof rec.tgart.hash !== 'string') die('internal error: the rendered Typogram has no identity hash');
+  rec.tgart = { ...rec.tgart, mode: 'sealed', cipher, recipients: recMeta };
+  svg = withJsonld(svg, rec);
+  const imgHash = await sha256Hex(canonicalText(imageLayerText('svg', outFile, svg)));
+  if (imgHash !== rec.tgart.hash) die(`internal error: sealed image hash ${imgHash} ≠ stored ${rec.tgart.hash}`);
+  const created = new Date().toISOString().slice(0, 10);
+  const signature = signHash({ hash: rec.tgart.hash, issuer, kid, created }, readFileSync(keyFile, 'utf8'));
+  rec.tgart = { ...rec.tgart, spec: SIG_SPEC, issuer, kid, created, signature, keys: `https://${issuer}/.well-known/tgart-keys.json`, verify: `https://${issuer}/v` };
+  writeFileSync(outFile, withJsonld(svg, rec));
+  console.log(`tg: sealed ${file} -> ${outFile} as ${issuer} (kid ${kid})`);
+  console.log(`  sealed (${cipher}) to ${recMeta.map((x) => (x.issuer ? `${x.issuer}:${x.kid}` : x.label)).join(', ')}; sha256 ${rec.tgart.hash}`);
+}
+
+/**
+ * `tg open <file.svg> --identity <age-identity-file> [--keys <dir|file>] [--out <file>]` — verify a sealed Typogram's
+ * signature FIRST, then decrypt its payload with your age identity and write the plaintext (to --out, else stdout). It
+ * refuses to decrypt anything that is not VERIFIED, so a tampered or unsigned sealed work never reaches the cipher.
+ */
+async function cmdOpen(file) {
+  const idFile = opt('identity');
+  if (!file || !idFile) die('usage: tg open <file.svg> --identity <age-identity-file> [--keys <dir|file>] [--out <file>]');
+  const r = await evaluate(file);
+  if (!r.sealed) die(`${file} is not a sealed Typogram (its record has no mode "sealed")`);
+  if (r.state !== 'VERIFIED') {
+    console.error(`tg: refusing to open — ${file} is SEALED ${r.state}`);
+    if (r.problems.length) console.error(`  - ${r.problems.join('\n  - ')}`);
+    else console.error('  the signature must verify before anything is decrypted — give the issuer key with --keys');
+    process.exit(1);
+  }
+  const identities = readFileSync(idFile, 'utf8').split(/\r?\n/).map((s) => s.trim()).filter((s) => AGE_IDENTITY_LINE.test(s));
+  if (!identities.length) die(`${idFile} holds no age identity (a line starting with AGE-SECRET-KEY-)`);
+  if (r.dl.markdown == null) die(`${file} carries no embedded source to open`);
+  let plaintext;
+  try { plaintext = await openSealedText(r.dl.markdown, { identities }); }
+  catch (e) { die(`could not open ${file}: ${e.message} — is it sealed to one of your keys?`); }
+  const out = opt('out');
+  if (out) { writeFileSync(out, plaintext); console.error(`tg: opened ${file} (verified ${r.issuer} kid ${r.kid}) -> ${out}`); }
+  else process.stdout.write(plaintext.endsWith('\n') ? plaintext : plaintext + '\n');
+}
+
+/**
+ * `tg seal-keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]` — a new X25519 sealing key. The
+ * public recipient (age1…) is written as an X25519 entry into the issuer key file (keys/<domain>.json and the served
+ * .well-known), so senders can seal to it; the private identity (opens sealed works) goes to --private-out (mode 600) or
+ * stdout, clearly marked. It is NOT the signing key — an issuer has an Ed25519 signing key and an X25519 sealing key.
+ */
+async function cmdSealKeygen() {
+  const issuer = opt('issuer');
+  if (!issuer) die('usage: tg seal-keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]');
+  if (!isHostname(issuer)) die('--issuer must be a hostname, e.g. typographics-art.org');
+  const kid = opt('kid') || 'seal-' + new Date().toISOString().slice(0, 7); // seal-YYYY-MM
+  if (!isKid(kid)) die('--kid must be 1–64 characters of A–Z a–z 0–9 . _ -');
+  const identity = await generateX25519Identity();
+  const recipient = await identityToRecipient(identity);
+  const created = new Date().toISOString().slice(0, 10);
+  const entry = { kid, alg: 'X25519', publicKey: recipient, created };
+
+  const outDir = opt('out') || process.cwd();
+  const keysPath = join(outDir, 'keys', `${issuer}.json`);
+  const wellKnownPath = join(outDir, '.well-known', 'tgart-keys.json');
+  const existing = readKeyfile(keysPath) || readKeyfile(wellKnownPath) || { issuer, keys: [] };
+  const keys = (Array.isArray(existing.keys) ? existing.keys : []).filter((k) => !(k && k.kid === kid && k.alg === 'X25519')).concat([entry]);
+  const keyfile = { issuer, keys };
+  writeJson(keysPath, keyfile);
+  writeJson(wellKnownPath, keyfile);
+
+  const privateOut = opt('private-out');
+  if (privateOut) writePrivateKey(privateOut, identity);
+  console.log(`tg: new X25519 sealing key for ${issuer}`);
+  console.log(`  kid:       ${kid}`);
+  console.log(`  recipient: ${recipient}`);
+  console.log(`  seal to it: tg seal <file.md> --to ${issuer}:${kid}=${recipient} --key <ed25519.pem> --issuer ${issuer} --kid <sig-kid>`);
+  console.log(`  key file:  ${keysPath}  (publish at https://${issuer}/.well-known/tgart-keys.json)`);
+  if (privateOut) {
+    console.log(`  PRIVATE identity -> ${privateOut} (mode 600). It opens sealed works; it is the SECRET. Store it safely.`);
+  } else {
+    console.log('\n  PRIVATE identity (age) — SECRET, opens sealed works. Store it safely (a secret manager); it is NOT in the key file:\n');
+    process.stdout.write(identity.endsWith('\n') ? identity : identity + '\n');
+  }
+}
+
 const argv = process.argv.slice(2);
 const cmd = argv.shift();
 const flags = new Set(argv.filter((a) => a.startsWith('--')));
@@ -357,6 +497,9 @@ else if (cmd === 'extract') { if (!file) die('usage: tg extract <file> [--markdo
 else if (cmd === 'keygen') { cmdKeygen(); }
 else if (cmd === 'sign') { if (!file) die('usage: tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]'); await cmdSign(file); }
 else if (cmd === 'bundle') { await cmdBundle(file); }
+else if (cmd === 'seal') { await cmdSeal(file); }
+else if (cmd === 'open') { await cmdOpen(file); }
+else if (cmd === 'seal-keygen') { await cmdSealKeygen(); }
 else {
   console.error([
     'usage:',
@@ -365,6 +508,9 @@ else {
     '  tg keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]',
     '  tg sign <file> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file>]',
     '  tg bundle <folder> -o <out-dir> --key <private-key.pem> --issuer <domain> --kid <id> [--title <text>]',
+    '  tg seal-keygen --issuer <domain> [--kid <id>] [--out <dir>] [--private-out <file>]  new X25519 sealing key',
+    '  tg seal <file.md> --to [<issuer:kid>=]<age1…> --key <private-key.pem> --issuer <domain> --kid <id> [--out <file.svg>]',
+    '  tg open <file.svg> --identity <age-identity-file> [--keys <dir|file>] [--out <file>]  verify, then decrypt',
   ].join('\n'));
   process.exit(cmd === '--help' || cmd === '-h' ? 0 : 1);
 }

@@ -1,0 +1,27 @@
+{
+  "issuer": "seal.example",
+  "keys": [
+    {
+      "spec": "tgart-key-v1",
+      "issuer": "seal.example",
+      "kid": "sig-2026-10",
+      "alg": "Ed25519",
+      "publicKey": "BKCfRJqxczAfF0uxzfV8Or7KwcLDlRnzvTOZfC7hG9E",
+      "created": "2026-10-19",
+      "expires": null,
+      "predecessor": null,
+      "revokes": [],
+      "sig": {
+        "by": "self",
+        "signature": "DARV7wyu31W_fgHHdQxkaKnEIlbyA_SiBuGxuG0DRzU2_9CGig2tBFuMAEZfG4uwwEW2rlpIkMChgSQyBx2aAQ"
+      },
+      "anchors": []
+    },
+    {
+      "kid": "seal-2026-10",
+      "alg": "X25519",
+      "publicKey": "age18uwxucqwwfkaj4tcv7cyzmz0s0zhg3hhzwz90vcd5cv007wpp9ysdk0558",
+      "created": "2026-10-19"
+    }
+  ]
+}
