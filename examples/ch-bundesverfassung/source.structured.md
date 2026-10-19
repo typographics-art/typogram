@@ -294,8 +294,8 @@ Jede Person hat bei Rechtsstreitigkeiten Anspruch auf Beurteilung durch eine ric
 
 (3) Er erleichtert die Einbürgerung von:
 
-(3) - a. Personen der dritten Ausländergeneration;
-(3) - b. staatenlosen Kindern.
+- a. Personen der dritten Ausländergeneration;
+- b. staatenlosen Kindern.
 
 ### Art. 39 — Ausübung der politischen Rechte
 
@@ -319,13 +319,13 @@ Jede Person hat bei Rechtsstreitigkeiten Anspruch auf Beurteilung durch eine ric
 
 (1) Bund und Kantone setzen sich in Ergänzung zu persönlicher Verantwortung und privater Initiative dafür ein, dass:
 
-(1) - a. jede Person an der sozialen Sicherheit teilhat;
-(1) - b. jede Person die für ihre Gesundheit notwendige Pflege erhält;
-(1) - c. Familien als Gemeinschaften von Erwachsenen und Kindern geschützt und gefördert werden;
-(1) - d. Erwerbsfähige ihren Lebensunterhalt durch Arbeit zu angemessenen Bedingungen bestreiten können;
-(1) - e. Wohnungssuchende für sich und ihre Familie eine angemessene Wohnung zu tragbaren Bedingungen finden können;
-(1) - f. Kinder und Jugendliche sowie Personen im erwerbsfähigen Alter sich nach ihren Fähigkeiten bilden, aus- und weiterbilden können;
-(1) - g. Kinder und Jugendliche in ihrer Entwicklung zu selbstständigen und sozial verantwortlichen Personen gefördert und in ihrer sozialen, kulturellen und politischen Integration unterstützt werden sowie ihre Gesundheit gefördert wird.
+- a. jede Person an der sozialen Sicherheit teilhat;
+- b. jede Person die für ihre Gesundheit notwendige Pflege erhält;
+- c. Familien als Gemeinschaften von Erwachsenen und Kindern geschützt und gefördert werden;
+- d. Erwerbsfähige ihren Lebensunterhalt durch Arbeit zu angemessenen Bedingungen bestreiten können;
+- e. Wohnungssuchende für sich und ihre Familie eine angemessene Wohnung zu tragbaren Bedingungen finden können;
+- f. Kinder und Jugendliche sowie Personen im erwerbsfähigen Alter sich nach ihren Fähigkeiten bilden, aus- und weiterbilden können;
+- g. Kinder und Jugendliche in ihrer Entwicklung zu selbstständigen und sozial verantwortlichen Personen gefördert und in ihrer sozialen, kulturellen und politischen Integration unterstützt werden sowie ihre Gesundheit gefördert wird.
 
 (2) Bund und Kantone setzen sich dafür ein, dass jede Person gegen die wirtschaftlichen Folgen von Alter, Invalidität, Krankheit, Unfall, Arbeitslosigkeit, Mutterschaft, Verwaisung und Verwitwung gesichert ist.
 
@@ -401,8 +401,8 @@ Die Kantone bestimmen, welche Aufgaben sie im Rahmen ihrer Zuständigkeiten erf�
 
 (4) Die Kantone können interkantonale Organe durch interkantonalen Vertrag zum Erlass rechtsetzender Bestimmungen ermächtigen, die einen interkantonalen Vertrag umsetzen, sofern der Vertrag:
 
-(4) - a. nach dem gleichen Verfahren, das für die Gesetzgebung gilt, genehmigt worden ist;
-(4) - b. die inhaltlichen Grundzüge der Bestimmungen festlegt.
+- a. nach dem gleichen Verfahren, das für die Gesetzgebung gilt, genehmigt worden ist;
+- b. die inhaltlichen Grundzüge der Bestimmungen festlegt.
 
 (5) Die Kantone beachten das interkantonale Recht.
 
@@ -410,15 +410,15 @@ Die Kantone bestimmen, welche Aufgaben sie im Rahmen ihrer Zuständigkeiten erf�
 
 (1) Auf Antrag interessierter Kantone kann der Bund in folgenden Aufgabenbereichen interkantonale Verträge allgemein verbindlich erklären oder Kantone zur Beteiligung an interkantonalen Verträgen verpflichten:
 
-(1) - a. Straf- und Massnahmenvollzug;
-(1) - b. Schulwesen hinsichtlich der in Artikel 62 Absatz 4 genannten Bereiche;
-(1) - c. kantonale Hochschulen;
-(1) - d. Kultureinrichtungen von überregionaler Bedeutung;
-(1) - e. Abfallbewirtschaftung;
-(1) - f. Abwasserreinigung;
-(1) - g. Agglomerationsverkehr;
-(1) - h. Spitzenmedizin und Spezialkliniken;
-(1) - i. Institutionen zur Eingliederung und Betreuung von Invaliden.
+- a. Straf- und Massnahmenvollzug;
+- b. Schulwesen hinsichtlich der in Artikel 62 Absatz 4 genannten Bereiche;
+- c. kantonale Hochschulen;
+- d. Kultureinrichtungen von überregionaler Bedeutung;
+- e. Abfallbewirtschaftung;
+- f. Abwasserreinigung;
+- g. Agglomerationsverkehr;
+- h. Spitzenmedizin und Spezialkliniken;
+- i. Institutionen zur Eingliederung und Betreuung von Invaliden.
 
 (2) Die Allgemeinverbindlicherklärung erfolgt in der Form eines Bundesbeschlusses.
 
@@ -746,12 +746,12 @@ Der Bund legt Grundsätze fest über die Ausübung der Fischerei und der Jagd, i
 
 (2) Er regelt insbesondere:
 
-(2) - a. die Tierhaltung und die Tierpflege;
-(2) - b. die Tierversuche und die Eingriffe am lebenden Tier;
-(2) - c. die Verwendung von Tieren;
-(2) - d. die Einfuhr von Tieren und tierischen Erzeugnissen;
-(2) - e. den Tierhandel und die Tiertransporte;
-(2) - f. das Töten von Tieren.
+- a. die Tierhaltung und die Tierpflege;
+- b. die Tierversuche und die Eingriffe am lebenden Tier;
+- c. die Verwendung von Tieren;
+- d. die Einfuhr von Tieren und tierischen Erzeugnissen;
+- e. den Tierhandel und die Tiertransporte;
+- f. das Töten von Tieren.
 
 (3) Für den Vollzug der Vorschriften sind die Kantone zuständig, soweit das Gesetz ihn nicht dem Bund vorbehält.
 
@@ -807,24 +807,24 @@ Der Bund erhebt eine Abgabe für die Benützung der Nationalstrassen durch Motor
 
 (2) Dem Fonds werden die folgenden Mittel zugewiesen:
 
-(2) - a. der Reinertrag der Nationalstrassenabgabe nach Artikel 85a;
-(2) - b. der Reinertrag der besonderen Verbrauchssteuer nach Artikel 131 Absatz 1 Buchstabe d;
-(2) - c. der Reinertrag des Zuschlags nach Artikel 131 Absatz 2 Buchstabe a;
-(2) - d. der Reinertrag der Abgabe nach Artikel 131 Absatz 2 Buchstabe b;
-(2) - e. ein Anteil des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, nach Artikel 131 Absatz 1 Buchstabe e; der Anteil beträgt je 9 Prozent der Mittel nach Buchstabe c und der Hälfte des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, höchstens aber 310 Millionen Franken pro Jahr; das Gesetz regelt die Indexierung dieses Betrags;
-(2) - f. in der Regel 10 Prozent des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, nach Artikel 131 Absatz 1 Buchstabe e;
-(2) - g. die Erträge zur Kompensation von Mehraufwendungen für neu ins Nationalstrassennetz aufgenommene Strecken aus der Spezialfinanzierung nach Absatz 3 Buchstabe g und aus Beiträgen der Kantone;
-(2) - h. weitere vom Gesetz zugewiesene Mittel, die im Zusammenhang mit dem Strassenverkehr stehen.
+- a. der Reinertrag der Nationalstrassenabgabe nach Artikel 85a;
+- b. der Reinertrag der besonderen Verbrauchssteuer nach Artikel 131 Absatz 1 Buchstabe d;
+- c. der Reinertrag des Zuschlags nach Artikel 131 Absatz 2 Buchstabe a;
+- d. der Reinertrag der Abgabe nach Artikel 131 Absatz 2 Buchstabe b;
+- e. ein Anteil des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, nach Artikel 131 Absatz 1 Buchstabe e; der Anteil beträgt je 9 Prozent der Mittel nach Buchstabe c und der Hälfte des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, höchstens aber 310 Millionen Franken pro Jahr; das Gesetz regelt die Indexierung dieses Betrags;
+- f. in der Regel 10 Prozent des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, nach Artikel 131 Absatz 1 Buchstabe e;
+- g. die Erträge zur Kompensation von Mehraufwendungen für neu ins Nationalstrassennetz aufgenommene Strecken aus der Spezialfinanzierung nach Absatz 3 Buchstabe g und aus Beiträgen der Kantone;
+- h. weitere vom Gesetz zugewiesene Mittel, die im Zusammenhang mit dem Strassenverkehr stehen.
 
 (3) Für folgende Aufgaben und Aufwendungen im Zusammenhang mit dem Strassenverkehr wird eine Spezialfinanzierung geführt:
 
-(3) - a. Beiträge an Massnahmen zur Förderung des kombinierten Verkehrs und des Transports begleiteter Motorfahrzeuge;
-(3) - b. Beiträge an die Kosten für Hauptstrassen;
-(3) - c. Beiträge an Schutzbauten gegen Naturgewalten und an Massnahmen des Umwelt- und Landschaftsschutzes, die der Strassenverkehr nötig macht;
-(3) - d. allgemeine Beiträge an die kantonalen Kosten für Strassen, die dem Motorfahrzeugverkehr geöffnet sind;
-(3) - e. Beiträge an Kantone ohne Nationalstrassen;
-(3) - f. Forschung und Verwaltung;
-(3) - g. Beiträge an den Fonds nach Absatz 2 Buchstabe g.
+- a. Beiträge an Massnahmen zur Förderung des kombinierten Verkehrs und des Transports begleiteter Motorfahrzeuge;
+- b. Beiträge an die Kosten für Hauptstrassen;
+- c. Beiträge an Schutzbauten gegen Naturgewalten und an Massnahmen des Umwelt- und Landschaftsschutzes, die der Strassenverkehr nötig macht;
+- d. allgemeine Beiträge an die kantonalen Kosten für Strassen, die dem Motorfahrzeugverkehr geöffnet sind;
+- e. Beiträge an Kantone ohne Nationalstrassen;
+- f. Forschung und Verwaltung;
+- g. Beiträge an den Fonds nach Absatz 2 Buchstabe g.
 
 (4) Der Spezialfinanzierung wird die Hälfte des Reinertrags der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen, nach Artikel 131 Absatz 1 Buchstabe e abzüglich der Mittel nach Absatz 2 Buchstabe e gutgeschrieben.
 
@@ -840,10 +840,10 @@ Die Gesetzgebung über den Eisenbahnverkehr, die Seilbahnen, die Schifffahrt sow
 
 (2) Die Eisenbahninfrastruktur wird über einen Fonds finanziert. Dem Fonds werden folgende Mittel zugewiesen:
 
-(2) - a. höchstens zwei Drittel des Ertrags der Schwerverkehrsabgabe nach Artikel 85;
-(2) - b. der Ertrag aus der Mehrwertsteuererhöhung nach Artikel 130 Absatz 3bis;
-(2) - c. 2,0 Prozent der Einnahmen aus der direkten Bundessteuer der natürlichen Personen;
-(2) - d. 2300 Millionen Franken pro Jahr aus dem allgemeinen Bundeshaushalt; das Gesetz regelt die Indexierung dieses Betrags.
+- a. höchstens zwei Drittel des Ertrags der Schwerverkehrsabgabe nach Artikel 85;
+- b. der Ertrag aus der Mehrwertsteuererhöhung nach Artikel 130 Absatz 3bis;
+- c. 2,0 Prozent der Einnahmen aus der direkten Bundessteuer der natürlichen Personen;
+- d. 2300 Millionen Franken pro Jahr aus dem allgemeinen Bundeshaushalt; das Gesetz regelt die Indexierung dieses Betrags.
 
 (3) Die Kantone beteiligen sich angemessen an der Finanzierung der Eisenbahninfrastruktur. Das Gesetz regelt die Einzelheiten.
 
@@ -927,10 +927,10 @@ Die Gesetzgebung auf dem Gebiet der Kernenergie ist Sache des Bundes.
 
 (3) Zum Schutz der Volkswirtschaft, des Privateigentums und der Aktionärinnen und Aktionäre sowie im Sinne einer nachhaltigen Unternehmensführung regelt das Gesetz die im In- oder Ausland kotierten Schweizer Aktiengesellschaften nach folgenden Grundsätzen:
 
-(3) - a. Die Generalversammlung stimmt jährlich über die Gesamtsumme aller Vergütungen (Geld und Wert der Sachleistungen) des Verwaltungsrates, der Geschäftsleitung und des Beirates ab. Sie wählt jährlich die Verwaltungsratspräsidentin oder den Verwaltungsratspräsidenten und einzeln die Mitglieder des Verwaltungsrates und des Vergütungsausschusses sowie die unabhängige Stimmrechtsvertreterin oder den unabhängigen Stimmrechtsvertreter. Die Pensionskassen stimmen im Interesse ihrer Versicherten ab und legen offen, wie sie gestimmt haben. Die Aktionärinnen und Aktionäre können elektronisch fernabstimmen; die Organ- und Depotstimmrechtsvertretung ist untersagt.
-(3) - b. Die Organmitglieder erhalten keine Abgangs- oder andere Entschädigung, keine Vergütung im Voraus, keine Prämie für Firmenkäufe und -verkäufe und keinen zusätzlichen Berater- oder Arbeitsvertrag von einer anderen Gesellschaft der Gruppe. Die Führung der Gesellschaft kann nicht an eine juristische Person delegiert werden.
-(3) - c. Die Statuten regeln die Höhe der Kredite, Darlehen und Renten an die Organmitglieder, deren Erfolgs- und Beteiligungspläne und deren Anzahl Mandate ausserhalb des Konzerns sowie die Dauer der Arbeitsverträge der Geschäftsleitungsmitglieder.
-(3) - d. Widerhandlung gegen die Bestimmungen nach den Buchstaben a–c wird mit Freiheitsstrafe bis zu drei Jahren und Geldstrafe bis zu sechs Jahresvergütungen bestraft.
+- a. Die Generalversammlung stimmt jährlich über die Gesamtsumme aller Vergütungen (Geld und Wert der Sachleistungen) des Verwaltungsrates, der Geschäftsleitung und des Beirates ab. Sie wählt jährlich die Verwaltungsratspräsidentin oder den Verwaltungsratspräsidenten und einzeln die Mitglieder des Verwaltungsrates und des Vergütungsausschusses sowie die unabhängige Stimmrechtsvertreterin oder den unabhängigen Stimmrechtsvertreter. Die Pensionskassen stimmen im Interesse ihrer Versicherten ab und legen offen, wie sie gestimmt haben. Die Aktionärinnen und Aktionäre können elektronisch fernabstimmen; die Organ- und Depotstimmrechtsvertretung ist untersagt.
+- b. Die Organmitglieder erhalten keine Abgangs- oder andere Entschädigung, keine Vergütung im Voraus, keine Prämie für Firmenkäufe und -verkäufe und keinen zusätzlichen Berater- oder Arbeitsvertrag von einer anderen Gesellschaft der Gruppe. Die Führung der Gesellschaft kann nicht an eine juristische Person delegiert werden.
+- c. Die Statuten regeln die Höhe der Kredite, Darlehen und Renten an die Organmitglieder, deren Erfolgs- und Beteiligungspläne und deren Anzahl Mandate ausserhalb des Konzerns sowie die Dauer der Arbeitsverträge der Geschäftsleitungsmitglieder.
+- d. Widerhandlung gegen die Bestimmungen nach den Buchstaben a–c wird mit Freiheitsstrafe bis zu drei Jahren und Geldstrafe bis zu sechs Jahresvergütungen bestraft.
 
 ### Art. 96 — Wettbewerbspolitik
 
@@ -938,8 +938,8 @@ Die Gesetzgebung auf dem Gebiet der Kernenergie ist Sache des Bundes.
 
 (2) Er trifft Massnahmen:
 
-(2) - a. zur Verhinderung von Missbräuchen in der Preisbildung durch marktmächtige Unternehmen und Organisationen des privaten und des öffentlichen Rechts;
-(2) - b. gegen den unlauteren Wettbewerb.
+- a. zur Verhinderung von Missbräuchen in der Preisbildung durch marktmächtige Unternehmen und Organisationen des privaten und des öffentlichen Rechts;
+- b. gegen den unlauteren Wettbewerb.
 
 ### Art. 97 — Schutz der Konsumentinnen und Konsumenten
 
@@ -1001,20 +1001,20 @@ Der Bund kann wirtschaftlich bedrohte Landesgegenden unterstützen sowie Wirtsch
 
 (1) Der Bund sorgt dafür, dass die Landwirtschaft durch eine nachhaltige und auf den Markt ausgerichtete Produktion einen wesentlichen Beitrag leistet zur:
 
-(1) - a. sicheren Versorgung der Bevölkerung;
-(1) - b. Erhaltung der natürlichen Lebensgrundlagen und zur Pflege der Kulturlandschaft;
-(1) - c. dezentralen Besiedlung des Landes.
+- a. sicheren Versorgung der Bevölkerung;
+- b. Erhaltung der natürlichen Lebensgrundlagen und zur Pflege der Kulturlandschaft;
+- c. dezentralen Besiedlung des Landes.
 
 (2) Ergänzend zur zumutbaren Selbsthilfe der Landwirtschaft und nötigenfalls abweichend vom Grundsatz der Wirtschaftsfreiheit fördert der Bund die bodenbewirtschaftenden bäuerlichen Betriebe.
 
 (3) Er richtet die Massnahmen so aus, dass die Landwirtschaft ihre multifunktionalen Aufgaben erfüllt. Er hat insbesondere folgende Befugnisse und Aufgaben:
 
-(3) - a. Er ergänzt das bäuerliche Einkommen durch Direktzahlungen zur Erzielung eines angemessenen Entgelts für die erbrachten Leistungen, unter der Voraussetzung eines ökologischen Leistungsnachweises.
-(3) - b. Er fördert mit wirtschaftlich lohnenden Anreizen Produktionsformen, die besonders naturnah, umwelt- und tierfreundlich sind.
-(3) - c. Er erlässt Vorschriften zur Deklaration von Herkunft, Qualität, Produktionsmethode und Verarbeitungsverfahren für Lebensmittel.
-(3) - d. Er schützt die Umwelt vor Beeinträchtigungen durch überhöhten Einsatz von Düngstoffen, Chemikalien und anderen Hilfsstoffen.
-(3) - e. Er kann die landwirtschaftliche Forschung, Beratung und Ausbildung fördern sowie Investitionshilfen leisten.
-(3) - f. Er kann Vorschriften zur Festigung des bäuerlichen Grundbesitzes erlassen.
+- a. Er ergänzt das bäuerliche Einkommen durch Direktzahlungen zur Erzielung eines angemessenen Entgelts für die erbrachten Leistungen, unter der Voraussetzung eines ökologischen Leistungsnachweises.
+- b. Er fördert mit wirtschaftlich lohnenden Anreizen Produktionsformen, die besonders naturnah, umwelt- und tierfreundlich sind.
+- c. Er erlässt Vorschriften zur Deklaration von Herkunft, Qualität, Produktionsmethode und Verarbeitungsverfahren für Lebensmittel.
+- d. Er schützt die Umwelt vor Beeinträchtigungen durch überhöhten Einsatz von Düngstoffen, Chemikalien und anderen Hilfsstoffen.
+- e. Er kann die landwirtschaftliche Forschung, Beratung und Ausbildung fördern sowie Investitionshilfen leisten.
+- f. Er kann Vorschriften zur Festigung des bäuerlichen Grundbesitzes erlassen.
 
 (4) Er setzt dafür zweckgebundene Mittel aus dem Bereich der Landwirtschaft und allgemeine Bundesmittel ein.
 
@@ -1040,9 +1040,9 @@ Die Gesetzgebung über Herstellung, Einfuhr, Reinigung und Verkauf gebrannter Wa
 
 (3) Die Kantone sind zuständig für die Bewilligung und die Beaufsichtigung:
 
-(3) - a. der Geldspiele, die einer unbegrenzten Zahl Personen offenstehen, an mehreren Orten angeboten werden und derselben Zufallsziehung oder einer ähnlichen Prozedur unterliegen; ausgenommen sind die Jackpotsysteme der Spielbanken;
-(3) - b. der Sportwetten;
-(3) - c. der Geschicklichkeitsspiele.
+- a. der Geldspiele, die einer unbegrenzten Zahl Personen offenstehen, an mehreren Orten angeboten werden und derselben Zufallsziehung oder einer ähnlichen Prozedur unterliegen; ausgenommen sind die Jackpotsysteme der Spielbanken;
+- b. der Sportwetten;
+- c. der Geschicklichkeitsspiele.
 
 (4) Die Absätze 2 und 3 finden auch auf die telekommunikationsgestützt durchgeführten Geldspiele Anwendung.
 
@@ -1080,10 +1080,10 @@ Die Gesetzgebung über Herstellung, Einfuhr, Reinigung und Verkauf gebrannter Wa
 
 (1) Der Bund kann Vorschriften erlassen über:
 
-(1) - a. den Schutz der Arbeitnehmerinnen und Arbeitnehmer;
-(1) - b. das Verhältnis zwischen Arbeitgeber- und Arbeitnehmerseite, insbesondere über die gemeinsame Regelung betrieblicher und beruflicher Angelegenheiten;
-(1) - c. die Arbeitsvermittlung;
-(1) - d. die Allgemeinverbindlicherklärung von Gesamtarbeitsverträgen.
+- a. den Schutz der Arbeitnehmerinnen und Arbeitnehmer;
+- b. das Verhältnis zwischen Arbeitgeber- und Arbeitnehmerseite, insbesondere über die gemeinsame Regelung betrieblicher und beruflicher Angelegenheiten;
+- c. die Arbeitsvermittlung;
+- d. die Allgemeinverbindlicherklärung von Gesamtarbeitsverträgen.
 
 (2) Gesamtarbeitsverträge dürfen nur allgemeinverbindlich erklärt werden, wenn sie begründeten Minderheitsinteressen und regionalen Verschiedenheiten angemessen Rechnung tragen und die Rechtsgleichheit sowie die Koalitionsfreiheit nicht beeinträchtigen.
 
@@ -1105,16 +1105,16 @@ Die Gesetzgebung über Herstellung, Einfuhr, Reinigung und Verkauf gebrannter Wa
 
 (2) Er beachtet dabei folgende Grundsätze:
 
-(2) - a. Die Versicherung ist obligatorisch.
-(2) - abis. Sie gewährt Geld- und Sachleistungen.
-(2) - b. Die Renten haben den Existenzbedarf angemessen zu decken.
-(2) - c. Die Höchstrente beträgt maximal das Doppelte der Mindestrente.
-(2) - d. Die Renten werden mindestens der Preisentwicklung angepasst.
+- a. Die Versicherung ist obligatorisch.
+- abis. Sie gewährt Geld- und Sachleistungen.
+- b. Die Renten haben den Existenzbedarf angemessen zu decken.
+- c. Die Höchstrente beträgt maximal das Doppelte der Mindestrente.
+- d. Die Renten werden mindestens der Preisentwicklung angepasst.
 
 (3) Die Versicherung wird finanziert:
 
-(3) - a. durch Beiträge der Versicherten, wobei die Arbeitgeberinnen und Arbeitgeber für ihre Arbeitnehmerinnen und Arbeitnehmer die Hälfte der Beiträge bezahlen;
-(3) - b. durch Leistungen des Bundes.
+- a. durch Beiträge der Versicherten, wobei die Arbeitgeberinnen und Arbeitgeber für ihre Arbeitnehmerinnen und Arbeitnehmer die Hälfte der Beiträge bezahlen;
+- b. durch Leistungen des Bundes.
 
 (4) Die Leistungen des Bundes betragen höchstens die Hälfte der Ausgaben.
 
@@ -1148,11 +1148,11 @@ Die Gesetzgebung über Herstellung, Einfuhr, Reinigung und Verkauf gebrannter Wa
 
 (2) Er beachtet dabei folgende Grundsätze:
 
-(2) - a. Die berufliche Vorsorge ermöglicht zusammen mit der Alters-, Hinterlassenen- und Invalidenversicherung die Fortsetzung der gewohnten Lebenshaltung in angemessener Weise.
-(2) - b. Die berufliche Vorsorge ist für Arbeitnehmerinnen und Arbeitnehmer obligatorisch; das Gesetz kann Ausnahmen vorsehen.
-(2) - c. Die Arbeitgeberinnen und Arbeitgeber versichern ihre Arbeitnehmerinnen und Arbeitnehmer bei einer Vorsorgeeinrichtung; soweit erforderlich, ermöglicht ihnen der Bund, die Arbeitnehmerinnen und Arbeitnehmer in einer eidgenössischen Vorsorgeeinrichtung zu versichern.
-(2) - d. Selbstständigerwerbende können sich freiwillig bei einer Vorsorgeeinrichtung versichern.
-(2) - e. Für bestimmte Gruppen von Selbstständigerwerbenden kann der Bund die berufliche Vorsorge allgemein oder für einzelne Risiken obligatorisch erklären.
+- a. Die berufliche Vorsorge ermöglicht zusammen mit der Alters-, Hinterlassenen- und Invalidenversicherung die Fortsetzung der gewohnten Lebenshaltung in angemessener Weise.
+- b. Die berufliche Vorsorge ist für Arbeitnehmerinnen und Arbeitnehmer obligatorisch; das Gesetz kann Ausnahmen vorsehen.
+- c. Die Arbeitgeberinnen und Arbeitgeber versichern ihre Arbeitnehmerinnen und Arbeitnehmer bei einer Vorsorgeeinrichtung; soweit erforderlich, ermöglicht ihnen der Bund, die Arbeitnehmerinnen und Arbeitnehmer in einer eidgenössischen Vorsorgeeinrichtung zu versichern.
+- d. Selbstständigerwerbende können sich freiwillig bei einer Vorsorgeeinrichtung versichern.
+- e. Für bestimmte Gruppen von Selbstständigerwerbenden kann der Bund die berufliche Vorsorge allgemein oder für einzelne Risiken obligatorisch erklären.
 
 (3) Die berufliche Vorsorge wird durch die Beiträge der Versicherten finanziert, wobei die Arbeitgeberinnen und Arbeitgeber mindestens die Hälfte der Beiträge ihrer Arbeitnehmerinnen und Arbeitnehmer bezahlen.
 
@@ -1164,9 +1164,9 @@ Die Gesetzgebung über Herstellung, Einfuhr, Reinigung und Verkauf gebrannter Wa
 
 (2) Er beachtet dabei folgende Grundsätze:
 
-(2) - a. Die Versicherung gewährt angemessenen Erwerbsersatz und unterstützt Massnahmen zur Verhütung und Bekämpfung der Arbeitslosigkeit.
-(2) - b. Der Beitritt ist für Arbeitnehmerinnen und Arbeitnehmer obligatorisch; das Gesetz kann Ausnahmen vorsehen.
-(2) - c. Selbstständigerwerbende können sich freiwillig versichern.
+- a. Die Versicherung gewährt angemessenen Erwerbsersatz und unterstützt Massnahmen zur Verhütung und Bekämpfung der Arbeitslosigkeit.
+- b. Der Beitritt ist für Arbeitnehmerinnen und Arbeitnehmer obligatorisch; das Gesetz kann Ausnahmen vorsehen.
+- c. Selbstständigerwerbende können sich freiwillig versichern.
 
 (3) Die Versicherung wird durch die Beiträge der Versicherten finanziert, wobei die Arbeitgeberinnen und Arbeitgeber für ihre Arbeitnehmerinnen und Arbeitnehmer die Hälfte der Beiträge bezahlen.
 
@@ -1200,8 +1200,8 @@ Bedürftige werden von ihrem Wohnkanton unterstützt. Der Bund regelt die Ausnah
 
 (2) Der Bund erlässt Vorschriften über:
 
-(2) - a. die Aus- und Weiterbildung für Berufe der medizinischen Grundversorgung und über die Anforderungen zur Ausübung dieser Berufe;
-(2) - b. die angemessene Abgeltung der Leistungen der Hausarztmedizin.
+- a. die Aus- und Weiterbildung für Berufe der medizinischen Grundversorgung und über die Anforderungen zur Ausübung dieser Berufe;
+- b. die angemessene Abgeltung der Leistungen der Hausarztmedizin.
 
 ### Art. 117b — Pflege*
 
@@ -1215,9 +1215,9 @@ Bedürftige werden von ihrem Wohnkanton unterstützt. Der Bund regelt die Ausnah
 
 (2) Er erlässt Vorschriften über:
 
-(2) - a. den Umgang mit Lebensmitteln sowie mit Heilmitteln, Betäubungsmitteln, Organismen, Chemikalien und Gegenständen, welche die Gesundheit gefährden können;
-(2) - b. die Bekämpfung übertragbarer, stark verbreiteter oder bösartiger Krankheiten von Menschen und Tieren; er verbietet namentlich jede Art von Werbung für Tabakprodukte, die Kinder und Jugendliche erreicht;*
-(2) - c. den Schutz vor ionisierenden Strahlen.
+- a. den Umgang mit Lebensmitteln sowie mit Heilmitteln, Betäubungsmitteln, Organismen, Chemikalien und Gegenständen, welche die Gesundheit gefährden können;
+- b. die Bekämpfung übertragbarer, stark verbreiteter oder bösartiger Krankheiten von Menschen und Tieren; er verbietet namentlich jede Art von Werbung für Tabakprodukte, die Kinder und Jugendliche erreicht;*
+- c. den Schutz vor ionisierenden Strahlen.
 
 ### Art. 118a — Komplementärmedizin
 
@@ -1229,10 +1229,10 @@ Bund und Kantone sorgen im Rahmen ihrer Zuständigkeiten für die Berücksichtig
 
 (2) Für die Forschung in Biologie und Medizin mit Personen beachtet er folgende Grundsätze:
 
-(2) - a. Jedes Forschungsvorhaben setzt voraus, dass die teilnehmenden oder gemäss Gesetz berechtigten Personen nach hinreichender Aufklärung ihre Einwilligung erteilt haben. Das Gesetz kann Ausnahmen vorsehen. Eine Ablehnung ist in jedem Fall verbindlich.
-(2) - b. Die Risiken und Belastungen für die teilnehmenden Personen dürfen nicht in einem Missverhältnis zum Nutzen des Forschungsvorhabens stehen.
-(2) - c. Mit urteilsunfähigen Personen darf ein Forschungsvorhaben nur durchgeführt werden, wenn gleichwertige Erkenntnisse nicht mit urteilsfähigen Personen gewonnen werden können. Lässt das Forschungsvorhaben keinen unmittelbaren Nutzen für die urteilsunfähigen Personen erwarten, so dürfen die Risiken und Belastungen nur minimal sein.
-(2) - d. Eine unabhängige Überprüfung des Forschungsvorhabens muss ergeben haben, dass der Schutz der teilnehmenden Personen gewährleistet ist.
+- a. Jedes Forschungsvorhaben setzt voraus, dass die teilnehmenden oder gemäss Gesetz berechtigten Personen nach hinreichender Aufklärung ihre Einwilligung erteilt haben. Das Gesetz kann Ausnahmen vorsehen. Eine Ablehnung ist in jedem Fall verbindlich.
+- b. Die Risiken und Belastungen für die teilnehmenden Personen dürfen nicht in einem Missverhältnis zum Nutzen des Forschungsvorhabens stehen.
+- c. Mit urteilsunfähigen Personen darf ein Forschungsvorhaben nur durchgeführt werden, wenn gleichwertige Erkenntnisse nicht mit urteilsfähigen Personen gewonnen werden können. Lässt das Forschungsvorhaben keinen unmittelbaren Nutzen für die urteilsunfähigen Personen erwarten, so dürfen die Risiken und Belastungen nur minimal sein.
+- d. Eine unabhängige Überprüfung des Forschungsvorhabens muss ergeben haben, dass der Schutz der teilnehmenden Personen gewährleistet ist.
 
 ### Art. 119 — Fortpflanzungsmedizin und Gentechnologie im Humanbereich
 
@@ -1240,13 +1240,13 @@ Bund und Kantone sorgen im Rahmen ihrer Zuständigkeiten für die Berücksichtig
 
 (2) Der Bund erlässt Vorschriften über den Umgang mit menschlichem Keim- und Erbgut. Er sorgt dabei für den Schutz der Menschenwürde, der Persönlichkeit und der Familie und beachtet insbesondere folgende Grundsätze:
 
-(2) - a. Alle Arten des Klonens und Eingriffe in das Erbgut menschlicher Keimzellen und Embryonen sind unzulässig.
-(2) - b. Nichtmenschliches Keim- und Erbgut darf nicht in menschliches Keimgut eingebracht oder mit ihm verschmolzen werden.
-(2) - c. Die Verfahren der medizinisch unterstützten Fortpflanzung dürfen nur angewendet werden, wenn die Unfruchtbarkeit oder die Gefahr der Übertragung einer schweren Krankheit nicht anders behoben werden kann, nicht aber um beim Kind bestimmte Eigenschaften herbeizuführen oder um Forschung zu betreiben; die Befruchtung menschlicher Eizellen ausserhalb des Körpers der Frau ist nur unter den vom Gesetz festgelegten Bedingungen erlaubt; es dürfen nur so viele menschliche Eizellen ausserhalb des Körpers der Frau zu Embryonen entwickelt werden, als für die medizinisch unterstützte Fortpflanzung notwendig sind.
-(2) - d. Die Embryonenspende und alle Arten von Leihmutterschaft sind unzulässig.
-(2) - e. Mit menschlichem Keimgut und mit Erzeugnissen aus Embryonen darf kein Handel getrieben werden.
-(2) - f. Das Erbgut einer Person darf nur untersucht, registriert oder offenbart werden, wenn die betroffene Person zustimmt oder das Gesetz es vorschreibt.
-(2) - g. Jede Person hat Zugang zu den Daten über ihre Abstammung.
+- a. Alle Arten des Klonens und Eingriffe in das Erbgut menschlicher Keimzellen und Embryonen sind unzulässig.
+- b. Nichtmenschliches Keim- und Erbgut darf nicht in menschliches Keimgut eingebracht oder mit ihm verschmolzen werden.
+- c. Die Verfahren der medizinisch unterstützten Fortpflanzung dürfen nur angewendet werden, wenn die Unfruchtbarkeit oder die Gefahr der Übertragung einer schweren Krankheit nicht anders behoben werden kann, nicht aber um beim Kind bestimmte Eigenschaften herbeizuführen oder um Forschung zu betreiben; die Befruchtung menschlicher Eizellen ausserhalb des Körpers der Frau ist nur unter den vom Gesetz festgelegten Bedingungen erlaubt; es dürfen nur so viele menschliche Eizellen ausserhalb des Körpers der Frau zu Embryonen entwickelt werden, als für die medizinisch unterstützte Fortpflanzung notwendig sind.
+- d. Die Embryonenspende und alle Arten von Leihmutterschaft sind unzulässig.
+- e. Mit menschlichem Keimgut und mit Erzeugnissen aus Embryonen darf kein Handel getrieben werden.
+- f. Das Erbgut einer Person darf nur untersucht, registriert oder offenbart werden, wenn die betroffene Person zustimmt oder das Gesetz es vorschreibt.
+- g. Jede Person hat Zugang zu den Daten über ihre Abstammung.
 
 ### Art. 119a — Transplantationsmedizin
 
@@ -1272,8 +1272,8 @@ Bund und Kantone sorgen im Rahmen ihrer Zuständigkeiten für die Berücksichtig
 
 (3) Sie verlieren unabhängig von ihrem ausländerrechtlichen Status ihr Aufenthaltsrecht sowie alle Rechtsansprüche auf Aufenthalt in der Schweiz, wenn sie:
 
-(3) - a. wegen eines vorsätzlichen Tötungsdelikts, wegen einer Vergewaltigung oder eines anderen schweren Sexualdelikts, wegen eines anderen Gewaltdelikts wie Raub, wegen Menschenhandels, Drogenhandels oder eines Einbruchsdelikts rechtskräftig verurteilt worden sind; oder
-(3) - b. missbräuchlich Leistungen der Sozialversicherungen oder der Sozialhilfe bezogen haben.
+- a. wegen eines vorsätzlichen Tötungsdelikts, wegen einer Vergewaltigung oder eines anderen schweren Sexualdelikts, wegen eines anderen Gewaltdelikts wie Raub, wegen Menschenhandels, Drogenhandels oder eines Einbruchsdelikts rechtskräftig verurteilt worden sind; oder
+- b. missbräuchlich Leistungen der Sozialversicherungen oder der Sozialhilfe bezogen haben.
 
 (4) Der Gesetzgeber umschreibt die Tatbestände nach Absatz 3 näher. Er kann sie um weitere Tatbestände ergänzen.
 
@@ -1309,9 +1309,9 @@ Bund und Kantone sorgen im Rahmen ihrer Zuständigkeiten für die Berücksichtig
 
 (3) Der Bund kann Vorschriften zum Straf- und Massnahmenvollzug erlassen. Er kann den Kantonen Beiträge gewähren:
 
-(3) - a. für die Errichtung von Anstalten;
-(3) - b. für Verbesserungen im Straf- und Massnahmenvollzug;
-(3) - c. an Einrichtungen, die erzieherische Massnahmen an Kindern, Jugendlichen und jungen Erwachsenen vollziehen.
+- a. für die Errichtung von Anstalten;
+- b. für Verbesserungen im Straf- und Massnahmenvollzug;
+- c. an Einrichtungen, die erzieherische Massnahmen an Kindern, Jugendlichen und jungen Erwachsenen vollziehen.
 
 ### Art. 123a
 
@@ -1363,9 +1363,9 @@ Die Gesetzgebung über das Messwesen ist Sache des Bundes.
 
 (1) Der Bund kann eine direkte Steuer erheben:
 
-(1) - a. von höchstens 11,5 Prozent auf dem Einkommen der natürlichen Personen;
-(1) - b. von höchstens 8,5 Prozent auf dem Reinertrag der juristischen Personen;
-(1) - c. …
+- a. von höchstens 11,5 Prozent auf dem Einkommen der natürlichen Personen;
+- b. von höchstens 8,5 Prozent auf dem Reinertrag der juristischen Personen;
+- c. …
 
 (2) Der Bund nimmt bei der Festsetzung der Tarife auf die Belastung durch die direkten Steuern der Kantone und Gemeinden Rücksicht.
 
@@ -1389,10 +1389,10 @@ Die Gesetzgebung über das Messwesen ist Sache des Bundes.
 
 (3) Er kann zur Wahrung der Interessen der schweizerischen Gesamtwirtschaft abweichen von:
 
-(3) - a. den Grundsätzen der Allgemeinheit und der Gleichmässigkeit der Besteuerung sowie dem Grundsatz der Besteuerung nach der wirtschaftlichen Leistungsfähigkeit gemäss Artikel 127 Absatz 2;
-(3) - b. den maximalen Steuersätzen gemäss Artikel 128 Absatz 1;
-(3) - c. den Vorschriften über den Vollzug gemäss Artikel 128 Absatz 4 erster Satz;
-(3) - d. den Ausnahmen von der Steuerharmonisierung gemäss Artikel 129 Absatz 2 zweiter Satz.
+- a. den Grundsätzen der Allgemeinheit und der Gleichmässigkeit der Besteuerung sowie dem Grundsatz der Besteuerung nach der wirtschaftlichen Leistungsfähigkeit gemäss Artikel 127 Absatz 2;
+- b. den maximalen Steuersätzen gemäss Artikel 128 Absatz 1;
+- c. den Vorschriften über den Vollzug gemäss Artikel 128 Absatz 4 erster Satz;
+- d. den Ausnahmen von der Steuerharmonisierung gemäss Artikel 129 Absatz 2 zweiter Satz.
 
 ### Art. 130 — Mehrwertsteuer*
 
@@ -1402,11 +1402,11 @@ Die Gesetzgebung über das Messwesen ist Sache des Bundes.
 
 (3) Ist wegen der Entwicklung des Altersaufbaus die Finanzierung der Alters-, Hinterlassenen- und Invalidenversicherung nicht mehr gewährleistet, so kann in der Form eines Bundesgesetzes der Normalsatz um höchstens 1 Prozentpunkt und der reduzierte Satz um höchstens 0,3 Prozentpunkte erhöht werden.
 
-(3) Zur Finanzierung der Eisenbahninfrastruktur werden die Sätze um 0,1 Prozentpunkte erhöht.
+(3bis) Zur Finanzierung der Eisenbahninfrastruktur werden die Sätze um 0,1 Prozentpunkte erhöht.
 
-(3) Zur Sicherung der Finanzierung der Alters- und Hinterlassenenversicherung erhöht der Bundesrat den Normalsatz um 0,4 Prozentpunkte, den reduzierten Satz und den Sondersatz für Beherbergungsleistungen um je 0,1 Prozentpunkte, sofern der Grundsatz der Vereinheitlichung des Referenzalters von Frauen und Männern in der Alters- und Hinterlassenenversicherung gesetzlich verankert wird.
+(3ter) Zur Sicherung der Finanzierung der Alters- und Hinterlassenenversicherung erhöht der Bundesrat den Normalsatz um 0,4 Prozentpunkte, den reduzierten Satz und den Sondersatz für Beherbergungsleistungen um je 0,1 Prozentpunkte, sofern der Grundsatz der Vereinheitlichung des Referenzalters von Frauen und Männern in der Alters- und Hinterlassenenversicherung gesetzlich verankert wird.
 
-(3) Der Ertrag aus der Erhöhung nach Absatz 3ter wird vollumfänglich dem Ausgleichsfonds der Alters- und Hinterlassenenversicherung zugewiesen.
+(3quater) Der Ertrag aus der Erhöhung nach Absatz 3ter wird vollumfänglich dem Ausgleichsfonds der Alters- und Hinterlassenenversicherung zugewiesen.
 
 (4) 5 Prozent des nicht zweckgebundenen Ertrags werden für die Prämienverbilligung in der Krankenversicherung zu Gunsten unterer Einkommensschichten verwendet, sofern nicht durch Gesetz eine andere Verwendung zur Entlastung unterer Einkommensschichten festgelegt wird.
 
@@ -1414,18 +1414,18 @@ Die Gesetzgebung über das Messwesen ist Sache des Bundes.
 
 (1) Der Bund kann besondere Verbrauchssteuern erheben auf:
 
-(1) - a. Tabak und Tabakwaren;
-(1) - b. gebrannten Wassern;
-(1) - c. Bier;
-(1) - d. Automobilen und ihren Bestandteilen;
-(1) - e. Erdöl, anderen Mineralölen, Erdgas und den aus ihrer Verarbeitung gewonnenen Produkten sowie auf Treibstoffen.
+- a. Tabak und Tabakwaren;
+- b. gebrannten Wassern;
+- c. Bier;
+- d. Automobilen und ihren Bestandteilen;
+- e. Erdöl, anderen Mineralölen, Erdgas und den aus ihrer Verarbeitung gewonnenen Produkten sowie auf Treibstoffen.
 
 (2) Er kann zudem erheben:
 
-(2) - a. einen Zuschlag auf der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen;
-(2) - b. eine Abgabe, wenn für das Motorfahrzeug andere Antriebsmittel als Treibstoffe nach Absatz 1 Buchstabe e verwendet werden.
+- a. einen Zuschlag auf der Verbrauchssteuer auf allen Treibstoffen, ausser den Flugtreibstoffen;
+- b. eine Abgabe, wenn für das Motorfahrzeug andere Antriebsmittel als Treibstoffe nach Absatz 1 Buchstabe e verwendet werden.
 
-(2) Reichen die Mittel für die Erfüllung der in Artikel 87b vorgesehenen Aufgaben im Zusammenhang mit dem Luftverkehr nicht aus, so erhebt der Bund auf den Flugtreibstoffen einen Zuschlag auf der Verbrauchssteuer.
+(2bis) Reichen die Mittel für die Erfüllung der in Artikel 87b vorgesehenen Aufgaben im Zusammenhang mit dem Luftverkehr nicht aus, so erhebt der Bund auf den Flugtreibstoffen einen Zuschlag auf der Verbrauchssteuer.
 
 (3) Die Kantone erhalten 10 Prozent des Reinertrags aus der Besteuerung der gebrannten Wasser. Diese Mittel sind zur Bekämpfung der Ursachen und Wirkungen von Suchtproblemen zu verwenden.
 
@@ -1449,11 +1449,11 @@ Was die Bundesgesetzgebung als Gegenstand der Mehrwertsteuer, der besonderen Ver
 
 (2) Der Finanz- und Lastenausgleich soll insbesondere:
 
-(2) - a. die Unterschiede in der finanziellen Leistungsfähigkeit zwischen den Kantonen verringern;
-(2) - b. den Kantonen minimale finanzielle Ressourcen gewährleisten;
-(2) - c. übermässige finanzielle Lasten der Kantone auf Grund ihrer geografischtopografischen oder soziodemografischen Bedingungen ausgleichen;
-(2) - d. die interkantonale Zusammenarbeit mit Lastenausgleich fördern;
-(2) - e. die steuerliche Wettbewerbsfähigkeit der Kantone im nationalen und internationalen Verhältnis erhalten.
+- a. die Unterschiede in der finanziellen Leistungsfähigkeit zwischen den Kantonen verringern;
+- b. den Kantonen minimale finanzielle Ressourcen gewährleisten;
+- c. übermässige finanzielle Lasten der Kantone auf Grund ihrer geografischtopografischen oder soziodemografischen Bedingungen ausgleichen;
+- d. die interkantonale Zusammenarbeit mit Lastenausgleich fördern;
+- e. die steuerliche Wettbewerbsfähigkeit der Kantone im nationalen und internationalen Verhältnis erhalten.
 
 (3) Die Mittel für den Ausgleich der Ressourcen werden durch die ressourcenstarken Kantone und den Bund zur Verfügung gestellt. Die Leistungen der ressourcenstarken Kantone betragen mindestens zwei Drittel und höchstens 80 Prozent der Leistungen des Bundes.
 
@@ -1505,25 +1505,29 @@ Die politischen Parteien wirken an der Meinungs- und Willensbildung des Volkes m
 
 (1) Volk und Ständen werden zur Abstimmung unterbreitet:
 
-(1) - a. die Änderungen der Bundesverfassung;
-(1) - b. der Beitritt zu Organisationen für kollektive Sicherheit oder zu supranationalen Gemeinschaften;
-(1) - c. die dringlich erklärten Bundesgesetze, die keine Verfassungsgrundlage haben und deren Geltungsdauer ein Jahr übersteigt; diese Bundesgesetze müssen innerhalb eines Jahres nach Annahme durch die Bundesversammlung zur Abstimmung unterbreitet werden.
+- a. die Änderungen der Bundesverfassung;
+- b. der Beitritt zu Organisationen für kollektive Sicherheit oder zu supranationalen Gemeinschaften;
+- c. die dringlich erklärten Bundesgesetze, die keine Verfassungsgrundlage haben und deren Geltungsdauer ein Jahr übersteigt; diese Bundesgesetze müssen innerhalb eines Jahres nach Annahme durch die Bundesversammlung zur Abstimmung unterbreitet werden.
 
 (2) Dem Volk werden zur Abstimmung unterbreitet:
 
-(2) - a. die Volksinitiativen auf Totalrevision der Bundesverfassung;
-(2) - abis. …
-(2) - b. die Volksinitiativen auf Teilrevision der Bundesverfassung in der Form der allgemeinen Anregung, die von der Bundesversammlung abgelehnt worden sind;
-(2) - c. die Frage, ob eine Totalrevision der Bundesverfassung durchzuführen ist, bei Uneinigkeit der beiden Räte.
+- a. die Volksinitiativen auf Totalrevision der Bundesverfassung;
+- abis. …
+- b. die Volksinitiativen auf Teilrevision der Bundesverfassung in der Form der allgemeinen Anregung, die von der Bundesversammlung abgelehnt worden sind;
+- c. die Frage, ob eine Totalrevision der Bundesverfassung durchzuführen ist, bei Uneinigkeit der beiden Räte.
 
 ### Art. 141 — Fakultatives Referendum
 
 (1) Verlangen es 50 000 Stimmberechtigte oder acht Kantone innerhalb von 100 Tagen seit der amtlichen Veröffentlichung des Erlasses, so werden dem Volk zur Abstimmung vorgelegt:
 
-(1) - a. Bundesgesetze;
-(1) - b. dringlich erklärte Bundesgesetze, deren Geltungsdauer ein Jahr übersteigt;
-(1) - c. Bundesbeschlüsse, soweit Verfassung oder Gesetz dies vorsehen;
-(1) - d. völkerrechtliche Verträge, die:1. unbefristet und unkündbar sind,2. den Beitritt zu einer internationalen Organisation vorsehen,3. wichtige rechtsetzende Bestimmungen enthalten oder deren Umsetzung den Erlass von Bundesgesetzen erfordert.
+- a. Bundesgesetze;
+- b. dringlich erklärte Bundesgesetze, deren Geltungsdauer ein Jahr übersteigt;
+- c. Bundesbeschlüsse, soweit Verfassung oder Gesetz dies vorsehen;
+- d.
+  völkerrechtliche Verträge, die:
+  - 1. unbefristet und unkündbar sind,
+  - 2. den Beitritt zu einer internationalen Organisation vorsehen,
+  - 3. wichtige rechtsetzende Bestimmungen enthalten oder deren Umsetzung den Erlass von Bundesgesetzen erfordert.
 
 (2) …
 
@@ -1637,18 +1641,18 @@ Die Bundesversammlung verfügt über Parlamentsdienste. Sie kann Dienststellen d
 
 (3) Das Gesetz sieht Bestimmungen vor, um sicherzustellen, dass bei Uneinigkeit der Räte Beschlüsse zu Stande kommen über:
 
-(3) - a. die Gültigkeit oder Teilungültigkeit einer Volksinitiative;
-(3) - b. die Umsetzung einer vom Volk angenommenen Volksinitiative in Form der allgemeinen Anregung;
-(3) - c. die Umsetzung eines vom Volk gutgeheissenen Bundesbeschlusses zur Einleitung einer Totalrevision der Bundesverfassung;
-(3) - d. den Voranschlag oder einen Nachtrag.
+- a. die Gültigkeit oder Teilungültigkeit einer Volksinitiative;
+- b. die Umsetzung einer vom Volk angenommenen Volksinitiative in Form der allgemeinen Anregung;
+- c. die Umsetzung eines vom Volk gutgeheissenen Bundesbeschlusses zur Einleitung einer Totalrevision der Bundesverfassung;
+- d. den Voranschlag oder einen Nachtrag.
 
 ### Art. 157 — Gemeinsame Verhandlung
 
 (1) Nationalrat und Ständerat verhandeln gemeinsam als Vereinigte Bundesversammlung unter dem Vorsitz der Nationalratspräsidentin oder des Nationalratspräsidenten, um:
 
-(1) - a. Wahlen vorzunehmen;
-(1) - b. Zuständigkeitskonflikte zwischen den obersten Bundesbehörden zu entscheiden;
-(1) - c. Begnadigungen auszusprechen.
+- a. Wahlen vorzunehmen;
+- b. Zuständigkeitskonflikte zwischen den obersten Bundesbehörden zu entscheiden;
+- c. Begnadigungen auszusprechen.
 
 (2) Die Vereinigte Bundesversammlung versammelt sich ausserdem bei besonderen Anlässen und zur Entgegennahme von Erklärungen des Bundesrates.
 
@@ -1664,9 +1668,9 @@ Die Sitzungen der Räte sind öffentlich. Das Gesetz kann Ausnahmen vorsehen.
 
 (3) Der Zustimmung der Mehrheit der Mitglieder jedes der beiden Räte bedürfen jedoch:
 
-(3) - a. die Dringlicherklärung von Bundesgesetzen;
-(3) - b. Subventionsbestimmungen sowie Verpflichtungskredite und Zahlungsrahmen, die neue einmalige Ausgaben von mehr als 20 Millionen Franken oder neue wiederkehrende Ausgaben von mehr als 2 Millionen Franken nach sich ziehen;
-(3) - c. die Erhöhung der Gesamtausgaben bei ausserordentlichem Zahlungsbedarf nach Artikel 126 Absatz 3.
+- a. die Dringlicherklärung von Bundesgesetzen;
+- b. Subventionsbestimmungen sowie Verpflichtungskredite und Zahlungsrahmen, die neue einmalige Ausgaben von mehr als 20 Millionen Franken oder neue wiederkehrende Ausgaben von mehr als 2 Millionen Franken nach sich ziehen;
+- c. die Erhöhung der Gesamtausgaben bei ausserordentlichem Zahlungsbedarf nach Artikel 126 Absatz 3.
 
 (4) Die Bundesversammlung kann die Beträge nach Absatz 3 Buchstabe b mit einer Verordnung der Teuerung anpassen.
 
@@ -1700,13 +1704,13 @@ Die Sitzungen der Räte sind öffentlich. Das Gesetz kann Ausnahmen vorsehen.
 
 (1) Alle wichtigen rechtsetzenden Bestimmungen sind in der Form des Bundesgesetzes zu erlassen. Dazu gehören insbesondere die grundlegenden Bestimmungen über:
 
-(1) - a. die Ausübung der politischen Rechte;
-(1) - b. die Einschränkungen verfassungsmässiger Rechte;
-(1) - c. die Rechte und Pflichten von Personen;
-(1) - d. den Kreis der Abgabepflichtigen sowie den Gegenstand und die Bemessung von Abgaben;
-(1) - e. die Aufgaben und die Leistungen des Bundes;
-(1) - f. die Verpflichtungen der Kantone bei der Umsetzung und beim Vollzug des Bundesrechts;
-(1) - g. die Organisation und das Verfahren der Bundesbehörden.
+- a. die Ausübung der politischen Rechte;
+- b. die Einschränkungen verfassungsmässiger Rechte;
+- c. die Rechte und Pflichten von Personen;
+- d. den Kreis der Abgabepflichtigen sowie den Gegenstand und die Bemessung von Abgaben;
+- e. die Aufgaben und die Leistungen des Bundes;
+- f. die Verpflichtungen der Kantone bei der Umsetzung und beim Vollzug des Bundesrechts;
+- g. die Organisation und das Verfahren der Bundesbehörden.
 
 (2) Rechtsetzungsbefugnisse können durch Bundesgesetz übertragen werden, soweit dies nicht durch die Bundesverfassung ausgeschlossen wird.
 
@@ -1762,16 +1766,16 @@ Die Bundesversammlung kann dem Bundesrat Aufträge erteilen. Das Gesetz regelt d
 
 (1) Die Bundesversammlung hat zudem folgende Aufgaben und Befugnisse:
 
-(1) - a. Sie trifft Massnahmen zur Wahrung der äusseren Sicherheit, der Unabhängigkeit und der Neutralität der Schweiz.
-(1) - b. Sie trifft Massnahmen zur Wahrung der inneren Sicherheit.
-(1) - c. Wenn ausserordentliche Umstände es erfordern, kann sie zur Erfüllung der Aufgaben nach den Buchstaben a und b Verordnungen oder einfache Bundesbeschlüsse erlassen.
-(1) - d. Sie ordnet den Aktivdienst an und bietet dafür die Armee oder Teile davon auf.
-(1) - e. Sie trifft Massnahmen zur Durchsetzung des Bundesrechts.
-(1) - f. Sie befindet über die Gültigkeit zu Stande gekommener Volksinitiativen.
-(1) - g. Sie wirkt bei den wichtigen Planungen der Staatstätigkeit mit.
-(1) - h. Sie entscheidet über Einzelakte, soweit ein Bundesgesetz dies ausdrücklich vorsieht.
-(1) - i. Sie entscheidet Zuständigkeitskonflikte zwischen den obersten Bundesbehörden.
-(1) - k. Sie spricht Begnadigungen aus und entscheidet über Amnestie.
+- a. Sie trifft Massnahmen zur Wahrung der äusseren Sicherheit, der Unabhängigkeit und der Neutralität der Schweiz.
+- b. Sie trifft Massnahmen zur Wahrung der inneren Sicherheit.
+- c. Wenn ausserordentliche Umstände es erfordern, kann sie zur Erfüllung der Aufgaben nach den Buchstaben a und b Verordnungen oder einfache Bundesbeschlüsse erlassen.
+- d. Sie ordnet den Aktivdienst an und bietet dafür die Armee oder Teile davon auf.
+- e. Sie trifft Massnahmen zur Durchsetzung des Bundesrechts.
+- f. Sie befindet über die Gültigkeit zu Stande gekommener Volksinitiativen.
+- g. Sie wirkt bei den wichtigen Planungen der Staatstätigkeit mit.
+- h. Sie entscheidet über Einzelakte, soweit ein Bundesgesetz dies ausdrücklich vorsieht.
+- i. Sie entscheidet Zuständigkeitskonflikte zwischen den obersten Bundesbehörden.
+- k. Sie spricht Begnadigungen aus und entscheidet über Amnestie.
 
 (2) Die Bundesversammlung behandelt ausserdem Geschäfte, die in die Zuständigkeit des Bundes fallen und keiner anderen Behörde zugewiesen sind.
 
@@ -1879,10 +1883,10 @@ Der Bundesrat unterbreitet der Bundesversammlung Entwürfe zu ihren Erlassen.
 
 (1) Der Bundesrat hat zudem folgende Aufgaben und Befugnisse:
 
-(1) - a. Er beaufsichtigt die Bundesverwaltung und die anderen Träger von Aufgaben des Bundes.
-(1) - b. Er erstattet der Bundesversammlung regelmässig Bericht über seine Geschäftsführung sowie über den Zustand der Schweiz.
-(1) - c. Er nimmt die Wahlen vor, die nicht einer anderen Behörde zustehen.
-(1) - d. Er behandelt Beschwerden, soweit das Gesetz es vorsieht.
+- a. Er beaufsichtigt die Bundesverwaltung und die anderen Träger von Aufgaben des Bundes.
+- b. Er erstattet der Bundesversammlung regelmässig Bericht über seine Geschäftsführung sowie über den Zustand der Schweiz.
+- c. Er nimmt die Wahlen vor, die nicht einer anderen Behörde zustehen.
+- d. Er behandelt Beschwerden, soweit das Gesetz es vorsieht.
 
 (2) Das Gesetz kann dem Bundesrat weitere Aufgaben und Befugnisse übertragen.
 
@@ -1900,14 +1904,14 @@ Der Bundesrat unterbreitet der Bundesversammlung Entwürfe zu ihren Erlassen.
 
 (1) Das Bundesgericht beurteilt Streitigkeiten wegen Verletzung:
 
-(1) - a. von Bundesrecht;
-(1) - b. von Völkerrecht;
-(1) - c. von interkantonalem Recht;
-(1) - d. von kantonalen verfassungsmässigen Rechten;
-(1) - e. der Gemeindeautonomie und anderer Garantien der Kantone zu Gunsten von öffentlich-rechtlichen Körperschaften;
-(1) - f. von eidgenössischen und kantonalen Bestimmungen über die politischen Rechte.
+- a. von Bundesrecht;
+- b. von Völkerrecht;
+- c. von interkantonalem Recht;
+- d. von kantonalen verfassungsmässigen Rechten;
+- e. der Gemeindeautonomie und anderer Garantien der Kantone zu Gunsten von öffentlich-rechtlichen Körperschaften;
+- f. von eidgenössischen und kantonalen Bestimmungen über die politischen Rechte.
 
-(1) …
+(1bis) …
 
 (2) Es beurteilt Streitigkeiten zwischen Bund und Kantonen oder zwischen Kantonen.
 
@@ -1983,58 +1987,216 @@ Die ganz oder teilweise revidierte Bundesverfassung tritt in Kraft, wenn sie von
 
 ### Art. 196 — Übergangsbestimmungen gemäss Bundesbeschluss vom 18. Dezember 1998 über eine neue Bundesverfassung
 
+**Übergangsbestimmung zu Art. 84 (Alpenquerender Transitverkehr)**
+
+Die Verlagerung des Gütertransitverkehrs auf die Schiene muss zehn Jahre nach der Annahme der Volksinitiative zum Schutz des Alpengebietes vor dem Transitverkehr abgeschlossen sein.
+
+**Übergangsbestimmung zu Art. 85 (Pauschale Schwerverkehrsabgabe)**
+
+(1) Der Bund erhebt für die Benützung der dem allgemeinen Verkehr geöffneten Strassen auf in- und ausländischen Motorfahrzeugen und Anhängern mit einem Gesamtgewicht von je über 3,5 t eine jährliche Abgabe.
+
+(2) Diese Abgabe beträgt:
+
+(3) Die Abgabesätze können in der Form eines Bundesgesetzes angepasst werden, sofern die Strassenverkehrskosten dies rechtfertigen.
+
+(4) Ausserdem kann der Bundesrat die Tarifkategorie ab 12 t nach Absatz 2 auf dem Verordnungsweg an allfällige Änderungen der Gewichtskategorien im Strassenverkehrsgesetz vom 19. Dezember 1958 anpassen.
+
+(5) Der Bundesrat bestimmt für Fahrzeuge, die nicht das ganze Jahr in der Schweiz im Verkehr stehen, entsprechend abgestufte Abgabesätze; er berücksichtigt den Erhebungsaufwand.
+
+(6) Der Bundesrat regelt den Vollzug. Er kann für besondere Fahrzeugkategorien die Ansätze im Sinne von Absatz 2 festlegen, bestimmte Fahrzeuge von der Abgabe befreien und Sonderregelungen treffen, insbesondere für Fahrten im Grenzbereich. Dadurch dürfen im Ausland immatrikulierte Fahrzeuge nicht besser gestellt werden als schweizerische. Der Bundesrat kann für Übertretungen Bussen vorsehen. Die Kantone ziehen die Abgabe für die im Inland immatrikulierten Fahrzeuge ein.
+
+(7) Auf dem Weg der Gesetzgebung kann ganz oder teilweise auf diese Abgabe verzichtet werden.
+
+(8) Diese Bestimmung gilt bis zum Inkrafttreten des Schwerverkehrsabgabegesetzes vom 19. Dezember 1997.
+
+**Übergangsbestimmungen zu Art. 86 (Verwendung von Abgaben für Aufgaben und Aufwendungen im Zusammenhang mit dem Strassenverkehr), Art. 87 (Eisenbahnen und weitere Verkehrsträger) und Art. 87a (Eisenbahninfrastruktur)**
+
+(1) Die Eisenbahngrossprojekte umfassen die Neue Eisenbahn-Alpentransversale (NEAT), BAHN 2000, den Anschluss der Ost- und Westschweiz an das europäische Eisenbahn-Hochleistungsnetz sowie die Verbesserung des Lärmschutzes entlang der Eisenbahnstrecken durch aktive und passive Massnahmen.
+
+(2) Bis zum Abschluss von Verzinsung und Rückzahlung der Bevorschussung des Fonds nach Artikel 87a Absatz 2 werden die Mittel nach Artikel 86 Absatz 2 Buchstabe e statt dem Fonds nach Artikel 86 Absatz 2 der Spezialfinanzierung Strassenverkehr nach Artikel 86 Absatz 4 gutgeschrieben.
+
+(2bis) Der Bundesrat kann die Mittel nach Absatz 2 bis zum 31. Dezember 2018 zur Finanzierung der Eisenbahninfrastruktur und anschliessend zur Verzinsung und zur Rückzahlung der Bevorschussung des Fonds nach Artikel 87a Absatz 2 verwenden. Die Mittel berechnen sich nach Artikel 86 Absatz 2 Buchstabe e.
+
+(2ter) Der Prozentsatz nach Artikel 86 Absatz 2 Buchstabe f gilt zwei Jahre nach Inkrafttreten dieser Bestimmung. Davor beträgt er 5 Prozent.
+
+(3) Die Eisenbahngrossprojekte nach Absatz 1 werden über den Fonds nach Artikel 87a Absatz 2 finanziert.
+
+(4) Die vier Eisenbahngrossprojekte gemäss Absatz 1 werden in der Form von Bundesgesetzen beschlossen. Für jedes Grossprojekt als Ganzes sind Bedarf und Ausführungsreife nachzuweisen. Beim NEAT-Projekt bilden die einzelnen Bauphasen Bestandteil des Bundesgesetzes. Die Bundesversammlung bewilligt die erforderlichen Mittel mit Verpflichtungskrediten. Der Bundesrat genehmigt die Bauetappen und bestimmt den Zeitplan.
+
+(5) Diese Bestimmung gilt bis zum Abschluss der Bauarbeiten und der Finanzierung (Rückzahlung der Bevorschussung) der in Absatz 1 erwähnten Eisenbahngrossprojekte.
+
+**Übergangsbestimmung zu Art. 90 (Kernenergie)**
+
+Bis zum 23. September 2000 werden keine Rahmen-, Bau-, Inbetriebnahme- oder Betriebsbewilligungen für neue Einrichtungen zur Erzeugung von Kernenergie erteilt.
+
+**Übergangsbestimmung zu Art. 95 (Privatwirtschaftliche Erwerbstätigkeit)**
+
+Bis zum Erlass einer Bundesgesetzgebung sind die Kantone zur gegenseitigen Anerkennung von Ausbildungsabschlüssen verpflichtet.
+
+**Übergangsbestimmung zu Art. 102 (Landesversorgung)**
+
+(1) Der Bund stellt die Versorgung des Landes mit Brotgetreide und Backmehl sicher.
+
+(2) Diese Übergangsbestimmung bleibt längstens bis zum 31. Dezember 2003 in Kraft.
+
+**Übergangsbestimmung zu Art. 103 (Strukturpolitik)**
+
+Die Kantone können während längstens zehn Jahren ab Inkrafttreten der Verfassung bestehende Regelungen beibehalten, welche zur Sicherung der Existenz bedeutender Teile eines bestimmten Zweigs des Gastgewerbes die Eröffnung von Betrieben vom Bedürfnis abhängig machen.
+
+**8. …**
+
+**Übergangsbestimmung zu Art. 110 Abs. 3 (Bundesfeiertag)**
+
+(1) Bis zum Inkrafttreten der geänderten Bundesgesetzgebung regelt der Bundesrat die Einzelheiten.
+
+(2) Der Bundesfeiertag wird der Zahl der Feiertage nach Artikel 18 Absatz 2 des Arbeitsgesetzes vom 13. März 1964 nicht angerechnet.
+
+**10. …**
+
+**Übergangsbestimmung zu Art. 113 (Berufliche Vorsorge)**
+
+Versicherte, die zur Eintrittsgeneration gehören und deswegen nicht über die volle Beitragszeit verfügen, sollen je nach Höhe ihres Einkommens innert 10 bis 20 Jahren nach Inkrafttreten des Gesetzes den gesetzlich vorgeschriebenen Mindestschutz erhalten.
+
+**12. …**
+
+**13. Übergangsbestimmung zu Art. 128 (Dauer der Steuererhebung)**
+
+Die Befugnis zur Erhebung der direkten Bundessteuer ist bis Ende 2035 befristet.
+
+**14. Übergangsbestimmung zu Art. 130 (Mehrwertsteuer)**
+
+(1) Die Befugnis zur Erhebung der Mehrwertsteuer ist bis Ende 2035 befristet.
+
+(2) Zur Sicherung der Finanzierung der Invalidenversicherung hebt der Bundesrat die Mehrwertsteuersätze vom 1. Januar 2011 bis 31. Dezember 2017 wie folgt an: …
+
+(3) Der Ertrag aus der Anhebung nach Absatz 2 wird vollumfänglich dem Ausgleichsfonds der Invalidenversicherung zugewiesen.
+
+(4) Zur Sicherung der Finanzierung der Eisenbahninfrastruktur hebt der Bundesrat die Steuersätze nach Artikel 25 des Mehrwertsteuergesetzes vom 12. Juni 2009 ab 1. Januar 2018 um 0,1 Prozentpunkt an, im Fall einer Verlängerung der Frist gemäss Absatz 1 bis längstens 31. Dezember 2030.
+
+(5) Der Ertrag aus der Anhebung nach Absatz 4 wird vollumfänglich dem Fonds nach Artikel 87a zugewiesen.
+
+**15. …**
+
+**16. …**
+
 ### Art. 197 — Übergangsbestimmungen nach Annahme der Bundesverfassung vom 18. April 1999
 
-## Sachverzeichnis
+**Beitritt der Schweiz zur UNO**
 
-### A
+(1) Die Schweiz tritt der Organisation der Vereinten Nationen bei.
 
-### B
+(2) Der Bundesrat wird ermächtigt, an den Generalsekretär der Organisation der Vereinten Nationen (UNO) ein Gesuch der Schweiz um Aufnahme in diese Organisation und eine Erklärung zur Erfüllung der in der UN-Charta enthaltenen Verpflichtungen zu richten.
 
-### C
+**2. Übergangsbestimmung zu Art. 62 (Schulwesen)**
 
-### D
+Die Kantone übernehmen ab Inkrafttreten des Bundesbeschlusses vom 3. Oktober 2003 zur Neugestaltung des Finanzausgleichs und der Aufgabenteilung zwischen Bund und Kantonen die bisherigen Leistungen der Invalidenversicherung an die Sonderschulung (einschliesslich der heilpädagogischen Früherziehung gemäss Art. 19 des BG vom 19. Juni 1959 über die Invalidenversicherung), bis sie über kantonal genehmigte Sonderschulkonzepte verfügen, mindestens jedoch während drei Jahren.
 
-### E
+**3. Übergangsbestimmung zu Art. 83 (Nationalstrassen)**
 
-### F
+Die Kantone erstellen die im Bundesbeschluss vom 21. Juni 1960 über das Nationalstrassennetz aufgeführten Nationalstrassen (Stand bei Inkrafttreten des BB vom 3. Okt. 2003 zur Neugestaltung des Finanzausgleichs und der Aufgabenteilung zwischen Bund und Kantonen) nach den Vorschriften und unter der Oberaufsicht des Bundes fertig. Bund und Kantone tragen die Kosten gemeinsam. Der Kostenanteil der einzelnen Kantone richtet sich nach ihrer Belastung durch die Nationalstrassen, nach ihrem Interesse an diesen Strassen und nach ihrer finanziellen Leistungsfähigkeit.
 
-### G
+**4. Übergangsbestimmung zu Art. 112b (Förderung der Eingliederung Invalider)**
 
-### H
+Die Kantone übernehmen ab Inkrafttreten des Bundesbeschlusses vom 3. Oktober 2003 zur Neugestaltung des Finanzausgleichs und der Aufgabenteilung zwischen Bund und Kantonen die bisherigen Leistungen der Invalidenversicherung an Anstalten, Werkstätten und Wohnheime, bis sie über genehmigte Behindertenkonzepte verfügen, welche auch die Gewährung kantonaler Beiträge an Bau und Betrieb von Institutionen mit ausserkantonalen Platzierungen regeln, mindestens jedoch während drei Jahren.
 
-### I
+**5. Übergangsbestimmung zu Art. 112c (Betagten- und Behindertenhilfe)**
 
-### J
+Die bisherigen Leistungen gemäss Artikel 101bis des Bundesgesetzes vom 20. Dezember 1946 über die Alters- und Hinterlassenenversicherung an die Hilfe und Pflege zu Hause für Betagte und Behinderte werden durch die Kantone weiter ausgerichtet bis zum Inkrafttreten einer kantonalen Finanzierungsregelung für die Hilfe und Pflege zu Hause.
 
-### K
+**6.**
 
-### L
+**7. Übergangsbestimmung zu Art. 120 (Gentechnologie im Ausserhumanbereich)**
 
-### M
+Die schweizerische Landwirtschaft bleibt für die Dauer von fünf Jahren nach Annahme dieser Verfassungsbestimmung gentechnikfrei. Insbesondere dürfen weder eingeführt noch in Verkehr gebracht werden:
 
-### N
+- a. gentechnisch veränderte vermehrungsfähige Pflanzen, Pflanzenteile und Saatgut, welche für die landwirtschaftliche, gartenbauliche oder forstwirtschaftliche Anwendung in der Umwelt bestimmt sind;
+- b. gentechnisch veränderte Tiere, welche für die Produktion von Lebensmitteln und anderen landwirtschaftlichen Erzeugnissen bestimmt sind.
 
-### O
+**8. Übergangsbestimmung zu Art. 121 (Aufenthalt und Niederlassung von Ausländerinnen und Ausländern)**
 
-### P
+Der Gesetzgeber hat innert fünf Jahren seit Annahme von Artikel 121 Absätze 3–6 durch Volk und Stände die Tatbestände nach Artikel 121 Absatz 3 zu definieren und zu ergänzen und die Strafbestimmungen bezüglich illegaler Einreise nach Artikel 121 Absatz 6 zu erlassen.
 
-### Q
+**9. Übergangsbestimmungen zu Art. 75b (Zweitwohnungen)**
 
-### R
+(1) Tritt die entsprechende Gesetzgebung nach Annahme von Artikel 75b nicht innerhalb von zwei Jahren in Kraft, so erlässt der Bundesrat die nötigen Ausführungsbestimmungen über Erstellung, Verkauf und Registrierung im Grundbuch durch Verordnung.
 
-### S
+(2) Baubewilligungen für Zweitwohnungen, die zwischen dem 1. Januar des auf die Annahme von Artikel 75b folgenden Jahres und dem Inkrafttreten der Ausführungsbestimmungen erteilt werden, sind nichtig.
 
-### T
+**10. Übergangsbestimmung zu Art. 95 Abs. 3**
 
-### U
+Bis zum Inkrafttreten der gesetzlichen Bestimmungen erlässt der Bundesrat innerhalb eines Jahres nach Annahme von Artikel 95 Absatz 3 durch Volk und Stände die erforderlichen Ausführungsbestimmungen.
 
-### V
+**11. Übergangsbestimmung zu Art. 121a (Steuerung der Zuwanderung)**
 
-### W
+(1) Völkerrechtliche Verträge, die Artikel 121a widersprechen, sind innerhalb von drei Jahren nach dessen Annahme durch Volk und Stände neu zu verhandeln und anzupassen.
 
-### X
+(2) Ist die Ausführungsgesetzgebung zu Artikel 121a drei Jahre nach dessen Annahme durch Volk und Stände noch nicht in Kraft getreten, so erlässt der Bundesrat auf diesen Zeitpunkt hin die Ausführungsbestimmungen vorübergehend auf dem Verordnungsweg.
 
-### Y
+**12. Übergangsbestimmung zu Art. 10a (Verbot der Verhüllung des eigenen Gesichts)**
 
-### Z
+Die Ausführungsgesetzgebung zu Artikel 10a ist innert zweier Jahre nach dessen Annahme durch Volk und Stände zu erarbeiten.
+
+**13. Übergangsbestimmung zu Art. 117b (Pflege)**
+
+(1) Der Bund erlässt im Rahmen seiner Zuständigkeiten Ausführungsbestimmungen über:
+
+- a.
+  die Festlegung der Pflegeleistungen, die von Pflegefachpersonen zulasten der Sozialversicherungen erbracht werden:
+  - 1. in eigener Verantwortung,
+  - 2. auf ärztliche Anordnung;
+- b. die angemessene Abgeltung der Pflegeleistungen;
+- c. anforderungsgerechte Arbeitsbedingungen für die in der Pflege tätigen Personen;
+- d. Möglichkeiten der beruflichen Entwicklung von den in der Pflege tätigen Personen.
+
+(2) Die Bundesversammlung verabschiedet die gesetzlichen Ausführungsbestimmungen innert vier Jahren seit Annahme von Artikel 117b durch Volk und Stände. Bis zum Inkrafttreten der gesetzlichen Ausführungsbestimmungen trifft der Bundesrat innerhalb von achtzehn Monaten nach Annahme von Artikel 117b durch Volk und Stände wirksame Massnahmen zur Behebung des Mangels an diplomierten Pflegefachpersonen.
+
+**14. Übergangsbestimmung zu Art. 118 Abs. 2 Bst. b (Schutz der Gesundheit)**
+
+Die Bundesversammlung verabschiedet die gesetzlichen Ausführungsbestimmungen innert drei Jahren seit Annahme von Artikel 118 Absatz 2 Buchstabe b durch Volk und Stände.
+
+**15. Übergangsbestimmungen zu Art. 129a (Besondere Besteuerung grosser Unternehmensgruppen)**
+
+(1) Der Bundesrat kann die bis zum Inkrafttreten der gesetzlichen Bestimmungen erforderlichen Vorschriften über die Mindestbesteuerung grosser Unternehmensgruppen erlassen.
+
+(2) Er beachtet dabei folgende Grundsätze:
+
+- a. Die Vorschriften gelten für die Geschäftseinheiten einer multinationalen Unternehmensgruppe, die einen konsolidierten jährlichen Umsatz von 750 Millionen Euro erreicht.
+- b. Unterschreiten die massgebenden Steuern der Geschäftseinheiten in der Schweiz oder einem anderen Steuerhoheitsgebiet gesamthaft die Mindestbesteuerung zum Satz von 15 Prozent der massgebenden Gewinne, so erhebt der Bund zum Ausgleich der Differenz zwischen dem effektiven Steuersatz und dem Mindeststeuersatz eine Ergänzungssteuer.
+- c. Massgebende Steuern sind insbesondere die in der Erfolgsrechnung der Geschäftseinheiten verbuchten direkten Steuern.
+- d. Massgebender Gewinn einer Geschäftseinheit ist der für die konsolidierte Jahresrechnung der Unternehmensgruppe nach einem anerkannten Rechnungslegungsstandard ermittelte Gewinn oder Verlust vor Herausrechnung der Transaktionen zwischen den Geschäftseinheiten und nach Berücksichtigung anderer Korrekturen; nicht berücksichtigt werden Gewinne und Verluste aus dem internationalen Seeverkehr.
+- e. Der effektive Steuersatz für ein Steuerhoheitsgebiet berechnet sich, indem die Summe der massgebenden Steuern aller Geschäftseinheiten in diesem Steuerhoheitsgebiet durch die Summe der massgebenden Gewinne dieser Geschäftseinheiten geteilt wird.
+- f. Die Ergänzungssteuer für ein Steuerhoheitsgebiet berechnet sich, indem der Gewinnüberschuss mit dem Ergänzungssteuersatz multipliziert wird.
+- g. Der Gewinnüberschuss in einem Steuerhoheitsgebiet ist die Summe der mass-gebenden Gewinne aller Geschäftseinheiten in diesem Steuerhoheitsgebiet nach dem zulässigen Abzug für materielle Vermögenswerte und Lohnkosten.
+- h. Der Ergänzungssteuersatz für ein Steuerhoheitsgebiet entspricht der positiven Differenz zwischen 15 Prozent und dem effektiven Steuersatz.
+- i. Bei einer Unterbesteuerung in der Schweiz wird die Ergänzungssteuer den inländischen Geschäftseinheiten im Verhältnis des Ausmasses zugerechnet, in dem sie die Unterbesteuerung mitverursacht haben.
+- j. Bei einer Unterbesteuerung in einem anderen Steuerhoheitsgebiet wird die Ergänzungssteuer primär der obersten inländischen Geschäftseinheit und sekundär allen inländischen Geschäftseinheiten zugerechnet.
+
+(3) Der Bundesrat kann ergänzende Vorschriften zur Umsetzung der Mindestbesteuerung erlassen, insbesondere über:
+
+- a. die Berücksichtigung besonderer Unternehmensverhältnisse;
+- b. die Abziehbarkeit der Ergänzungssteuer als Aufwand bei den Gewinnsteuern von Bund und Kantonen;
+- c. das Verfahren und die Rechtsmittel;
+- d. die Strafbestimmungen nach Massgabe des übrigen Steuerstrafrechts;
+- e. die Übergangsregelungen.
+
+(4) Sofern der Bundesrat es für die Umsetzung der Mindestbesteuerung als erforderlich erachtet, kann er von den Grundsätzen nach Absatz 2 abweichen. Er kann internationale Mustervorschriften und zugehörige Regelwerke für anwendbar erklären. Er kann diese Kompetenzen auf das Eidgenössische Finanzdepartement übertragen.
+
+(5) Die Vorschriften über die Ergänzungssteuer werden von den Kantonen unter Aufsicht der Eidgenössischen Steuerverwaltung vollzogen. Der Bundesrat kann eine Abgeltung für den administrativen Aufwand vorsehen, der beim Vollzug dieser Vorschriften entsteht.
+
+(6) Der Rohertrag der Ergänzungssteuer steht zu 75 Prozent den Kantonen zu, denen die Geschäftseinheiten steuerlich zugehörig sind. Die Kantone berücksichtigen die Gemeinden angemessen. Der Rohertrag der Ergänzungssteuer aus gewinnsteuerbefreiten Tätigkeiten von Geschäftseinheiten von Bund, Kantonen und Gemeinden steht dem jeweiligen Gemeinwesen zu.
+
+(7) Der Kantonsanteil am Rohertrag der Ergänzungssteuer wird im Rahmen des Finanz- und Lastenausgleichs als zusätzliche Steuereinnahme berücksichtigt.
+
+(8) Macht der Bundesrat von seiner Kompetenz in Absatz 1 Gebrauch, unterbreitet er dem Parlament innerhalb von sechs Jahren nach Inkrafttreten der Verordnung die gesetzlichen Bestimmungen über die Mindestbesteuerung grosser multinationaler Unternehmensgruppen.
+
+(9) Der Bund verwendet seinen Anteil am Rohertrag der Ergänzungssteuer, nach Abzug seiner durch die Ergänzungssteuer verursachten Mehrausgaben für den Finanz- und Lastenausgleich, zur zusätzlichen Förderung der Standortattraktivität der Schweiz.
+
+**16. Übergangsbestimmung zu Art. 112 (Alters-, Hinterlassenen- und Invalidenversicherung)**
+
+(1) Bezügerinnen und Bezüger einer Altersrente haben Anspruch auf einen jährlichen Zuschlag in der Höhe eines Zwölftels ihrer jährlichen Rente.
+
+(2) Der Anspruch auf den jährlichen Zuschlag entsteht spätestens mit Beginn des zweiten Kalenderjahres, das der Annahme dieser Bestimmung durch Volk und Stände folgt.
+
+(3) Das Gesetz stellt sicher, dass der jährliche Zuschlag weder zu einer Reduktion der Ergänzungsleistungen noch zum Verlust des Anspruchs auf diese Leistungen führt.
+
+(3) Datum des Inkrafttretens: 1. Januar 2000

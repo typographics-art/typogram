@@ -6,27 +6,27 @@
     "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
     "url": "https://www.fedlex.admin.ch/eli/cc/1999/404/de",
     "sourcePages": null,
-    "words": 15853,
-    "characters": 115691,
-    "fontSizeMm": 1.039,
+    "words": 17894,
+    "characters": 132347,
+    "fontSizeMm": 0.97,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 99839,
-      "sha256Source": "5751f47d6e6d04331bcc0a9b4b1b6693ac9130cc592fe014e2021032ffb80ccd",
-      "sha256ReadBack": "5751f47d6e6d04331bcc0a9b4b1b6693ac9130cc592fe014e2021032ffb80ccd"
+      "visibleCharacters": 114454,
+      "sha256Source": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690",
+      "sha256ReadBack": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690"
     },
-    "pdfBytes": 1079233,
-    "sourceBytes": 118745,
+    "pdfBytes": 1586793,
+    "sourceBytes": 135747,
     "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
     "text": "source.txt",
-    "textSha256": "5751f47d6e6d04331bcc0a9b4b1b6693ac9130cc592fe014e2021032ffb80ccd",
+    "textSha256": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690",
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung",
-    "rev": "39b9c67de3"
+    "rev": "2182f50562"
   },
   {
     "id": "de-grundgesetz",

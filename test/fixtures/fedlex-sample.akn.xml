@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0">
+<act>
+<meta><identification><FRBRWork><FRBRname value="Test Act" lang="de"/></FRBRWork></identification></meta>
+<body>
+<article eId="art_1"><num>Art. 1</num><heading>Numbers</heading>
+<paragraph eId="art_1/para_1"><num>1</num><content><p>First.</p></content></paragraph>
+<paragraph eId="art_1/para_3bis"><num>3bis</num><content><p>Inserted later.</p></content></paragraph>
+</article>
+<article eId="art_2"><num>Art. 2</num><heading>Lists</heading>
+<paragraph eId="art_2/para_1"><num>1</num><content><blockList><listIntroduction>It can:</listIntroduction>
+<item><num>a.</num><p>one;</p></item>
+<item><num>b.</num><p>two, namely:</p><blockList><item><num>1.</num><p>sub-one,</p></item><item><num>2.</num><p>sub-two.</p></item></blockList></item>
+</blockList></content></paragraph>
+</article>
+<article eId="art_3"><num>Art. 3</num><heading>Transitional</heading>
+<subdivision><heading>To Art. 1</heading><paragraph><num>1</num><content><p>Nested paragraph.</p></content></paragraph></subdivision>
+</article>
+<level eId="lvl_idx"><heading>Sachverzeichnis</heading>
+<level><num>A</num><blockList><item><p>Abgabe 1</p></item></blockList></level>
+</level>
+</body>
+</act>
+</akomaNtoso>

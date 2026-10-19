@@ -64,30 +64,60 @@ function inlineText(node) {
   return out.replace(/\s+/g, ' ').trim();
 }
 
-// Paragraph numbers as "(n) " — font-safe. (Roboto Flex has ¹²³ but NOT the superscripts ⁴⁺, so a superscript
-// scheme would fall back to a system font with the wrong width; parentheses and digits are always present.)
-const paraMark = (num) => { const n = String(num || '').replace(/\D/g, ''); return n ? `(${n}) ` : ''; };
+// Paragraph numbers as "(n) " — font-safe, and keeping the bis/ter/quater suffixes (plain ASCII letters Roboto Flex
+// has). Only exotic characters are dropped, so "3bis"/"3ter"/"3quater" stay distinct instead of all collapsing to "3".
+const paraMark = (num) => { const n = String(num || '').replace(/[^0-9a-zA-Z]/g, ''); return n ? `(${n}) ` : ''; };
 
 function articleMd(art) {
   const num = inlineText(find(art, 'num') || { children: [] });          // "Art. 8"
   const heading = inlineText(find(art, 'heading') || { children: [] });  // "Rechtsgleichheit"
   const lines = [`### ${num}${heading ? ' — ' + heading : ''}`, ''];
-  const paras = findAll(art, 'paragraph');
+  // A list item's own text, EXCLUDING its num and any nested list (those recurse) — so a sub-list (e.g. Art. 141
+  // Abs. 1 lit. d → 1./2./3.) is not flattened into the parent line.
+  const itemBody = (it) => (it.children || []).filter((c) => c.tag !== 'num' && c.tag !== 'blockList').map((c) => inlineText({ children: [c] })).join(' ').replace(/\s+/g, ' ').trim();
+  const emitItem = (it, indent) => {
+    const n = inlineText(find(it, 'num') || { children: [] }).trim();
+    const body = itemBody(it);
+    if (n || body) lines.push(`${indent}- ${n ? n + ' ' : ''}${body}`.trimEnd());
+    for (const sub of findAll(it, 'blockList')) {
+      const intro = find(sub, 'listIntroduction'); if (intro) { const t = inlineText(intro); if (t) lines.push(`${indent}  ${t}`); }
+      for (const sit of findAll(sub, 'item')) emitItem(sit, indent + '  ');
+    }
+  };
   const emitContent = (content, lead = '') => {
     for (const ch of content.children || []) {
       if (ch.tag === 'p') { const t = inlineText(ch); if (t) lines.push(lead + t, ''); }
       else if (ch.tag === 'blockList') {
+        // The paragraph mark goes on the list's introduction only, never on each item (which was "(1) - a. …").
         const intro = find(ch, 'listIntroduction'); if (intro) { const t = inlineText(intro); if (t) lines.push(lead + t, ''); }
-        for (const it of findAll(ch, 'item')) { const n = inlineText(find(it, 'num') || { children: [] }); lines.push(`${lead}- ${n ? n + ' ' : ''}${inlineText(it).replace(n, '').trim()}`); }
+        for (const it of findAll(ch, 'item')) emitItem(it, '');
         lines.push('');
       }
     }
   };
-  if (paras.length === 0) emitContent(find(art, 'content') || { children: [] });
-  for (const p of paras) {
-    const n = inlineText(find(p, 'num') || { children: [] });
-    emitContent(find(p, 'content') || { children: [] }, paraMark(n));
-  }
+  const emitTable = (tbl) => {
+    for (const tr of findAll(tbl, 'tr')) {
+      const cells = [...findAll(tr, 'th'), ...findAll(tr, 'td')].map((c) => inlineText(c)).filter(Boolean);
+      if (cells.length) lines.push(cells.join(' — '), '');
+    }
+  };
+  // Walk an article body in document order. Paragraphs carry their number; a subdivision or proviso (e.g. the
+  // transitional provisions of Art. 196/197, whose paragraphs are nested one level down) emits its heading and recurses.
+  const emitBody = (node) => {
+    for (const ch of node.children || []) {
+      if (ch.tag === 'num' || ch.tag === 'heading' || ch.tag === 'authorialNote') continue;
+      if (ch.tag === 'paragraph') emitContent(find(ch, 'content') || { children: [] }, paraMark(inlineText(find(ch, 'num') || { children: [] })));
+      else if (ch.tag === 'content') emitContent(ch);
+      else if (ch.tag === 'subdivision' || ch.tag === 'proviso') {
+        const label = [inlineText(find(ch, 'num') || { children: [] }), inlineText(find(ch, 'heading') || { children: [] })].filter(Boolean).join(' ');
+        if (label) lines.push(`**${label}**`, '');
+        emitBody(ch);
+      } else if (ch.tag === 'p') { const t = inlineText(ch); if (t) lines.push(t, ''); }
+      else if (ch.tag === 'blockList') emitContent({ children: [ch] });
+      else if (ch.tag === 'table') emitTable(ch);
+    }
+  };
+  emitBody(art);
   return lines.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd();
 }
 
@@ -123,6 +153,7 @@ function convert(xmlPath) {
       } else if (HIER.has(child.tag)) {
         const num = inlineText(find(child, 'num') || { children: [] }).replace(/:\s*$/, '');
         const heading = inlineText(find(child, 'heading') || { children: [] });
+        if (heading === 'Sachverzeichnis') continue; // the alphabetical subject index is a navigation aid, not enacted text
         const label = [num, heading].filter(Boolean).join(': ');
         if (label) { out.push(`${'#'.repeat(Math.min(6, depth))} ${label}`, ''); }
         walk(child, label ? [...path, label] : path, depth + 1);

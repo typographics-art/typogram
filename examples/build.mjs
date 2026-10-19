@@ -7,7 +7,6 @@
 //
 // Needs Node 22+, Chrome/Chromium, curl and MuPDF (mutool); qpdf is optional and makes the PDFs smaller.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
