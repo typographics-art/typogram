@@ -55,12 +55,14 @@
   {
     "id": "un-human-rights",
     "title": "Human Rights",
-    "subtitle": "Universal Declaration · 1948",
+    "subtitle": "Universal Declaration · 1948 · 30 Articles",
     "document": "Universal Declaration of Human Rights, English text, OHCHR",
     "url": "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
     "file": "un-human-rights.pdf",
     "licence": "United Nations text, freely reproducible",
-    "category": "declaration"
+    "category": "declaration",
+    "structured": true,
+    "inLanguage": "en"
   },
   {
     "id": "pep-8",
