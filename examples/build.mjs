@@ -27,26 +27,45 @@ const session = await openSession();
 try {
   for (const ex of all) {
     if (only.length && !only.includes(ex.id)) continue;
-    let path;
-    if (ex.local) path = join(DIR, ex.local);
-    else {
-      path = join(CACHE, ex.file);
-      if (!existsSync(path)) {
-        log(`${ex.id}: downloading`);
-        const r = spawnSync('curl', ['-sSfL', '--max-time', '180', '-H', 'Accept: application/pdf,text/plain,*/*', '-o', path, ex.url]);
-        if (r.status !== 0) throw new Error(`${ex.id}: download failed: ${r.stderr}`);
-      }
-    }
-    const bytes = readFileSync(path);
-    const doc = readDocument(path);
     const out = join(DIR, ex.id);
     mkdirSync(out, { recursive: true });
+    let bytes, doc, source, hasPart;
+    if (ex.structured) {
+      // A reformatted, structured Markdown source (committed, produced by scripts/fedlex-to-md.mjs): one heading per
+      // article with numbered paragraphs. It is the authoritative text set on the page AND embedded as the data-layer
+      // source, so the picture, the embedded source and the hash all carry one text. articles.json is the machine index
+      // (→ JSON-LD hasPart) so a reader can address a single article precisely.
+      const mdPath = join(out, 'source.structured.md');
+      bytes = readFileSync(mdPath);
+      doc = { text: bytes.toString('utf8'), pages: null, extractor: 'fedlex-akn-to-md' };
+      source = { bytes, media: 'text/markdown' };
+      if (existsSync(join(out, 'articles.json'))) hasPart = JSON.parse(readFileSync(join(out, 'articles.json'), 'utf8'));
+    } else {
+      let path;
+      if (ex.local) path = join(DIR, ex.local);
+      else {
+        path = join(CACHE, ex.file);
+        if (!existsSync(path)) {
+          log(`${ex.id}: downloading`);
+          const r = spawnSync('curl', ['-sSfL', '--max-time', '180', '-H', 'Accept: application/pdf,text/plain,*/*', '-o', path, ex.url]);
+          if (r.status !== 0) throw new Error(`${ex.id}: download failed: ${r.stderr}`);
+        }
+      }
+      bytes = readFileSync(path);
+      doc = readDocument(path);
+    }
     log(`${ex.id}: setting ${doc.text.length.toLocaleString('en-US')} characters`);
     // Motif: an image file (sent as data URL) or a procedural recipe; otherwise the title card.
     const motif = ex.motif ? motifSource(ex.motif.startsWith('recipe:') ? ex.motif : join(DIR, ex.motif)) : null;
+    // Dark poster, best quality: dark paper, one type size (sharpest picture), auto-levels, full weight/width range,
+    // sharper colour steps. The paper-aware card (cli/render.html) sets the title in light ink on the dark ground.
+    // Per-example `color`/`options` override.
+    const options = { paper: 'dark', color: 'photo', legibility: 'free', unit: 'char', contrast: 1.9, brightness: 0.05,
+      edges: 1.0, autoLevels: true, colorStep: 6, sizeCount: 1, gaps: 'off', ...(ex.color ? { color: ex.color } : {}), ...(ex.options || {}) };
     const r = await makeOnePage(session, {
-      text: doc.text, title: ex.title, subtitle: ex.subtitle, paper: ex.paper || 'a4', motif,
-      options: ex.color ? { color: ex.color } : {},
+      text: doc.text, title: ex.title, subtitle: ex.subtitle, paper: ex.paper || 'a4', motif, options, source, hasPart,
+      meta: source ? { title: ex.document, inLanguage: ex.inLanguage || null, license: ex.licence, sourceUrl: ex.url || null } : undefined,
+      svg: ex.structured ? join(out, 'onepage.svg') : undefined,
       pdf: join(out, 'onepage.pdf'), preview: join(out, 'preview.jpg'), previewWidth: 1240,
     });
     const record = {
@@ -54,6 +73,7 @@ try {
       sourceSha256: sha(bytes), sourcePages: doc.pages, sourceBytes: bytes.length, extractor: doc.extractor, ...r,
       sizeFactor: r.pdfBytes ? +(r.pdfBytes / bytes.length).toFixed(2) : null,
       motif: ex.motif || null, motifCredit: ex.motifCredit || null,
+      structured: !!ex.structured, articles: Array.isArray(hasPart) ? hasPart.length : null,
     };
     // Publish the raw source text (with its line breaks, which the picture cannot carry) so that work.html can show
     // the structured Read view and the Machine checksum for this one-pager. The binding is checked here: the canonical

@@ -30,7 +30,7 @@ for (const f of ['typographics-art.md', 'typographics-art.pdf', 'typographics-ar
 copy('about/typographics-art.md', 'llms-full.txt');
 for (const id of readdirSync(join(ROOT, 'examples'))) {
   if (!existsSync(join(ROOT, 'examples', id, 'onepage.pdf'))) continue;
-  for (const f of ['onepage.pdf', 'preview.jpg', 'thumb.jpg', 'source.txt']) if (existsSync(join(ROOT, 'examples', id, f))) copy(`examples/${id}/${f}`);
+  for (const f of ['onepage.pdf', 'onepage.svg', 'preview.jpg', 'thumb.jpg', 'source.txt']) if (existsSync(join(ROOT, 'examples', id, f))) copy(`examples/${id}/${f}`);
 }
 // Report and enforce the size limit.
 let files = 0, bytes = 0;

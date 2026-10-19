@@ -108,7 +108,7 @@ export async function makeOnePage(session, job) {
     const jsonld = buildJsonld({
       name: name ?? undefined, author: job.meta?.author, dateCreated: job.meta?.created ?? new Date().toISOString(),
       inLanguage: job.meta?.inLanguage, license: job.meta?.license, description: job.meta?.description, sourceUrl: job.meta?.sourceUrl,
-      sourceFormat: media, charCount: md.length, hash: await sha256Hex(canonicalText(md)),
+      sourceFormat: media, charCount: md.length, hash: await sha256Hex(canonicalText(md)), hasPart: job.hasPart,
     });
     dl = { md, media, heading, name, jsonld, hash: jsonld.tgart.hash };
   }

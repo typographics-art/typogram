@@ -2,12 +2,14 @@
   {
     "id": "ch-bundesverfassung",
     "title": "Bundes­verfassung",
-    "subtitle": "Schweizerische Eidgenossenschaft · 102 Seiten auf einer",
+    "subtitle": "Schweizerische Eidgenossenschaft · SR 101 · 232 Artikel",
     "document": "Bundesverfassung der Schweizerischen Eidgenossenschaft, SR 101, Stand am 3. März 2024",
-    "url": "https://www.fedlex.admin.ch/filestore/fedlex.data.admin.ch/eli/cc/1999/404/20240303/de/pdf-a/fedlex-data-admin-ch-eli-cc-1999-404-20240303-de-pdf-a.pdf",
+    "url": "https://www.fedlex.admin.ch/eli/cc/1999/404/de",
     "file": "ch-bundesverfassung.pdf",
     "licence": "Not protected by copyright (Art. 5 URG, Swiss Copyright Act: laws and official decrees)",
     "category": "law",
+    "structured": true,
+    "inLanguage": "de",
     "motif": "motifs/ch-bundesverfassung-1874.jpg",
     "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
     "color": "photo"

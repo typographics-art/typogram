@@ -1,0 +1,2232 @@
+[
+  {
+    "id": "art-1",
+    "num": "Art. 1",
+    "heading": "Schweizerische Eidgenossenschaft",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-2",
+    "num": "Art. 2",
+    "heading": "Zweck",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-3",
+    "num": "Art. 3",
+    "heading": "Kantone",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-4",
+    "num": "Art. 4",
+    "heading": "Landessprachen",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-5",
+    "num": "Art. 5",
+    "heading": "Grundsätze rechtsstaatlichen Handelns",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-5-a",
+    "num": "Art. 5a",
+    "heading": "Subsidiarität",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-6",
+    "num": "Art. 6",
+    "heading": "Individuelle und gesellschaftliche Verantwortung",
+    "path": [
+      "1. Titel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-7",
+    "num": "Art. 7",
+    "heading": "Menschenwürde",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-8",
+    "num": "Art. 8",
+    "heading": "Rechtsgleichheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-9",
+    "num": "Art. 9",
+    "heading": "Schutz vor Willkür und Wahrung von Treu und Glauben",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-10",
+    "num": "Art. 10",
+    "heading": "Recht auf Leben und auf persönliche Freiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-10-a",
+    "num": "Art. 10a",
+    "heading": "Verbot der Verhüllung des eigenen Gesichts*",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-11",
+    "num": "Art. 11",
+    "heading": "Schutz der Kinder und Jugendlichen",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-12",
+    "num": "Art. 12",
+    "heading": "Recht auf Hilfe in Notlagen",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-13",
+    "num": "Art. 13",
+    "heading": "Schutz der Privatsphäre",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-14",
+    "num": "Art. 14",
+    "heading": "Recht auf Ehe und Familie",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-15",
+    "num": "Art. 15",
+    "heading": "Glaubens- und Gewissensfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-16",
+    "num": "Art. 16",
+    "heading": "Meinungs- und Informationsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-17",
+    "num": "Art. 17",
+    "heading": "Medienfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-18",
+    "num": "Art. 18",
+    "heading": "Sprachenfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-19",
+    "num": "Art. 19",
+    "heading": "Anspruch auf Grundschulunterricht",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-20",
+    "num": "Art. 20",
+    "heading": "Wissenschaftsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-21",
+    "num": "Art. 21",
+    "heading": "Kunstfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-22",
+    "num": "Art. 22",
+    "heading": "Versammlungsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-23",
+    "num": "Art. 23",
+    "heading": "Vereinigungsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-24",
+    "num": "Art. 24",
+    "heading": "Niederlassungsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-25",
+    "num": "Art. 25",
+    "heading": "Schutz vor Ausweisung, Auslieferung und Ausschaffung",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-26",
+    "num": "Art. 26",
+    "heading": "Eigentumsgarantie",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-27",
+    "num": "Art. 27",
+    "heading": "Wirtschaftsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-28",
+    "num": "Art. 28",
+    "heading": "Koalitionsfreiheit",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-29",
+    "num": "Art. 29",
+    "heading": "Allgemeine Verfahrensgarantien",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-29-a",
+    "num": "Art. 29a",
+    "heading": "Rechtsweggarantie",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-30",
+    "num": "Art. 30",
+    "heading": "Gerichtliche Verfahren",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-31",
+    "num": "Art. 31",
+    "heading": "Freiheitsentzug",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-32",
+    "num": "Art. 32",
+    "heading": "Strafverfahren",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-33",
+    "num": "Art. 33",
+    "heading": "Petitionsrecht",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-34",
+    "num": "Art. 34",
+    "heading": "Politische Rechte",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-35",
+    "num": "Art. 35",
+    "heading": "Verwirklichung der Grundrechte",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-36",
+    "num": "Art. 36",
+    "heading": "Einschränkungen von Grundrechten",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "1. Kapitel: Grundrechte"
+    ]
+  },
+  {
+    "id": "art-37",
+    "num": "Art. 37",
+    "heading": "Bürgerrechte",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "2. Kapitel: Bürgerrecht und politische Rechte"
+    ]
+  },
+  {
+    "id": "art-38",
+    "num": "Art. 38",
+    "heading": "Erwerb und Verlust der Bürgerrechte",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "2. Kapitel: Bürgerrecht und politische Rechte"
+    ]
+  },
+  {
+    "id": "art-39",
+    "num": "Art. 39",
+    "heading": "Ausübung der politischen Rechte",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "2. Kapitel: Bürgerrecht und politische Rechte"
+    ]
+  },
+  {
+    "id": "art-40",
+    "num": "Art. 40",
+    "heading": "Auslandschweizerinnen und Auslandschweizer",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "2. Kapitel: Bürgerrecht und politische Rechte"
+    ]
+  },
+  {
+    "id": "art-41",
+    "num": "Art. 41",
+    "heading": "",
+    "path": [
+      "2. Titel: Grundrechte, Bürgerrechte und Sozialziele",
+      "3. Kapitel: Sozialziele"
+    ]
+  },
+  {
+    "id": "art-42",
+    "num": "Art. 42",
+    "heading": "Aufgaben des Bundes",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "1. Abschnitt: Aufgaben von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-43",
+    "num": "Art. 43",
+    "heading": "Aufgaben der Kantone",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "1. Abschnitt: Aufgaben von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-43-a",
+    "num": "Art. 43a",
+    "heading": "Grundsätze für die Zuweisung und Erfüllung staatlicher Aufgaben",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "1. Abschnitt: Aufgaben von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-44",
+    "num": "Art. 44",
+    "heading": "Grundsätze",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-45",
+    "num": "Art. 45",
+    "heading": "Mitwirkung an der Willensbildung des Bundes",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-46",
+    "num": "Art. 46",
+    "heading": "Umsetzung des Bundesrechts",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-47",
+    "num": "Art. 47",
+    "heading": "Eigenständigkeit der Kantone",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-48",
+    "num": "Art. 48",
+    "heading": "Verträge zwischen Kantonen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-48-a",
+    "num": "Art. 48a",
+    "heading": "Allgemeinverbindlicherklärung und Beteiligungspflicht",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-49",
+    "num": "Art. 49",
+    "heading": "Vorrang und Einhaltung des Bundesrechts",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "2. Abschnitt: Zusammenwirken von Bund und Kantonen"
+    ]
+  },
+  {
+    "id": "art-50",
+    "num": "Art. 50",
+    "heading": "",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "3. Abschnitt: Gemeinden"
+    ]
+  },
+  {
+    "id": "art-51",
+    "num": "Art. 51",
+    "heading": "Kantonsverfassungen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "4. Abschnitt: Bundesgarantien"
+    ]
+  },
+  {
+    "id": "art-52",
+    "num": "Art. 52",
+    "heading": "Verfassungsmässige Ordnung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "4. Abschnitt: Bundesgarantien"
+    ]
+  },
+  {
+    "id": "art-53",
+    "num": "Art. 53",
+    "heading": "Bestand und Gebiet der Kantone",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "1. Kapitel: Verhältnis von Bund und Kantonen",
+      "4. Abschnitt: Bundesgarantien"
+    ]
+  },
+  {
+    "id": "art-54",
+    "num": "Art. 54",
+    "heading": "Auswärtige Angelegenheiten",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "1. Abschnitt: Beziehungen zum Ausland"
+    ]
+  },
+  {
+    "id": "art-55",
+    "num": "Art. 55",
+    "heading": "Mitwirkung der Kantone an aussenpolitischen Entscheiden",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "1. Abschnitt: Beziehungen zum Ausland"
+    ]
+  },
+  {
+    "id": "art-56",
+    "num": "Art. 56",
+    "heading": "Beziehungen der Kantone mit dem Ausland",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "1. Abschnitt: Beziehungen zum Ausland"
+    ]
+  },
+  {
+    "id": "art-57",
+    "num": "Art. 57",
+    "heading": "Sicherheit",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "2. Abschnitt: Sicherheit, Landesverteidigung, Zivilschutz"
+    ]
+  },
+  {
+    "id": "art-58",
+    "num": "Art. 58",
+    "heading": "Armee",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "2. Abschnitt: Sicherheit, Landesverteidigung, Zivilschutz"
+    ]
+  },
+  {
+    "id": "art-59",
+    "num": "Art. 59",
+    "heading": "Militär- und Ersatzdienst",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "2. Abschnitt: Sicherheit, Landesverteidigung, Zivilschutz"
+    ]
+  },
+  {
+    "id": "art-60",
+    "num": "Art. 60",
+    "heading": "Organisation, Ausbildung und Ausrüstung der Armee",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "2. Abschnitt: Sicherheit, Landesverteidigung, Zivilschutz"
+    ]
+  },
+  {
+    "id": "art-61",
+    "num": "Art. 61",
+    "heading": "Zivilschutz",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "2. Abschnitt: Sicherheit, Landesverteidigung, Zivilschutz"
+    ]
+  },
+  {
+    "id": "art-61-a",
+    "num": "Art. 61a",
+    "heading": "Bildungsraum Schweiz",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-62",
+    "num": "Art. 62",
+    "heading": "Schulwesen*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-63",
+    "num": "Art. 63",
+    "heading": "Berufsbildung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-63-a",
+    "num": "Art. 63a",
+    "heading": "Hochschulen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-64",
+    "num": "Art. 64",
+    "heading": "Forschung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-64-a",
+    "num": "Art. 64a",
+    "heading": "Weiterbildung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-65",
+    "num": "Art. 65",
+    "heading": "Statistik",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-66",
+    "num": "Art. 66",
+    "heading": "Ausbildungsbeiträge",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-67",
+    "num": "Art. 67",
+    "heading": "Förderung von Kindern und Jugendlichen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-67-a",
+    "num": "Art. 67a",
+    "heading": "Musikalische Bildung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-68",
+    "num": "Art. 68",
+    "heading": "Sport",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-69",
+    "num": "Art. 69",
+    "heading": "Kultur",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-70",
+    "num": "Art. 70",
+    "heading": "Sprachen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-71",
+    "num": "Art. 71",
+    "heading": "Film",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-72",
+    "num": "Art. 72",
+    "heading": "Kirche und Staat",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "3. Abschnitt: Bildung, Forschung und Kultur"
+    ]
+  },
+  {
+    "id": "art-73",
+    "num": "Art. 73",
+    "heading": "Nachhaltigkeit",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-74",
+    "num": "Art. 74",
+    "heading": "Umweltschutz",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-75",
+    "num": "Art. 75",
+    "heading": "Raumplanung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-75-a",
+    "num": "Art. 75a",
+    "heading": "Vermessung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-75-b",
+    "num": "Art. 75b",
+    "heading": "Zweitwohnungen*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-76",
+    "num": "Art. 76",
+    "heading": "Wasser",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-77",
+    "num": "Art. 77",
+    "heading": "Wald",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-78",
+    "num": "Art. 78",
+    "heading": "Natur- und Heimatschutz",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-79",
+    "num": "Art. 79",
+    "heading": "Fischerei und Jagd",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-80",
+    "num": "Art. 80",
+    "heading": "Tierschutz",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "4. Abschnitt: Umwelt und Raumplanung"
+    ]
+  },
+  {
+    "id": "art-81",
+    "num": "Art. 81",
+    "heading": "Öffentliche Werke",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-81-a",
+    "num": "Art. 81a",
+    "heading": "Öffentlicher Verkehr",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-82",
+    "num": "Art. 82",
+    "heading": "Strassenverkehr",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-83",
+    "num": "Art. 83",
+    "heading": "Strasseninfrastruktur",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-84",
+    "num": "Art. 84",
+    "heading": "Alpenquerender Transitverkehr*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-85",
+    "num": "Art. 85",
+    "heading": "Schwerverkehrsabgabe*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-85-a",
+    "num": "Art. 85a",
+    "heading": "Abgabe für die Benützung der Nationalstrassen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-86",
+    "num": "Art. 86",
+    "heading": "Verwendung von Abgaben für Aufgaben und Aufwendungen im Zusammenhang mit dem Strassenverkehr*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-87",
+    "num": "Art. 87",
+    "heading": "Eisenbahnen und weitere Verkehrsträger*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-87-a",
+    "num": "Art. 87a",
+    "heading": "Eisenbahninfrastruktur*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-87-b",
+    "num": "Art. 87b",
+    "heading": "Verwendung von Abgaben für Aufgaben und Aufwendungen im Zusammenhang mit dem Luftverkehr",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-88",
+    "num": "Art. 88",
+    "heading": "Fuss-, Wander- und Velowege",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "5. Abschnitt: Öffentliche Werke und Verkehr"
+    ]
+  },
+  {
+    "id": "art-89",
+    "num": "Art. 89",
+    "heading": "Energiepolitik",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "6. Abschnitt: Energie und Kommunikation"
+    ]
+  },
+  {
+    "id": "art-90",
+    "num": "Art. 90",
+    "heading": "Kernenergie*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "6. Abschnitt: Energie und Kommunikation"
+    ]
+  },
+  {
+    "id": "art-91",
+    "num": "Art. 91",
+    "heading": "Transport von Energie",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "6. Abschnitt: Energie und Kommunikation"
+    ]
+  },
+  {
+    "id": "art-92",
+    "num": "Art. 92",
+    "heading": "Post- und Fernmeldewesen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "6. Abschnitt: Energie und Kommunikation"
+    ]
+  },
+  {
+    "id": "art-93",
+    "num": "Art. 93",
+    "heading": "Radio und Fernsehen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "6. Abschnitt: Energie und Kommunikation"
+    ]
+  },
+  {
+    "id": "art-94",
+    "num": "Art. 94",
+    "heading": "Grundsätze der Wirtschaftsordnung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-95",
+    "num": "Art. 95",
+    "heading": "Privatwirtschaftliche Erwerbstätigkeit*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-96",
+    "num": "Art. 96",
+    "heading": "Wettbewerbspolitik",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-97",
+    "num": "Art. 97",
+    "heading": "Schutz der Konsumentinnen und Konsumenten",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-98",
+    "num": "Art. 98",
+    "heading": "Banken und Versicherungen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-99",
+    "num": "Art. 99",
+    "heading": "Geld- und Währungspolitik",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-100",
+    "num": "Art. 100",
+    "heading": "Konjunkturpolitik",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-101",
+    "num": "Art. 101",
+    "heading": "Aussenwirtschaftspolitik",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-102",
+    "num": "Art. 102",
+    "heading": "Landesversorgung*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-103",
+    "num": "Art. 103",
+    "heading": "Strukturpolitik*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-104",
+    "num": "Art. 104",
+    "heading": "Landwirtschaft",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-104-a",
+    "num": "Art. 104a",
+    "heading": "Ernährungssicherheit",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-105",
+    "num": "Art. 105",
+    "heading": "Alkohol",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-106",
+    "num": "Art. 106",
+    "heading": "Geldspiele",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-107",
+    "num": "Art. 107",
+    "heading": "Waffen und Kriegsmaterial",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "7. Abschnitt: Wirtschaft"
+    ]
+  },
+  {
+    "id": "art-108",
+    "num": "Art. 108",
+    "heading": "Wohnbau- und Wohneigentumsförderung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-109",
+    "num": "Art. 109",
+    "heading": "Mietwesen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-110",
+    "num": "Art. 110",
+    "heading": "Arbeit*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-111",
+    "num": "Art. 111",
+    "heading": "Alters-, Hinterlassenen- und Invalidenvorsorge",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-112",
+    "num": "Art. 112",
+    "heading": "Alters‑, Hinterlassenen‑ und Invalidenversicherung*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-112-a",
+    "num": "Art. 112a",
+    "heading": "Ergänzungsleistungen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-112-b",
+    "num": "Art. 112b",
+    "heading": "Förderung der Eingliederung Invalider*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-112-c",
+    "num": "Art. 112c",
+    "heading": "Betagten- und Behindertenhilfe*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-113",
+    "num": "Art. 113",
+    "heading": "Berufliche Vorsorge*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-114",
+    "num": "Art. 114",
+    "heading": "Arbeitslosenversicherung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-115",
+    "num": "Art. 115",
+    "heading": "Unterstützung Bedürftiger",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-116",
+    "num": "Art. 116",
+    "heading": "Familienzulagen und Mutterschaftsversicherung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-117",
+    "num": "Art. 117",
+    "heading": "Kranken- und Unfallversicherung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-117-a",
+    "num": "Art. 117a",
+    "heading": "Medizinische Grundversorgung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-117-b",
+    "num": "Art. 117b",
+    "heading": "Pflege*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-118",
+    "num": "Art. 118",
+    "heading": "Schutz der Gesundheit",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-118-a",
+    "num": "Art. 118a",
+    "heading": "Komplementärmedizin",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-118-b",
+    "num": "Art. 118b",
+    "heading": "Forschung am Menschen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-119",
+    "num": "Art. 119",
+    "heading": "Fortpflanzungsmedizin und Gentechnologie im Humanbereich",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-119-a",
+    "num": "Art. 119a",
+    "heading": "Transplantationsmedizin",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-120",
+    "num": "Art. 120",
+    "heading": "Gentechnologie im Ausserhumanbereich*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "8. Abschnitt: Wohnen, Arbeit, soziale Sicherheit und Gesundheit"
+    ]
+  },
+  {
+    "id": "art-121",
+    "num": "Art. 121",
+    "heading": "Gesetzgebung im Ausländer- und Asylbereich*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "9. Abschnitt: Aufenthalt und Niederlassung von Ausländerinnen und Ausländern"
+    ]
+  },
+  {
+    "id": "art-121-a",
+    "num": "Art. 121a",
+    "heading": "Steuerung der Zuwanderung*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "9. Abschnitt: Aufenthalt und Niederlassung von Ausländerinnen und Ausländern"
+    ]
+  },
+  {
+    "id": "art-122",
+    "num": "Art. 122",
+    "heading": "Zivilrecht",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-123",
+    "num": "Art. 123",
+    "heading": "Strafrecht",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-123-a",
+    "num": "Art. 123a",
+    "heading": "",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-123-b",
+    "num": "Art. 123b",
+    "heading": "Unverjährbarkeit der Strafverfolgung und der Strafe bei sexuellen und bei pornografischen Straftaten an Kindern vor der Pubertät",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-123-c",
+    "num": "Art. 123c",
+    "heading": "Massnahme nach Sexualdelikten an Kindern oder an zum Widerstand unfähigen oder urteilsunfähigen Personen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-124",
+    "num": "Art. 124",
+    "heading": "Opferhilfe",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-125",
+    "num": "Art. 125",
+    "heading": "Messwesen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "2. Kapitel: Zuständigkeiten",
+      "10. Abschnitt: Zivilrecht, Strafrecht, Messwesen"
+    ]
+  },
+  {
+    "id": "art-126",
+    "num": "Art. 126",
+    "heading": "Haushaltführung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-127",
+    "num": "Art. 127",
+    "heading": "Grundsätze der Besteuerung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-128",
+    "num": "Art. 128",
+    "heading": "Direkte Steuern*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-129",
+    "num": "Art. 129",
+    "heading": "Steuerharmonisierung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-129-a",
+    "num": "Art. 129a",
+    "heading": "Besondere Besteuerung grosser Unternehmensgruppen",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-130",
+    "num": "Art. 130",
+    "heading": "Mehrwertsteuer*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-131",
+    "num": "Art. 131",
+    "heading": "Besondere Verbrauchssteuern*",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-132",
+    "num": "Art. 132",
+    "heading": "Stempelsteuer und Verrechnungssteuer",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-133",
+    "num": "Art. 133",
+    "heading": "Zölle",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-134",
+    "num": "Art. 134",
+    "heading": "Ausschluss kantonaler und kommunaler Besteuerung",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-135",
+    "num": "Art. 135",
+    "heading": "Finanz- und Lastenausgleich",
+    "path": [
+      "3. Titel: Bund, Kantone und Gemeinden",
+      "3. Kapitel: Finanzordnung"
+    ]
+  },
+  {
+    "id": "art-136",
+    "num": "Art. 136",
+    "heading": "Politische Rechte",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-137",
+    "num": "Art. 137",
+    "heading": "Politische Parteien",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-138",
+    "num": "Art. 138",
+    "heading": "Volksinitiative auf Totalrevision der Bundesverfassung",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-139",
+    "num": "Art. 139",
+    "heading": "Volksinitiative auf Teilrevision der Bundesverfassung",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-139-a",
+    "num": "Art. 139a",
+    "heading": "",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-139-b",
+    "num": "Art. 139b",
+    "heading": "Verfahren bei Initiative und Gegenentwurf",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-140",
+    "num": "Art. 140",
+    "heading": "Obligatorisches Referendum",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-141",
+    "num": "Art. 141",
+    "heading": "Fakultatives Referendum",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-141-a",
+    "num": "Art. 141a",
+    "heading": "Umsetzung von völkerrechtlichen Verträgen",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-142",
+    "num": "Art. 142",
+    "heading": "Erforderliche Mehrheiten",
+    "path": [
+      "4. Titel: Volk und Stände",
+      "2. Kapitel: Initiative und Referendum"
+    ]
+  },
+  {
+    "id": "art-143",
+    "num": "Art. 143",
+    "heading": "Wählbarkeit",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-144",
+    "num": "Art. 144",
+    "heading": "Unvereinbarkeiten",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-145",
+    "num": "Art. 145",
+    "heading": "Amtsdauer",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-146",
+    "num": "Art. 146",
+    "heading": "Staatshaftung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-147",
+    "num": "Art. 147",
+    "heading": "Vernehmlassungsverfahren",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "1. Kapitel: Allgemeine Bestimmungen"
+    ]
+  },
+  {
+    "id": "art-148",
+    "num": "Art. 148",
+    "heading": "Stellung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-149",
+    "num": "Art. 149",
+    "heading": "Zusammensetzung und Wahl des Nationalrates",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-150",
+    "num": "Art. 150",
+    "heading": "Zusammensetzung und Wahl des Ständerates",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-151",
+    "num": "Art. 151",
+    "heading": "Sessionen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-152",
+    "num": "Art. 152",
+    "heading": "Vorsitz",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-153",
+    "num": "Art. 153",
+    "heading": "Parlamentarische Kommissionen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-154",
+    "num": "Art. 154",
+    "heading": "Fraktionen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-155",
+    "num": "Art. 155",
+    "heading": "Parlamentsdienste",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "1. Abschnitt: Organisation"
+    ]
+  },
+  {
+    "id": "art-156",
+    "num": "Art. 156",
+    "heading": "Getrennte Verhandlung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-157",
+    "num": "Art. 157",
+    "heading": "Gemeinsame Verhandlung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-158",
+    "num": "Art. 158",
+    "heading": "Öffentlichkeit der Sitzungen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-159",
+    "num": "Art. 159",
+    "heading": "Verhandlungsfähigkeit und erforderliches Mehr",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-160",
+    "num": "Art. 160",
+    "heading": "Initiativrecht und Antragsrecht",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-161",
+    "num": "Art. 161",
+    "heading": "Instruktionsverbot",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-162",
+    "num": "Art. 162",
+    "heading": "Immunität",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "2. Abschnitt: Verfahren"
+    ]
+  },
+  {
+    "id": "art-163",
+    "num": "Art. 163",
+    "heading": "Form der Erlasse der Bundesversammlung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-164",
+    "num": "Art. 164",
+    "heading": "Gesetzgebung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-165",
+    "num": "Art. 165",
+    "heading": "Gesetzgebung bei Dringlichkeit",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-166",
+    "num": "Art. 166",
+    "heading": "Beziehungen zum Ausland und völkerrechtliche Verträge",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-167",
+    "num": "Art. 167",
+    "heading": "Finanzen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-168",
+    "num": "Art. 168",
+    "heading": "Wahlen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-169",
+    "num": "Art. 169",
+    "heading": "Oberaufsicht",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-170",
+    "num": "Art. 170",
+    "heading": "Überprüfung der Wirksamkeit",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-171",
+    "num": "Art. 171",
+    "heading": "Aufträge an den Bundesrat",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-172",
+    "num": "Art. 172",
+    "heading": "Beziehungen zwischen Bund und Kantonen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-173",
+    "num": "Art. 173",
+    "heading": "Weitere Aufgaben und Befugnisse",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "2. Kapitel: Bundesversammlung",
+      "3. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-174",
+    "num": "Art. 174",
+    "heading": "Bundesrat",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "1. Abschnitt: Organisation und Verfahren"
+    ]
+  },
+  {
+    "id": "art-175",
+    "num": "Art. 175",
+    "heading": "Zusammensetzung und Wahl",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "1. Abschnitt: Organisation und Verfahren"
+    ]
+  },
+  {
+    "id": "art-176",
+    "num": "Art. 176",
+    "heading": "Vorsitz",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "1. Abschnitt: Organisation und Verfahren"
+    ]
+  },
+  {
+    "id": "art-177",
+    "num": "Art. 177",
+    "heading": "Kollegial- und Departementalprinzip",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "1. Abschnitt: Organisation und Verfahren"
+    ]
+  },
+  {
+    "id": "art-178",
+    "num": "Art. 178",
+    "heading": "Bundesverwaltung",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "1. Abschnitt: Organisation und Verfahren"
+    ]
+  },
+  {
+    "id": "art-179",
+    "num": "Art. 179",
+    "heading": "Bundeskanzlei",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "1. Abschnitt: Organisation und Verfahren"
+    ]
+  },
+  {
+    "id": "art-180",
+    "num": "Art. 180",
+    "heading": "Regierungspolitik",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-181",
+    "num": "Art. 181",
+    "heading": "Initiativrecht",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-182",
+    "num": "Art. 182",
+    "heading": "Rechtsetzung und Vollzug",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-183",
+    "num": "Art. 183",
+    "heading": "Finanzen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-184",
+    "num": "Art. 184",
+    "heading": "Beziehungen zum Ausland",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-185",
+    "num": "Art. 185",
+    "heading": "Äussere und innere Sicherheit",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-186",
+    "num": "Art. 186",
+    "heading": "Beziehungen zwischen Bund und Kantonen",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-187",
+    "num": "Art. 187",
+    "heading": "Weitere Aufgaben und Befugnisse",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "3. Kapitel: Bundesrat und Bundesverwaltung",
+      "2. Abschnitt: Zuständigkeiten"
+    ]
+  },
+  {
+    "id": "art-188",
+    "num": "Art. 188",
+    "heading": "Stellung des Bundesgerichts",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-189",
+    "num": "Art. 189",
+    "heading": "Zuständigkeiten des Bundesgerichts",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-190",
+    "num": "Art. 190",
+    "heading": "Massgebendes Recht",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-191",
+    "num": "Art. 191",
+    "heading": "Zugang zum Bundesgericht",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-191-a",
+    "num": "Art. 191a",
+    "heading": "Weitere richterliche Behörden des Bundes",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-191-b",
+    "num": "Art. 191b",
+    "heading": "Richterliche Behörden der Kantone",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-191-c",
+    "num": "Art. 191c",
+    "heading": "Richterliche Unabhängigkeit",
+    "path": [
+      "5. Titel: Bundesbehörden",
+      "4. Kapitel: Bundesgericht und andere richterliche Behörden"
+    ]
+  },
+  {
+    "id": "art-192",
+    "num": "Art. 192",
+    "heading": "Grundsatz",
+    "path": [
+      "6. Titel: Revision der Bundesverfassung und Übergangsbestimmungen",
+      "1. Kapitel: Revision"
+    ]
+  },
+  {
+    "id": "art-193",
+    "num": "Art. 193",
+    "heading": "Totalrevision",
+    "path": [
+      "6. Titel: Revision der Bundesverfassung und Übergangsbestimmungen",
+      "1. Kapitel: Revision"
+    ]
+  },
+  {
+    "id": "art-194",
+    "num": "Art. 194",
+    "heading": "Teilrevision",
+    "path": [
+      "6. Titel: Revision der Bundesverfassung und Übergangsbestimmungen",
+      "1. Kapitel: Revision"
+    ]
+  },
+  {
+    "id": "art-195",
+    "num": "Art. 195",
+    "heading": "Inkrafttreten",
+    "path": [
+      "6. Titel: Revision der Bundesverfassung und Übergangsbestimmungen",
+      "1. Kapitel: Revision"
+    ]
+  },
+  {
+    "id": "art-196",
+    "num": "Art. 196",
+    "heading": "Übergangsbestimmungen gemäss Bundesbeschluss vom 18. Dezember 1998 über eine neue Bundesverfassung",
+    "path": [
+      "6. Titel: Revision der Bundesverfassung und Übergangsbestimmungen",
+      "2. Kapitel: Übergangsbestimmungen"
+    ]
+  },
+  {
+    "id": "art-197",
+    "num": "Art. 197",
+    "heading": "Übergangsbestimmungen nach Annahme der Bundesverfassung vom 18. April 1999",
+    "path": [
+      "6. Titel: Revision der Bundesverfassung und Übergangsbestimmungen",
+      "2. Kapitel: Übergangsbestimmungen"
+    ]
+  }
+]

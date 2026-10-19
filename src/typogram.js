@@ -123,7 +123,7 @@ export function stripDataLayer(text) {
 }
 
 /** A schema.org DigitalDocument record for a Typogram. Unset fields are omitted. */
-export function buildJsonld({ name, author, dateCreated, inLanguage, license, description, sourceUrl, sourceFormat = 'text/markdown', charCount, hash, generator = 'typogram' } = {}) {
+export function buildJsonld({ name, author, dateCreated, inLanguage, license, description, sourceUrl, sourceFormat = 'text/markdown', charCount, hash, generator = 'typogram', hasPart } = {}) {
   const r = { '@context': 'https://schema.org', '@type': 'DigitalDocument' };
   if (name != null) r.name = String(name);
   if (author != null) r.author = String(author);
@@ -132,6 +132,19 @@ export function buildJsonld({ name, author, dateCreated, inLanguage, license, de
   if (license != null) r.license = String(license);
   if (description != null) r.description = String(description);
   if (sourceUrl != null) r.url = String(sourceUrl);
+  // An addressable directory of the document's parts (e.g. one entry per article) so a machine can locate a single
+  // unit precisely from `tg extract --json`. The full text stays in the data-layer Markdown; this is an index only,
+  // so it adds no bulk and does not touch tgart.hash (which is over the canonical text, not this record).
+  if (Array.isArray(hasPart) && hasPart.length) {
+    r.hasPart = hasPart.map((p, i) => {
+      const part = { '@type': 'WebPageElement', position: i + 1 };
+      if (p.id != null) part.identifier = String(p.id);
+      const nm = [p.num, p.heading].filter((x) => x != null && x !== '').join(' — ') || p.name;
+      if (nm != null && nm !== '') part.name = String(nm);
+      if (Array.isArray(p.path) && p.path.length) part.isPartOf = p.path.map(String).join(' › ');
+      return part;
+    });
+  }
   r.tgart = { version: 1, generator, sourceFormat, ...(charCount != null ? { charCount } : {}), ...(hash != null ? { hash } : {}) };
   return r;
 }
