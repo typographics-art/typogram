@@ -44,12 +44,14 @@
   {
     "id": "eu-ai-act",
     "title": "AI Act",
-    "subtitle": "Regulation (EU) 2024/1689 · 144 pages on one",
+    "subtitle": "Regulation (EU) 2024/1689 · 113 Articles",
     "document": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Official Journal",
-    "url": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.01/DOC_1",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
     "file": "eu-ai-act.pdf",
     "licence": "Reuse permitted with acknowledgement (Commission Decision 2011/833/EU). Source: EUR-Lex, © European Union",
     "category": "law",
+    "structured": true,
+    "inLanguage": "en",
     "motif": "recipe:aiActNetwork",
     "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
     "color": "photo"

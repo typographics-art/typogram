@@ -1,0 +1,906 @@
+[
+  {
+    "id": "article-1",
+    "num": "Article 1",
+    "heading": "Subject matter",
+    "path": [
+      "CHAPTER I — GENERAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-2",
+    "num": "Article 2",
+    "heading": "Scope",
+    "path": [
+      "CHAPTER I — GENERAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-3",
+    "num": "Article 3",
+    "heading": "Definitions",
+    "path": [
+      "CHAPTER I — GENERAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-4",
+    "num": "Article 4",
+    "heading": "AI literacy",
+    "path": [
+      "CHAPTER I — GENERAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-5",
+    "num": "Article 5",
+    "heading": "Prohibited AI practices",
+    "path": [
+      "CHAPTER II — PROHIBITED AI PRACTICES"
+    ]
+  },
+  {
+    "id": "article-6",
+    "num": "Article 6",
+    "heading": "Classification rules for high-risk AI systems",
+    "path": [
+      "SECTION 1 — Classification of AI systems as high-risk"
+    ]
+  },
+  {
+    "id": "article-7",
+    "num": "Article 7",
+    "heading": "Amendments to Annex III",
+    "path": [
+      "SECTION 1 — Classification of AI systems as high-risk"
+    ]
+  },
+  {
+    "id": "article-8",
+    "num": "Article 8",
+    "heading": "Compliance with the requirements",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-9",
+    "num": "Article 9",
+    "heading": "Risk management system",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-10",
+    "num": "Article 10",
+    "heading": "Data and data governance",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-11",
+    "num": "Article 11",
+    "heading": "Technical documentation",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-12",
+    "num": "Article 12",
+    "heading": "Record-keeping",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-13",
+    "num": "Article 13",
+    "heading": "Transparency and provision of information to deployers",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-14",
+    "num": "Article 14",
+    "heading": "Human oversight",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-15",
+    "num": "Article 15",
+    "heading": "Accuracy, robustness and cybersecurity",
+    "path": [
+      "SECTION 2 — Requirements for high-risk AI systems"
+    ]
+  },
+  {
+    "id": "article-16",
+    "num": "Article 16",
+    "heading": "Obligations of providers of high-risk AI systems",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-17",
+    "num": "Article 17",
+    "heading": "Quality management system",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-18",
+    "num": "Article 18",
+    "heading": "Documentation keeping",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-19",
+    "num": "Article 19",
+    "heading": "Automatically generated logs",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-20",
+    "num": "Article 20",
+    "heading": "Corrective actions and duty of information",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-21",
+    "num": "Article 21",
+    "heading": "Cooperation with competent authorities",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-22",
+    "num": "Article 22",
+    "heading": "Authorised representatives of providers of high-risk AI systems",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-23",
+    "num": "Article 23",
+    "heading": "Obligations of importers",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-24",
+    "num": "Article 24",
+    "heading": "Obligations of distributors",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-25",
+    "num": "Article 25",
+    "heading": "Responsibilities along the AI value chain",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-26",
+    "num": "Article 26",
+    "heading": "Obligations of deployers of high-risk AI systems",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-27",
+    "num": "Article 27",
+    "heading": "Fundamental rights impact assessment for high-risk AI systems",
+    "path": [
+      "SECTION 3 — Obligations of providers and deployers of high-risk AI systems and other parties"
+    ]
+  },
+  {
+    "id": "article-28",
+    "num": "Article 28",
+    "heading": "Notifying authorities",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-29",
+    "num": "Article 29",
+    "heading": "Application of a conformity assessment body for notification",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-30",
+    "num": "Article 30",
+    "heading": "Notification procedure",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-31",
+    "num": "Article 31",
+    "heading": "Requirements relating to notified bodies",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-32",
+    "num": "Article 32",
+    "heading": "Presumption of conformity with requirements relating to notified bodies",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-33",
+    "num": "Article 33",
+    "heading": "Subsidiaries of notified bodies and subcontracting",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-34",
+    "num": "Article 34",
+    "heading": "Operational obligations of notified bodies",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-35",
+    "num": "Article 35",
+    "heading": "Identification numbers and lists of notified bodies",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-36",
+    "num": "Article 36",
+    "heading": "Changes to notifications",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-37",
+    "num": "Article 37",
+    "heading": "Challenge to the competence of notified bodies",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-38",
+    "num": "Article 38",
+    "heading": "Coordination of notified bodies",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-39",
+    "num": "Article 39",
+    "heading": "Conformity assessment bodies of third countries",
+    "path": [
+      "SECTION 4 — Notifying authorities and notified bodies"
+    ]
+  },
+  {
+    "id": "article-40",
+    "num": "Article 40",
+    "heading": "Harmonised standards and standardisation deliverables",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-41",
+    "num": "Article 41",
+    "heading": "Common specifications",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-42",
+    "num": "Article 42",
+    "heading": "Presumption of conformity with certain requirements",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-43",
+    "num": "Article 43",
+    "heading": "Conformity assessment",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-44",
+    "num": "Article 44",
+    "heading": "Certificates",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-45",
+    "num": "Article 45",
+    "heading": "Information obligations of notified bodies",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-46",
+    "num": "Article 46",
+    "heading": "Derogation from conformity assessment procedure",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-47",
+    "num": "Article 47",
+    "heading": "EU declaration of conformity",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-48",
+    "num": "Article 48",
+    "heading": "CE marking",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-49",
+    "num": "Article 49",
+    "heading": "Registration",
+    "path": [
+      "SECTION 5 — Standards, conformity assessment, certificates, registration"
+    ]
+  },
+  {
+    "id": "article-50",
+    "num": "Article 50",
+    "heading": "Transparency obligations for providers and deployers of certain AI systems",
+    "path": [
+      "CHAPTER IV — TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS"
+    ]
+  },
+  {
+    "id": "article-51",
+    "num": "Article 51",
+    "heading": "Classification of general-purpose AI models as general-purpose AI models with systemic risk",
+    "path": [
+      "SECTION 1 — Classification rules"
+    ]
+  },
+  {
+    "id": "article-52",
+    "num": "Article 52",
+    "heading": "Procedure",
+    "path": [
+      "SECTION 1 — Classification rules"
+    ]
+  },
+  {
+    "id": "article-53",
+    "num": "Article 53",
+    "heading": "Obligations for providers of general-purpose AI models",
+    "path": [
+      "SECTION 2 — Obligations for providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-54",
+    "num": "Article 54",
+    "heading": "Authorised representatives of providers of general-purpose AI models",
+    "path": [
+      "SECTION 2 — Obligations for providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-55",
+    "num": "Article 55",
+    "heading": "Obligations of providers of general-purpose AI models with systemic risk",
+    "path": [
+      "SECTION 3 — Obligations of providers of general-purpose AI models with systemic risk"
+    ]
+  },
+  {
+    "id": "article-56",
+    "num": "Article 56",
+    "heading": "Codes of practice",
+    "path": [
+      "SECTION 4 — Codes of practice"
+    ]
+  },
+  {
+    "id": "article-57",
+    "num": "Article 57",
+    "heading": "AI regulatory sandboxes",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-58",
+    "num": "Article 58",
+    "heading": "Detailed arrangements for, and functioning of, AI regulatory sandboxes",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-59",
+    "num": "Article 59",
+    "heading": "Further processing of personal data for developing certain AI systems in the public interest in the AI regulatory sandbox",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-60",
+    "num": "Article 60",
+    "heading": "Testing of high-risk AI systems in real world conditions outside AI regulatory sandboxes",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-61",
+    "num": "Article 61",
+    "heading": "Informed consent to participate in testing in real world conditions outside AI regulatory sandboxes",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-62",
+    "num": "Article 62",
+    "heading": "Measures for providers and deployers, in particular SMEs, including start-ups",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-63",
+    "num": "Article 63",
+    "heading": "Derogations for specific operators",
+    "path": [
+      "CHAPTER VI — MEASURES IN SUPPORT OF INNOVATION"
+    ]
+  },
+  {
+    "id": "article-64",
+    "num": "Article 64",
+    "heading": "AI Office",
+    "path": [
+      "SECTION 1 — Governance at Union level"
+    ]
+  },
+  {
+    "id": "article-65",
+    "num": "Article 65",
+    "heading": "Establishment and structure of the European Artificial Intelligence Board",
+    "path": [
+      "SECTION 1 — Governance at Union level"
+    ]
+  },
+  {
+    "id": "article-66",
+    "num": "Article 66",
+    "heading": "Tasks of the Board",
+    "path": [
+      "SECTION 1 — Governance at Union level"
+    ]
+  },
+  {
+    "id": "article-67",
+    "num": "Article 67",
+    "heading": "Advisory forum",
+    "path": [
+      "SECTION 1 — Governance at Union level"
+    ]
+  },
+  {
+    "id": "article-68",
+    "num": "Article 68",
+    "heading": "Scientific panel of independent experts",
+    "path": [
+      "SECTION 1 — Governance at Union level"
+    ]
+  },
+  {
+    "id": "article-69",
+    "num": "Article 69",
+    "heading": "Access to the pool of experts by the Member States",
+    "path": [
+      "SECTION 1 — Governance at Union level"
+    ]
+  },
+  {
+    "id": "article-70",
+    "num": "Article 70",
+    "heading": "Designation of national competent authorities and single points of contact",
+    "path": [
+      "SECTION 2 — National competent authorities"
+    ]
+  },
+  {
+    "id": "article-71",
+    "num": "Article 71",
+    "heading": "EU database for high-risk AI systems listed in Annex III",
+    "path": [
+      "CHAPTER VIII — EU DATABASE FOR HIGH-RISK AI SYSTEMS"
+    ]
+  },
+  {
+    "id": "article-72",
+    "num": "Article 72",
+    "heading": "Post-market monitoring by providers and post-market monitoring plan for high-risk AI systems",
+    "path": [
+      "SECTION 1 — Post-market monitoring"
+    ]
+  },
+  {
+    "id": "article-73",
+    "num": "Article 73",
+    "heading": "Reporting of serious incidents",
+    "path": [
+      "SECTION 2 — Sharing of information on serious incidents"
+    ]
+  },
+  {
+    "id": "article-74",
+    "num": "Article 74",
+    "heading": "Market surveillance and control of AI systems in the Union market",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-75",
+    "num": "Article 75",
+    "heading": "Mutual assistance, market surveillance and control of general-purpose AI systems",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-76",
+    "num": "Article 76",
+    "heading": "Supervision of testing in real world conditions by market surveillance authorities",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-77",
+    "num": "Article 77",
+    "heading": "Powers of authorities protecting fundamental rights",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-78",
+    "num": "Article 78",
+    "heading": "Confidentiality",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-79",
+    "num": "Article 79",
+    "heading": "Procedure at national level for dealing with AI systems presenting a risk",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-80",
+    "num": "Article 80",
+    "heading": "Procedure for dealing with AI systems classified by the provider as non-high-risk in application of Annex III",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-81",
+    "num": "Article 81",
+    "heading": "Union safeguard procedure",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-82",
+    "num": "Article 82",
+    "heading": "Compliant AI systems which present a risk",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-83",
+    "num": "Article 83",
+    "heading": "Formal non-compliance",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-84",
+    "num": "Article 84",
+    "heading": "Union AI testing support structures",
+    "path": [
+      "SECTION 3 — Enforcement"
+    ]
+  },
+  {
+    "id": "article-85",
+    "num": "Article 85",
+    "heading": "Right to lodge a complaint with a market surveillance authority",
+    "path": [
+      "SECTION 4 — Remedies"
+    ]
+  },
+  {
+    "id": "article-86",
+    "num": "Article 86",
+    "heading": "Right to explanation of individual decision-making",
+    "path": [
+      "SECTION 4 — Remedies"
+    ]
+  },
+  {
+    "id": "article-87",
+    "num": "Article 87",
+    "heading": "Reporting of infringements and protection of reporting persons",
+    "path": [
+      "SECTION 4 — Remedies"
+    ]
+  },
+  {
+    "id": "article-88",
+    "num": "Article 88",
+    "heading": "Enforcement of the obligations of providers of general-purpose AI models",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-89",
+    "num": "Article 89",
+    "heading": "Monitoring actions",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-90",
+    "num": "Article 90",
+    "heading": "Alerts of systemic risks by the scientific panel",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-91",
+    "num": "Article 91",
+    "heading": "Power to request documentation and information",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-92",
+    "num": "Article 92",
+    "heading": "Power to conduct evaluations",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-93",
+    "num": "Article 93",
+    "heading": "Power to request measures",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-94",
+    "num": "Article 94",
+    "heading": "Procedural rights of economic operators of the general-purpose AI model",
+    "path": [
+      "SECTION 5 — Supervision, investigation, enforcement and monitoring in respect of providers of general-purpose AI models"
+    ]
+  },
+  {
+    "id": "article-95",
+    "num": "Article 95",
+    "heading": "Codes of conduct for voluntary application of specific requirements",
+    "path": [
+      "CHAPTER X — CODES OF CONDUCT AND GUIDELINES"
+    ]
+  },
+  {
+    "id": "article-96",
+    "num": "Article 96",
+    "heading": "Guidelines from the Commission on the implementation of this Regulation",
+    "path": [
+      "CHAPTER X — CODES OF CONDUCT AND GUIDELINES"
+    ]
+  },
+  {
+    "id": "article-97",
+    "num": "Article 97",
+    "heading": "Exercise of the delegation",
+    "path": [
+      "CHAPTER XI — DELEGATION OF POWER AND COMMITTEE PROCEDURE"
+    ]
+  },
+  {
+    "id": "article-98",
+    "num": "Article 98",
+    "heading": "Committee procedure",
+    "path": [
+      "CHAPTER XI — DELEGATION OF POWER AND COMMITTEE PROCEDURE"
+    ]
+  },
+  {
+    "id": "article-99",
+    "num": "Article 99",
+    "heading": "Penalties",
+    "path": [
+      "CHAPTER XII — PENALTIES"
+    ]
+  },
+  {
+    "id": "article-100",
+    "num": "Article 100",
+    "heading": "Administrative fines on Union institutions, bodies, offices and agencies",
+    "path": [
+      "CHAPTER XII — PENALTIES"
+    ]
+  },
+  {
+    "id": "article-101",
+    "num": "Article 101",
+    "heading": "Fines for providers of general-purpose AI models",
+    "path": [
+      "CHAPTER XII — PENALTIES"
+    ]
+  },
+  {
+    "id": "article-102",
+    "num": "Article 102",
+    "heading": "Amendment to Regulation (EC) No 300/2008",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-103",
+    "num": "Article 103",
+    "heading": "Amendment to Regulation (EU) No 167/2013",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-104",
+    "num": "Article 104",
+    "heading": "Amendment to Regulation (EU) No 168/2013",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-105",
+    "num": "Article 105",
+    "heading": "Amendment to Directive 2014/90/EU",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-106",
+    "num": "Article 106",
+    "heading": "Amendment to Directive (EU) 2016/797",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-107",
+    "num": "Article 107",
+    "heading": "Amendment to Regulation (EU) 2018/858",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-108",
+    "num": "Article 108",
+    "heading": "Amendments to Regulation (EU) 2018/1139",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-109",
+    "num": "Article 109",
+    "heading": "Amendment to Regulation (EU) 2019/2144",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-110",
+    "num": "Article 110",
+    "heading": "Amendment to Directive (EU) 2020/1828",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-111",
+    "num": "Article 111",
+    "heading": "AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-112",
+    "num": "Article 112",
+    "heading": "Evaluation and review",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  },
+  {
+    "id": "article-113",
+    "num": "Article 113",
+    "heading": "Entry into force and application",
+    "path": [
+      "CHAPTER XIII — FINAL PROVISIONS"
+    ]
+  }
+]
