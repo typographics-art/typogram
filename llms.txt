@@ -4,7 +4,7 @@
 
 The three rules of the technique: (1) the text is never changed, reordered or shortened; declared filler is allowed; (2) the work stays text and extracting it yields the source; (3) only typography varies, no shapes or images besides the glyphs.
 
-Important for machines: the text is in the file (HTML text, SVG text elements, PDF text layer). From a raster image of very small type, OCR and vision models recover only part of it.
+Important for machines — where to read the text: prefer the HTML or SVG text, or the exact source embedded in the data layer (`tg extract <file> --markdown`, or in a PDF the attached `source.md`). Do NOT rely on a naive PDF text-layer scrape: the common extractor Poppler `pdftotext` at its default resolution silently keeps only the first ~50 000 small characters and drops the rest of a dense one-pager (10–30 % read), with no error — so a law read that way is quietly truncated. Read a PDF with MuPDF/PyMuPDF (or `pdftotext -r 600`), or better, read the attached source or the SVG. From a raster image of very small type, OCR and vision models recover only part of it.
 
 ## Pages
 

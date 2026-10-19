@@ -1,0 +1,47 @@
+{
+  "id": "eu-ai-act",
+  "kind": "legal-structural-skeleton-v1",
+  "official": "Publications Office CELEX 32024R1689 (OJ L, 2024/1689): 113 Articles + 13 Chapters + 13 Annexes",
+  "officialUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
+  "asOf": "2024-07-12 (OJ)",
+  "checks": [
+    {
+      "type": "count",
+      "pattern": "^### Article ",
+      "expect": 113,
+      "label": "113 Articles"
+    },
+    {
+      "type": "numberedComplete",
+      "pattern": "^### Article (\\d+)",
+      "range": [
+        1,
+        113
+      ],
+      "label": "Articles 1..113 contiguous"
+    },
+    {
+      "type": "count",
+      "pattern": "^## CHAPTER ",
+      "expect": 13,
+      "label": "13 Chapters I..XIII"
+    },
+    {
+      "type": "requireOrDeclare",
+      "pattern": "^## ANNEX |^### Annex ",
+      "min": 13,
+      "declare": "Annexes excluded",
+      "label": "13 binding Annexes present, OR \"Annexes excluded\" declared in the source"
+    },
+    {
+      "type": "anchor",
+      "text": "Subject matter",
+      "label": "Art.1 anchor"
+    },
+    {
+      "type": "anchor",
+      "text": "apply from 2 August 2026",
+      "label": "Art.113 entry-into-force anchor"
+    }
+  ]
+}

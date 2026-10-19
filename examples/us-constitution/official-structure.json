@@ -1,0 +1,55 @@
+{
+  "id": "us-constitution",
+  "kind": "legal-structural-skeleton-v1",
+  "official": "National Archives transcript (Preamble, Articles I-VII, Amendments 1-27)",
+  "officialUrl": "https://www.archives.gov/founding-docs/constitution-transcript",
+  "asOf": "1992 (27th Amendment)",
+  "checks": [
+    {
+      "type": "count",
+      "pattern": "^## Article ",
+      "expect": 7,
+      "label": "7 Articles"
+    },
+    {
+      "type": "numberedComplete",
+      "pattern": "^## Article (\\d+)",
+      "range": [
+        1,
+        7
+      ],
+      "label": "Articles 1..7 contiguous"
+    },
+    {
+      "type": "count",
+      "pattern": "^## Amendment ",
+      "expect": 27,
+      "label": "27 Amendments"
+    },
+    {
+      "type": "numberedComplete",
+      "pattern": "^## Amendment (\\d+)",
+      "range": [
+        1,
+        27
+      ],
+      "label": "Amendments 1..27 contiguous"
+    },
+    {
+      "type": "count",
+      "pattern": "^### Section ",
+      "expect": 21,
+      "label": "21 Sections (10+4+3+4)"
+    },
+    {
+      "type": "anchor",
+      "text": "We the People of the United States",
+      "label": "Preamble anchor"
+    },
+    {
+      "type": "anchor",
+      "text": "No law, varying the compensation for the services of the Senators and Representatives",
+      "label": "Amendment 27 anchor"
+    }
+  ]
+}

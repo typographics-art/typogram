@@ -1,0 +1,72 @@
+{
+  "id": "de-grundgesetz",
+  "kind": "legal-structural-skeleton-v1",
+  "official": "gesetze-im-internet.de/gg/ (BJNR000010949)",
+  "officialUrl": "https://www.gesetze-im-internet.de/gg/",
+  "asOf": "2024",
+  "placeholderPolicy": "repealed articles kept as \"(weggefallen)\" placeholders (official convention): 74a, 75, 142a",
+  "checks": [
+    {
+      "type": "numberedComplete",
+      "pattern": "^### Art\\. (\\d+)(?![\\da-z])",
+      "range": [
+        1,
+        146
+      ],
+      "label": "base articles 1..146 contiguous (75 kept as weggefallen placeholder)"
+    },
+    {
+      "type": "anchor",
+      "text": "### Art. 74a",
+      "label": "Art.74a weggefallen placeholder present"
+    },
+    {
+      "type": "anchor",
+      "text": "### Art. 142a",
+      "label": "Art.142a weggefallen placeholder present"
+    },
+    {
+      "type": "exactSet",
+      "pattern": "^### Art\\. (115[a-z])(?![a-z])",
+      "members": [
+        "115a",
+        "115b",
+        "115c",
+        "115d",
+        "115e",
+        "115f",
+        "115g",
+        "115h",
+        "115i",
+        "115k",
+        "115l"
+      ],
+      "label": "115-series a..l (no 115j)"
+    },
+    {
+      "type": "exactSet",
+      "pattern": "^### Art\\. (143[a-z])(?![a-z])",
+      "members": [
+        "143a",
+        "143b",
+        "143c",
+        "143d",
+        "143e",
+        "143f",
+        "143g",
+        "143h"
+      ],
+      "label": "143-series a..h"
+    },
+    {
+      "type": "anchor",
+      "text": "Die Würde des Menschen ist unantastbar",
+      "label": "Art.1 anchor"
+    },
+    {
+      "type": "anchor",
+      "text": "in freier Entscheidung beschlossen worden ist",
+      "label": "Art.146 anchor"
+    }
+  ]
+}

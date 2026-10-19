@@ -18,6 +18,7 @@ import { join, dirname, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { stampRaster } from './stamp-raster.mjs';
+import { checkLaw } from './check-against-official.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ISSUER = 'typographics-art.org', KID = '2026-10';
@@ -58,8 +59,19 @@ try {
   for (const id of readdirSync(join(ROOT, 'examples'))) if (existsSync(join(ROOT, 'examples', id, 'onepage.svg'))) svgs.push(join(ROOT, 'examples', id, 'onepage.svg'));
   for (const f of readdirSync(join(ROOT, 'gallery'))) if (f.endsWith('.svg')) svgs.push(join(ROOT, 'gallery', f));
 
-  let ok = 0, stamped = 0;
+  let ok = 0, stamped = 0, gated = 0;
   for (const f of svgs) {
+    // Pre-sign STRUCTURAL GATE: a signature proves the Typogram carries its source faithfully, not that the source matches
+    // the official law. For an example with a committed official skeleton, refuse to sign a source that diverges from it,
+    // so a converter error (a dropped article, a missing annex) is never certified as authentic.
+    const m = f.match(/[/\\]examples[/\\]([^/\\]+)[/\\]onepage\.svg$/);
+    const gate = m && checkLaw(m[1]);
+    if (gate && !gate.ok) {
+      gated++;
+      console.error(`  GATE REFUSED: ${m[1]} — source diverges from the official skeleton:`);
+      for (const r of gate.results) if (!r.ok) console.error(`      ✗ ${r.msg}`);
+      continue;
+    }
     // `tg sign` re-signs the data layer AND bakes the seal into the svg (hash-safe, so verify still passes).
     const s = tg('sign', f, '--key', keyFile, '--issuer', ISSUER, '--kid', KID, '--out', f);
     if (s.status === 0 && verify(f)) {
@@ -67,7 +79,7 @@ try {
       for (const p of previewsFor(f)) if (stampRaster(p)) stamped++; else console.error(`  preview stamp FAILED: ${p.slice(ROOT.length + 1)}`);
     } else console.error(`  FAILED: ${f.slice(ROOT.length + 1)} — ${(s.stderr || '').trim().split('\n')[0]}`);
   }
-  console.error(`sign-works: signed + verified ${ok}/${svgs.length} works as ${ISSUER} (kid ${KID}); stamped ${stamped} previews`);
+  console.error(`sign-works: signed + verified ${ok}/${svgs.length} works as ${ISSUER} (kid ${KID}); stamped ${stamped} previews${gated ? `; GATE REFUSED ${gated} (source ≠ official skeleton)` : ''}`);
 
   // Derive the sealed card thumbnails from the stamped previews (examples/<id>/thumb.jpg, gallery/thumbs/<id>.jpg).
   if (stamped) {

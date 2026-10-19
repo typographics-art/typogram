@@ -1,0 +1,76 @@
+{
+  "id": "ch-bundesverfassung",
+  "kind": "legal-structural-skeleton-v1",
+  "official": "Fedlex consolidated HTML, SR 101, Stand am 3. März 2024",
+  "officialUrl": "https://www.fedlex.admin.ch/eli/cc/1999/404/de",
+  "asOf": "2024-03-03",
+  "checks": [
+    {
+      "type": "count",
+      "pattern": "^### Art\\. ",
+      "expect": 232,
+      "label": "232 article headings"
+    },
+    {
+      "type": "numberedComplete",
+      "pattern": "^### Art\\. (\\d+)(?![\\da-z])",
+      "range": [
+        1,
+        197
+      ],
+      "label": "base articles 1..197 contiguous"
+    },
+    {
+      "type": "exactSet",
+      "pattern": "^### Art\\. (\\d+[a-z])(?![a-z])",
+      "members": [
+        "5a",
+        "10a",
+        "29a",
+        "43a",
+        "48a",
+        "61a",
+        "63a",
+        "64a",
+        "67a",
+        "75a",
+        "75b",
+        "81a",
+        "85a",
+        "87a",
+        "87b",
+        "104a",
+        "112a",
+        "112b",
+        "112c",
+        "117a",
+        "117b",
+        "118a",
+        "118b",
+        "119a",
+        "121a",
+        "123a",
+        "123b",
+        "123c",
+        "129a",
+        "139a",
+        "139b",
+        "141a",
+        "191a",
+        "191b",
+        "191c"
+      ],
+      "label": "35 letter-suffix articles exact set"
+    },
+    {
+      "type": "anchor",
+      "text": "Schweizerische Eidgenossenschaft",
+      "label": "Art.1 canton enumeration"
+    },
+    {
+      "type": "anchor",
+      "text": "### Art. 197",
+      "label": "last article Art.197 present"
+    }
+  ]
+}
