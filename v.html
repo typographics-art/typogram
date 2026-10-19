@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Typographics Art — verify</title>
+<meta name="description" content="Check a Typogram in your browser: recompute its identity hash and verify the issuer's Ed25519 signature. VERIFIED, UNSIGNED or TAMPERED — no upload, nothing leaves your device.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://typographics-art.org/v">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Typographics Art">
+<meta property="og:title" content="Verify a Typogram — Typographics Art">
+<meta property="og:description" content="Recompute the identity hash and verify the issuer's Ed25519 signature, in the browser. Nothing is uploaded.">
+<meta property="og:image" content="https://typographics-art.org/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+  :root { --bg:#111216; --fg:#f0eee8; --dim:#9a9a94; --line:#2a2b30; --ok:#36d07a; --no:#ff5d5d; --neutral:#c8b86a; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); font-family: 'Roboto Flex', system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  h1 { font-weight: 900; font-size: clamp(2rem, 6vw, 3rem); margin: 0 0 .3em; }
+  .lead { color: var(--dim); font-size: 1.1rem; line-height: 1.5; margin: 0 0 2em; }
+  a { color: inherit; }
+  #drop { border: 2px dashed var(--line); border-radius: 14px; padding: 40px 20px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
+  #drop.over { border-color: var(--ok); background: #14241b; }
+  #drop p { margin: .4em 0; color: var(--dim); }
+  #drop strong { color: var(--fg); }
+  .row { display: flex; gap: 8px; margin: 16px 0 0; flex-wrap: wrap; }
+  .row input[type=url] { flex: 1 1 260px; min-width: 0; background: #0c0d10; color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; }
+  button { background: #1c1d22; color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; font: inherit; cursor: pointer; }
+  button:hover { border-color: var(--fg); }
+  #result { margin: 28px 0 0; padding: 22px; border: 1px solid var(--line); border-radius: 14px; display: none; }
+  #result.show { display: block; }
+  .badge { font-weight: 900; font-size: 1.5rem; letter-spacing: .02em; }
+  .badge.VERIFIED { color: var(--ok); } .badge.TAMPERED, .badge.ERROR { color: var(--no); } .badge.UNSIGNED, .badge.NO_DATA, .badge.INFO { color: var(--neutral); }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 14px 0 0; font-size: .95rem; }
+  dt { color: var(--dim); } dd { margin: 0; word-break: break-all; font-variant-numeric: tabular-nums; }
+  .how { margin-top: 44px; color: var(--dim); font-size: .95rem; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 24px; }
+  .how code { background: #0c0d10; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; color: var(--fg); }
+  .seal { margin-top: 40px; color: var(--dim); font-size: .85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Verify a Typogram</h1>
+  <p class="lead">Drop a Typogram (an <code>.svg</code> or <code>.html</code> file) to check it here, in your browser. Nothing is uploaded — the file never leaves your device. The check recomputes the work's identity hash and verifies the issuer's Ed25519 signature.</p>
+
+  <div id="drop" tabindex="0" role="button" aria-label="Choose or drop a Typogram file">
+    <p><strong>Drop a Typogram here</strong>, or click to choose a file.</p>
+    <p>SVG or HTML. For a PDF, use <code>tg verify</code> on the command line.</p>
+  </div>
+  <div class="row">
+    <input type="url" id="url" placeholder="…or a file URL on this site, e.g. /examples/ch-bundesverfassung/onepage.svg" />
+    <button id="go">Verify URL</button>
+  </div>
+  <input type="file" id="file" accept=".svg,.html,.htm,image/svg+xml,text/html" hidden />
+
+  <section id="result" aria-live="polite">
+    <div class="badge" id="badge"></div>
+    <p id="reason"></p>
+    <dl id="detail"></dl>
+  </section>
+
+  <div class="how">
+    <p><strong>What this does.</strong> A Typogram carries, in one file, both the picture and its complete machine-readable text, plus a provenance record. This page reads the picture's text, computes its SHA-256 identity hash, and checks the hash and the issuer's Ed25519 signature against the issuer's published key (<code>/.well-known/tgart-keys.json</code>). Result: <strong>VERIFIED</strong> (from that issuer, unchanged), <strong>UNSIGNED</strong> (consistent, but not signed) or <strong>TAMPERED</strong>.</p>
+    <p>This browser check covers Typograms from <strong>this site</strong> and any browser with Ed25519 in Web Crypto. The full check — including PDFs, other issuers and the key-statement chain — is the <code>tg verify</code> command. Spec: <a href="docs/verification.md">verification.md</a> and <a href="docs/issuers.md">issuers.md</a>.</p>
+  </div>
+  <p class="seal">« TYPOGRAM » · typographics-art.org</p>
+</main>
+<script type="module" src="assets/js/verify.js"></script>
+</body>
+</html>

@@ -16,7 +16,7 @@ const copy = (from, to = from, filter) => {
   cpSync(src, join(OUT, to), { recursive: true, filter: filter ? (p) => filter(p) : undefined });
 };
 
-for (const f of ['index.html', 'app.html', 'gallery.html', 'examples.html', 'work.html', '404.html', 'favicon.svg', 'robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME', '_headers', 'passkey-check.html']) copy(f);
+for (const f of ['index.html', 'app.html', 'gallery.html', 'examples.html', 'work.html', 'v.html', '404.html', 'favicon.svg', 'robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME', '_headers', 'passkey-check.html']) copy(f);
 copy('src');
 copy('assets', 'assets', (p) => !p.endsWith('brand.html'));
 copy('gallery', 'gallery', (p) => !p.endsWith('works.config.json'));
