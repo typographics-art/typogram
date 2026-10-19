@@ -93,10 +93,14 @@ async function startChrome(chrome, downloads) {
   const profile = mkdtempSync(join(tmpdir(), 'tg-art-chrome-'));
   const flags = ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--hide-scrollbars', '--lang=en-US', 'about:blank'];
   if (process.getuid?.() === 0 || process.env.CHROME_NO_SANDBOX) flags.unshift('--no-sandbox', '--disable-dev-shm-usage');
-  const proc = spawn(chrome, flags, { stdio: 'ignore' });
+  // detached: Chrome and all its children (renderers, GPU, zygote) share one process group, so we can SIGKILL the whole tree
+  // at once. Killing only the parent leaves a renderer alive for a moment; it then re-creates the user-data-dir we just
+  // removed, leaking a profile dir. Killing the group removes them together, so the profile stays gone.
+  const proc = spawn(chrome, flags, { stdio: 'ignore', detached: true });
+  const killTree = (sig) => { try { process.kill(-proc.pid, sig); } catch { try { proc.kill(sig); } catch { /* already gone */ } } };
   let port = null;
   for (let i = 0; i < 300 && !port; i++) { await sleep(100); try { port = readFileSync(join(profile, 'DevToolsActivePort'), 'utf8').split('\n')[0]; } catch { /* not yet */ } }
-  if (!port) { proc.kill(); throw new Error('Chrome did not start'); }
+  if (!port) { killTree('SIGKILL'); rmSync(profile, { recursive: true, force: true, maxRetries: 20, retryDelay: 50 }); throw new Error('Chrome did not start'); }
   const version = await (await fetch(`http://127.0.0.1:${port}/json/version`)).json();
   const browser = await connect(version.webSocketDebuggerUrl);
   await browser.send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: downloads });
@@ -106,9 +110,16 @@ async function startChrome(chrome, downloads) {
       const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank' });
       return new Page(await connect(`ws://127.0.0.1:${port}/devtools/page/${targetId}`), targetId, browser);
     },
-    // Chrome can still be flushing its profile for a moment after it is killed, so a plain rmSync races it (ENOTEMPTY).
-    // maxRetries/retryDelay make Node retry the removal (it retries ENOTEMPTY/EBUSY) until Chrome has let the files go.
-    async close() { try { browser.close(); } catch { /* gone */ } proc.kill(); await sleep(150); rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); },
+    // We delete the profile next, so there is no reason to let Chrome flush it: a graceful SIGTERM shutdown writes MORE into
+    // the directory we are about to remove and races the rm (ENOTEMPTY). SIGKILL the browser and WAIT for it to actually exit
+    // (bounded), so nothing is writing when we remove the profile; the retry budget then covers any last child letting go.
+    async close() {
+      try { browser.close(); } catch { /* gone */ }
+      const exited = new Promise((res) => { proc.once('exit', res); proc.once('error', res); });
+      killTree('SIGKILL');
+      await Promise.race([exited, sleep(5000)]);
+      rmSync(profile, { recursive: true, force: true, maxRetries: 20, retryDelay: 50 });
+    },
   };
 }
 
@@ -151,7 +162,22 @@ class Page {
     await this.cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `window.__csp = []; document.addEventListener('securitypolicyviolation', (e) => window.__csp.push(e.violatedDirective + ' ' + e.blockedURI));` });
     return this;
   }
-  async goto(url) { const loaded = this.waitEvent('Page.loadEventFired'); await this.cdp.send('Page.navigate', { url }); await loaded; }
+  // Navigate and wait for load. Chrome cancels in-flight requests — even to localhost — when the OS network interfaces change
+  // mid-load (net::ERR_NETWORK_CHANGED); on a workstation with a VPN that fires at random and leaves the page's module scripts
+  // unloaded, so a later waitFor times out. Treat it as transient: drop those errors and reload a few times before giving up.
+  async goto(url) {
+    for (let attempt = 1; ; attempt++) {
+      const at = this.errors.length;
+      const loaded = this.waitEvent('Page.loadEventFired');
+      if (attempt === 1) await this.cdp.send('Page.navigate', { url });
+      else await this.cdp.send('Page.reload', { ignoreCache: true });
+      await loaded;
+      const transient = this.errors.slice(at).filter((e) => /net::ERR_(NETWORK_CHANGED|NETWORK_IO_SUSPENDED)/.test(e));
+      if (!transient.length || attempt >= 4) return;
+      this.errors = this.errors.filter((e) => !transient.includes(e)); // a successful reload must not fail the "no page error" assertion
+      await sleep(200);
+    }
+  }
   waitEvent(method, ms = 30000) {
     return new Promise((resolve, reject) => { const t = setTimeout(() => reject(new Error(`timeout waiting for ${method}`)), ms); this.cdp.on(method, (p) => { clearTimeout(t); resolve(p); }); });
   }
