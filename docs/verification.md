@@ -64,6 +64,16 @@ Signing adds only these fields; the picture and the exact source are untouched, 
    a key that is revoked, or expired for `created`.
 5. Verify the Ed25519 signature over the signature string with that key. Valid → `VERIFIED`; otherwise → `TAMPERED`.
 
+**Where to fetch the key, and checking revocation.** The canonical source is the issuer's domain
+(`https://<issuer>/.well-known/tgart-keys.json`). If it is unreachable — some networks sit behind an edge that
+challenges non-browser clients — fetch the verified-issuer **registry from GitHub raw**
+(`https://raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json`): it is not behind that edge, is
+always reachable, and tracks `main`, so it reflects a revocation as soon as it is published. The npm
+(`@typographics-art/keys`) and PyPI (`tgart-keys`) packages are immutable snapshots — ideal for getting a key offline or
+in a sandbox, but a revocation published after a package version will not appear until a new version, so prefer the
+domain or the GitHub-raw registry for a current revocation check. All four carry the same self-signed key statements, so
+the key's authenticity does not depend on which one you reach.
+
 ## 4. Anchors
 
 `tgart.anchors` is a list of `{ type, reference }`. Each anchor is a proof that the signed key (or the work) existed in a public,
