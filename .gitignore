@@ -17,3 +17,7 @@ test/.bundle-*/
 test/.seal-*/
 test/.fedlex-*/
 test/.law-*/
+
+# Python build artifacts
+packages/pypi-keys/dist/
+packages/pypi-keys/*.egg-info/
