@@ -82,66 +82,89 @@
     "hash": "9cb639eac0afe3dd96d3f6fd6bdbe233e032517705525253954f6a0ff96e7264"
   },
   {
-    "id": "5-how-to-choose",
-    "num": "5. How to choose",
+    "id": "5-memory-and-context",
+    "num": "5. Memory and context",
     "heading": "",
     "path": [],
-    "hash": "773eb06fe2c1ed3743021ea696ed28232f23bec5b2ffb1b8605b6a295f400c17"
+    "hash": "c11c42b124ac613a62cb139a992c8d85a3a7ccea3bd917ce6ddbc377b0f21388"
   },
   {
-    "id": "6-evaluation-is-it-working",
-    "num": "6. Evaluation: is it working?",
+    "id": "6-model-choice",
+    "num": "6. Model choice",
     "heading": "",
     "path": [],
-    "hash": "9395bc86d85b601eb082c25e7f752d95300a18da8984c0a49d716e13d8575e88"
+    "hash": "4ff5c4e8516a163f41f0b0d9901b9bfabc651b0f35a24a707a39784d327ac415"
   },
   {
-    "id": "7-optimisation-where-most-of-the-value-is",
-    "num": "7. Optimisation: where most of the value is",
+    "id": "7-how-to-choose",
+    "num": "7. How to choose",
     "heading": "",
     "path": [],
-    "hash": "b9d56b9bacfd00cad45f5d8e648cc75f36b71f45d5d53f50b17ffe575cfcdd5c"
+    "hash": "625067bfe02ec780f3c76489d0474be211ff635fb69786398981f2fe15e5d796"
   },
   {
-    "id": "8-the-agent-loop",
-    "num": "8. The agent loop",
+    "id": "by-use-case",
+    "num": "By use case",
     "heading": "",
-    "path": [],
-    "hash": "dd6d503287aa7db4167f091f13de7811d6a6623711ef1f70a02ed003f7c5d36a"
+    "path": [
+      "7. How to choose"
+    ],
+    "hash": "c437f52c1a341647e451e0a650c41b501ad5fb94c999789ff8c0ef8cdf41948f"
   },
   {
-    "id": "9-reference-architecture-a-working-system",
-    "num": "9. Reference architecture: a working system",
+    "id": "8-evaluation-is-it-working",
+    "num": "8. Evaluation: is it working?",
     "heading": "",
     "path": [],
-    "hash": "7f8d2e21bf14ecc942fe8456cec57fea5cd24ef9b3601d6da80079a40de9695b"
+    "hash": "dc7958299c2deab4efd3ebe637c40774dab1fdb3de627f06ce5705224d214e6d"
   },
   {
-    "id": "10-build-procedure",
-    "num": "10. Build procedure",
+    "id": "9-optimisation-where-most-of-the-value-is",
+    "num": "9. Optimisation: where most of the value is",
     "heading": "",
     "path": [],
-    "hash": "5608170f56f1cf9128794078c6cf516103d77447d15825f09e64270f6cfe8317"
+    "hash": "51430f6c29aba3b6aaa9af767a710620c9bcbab3ab88ff1fead9d29c34767549"
   },
   {
-    "id": "11-prompts-you-can-reuse",
-    "num": "11. Prompts you can reuse",
+    "id": "10-the-agent-loop",
+    "num": "10. The agent loop",
     "heading": "",
     "path": [],
-    "hash": "83bce47231e51f01784ce3b0ca3552c9660eb248b6b8aa0d397543fb6c6d4f9c"
+    "hash": "d5ad7e6bb91e9ad5dc7ba5492d127960223eeb7703884c49cdc3cd3d5a1dc33d"
   },
   {
-    "id": "12-guidelines-to-keep",
-    "num": "12. Guidelines to keep",
+    "id": "11-reference-architecture-a-working-system",
+    "num": "11. Reference architecture: a working system",
     "heading": "",
     "path": [],
-    "hash": "de132cd8d531997b0311dde046309e29dbb37572a87d32ce89f0ea6b4d3f9168"
+    "hash": "5dd3c3cf403be67909acc83b5bcddf5780bc9e546079f5b07c279db33e5672a7"
+  },
+  {
+    "id": "12-build-procedure",
+    "num": "12. Build procedure",
+    "heading": "",
+    "path": [],
+    "hash": "012ca4c5828b4faadacf9ea5558933a16da6ea4c8ec658b9b04a41526ad2487d"
+  },
+  {
+    "id": "13-prompts-you-can-reuse",
+    "num": "13. Prompts you can reuse",
+    "heading": "",
+    "path": [],
+    "hash": "71433d84bca2426ff5a65f215aba8e600937670e314c153d460f8c7722b7a04d"
+  },
+  {
+    "id": "14-guidelines-to-keep",
+    "num": "14. Guidelines to keep",
+    "heading": "",
+    "path": [],
+    "hash": "8b510854c9adab6d0854b9016f935686f55cc8196fba250ec41caa16f1dccefa"
   },
   {
     "id": "credits-and-provenance",
     "num": "Credits and provenance",
     "heading": "",
     "path": [],
-    "hash": "3c46930dd12aa1b299eb17b4ef94b2581ad8baf2be6419fed70d9d5270b19701"
+    "hash": "0acb9aed13fa6bf5db8c6f95041140649bb83b80b0d5ed7f5413a5c713670029"
   }
 ]

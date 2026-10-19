@@ -306,8 +306,8 @@
   {
     "id": "agentic-engineering",
     "title": "AGENTIC",
-    "subtitle": "Building multi-agent systems · a build guide for AI",
-    "document": "Agentic Engineering: Building Multi-Agent Systems (a written synthesis; framing by Kem, Glitch Cat Club)",
+    "subtitle": "How to build agents for any application · a guide for AI",
+    "document": "Agentic Engineering: Building Multi-Agent Systems (a general, by-use-case build guide; framing by Kem, Glitch Cat Club)",
     "licence": "Original written synthesis by typographics-art.org; framing credited to Kem (Glitch Cat Club). CC BY 4.0.",
     "category": "agent-library",
     "structured": true,

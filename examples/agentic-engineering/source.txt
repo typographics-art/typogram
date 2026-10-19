@@ -1,6 +1,6 @@
 # Agentic Engineering: Building Multi-Agent Systems
 
-A practical, build-ready guide to orchestrating AI agents, written for a machine to read and act on. The claim throughout: these systems are not magic. They are ordinary software built with AI components. Design them the way you design software, and add intelligence only where it earns its place.
+A practical, build-ready guide to orchestrating AI agents, written for a machine to read and act on. It is general: it names the patterns for building agents and, for each kind of application, shows which pattern to reach for, how to hold state and memory, and how to choose the model. The claim throughout: these systems are not magic. They are ordinary software built with AI components. Design them the way you design software, and add intelligence only where it earns its place.
 
 ## 1. The two questions
 
@@ -67,7 +67,25 @@ The fix is the one software has always used for parallel work, a copy each plus 
 
 Shared mutable state is where multi-agent systems break. Isolate it, claim it, merge it.
 
-## 5. How to choose
+## 5. Memory and context
+
+An agent does not remember on its own between runs; it gathers the context it needs each time. Design the memory, do not hope for it.
+
+- Durable state lives OUTSIDE the agent: a task board (NEW, PICKED UP, DONE), saved blocks, files, a database. The agent reads from it and writes to it; if the agent restarts, the state is still there.
+- Working context is gathered per turn: at the start of each run the agent fetches the task, the relevant files, and prior results, and keeps only what it needs.
+- A long shared conversation is NOT memory. Leaning on an ever-growing chat is the group-chat failure mode: cost climbs, details are lost, decisions conflict. Persist the facts that must survive; recompute or re-fetch the rest.
+- Each agent gets its own working copy of mutable state (section 4). Agents share through claimed, merged artifacts, not a shared scratchpad.
+
+## 6. Model choice
+
+The model is a replaceable part. Choose it to the task, not the task to the model.
+
+- Start with the smallest, cheapest model that passes your evaluation. Many tasks need only one call to a capable model.
+- Escalate only where it breaks: a stronger model for the one hard step, a cheaper one for the routine steps. Mixed-model pipelines are normal.
+- When quality is subjective (a design, a draft), run several models on the same task in isolation, a sandbox each, and let a human or a judge pick the best. Different models have different strengths; trying a few and choosing beats arguing about which is best.
+- Measure the choice: compare quality, tokens, and calls across models on your test jobs before you commit.
+
+## 7. How to choose
 
 One question decides the shape: do you know the steps?
 
@@ -76,7 +94,22 @@ One question decides the shape: do you know the steps?
 
 And the rule that matters most: even then, start with a workflow. Lay down the steps you do know, run it, and watch where it breaks. Replace only the broken step with an autonomous agent. You end up with a mostly-explicit pipeline and one or two intelligent joints, which is cheaper, more reliable, and easier to debug than autonomy everywhere.
 
-## 6. Evaluation: is it working?
+### By use case
+
+Match the pattern to the work:
+
+- Known, fixed pipeline (document processing, data extraction, a report with the same steps every time): a sequential workflow. Route it in code; each step is a model call or a tool.
+- Independent subtasks (summarise many files, grade many answers, enrich many records): a parallel workflow. Fan out, bring the results back.
+- Routing or triage (classify a request, send a ticket to the right handler, choose a tool): a conditional workflow. One model reads the input and picks the route.
+- Open-ended work with an unknown path (research a question, fix a bug, investigate a system): an autonomous agent loop. The agent gathers, acts, verifies, and repeats until done, bounded by a turn limit.
+- A goal that splits into sub-goals (build a feature, run a campaign): plan-based. A lead plans and hands out, then checks and retries; guard its single point of failure.
+- A chain of specialists (intake, then billing, then technical): handoff. Each agent picks who is next; guard against going in circles.
+- Several candidates to choose among (design a page, draft copy, propose options): a parallel fan-out to several models or prompts, then a human or a judge picks the best.
+- A deliverable that must be correct (a legal brief, a published report, anything cited): a worker plus a judge, a second model that reviews it; and check the judge.
+
+Most real applications combine these: a fixed pipeline with one autonomous step, or a router that dispatches to several workflows. Start from the case closest to yours, build it explicitly, and add autonomy only where it breaks.
+
+## 8. Evaluation: is it working?
 
 You cannot improve what you cannot measure. Build the evaluation before you scale the system.
 
@@ -84,14 +117,14 @@ You cannot improve what you cannot measure. Build the evaluation before you scal
 2. Grade two ways. Use code when there is a right answer: check it with code (exact match, a schema, a passing test). Use a judge when it is a judgement call: a second model reviews the output. And check the judge too, grade the grader against a few known-good and known-bad examples, or it will quietly drift.
 3. Run the simplest version alongside the complex one. In one published test, a single model call beat a team of agents on every axis: quality 9.7 against 9.3, tokens 355 against 15,343, model calls 1 against 3 or more. For a simple task, one model call often wins. Do not add agents you cannot justify with a measured gain.
 
-## 7. Optimisation: where most of the value is
+## 9. Optimisation: where most of the value is
 
 When the system works but is not good enough, optimise in this order. Most of the value is here, not in more agents.
 
 1. Instructions. The prompt and the guidelines each agent follows. Sharper instructions fix more than extra agents do.
 2. Tools. What each agent can actually do. The right tool, well described, beats a clever plan over the wrong tools.
 
-## 8. The agent loop
+## 10. The agent loop
 
 Inside a single agent is a loop. Understand it, and bound it.
 
@@ -104,9 +137,9 @@ Inside a single agent is a loop. Understand it, and bound it.
 
 A healthy loop is: gather context, take action, re-run the loop, verify the work, with a turn limit so it cannot run away.
 
-## 9. Reference architecture: a working system
+## 11. Reference architecture: a working system
 
-One concrete system that puts the patterns together. One message runs it all, and a human only at the end.
+One concrete system that puts the patterns together. It is an example of the general shape, not the only one. One message runs it all, and a human only at the end.
 
 - Intake: one message (from a phone, Slack, or a client) creates a card on a task board with three columns, NEW, PICKED UP, DONE.
 - Listener: watches the board, picks up a new card, and starts the flow. Everything after is automatic.
@@ -115,22 +148,22 @@ One concrete system that puts the patterns together. One message runs it all, an
 - Human at the end: the person picks the best of the several outputs. That is the only human step.
 - Everything is logged: a live event stream and an explicit per-step status, so you can see what each agent did and why.
 
-## 10. Build procedure
+## 12. Build procedure
 
 Do this, in order:
 
 1. Define good: write the test jobs, including the awkward cases.
-2. Start with one model call. Measure quality, tokens, and calls.
+2. Start with one call to the smallest model that could work. Measure quality, tokens, and calls.
 3. If one call is enough, ship it. It often is.
 4. If not, draw the workflow (sequential, parallel, conditional) and write the route in code.
 5. Find the one step that cannot be pre-scripted. Make only that step an autonomous agent, and pick its pattern (plan-based, handoff, or group chat) with its failure-mode guard.
-6. If agents write shared artifacts, give each its own copy (a worktree), add claims, and merge back.
-7. Add a judge for judgement-call outputs, and grade the judge.
-8. Optimise instructions first, then tools.
-9. Keep a human at the end for the pick or the approval.
-10. Treat it as software: log every step, cap every loop, handle every failure.
+6. Design the memory: keep durable state outside the agents (a board, files), and give each agent its own working copy; add claims and merges for shared artifacts.
+7. Choose the model per step: cheapest that passes; a stronger one only for the hard step; several in parallel when the output is subjective.
+8. Add a judge for judgement-call outputs, and grade the judge.
+9. Optimise instructions first, then tools.
+10. Keep a human at the end for the pick or the approval, and treat the whole thing as software: log every step, cap every loop, handle every failure.
 
-## 11. Prompts you can reuse
+## 13. Prompts you can reuse
 
 Worker agent:
 
@@ -148,11 +181,12 @@ Lead or planner (plan-based):
 
 "Break this goal into independent tasks that can be worked in parallel: {goal}. Assign each task to one worker. After each worker returns, check its result; retry a failed task up to {N} times; then assemble the final result. Report which tasks failed."
 
-## 12. Guidelines to keep
+## 14. Guidelines to keep
 
 - Start explicit; add emergence only where the workflow breaks.
 - Prefer one model call; justify every added agent with a measured win.
-- Give each agent its own copy of shared state; settle conflicts at merge.
+- Choose the model to the task: cheapest that passes, escalate only the hard step, try several when quality is subjective.
+- Keep durable state outside the agents; give each its own copy; settle conflicts at merge. A long chat is not memory.
 - Use a judge for judgement calls, and check the judge.
 - Define good with test jobs before you build.
 - Most gains come from instructions and tools, not more agents.
@@ -161,4 +195,4 @@ Lead or planner (plan-based):
 
 ## Credits and provenance
 
-The framing (the two questions; the explicit-to-emergent spectrum; the six patterns; start with a workflow and add autonomy only where it breaks; evaluate before you scale) is from Kem's "Agentic Engineering: Demystifying Orchestration" live class at the Glitch Cat Club. This page is an independent written synthesis for machine reading, set as a Typographics Art one-pager and signed by typographics-art.org. Each section carries its own hash, so you can verify a single quoted section against the sealed document; the whole page carries the issuer's Ed25519 signature.
+The framing (the two questions; the explicit-to-emergent spectrum; the six patterns; start with a workflow and add autonomy only where it breaks; try several models and let a human pick; evaluate before you scale) is from Kem's "Agentic Engineering: Demystifying Orchestration" live class at the Glitch Cat Club. This page is an independent written synthesis for machine reading, set as a Typographics Art one-pager and signed by typographics-art.org. Each section carries its own hash, so you can verify a single quoted section against the sealed document; the whole page carries the issuer's Ed25519 signature.

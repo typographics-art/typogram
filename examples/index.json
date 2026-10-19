@@ -26,7 +26,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung",
-    "rev": "66d78984ab",
+    "rev": "e93b5dc514",
     "signed": true
   },
   {
@@ -56,7 +56,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Grundgesetz",
-    "rev": "3746e46ffa",
+    "rev": "d9a17ee149",
     "signed": true
   },
   {
@@ -86,7 +86,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/us-constitution-hintermeister-1925.jpg",
     "title": "Constitution",
-    "rev": "3a728dd4bc",
+    "rev": "33fc201bea",
     "signed": true
   },
   {
@@ -116,7 +116,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AI Act",
-    "rev": "70c01caf4e",
+    "rev": "34330743ac",
     "signed": true
   },
   {
@@ -146,7 +146,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Human Rights",
-    "rev": "34367bd2b9",
+    "rev": "df33b7642b",
     "signed": true
   },
   {
@@ -931,32 +931,32 @@
   },
   {
     "id": "agentic-engineering",
-    "document": "Agentic Engineering: Building Multi-Agent Systems (a written synthesis; framing by Kem, Glitch Cat Club)",
+    "document": "Agentic Engineering: Building Multi-Agent Systems (a general, by-use-case build guide; framing by Kem, Glitch Cat Club)",
     "category": "agent-library",
     "licence": "Original written synthesis by typographics-art.org; framing credited to Kem (Glitch Cat Club). CC BY 4.0.",
     "url": null,
     "sourcePages": null,
-    "words": 1795,
-    "characters": 10287,
-    "fontSizeMm": 0.955,
+    "words": 2485,
+    "characters": 14234,
+    "fontSizeMm": 0.811,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 8493,
-      "sha256Source": "26ffe1ab406a82621722ecd46fb05b5fba26bd32f72c0b5f8bcf839977f8dd9f",
-      "sha256ReadBack": "26ffe1ab406a82621722ecd46fb05b5fba26bd32f72c0b5f8bcf839977f8dd9f"
+      "visibleCharacters": 11750,
+      "sha256Source": "08389034ba2de2d9f28c1ca0138db468531dcad29098aa5d1d67fed85c725d7e",
+      "sha256ReadBack": "08389034ba2de2d9f28c1ca0138db468531dcad29098aa5d1d67fed85c725d7e"
     },
-    "pdfBytes": 190042,
-    "sourceBytes": 10365,
+    "pdfBytes": 213595,
+    "sourceBytes": 14322,
     "motifCredit": null,
     "text": "source.txt",
-    "textSha256": "26ffe1ab406a82621722ecd46fb05b5fba26bd32f72c0b5f8bcf839977f8dd9f",
+    "textSha256": "08389034ba2de2d9f28c1ca0138db468531dcad29098aa5d1d67fed85c725d7e",
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENTIC",
-    "rev": "db8a1f8114",
+    "rev": "7d1ee58c9e",
     "signed": true
   }
 ]
