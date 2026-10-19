@@ -25,7 +25,8 @@
     "textSha256": "5751f47d6e6d04331bcc0a9b4b1b6693ac9130cc592fe014e2021032ffb80ccd",
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
-    "title": "Bundesverfassung"
+    "title": "Bundesverfassung",
+    "rev": "39b9c67de3"
   },
   {
     "id": "de-grundgesetz",
@@ -53,7 +54,8 @@
     "textSha256": "4686ef77dea9c09188e52782bf73f6afbcd673197f35141a11628db625df456c",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "Grundgesetz"
+    "title": "Grundgesetz",
+    "rev": "618377fce5"
   },
   {
     "id": "us-constitution",
@@ -81,7 +83,8 @@
     "textSha256": "4b3cd9be54a2539588b8ed6026a65394f9ff3d7db38fe7ec0ada82be01607cba",
     "textMatchesArt": true,
     "motifFile": "motifs/us-constitution-hintermeister-1925.jpg",
-    "title": "Constitution"
+    "title": "Constitution",
+    "rev": "4159d3e754"
   },
   {
     "id": "eu-ai-act",
@@ -109,7 +112,8 @@
     "textSha256": "812486282b6e1762fb55717a29169505ddedf24d3d9c8faf194ede8df482c518",
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
-    "title": "AI Act"
+    "title": "AI Act",
+    "rev": "c14f7f81c0"
   },
   {
     "id": "un-human-rights",
@@ -137,7 +141,8 @@
     "textSha256": "e93aaa99e8e07dcbe57dba7f96f53bd58ca53adb88a4cd13978c8ee438d92e95",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "Human Rights"
+    "title": "Human Rights",
+    "rev": "9c6697030c"
   },
   {
     "id": "pep-8",
@@ -165,7 +170,8 @@
     "textSha256": "1259db379a8b2859b92a63cea4c7d399d042e48e590e1f1cc713168a01257118",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "PEP 8"
+    "title": "PEP 8",
+    "rev": "0c324c2995"
   },
   {
     "id": "code-review-agent",
@@ -193,7 +199,8 @@
     "textSha256": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "AI"
+    "title": "AI",
+    "rev": "6470456f85"
   },
   {
     "id": "support-assistant",
@@ -221,7 +228,8 @@
     "textSha256": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "Support"
+    "title": "Support",
+    "rev": "614de76768"
   },
   {
     "id": "research-assistant",
@@ -249,7 +257,8 @@
     "textSha256": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "Research"
+    "title": "Research",
+    "rev": "bca2a6cb35"
   },
   {
     "id": "agents-md",
@@ -277,7 +286,8 @@
     "textSha256": "b63249cea347a2cf3e04fa1cb74bbbd5419ac580019c408676ec10b9a2df0f6a",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "AGENTS.md"
+    "title": "AGENTS.md",
+    "rev": "491e97ff0f"
   },
   {
     "id": "agent-bibliothek",
@@ -305,7 +315,8 @@
     "textSha256": "32419a48b02767c5c6deeea55cfc121bb5e1f96780a98193f46e9b1367615ccc",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "AGENT"
+    "title": "AGENT",
+    "rev": "203473e68e"
   },
   {
     "id": "agent-library-readme",
@@ -333,7 +344,8 @@
     "textSha256": "60c208a49776f9fbf2f087585331b8b60a7b95629486a5e6f045e2d29c0c7772",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "LIB"
+    "title": "LIB",
+    "rev": "b9015c612d"
   },
   {
     "id": "agent-library-wissen",
@@ -361,7 +373,8 @@
     "textSha256": "caf999df5bccc8aaa732cdc2f66ccd988a0cc6f8090faa275f942b059a1448ec",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "W"
+    "title": "W",
+    "rev": "6dba3fca50"
   },
   {
     "id": "agent-regel-quellen",
@@ -389,7 +402,8 @@
     "textSha256": "325999344a2aa8429255665cb0e3ecab48f01f7de62f4c3e27a433271c62954e",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§1"
+    "title": "§1",
+    "rev": "f57f9610ff"
   },
   {
     "id": "agent-regel-unsicherheit",
@@ -417,7 +431,8 @@
     "textSha256": "2b1198caf9771a56a1dbea5177c25bce6645b0d2c7ceb9d9046e71dd127c60df",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§2"
+    "title": "§2",
+    "rev": "df90d68d31"
   },
   {
     "id": "agent-regel-aufgaben",
@@ -445,7 +460,8 @@
     "textSha256": "4fe3873261ba49c70a0b36739ed7102b5ce508a9e9dedc311421b40f05cebfd3",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§3"
+    "title": "§3",
+    "rev": "2359c9d9d2"
   },
   {
     "id": "agent-regel-berechtigungen",
@@ -473,7 +489,8 @@
     "textSha256": "21717813aed0720f5ea0532bd009ceb0c8abb905ac68c99b4492618bb0b0d348",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§4"
+    "title": "§4",
+    "rev": "67f9010e91"
   },
   {
     "id": "agent-regel-datenschutz",
@@ -501,7 +518,8 @@
     "textSha256": "6e51c94a51d2519c0e47e42f1a0fb3c54d4ef91c8433b22df48a0f47a88863a6",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§5"
+    "title": "§5",
+    "rev": "f5d5d7216f"
   },
   {
     "id": "agent-regel-qualitaet",
@@ -529,7 +547,8 @@
     "textSha256": "fd594e4d8ddc29bd69ee9214d269f6067ae8c21ce43bd14e93bd75b2f57a68f5",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§6"
+    "title": "§6",
+    "rev": "41d2f547a9"
   },
   {
     "id": "agent-regel-ausgabe",
@@ -557,7 +576,8 @@
     "textSha256": "797aefa9e2b9f27613317edf65dc0955965c0c67064004aa833b9699500090ed",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§7"
+    "title": "§7",
+    "rev": "71c8dbf40f"
   },
   {
     "id": "agent-regel-fremdinhalte",
@@ -585,7 +605,8 @@
     "textSha256": "cac1aa291b2345b96d4ede44c99dfc86549ce3799e798aa32c2d9459a3e5f11e",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "§8"
+    "title": "§8",
+    "rev": "a9e1e46f64"
   },
   {
     "id": "agent-prompts-code",
@@ -613,7 +634,8 @@
     "textSha256": "158fca6875b57107fcc9ac5a219f3ea6b68b02bc0e4b286999364e13d164aea4",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "CODE"
+    "title": "CODE",
+    "rev": "4d1c91e783"
   },
   {
     "id": "agent-prompts-sec",
@@ -641,7 +663,8 @@
     "textSha256": "6e8f8d377b1307327e950a8d5bcdee04080172ded7bc54746fb8619ccd7011d9",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "SEC"
+    "title": "SEC",
+    "rev": "888b53e8d1"
   },
   {
     "id": "agent-prompts-recherche",
@@ -669,7 +692,8 @@
     "textSha256": "c24a2c96e67414b1ffe3c0496457c40d9ed2c12828d702210fe1e162fbde7e19",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "FAKT"
+    "title": "FAKT",
+    "rev": "c48fa3baac"
   },
   {
     "id": "agent-prompts-dokumente",
@@ -697,7 +721,8 @@
     "textSha256": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "DOKU"
+    "title": "DOKU",
+    "rev": "1049116a81"
   },
   {
     "id": "agent-prompts-daten",
@@ -725,7 +750,8 @@
     "textSha256": "202ff8d9bde4e93f3089f94da291e074c57232f1c23b479f0564ca289f3b0192",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "DATA"
+    "title": "DATA",
+    "rev": "424e75ffe8"
   },
   {
     "id": "agent-prompts-schreiben",
@@ -753,7 +779,8 @@
     "textSha256": "ef111849b89b943b7c8f7dcb5042f2a573eeac8f535b0c28ded51b1cd602afdc",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "TEXT"
+    "title": "TEXT",
+    "rev": "9755e17deb"
   },
   {
     "id": "agent-prompts-unternehmen",
@@ -781,7 +808,8 @@
     "textSha256": "7d47451bbc505b0d7b2a2656190d36ee1d2205c2f92d4fe0929e7dd043505cdb",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "BIZ"
+    "title": "BIZ",
+    "rev": "3dc57a8007"
   },
   {
     "id": "agent-prompts-projekt",
@@ -809,7 +837,8 @@
     "textSha256": "5617e6bbc9d35a50b8e8c03fc3094d8b1b133acbeaca2a32145bfa36e6bd36b8",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "PLAN"
+    "title": "PLAN",
+    "rev": "1064adeda1"
   },
   {
     "id": "agent-prompts-design",
@@ -837,7 +866,8 @@
     "textSha256": "bdbd3579031cf65af2862c12d01b7fb714835a6e68df3c78d6554af9045b4d1b",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "UX"
+    "title": "UX",
+    "rev": "8ab48b7bda"
   },
   {
     "id": "agent-prompts-betrieb",
@@ -865,6 +895,7 @@
     "textSha256": "d605486e33169f9da895c79da9c4cdda94d5fd8f8794e1184cfe3e964215df36",
     "textMatchesArt": true,
     "motifFile": null,
-    "title": "OPS"
+    "title": "OPS",
+    "rev": "acc234a518"
   }
 ]

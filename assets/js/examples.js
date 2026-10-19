@@ -20,7 +20,7 @@ function render() {
     if (!list.length) continue;
     html += `<h2>${t(cat)}</h2><div class="grid">` + list.map((x) => `
       <article class="card">
-        <a class="pic" href="work.html?example=${encodeURIComponent(x.id)}&back=examples"><img src="examples/${esc(x.id)}/thumb.jpg" alt="${esc(x.title)}" width="560" height="792" loading="lazy" decoding="async"></a>
+        <a class="pic" href="work.html?example=${encodeURIComponent(x.id)}&back=examples"><img src="examples/${esc(x.id)}/thumb.jpg${x.rev ? `?v=${esc(x.rev)}` : ''}" alt="${esc(x.title)}" width="560" height="792" loading="lazy" decoding="async"></a>
         <div class="body">
           <h3><a class="title" href="work.html?example=${encodeURIComponent(x.id)}&back=examples">${esc(x.document)}</a></h3>
           <div class="facts">${x.sourcePages ? `<span>${x.sourcePages} ${t('pages')} → 1</span>` : ''}<span>${fmt(x.words)} ${t('words')}</span><span>${fmt(x.characters)} ${t('chars')}</span><span>${t('type')} ${x.fontSizeMm} mm</span></div>
@@ -41,5 +41,7 @@ function setLang(l) {
   render();
 }
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
-items = await (await fetch('examples/index.json')).json();
+// Revalidate the catalogue (it is cached a day by `_headers`): a changed poster's new `rev` must be seen at once, not
+// after the cache expires. The ETag makes this a cheap 304 when nothing changed.
+items = await (await fetch('examples/index.json', { cache: 'no-cache' })).json();
 setLang(lang);

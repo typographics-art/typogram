@@ -7,6 +7,7 @@
 //
 // Needs Node 22+, Chrome/Chromium, curl and MuPDF (mutool); qpdf is optional and makes the PDFs smaller.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
@@ -182,11 +183,15 @@ node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png pre
 Short titles work best: the fewer characters a document has, the coarser the picture its letters can form.
 `;
 writeFileSync(join(DIR, 'README.md'), md);
+// A short content hash of the card thumbnail. The examples page appends it as `thumb.jpg?v=<rev>`, so a regenerated
+// poster gets a new URL and is seen at once \u2014 the old URL (cached up to a day by `_headers`) is never reused.
+const thumbRev = (id) => { try { return createHash('sha256').update(readFileSync(join(DIR, id, 'thumb.jpg'))).digest('hex').slice(0, 10); } catch { return null; } };
 writeFileSync(join(DIR, 'index.json'), JSON.stringify(rows.map((r) => ({
   id: r.id, document: r.document, category: r.category, licence: r.licence, url: r.url, sourcePages: r.sourcePages,
   words: r.words, characters: r.characters, fontSizeMm: r.fontSizeMm, readBack: r.check,
   pdfBytes: r.pdfBytes, sourceBytes: r.sourceBytes, motifCredit: r.motifCredit, text: r.text || null, textSha256: r.textSha256 || null, textMatchesArt: r.textMatchesArt ?? null,
   motifFile: r.motif ? (r.motif.startsWith('recipe:') ? 'motifs/eu-ai-act-network.png' : r.motif) : null,
   title: (all.find((x) => x.id === r.id) || {}).title?.replace(/\u00ad/g, ''),
+  rev: thumbRev(r.id),
 })), null, 2) + '\n');
 log(`README.md: ${rows.length} examples`);
