@@ -1,7 +1,7 @@
 # MCP server — let an AI agent check provenance
 
 [`mcp/server.mjs`](../mcp/server.mjs) is a [Model Context Protocol](https://modelcontextprotocol.io) server, so an agent
-that speaks MCP can **verify a signed [Typogram](README.md), read what it carries, and look up a verified issuer key** as
+that speaks MCP can **verify a signed [Typogram](technique.md), read what it carries, and look up a verified issuer key** as
 tool calls. It is dependency-free (a small newline-delimited JSON-RPC stdio server) and exposes only **read-only** tools.
 
 ## Tools

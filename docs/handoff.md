@@ -1,7 +1,7 @@
 # Handoff packages — hand a set of files to another person or agent
 
 A **handoff** is a set of files one person (or their agent) hands to another, as a single sealed, signed
-[Typogram](README.md). The files are packed into one archive; that archive is [sealed](sealed.md) to the recipient's
+[Typogram](technique.md). The files are packed into one archive; that archive is [sealed](sealed.md) to the recipient's
 key and signed with the sender's key. So `tg verify` proves who sent it, and `tg open` checks the signature, decrypts
 with the recipient's key, and writes the files out — after showing exactly what is inside.
 
