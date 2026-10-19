@@ -518,7 +518,9 @@ Die Mitglieder der Bundesregierung haben das Recht und auf Verlangen die Pflicht
 
 ### Art. 56
 
-Der Bundespräsident leistet bei seinem Amtsantritt vor den versammelten Mitgliedern des Bundestages und des Bundesrates folgenden Eid: "Ich schwöre, daß ich meine Kraft dem Wohle des deutschen Volkes widmen, seinen Nutzen mehren, Schaden von ihm wenden, das Grundgesetz und die Gesetze des Bundes wahren und verteidigen, meine Pflichten gewissenhaft erfüllen und Gerechtigkeit gegen jedermann üben werde. So wahr mir Gott helfe."Der Eid kann auch ohne religiöse Beteuerung geleistet werden.
+Der Bundespräsident leistet bei seinem Amtsantritt vor den versammelten Mitgliedern des Bundestages und des Bundesrates folgenden Eid: Der Eid kann auch ohne religiöse Beteuerung geleistet werden.
+
+- "Ich schwöre, daß ich meine Kraft dem Wohle des deutschen Volkes widmen, seinen Nutzen mehren, Schaden von ihm wenden, das Grundgesetz und die Gesetze des Bundes wahren und verteidigen, meine Pflichten gewissenhaft erfüllen und Gerechtigkeit gegen jedermann üben werde. So wahr mir Gott helfe."
 
 ### Art. 57
 
@@ -626,19 +628,85 @@ Im Bereiche der ausschließlichen Gesetzgebung des Bundes haben die Länder die 
 
 (2) Auf den Gebieten des Artikels 74 Abs. 1 Nr. 4, 7, 11, 13, 15, 19a, 20, 22, 25 und 26 hat der Bund das Gesetzgebungsrecht, wenn und soweit die Herstellung gleichwertiger Lebensverhältnisse im Bundesgebiet oder die Wahrung der Rechts- oder Wirtschaftseinheit im gesamtstaatlichen Interesse eine bundesgesetzliche Regelung erforderlich macht.
 
-(3) Hat der Bund von seiner Gesetzgebungszuständigkeit Gebrauch gemacht, können die Länder durch Gesetz hiervon abweichende Regelungen treffen über: 1.das Jagdwesen (ohne das Recht der Jagdscheine);2.den Naturschutz und die Landschaftspflege (ohne die allgemeinen Grundsätze des Naturschutzes, das Recht des Artenschutzes oder des Meeresnaturschutzes);3.die Bodenverteilung;4.die Raumordnung;5.den Wasserhaushalt (ohne stoff- oder anlagenbezogene Regelungen);6.die Hochschulzulassung und die Hochschulabschlüsse;7.die Grundsteuer.Bundesgesetze auf diesen Gebieten treten frühestens sechs Monate nach ihrer Verkündung in Kraft, soweit nicht mit Zustimmung des Bundesrates anderes bestimmt ist. Auf den Gebieten des Satzes 1 geht im Verhältnis von Bundes- und Landesrecht das jeweils spätere Gesetz vor.
+(3) Hat der Bund von seiner Gesetzgebungszuständigkeit Gebrauch gemacht, können die Länder durch Gesetz hiervon abweichende Regelungen treffen über: Bundesgesetze auf diesen Gebieten treten frühestens sechs Monate nach ihrer Verkündung in Kraft, soweit nicht mit Zustimmung des Bundesrates anderes bestimmt ist. Auf den Gebieten des Satzes 1 geht im Verhältnis von Bundes- und Landesrecht das jeweils spätere Gesetz vor.
+
+- 1. das Jagdwesen (ohne das Recht der Jagdscheine);
+- 2. den Naturschutz und die Landschaftspflege (ohne die allgemeinen Grundsätze des Naturschutzes, das Recht des Artenschutzes oder des Meeresnaturschutzes);
+- 3. die Bodenverteilung;
+- 4. die Raumordnung;
+- 5. den Wasserhaushalt (ohne stoff- oder anlagenbezogene Regelungen);
+- 6. die Hochschulzulassung und die Hochschulabschlüsse;
+- 7. die Grundsteuer.
 
 (4) Durch Bundesgesetz kann bestimmt werden, daß eine bundesgesetzliche Regelung, für die eine Erforderlichkeit im Sinne des Absatzes 2 nicht mehr besteht, durch Landesrecht ersetzt werden kann.
 
 ### Art. 73
 
-(1) Der Bund hat die ausschließliche Gesetzgebung über: 1.die auswärtigen Angelegenheiten sowie die Verteidigung einschließlich des Schutzes der Zivilbevölkerung;2.die Staatsangehörigkeit im Bunde;3.die Freizügigkeit, das Paßwesen, das Melde- und Ausweiswesen, die Ein- und Auswanderung und die Auslieferung;4.das Währungs-, Geld- und Münzwesen, Maße und Gewichte sowie die Zeitbestimmung;5.die Einheit des Zoll- und Handelsgebietes, die Handels- und Schiffahrtsverträge, die Freizügigkeit des Warenverkehrs und den Waren- und Zahlungsverkehr mit dem Auslande einschließlich des Zoll- und Grenzschutzes;5a.den Schutz deutschen Kulturgutes gegen Abwanderung ins Ausland;6.den Luftverkehr;6a.den Verkehr von Eisenbahnen, die ganz oder mehrheitlich im Eigentum des Bundes stehen (Eisenbahnen des Bundes), den Bau, die Unterhaltung und das Betreiben von Schienenwegen der Eisenbahnen des Bundes sowie die Erhebung von Entgelten für die Benutzung dieser Schienenwege;7.das Postwesen und die Telekommunikation;8.die Rechtsverhältnisse der im Dienste des Bundes und der bundesunmittelbaren Körperschaften des öffentlichen Rechtes stehenden Personen;9.den gewerblichen Rechtsschutz, das Urheberrecht und das Verlagsrecht;9a.die Abwehr von Gefahren des internationalen Terrorismus durch das Bundeskriminalpolizeiamt in Fällen, in denen eine länderübergreifende Gefahr vorliegt, die Zuständigkeit einer Landespolizeibehörde nicht erkennbar ist oder die oberste Landesbehörde um eine Übernahme ersucht;10.die Zusammenarbeit des Bundes und der Ländera)in der Kriminalpolizei,b)zum Schutze der freiheitlichen demokratischen Grundordnung, des Bestandes und der Sicherheit des Bundes oder eines Landes (Verfassungsschutz) undc)zum Schutze gegen Bestrebungen im Bundesgebiet, die durch Anwendung von Gewalt oder darauf gerichtete Vorbereitungshandlungen auswärtige Belange der Bundesrepublik Deutschland gefährden,sowie die Einrichtung eines Bundeskriminalpolizeiamtes und die internationale Verbrechensbekämpfung;11.die Statistik für Bundeszwecke;12.das Waffen- und das Sprengstoffrecht;13.die Versorgung der Kriegsbeschädigten und Kriegshinterbliebenen und die Fürsorge für die ehemaligen Kriegsgefangenen;14.die Erzeugung und Nutzung der Kernenergie zu friedlichen Zwecken, die Errichtung und den Betrieb von Anlagen, die diesen Zwecken dienen, den Schutz gegen Gefahren, die bei Freiwerden von Kernenergie oder durch ionisierende Strahlen entstehen, und die Beseitigung radioaktiver Stoffe.
+(1) Der Bund hat die ausschließliche Gesetzgebung über:
+
+- 1. die auswärtigen Angelegenheiten sowie die Verteidigung einschließlich des Schutzes der Zivilbevölkerung;
+- 2. die Staatsangehörigkeit im Bunde;
+- 3. die Freizügigkeit, das Paßwesen, das Melde- und Ausweiswesen, die Ein- und Auswanderung und die Auslieferung;
+- 4. das Währungs-, Geld- und Münzwesen, Maße und Gewichte sowie die Zeitbestimmung;
+- 5. die Einheit des Zoll- und Handelsgebietes, die Handels- und Schiffahrtsverträge, die Freizügigkeit des Warenverkehrs und den Waren- und Zahlungsverkehr mit dem Auslande einschließlich des Zoll- und Grenzschutzes;
+- 5a. den Schutz deutschen Kulturgutes gegen Abwanderung ins Ausland;
+- 6. den Luftverkehr;
+- 6a. den Verkehr von Eisenbahnen, die ganz oder mehrheitlich im Eigentum des Bundes stehen (Eisenbahnen des Bundes), den Bau, die Unterhaltung und das Betreiben von Schienenwegen der Eisenbahnen des Bundes sowie die Erhebung von Entgelten für die Benutzung dieser Schienenwege;
+- 7. das Postwesen und die Telekommunikation;
+- 8. die Rechtsverhältnisse der im Dienste des Bundes und der bundesunmittelbaren Körperschaften des öffentlichen Rechtes stehenden Personen;
+- 9. den gewerblichen Rechtsschutz, das Urheberrecht und das Verlagsrecht;
+- 9a. die Abwehr von Gefahren des internationalen Terrorismus durch das Bundeskriminalpolizeiamt in Fällen, in denen eine länderübergreifende Gefahr vorliegt, die Zuständigkeit einer Landespolizeibehörde nicht erkennbar ist oder die oberste Landesbehörde um eine Übernahme ersucht;
+- 10. die Zusammenarbeit des Bundes und der Länder
+  - a) in der Kriminalpolizei,
+  - b) zum Schutze der freiheitlichen demokratischen Grundordnung, des Bestandes und der Sicherheit des Bundes oder eines Landes (Verfassungsschutz) und
+  - c) zum Schutze gegen Bestrebungen im Bundesgebiet, die durch Anwendung von Gewalt oder darauf gerichtete Vorbereitungshandlungen auswärtige Belange der Bundesrepublik Deutschland gefährden,
+- sowie die Einrichtung eines Bundeskriminalpolizeiamtes und die internationale Verbrechensbekämpfung;
+
+- 11. die Statistik für Bundeszwecke;
+- 12. das Waffen- und das Sprengstoffrecht;
+- 13. die Versorgung der Kriegsbeschädigten und Kriegshinterbliebenen und die Fürsorge für die ehemaligen Kriegsgefangenen;
+- 14. die Erzeugung und Nutzung der Kernenergie zu friedlichen Zwecken, die Errichtung und den Betrieb von Anlagen, die diesen Zwecken dienen, den Schutz gegen Gefahren, die bei Freiwerden von Kernenergie oder durch ionisierende Strahlen entstehen, und die Beseitigung radioaktiver Stoffe.
 
 (2) Gesetze nach Absatz 1 Nr. 9a bedürfen der Zustimmung des Bundesrates.
 
 ### Art. 74
 
-(1) Die konkurrierende Gesetzgebung erstreckt sich auf folgende Gebiete: 1.das bürgerliche Recht, das Strafrecht, die Gerichtsverfassung, das gerichtliche Verfahren (ohne das Recht des Untersuchungshaftvollzugs), die Rechtsanwaltschaft, das Notariat und die Rechtsberatung;2.das Personenstandswesen;3.das Vereinsrecht;4.das Aufenthalts- und Niederlassungsrecht der Ausländer;5.(weggefallen)6.die Angelegenheiten der Flüchtlinge und Vertriebenen;7.die öffentliche Fürsorge (ohne das Heimrecht);8.(weggefallen)9.die Kriegsschäden und die Wiedergutmachung;10.die Kriegsgräber und Gräber anderer Opfer des Krieges und Opfer von Gewaltherrschaft;11.das Recht der Wirtschaft (Bergbau, Industrie, Energiewirtschaft, Handwerk, Gewerbe, Handel, Bank- und Börsenwesen, privatrechtliches Versicherungswesen) ohne das Recht des Ladenschlusses, der Gaststätten, der Spielhallen, der Schaustellung von Personen, der Messen, der Ausstellungen und der Märkte;12.das Arbeitsrecht einschließlich der Betriebsverfassung, des Arbeitsschutzes und der Arbeitsvermittlung sowie die Sozialversicherung einschließlich der Arbeitslosenversicherung;13.die Regelung der Ausbildungsbeihilfen und die Förderung der wissenschaftlichen Forschung;14.das Recht der Enteignung, soweit sie auf den Sachgebieten der Artikel 73 und 74 in Betracht kommt;15.die Überführung von Grund und Boden, von Naturschätzen und Produktionsmitteln in Gemeineigentum oder in andere Formen der Gemeinwirtschaft;16.die Verhütung des Mißbrauchs wirtschaftlicher Machtstellung;17.die Förderung der land- und forstwirtschaftlichen Erzeugung (ohne das Recht der Flurbereinigung), die Sicherung der Ernährung, die Ein- und Ausfuhr land- und forstwirtschaftlicher Erzeugnisse, die Hochsee- und Küstenfischerei und den Küstenschutz;18.den städtebaulichen Grundstücksverkehr, das Bodenrecht (ohne das Recht der Erschließungsbeiträge) und das Wohngeldrecht, das Altschuldenhilferecht, das Wohnungsbauprämienrecht, das Bergarbeiterwohnungsbaurecht und das Bergmannssiedlungsrecht;19.Maßnahmen gegen gemeingefährliche oder übertragbare Krankheiten bei Menschen und Tieren, Zulassung zu ärztlichen und anderen Heilberufen und zum Heilgewerbe, sowie das Recht des Apothekenwesens, der Arzneien, der Medizinprodukte, der Heilmittel, der Betäubungsmittel und der Gifte;19a.die wirtschaftliche Sicherung der Krankenhäuser und die Regelung der Krankenhauspflegesätze;20.das Recht der Lebensmittel einschließlich der ihrer Gewinnung dienenden Tiere, das Recht der Genussmittel, Bedarfsgegenstände und Futtermittel sowie den Schutz beim Verkehr mit land- und forstwirtschaftlichem Saat- und Pflanzgut, den Schutz der Pflanzen gegen Krankheiten und Schädlinge sowie den Tierschutz;21.die Hochsee- und Küstenschiffahrt sowie die Seezeichen, die Binnenschiffahrt, den Wetterdienst, die Seewasserstraßen und die dem allgemeinen Verkehr dienenden Binnenwasserstraßen;22.den Straßenverkehr, das Kraftfahrwesen, den Bau und die Unterhaltung von Landstraßen für den Fernverkehr sowie die Erhebung und Verteilung von Gebühren oder Entgelten für die Benutzung öffentlicher Straßen mit Fahrzeugen;23.die Schienenbahnen, die nicht Eisenbahnen des Bundes sind, mit Ausnahme der Bergbahnen;24.die Abfallwirtschaft, die Luftreinhaltung und die Lärmbekämpfung (ohne Schutz vor verhaltensbezogenem Lärm);25.die Staatshaftung;26.die medizinisch unterstützte Erzeugung menschlichen Lebens, die Untersuchung und die künstliche Veränderung von Erbinformationen sowie Regelungen zur Transplantation von Organen, Geweben und Zellen;27.die Statusrechte und -pflichten der Beamten der Länder, Gemeinden und anderen Körperschaften des öffentlichen Rechts sowie der Richter in den Ländern mit Ausnahme der Laufbahnen, Besoldung und Versorgung;28.das Jagdwesen;29.den Naturschutz und die Landschaftspflege;30.die Bodenverteilung;31.die Raumordnung;32.den Wasserhaushalt;33.die Hochschulzulassung und die Hochschulabschlüsse.
+(1) Die konkurrierende Gesetzgebung erstreckt sich auf folgende Gebiete:
+
+- 1. das bürgerliche Recht, das Strafrecht, die Gerichtsverfassung, das gerichtliche Verfahren (ohne das Recht des Untersuchungshaftvollzugs), die Rechtsanwaltschaft, das Notariat und die Rechtsberatung;
+- 2. das Personenstandswesen;
+- 3. das Vereinsrecht;
+- 4. das Aufenthalts- und Niederlassungsrecht der Ausländer;
+- 5. (weggefallen)
+- 6. die Angelegenheiten der Flüchtlinge und Vertriebenen;
+- 7. die öffentliche Fürsorge (ohne das Heimrecht);
+- 8. (weggefallen)
+- 9. die Kriegsschäden und die Wiedergutmachung;
+- 10. die Kriegsgräber und Gräber anderer Opfer des Krieges und Opfer von Gewaltherrschaft;
+- 11. das Recht der Wirtschaft (Bergbau, Industrie, Energiewirtschaft, Handwerk, Gewerbe, Handel, Bank- und Börsenwesen, privatrechtliches Versicherungswesen) ohne das Recht des Ladenschlusses, der Gaststätten, der Spielhallen, der Schaustellung von Personen, der Messen, der Ausstellungen und der Märkte;
+- 12. das Arbeitsrecht einschließlich der Betriebsverfassung, des Arbeitsschutzes und der Arbeitsvermittlung sowie die Sozialversicherung einschließlich der Arbeitslosenversicherung;
+- 13. die Regelung der Ausbildungsbeihilfen und die Förderung der wissenschaftlichen Forschung;
+- 14. das Recht der Enteignung, soweit sie auf den Sachgebieten der Artikel 73 und 74 in Betracht kommt;
+- 15. die Überführung von Grund und Boden, von Naturschätzen und Produktionsmitteln in Gemeineigentum oder in andere Formen der Gemeinwirtschaft;
+- 16. die Verhütung des Mißbrauchs wirtschaftlicher Machtstellung;
+- 17. die Förderung der land- und forstwirtschaftlichen Erzeugung (ohne das Recht der Flurbereinigung), die Sicherung der Ernährung, die Ein- und Ausfuhr land- und forstwirtschaftlicher Erzeugnisse, die Hochsee- und Küstenfischerei und den Küstenschutz;
+- 18. den städtebaulichen Grundstücksverkehr, das Bodenrecht (ohne das Recht der Erschließungsbeiträge) und das Wohngeldrecht, das Altschuldenhilferecht, das Wohnungsbauprämienrecht, das Bergarbeiterwohnungsbaurecht und das Bergmannssiedlungsrecht;
+- 19. Maßnahmen gegen gemeingefährliche oder übertragbare Krankheiten bei Menschen und Tieren, Zulassung zu ärztlichen und anderen Heilberufen und zum Heilgewerbe, sowie das Recht des Apothekenwesens, der Arzneien, der Medizinprodukte, der Heilmittel, der Betäubungsmittel und der Gifte;
+- 19a. die wirtschaftliche Sicherung der Krankenhäuser und die Regelung der Krankenhauspflegesätze;
+- 20. das Recht der Lebensmittel einschließlich der ihrer Gewinnung dienenden Tiere, das Recht der Genussmittel, Bedarfsgegenstände und Futtermittel sowie den Schutz beim Verkehr mit land- und forstwirtschaftlichem Saat- und Pflanzgut, den Schutz der Pflanzen gegen Krankheiten und Schädlinge sowie den Tierschutz;
+- 21. die Hochsee- und Küstenschiffahrt sowie die Seezeichen, die Binnenschiffahrt, den Wetterdienst, die Seewasserstraßen und die dem allgemeinen Verkehr dienenden Binnenwasserstraßen;
+- 22. den Straßenverkehr, das Kraftfahrwesen, den Bau und die Unterhaltung von Landstraßen für den Fernverkehr sowie die Erhebung und Verteilung von Gebühren oder Entgelten für die Benutzung öffentlicher Straßen mit Fahrzeugen;
+- 23. die Schienenbahnen, die nicht Eisenbahnen des Bundes sind, mit Ausnahme der Bergbahnen;
+- 24. die Abfallwirtschaft, die Luftreinhaltung und die Lärmbekämpfung (ohne Schutz vor verhaltensbezogenem Lärm);
+- 25. die Staatshaftung;
+- 26. die medizinisch unterstützte Erzeugung menschlichen Lebens, die Untersuchung und die künstliche Veränderung von Erbinformationen sowie Regelungen zur Transplantation von Organen, Geweben und Zellen;
+- 27. die Statusrechte und -pflichten der Beamten der Länder, Gemeinden und anderen Körperschaften des öffentlichen Rechts sowie der Richter in den Ländern mit Ausnahme der Laufbahnen, Besoldung und Versorgung;
+- 28. das Jagdwesen;
+- 29. den Naturschutz und die Landschaftspflege;
+- 30. die Bodenverteilung;
+- 31. die Raumordnung;
+- 32. den Wasserhaushalt;
+- 33. die Hochschulzulassung und die Hochschulabschlüsse.
 
 (2) Gesetze nach Absatz 1 Nr. 25 und 27 bedürfen der Zustimmung des Bundesrates.
 
@@ -828,7 +896,10 @@ Der Bund errichtet eine Währungs- und Notenbank als Bundesbank. Ihre Aufgaben u
 
 ### Art. 91a
 
-(1) Der Bund wirkt auf folgenden Gebieten bei der Erfüllung von Aufgaben der Länder mit, wenn diese Aufgaben für die Gesamtheit bedeutsam sind und die Mitwirkung des Bundes zur Verbesserung der Lebensverhältnisse erforderlich ist (Gemeinschaftsaufgaben): 1.Verbesserung der regionalen Wirtschaftsstruktur,2.Verbesserung der Agrarstruktur und des Küstenschutzes.
+(1) Der Bund wirkt auf folgenden Gebieten bei der Erfüllung von Aufgaben der Länder mit, wenn diese Aufgaben für die Gesamtheit bedeutsam sind und die Mitwirkung des Bundes zur Verbesserung der Lebensverhältnisse erforderlich ist (Gemeinschaftsaufgaben):
+
+- 1. Verbesserung der regionalen Wirtschaftsstruktur,
+- 2. Verbesserung der Agrarstruktur und des Küstenschutzes.
 
 (2) Durch Bundesgesetz mit Zustimmung des Bundesrates werden die Gemeinschaftsaufgaben sowie Einzelheiten der Koordinierung näher bestimmt.
 
@@ -886,7 +957,17 @@ Die rechtsprechende Gewalt ist den Richtern anvertraut; sie wird durch das Bunde
 
 ### Art. 94
 
-(1) Das Bundesverfassungsgericht entscheidet: 1.über die Auslegung dieses Grundgesetzes aus Anlass von Streitigkeiten über den Umfang der Rechte und Pflichten eines obersten Bundesorgans oder anderer Beteiligter, die durch dieses Grundgesetz oder in der Geschäftsordnung eines obersten Bundesorgans mit eigenen Rechten ausgestattet sind;2.bei Meinungsverschiedenheiten oder Zweifeln über die förmliche und sachliche Vereinbarkeit von Bundesrecht oder Landesrecht mit diesem Grundgesetz oder die Vereinbarkeit von Landesrecht mit sonstigem Bundesrecht auf Antrag der Bundesregierung, einer Landesregierung oder eines Viertels der Mitglieder des Bundestages;2a.bei Meinungsverschiedenheiten, ob ein Gesetz den Voraussetzungen des Artikels 72 Absatz 2 entspricht, auf Antrag des Bundesrates, einer Landesregierung oder der Volksvertretung eines Landes;3.bei Meinungsverschiedenheiten über Rechte und Pflichten des Bundes und der Länder, insbesondere bei der Ausführung von Bundesrecht durch die Länder und bei der Ausübung der Bundesaufsicht;4.in anderen öffentlich-rechtlichen Streitigkeiten zwischen dem Bund und den Ländern, zwischen verschiedenen Ländern oder innerhalb eines Landes, soweit nicht ein anderer Rechtsweg gegeben ist;4a.über Verfassungsbeschwerden, die von jedermann mit der Behauptung erhoben werden können, durch die öffentliche Gewalt in einem seiner Grundrechte oder in einem seiner in Artikel 20 Absatz 4, 33, 38, 101, 103 und 104 enthaltenen Rechte verletzt zu sein;4b.über Verfassungsbeschwerden von Gemeinden und Gemeindeverbänden wegen Verletzung des Rechts auf Selbstverwaltung nach Artikel 28 durch ein Gesetz, bei Landesgesetzen jedoch nur, soweit nicht Beschwerde beim Landesverfassungsgericht erhoben werden kann;4c.über Beschwerden von Vereinigungen gegen ihre Nichtanerkennung als Partei für die Wahl zum Bundestag;5.in den übrigen in diesem Grundgesetz vorgesehenen Fällen.
+(1) Das Bundesverfassungsgericht entscheidet:
+
+- 1. über die Auslegung dieses Grundgesetzes aus Anlass von Streitigkeiten über den Umfang der Rechte und Pflichten eines obersten Bundesorgans oder anderer Beteiligter, die durch dieses Grundgesetz oder in der Geschäftsordnung eines obersten Bundesorgans mit eigenen Rechten ausgestattet sind;
+- 2. bei Meinungsverschiedenheiten oder Zweifeln über die förmliche und sachliche Vereinbarkeit von Bundesrecht oder Landesrecht mit diesem Grundgesetz oder die Vereinbarkeit von Landesrecht mit sonstigem Bundesrecht auf Antrag der Bundesregierung, einer Landesregierung oder eines Viertels der Mitglieder des Bundestages;
+- 2a. bei Meinungsverschiedenheiten, ob ein Gesetz den Voraussetzungen des Artikels 72 Absatz 2 entspricht, auf Antrag des Bundesrates, einer Landesregierung oder der Volksvertretung eines Landes;
+- 3. bei Meinungsverschiedenheiten über Rechte und Pflichten des Bundes und der Länder, insbesondere bei der Ausführung von Bundesrecht durch die Länder und bei der Ausübung der Bundesaufsicht;
+- 4. in anderen öffentlich-rechtlichen Streitigkeiten zwischen dem Bund und den Ländern, zwischen verschiedenen Ländern oder innerhalb eines Landes, soweit nicht ein anderer Rechtsweg gegeben ist;
+- 4a. über Verfassungsbeschwerden, die von jedermann mit der Behauptung erhoben werden können, durch die öffentliche Gewalt in einem seiner Grundrechte oder in einem seiner in Artikel 20 Absatz 4, 33, 38, 101, 103 und 104 enthaltenen Rechte verletzt zu sein;
+- 4b. über Verfassungsbeschwerden von Gemeinden und Gemeindeverbänden wegen Verletzung des Rechts auf Selbstverwaltung nach Artikel 28 durch ein Gesetz, bei Landesgesetzen jedoch nur, soweit nicht Beschwerde beim Landesverfassungsgericht erhoben werden kann;
+- 4c. über Beschwerden von Vereinigungen gegen ihre Nichtanerkennung als Partei für die Wahl zum Bundestag;
+- 5. in den übrigen in diesem Grundgesetz vorgesehenen Fällen.
 
 (2) Das Bundesverfassungsgericht entscheidet außerdem auf Antrag des Bundesrates, einer Landesregierung oder der Volksvertretung eines Landes, ob im Falle des Artikels 72 Absatz 4 die Erforderlichkeit für eine bundesgesetzliche Regelung nach Artikel 72 Absatz 2 nicht mehr besteht oder Bundesrecht in den Fällen des Artikels 125a Absatz 2 Satz 1 nicht mehr erlassen werden könnte. Die Feststellung, dass die Erforderlichkeit entfallen ist oder Bundesrecht nicht mehr erlassen werden könnte, ersetzt ein Bundesgesetz nach Artikel 72 Absatz 4 oder nach Artikel 125a Absatz 2 Satz 2. Der Antrag nach Satz 1 ist nur zulässig, wenn eine Gesetzesvorlage nach Artikel 72 Absatz 4 oder nach Artikel 125a Absatz 2 Satz 2 im Bundestag abgelehnt oder über sie nicht innerhalb eines Jahres beraten und Beschluss gefasst oder wenn eine entsprechende Gesetzesvorlage im Bundesrat abgelehnt worden ist.
 
@@ -912,7 +993,13 @@ Die rechtsprechende Gewalt ist den Richtern anvertraut; sie wird durch das Bunde
 
 (4) Der Bund kann für Personen, die zu ihm in einem öffentlich-rechtlichen Dienstverhältnis stehen, Bundesgerichte zur Entscheidung in Disziplinarverfahren und Beschwerdeverfahren errichten.
 
-(5) Für Strafverfahren auf den folgenden Gebieten kann ein Bundesgesetz mit Zustimmung des Bundesrates vorsehen, dass Gerichte der Länder Gerichtsbarkeit des Bundes ausüben: 1.Völkermord;2.völkerstrafrechtliche Verbrechen gegen die Menschlichkeit;3.Kriegsverbrechen;4.andere Handlungen, die geeignet sind und in der Absicht vorgenommen werden, das friedliche Zusammenleben der Völker zu stören (Artikel 26 Abs. 1);5.Staatsschutz.
+(5) Für Strafverfahren auf den folgenden Gebieten kann ein Bundesgesetz mit Zustimmung des Bundesrates vorsehen, dass Gerichte der Länder Gerichtsbarkeit des Bundes ausüben:
+
+- 1. Völkermord;
+- 2. völkerstrafrechtliche Verbrechen gegen die Menschlichkeit;
+- 3. Kriegsverbrechen;
+- 4. andere Handlungen, die geeignet sind und in der Absicht vorgenommen werden, das friedliche Zusammenleben der Völker zu stören (Artikel 26 Abs. 1);
+- 5. Staatsschutz.
 
 ### Art. 97
 
@@ -990,7 +1077,11 @@ Die Todesstrafe ist abgeschafft.
 
 ### Art. 104b
 
-(1) Der Bund kann, soweit dieses Grundgesetz ihm Gesetzgebungsbefugnisse verleiht, den Ländern Finanzhilfen für besonders bedeutsame Investitionen der Länder und der Gemeinden (Gemeindeverbände) gewähren, die 1.zur Abwehr einer Störung des gesamtwirtschaftlichen Gleichgewichts oder2.zum Ausgleich unterschiedlicher Wirtschaftskraft im Bundesgebiet oder3.zur Förderung des wirtschaftlichen Wachstumserforderlich sind. Abweichend von Satz 1 kann der Bund im Falle von Naturkatastrophen oder außergewöhnlichen Notsituationen, die sich der Kontrolle des Staates entziehen und die staatliche Finanzlage erheblich beeinträchtigen, auch ohne Gesetzgebungsbefugnisse Finanzhilfen gewähren.
+(1) Der Bund kann, soweit dieses Grundgesetz ihm Gesetzgebungsbefugnisse verleiht, den Ländern Finanzhilfen für besonders bedeutsame Investitionen der Länder und der Gemeinden (Gemeindeverbände) gewähren, die erforderlich sind. Abweichend von Satz 1 kann der Bund im Falle von Naturkatastrophen oder außergewöhnlichen Notsituationen, die sich der Kontrolle des Staates entziehen und die staatliche Finanzlage erheblich beeinträchtigen, auch ohne Gesetzgebungsbefugnisse Finanzhilfen gewähren.
+
+- 1. zur Abwehr einer Störung des gesamtwirtschaftlichen Gleichgewichts oder
+- 2. zum Ausgleich unterschiedlicher Wirtschaftskraft im Bundesgebiet oder
+- 3. zur Förderung des wirtschaftlichen Wachstums
 
 (2) Das Nähere, insbesondere die Arten der zu fördernden Investitionen, wird durch Bundesgesetz, das der Zustimmung des Bundesrates bedarf, oder auf Grund des Bundeshaushaltsgesetzes durch Verwaltungsvereinbarung geregelt. Das Bundesgesetz oder die Verwaltungsvereinbarung kann Bestimmungen über die Ausgestaltung der jeweiligen Länderprogramme zur Verwendung der Finanzhilfen vorsehen. Die Festlegung der Kriterien für die Ausgestaltung der Länderprogramme erfolgt im Einvernehmen mit den betroffenen Ländern. Zur Gewährleistung der zweckentsprechenden Mittelverwendung kann die Bundesregierung Bericht und Vorlage der Akten verlangen und Erhebungen bei allen Behörden durchführen. Die Mittel des Bundes werden zusätzlich zu eigenen Mitteln der Länder bereitgestellt. Sie sind befristet zu gewähren und hinsichtlich ihrer Verwendung in regelmäßigen Zeitabständen zu überprüfen. Die Finanzhilfen sind im Zeitablauf mit fallenden Jahresbeträgen zu gestalten.
 
@@ -1016,11 +1107,28 @@ Der Bund kann den Ländern Finanzhilfen für gesamtstaatlich bedeutsame Investit
 
 ### Art. 106
 
-(1) Der Ertrag der Finanzmonopole und das Aufkommen der folgenden Steuern stehen dem Bund zu: 1.die Zölle,2.die Verbrauchsteuern, soweit sie nicht nach Absatz 2 den Ländern, nach Absatz 3 Bund und Ländern gemeinsam oder nach Absatz 6 den Gemeinden zustehen,3.die Straßengüterverkehrsteuer, die Kraftfahrzeugsteuer und sonstige auf motorisierte Verkehrsmittel bezogene Verkehrsteuern,4.die Kapitalverkehrsteuern, die Versicherungsteuer und die Wechselsteuer,5.die einmaligen Vermögensabgaben und die zur Durchführung des Lastenausgleichs erhobenen Ausgleichsabgaben,6.die Ergänzungsabgabe zur Einkommensteuer und zur Körperschaftsteuer,7.Abgaben im Rahmen der Europäischen Gemeinschaften.
+(1) Der Ertrag der Finanzmonopole und das Aufkommen der folgenden Steuern stehen dem Bund zu:
 
-(2) Das Aufkommen der folgenden Steuern steht den Ländern zu: 1.die Vermögensteuer,2.die Erbschaftsteuer,3.die Verkehrsteuern, soweit sie nicht nach Absatz 1 dem Bund oder nach Absatz 3 Bund und Ländern gemeinsam zustehen,4.die Biersteuer,5.die Abgabe von Spielbanken.
+- 1. die Zölle,
+- 2. die Verbrauchsteuern, soweit sie nicht nach Absatz 2 den Ländern, nach Absatz 3 Bund und Ländern gemeinsam oder nach Absatz 6 den Gemeinden zustehen,
+- 3. die Straßengüterverkehrsteuer, die Kraftfahrzeugsteuer und sonstige auf motorisierte Verkehrsmittel bezogene Verkehrsteuern,
+- 4. die Kapitalverkehrsteuern, die Versicherungsteuer und die Wechselsteuer,
+- 5. die einmaligen Vermögensabgaben und die zur Durchführung des Lastenausgleichs erhobenen Ausgleichsabgaben,
+- 6. die Ergänzungsabgabe zur Einkommensteuer und zur Körperschaftsteuer,
+- 7. Abgaben im Rahmen der Europäischen Gemeinschaften.
 
-(3) Das Aufkommen der Einkommensteuer, der Körperschaftsteuer und der Umsatzsteuer steht dem Bund und den Ländern gemeinsam zu (Gemeinschaftsteuern), soweit das Aufkommen der Einkommensteuer nicht nach Absatz 5 und das Aufkommen der Umsatzsteuer nicht nach Absatz 5a den Gemeinden zugewiesen wird. Am Aufkommen der Einkommensteuer und der Körperschaftsteuer sind der Bund und die Länder je zur Hälfte beteiligt. Die Anteile von Bund und Ländern an der Umsatzsteuer werden durch Bundesgesetz, das der Zustimmung des Bundesrates bedarf, festgesetzt. Bei der Festsetzung ist von folgenden Grundsätzen auszugehen: 1.Im Rahmen der laufenden Einnahmen haben der Bund und die Länder gleichmäßig Anspruch auf Deckung ihrer notwendigen Ausgaben. Dabei ist der Umfang der Ausgaben unter Berücksichtigung einer mehrjährigen Finanzplanung zu ermitteln.2.Die Deckungsbedürfnisse des Bundes und der Länder sind so aufeinander abzustimmen, daß ein billiger Ausgleich erzielt, eine Überbelastung der Steuerpflichtigen vermieden und die Einheitlichkeit der Lebensverhältnisse im Bundesgebiet gewahrt wird.Zusätzlich werden in die Festsetzung der Anteile von Bund und Ländern an der Umsatzsteuer Steuermindereinnahmen einbezogen, die den Ländern ab 1. Januar 1996 aus der Berücksichtigung von Kindern im Einkommensteuerrecht entstehen. Das Nähere bestimmt das Bundesgesetz nach Satz 3.
+(2) Das Aufkommen der folgenden Steuern steht den Ländern zu:
+
+- 1. die Vermögensteuer,
+- 2. die Erbschaftsteuer,
+- 3. die Verkehrsteuern, soweit sie nicht nach Absatz 1 dem Bund oder nach Absatz 3 Bund und Ländern gemeinsam zustehen,
+- 4. die Biersteuer,
+- 5. die Abgabe von Spielbanken.
+
+(3) Das Aufkommen der Einkommensteuer, der Körperschaftsteuer und der Umsatzsteuer steht dem Bund und den Ländern gemeinsam zu (Gemeinschaftsteuern), soweit das Aufkommen der Einkommensteuer nicht nach Absatz 5 und das Aufkommen der Umsatzsteuer nicht nach Absatz 5a den Gemeinden zugewiesen wird. Am Aufkommen der Einkommensteuer und der Körperschaftsteuer sind der Bund und die Länder je zur Hälfte beteiligt. Die Anteile von Bund und Ländern an der Umsatzsteuer werden durch Bundesgesetz, das der Zustimmung des Bundesrates bedarf, festgesetzt. Bei der Festsetzung ist von folgenden Grundsätzen auszugehen: Zusätzlich werden in die Festsetzung der Anteile von Bund und Ländern an der Umsatzsteuer Steuermindereinnahmen einbezogen, die den Ländern ab 1. Januar 1996 aus der Berücksichtigung von Kindern im Einkommensteuerrecht entstehen. Das Nähere bestimmt das Bundesgesetz nach Satz 3.
+
+- 1. Im Rahmen der laufenden Einnahmen haben der Bund und die Länder gleichmäßig Anspruch auf Deckung ihrer notwendigen Ausgaben. Dabei ist der Umfang der Ausgaben unter Berücksichtigung einer mehrjährigen Finanzplanung zu ermitteln.
+- 2. Die Deckungsbedürfnisse des Bundes und der Länder sind so aufeinander abzustimmen, daß ein billiger Ausgleich erzielt, eine Überbelastung der Steuerpflichtigen vermieden und die Einheitlichkeit der Lebensverhältnisse im Bundesgebiet gewahrt wird.
 
 (4) Die Anteile von Bund und Ländern an der Umsatzsteuer sind neu festzusetzen, wenn sich das Verhältnis zwischen den Einnahmen und Ausgaben des Bundes und der Länder wesentlich anders entwickelt; Steuermindereinnahmen, die nach Absatz 3 Satz 5 in die Festsetzung der Umsatzsteueranteile zusätzlich einbezogen werden, bleiben hierbei unberücksichtigt. Werden den Ländern durch Bundesgesetz zusätzliche Ausgaben auferlegt oder Einnahmen entzogen, so kann die Mehrbelastung durch Bundesgesetz, das der Zustimmung des Bundesrates bedarf, auch mit Finanzzuweisungen des Bundes ausgeglichen werden, wenn sie auf einen kurzen Zeitraum begrenzt ist. In dem Gesetz sind die Grundsätze für die Bemessung dieser Finanzzuweisungen und für ihre Verteilung auf die Länder zu bestimmen.
 
@@ -1082,7 +1190,11 @@ Den Ländern steht ab dem 1. Juli 2009 infolge der Übertragung der Kraftfahrzeu
 
 ### Art. 109a
 
-(1) Zur Vermeidung von Haushaltsnotlagen regelt ein Bundesgesetz, das der Zustimmung des Bundesrates bedarf, 1.die fortlaufende Überwachung der Haushaltswirtschaft von Bund und Ländern durch ein gemeinsames Gremium (Stabilitätsrat),2.die Voraussetzungen und das Verfahren zur Feststellung einer drohenden Haushaltsnotlage,3.die Grundsätze zur Aufstellung und Durchführung von Sanierungsprogrammen zur Vermeidung von Haushaltsnotlagen.
+(1) Zur Vermeidung von Haushaltsnotlagen regelt ein Bundesgesetz, das der Zustimmung des Bundesrates bedarf,
+
+- 1. die fortlaufende Überwachung der Haushaltswirtschaft von Bund und Ländern durch ein gemeinsames Gremium (Stabilitätsrat),
+- 2. die Voraussetzungen und das Verfahren zur Feststellung einer drohenden Haushaltsnotlage,
+- 3. die Grundsätze zur Aufstellung und Durchführung von Sanierungsprogrammen zur Vermeidung von Haushaltsnotlagen.
 
 (2) Dem Stabilitätsrat obliegt ab dem Jahr 2020 die Überwachung der Einhaltung der Vorgaben des Artikels 109 Absatz 3 durch Bund und Länder. Die Überwachung orientiert sich an den Vorgaben und Verfahren aus Rechtsakten auf Grund des Vertrages über die Arbeitsweise der Europäischen Union zur Einhaltung der Haushaltsdisziplin.
 
@@ -1100,7 +1212,11 @@ Den Ländern steht ab dem 1. Juli 2009 infolge der Übertragung der Kraftfahrzeu
 
 ### Art. 111
 
-(1) Ist bis zum Schluß eines Rechnungsjahres der Haushaltsplan für das folgende Jahr nicht durch Gesetz festgestellt, so ist bis zu seinem Inkrafttreten die Bundesregierung ermächtigt, alle Ausgaben zu leisten, die nötig sind, a)um gesetzlich bestehende Einrichtungen zu erhalten und gesetzlich beschlossene Maßnahmen durchzuführen,b)um die rechtlich begründeten Verpflichtungen des Bundes zu erfüllen,c)um Bauten, Beschaffungen und sonstige Leistungen fortzusetzen oder Beihilfen für diese Zwecke weiter zu gewähren, sofern durch den Haushaltsplan eines Vorjahres bereits Beträge bewilligt worden sind.
+(1) Ist bis zum Schluß eines Rechnungsjahres der Haushaltsplan für das folgende Jahr nicht durch Gesetz festgestellt, so ist bis zu seinem Inkrafttreten die Bundesregierung ermächtigt, alle Ausgaben zu leisten, die nötig sind,
+
+- a) um gesetzlich bestehende Einrichtungen zu erhalten und gesetzlich beschlossene Maßnahmen durchzuführen,
+- b) um die rechtlich begründeten Verpflichtungen des Bundes zu erfüllen,
+- c) um Bauten, Beschaffungen und sonstige Leistungen fortzusetzen oder Beihilfen für diese Zwecke weiter zu gewähren, sofern durch den Haushaltsplan eines Vorjahres bereits Beträge bewilligt worden sind.
 
 (2) Soweit nicht auf besonderem Gesetze beruhende Einnahmen aus Steuern, Abgaben und sonstigen Quellen oder die Betriebsmittelrücklage die Ausgaben unter Absatz 1 decken, darf die Bundesregierung die zur Aufrechterhaltung der Wirtschaftsführung erforderlichen Mittel bis zur Höhe eines Viertels der Endsumme des abgelaufenen Haushaltsplanes im Wege des Kredits flüssig machen.
 
@@ -1150,7 +1266,10 @@ Mit der Verkündung des Verteidigungsfalles geht die Befehls- und Kommandogewalt
 
 (1) Der Bund hat für den Verteidigungsfall das Recht der konkurrierenden Gesetzgebung auch auf den Sachgebieten, die zur Gesetzgebungszuständigkeit der Länder gehören. Diese Gesetze bedürfen der Zustimmung des Bundesrates.
 
-(2) Soweit es die Verhältnisse während des Verteidigungsfalles erfordern, kann durch Bundesgesetz für den Verteidigungsfall 1.bei Enteignungen abweichend von Artikel 14 Abs. 3 Satz 2 die Entschädigung vorläufig geregelt werden,2.für Freiheitsentziehungen eine von Artikel 104 Abs. 2 Satz 3 und Abs. 3 Satz 1 abweichende Frist, höchstens jedoch eine solche von vier Tagen, für den Fall festgesetzt werden, daß ein Richter nicht innerhalb der für Normalzeiten geltenden Frist tätig werden konnte.
+(2) Soweit es die Verhältnisse während des Verteidigungsfalles erfordern, kann durch Bundesgesetz für den Verteidigungsfall
+
+- 1. bei Enteignungen abweichend von Artikel 14 Abs. 3 Satz 2 die Entschädigung vorläufig geregelt werden,
+- 2. für Freiheitsentziehungen eine von Artikel 104 Abs. 2 Satz 3 und Abs. 3 Satz 1 abweichende Frist, höchstens jedoch eine solche von vier Tagen, für den Fall festgesetzt werden, daß ein Richter nicht innerhalb der für Normalzeiten geltenden Frist tätig werden konnte.
 
 (3) Soweit es zur Abwehr eines gegenwärtigen oder unmittelbar drohenden Angriffs erforderlich ist, kann für den Verteidigungsfall durch Bundesgesetz mit Zustimmung des Bundesrates die Verwaltung und das Finanzwesen des Bundes und der Länder abweichend von den Abschnitten VIII, VIIIa und X geregelt werden, wobei die Lebensfähigkeit der Länder, Gemeinden und Gemeindeverbände, insbesondere auch in finanzieller Hinsicht, zu wahren ist.
 
@@ -1172,7 +1291,10 @@ Mit der Verkündung des Verteidigungsfalles geht die Befehls- und Kommandogewalt
 
 ### Art. 115f
 
-(1) Die Bundesregierung kann im Verteidigungsfalle, soweit es die Verhältnisse erfordern, 1.den Bundesgrenzschutz im gesamten Bundesgebiete einsetzen;2.außer der Bundesverwaltung auch den Landesregierungen und, wenn sie es für dringlich erachtet, den Landesbehörden Weisungen erteilen und diese Befugnis auf von ihr zu bestimmende Mitglieder der Landesregierungen übertragen.
+(1) Die Bundesregierung kann im Verteidigungsfalle, soweit es die Verhältnisse erfordern,
+
+- 1. den Bundesgrenzschutz im gesamten Bundesgebiete einsetzen;
+- 2. außer der Bundesverwaltung auch den Landesregierungen und, wenn sie es für dringlich erachtet, den Landesbehörden Weisungen erteilen und diese Befugnis auf von ihr zu bestimmende Mitglieder der Landesregierungen übertragen.
 
 (2) Bundestag, Bundesrat und der Gemeinsame Ausschuß sind unverzüglich von den nach Absatz 1 getroffenen Maßnahmen zu unterrichten.
 
@@ -1270,7 +1392,10 @@ Recht, das Gegenstände der ausschließlichen Gesetzgebung des Bundes betrifft, 
 
 ### Art. 125
 
-Recht, das Gegenstände der konkurrierenden Gesetzgebung des Bundes betrifft, wird innerhalb seines Geltungsbereiches Bundesrecht, 1.soweit es innerhalb einer oder mehrerer Besatzungszonen einheitlich gilt,2.soweit es sich um Recht handelt, durch das nach dem 8. Mai 1945 früheres Reichsrecht abgeändert worden ist.
+Recht, das Gegenstände der konkurrierenden Gesetzgebung des Bundes betrifft, wird innerhalb seines Geltungsbereiches Bundesrecht,
+
+- 1. soweit es innerhalb einer oder mehrerer Besatzungszonen einheitlich gilt,
+- 2. soweit es sich um Recht handelt, durch das nach dem 8. Mai 1945 früheres Reichsrecht abgeändert worden ist.
 
 ### Art. 125a
 
@@ -1372,7 +1497,11 @@ Der Bund tritt in die Rechte und Pflichten der Verwaltung des Vereinigten Wirtsc
 
 ### Art. 135a
 
-(1) Durch die in Artikel 134 Abs. 4 und Artikel 135 Abs. 5 vorbehaltene Gesetzgebung des Bundes kann auch bestimmt werden, daß nicht oder nicht in voller Höhe zu erfüllen sind 1.Verbindlichkeiten des Reiches sowie Verbindlichkeiten des ehemaligen Landes Preußen und sonstiger nicht mehr bestehender Körperschaften und Anstalten des öffentlichen Rechts,2.Verbindlichkeiten des Bundes oder anderer Körperschaften und Anstalten des öffentlichen Rechts, welche mit dem Übergang von Vermögenswerten nach Artikel 89, 90, 134 und 135 im Zusammenhang stehen, und Verbindlichkeiten dieser Rechtsträger, die auf Maßnahmen der in Nummer 1 bezeichneten Rechtsträger beruhen,3.Verbindlichkeiten der Länder und Gemeinden (Gemeindeverbände), die aus Maßnahmen entstanden sind, welche diese Rechtsträger vor dem 1. August 1945 zur Durchführung von Anordnungen der Besatzungsmächte oder zur Beseitigung eines kriegsbedingten Notstandes im Rahmen dem Reich obliegender oder vom Reich übertragener Verwaltungsaufgaben getroffen haben.
+(1) Durch die in Artikel 134 Abs. 4 und Artikel 135 Abs. 5 vorbehaltene Gesetzgebung des Bundes kann auch bestimmt werden, daß nicht oder nicht in voller Höhe zu erfüllen sind
+
+- 1. Verbindlichkeiten des Reiches sowie Verbindlichkeiten des ehemaligen Landes Preußen und sonstiger nicht mehr bestehender Körperschaften und Anstalten des öffentlichen Rechts,
+- 2. Verbindlichkeiten des Bundes oder anderer Körperschaften und Anstalten des öffentlichen Rechts, welche mit dem Übergang von Vermögenswerten nach Artikel 89, 90, 134 und 135 im Zusammenhang stehen, und Verbindlichkeiten dieser Rechtsträger, die auf Maßnahmen der in Nummer 1 bezeichneten Rechtsträger beruhen,
+- 3. Verbindlichkeiten der Länder und Gemeinden (Gemeindeverbände), die aus Maßnahmen entstanden sind, welche diese Rechtsträger vor dem 1. August 1945 zur Durchführung von Anordnungen der Besatzungsmächte oder zur Beseitigung eines kriegsbedingten Notstandes im Rahmen dem Reich obliegender oder vom Reich übertragener Verwaltungsaufgaben getroffen haben.
 
 (2) Absatz 1 findet entsprechende Anwendung auf Verbindlichkeiten der Deutschen Demokratischen Republik oder ihrer Rechtsträger sowie auf Verbindlichkeiten des Bundes oder anderer Körperschaften und Anstalten des öffentlichen Rechts, die mit dem Übergang von Vermögenswerten der Deutschen Demokratischen Republik auf Bund, Länder und Gemeinden im Zusammenhang stehen, und auf Verbindlichkeiten, die auf Maßnahmen der Deutschen Demokratischen Republik oder ihrer Rechtsträger beruhen.
 
@@ -1440,7 +1569,10 @@ Ungeachtet der Vorschrift des Artikels 31 bleiben Bestimmungen der Landesverfass
 
 (1) Den Ländern stehen ab dem 1. Januar 2007 bis zum 31. Dezember 2019 für den durch die Abschaffung der Gemeinschaftsaufgaben Ausbau und Neubau von Hochschulen einschließlich Hochschulkliniken und Bildungsplanung sowie für den durch die Abschaffung der Finanzhilfen zur Verbesserung der Verkehrsverhältnisse der Gemeinden und zur sozialen Wohnraumförderung bedingten Wegfall der Finanzierungsanteile des Bundes jährlich Beträge aus dem Haushalt des Bundes zu. Bis zum 31. Dezember 2013 werden diese Beträge aus dem Durchschnitt der Finanzierungsanteile des Bundes im Referenzzeitraum 2000 bis 2008 ermittelt.
 
-(2) Die Beträge nach Absatz 1 werden auf die Länder bis zum 31. Dezember 2013 wie folgt verteilt: 1.als jährliche Festbeträge, deren Höhe sich nach dem Durchschnittsanteil eines jeden Landes im Zeitraum 2000 bis 2003 errechnet;2.jeweils zweckgebunden an den Aufgabenbereich der bisherigen Mischfinanzierungen.
+(2) Die Beträge nach Absatz 1 werden auf die Länder bis zum 31. Dezember 2013 wie folgt verteilt:
+
+- 1. als jährliche Festbeträge, deren Höhe sich nach dem Durchschnittsanteil eines jeden Landes im Zeitraum 2000 bis 2003 errechnet;
+- 2. jeweils zweckgebunden an den Aufgabenbereich der bisherigen Mischfinanzierungen.
 
 (3) Bund und Länder überprüfen bis Ende 2013, in welcher Höhe die den Ländern nach Absatz 1 zugewiesenen Finanzierungsmittel zur Aufgabenerfüllung der Länder noch angemessen und erforderlich sind. Ab dem 1. Januar 2014 entfällt die nach Absatz 2 Nr. 2 vorgesehene Zweckbindung der nach Absatz 1 zugewiesenen Finanzierungsmittel; die investive Zweckbindung des Mittelvolumens bleibt bestehen. Die Vereinbarungen aus dem Solidarpakt II bleiben unberührt.
 
@@ -1498,4 +1630,4 @@ Dieses Grundgesetz, das nach Vollendung der Einheit und Freiheit Deutschlands f�
 
 ## Anhang EV
 
-- EinigVtr v. 31.8.1990 II 889, 890 - 892, - sieht folgende Maßgaben vor: Artikel 3 Inkrafttreten des Grundgesetzes Mit dem Wirksamwerden des Beitritts tritt das Grundgesetz für die Bundesrepublik Deutschland in der im Bundesgesetzblatt Teil III, Gliederungsnummer 100-1, veröffentlichten bereinigten Fassung, zuletzt geändert durch Gesetz vom 21. Dezember 1983 (BGBl. I S. 1481), in den Ländern Brandenburg, Mecklenburg-Vorpommern, Sachsen, Sachsen-Anhalt und Thüringen sowie in dem Teil des Landes Berlin, in dem es bisher nicht galt, mit den sich aus Artikel 4 ergebenden Änderungen in Kraft, soweit in diesem Vertrag nichts anderes bestimmt ist. Artikel 4 Beitrittsbedingte Änderungen des Grundgesetzes ... (betroffen: Präambel, Art. 23, 51, 135a, 143, 146) Artikel 5 Künftige Verfassungsänderungen Die Regierungen der beiden Vertragsparteien empfehlen den gesetzgebenden Körperschaften des vereinten Deutschlands, sich innerhalb von zwei Jahren mit den im Zusammenhang mit der deutschen Einigung aufgeworfenen Fragen zur Änderung oder Ergänzung des Grundgesetzes zu befassen, insbesondere -in bezug auf das Verhältnis zwischen Bund und Ländern entsprechend dem Gemeinsamen Beschluß der Ministerpräsidenten vom 5. Juli 1990,-in bezug auf die Möglichkeit einer Neugliederung für den Raum Berlin/Brandenburg abweichend von den Vorschriften des Artikels 29 des Grundgesetzes durch Vereinbarung der beteiligten Länder,-mit den Überlegungen zur Aufnahme von Staatszielbestimmungen in das Grundgesetz sowie-mit der Frage der Anwendung des Artikels 146 des Grundgesetzes und in deren Rahmen einer Volksabstimmung. Artikel 6 Ausnahmebestimmung Artikel 131 des Grundgesetzes wird in dem in Artikel 3 genannten Gebiet vorerst nicht in Kraft gesetzt. Artikel 7 Finanzverfassung (1) Die Finanzverfassung der Bundesrepublik Deutschland wird auf das in Artikel 3 genannte Gebiet erstreckt, soweit in diesem Vertrag nichts anderes bestimmt ist.(2) Für die Verteilung des Steueraufkommens auf den Bund sowie auf die Länder und Gemeinden (Gemeindeverbände) in dem in Artikel 3 genannten Gebiet gelten die Bestimmungen des Artikels 106 des Grundgesetzes mit der Maßgabe, daß 1.bis zum 31. Dezember 1994 Absatz 3 Satz 4 und Absatz 4 keine Anwendung finden;2.bis zum 31. Dezember 1996 der Anteil der Gemeinden an dem Aufkommen der Einkommensteuer nach Artikel 106 Abs. 5 des Grundgesetzes von den Ländern an die Gemeinden nicht auf der Grundlage der Einkommensteuerleistung ihrer Einwohner, sondern nach der Einwohnerzahl der Gemeinden weitergeleitet wird;3.bis zum 31. Dezember 1994 abweichend von Artikel 106 Abs. 7 des Grundgesetzes den Gemeinden (Gemeindeverbänden) von dem Länderanteil am Gesamtaufkommen der Gemeinschaftssteuern und dem gesamten Aufkommen der Landessteuern ein jährlicher Anteil von mindestens 20 vom Hundert sowie vom Länderanteil aus den Mitteln des Fonds "Deutsche Einheit" nach Absatz 5 Nr. 1 ein jährlicher Anteil von 40 vom Hundert zufließt.(3) Artikel 107 des Grundgesetzes gilt in dem in Artikel 3 genannten Gebiet mit der Maßgabe, daß bis zum 31. Dezember 1994 zwischen den bisherigen Ländern der Bundesrepublik Deutschland und den Ländern in dem in Artikel 3 genannten Gebiet die Regelung des Absatzes 1 Satz 4 nicht angewendet wird und ein gesamtdeutscher Länderfinanzausgleich (Artikel 107 Abs. 2 des Grundgesetzes) nicht stattfindet. Der gesamtdeutsche Länderanteil an der Umsatzsteuer wird so in einen Ost- und Westanteil aufgeteilt, daß im Ergebnis der durchschnittliche Umsatzsteueranteil pro Einwohner in den Ländern Brandenburg, Mecklenburg-Vorpommern, Sachsen, Sachsen-Anhalt und Thüringen in den Jahren 199155 vom Hundert199260 vom Hundert199365 vom Hundert199470 vom Hundert des durchschnittlichen Umsatzsteueranteils pro Einwohner in den Ländern Baden-Württemberg, Bayern, Bremen, Hessen, Hamburg, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland und Schleswig-Holstein beträgt. Der Anteil des Landes Berlin wird vorab nach der Einwohnerzahl berechnet. Die Regelungen dieses Absatzes werden für 1993 in Ansehung der dann vorhandenen Gegebenheiten überprüft.(4) Das in Artikel 3 genannte Gebiet wird in die Regelungen der Artikel 91a, 91b und 104a Abs. 3 und 4 des Grundgesetzes einschließlich der hierzu ergangenen Ausführungsbestimmungen nach Maßgabe dieses Vertrags mit Wirkung vom 1. Januar 1991 einbezogen.(5) Nach Herstellung der deutschen Einheit werden die jährlichen Leistungen des Fonds "Deutsche Einheit" 1.zu 85 vom Hundert als besondere Unterstützung den Ländern Brandenburg, Mecklenburg-Vorpommern, Sachsen, Sachsen-Anhalt und Thüringen sowie dem Land Berlin zur Deckung ihres allgemeinen Finanzbedarfs gewährt und auf diese Länder im Verhältnis ihrer Einwohnerzahl ohne Berücksichtigung der Einwohnerzahl von Berlin (West) verteilt sowie2.zu 15 vom Hundert zur Erfüllung zentraler öffentlicher Aufgaben auf dem Gebiet der vorgenannten Länder verwendet.(6) Bei grundlegender Veränderung der Gegebenheiten werden die Möglichkeiten weiterer Hilfe zum angemessenen Ausgleich der Finanzkraft für die Länder in dem in Artikel 3 genannten Gebiet von Bund und Ländern gemeinsam geprüft.
+- EinigVtr v. 31.8.1990 II 889, 890 - 892, - sieht folgende Maßgaben vor: Artikel 3 Inkrafttreten des Grundgesetzes Mit dem Wirksamwerden des Beitritts tritt das Grundgesetz für die Bundesrepublik Deutschland in der im Bundesgesetzblatt Teil III, Gliederungsnummer 100-1, veröffentlichten bereinigten Fassung, zuletzt geändert durch Gesetz vom 21. Dezember 1983 (BGBl. I S. 1481), in den Ländern Brandenburg, Mecklenburg-Vorpommern, Sachsen, Sachsen-Anhalt und Thüringen sowie in dem Teil des Landes Berlin, in dem es bisher nicht galt, mit den sich aus Artikel 4 ergebenden Änderungen in Kraft, soweit in diesem Vertrag nichts anderes bestimmt ist. Artikel 4 Beitrittsbedingte Änderungen des Grundgesetzes ... (betroffen: Präambel, Art. 23, 51, 135a, 143, 146) Artikel 5 Künftige Verfassungsänderungen Die Regierungen der beiden Vertragsparteien empfehlen den gesetzgebenden Körperschaften des vereinten Deutschlands, sich innerhalb von zwei Jahren mit den im Zusammenhang mit der deutschen Einigung aufgeworfenen Fragen zur Änderung oder Ergänzung des Grundgesetzes zu befassen, insbesondere Artikel 6 Ausnahmebestimmung Artikel 131 des Grundgesetzes wird in dem in Artikel 3 genannten Gebiet vorerst nicht in Kraft gesetzt. Artikel 7 Finanzverfassung (1) Die Finanzverfassung der Bundesrepublik Deutschland wird auf das in Artikel 3 genannte Gebiet erstreckt, soweit in diesem Vertrag nichts anderes bestimmt ist.(2) Für die Verteilung des Steueraufkommens auf den Bund sowie auf die Länder und Gemeinden (Gemeindeverbände) in dem in Artikel 3 genannten Gebiet gelten die Bestimmungen des Artikels 106 des Grundgesetzes mit der Maßgabe, daß (3) Artikel 107 des Grundgesetzes gilt in dem in Artikel 3 genannten Gebiet mit der Maßgabe, daß bis zum 31. Dezember 1994 zwischen den bisherigen Ländern der Bundesrepublik Deutschland und den Ländern in dem in Artikel 3 genannten Gebiet die Regelung des Absatzes 1 Satz 4 nicht angewendet wird und ein gesamtdeutscher Länderfinanzausgleich (Artikel 107 Abs. 2 des Grundgesetzes) nicht stattfindet. Der gesamtdeutsche Länderanteil an der Umsatzsteuer wird so in einen Ost- und Westanteil aufgeteilt, daß im Ergebnis der durchschnittliche Umsatzsteueranteil pro Einwohner in den Ländern Brandenburg, Mecklenburg-Vorpommern, Sachsen, Sachsen-Anhalt und Thüringen in den Jahren 199155 vom Hundert199260 vom Hundert199365 vom Hundert199470 vom Hundert des durchschnittlichen Umsatzsteueranteils pro Einwohner in den Ländern Baden-Württemberg, Bayern, Bremen, Hessen, Hamburg, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland und Schleswig-Holstein beträgt. Der Anteil des Landes Berlin wird vorab nach der Einwohnerzahl berechnet. Die Regelungen dieses Absatzes werden für 1993 in Ansehung der dann vorhandenen Gegebenheiten überprüft.(4) Das in Artikel 3 genannte Gebiet wird in die Regelungen der Artikel 91a, 91b und 104a Abs. 3 und 4 des Grundgesetzes einschließlich der hierzu ergangenen Ausführungsbestimmungen nach Maßgabe dieses Vertrags mit Wirkung vom 1. Januar 1991 einbezogen.(5) Nach Herstellung der deutschen Einheit werden die jährlichen Leistungen des Fonds "Deutsche Einheit" (6) Bei grundlegender Veränderung der Gegebenheiten werden die Möglichkeiten weiterer Hilfe zum angemessenen Ausgleich der Finanzkraft für die Länder in dem in Artikel 3 genannten Gebiet von Bund und Ländern gemeinsam geprüft.

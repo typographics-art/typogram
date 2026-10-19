@@ -22,7 +22,10 @@ const html = readFileSync(inPath, 'utf8');
 
 const out = [`# ${title}`, ''];
 const index = [];
-let started = false, inAnnex = false, pendingChapter = false, curArticle = null, chapter = [];
+let started = false, inAnnex = false, pendingChapter = false, curArticle = null, chapter = [], pendingMark = null;
+// In the Official Journal HTML a lettered/numbered point is a two-cell row: one <p class="oj-normal"> holds just the
+// marker "(a)" / "(i)", the next holds the text. Recombine them so a point reads "(a) text" instead of an orphaned "(a)".
+const isPointMark = (t) => /^\([0-9a-z]{1,4}\)$/i.test(t) || /^\d{1,3}\.$/.test(t);
 const re = /<p[^>]*class="oj-([a-z0-9-]+)"[^>]*>([\s\S]*?)<\/p>/gi;
 let m;
 while ((m = re.exec(html))) {
@@ -35,13 +38,17 @@ while ((m = re.exec(html))) {
   } else if (cls === 'ti-section-2') {                             // chapter title (follows the CHAPTER line)
     if (pendingChapter) { out[out.length - 2] = `## ${chapter[0]} — ${text}`; chapter = [`${chapter[0]} — ${text}`]; pendingChapter = false; }
   } else if (cls === 'ti-art') {                                   // Article N
-    started = true; const n = (text.match(/(\d+)/) || [])[1];
+    started = true; pendingMark = null; const n = (text.match(/(\d+)/) || [])[1];
     curArticle = { num: text, n }; out.push(`### ${text}`, '');
     index.push({ id: `article-${n}`, num: text, heading: '', path: [...chapter] });
   } else if (cls === 'sti-art') {                                  // article heading
     if (curArticle) { out[out.length - 2] = `### ${curArticle.num} — ${text}`; if (index.length) index[index.length - 1].heading = text; }
-  } else if (cls === 'normal') {                                   // paragraph text
-    if (started && curArticle) out.push(text, '');
+  } else if (cls === 'normal') {                                   // paragraph text (or a bare point marker)
+    if (started && curArticle) {
+      if (isPointMark(text)) { if (pendingMark) out.push(pendingMark, ''); pendingMark = text; } // marker: hold for the next line
+      else if (pendingMark) { out.push(`${pendingMark} ${text}`, ''); pendingMark = null; }       // text: attach the held marker
+      else out.push(text, '');
+    }
   }
 }
 

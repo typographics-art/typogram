@@ -9,20 +9,44 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { parseXml, find, findAll, textOf } from './xml-lite.mjs';
 import { fontSafe } from '../src/font-safe.js';
 
+// Render one list item (<DD>, with its <DT> marker) by walking it in DOCUMENT ORDER: text runs become lines, a nested
+// <DL> (anywhere inside, e.g. GG Art. 73 Nr. 10 → a)/b)/c), even wrapped in an <LA>) recurses one indent deeper. This
+// keeps the intro text, the sub-list and any trailing text in order and separate, instead of flattening or dropping them.
+function renderItem(marker, dd, indent, lines) {
+  let buf = '', first = true;
+  const flush = () => { const t = buf.replace(/\s+/g, ' ').trim(); if (t) { lines.push(`${indent}- ${first && marker ? marker + ' ' : ''}${t}`.trimEnd()); first = false; } buf = ''; };
+  const walk = (n) => {
+    if (n.text != null) { buf += n.text; return; }
+    if (n.tag.toLowerCase() === 'br') { buf += ' '; return; }
+    if (n.tag === 'DL') { flush(); renderDL(n, indent + '  ', lines); return; }
+    for (const c of n.children || []) walk(c);
+  };
+  for (const c of dd.children || []) walk(c);
+  flush();
+  if (first && marker) lines.push(`${indent}- ${marker}`); // a marker whose item had no text of its own
+}
+
+// Render a <DL> enumeration (German law: <DT>1.</DT><DD><LA>…</LA></DD>) as Markdown list items.
+function renderDL(dl, indent, lines) {
+  const kids = (dl.children || []).filter((k) => k.tag === 'DT' || k.tag === 'DD');
+  for (let i = 0; i < kids.length; i++) {
+    if (kids[i].tag === 'DT') {
+      const dt = textOf(kids[i], { skip: ['DL'] });
+      const dd = kids[i + 1]?.tag === 'DD' ? kids[i + 1] : null;
+      if (dd) { renderItem(dt, dd, indent, lines); i++; } else lines.push(`${indent}- ${dt}`);
+    } else renderItem('', kids[i], indent, lines);
+  }
+}
+
 function contentMd(content) {
   const lines = [];
   for (const ch of content.children || []) {
-    if (ch.tag === 'P') { const t = textOf(ch); if (t) lines.push(t, ''); }
-    else if (ch.tag === 'DL') {
-      const kids = (ch.children || []).filter((k) => k.tag === 'DT' || k.tag === 'DD');
-      for (let i = 0; i < kids.length; i++) {
-        if (kids[i].tag === 'DT') {
-          const dt = textOf(kids[i]); const dd = kids[i + 1]?.tag === 'DD' ? textOf(kids[i + 1]) : '';
-          lines.push(`- ${[dt, dd].filter(Boolean).join(' ')}`); if (dd) i++;
-        } else { const dd = textOf(kids[i]); if (dd) lines.push(`- ${dd}`); }
-      }
-      lines.push('');
-    }
+    if (ch.tag === 'P') {
+      // The enumeration <DL> is nested INSIDE the <P>; emit the paragraph's own text, then the list as its own lines
+      // (otherwise textOf flattens "…über: 1.die…;2.die…" onto one run-on line).
+      const own = textOf(ch, { skip: ['DL'] }); if (own) lines.push(own, '');
+      for (const dl of findAll(ch, 'DL')) { renderDL(dl, '', lines); lines.push(''); }
+    } else if (ch.tag === 'DL') { renderDL(ch, '', lines); lines.push(''); }
   }
   return lines;
 }

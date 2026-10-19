@@ -35,27 +35,27 @@
     "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
     "url": "https://www.gesetze-im-internet.de/gg/",
     "sourcePages": null,
-    "words": 23879,
-    "characters": 178263,
-    "fontSizeMm": 0.87,
+    "words": 23963,
+    "characters": 176938,
+    "fontSizeMm": 0.875,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
       "exact": true,
       "visibleIdentical": true,
-      "visibleCharacters": 154385,
-      "sha256Source": "4686ef77dea9c09188e52782bf73f6afbcd673197f35141a11628db625df456c",
-      "sha256ReadBack": "4686ef77dea9c09188e52782bf73f6afbcd673197f35141a11628db625df456c"
+      "visibleCharacters": 152976,
+      "sha256Source": "ac2bf5a1687c29262c099f4f2458bfbf3b8fa6f7b77cbd8e7f1fbe04d7962265",
+      "sha256ReadBack": "ac2bf5a1687c29262c099f4f2458bfbf3b8fa6f7b77cbd8e7f1fbe04d7962265"
     },
-    "pdfBytes": 821209,
-    "sourceBytes": 181890,
+    "pdfBytes": 815122,
+    "sourceBytes": 180565,
     "motifCredit": null,
     "text": "source.txt",
-    "textSha256": "4686ef77dea9c09188e52782bf73f6afbcd673197f35141a11628db625df456c",
+    "textSha256": "ac2bf5a1687c29262c099f4f2458bfbf3b8fa6f7b77cbd8e7f1fbe04d7962265",
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Grundgesetz",
-    "rev": "618377fce5"
+    "rev": "97597c1da1"
   },
   {
     "id": "us-constitution",
@@ -106,7 +106,7 @@
       "sha256ReadBack": "812486282b6e1762fb55717a29169505ddedf24d3d9c8faf194ede8df482c518"
     },
     "pdfBytes": 1676668,
-    "sourceBytes": 296282,
+    "sourceBytes": 295815,
     "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
     "text": "source.txt",
     "textSha256": "812486282b6e1762fb55717a29169505ddedf24d3d9c8faf194ede8df482c518",
