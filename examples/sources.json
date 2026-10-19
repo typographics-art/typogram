@@ -17,12 +17,14 @@
   {
     "id": "de-grundgesetz",
     "title": "Grund­gesetz",
-    "subtitle": "Bundesrepublik Deutschland · 51 Seiten auf einer",
+    "subtitle": "Bundesrepublik Deutschland · Art. 1–146",
     "document": "Grundgesetz für die Bundesrepublik Deutschland, gesetze-im-internet.de",
-    "url": "https://www.gesetze-im-internet.de/gg/GG.pdf",
+    "url": "https://www.gesetze-im-internet.de/gg/",
     "file": "de-grundgesetz.pdf",
     "licence": "Not protected by copyright (§ 5 UrhG, German Copyright Act: official works)",
-    "category": "law"
+    "category": "law",
+    "structured": true,
+    "inLanguage": "de"
   },
   {
     "id": "us-constitution",
