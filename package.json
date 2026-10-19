@@ -11,6 +11,8 @@
   "files": [
     "src",
     "cli",
+    "mcp",
+    "keys/registry.json",
     "gallery/recipes.js",
     "assets/fonts",
     "assets/vendor/pdfjs",
@@ -51,6 +53,7 @@
     "tg-secret": "./cli/tg-secret.mjs",
     "tg-data": "./cli/tg-data.mjs",
     "tg-crypt": "./cli/tg-crypt.mjs",
-    "tg-adapter": "./cli/tg-adapter.mjs"
+    "tg-adapter": "./cli/tg-adapter.mjs",
+    "tg-mcp": "./mcp/server.mjs"
   }
 }
