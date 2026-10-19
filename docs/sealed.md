@@ -23,9 +23,10 @@ A sealed Typogram is one text in two parts, in this order:
 The data-layer record marks it: `tgart.mode = "sealed"`, `tgart.cipher = "age-v1"`, `tgart.recipients = [{issuer, kid}]`
 (public key **not** stored). The identity hash and the Phase-H signature cover the whole text — envelope and ciphertext.
 
-> **The title is in the open.** The envelope, including the title, is cleartext by design (so a person knows what they
-> are holding and whom to ask for a key). Do not put a secret in the title. `tg seal` takes the title from `--title` or
-> the document's first heading.
+> **The envelope is in the open.** The title, sender, recipients and date are cleartext by design (so a person knows
+> what they are holding and whom to ask for a key); only the document **body** is encrypted. `tg seal` never takes the
+> title from the document body — it uses `--title` if given (and prints a warning that the title is public) or a neutral
+> default (`Sealed note`). Do not put a secret in `--title`.
 
 ## Keys: an issuer has two
 
@@ -68,10 +69,24 @@ tg open letter.sealed.tg.svg --identity ~/.config/tgart/example.org.age --keys .
 `--to` may be repeated for several recipients (any one of their identities opens the work). A recipient is
 `[<issuer:kid>=]age1…`; the `issuer:kid` label is only for the envelope — the age public key after `=` is what encrypts.
 
+## What the signature proves (and what it does not)
+
+The signature authenticates **who sealed and sent** this work — the issuer who ran `tg seal` — over the whole text,
+envelope and ciphertext. The sender (`From:`), the recipients (`To:`) and the cipher are part of the **signed envelope
+text**, so they cannot be changed without breaking the signature, and re-forwarding to someone else requires re-sealing
+under the forwarder's own key (their `From:` then shows). `tg verify` reads those fields from the signed envelope, **not**
+from the `tgart` JSON record (which is not covered by the signature), and sanitises them before printing.
+
+The signature does **not**, by itself, prove who **wrote the plaintext** inside — only who sealed it. For end-to-end
+author provenance, seal a work that is **itself a signed Typogram**: after `tg open`, verify the decrypted content again
+with `tg verify`, and you have both who sent the envelope and who signed its contents.
+
 ## Guarantees and limits
 
 - **Sign-before-decrypt.** `tg open` refuses anything that is not `VERIFIED`; a tampered ciphertext changes the hash and
   fails the signature, so it is rejected before the cipher runs. (Tested: `test/seal-cli.test.js`.)
+- **The SEALED label is signed.** Whether a work is shown as `SEALED` is decided by the age payload in the signed text,
+  not by the unsigned `tgart.mode` — the label cannot be added to or stripped from a work without breaking its signature.
 - **No own crypto.** Encryption is the vendored [`age-encryption`](../vendor/age-encryption.mjs) library (X25519 +
   ChaCha20-Poly1305); the armor is standard, so the `age` / `rage` CLI can also open the payload.
 - **The payload is inline.** The whole ciphertext is set as glyphs. This is fine for letters and notes. A very large

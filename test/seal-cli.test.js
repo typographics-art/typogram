@@ -39,7 +39,8 @@ test('tg verify: the sealed fixture is SEALED VERIFIED (exit 0)', () => {
   const r = run('verify', FIXTURE, '--keys', KEYS);
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /SEALED VERIFIED/);
-  assert.match(r.stdout, /sealed \(age-v1\) to seal\.example:seal-2026-10/);
+  // recipients + cipher are read from the SIGNED envelope text (not the unsigned tgart JSON)
+  assert.match(r.stdout, /sealed \(age v1\) to seal\.example:seal-2026-10/);
 });
 
 test('tg verify: a tampered sealed payload is SEALED TAMPERED (exit 1)', () => {
@@ -71,6 +72,18 @@ test('tg open: a non-matching identity cannot open the fixture (exit 1)', async 
     const r = run('open', FIXTURE, '--identity', id, '--keys', KEYS);
     assert.equal(r.status, 1);
     assert.match(r.stderr, /could not open|no identity matched/);
+  } finally { cleanup(); }
+});
+
+test('tg verify: forged tgart.recipients do not change the shown (signed) recipients', () => {
+  // The JSON-LD record is not covered by the signature; the envelope text is. Forging tgart.recipients leaves the work
+  // VERIFIED (the hash is unchanged) but must NOT change what verify reports — that is read from the signed envelope.
+  const { svg, cleanup } = onCopy((s) => s.replace(/"recipients":\s*\[[^\]]*\]/, '"recipients":[{"issuer":"attacker.example","kid":"evil"}]'));
+  try {
+    const r = run('verify', svg, '--keys', KEYS);
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, /to seal\.example:seal-2026-10/);
+    assert.doesNotMatch(r.stdout, /attacker\.example/);
   } finally { cleanup(); }
 });
 

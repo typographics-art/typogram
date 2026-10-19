@@ -19,7 +19,7 @@ import { generateIssuerKey, signKeyStatement, verifyKeyStatement, signHash, veri
 import { buildBundle, verifyBundle } from './bundle.mjs';
 import { openSession } from './core.mjs';
 import { makeOnePage } from './onepage-core.mjs';
-import { sealText, openSealedText } from './seal.mjs';
+import { sealText, openSealedText, isSealed, parseEnvelope } from './seal.mjs';
 import { generateX25519Identity, identityToRecipient } from '../vendor/age-encryption.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -129,7 +129,9 @@ async function evaluate(file) {
   const mdHash = mdCanon != null ? await sha256Hex(mdCanon) : null;
   const storedHash = dl.jsonld && dl.jsonld.tgart ? dl.jsonld.tgart.hash : null;
   const tgart = (dl.jsonld && dl.jsonld.tgart) || {};
-  const sealed = tgart.mode === 'sealed';
+  // "sealed" is decided by the presence of an age payload in the EMBEDDED SOURCE (which the hash + signature cover),
+  // not by tgart.mode (free-form JSON, not signed): an attacker must not be able to add or strip the SEALED label.
+  const sealed = dl.markdown != null && isSealed(dl.markdown);
   const base = { file, kind, text, dl, tgart, sealed, imgHash, warnings: [] };
 
   const problems = [];
@@ -204,8 +206,12 @@ async function cmdVerify(file) {
   }
   console.log(`tg: ${seal}VERIFIED — ${file}`);
   if (r.sealed) {
-    const to = (Array.isArray(r.tgart.recipients) ? r.tgart.recipients : []).map((x) => (x.issuer && x.kid ? `${x.issuer}:${x.kid}` : x.label || '?')).join(', ') || '?';
-    console.log(`  signed by ${r.issuer} (kid ${r.kid}, ${r.created}); sealed (${r.tgart.cipher || 'age-v1'}) to ${to} — open with your key to read it (sha256 ${r.imgHash})`);
+    // Recipients and cipher come from the SIGNED envelope text (the To: / Sealed lines the hash covers), not from the
+    // unsigned tgart JSON, and are sanitised (control chars stripped, bounded) so a crafted value cannot corrupt output.
+    const clean = (s) => String(s || '').replace(/[\u0000-\u001f\u007f-\u009f]/g, ' ').trim().slice(0, 200);
+    const env = parseEnvelope(r.dl.markdown || '');
+    const to = clean(env.to) || '?', cipher = clean(env.cipher) || 'age';
+    console.log(`  signed by ${r.issuer} (kid ${r.kid}, ${r.created}); sealed (${cipher}) to ${to} — open with your key to read it (sha256 ${r.imgHash})`);
   } else {
     console.log(`  signed by ${r.issuer} (kid ${r.kid}, ${r.created}); the image layer, the embedded source and the signature all cover one text (sha256 ${r.imgHash})`);
   }
@@ -392,7 +398,10 @@ async function cmdSeal(file) {
     return { label: label || `recipient-${publicKey.slice(4, 14)}`, publicKey };
   });
   const md = readFileSync(file, 'utf8');
-  const title = opt('title') || firstHeading(md) || 'Sealed';
+  // The envelope (title, sender, recipients, date) is CLEARTEXT — only the body is encrypted. Never derive the title
+  // from the plaintext (that would leak the document's first heading); default to a neutral title and warn it is public.
+  const title = opt('title') || 'Sealed note';
+  console.error(`tg: note — the envelope is PUBLIC (title ${JSON.stringify(title)}, sender, recipients, date). Only the document body is encrypted; do not put a secret in --title.`);
   const { text, recipients: recMeta, cipher } = await sealText({ plaintext: md, title, sender: issuer, recipients });
 
   const outFile = opt('out') || file.replace(/\.(md|markdown|txt)$/i, '') + '.sealed.tg.svg';

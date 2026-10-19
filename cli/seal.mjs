@@ -34,6 +34,21 @@ export async function sealText({ plaintext, title, sender, recipients, created =
 export const isSealed = (text) => PAYLOAD_RE.test(text);
 
 /**
+ * Read the cleartext envelope fields from a sealed text. These lines are part of the hashed, signed image layer, so
+ * `tg verify` trusts THEM (not the free-form `tgart` JSON, which is not covered by the signature) when it shows who a
+ * sealed work is from, to and with which cipher. Returns `{ from, to, date, cipher }` (any may be null).
+ */
+export function parseEnvelope(text) {
+  const line = (re) => { const m = re.exec(String(text)); return m ? m[1].trim() : null; };
+  return {
+    from: line(/^From:\s*(.+)$/m),
+    to: line(/^To:\s*(.+)$/m),
+    date: line(/^Date:\s*(.+)$/m),
+    cipher: (/^Sealed\s*·?\s*(age v\d+)/im.exec(String(text)) || [])[1] || null,
+  };
+}
+
+/**
  * Decrypt a sealed text with one or more age identities ("AGE-SECRET-KEY-1…"). Returns the plaintext as a string.
  * Caller must verify the signature first — `tg open` does, and refuses to decrypt anything that is not VERIFIED.
  * (Named `openSealedText` to not clash with `src/index.js`'s `openSealed`, which opens a sealed *data* record, not a work.)
