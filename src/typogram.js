@@ -123,7 +123,7 @@ export function stripDataLayer(text) {
 }
 
 /** A schema.org DigitalDocument record for a Typogram. Unset fields are omitted. */
-export function buildJsonld({ name, author, dateCreated, inLanguage, license, description, sourceUrl, sourceFormat = 'text/markdown', charCount, hash, generator = 'typogram', hasPart } = {}) {
+export function buildJsonld({ name, author, dateCreated, inLanguage, license, description, sourceUrl, isBasedOn, version, sourceFormat = 'text/markdown', charCount, hash, generator = 'typogram', hasPart } = {}) {
   const r = { '@context': 'https://schema.org', '@type': 'DigitalDocument' };
   if (name != null) r.name = String(name);
   if (author != null) r.author = String(author);
@@ -132,6 +132,10 @@ export function buildJsonld({ name, author, dateCreated, inLanguage, license, de
   if (license != null) r.license = String(license);
   if (description != null) r.description = String(description);
   if (sourceUrl != null) r.url = String(sourceUrl);
+  // The authoritative source this reproduces + its version ("Stand"), so a reader can tell which official fassung and as-of
+  // date the signed text corresponds to (a structural gate checks the source against this version: docs/verification.md).
+  if (version != null) r.version = String(version);
+  if (isBasedOn != null) r.isBasedOn = isBasedOn;
   // An addressable directory of the document's parts (e.g. one entry per article) so a machine can locate a single
   // unit precisely from `tg extract --json`. The full text stays in the data-layer Markdown; this is an index only,
   // so it adds no bulk and does not touch tgart.hash (which is over the canonical text, not this record).

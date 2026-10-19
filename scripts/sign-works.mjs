@@ -92,7 +92,8 @@ try {
   // thumbnail) so a now-sealed poster gets a fresh `?v=` and is seen at once past the one-day `_headers` cache.
   const idxPath = join(ROOT, 'examples', 'index.json');
   const idx = JSON.parse(readFileSync(idxPath, 'utf8'));
-  for (const e of idx) { e.signed = verify(join(ROOT, 'examples', e.id, 'onepage.svg')); e.rev = rev(join(ROOT, 'examples', e.id, 'thumb.jpg')); }
+  // signed = the svg OR the pdf verifies, so PDF-only examples (no onepage.svg) keep their signed flag.
+  for (const e of idx) { e.signed = verify(join(ROOT, 'examples', e.id, 'onepage.svg')) || verify(join(ROOT, 'examples', e.id, 'onepage.pdf')); e.rev = rev(join(ROOT, 'examples', e.id, 'thumb.jpg')); }
   writeFileSync(idxPath, JSON.stringify(idx, null, 2) + '\n');
 
   const wPath = join(ROOT, 'gallery', 'works.json');

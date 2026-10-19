@@ -17,7 +17,7 @@
   "toneFidelity": 0.953,
   "dynamicRange": 0.524,
   "paperTone": "dark",
-  "layoutMs": 5652,
+  "layoutMs": 4563,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,

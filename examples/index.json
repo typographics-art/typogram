@@ -928,5 +928,35 @@
     "title": "OPS",
     "rev": "0eaaaea0ae",
     "signed": true
+  },
+  {
+    "id": "agentic-engineering",
+    "document": "Agentic Engineering: Building Multi-Agent Systems (a written synthesis; framing by Kem, Glitch Cat Club)",
+    "category": "agent-library",
+    "licence": "Original written synthesis by typographics-art.org; framing credited to Kem (Glitch Cat Club). CC BY 4.0.",
+    "url": null,
+    "sourcePages": null,
+    "words": 1795,
+    "characters": 10287,
+    "fontSizeMm": 0.955,
+    "readBack": {
+      "extractor": "mutool draw -F txt",
+      "pages": 1,
+      "exact": true,
+      "visibleIdentical": true,
+      "visibleCharacters": 8493,
+      "sha256Source": "26ffe1ab406a82621722ecd46fb05b5fba26bd32f72c0b5f8bcf839977f8dd9f",
+      "sha256ReadBack": "26ffe1ab406a82621722ecd46fb05b5fba26bd32f72c0b5f8bcf839977f8dd9f"
+    },
+    "pdfBytes": 190042,
+    "sourceBytes": 10365,
+    "motifCredit": null,
+    "text": "source.txt",
+    "textSha256": "26ffe1ab406a82621722ecd46fb05b5fba26bd32f72c0b5f8bcf839977f8dd9f",
+    "textMatchesArt": true,
+    "motifFile": null,
+    "title": "AGENTIC",
+    "rev": "db8a1f8114",
+    "signed": true
   }
 ]

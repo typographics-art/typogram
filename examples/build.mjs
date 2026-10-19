@@ -67,9 +67,12 @@ try {
     // title only where it is dark with blank space between words, which is what forms a short document's title.
     const options = { paper: 'dark', color: 'photo', legibility: 'free', unit: 'char', contrast: 1.9, brightness: 0.05,
       edges: 1.0, autoLevels: true, colorStep: 6, sizeCount: 1, ...(ex.color ? { color: ex.color } : {}), ...(ex.options || {}) };
+    // Official source + "Stand" for the signed record: the committed gate skeleton carries the authoritative version.
+    const os = existsSync(join(out, 'official-structure.json')) ? JSON.parse(readFileSync(join(out, 'official-structure.json'), 'utf8')) : null;
     const r = await makeOnePage(session, {
       text: doc.text, title: ex.title, subtitle: ex.subtitle, paper: ex.paper || 'a4', motif, options, source, hasPart,
-      meta: source ? { title: ex.document, inLanguage: ex.inLanguage || null, license: ex.licence, sourceUrl: ex.url || null } : undefined,
+      meta: source ? { title: ex.document, inLanguage: ex.inLanguage || null, license: ex.licence, sourceUrl: ex.url || null,
+        ...(os ? { isBasedOn: { '@type': 'Legislation', name: os.official, ...(os.officialUrl ? { url: os.officialUrl } : {}) }, sourceVersion: os.asOf } : {}) } : undefined,
       svg: ex.structured ? join(out, 'onepage.svg') : undefined,
       pdf: join(out, 'onepage.pdf'), preview: join(out, 'preview.jpg'), previewWidth: 1240,
     });

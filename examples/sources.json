@@ -302,5 +302,15 @@
     "local": "agent-library/prompts/agentenbetrieb.md",
     "licence": "Written for this repository (MIT)",
     "category": "agent-library"
+  },
+  {
+    "id": "agentic-engineering",
+    "title": "AGENTIC",
+    "subtitle": "Building multi-agent systems · a build guide for AI",
+    "document": "Agentic Engineering: Building Multi-Agent Systems (a written synthesis; framing by Kem, Glitch Cat Club)",
+    "licence": "Original written synthesis by typographics-art.org; framing credited to Kem (Glitch Cat Club). CC BY 4.0.",
+    "category": "agent-library",
+    "structured": true,
+    "inLanguage": "en"
   }
 ]

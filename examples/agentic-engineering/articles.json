@@ -1,0 +1,147 @@
+[
+  {
+    "id": "1-the-two-questions",
+    "num": "1. The two questions",
+    "heading": "",
+    "path": [],
+    "hash": "c6a859091a2f04e19d16955873dac1cd5b8a2ad6a5350ab6f56e1f33acf50de2"
+  },
+  {
+    "id": "2-workflow-patterns-explicit-control-routed-in-c",
+    "num": "2. Workflow patterns: explicit control, routed in code",
+    "heading": "",
+    "path": [],
+    "hash": "32698c669fbb39d00c40e3fe8adb16fbb08c7987b3884a45b77eaf70daccb6d4"
+  },
+  {
+    "id": "sequential",
+    "num": "Sequential",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "ecb6426220af5da44b95ce76fcd6cf4277aa2c9a51e027371c888532da10865e"
+  },
+  {
+    "id": "parallel",
+    "num": "Parallel",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "85b28422c83d7486bba8f286153ff25db39c05bd81943c9150bd18b1f03db936"
+  },
+  {
+    "id": "conditional",
+    "num": "Conditional",
+    "heading": "",
+    "path": [
+      "2. Workflow patterns: explicit control, routed in code"
+    ],
+    "hash": "c27e7fcd59b3b79eea26dbcbe4af146c4950e0fead046f2c0516a558ba03d9eb"
+  },
+  {
+    "id": "3-autonomous-patterns-emergent-control-routed-by",
+    "num": "3. Autonomous patterns: emergent control, routed by the model",
+    "heading": "",
+    "path": [],
+    "hash": "082be4d984c8c2413e08d263804a222d0a1271d723e2befc51543031ef01bcf2"
+  },
+  {
+    "id": "plan-based",
+    "num": "Plan-based",
+    "heading": "",
+    "path": [
+      "3. Autonomous patterns: emergent control, routed by the model"
+    ],
+    "hash": "4b411a5a1f04acfcecac8a388d9c06ea2273a8ce0d188da00d5d1b6d489936d8"
+  },
+  {
+    "id": "handoff",
+    "num": "Handoff",
+    "heading": "",
+    "path": [
+      "3. Autonomous patterns: emergent control, routed by the model"
+    ],
+    "hash": "082ae4bdb6f6aa52d34ae0887c2e5521e97ce7538e192a00127b964420ae3f83"
+  },
+  {
+    "id": "group-chat",
+    "num": "Group chat",
+    "heading": "",
+    "path": [
+      "3. Autonomous patterns: emergent control, routed by the model"
+    ],
+    "hash": "78191216de6c2d8be760a1e66d6f4a49e2548642ad2be0e0f06b2bbc1e9fa6f5"
+  },
+  {
+    "id": "4-state-give-each-agent-its-own-copy",
+    "num": "4. State: give each agent its own copy",
+    "heading": "",
+    "path": [],
+    "hash": "9cb639eac0afe3dd96d3f6fd6bdbe233e032517705525253954f6a0ff96e7264"
+  },
+  {
+    "id": "5-how-to-choose",
+    "num": "5. How to choose",
+    "heading": "",
+    "path": [],
+    "hash": "773eb06fe2c1ed3743021ea696ed28232f23bec5b2ffb1b8605b6a295f400c17"
+  },
+  {
+    "id": "6-evaluation-is-it-working",
+    "num": "6. Evaluation: is it working?",
+    "heading": "",
+    "path": [],
+    "hash": "9395bc86d85b601eb082c25e7f752d95300a18da8984c0a49d716e13d8575e88"
+  },
+  {
+    "id": "7-optimisation-where-most-of-the-value-is",
+    "num": "7. Optimisation: where most of the value is",
+    "heading": "",
+    "path": [],
+    "hash": "b9d56b9bacfd00cad45f5d8e648cc75f36b71f45d5d53f50b17ffe575cfcdd5c"
+  },
+  {
+    "id": "8-the-agent-loop",
+    "num": "8. The agent loop",
+    "heading": "",
+    "path": [],
+    "hash": "dd6d503287aa7db4167f091f13de7811d6a6623711ef1f70a02ed003f7c5d36a"
+  },
+  {
+    "id": "9-reference-architecture-a-working-system",
+    "num": "9. Reference architecture: a working system",
+    "heading": "",
+    "path": [],
+    "hash": "7f8d2e21bf14ecc942fe8456cec57fea5cd24ef9b3601d6da80079a40de9695b"
+  },
+  {
+    "id": "10-build-procedure",
+    "num": "10. Build procedure",
+    "heading": "",
+    "path": [],
+    "hash": "5608170f56f1cf9128794078c6cf516103d77447d15825f09e64270f6cfe8317"
+  },
+  {
+    "id": "11-prompts-you-can-reuse",
+    "num": "11. Prompts you can reuse",
+    "heading": "",
+    "path": [],
+    "hash": "83bce47231e51f01784ce3b0ca3552c9660eb248b6b8aa0d397543fb6c6d4f9c"
+  },
+  {
+    "id": "12-guidelines-to-keep",
+    "num": "12. Guidelines to keep",
+    "heading": "",
+    "path": [],
+    "hash": "de132cd8d531997b0311dde046309e29dbb37572a87d32ce89f0ea6b4d3f9168"
+  },
+  {
+    "id": "credits-and-provenance",
+    "num": "Credits and provenance",
+    "heading": "",
+    "path": [],
+    "hash": "3c46930dd12aa1b299eb17b4ef94b2581ad8baf2be6419fed70d9d5270b19701"
+  }
+]
