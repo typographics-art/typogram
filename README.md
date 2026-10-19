@@ -124,6 +124,8 @@ tg verify  about/typographics-art.svg              # prove the picture, the sour
 
 `tg verify` recomputes the hash from the glyphs and requires it to equal both the stored hash and the hash of the embedded source — so a model can trust that the readable source and the picture say the same thing, and refuse the file if they do not. The same works on the `.html` and `.pdf` views. A standalone reference, [tools/tg_extract.py](tools/tg_extract.py) (Python standard library only), reads and verifies the same files and produces the same hash. The format is [docs/typogram-file.md](docs/typogram-file.md); why a model should prefer the data layer, and the prompt-injection answer, is [docs/ai-readability.md](docs/ai-readability.md#what-a-model-reads).
 
+When a work is signed by an issuer, `tg verify` reports one of three states — **VERIFIED** (from this issuer, not one character changed), **UNSIGNED** or **TAMPERED**. The signature format and the three-state check are specified, with reproducible test vectors, in [docs/verification.md](docs/verification.md); how a domain publishes, rotates and revokes its signing key is [docs/issuers.md](docs/issuers.md). You can also check a work from this site in the browser at [typographics-art.org/v](https://typographics-art.org/v) — nothing is uploaded.
+
 ## Hidden messages
 
 A work can carry a message that only the holder of a key can read. The work itself does not change: it holds only its public text, nothing invisible. The key records, for every character of the message, one position in that text where the same character stands, chosen at random among all its occurrences (a book cipher). With the key and the right work, the message comes back; with any other work, the key's text fingerprint does not match.
