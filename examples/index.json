@@ -26,7 +26,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung",
-    "rev": "2182f50562",
+    "rev": "529402c822",
     "signed": true
   },
   {
@@ -56,7 +56,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Grundgesetz",
-    "rev": "97597c1da1",
+    "rev": "83ad76f6ef",
     "signed": true
   },
   {
@@ -86,7 +86,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/us-constitution-hintermeister-1925.jpg",
     "title": "Constitution",
-    "rev": "4159d3e754",
+    "rev": "23248b66ab",
     "signed": true
   },
   {
@@ -116,7 +116,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AI Act",
-    "rev": "c14f7f81c0",
+    "rev": "7b2276dc6d",
     "signed": true
   },
   {
@@ -146,7 +146,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Human Rights",
-    "rev": "9c6697030c",
+    "rev": "2c47214273",
     "signed": true
   },
   {

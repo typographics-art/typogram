@@ -2,7 +2,7 @@
 // artifacts. Uses Web Crypto (crypto.subtle), exactly as the page does; the issuer key file is injected, so no network.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { verifyTypogram } from '../src/verify-web.js';
@@ -19,10 +19,11 @@ test('VERIFIED: the signed about artifact checks out against the published key',
   assert.match(r.hash, /^[0-9a-f]{64}$/);
 });
 
-test('UNSIGNED: a consistent but unsigned example is UNSIGNED, not TAMPERED', async () => {
-  const p = 'examples/ch-bundesverfassung/onepage.svg';
-  if (!existsSync(join(ROOT, p))) return; // regenerated artifact; skip if not built
-  const r = await verifyTypogram(read(p), { fetchKeyfile });
+test('UNSIGNED: a consistent work with its signature removed is UNSIGNED, not TAMPERED', async () => {
+  // Every committed work is signed, so strip just the signature to exercise the UNSIGNED path: the data layer and the
+  // stored hash stay intact (consistent with the text), only the issuer signature is gone.
+  const unsigned = read('about/typographics-art.svg').replace(/"signature":"[^"]*",/, '');
+  const r = await verifyTypogram(unsigned, { fetchKeyfile });
   assert.equal(r.state, 'UNSIGNED', r.reason || '');
 });
 

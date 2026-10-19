@@ -20,7 +20,7 @@ function render() {
   document.getElementById('grid').innerHTML = works.map((w) => `
     <article class="card">
       <div class="pic">
-        <a class="preview${w.signed && !orig(w) ? ' signed' : ''}"${w.signed && !orig(w) ? ` title="${t('signedBy')}"` : ''} href="${orig(w) ? esc(w.original) : `work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery`}"><img src="gallery/thumbs/${esc(w.id)}${orig(w) ? '-original' : ''}.jpg" decoding="async" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy">${w.signed && !orig(w) ? `<span class="sr">${t('signedBy')}</span>` : ''}</a>
+        <a class="preview${w.signed && !orig(w) ? ' signed' : ''}"${w.signed && !orig(w) ? ` title="${t('signedBy')}"` : ''} href="${orig(w) ? esc(w.original) : `work.html?art=${encodeURIComponent(w.svg)}&title=${encodeURIComponent(w.title)}&back=gallery`}"><img src="gallery/thumbs/${esc(w.id)}${orig(w) ? '-original' : ''}.jpg${!orig(w) && w.rev ? `?v=${esc(w.rev)}` : ''}" decoding="async" alt="${esc(orig(w) ? t('original') : t('preview'))}: ${esc(w.title)}" loading="lazy">${w.signed && !orig(w) ? `<span class="sr">${t('signedBy')}</span>` : ''}</a>
         <button type="button" class="flip" data-id="${esc(w.id)}" aria-pressed="${orig(w)}">${orig(w) ? 'Typographics' : t('original')}</button>
       </div>
       <div class="body">

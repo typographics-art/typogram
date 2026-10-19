@@ -10,13 +10,16 @@ import { generateIssuerKey, signKeyStatement } from '../src/sign.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TG = join(HERE, '..', 'cli', 'tg.mjs');
-const SUBJECT = join(HERE, '..', 'gallery', 'blue-marble.svg'); // a real, consistent Typogram (unsigned)
+const SUBJECT = join(HERE, '..', 'gallery', 'blue-marble.svg'); // a real, consistent Typogram (signed in the repo)
 const run = (...a) => spawnSync(process.execPath, [TG, ...a], { encoding: 'utf8' });
 
 test('tg sign/verify: unsigned → 2, signed → VERIFIED 0, no key / bad signature / wrong key → TAMPERED 1', () => {
   const dir = mkdtempSync(join(tmpdir(), 'tg-sv-'));
   try {
-    assert.equal(run('verify', SUBJECT).status, 2, 'an unsigned Typogram is UNSIGNED (exit 2)');
+    // SUBJECT is committed signed; strip just the signature for a consistent UNSIGNED work (hash still matches).
+    const unsigned = join(dir, 'unsigned.svg');
+    writeFileSync(unsigned, readFileSync(SUBJECT, 'utf8').replace(/"signature":"[^"]*",/, ''));
+    assert.equal(run('verify', unsigned).status, 2, 'an unsigned Typogram is UNSIGNED (exit 2)');
 
     assert.equal(run('keygen', '--issuer', 'test.example', '--kid', 'k1', '--out', dir, '--private-out', join(dir, 'priv.pem')).status, 0);
     const signed = join(dir, 'signed.svg');

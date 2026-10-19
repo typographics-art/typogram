@@ -23,6 +23,7 @@ import { sealText, openSealedText, isSealed, parseEnvelope } from './seal.mjs';
 import { generateX25519Identity, identityToRecipient } from '../vendor/age-encryption.mjs';
 import { buildRegistry, verifyRegistry, verifiedMap, fetchIssuerKeyfile, validateKeyfile } from './keys-registry.mjs';
 import { buildArchive, archiveToText, readArchive, archiveFiles, scanSecrets, ORIGINS } from './handoff.mjs';
+import { stampSvg } from '../src/stamp.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -360,11 +361,14 @@ async function cmdSign(file) {
   const created = new Date().toISOString().slice(0, 10);
   const signature = signHash({ hash: record.tgart.hash, issuer, kid, created }, readFileSync(keyFile, 'utf8'));
   record.tgart = { ...record.tgart, spec: SIG_SPEC, issuer, kid, created, signature, keys: `https://${issuer}/.well-known/tgart-keys.json`, verify: `https://${issuer}/v` };
-  const out = withJsonld(text, record);
+  let out = withJsonld(text, record);
   if (!out) die('could not write the signature into the data layer');
+  // Draw the visible "signed" seal (a green corner) into the image unless --no-stamp. It is a shape, not text, so the
+  // identity hash and the signature are unchanged; the work still verifies, and is now recognizable as signed on sight.
+  if (!flags.has('--no-stamp')) out = stampSvg(out);
   const outFile = opt('out') || file;
   writeFileSync(outFile, out);
-  console.log(`tg: signed ${file} as ${issuer} (kid ${kid})${outFile !== file ? ` -> ${outFile}` : ''}`);
+  console.log(`tg: signed ${file} as ${issuer} (kid ${kid})${outFile !== file ? ` -> ${outFile}` : ''}${flags.has('--no-stamp') ? '' : ' + sealed corner'}`);
   console.log(`  sha256 ${record.tgart.hash}`);
 }
 
@@ -432,7 +436,7 @@ async function sealRenderSign({ plaintext, title, issuer, kid, keyFile, recipien
   const created = new Date().toISOString().slice(0, 10);
   const signature = signHash({ hash: rec.tgart.hash, issuer, kid, created }, readFileSync(keyFile, 'utf8'));
   rec.tgart = { ...rec.tgart, spec: SIG_SPEC, issuer, kid, created, signature, keys: `https://${issuer}/.well-known/tgart-keys.json`, verify: `https://${issuer}/v` };
-  writeFileSync(outFile, withJsonld(svg, rec));
+  writeFileSync(outFile, stampSvg(withJsonld(svg, rec)));  // visible "signed" corner (a shape, hash-safe)
   return { hash: rec.tgart.hash, recMeta, cipher };
 }
 
