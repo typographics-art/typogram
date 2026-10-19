@@ -10,12 +10,14 @@
   "extractor": "utf-8",
   "characters": 18345,
   "words": 2460,
-  "lines": 104,
+  "lines": 105,
   "paper": "a4",
-  "fontSizeMm": 2.712,
+  "fontSizeMm": 2.714,
   "overflow": false,
-  "toneFidelity": 0.973,
-  "layoutMs": 517,
+  "toneFidelity": 0.951,
+  "dynamicRange": 0.52,
+  "paperTone": "dark",
+  "layoutMs": 488,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -25,17 +27,22 @@
     "sha256Source": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d",
     "sha256ReadBack": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d"
   },
-  "pdfBytes": 205558,
-  "pdfBytesUnoptimized": 304855,
+  "pdfBytes": 222987,
+  "pdfBytesUnoptimized": 332143,
   "printStrips": 1,
   "reprints": 0,
   "pdfStats": {
     "glyphs": 15886,
-    "runs": 6819,
-    "outlines": 432,
+    "runs": 7408,
+    "outlines": 480,
     "fonts": 10
   },
-  "sizeFactor": 10.98,
+  "sizeFactor": 11.91,
   "motif": null,
-  "motifCredit": null
+  "motifCredit": null,
+  "structured": false,
+  "articles": null,
+  "text": "source.txt",
+  "textSha256": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d",
+  "textMatchesArt": true
 }

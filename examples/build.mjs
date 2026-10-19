@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { openSession } from '../cli/core.mjs';
 import { readDocument, makeOnePage, motifSource } from '../cli/onepage-core.mjs';
 import { canonicalText, sha256Hex } from '../src/index.js';
+import { fontSafe } from '../src/font-safe.js';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const CACHE = join(DIR, '.cache');
@@ -54,14 +55,18 @@ try {
       bytes = readFileSync(path);
       doc = readDocument(path);
     }
+    doc.text = fontSafe(doc.text); // only glyphs the embedded subset font has — no system-font fallback, no layout drift
+    if (source) source = { bytes: Buffer.from(doc.text, 'utf8'), media: source.media }; // source == page text (tg verify)
     log(`${ex.id}: setting ${doc.text.length.toLocaleString('en-US')} characters`);
     // Motif: an image file (sent as data URL) or a procedural recipe; otherwise the title card.
     const motif = ex.motif ? motifSource(ex.motif.startsWith('recipe:') ? ex.motif : join(DIR, ex.motif)) : null;
     // Dark poster, best quality: dark paper, one type size (sharpest picture), auto-levels, full weight/width range,
     // sharper colour steps. The paper-aware card (cli/render.html) sets the title in light ink on the dark ground.
     // Per-example `color`/`options` override.
+    // `gaps` is left to the default (off with a motif, auto for a title card): auto lets a title-only page set the
+    // title only where it is dark with blank space between words, which is what forms a short document's title.
     const options = { paper: 'dark', color: 'photo', legibility: 'free', unit: 'char', contrast: 1.9, brightness: 0.05,
-      edges: 1.0, autoLevels: true, colorStep: 6, sizeCount: 1, gaps: 'off', ...(ex.color ? { color: ex.color } : {}), ...(ex.options || {}) };
+      edges: 1.0, autoLevels: true, colorStep: 6, sizeCount: 1, ...(ex.color ? { color: ex.color } : {}), ...(ex.options || {}) };
     const r = await makeOnePage(session, {
       text: doc.text, title: ex.title, subtitle: ex.subtitle, paper: ex.paper || 'a4', motif, options, source, hasPart,
       meta: source ? { title: ex.document, inLanguage: ex.inLanguage || null, license: ex.licence, sourceUrl: ex.url || null } : undefined,

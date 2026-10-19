@@ -335,7 +335,7 @@ have an encoding declaration.
 In the standard library, non-UTF-8 encodings should be used only for
 test purposes. Use non-ASCII characters sparingly, preferably only to
 denote places and human names. If using non-ASCII characters as data,
-avoid noisy Unicode characters like z̯̯͡a̧͎̺l̡͓̫g̹̲o̡̼̘ and byte order
+avoid noisy Unicode characters like zalgo and byte order
 marks.
 
 All identifiers in the Python standard library MUST use ASCII-only
