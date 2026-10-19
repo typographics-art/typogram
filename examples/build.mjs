@@ -141,9 +141,13 @@ const pdfRows = rows.filter((r) => r.sourcePages && r.pdfBytes), textRows = rows
 const factor = (r) => r.pdfBytes / r.sourceBytes;
 const kb = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
 const byFactor = [...pdfRows].sort((a, b) => factor(a) - factor(b));
+// Size facts depend on what sources exist. PDF-sourced examples compare one-pager:source; text/structured sources just
+// grow into a self-contained one-pager. Guard both so the section never crashes when a category is empty.
+const pdfSizes = byFactor.length ? ` Against a PDF source it runs ${factor(byFactor[0]).toFixed(1)} to ${factor(byFactor[byFactor.length - 1]).toFixed(1)} times the source size (${byFactor.map((r) => `${r.id} ${factor(r).toFixed(1)}`).join(', ')}; below 1 means smaller).` : '';
+const textSizes = textRows.length ? ` A text source becomes a self-contained one-pager carrying fonts and styling (${textRows.slice(0, 6).map((r) => `${r.id}: ${kb(r.sourceBytes)} → ${kb(r.pdfBytes)}`).join('; ')}${textRows.length > 6 ? '; …' : ''}).` : '';
 md += `## File size, honestly
 
-Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded. Measured on these examples, the one-pager is ${factor(byFactor[0]).toFixed(1)} to ${factor(byFactor[byFactor.length - 1]).toFixed(1)} times the size of its PDF source (${byFactor.map((r) => `${r.id} ${factor(r).toFixed(1)}`).join(', ')}; below 1 means smaller); plain-text sources grow far more (${textRows.map((r) => `${r.id}: ${kb(r.sourceBytes)} → ${kb(r.pdfBytes)}`).join('; ')}), because the source is bare text while the one-pager carries fonts and styling.
+Every glyph carries its own weight, width and size, and in colour mode its own colour; in the PDF every weight × width × type size is a separate embedded font, and every change of style starts a new text run. The picture itself is made of letters only; no image is embedded.${pdfSizes}${textSizes}
 
 What is done about it, each step measured in [docs/file-size.md](../docs/file-size.md): glyph outlines are rounded to whole units of the 1000-unit glyph grid (invisible: at most 1/2000 of the type size), Chrome's empty accessibility tags are left out, the PDF is repacked with qpdf, photo colours are rounded to steps of 24 (of 255 per channel), and one-pagers use one type size and no width variants, which also makes their pictures sharper. With \`--weights\` (CLI) or the font-cuts slider (app) fewer weights are used, which makes files much smaller still. The table shows the optimised size next to the original.
 

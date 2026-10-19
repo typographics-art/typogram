@@ -35,6 +35,25 @@ function robotoFaces() {
   return faces;
 }
 
+/**
+ * Code points the embedded font cannot render (they would fall back to a system font with the wrong width and break the
+ * layout). Measured against assets/fonts/roboto-flex-coverage.json (the real cmap of the vendored subsets); if that file
+ * is absent, falls back to the looser declared CSS unicode-ranges. Build-time gate — see embedFontInSvg's warning.
+ */
+let COVERAGE;
+function coverageRanges() {
+  if (COVERAGE !== undefined) return COVERAGE;
+  try { COVERAGE = JSON.parse(readFileSync(join(FONTS, 'roboto-flex-coverage.json'), 'utf8')).ranges; }
+  catch { COVERAGE = null; }
+  return COVERAGE;
+}
+export function uncoveredCodepoints(cps) {
+  const ranges = coverageRanges();
+  if (ranges) return cps.filter((cp) => !ranges.some(([a, b]) => cp >= a && cp <= b));
+  const faces = robotoFaces().filter((f) => /roboto-flex/i.test(f.file));
+  return cps.filter((cp) => !faces.some((f) => rangeMatches(f.range, [cp])));
+}
+
 /** Does any of the code points fall inside a CSS `unicode-range` like "U+0000-00FF,U+0131,U+0152-0153"? No range → matches all. */
 function rangeMatches(range, cps) {
   if (!range) return true;
@@ -57,6 +76,11 @@ export function embedFontInSvg(svgText) {
   const text = markupText(svgText, 'svg');
   if (!text) return svgText;
   const cps = [...new Set([...text].map((c) => c.codePointAt(0)))].sort((a, b) => a - b);
+  const miss = uncoveredCodepoints(cps);
+  if (miss.length) {
+    const show = miss.slice(0, 16).map((cp) => `U+${cp.toString(16).toUpperCase().padStart(4, '0')} ${JSON.stringify(String.fromCodePoint(cp))}`).join(', ');
+    console.warn(`embed-font: ${miss.length} character(s) not in the embedded font — they fall back to a system font (wrong widths, broken layout): ${show}${miss.length > 16 ? ' …' : ''}. Map them in src/font-safe.js.`);
+  }
   const tmp = mkdtempSync(join(tmpdir(), 'tg-font-'));
   try {
     const textFile = join(tmp, 'text.txt');
