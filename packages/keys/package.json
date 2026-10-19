@@ -10,7 +10,8 @@
       "types": "./index.d.ts",
       "import": "./index.js"
     },
-    "./registry.json": "./registry.json"
+    "./registry.json": "./registry.json",
+    "./package.json": "./package.json"
   },
   "files": [
     "index.js",
