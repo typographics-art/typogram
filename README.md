@@ -124,7 +124,43 @@ tg verify  about/typographics-art.svg              # prove the picture, the sour
 
 `tg verify` recomputes the hash from the glyphs and requires it to equal both the stored hash and the hash of the embedded source — so a model can trust that the readable source and the picture say the same thing, and refuse the file if they do not. The same works on the `.html` and `.pdf` views. A standalone reference, [tools/tg_extract.py](tools/tg_extract.py) (Python standard library only), reads and verifies the same files and produces the same hash. The format is [docs/typogram-file.md](docs/typogram-file.md); why a model should prefer the data layer, and the prompt-injection answer, is [docs/ai-readability.md](docs/ai-readability.md#what-a-model-reads).
 
-When a work is signed by an issuer, `tg verify` reports one of three states — **VERIFIED** (from this issuer, not one character changed), **UNSIGNED** or **TAMPERED**. The signature format and the three-state check are specified, with reproducible test vectors, in [docs/verification.md](docs/verification.md); how a domain publishes, rotates and revokes its signing key is [docs/issuers.md](docs/issuers.md). You can also check a work from this site in the browser at [typographics-art.org/v](https://typographics-art.org/v) — nothing is uploaded. A whole folder of documents can be signed and verified as one collection, with a signed index that seals the set: see [docs/bundles.md](docs/bundles.md) (`tg bundle` / `tg verify <folder>`). A work can also be **sealed** — encrypted to named recipients (age / X25519) so only a key holder reads it, while a cleartext envelope shows who it is from and for; the signature is checked before anything is decrypted. See [docs/sealed.md](docs/sealed.md) (`tg seal` / `tg open`). And a **handoff** packages a set of files into one sealed, signed work to hand to another person or agent — `tg handoff` shows the manifest and warns on secrets before building, `tg open` verifies and writes the files on confirmation. See [docs/handoff.md](docs/handoff.md). An **MCP server** lets an AI agent verify a work, read what it carries and look up a verified key as tool calls — [docs/mcp.md](docs/mcp.md).
+## Signing & verifying
+
+A Typogram can be **signed** by its issuer, so a reader — a person or an AI — checks **who published it** and that **not one character changed**. The signature covers the identity hash above; it survives copy, paste and export and lives in the data layer, so the picture is untouched. On the website, a signed work carries a small **green ✓ corner**.
+
+`tg verify` gives one of three answers:
+
+| Result | Exit | Means |
+|---|---|---|
+| **VERIFIED** | 0 | signed by this issuer; picture, embedded source and signature all carry one text |
+| **UNSIGNED** | 2 | consistent (picture = source = hash), but not signed |
+| **TAMPERED** | 1 | the signature, the hash or the two layers disagree |
+
+To check a signature you need the issuer's **public key**. Every verified issuer key is published four ways, so any verifier can reach one — including an agent whose allowlist is only npm, PyPI or GitHub:
+
+```js
+// npm — @typographics-art/keys, immutable per published version
+import { getIssuer, issuers } from '@typographics-art/keys';
+issuers();                            // ['typographics-art.org', …]
+getIssuer('typographics-art.org');    // { issuer, verifiedAt, keys: [...] }
+```
+```python
+# PyPI — tgart-keys, immutable per published version
+import tgart_keys
+tgart_keys.get_issuer('typographics-art.org')
+```
+- **GitHub (raw):** `https://raw.githubusercontent.com/typographics-art/typogram/main/keys/registry.json`
+- **The issuer's own domain:** `https://<issuer>/.well-known/tgart-keys.json`
+
+Then verify a work against the registry — it picks the issuer the work names:
+
+```sh
+tg verify work.tg.svg --keys keys/registry.json     # VERIFIED / UNSIGNED / TAMPERED
+```
+
+No install needed: the browser verifier at [typographics-art.org/v](https://typographics-art.org/v) does the same (nothing is uploaded), and an AI agent can call the read-only **MCP server** — `tg_verify`, `tg_extract`, `tg_keys` ([docs/mcp.md](docs/mcp.md)).
+
+The signature format and reproducible test vectors are in [docs/verification.md](docs/verification.md); the verified-key registry and how to get a key listed in [docs/key-registry.md](docs/key-registry.md); issuer key publication, rotation and revocation in [docs/issuers.md](docs/issuers.md). Signing extends to collections and encryption: sign a whole folder as a **bundle** with a signed index ([docs/bundles.md](docs/bundles.md)), **seal** a work to named recipients so only a key holder reads it ([docs/sealed.md](docs/sealed.md)), or hand a set of files to another party as one sealed, signed **handoff** package ([docs/handoff.md](docs/handoff.md)).
 
 ## Hidden messages
 
@@ -270,6 +306,27 @@ Each preview links to the SVG, which is the work itself: open it and search the 
 **Why variable fonts?** A weight axis (and sometimes a width axis) gives each glyph a continuous range of ink, so tones can be matched precisely without changing the letter.
 
 **Can I use it commercially?** Yes. The code is MIT-licensed; the fonts are under the SIL Open Font License ([NOTICE.md](NOTICE.md)). Mind the rights to the texts and photos you use.
+
+## Known issues & limitations
+
+- **Short texts need filler.** A picture is made of the letters, so it needs enough of them — roughly 15–20k characters for a photo motif; shorter texts form only the title, not a picture. Declared filler makes up the difference: the app and the CLI report exactly how many characters are filler, and it always comes *after* your text, so nothing of yours is dropped or reordered.
+- **A flat image of a work is not machine-readable.** At this tiny type a screenshot (PNG/JPEG) is grey texture to OCR and vision models. Share the **PDF, SVG or HTML** — the text lives in the file's text layer, not in the pixels.
+- **Only SVG/HTML works are signed today.** The law one-pagers and the gallery works are signed (green corner); the PDF-only example one-pagers are not yet signable (`tg sign` takes `.svg`/`.html`). Signing PDFs is on the roadmap.
+- **A one-pager is larger than its source.** Every glyph carries its own weight, size and colour, so the file grows; the trade-offs are measured in [docs/file-size.md](docs/file-size.md).
+- **Sealed payloads over ~64 KB are inline-only** for now (no data-layer attachment split yet).
+- **Key anchoring is not active yet.** The anchor format and a pluggable plugin contract are defined, but no key is anchored and `tg verify` does not check anchors — it is a designed extension, not a live feature.
+
+## Roadmap
+
+Planned, not promised — contributions welcome:
+
+- **A Rust self-extracting client** — a small native binary that opens, verifies and extracts a Typogram (and sealed/handoff packages) with no Node install.
+- **Animated Typogram envelopes** — a moving seal/cover (e.g. an APNG/GIF) for a sealed or handoff work.
+- **Signing the PDF one-pagers**, so every example can carry a verified signature and green corner, not only the SVG works.
+- **Live key anchoring** — the first anchor plugins (OpenTimestamps on Bitcoin, Sigstore Rekor, a chain such as DigiByte) going from designed to active, so a key's existence is provable in a public log.
+- **A seal flow in the browser generator**, alongside today's command-line `tg seal`.
+
+Already shipping (not a plan): the **sealed-media adapter** — point any ordinary player at a sealed image, video or data file and it is served and decrypted on the fly, only the bytes a range touches, nothing written to disk. See [docs/encrypted-media-adapter.md](docs/encrypted-media-adapter.md).
 
 ## Contributing
 
