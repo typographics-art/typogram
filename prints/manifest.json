@@ -1,0 +1,139 @@
+[
+  {
+    "id": "earthrise",
+    "title": "Earthrise",
+    "source": "Genesis 1–11, King James Version (1611), public domain; the Apollo 8 crew read Genesis 1:1–10 on 24 December 1968",
+    "licence": "Public domain in the US (Crown patent in the UK)",
+    "file": "prints/earthrise.png",
+    "pixels": "7200x7200",
+    "dpi": 300,
+    "inches": "24.0x24.0"
+  },
+  {
+    "id": "blue-marble",
+    "title": "The Blue Marble",
+    "source": "Universal Declaration of Human Rights (1948), full text, United Nations",
+    "licence": "United Nations text, freely reproducible (OHCHR)",
+    "file": "prints/blue-marble.png",
+    "pixels": "7200x7200",
+    "dpi": 300,
+    "inches": "24.0x24.0"
+  },
+  {
+    "id": "starry-night",
+    "title": "The Starry Night",
+    "source": "Walt Whitman, Song of Myself (Leaves of Grass, Project Gutenberg eBook #1322), opening sections, public domain",
+    "file": "prints/starry-night.png",
+    "pixels": "7200x5775",
+    "dpi": 300,
+    "inches": "24.0x19.3"
+  },
+  {
+    "id": "great-wave",
+    "title": "The Great Wave",
+    "source": "Herman Melville, Moby-Dick (1851), chapters 1–2, public domain",
+    "file": "prints/great-wave.png",
+    "pixels": "7200x4950",
+    "dpi": 300,
+    "inches": "24.0x16.5"
+  },
+  {
+    "id": "lincoln",
+    "title": "Cooper Institute",
+    "source": "Abraham Lincoln, Address at Cooper Institute, New York, 27 February 1860, as printed in Speeches & Letters of Abraham Lincoln (1907), public domain",
+    "file": "prints/lincoln.png",
+    "pixels": "5650x7200",
+    "dpi": 300,
+    "inches": "18.8x24.0"
+  },
+  {
+    "id": "mona-lisa",
+    "title": "La Gioconda",
+    "source": "Walter Pater, The Renaissance (1873), essay on Leonardo da Vinci up to the Mona Lisa passage, public domain",
+    "file": "prints/mona-lisa.png",
+    "pixels": "4908x7200",
+    "dpi": 300,
+    "inches": "16.4x24.0"
+  },
+  {
+    "id": "darwin",
+    "title": "Endless forms",
+    "source": "Charles Darwin, On the Origin of Species (1859), end of the final chapter, public domain",
+    "file": "prints/darwin.png",
+    "pixels": "5788x7200",
+    "dpi": 300,
+    "inches": "19.3x24.0"
+  },
+  {
+    "id": "pillars-of-creation",
+    "title": "The Star",
+    "source": "H. G. Wells, The Star (1897), the complete story, from Tales of Space and Time (Project Gutenberg eBook #27365), public domain",
+    "file": "prints/pillars-of-creation.png",
+    "pixels": "7200x7100",
+    "dpi": 300,
+    "inches": "24.0x23.7"
+  },
+  {
+    "id": "wanderer",
+    "title": "The Wanderer",
+    "source": "Friedrich Nietzsche, Thus Spake Zarathustra (1883), Zarathustra's Prologue, translated by Thomas Common (Project Gutenberg eBook #1998), public domain",
+    "file": "prints/wanderer.png",
+    "pixels": "5679x7200",
+    "dpi": 300,
+    "inches": "18.9x24.0"
+  },
+  {
+    "id": "red-fuji",
+    "title": "Fuji-no-Yama",
+    "source": "Lafcadio Hearn, Fuji-no-Yama, in Exotics and Retrospectives (1898), the essay after its epigraph (Project Gutenberg eBook #42735), public domain",
+    "file": "prints/red-fuji.png",
+    "pixels": "7200x4971",
+    "dpi": 300,
+    "inches": "24.0x16.6"
+  },
+  {
+    "id": "douglass",
+    "title": "Learning to Read",
+    "source": "Frederick Douglass, Narrative of the Life of Frederick Douglass, an American Slave (1845), chapters V–VIII (Project Gutenberg eBook #23), public domain",
+    "file": "prints/douglass.png",
+    "pixels": "5471x7200",
+    "dpi": 300,
+    "inches": "18.2x24.0"
+  },
+  {
+    "id": "twain",
+    "title": "The Boys' Ambition",
+    "source": "Mark Twain, Life on the Mississippi (1883), chapters 4–6 (Project Gutenberg eBook #245), public domain",
+    "file": "prints/twain.png",
+    "pixels": "5996x7200",
+    "dpi": 300,
+    "inches": "20.0x24.0"
+  },
+  {
+    "id": "poe",
+    "title": "The House of Usher",
+    "source": "Edgar Allan Poe, The Fall of the House of Usher (1839), from the second paragraph to the end (Project Gutenberg eBook #932), public domain",
+    "file": "prints/poe.png",
+    "pixels": "5192x7200",
+    "dpi": 300,
+    "inches": "17.3x24.0"
+  },
+  {
+    "id": "tesla",
+    "title": "My Inventions",
+    "source": "Nikola Tesla, My Inventions (Electrical Experimenter, 1919), chapter III, My Later Endeavors (Wikisource, My Inventions, revision 15728285), public domain",
+    "file": "prints/tesla.png",
+    "pixels": "5467x7200",
+    "dpi": 300,
+    "inches": "18.2x24.0"
+  },
+  {
+    "id": "herschel",
+    "title": "Preliminary Discourse",
+    "source": "John F. W. Herschel, A Preliminary Discourse on the Study of Natural Philosophy (1831), §§ 77–101 (Project Gutenberg eBook #54897), public domain",
+    "file": "prints/herschel.png",
+    "pixels": "5675x7200",
+    "dpi": 300,
+    "inches": "18.9x24.0"
+  }
+]
