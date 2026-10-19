@@ -25,13 +25,19 @@ const PARTS = [
   ['examples/README.md', 'One-pager examples'],
 ];
 
-// Markdown without HTML blocks and images: an AI reading the file needs the words, not the layout.
+// Markdown for an AI reading the file as a whole: it needs the words, not the layout. Earlier this stripped images and
+// HTML blocks outright, which left the prose referring to pictures that were gone ("the portrait above…"), an empty
+// Overview (the tagline lived in a <p align>), and gallery tables of captions with blank image cells. Instead, turn every
+// image into its alt text and unwrap the HTML wrappers keeping their inner text, so each reference still has a referent.
 const clean = (md) => md
-  .replace(/<p align="center">[\s\S]*?<\/p>\n?/g, '')
-  .replace(/<h1[^>]*>[\s\S]*?<\/h1>\n?/g, '')
-  .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-  .replace(/\[<img[^\]]*\]\([^)]*\)/g, '')
-  .replace(/<img[^>]*>/g, '')
+  .replace(/\[<img\b[^>]*\balt="([^"]*)"[^>]*>\]\([^)]*\)/g, '$1') // a linked image (table cell) → its alt text
+  .replace(/<img\b[^>]*\balt="([^"]*)"[^>]*>/g, '$1')             // an image → its alt text
+  .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')                        // a Markdown image → its alt text
+  .replace(/<img\b[^>]*>/g, '')                                    // an image with no alt → drop
+  .replace(/<\/?(?:h1|p|picture|a|b|strong|em)\b[^>]*>/g, '')      // unwrap the HTML wrappers, keep their inner text
+  .replace(/<source\b[^>]*>/g, '')
+  .replace(/<br\s*\/?>/g, ' ')
+  .replace(/[ \t]{2,}/g, ' ')
   .replace(/\n{3,}/g, '\n\n')
   .trim();
 
@@ -44,6 +50,7 @@ const fontSafe = (s) => s
   .replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/≈/g, '~').replace(/≠/g, '!=')
   .replace(/✓/g, 'yes').replace(/✗/g, 'no')
   .replace(/⟦/g, '«').replace(/⟧/g, '»')
+  .replace(/−/g, '-') // the minus sign − (math/percentages) → ASCII '-', so the PDF text layer round-trips (tg verify)
   .replace(/[‐‑]/g, '-').replace(/­/g, '').replace(/[   ]/g, ' ');
 
 let md = `# Typographics Art: everything in one file
