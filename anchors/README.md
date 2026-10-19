@@ -34,17 +34,20 @@ the key, its validity and its own signature together. `reference` must be self-c
 proof, that means the proof itself, base64url-encoded — not a URL that can rot).
 
 A plugin must do **no own cryptography** and must be **reproducible** — anyone can verify a `reference` from public data,
-without an account. The built-in anchors (`archive`, `rekor`, `opentimestamps`) are free; a chain anchor that costs a small
-network fee, like DigiByte, is welcome as an opt-in plugin for those who want it.
+without an account. The planned free anchors (`archive`, `rekor`, `opentimestamps`) need no token; a chain anchor that costs
+a small network fee, like DigiByte, is welcome as an opt-in plugin for those who want it.
+
+> **Status (2026-10): none is live yet.** The format (`tgart.anchors`) and this plugin contract are defined; `digibyte/` is
+> a sketch. No key or work carries an anchor today, and `tg verify` does not yet check anchors. The table below is the plan.
 
 ## Anchor types
 
 | Type | Status | Notes |
 |---|---|---|
-| `archive` | built-in | submits the key statement to Software Heritage + the Internet Archive — not a timestamp, but near-free durability (`tg keys archive`) |
-| `rekor` | built-in | [Sigstore Rekor](https://docs.sigstore.dev/logs/overview/), the Linux Foundation transparency log used by npm, PyPI and Kubernetes |
-| `opentimestamps` | built-in | anchors a hash in **Bitcoin**, free, no token, batched; mature libraries exist |
-| **`digibyte`** | **wanted — [start here](digibyte/)** | a DigiByte `OP_RETURN` anchor; same contract, no special status. A great first contribution. |
+| `archive` | planned | would submit the key statement to Software Heritage + the Internet Archive — not a timestamp, but near-free durability |
+| `rekor` | planned | [Sigstore Rekor](https://docs.sigstore.dev/logs/overview/), the Linux Foundation transparency log used by npm, PyPI and Kubernetes |
+| `opentimestamps` | planned | would anchor a hash in **Bitcoin**, free, no token, batched; mature libraries exist |
+| **`digibyte`** | **sketch — [start here](digibyte/)** | a DigiByte `OP_RETURN` anchor; same contract, no special status. A great first contribution. |
 | *(your chain)* | wanted | any other append-only log or chain, as long as it is free and needs no account |
 
 ## Contributing a new anchor

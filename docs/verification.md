@@ -71,6 +71,9 @@ append-only log at a point in time — so a silent key swap is detectable and an
 site disappears. The format fixes only `type` and `reference`; each type is a small plugin and the verifier checks it against the
 log *it* trusts. See [`anchors/README.md`](../anchors/README.md).
 
+> **Status (2026-10):** the format and the plugin contract are defined, but anchoring is **not active yet** — no key or work
+> carries an anchor today, and `tg verify` does not yet check `tgart.anchors`. It is a designed, pluggable extension.
+
 ## 5. Test vectors
 
 Any implementation should reproduce these exactly. The key below is **for testing only — never a real issuer key.** Ed25519
