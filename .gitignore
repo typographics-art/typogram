@@ -10,3 +10,9 @@ test/.bundle-*
 # Python build artifacts
 __pycache__/
 *.pyc
+
+# test mkdtemp scratch dirs
+test/.keys-*/
+test/.bundle-*/
+test/.seal-*/
+test/.fedlex-*/

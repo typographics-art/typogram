@@ -2,7 +2,7 @@
 // self-verifies and names its issuer; the registry aggregates such files; tampering is caught; and `fetchIssuerKeyfile`
 // (domain-control proof) accepts a well-formed served file and rejects an issuer mismatch or a non-2xx. Uses the existing
 // test key files (seal.example with an Ed25519 + an X25519 entry, test.example with an Ed25519 entry).
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, cpSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -13,11 +13,14 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const seal = JSON.parse(readFileSync(join(ROOT, 'test', 'fixtures', 'seal-keys', 'seal.example.json'), 'utf8'));
 const other = JSON.parse(readFileSync(join(ROOT, 'test', 'fixtures', 'bundle-keys', 'test.example.json'), 'utf8'));
 
+const tmpDirs = [];
 function tmpKeysDir(files) {
   const dir = mkdtempSync(join(ROOT, 'test', '.keys-'));
+  tmpDirs.push(dir);
   for (const [name, obj] of Object.entries(files)) writeFileSync(join(dir, name), JSON.stringify(obj, null, 2));
   return dir;
 }
+after(() => { for (const d of tmpDirs) rmSync(d, { recursive: true, force: true }); });
 
 test('validateKeyfile: a self-signed key file verifies; X25519 entries are shape-checked', () => {
   assert.equal(validateKeyfile(seal).ok, true);
