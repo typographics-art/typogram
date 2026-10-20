@@ -63,7 +63,11 @@ export function pdfPaintProblems(file) {
       const box = [Math.min(...xs.map((q) => q[0])), Math.min(...xs.map((q) => q[1])), Math.max(...xs.map((q) => q[0])), Math.max(...xs.map((q) => q[1]))];
       if (p.kind === 'clip_path') {
         // the box is exact only for an axis-aligned rectangle (the generator's strips); anything else could cut glyphs away
-        const rect = xs.length >= 4 && xs.length <= 5 && xs.every((q, i) => { const n = xs[(i + 1) % xs.length]; return Math.abs(q[0] - n[0]) < 0.01 || Math.abs(q[1] - n[1]) < 0.01; });
+        const ops = p.ops.join(',');
+        const pts = xs.length === 5 && Math.hypot(xs[4][0] - xs[0][0], xs[4][1] - xs[0][1]) < 0.01 ? xs.slice(0, 4) : xs;
+        const horiz = pts.map((q, i) => { const n = pts[(i + 1) % pts.length]; const dx = Math.abs(q[0] - n[0]) < 0.01, dy = Math.abs(q[1] - n[1]) < 0.01; return dx === dy ? null : dy; });
+        const rect = (ops === 'moveto,lineto,lineto,lineto' || ops === 'moveto,lineto,lineto,lineto,lineto') && pts.length === 4 && box[2] - box[0] > 0.01 && box[3] - box[1] > 0.01
+          && horiz.every((h, i) => h !== null && h !== horiz[(i + 1) % 4]); // four axis-aligned edges, alternating horizontal / vertical
         if (!rect) add('a clip that is not a plain rectangle can cut glyphs away');
         pendingClip = box; return;
       }
@@ -95,10 +99,10 @@ export function pdfPaintProblems(file) {
       }
       if (op === 'group' && closing) { clips.pop(); return; }
       if (op === 'pop_clip') { clips.pop(); return; }
-      if (op === 'clip_path' && !closing) { path = { kind: 'clip_path', t: num(attr(line, 'transform') || '1 0 0 1 0 0'), color: null, pts: [] }; return; }
+      if (op === 'clip_path' && !closing) { path = { kind: 'clip_path', t: num(attr(line, 'transform') || '1 0 0 1 0 0'), color: null, pts: [], ops: [] }; return; }
       if ((op === 'fill_path' || op === 'stroke_path') && !closing) { path = { kind: op, t: num(attr(line, 'transform') || '1 0 0 1 0 0'), color: attr(line, 'color'), pts: [] }; return; }
-      if (path && (op === 'moveto' || op === 'lineto')) { path.pts.push([Number(attr(line, 'x')), Number(attr(line, 'y'))]); return; }
-      if (path && op === 'curveto') { for (const [a, b] of [['x1', 'y1'], ['x2', 'y2'], ['x3', 'y3']]) path.pts.push([Number(attr(line, a)), Number(attr(line, b))]); return; }
+      if (path && (op === 'moveto' || op === 'lineto')) { if (path.ops) path.ops.push(op); path.pts.push([Number(attr(line, 'x')), Number(attr(line, 'y'))]); return; }
+      if (path && op === 'curveto') { if (path.ops) path.ops.push(op); for (const [a, b] of [['x1', 'y1'], ['x2', 'y2'], ['x3', 'y3']]) path.pts.push([Number(attr(line, a)), Number(attr(line, b))]); return; }
       if (closing && (op === 'fill_path' || op === 'stroke_path' || op === 'clip_path')) {
         const wasClip = path && path.kind === 'clip_path';
         endPath();
@@ -113,16 +117,19 @@ export function pdfPaintProblems(file) {
       }
       if (op === 'span' && !closing && page.curText) { const r = num(attr(line, 'trm') || '0 0 0 0'), t = page.curText.t; // glyph space -> page: the shorter side of the combined 2x2 matrix is its visible size
         const m = [r[0] * t[0] + r[1] * t[2], r[0] * t[1] + r[1] * t[3], r[2] * t[0] + r[3] * t[2], r[2] * t[1] + r[3] * t[3]];
-        page.curText.size = Math.min(Math.hypot(m[0], m[1]), Math.hypot(m[2], m[3])); page.curText.sx = Math.hypot(m[0], m[1]); return; }
+        page.curText.size = Math.abs(m[0] * m[3] - m[1] * m[2]) / Math.max(Math.hypot(m[0], m[1]), Math.hypot(m[2], m[3]), 1e-9); page.curText.m = m; return; }
       if (op === 'g' && page.curText) {
         const [x, y] = apply(page.curText.t, Number(attr(line, 'x')), Number(attr(line, 'y')));
         const key = Math.floor(x / CELL) * 100003 + Math.floor(y / CELL);
         const cell = page.glyphs.get(key); if (cell) cell.push(x, y); else page.glyphs.set(key, [x, y]);
         glyphsTotal++;
         if (!(page.curText.size >= MIN_GLYPH_PT)) add('a glyph is scaled down to nothing (it reads back but is not visible)');
-        const cb = clipBox();
-        if (x < -1 || y < -1 || x > page.w + 1 || y > page.h + 1) add('a glyph sits outside the page, so the text reads back but is not on it');
-        else if (x < cb[0] - 1 || x > cb[2] + 1 || y < cb[1] - 1 || y > cb[3] + 1 || x + (Number(attr(line, 'adv')) || 0) * page.curText.sx > cb[2] + 1) add('a clip hides a glyph: it reads back but is cut away on the page');
+        const cb = clipBox(), adv = Number(attr(line, 'adv')), mm = page.curText.m;
+        // the glyph's body (advance wide, baseline to half an em: the x-height core; strips may clip a line top by a sliver) mapped to the page
+        const corners = Number.isFinite(adv) && mm ? [[0, 0], [adv, 0], [0, 0.5], [adv, 0.5]].map(([u, v]) => [x + u * mm[0] + v * mm[2], y + u * mm[1] + v * mm[3]]) : null;
+        if (!corners) add('a glyph has no advance or size the check can measure');
+        else if (corners.some(([cx, cy]) => cx < -1 || cy < -1 || cx > page.w + 1 || cy > page.h + 1)) add('a glyph sits outside the page, so the text reads back but is not on it');
+        else if (corners.some(([cx, cy]) => Math.max(cb[0] - cx, cx - cb[2], cb[1] - cy, cy - cb[3]) > 1)) add('a clip hides a glyph: it reads back but is cut away on the page');
         // a glyph in exactly the colour of the paper under it is invisible
         for (let i = page.paper.length - 1; i >= 0; i--) {
           const p = page.paper[i];
