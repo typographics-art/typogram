@@ -28,6 +28,15 @@ const onlyWork = flag('--work');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const labelFor = (t) => (/t-?shirt|tee|crewneck/i.test(t) ? 'T-shirt' : /mug/i.test(t) ? 'Mug' : /canvas/i.test(t) ? 'Canvas' : /frame/i.test(t) ? 'Framed poster' : /tote/i.test(t) ? 'Tote bag' : /poster|print/i.test(t) ? 'Poster' : t.split(' ')[0]);
+const materialFor = (l) => ({ 'Poster': 'premium matte paper (200 gsm)', 'Canvas': 'gallery-wrapped canvas', 'Framed poster': 'framed premium paper', 'Mug': 'white ceramic', 'T-shirt': 'soft cotton', 'Tote bag': 'cotton canvas' }[l] || 'premium stock');
+const categoryTag = (l) => (/Poster|Canvas|Framed/.test(l) ? 'Wall art' : l === 'Mug' ? 'Drinkware' : l === 'T-shirt' ? 'Apparel' : 'Accessories');
+// Sales copy — the selling point (the picture is made of the text), the material, provenance. Set at creation only.
+const describe = (w, label) => [
+  `<p><strong>${w.caption}</strong></p>`,
+  `<p>A <em>typogram</em>: the whole picture is made of the text itself — read the words up close, see the image from across the room.</p>`,
+  `<p>Printed on ${materialFor(label)} and made to order, shipped from within the EU. Part of the Typographics Art collection — <a href="https://typographics-art.org">typographics-art.org</a>.</p>`,
+  `<p><small>Set from: ${w.source}</small></p>`,
+].join('');
 
 const stores = (await (await fetch(`${EC}/stores`, { headers: H })).json()).stores || [];
 const shop = stores.find((s) => s.type === 'shopify');
@@ -43,6 +52,12 @@ if (!templates.length) { console.error('no templates found'); process.exit(1); }
 let works = JSON.parse(readFileSync(join(ROOT, 'prints', 'catalog.json'), 'utf8')).works;
 if (onlyWork) works = works.filter((w) => w.id === onlyWork);
 
+// --replace: delete all existing products first (to refresh title/description/tags, which are create-only).
+if (args.includes('--replace')) {
+  const all = (await (await fetch(`${EC}/stores/${shop.id}/products?limit=250`, { headers: H })).json()).products || [];
+  console.log(`--replace: deleting ${all.length} existing products…`);
+  for (const p of all) { await fetch(`${EC}/stores/${shop.id}/products/${p.id}`, { method: 'DELETE', headers: H }); await sleep(400); }
+}
 // existing product titles in the shop, for idempotency
 const existing = new Set(((await (await fetch(`${EC}/stores/${shop.id}/products?limit=250`, { headers: H })).json()).products || []).map((p) => p.title));
 
@@ -60,7 +75,8 @@ for (const tpl of templates) {
       templateVariantId: v.id,
       imagePlaceholders: (v.imagePlaceholders || []).map((p) => ({ name: p.name, fileUrl: w.masterUrl })),
     }));
-    const body = { templateId: tpl.id, title, description: w.caption || '', isVisibleInTheOnlineStore: visible, tags: ['typographics-art', 'typogram', w.id], salesChannels: ['web'], variants };
+    const tags = ['Typographic Art', 'Typogram', label, categoryTag(label), 'Public domain', w.id];
+    const body = { templateId: tpl.id, title, description: describe(w, label), isVisibleInTheOnlineStore: visible, tags, salesChannels: ['web'], variants };
     const r = await fetch(`${EC}/stores/${shop.id}/products:create-from-template`, { method: 'POST', headers: H, body: JSON.stringify(body) });
     if (r.status === 200) { made++; const j = await r.json(); console.log(`  created: ${title}  (${j.id})`); }
     else { failed++; console.log(`  FAIL ${r.status}: ${title}  ${(await r.text()).slice(0, 160)}`); }
