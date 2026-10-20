@@ -148,7 +148,9 @@ sig.signature: CsESxGVwGYddLmBK9otg9XqrExe5PbirsVU2_qESx7-LEMJSBmnrNGoUlLUSao-78
   blanked a signed PDF and still read VERIFIED is now TAMPERED. These are structural checks (no browser, no model): they are
   **not a pixel proof** — a glyph whose colour differs from the paper by one level is indistinguishable from the legitimate
   tone of a dark picture area (the generated works include glyphs at a contrast ratio of 1.04), so only the exact paper colour
-  is rejected. A vision model comparing the render to the text, as suggested in the thread, stays a useful independent check.
+  is rejected. In a PDF a glyph counts as cut away only when its lower half (baseline to half an em) leaves the clip: the generator's
+  own strips clip the top of some poster lines by 1–2 pt, so a stricter box would reject genuine works; a clip that removes only the
+  top of a letter is therefore not detected. A vision model comparing the render to the text, as suggested in the thread, stays a useful independent check.
   HTML works are not linted yet (the generator's own format is SVG and PDF; an HTML picture still binds its text, not its paint).
 - It is **whitespace- and invisibles-insensitive by design** (canonical-text.md): two Typograms that differ only in line wrapping
   share a hash and a signature.
