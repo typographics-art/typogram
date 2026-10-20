@@ -94,10 +94,18 @@ deploy with `node scripts/deploy-prints.mjs`). It is deployed independently of t
 deploy never removes the masters; the files are `X-Robots-Tag: noindex` (fetchable by Gelato, not surfaced
 in search). Re-deploy after regenerating the masters.
 
-**To go live** (operator): create a **Gelato Store** in the Gelato dashboard (Stores → create a Gelato
-Store). Once it exists, the products — every work × the catalog's products, using each work's master URL and
-Gelato UID — are created through the Gelato e-commerce API. The storefront and payment are then the
-operator's and AstrionCore's to run; `zentrale.astrioncore.app` can ingest `catalog.csv` directly.
+**Storefront = Shopify** (connected to Gelato, which prints and ships). Products are created from Gelato
+**templates**: a template is designed once in the Gelato dashboard (the layout, sizes/variants, and an image
+*placeholder*), then the API fills the placeholder per work. `scripts/gelato-create-products.mjs` does the
+fill: for every connected template × every gallery work it calls `products:create-from-template` with the
+work's master URL, creating one Shopify product (a **draft**) with the artwork and a mockup. Run it with the
+key from Infisical (`GELATO_API_KEY`); it is idempotent (skips titles that already exist) and `--visible`
+publishes live instead of draft.
+
+Notes: the API does **not** set retail price — set prices in Shopify from `gallery/pricing.json`. The hidden
+template store (`type=template`, not returned by `GET /stores`) is reached by its id
+(`GELATO_TEMPLATE_STORE`, default is this account's). No order is placed — this only creates listings; an
+actual order (`POST /v4/orders`, live key) prints and charges and is never run unattended.
 
 **Not a free download.** The print masters are the sellable product, so they are **not** offered for free
 download on the website. The artwork is already openly available there as the vector SVG on each `/work`
