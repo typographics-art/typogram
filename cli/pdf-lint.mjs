@@ -16,7 +16,9 @@ const MIN_GLYPH_PT = 0.5; // effective glyph size on the page; the smallest the 
 const CELL = 8; // points; glyph origins are bucketed on this grid so "any glyph under this shape?" is a few lookups
 
 const num = (s) => s.split(/\s+/).map(Number);
-const attr = (line, name) => { const m = new RegExp(`\\b${name}="([^"]*)"`).exec(line); return m ? m[1] : null; };
+// the LAST match is the structural attribute: strings a PDF controls (font names, glyph characters) are printed earlier on the
+// line and could contain a fake `trm="…"`; the attributes MuPDF itself writes always come after them
+const attr = (line, name) => { let v = null; for (const m of line.matchAll(new RegExp(`\\b${name}="([^"]*)"`, 'g'))) v = m[1]; return v; };
 const apply = (t, x, y) => [t[0] * x + t[2] * y + t[4], t[1] * x + t[3] * y + t[5]];
 
 /**
@@ -59,7 +61,12 @@ export function pdfPaintProblems(file) {
       if (!p || !p.pts.length) return;
       const xs = p.pts.map(([x, y]) => apply(p.t, x, y));
       const box = [Math.min(...xs.map((q) => q[0])), Math.min(...xs.map((q) => q[1])), Math.max(...xs.map((q) => q[0])), Math.max(...xs.map((q) => q[1]))];
-      if (p.kind === 'clip_path') { pendingClip = box; return; }
+      if (p.kind === 'clip_path') {
+        // the box is exact only for an axis-aligned rectangle (the generator's strips); anything else could cut glyphs away
+        const rect = xs.length >= 4 && xs.length <= 5 && xs.every((q, i) => { const n = xs[(i + 1) % xs.length]; return Math.abs(q[0] - n[0]) < 0.01 || Math.abs(q[1] - n[1]) < 0.01; });
+        if (!rect) add('a clip that is not a plain rectangle can cut glyphs away');
+        pendingClip = box; return;
+      }
       // the signer's corner seal: green fill / white stroke, entirely inside the top-right corner square
       const S = Math.round(Math.min(page.w, page.h) * SEAL_FRACTION);
       const inCorner = box[0] >= page.w - S - 1 && box[2] <= page.w + 1 && box[1] >= -1 && box[3] <= S + 1;
@@ -104,7 +111,9 @@ export function pdfPaintProblems(file) {
         page.curText = { t, color };
         return;
       }
-      if (op === 'span' && !closing && page.curText) { page.curText.size = Math.abs(num(attr(line, 'trm') || '0 0 0 0')[0]) * Math.abs(page.curText.t[0]); return; }
+      if (op === 'span' && !closing && page.curText) { const r = num(attr(line, 'trm') || '0 0 0 0'), t = page.curText.t; // glyph space -> page: the shorter side of the combined 2x2 matrix is its visible size
+        const m = [r[0] * t[0] + r[1] * t[2], r[0] * t[1] + r[1] * t[3], r[2] * t[0] + r[3] * t[2], r[2] * t[1] + r[3] * t[3]];
+        page.curText.size = Math.min(Math.hypot(m[0], m[1]), Math.hypot(m[2], m[3])); page.curText.sx = Math.hypot(m[0], m[1]); return; }
       if (op === 'g' && page.curText) {
         const [x, y] = apply(page.curText.t, Number(attr(line, 'x')), Number(attr(line, 'y')));
         const key = Math.floor(x / CELL) * 100003 + Math.floor(y / CELL);
@@ -113,7 +122,7 @@ export function pdfPaintProblems(file) {
         if (!(page.curText.size >= MIN_GLYPH_PT)) add('a glyph is scaled down to nothing (it reads back but is not visible)');
         const cb = clipBox();
         if (x < -1 || y < -1 || x > page.w + 1 || y > page.h + 1) add('a glyph sits outside the page, so the text reads back but is not on it');
-        else if (x < cb[0] - 1 || x > cb[2] + 1 || y < cb[1] - 1 || y > cb[3] + 1) add('a clip hides a glyph: it reads back but is cut away on the page');
+        else if (x < cb[0] - 1 || x > cb[2] + 1 || y < cb[1] - 1 || y > cb[3] + 1 || x + (Number(attr(line, 'adv')) || 0) * page.curText.sx > cb[2] + 1) add('a clip hides a glyph: it reads back but is cut away on the page');
         // a glyph in exactly the colour of the paper under it is invisible
         for (let i = page.paper.length - 1; i >= 0; i--) {
           const p = page.paper[i];
