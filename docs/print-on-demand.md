@@ -68,26 +68,29 @@ node scripts/build-catalog.mjs           # -> prints/catalog.json + prints/catal
 ```
 
 Combines the masters' seed with the pricing config (`gallery/pricing.json`) into the product catalog: every
-work × the products it is sold as (posters in three sizes, framed poster, canvas, two mugs, t-shirt, tote;
-plus a cushion for the three square works), with a retail price and margin each. `catalog.csv` is flat, one
-row per work × product, ready to import into a shop or a spreadsheet; `catalog.json` is the structured form.
-Both are committed (small); edit `gallery/pricing.json` and re-run to re-price.
+work × the products it is sold as — posters in three sizes (30×40, 50×70, 61×91 cm), framed poster, canvas,
+two mugs, t-shirt and tote — with a retail price, the real Gelato base cost, the margin, and the Gelato
+product UID. `catalog.csv` is flat, one row per work × product, ready to import into a shop or a spreadsheet;
+`catalog.json` is the structured form. Both are committed (small); edit `gallery/pricing.json` and re-run to
+re-price.
 
 **How the prices are set.** Retail is **market-anchored** in CHF — set to what art and literary prints and
-merchandise actually sell for, not cost-plus (cost-plus on print-on-demand underprices art). Every product
-also carries an *approximate* supplier base cost and the resulting margin (55–72 % before shipping and fees),
-as a floor. The base costs are industry ballparks to **confirm in the Gelato / Printful dashboard at setup**:
-both suppliers hide exact per-item cost behind a logged-in calculator, so these are not quotes. Printful
-shipping to Switzerland (fetched 2026-10-20) runs ~CHF 4.5–10 for the first item plus ~CHF 1–2 per extra;
-keep a few CHF of headroom for shipping and card/platform fees. The rationale and every figure are in
-`gallery/pricing.json`.
+merchandise actually sell for, not cost-plus (cost-plus on print-on-demand underprices art). Each product's
+`base` is the **real Gelato supplier price** (country CH, CHF, quantity 1, excluding shipping), fetched
+2026-10-20 from the Gelato price API with the key in Infisical (`/gelato` `GELATO_API_KEY`); the margin
+(55–76 %) is retail minus that base, before shipping and payment fees. Gelato prints and ships from local
+EU/CH production, so shipping (~CHF 5–9 for a poster) is added at order and the margins cover it with
+headroom. Every figure and the Gelato product UIDs are in `gallery/pricing.json`.
 
 ## Selling them
 
-The storefront and fulfilment — a shop of our own plus a print partner (Gelato for posters in the EU,
-Printful for apparel), and the product catalog on `zentrale.astrioncore.app` — are the operator's and
-AstrionCore's to set up (accounts and money). This repo produces the masters, the overview sheet and the
-priced catalog; `catalog.csv` carries the text, size, price and master file each listing needs.
+The print partner is **Gelato** (posters, framed, canvas, mugs, apparel, totes — one supplier, local EU/CH
+production); the API key is set in Infisical and the catalog carries each product's Gelato UID. The remaining
+setup is the operator's and AstrionCore's (accounts, money, placement): a storefront — Gelato's own store or
+a connected shop — and the product catalog on `zentrale.astrioncore.app`, which can ingest `catalog.csv`
+directly. Creating the products on Gelato needs each master reachable at a URL Gelato can fetch (the masters
+are not web-hosted yet — hosting them, unlisted, is the next concrete step and needs Cloudflare/bucket write
+access). This repo produces the masters, the overview sheet and the priced, Gelato-ready catalog.
 
 **Not a free download.** The print masters are the sellable product, so they are **not** offered for free
 download on the website. The artwork is already openly available there as the vector SVG on each `/work`

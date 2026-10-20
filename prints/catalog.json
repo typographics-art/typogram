@@ -1,7 +1,8 @@
 {
   "currency": "CHF",
-  "basis": "Market-anchored retail for Switzerland/EU — set to what art and literary prints and merchandise actually sell for, not cost-plus (cost-plus on print-on-demand underprices art). The margin shown is retail minus an APPROXIMATE supplier base cost and is a floor: it holds at any plausible base cost.",
-  "verify": "Exact base costs must be read from the Gelato / Printful dashboard at setup — both hide per-item cost behind a logged-in calculator, so the approxBase figures here are industry ballparks to confirm, not quotes.",
+  "country": "CH",
+  "supplier": "Gelato",
+  "basis": "Market-anchored retail (set to what art and literary prints and merchandise sell for, not cost-plus). base is the REAL Gelato supplier price — country CH, CHF, quantity 1, excluding shipping — fetched 2026-10-20 from the Gelato price API (key in Infisical /gelato GELATO_API_KEY). margin = (retail − base) / retail, before shipping and payment fees.",
   "works": [
     {
       "id": "earthrise",
@@ -12,106 +13,97 @@
       "master": "prints/earthrise.png",
       "pixels": "7200x7200",
       "inches": "24.0x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
-        },
-        {
-          "key": "pillow-45",
-          "label": "Cushion",
-          "size": "45×45 cm",
-          "supplier": "Printful",
-          "retail": 45,
-          "currency": "CHF",
-          "approxBase": 18,
-          "marginPct": 60
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -124,106 +116,97 @@
       "master": "prints/blue-marble.png",
       "pixels": "7200x7200",
       "inches": "24.0x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
-        },
-        {
-          "key": "pillow-45",
-          "label": "Cushion",
-          "size": "45×45 cm",
-          "supplier": "Printful",
-          "retail": 45,
-          "currency": "CHF",
-          "approxBase": 18,
-          "marginPct": 60
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -236,96 +219,97 @@
       "master": "prints/starry-night.png",
       "pixels": "7200x5775",
       "inches": "24.0x19.3",
+      "orientation": "landscape",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_hor"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -338,96 +322,97 @@
       "master": "prints/great-wave.png",
       "pixels": "7200x4950",
       "inches": "24.0x16.5",
+      "orientation": "landscape",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_hor"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -440,96 +425,97 @@
       "master": "prints/lincoln.png",
       "pixels": "5650x7200",
       "inches": "18.8x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -542,96 +528,97 @@
       "master": "prints/mona-lisa.png",
       "pixels": "4908x7200",
       "inches": "16.4x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -644,96 +631,97 @@
       "master": "prints/darwin.png",
       "pixels": "5788x7200",
       "inches": "19.3x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -746,106 +734,97 @@
       "master": "prints/pillars-of-creation.png",
       "pixels": "7200x7100",
       "inches": "24.0x23.7",
+      "orientation": "landscape",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_hor"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
-        },
-        {
-          "key": "pillow-45",
-          "label": "Cushion",
-          "size": "45×45 cm",
-          "supplier": "Printful",
-          "retail": 45,
-          "currency": "CHF",
-          "approxBase": 18,
-          "marginPct": 60
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -858,96 +837,97 @@
       "master": "prints/wanderer.png",
       "pixels": "5679x7200",
       "inches": "18.9x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -960,96 +940,97 @@
       "master": "prints/red-fuji.png",
       "pixels": "7200x4971",
       "inches": "24.0x16.6",
+      "orientation": "landscape",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_hor"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_hor"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -1062,96 +1043,97 @@
       "master": "prints/douglass.png",
       "pixels": "5471x7200",
       "inches": "18.2x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -1164,96 +1146,97 @@
       "master": "prints/twain.png",
       "pixels": "5996x7200",
       "inches": "20.0x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -1266,96 +1249,97 @@
       "master": "prints/poe.png",
       "pixels": "5192x7200",
       "inches": "17.3x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -1368,96 +1352,97 @@
       "master": "prints/tesla.png",
       "pixels": "5467x7200",
       "inches": "18.2x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     },
@@ -1470,96 +1455,97 @@
       "master": "prints/herschel.png",
       "pixels": "5675x7200",
       "inches": "18.9x24.0",
+      "orientation": "portrait/square",
       "products": [
         {
           "key": "poster-30x40",
           "label": "Poster",
           "size": "30×40 cm",
-          "supplier": "Gelato",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 72
+          "base": 11.92,
+          "marginPct": 59,
+          "gelatoUid": "flat_300x400-mm-12x16-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-50x70",
           "label": "Poster",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 45,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 69
+          "base": 15.56,
+          "marginPct": 65,
+          "gelatoUid": "flat_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "poster-61x91",
           "label": "Poster",
           "size": "61×91 cm (24×36 in)",
-          "supplier": "Gelato",
           "retail": 69,
           "currency": "CHF",
-          "approxBase": 22,
-          "marginPct": 68
+          "base": 17.33,
+          "marginPct": 75,
+          "gelatoUid": "flat_600x900-mm-24x36-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "framed-50x70",
           "label": "Framed poster",
-          "size": "50×70 cm",
-          "supplier": "Gelato",
-          "retail": 99,
+          "size": "50×70 cm, black wood",
+          "retail": 129,
           "currency": "CHF",
-          "approxBase": 45,
-          "marginPct": 55
+          "base": 51.59,
+          "marginPct": 60,
+          "gelatoUid": "framed_poster_500x700-mm-20x28-inch_black_wood_w12xt22-mm_plexiglass_500x700-mm-20x28-inch_200-gsm-80lb-coated-silk_4-0_ver"
         },
         {
           "key": "canvas-50x70",
           "label": "Canvas",
           "size": "50×70 cm",
-          "supplier": "Gelato",
           "retail": 119,
           "currency": "CHF",
-          "approxBase": 42,
-          "marginPct": 65
+          "base": 47.21,
+          "marginPct": 60,
+          "gelatoUid": "canvas_500x700-mm-20x28-inch_canvas_wood-fsc-slim_4-0_ver"
         },
         {
           "key": "mug-11",
           "label": "Mug",
           "size": "11 oz",
-          "supplier": "Printful / Gelato",
           "retail": 22,
           "currency": "CHF",
-          "approxBase": 8,
-          "marginPct": 64
+          "base": 6.59,
+          "marginPct": 70,
+          "gelatoUid": "mug_product_msz_11-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "mug-15",
           "label": "Mug",
           "size": "15 oz",
-          "supplier": "Printful",
           "retail": 25,
           "currency": "CHF",
-          "approxBase": 9,
-          "marginPct": 64
+          "base": 8.38,
+          "marginPct": 66,
+          "gelatoUid": "mug_product_msz_15-oz_mmat_ceramic-white_cl_4-0"
         },
         {
           "key": "tshirt",
           "label": "T-shirt",
-          "size": "unisex S–XXL",
-          "supplier": "Printful",
+          "size": "unisex S–XXL (Gildan 64000)",
           "retail": 39,
           "currency": "CHF",
-          "approxBase": 14,
-          "marginPct": 64
+          "base": 9.53,
+          "marginPct": 76,
+          "gelatoUid": "apparel_product_gca_t-shirt_gsc_crewneck_gcu_unisex_gqa_classic_gsi_m_gco_white_gpr_0-4_gildan_64000"
         },
         {
           "key": "tote",
           "label": "Tote bag",
           "size": "standard",
-          "supplier": "Printful",
           "retail": 29,
           "currency": "CHF",
-          "approxBase": 11,
-          "marginPct": 62
+          "base": 12.97,
+          "marginPct": 55,
+          "gelatoUid": "bag_product_bsc_tote-bag_bqa_clc_bsi_std-t_bco_black_bpr_0-4"
         }
       ]
     }
