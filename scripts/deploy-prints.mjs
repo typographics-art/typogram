@@ -19,6 +19,11 @@ if (!pngs.length) { console.error('no masters in prints/ — run scripts/build-p
 rmSync(join(ROOT, '_prints'), { recursive: true, force: true });
 mkdirSync(STAGE, { recursive: true });
 for (const f of pngs) linkSync(join(SRC, f), join(STAGE, f));
+// Also serve the catalog JSONs so other systems (e.g. the AstrionCore/zentrale shop) can fetch the works,
+// master URLs, titles and prices at https://typographics-art.org/prints/<file>.
+for (const [from, to] of [[join(SRC, 'catalog.json'), 'catalog.json'], [join(ROOT, 'gallery', 'shop-titles.json'), 'shop-titles.json'], [join(ROOT, 'gallery', 'captions.json'), 'captions.json']]) {
+  if (existsSync(from)) linkSync(from, join(STAGE, to));
+}
 writeFileSync(join(ROOT, '_prints', '_headers'), '/prints/*\n  X-Robots-Tag: noindex\n  Cache-Control: public, max-age=31536000, immutable\n');
 console.log(`staged ${pngs.length} masters -> _prints/prints/`);
 const r = spawnSync('env', ['-u', 'CLOUDFLARE_API_TOKEN', 'npx', '--yes', 'wrangler@4', 'deploy', '--config', 'wrangler-prints.jsonc'], { cwd: ROOT, stdio: 'inherit' });
