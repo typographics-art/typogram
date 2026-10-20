@@ -51,6 +51,9 @@ if (!templates.length) { console.error('no templates found'); process.exit(1); }
 
 let works = JSON.parse(readFileSync(join(ROOT, 'prints', 'catalog.json'), 'utf8')).works;
 if (onlyWork) works = works.filter((w) => w.id === onlyWork);
+// Recognizable, search-friendly product name per work (e.g. "Mona Lisa" rather than the internal "La Gioconda").
+let shopTitles = {};
+try { shopTitles = JSON.parse(readFileSync(join(ROOT, 'gallery', 'shop-titles.json'), 'utf8')); } catch { /* optional */ }
 
 // --replace: delete all existing products first (to refresh title/description/tags, which are create-only).
 if (args.includes('--replace')) {
@@ -69,7 +72,7 @@ for (const tpl of templates) {
   const placeholderNames = [...new Set(tplVariants.flatMap((v) => (v.imagePlaceholders || []).map((p) => p.name)))];
   console.log(`\ntemplate "${tpl.title}" -> label "${label}": ${tplVariants.length} variants, placeholders [${placeholderNames.join(', ')}]`);
   for (const w of works) {
-    const title = `${w.title} — ${label}`;
+    const title = `${shopTitles[w.id] || w.title} — Typographic ${label}`;
     if (existing.has(title)) { skipped++; console.log(`  skip (exists): ${title}`); continue; }
     const variants = tplVariants.map((v) => ({
       templateVariantId: v.id,
