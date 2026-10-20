@@ -15,7 +15,7 @@
 //
 // Writes prints/<id>.png (gitignored — production artifacts, not source) and prints/manifest.json.
 // Spec: long side 7200 px = 24 inches at 300 DPI; short side follows each work's aspect ratio.
-import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, statSync, existsSync } from 'node:fs';
 import { spawnSync, spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
@@ -87,8 +87,41 @@ svg { display: block; width: 100%; height: 100%; print-color-adjust: exact; -web
 }
 
 const works = JSON.parse(readFileSync(join(ROOT, 'gallery', 'works.json'), 'utf8'));
-const only = process.argv.slice(2);
+const args = process.argv.slice(2);
+const manifestOnly = args.includes('--manifest'); // rebuild prints/manifest.json from existing masters, no render
+const only = args.filter((a) => !a.startsWith('--'));
+// The buyer-facing caption (the selling point: the picture is made of this text). Optional, kept as editable data.
+const captions = existsSync(join(ROOT, 'gallery', 'captions.json')) ? JSON.parse(readFileSync(join(ROOT, 'gallery', 'captions.json'), 'utf8')) : {};
 mkdirSync(OUT, { recursive: true });
+
+/** One catalog-seed entry for a built master. */
+const entryFor = (w, realDim) => {
+  const [wpx, hpx] = realDim.split('x').map(Number);
+  // The rights basis (text + image, per work) is the record in docs/image-rights.md — one consistent pointer, not
+  // an inconsistent per-work licence (most works.json entries carry the licence inline in `source` instead).
+  return { id: w.id, title: w.title, caption: captions[w.id] || null, source: w.source, rights: 'Public domain — see docs/image-rights.md', file: `prints/${w.id}.png`, pixels: realDim, dpi: DPI, inches: `${(wpx / DPI).toFixed(1)}x${(hpx / DPI).toFixed(1)}` };
+};
+
+/** Merge new entries over the previous manifest so building a subset keeps the other works (like build-gallery.mjs). */
+function writeManifest(entries) {
+  const previous = existsSync(join(OUT, 'manifest.json')) ? JSON.parse(readFileSync(join(OUT, 'manifest.json'), 'utf8')) : [];
+  const byId = new Map(entries.map((e) => [e.id, e]));
+  const merged = works.map((w) => byId.get(w.id) || previous.find((p) => p.id === w.id)).filter(Boolean);
+  writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(merged, null, 2) + '\n');
+  return merged.length;
+}
+
+if (manifestOnly) {
+  const entries = [];
+  for (const w of works) {
+    if (only.length && !only.includes(w.id)) continue;
+    const png = join(OUT, `${w.id}.png`);
+    if (!existsSync(png)) { console.error(`missing master: prints/${w.id}.png (run the full build first)`); process.exitCode = 1; continue; }
+    entries.push(entryFor(w, spawnSync('magick', ['identify', '-format', '%wx%h', png], { encoding: 'utf8' }).stdout.trim()));
+  }
+  console.log(`manifest rebuilt: ${writeManifest(entries)} works → prints/manifest.json`);
+  process.exit(process.exitCode || 0);
+}
 
 const cdp = await openChrome();
 const manifest = [];
@@ -120,15 +153,10 @@ try {
     const realDim = spawnSync('magick', ['identify', '-format', '%wx%h', outPng], { encoding: 'utf8' }).stdout.trim();
     const bytes = statSync(outPng).size;
     madeBytes += bytes;
-    manifest.push({
-      id: w.id, title: w.title, source: w.source, licence: w.licence,
-      file: `prints/${w.id}.png`, pixels: realDim, dpi: DPI,
-      inches: `${widthIn.toFixed(1)}x${heightIn.toFixed(1)}`,
-    });
+    manifest.push(entryFor(w, realDim));
     console.log(`${w.id}: ${realDim}px @ ${DPI} DPI (${widthIn.toFixed(1)}x${heightIn.toFixed(1)} in), ${(bytes / 1048576).toFixed(1)} MB`);
   }
 } finally {
   await cdp.close();
 }
-writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-console.log(`\n${manifest.length} print masters, ${(madeBytes / 1048576).toFixed(0)} MB in total → prints/`);
+console.log(`\n${writeManifest(manifest)} print masters, ${(madeBytes / 1048576).toFixed(0)} MB in total → prints/`);

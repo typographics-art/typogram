@@ -18,13 +18,18 @@ the works are historical / public domain and that no institutional or government
 ```
 node scripts/build-prints.mjs            # every work in gallery/works.json
 node scripts/build-prints.mjs great-wave mona-lisa   # only these
+node scripts/build-prints.mjs --manifest # rebuild only manifest.json from the existing masters (no render)
 ```
 
 Output goes to `prints/`:
 
 - `prints/<id>.png` — one master per work.
-- `prints/manifest.json` — id, title, the text it is set from, licence, pixel size, print size, DPI. This
-  is the seed for a product catalog.
+- `prints/manifest.json` — id, title, **caption** (the buyer-facing selling point — the picture is made of
+  *this* text), the source text, a rights pointer (`docs/image-rights.md`), pixel size, print size and DPI.
+  This is the seed for a product catalog.
+
+The captions are editable data in `gallery/captions.json` (id → caption); edit them and run
+`build-prints.mjs --manifest` to re-seed without re-rendering.
 
 The PNG masters are large and are **not** committed (they are regenerated from the signed artwork on demand);
 `prints/manifest.json` is committed.
