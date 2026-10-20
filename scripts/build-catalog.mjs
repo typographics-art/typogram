@@ -26,17 +26,18 @@ const catalog = manifest.map((w) => {
     const gelatoUid = landscape ? p.gelatoUid.replace(/_ver$/, '_hor') : p.gelatoUid;
     return { key, label: p.label, size: p.size, retail: p.retail, currency: pricing.currency, base: p.base, marginPct: pct(p.retail, p.base), gelatoUid };
   });
-  return { id: w.id, title: w.title, caption: w.caption, source: w.source, rights: w.rights, master: w.file, pixels: w.pixels, inches: w.inches, orientation: landscape ? 'landscape' : 'portrait/square', products };
+  const masterUrl = `${pricing.masterBaseUrl}/${w.id}.png`;
+  return { id: w.id, title: w.title, caption: w.caption, source: w.source, rights: w.rights, master: w.file, masterUrl, pixels: w.pixels, inches: w.inches, orientation: landscape ? 'landscape' : 'portrait/square', products };
 });
 
 writeFileSync(join(ROOT, 'prints', 'catalog.json'), JSON.stringify({ currency: pricing.currency, country: pricing.country, supplier: pricing.supplier, basis: pricing.basis, works: catalog }, null, 2) + '\n');
 
 // Flat CSV, one row per work × product. Quote every cell and double internal quotes (captions carry commas/quotes).
 const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-const header = ['work_id', 'title', 'product', 'size', 'supplier', 'retail', 'currency', 'base_cost', 'margin_pct', 'gelato_uid', 'master_file', 'caption'];
+const header = ['work_id', 'title', 'product', 'size', 'supplier', 'retail', 'currency', 'base_cost', 'margin_pct', 'gelato_uid', 'master_url', 'caption'];
 const rows = [header.join(',')];
 for (const w of catalog) for (const p of w.products) {
-  rows.push([w.id, w.title, p.label, p.size, pricing.supplier, p.retail, p.currency, p.base, p.marginPct, p.gelatoUid, w.master, w.caption].map(cell).join(','));
+  rows.push([w.id, w.title, p.label, p.size, pricing.supplier, p.retail, p.currency, p.base, p.marginPct, p.gelatoUid, w.masterUrl, w.caption].map(cell).join(','));
 }
 writeFileSync(join(ROOT, 'prints', 'catalog.csv'), rows.join('\n') + '\n');
 

@@ -2,6 +2,7 @@
   "currency": "CHF",
   "country": "CH",
   "supplier": "Gelato",
+  "masterBaseUrl": "https://typographics-art.org/prints",
   "basis": "Market-anchored retail (set to what art and literary prints and merchandise sell for, not cost-plus). base is the REAL Gelato supplier price — country CH, CHF, quantity 1, excluding shipping — fetched 2026-10-20 from the Gelato price API (key in Infisical /gelato GELATO_API_KEY). margin = (retail − base) / retail, before shipping and payment fees.",
   "shippingNote": "Gelato prints and ships from local EU/CH production; shipping (roughly CHF 5–9 for a poster, similar for apparel) is added at order. The margins here (55–76 %) cover shipping and card/platform fees with headroom.",
   "resolutionNote": "The master is 7200 px on the long side = 24 in at 300 DPI. 30×40 cm prints at ~450 DPI, 50×70 at ~260 DPI, 61×91 cm (24×36 in) at ~200 DPI (large wall poster, viewed at a distance). Posters/framed/canvas use the 200 gsm coated-silk paper; the gelatoUid shown is the vertical variant, landscape works use the `hor` variant at the same price.",

@@ -1,0 +1,10 @@
+// Separate static-assets worker that hosts the print masters at typographics-art.org/prints/<id>.png so
+// Gelato can fetch them by URL. Deployed independently of the main site (a site deploy never removes them).
+//   node scripts/deploy-prints.mjs    (relinks _prints/prints and deploys)
+{
+  "name": "typographics-prints",
+  "compatibility_date": "2025-09-01",
+  "workers_dev": false,
+  "routes": [{ "pattern": "typographics-art.org/prints/*", "zone_name": "typographics-art.org" }],
+  "assets": { "directory": "./_prints" }
+}

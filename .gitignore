@@ -14,6 +14,9 @@ prints/*
 !prints/catalog.json
 !prints/catalog.csv
 
+# Staging dir for the typographics-prints hosting worker (scripts/deploy-prints.mjs).
+_prints/
+
 # Python build artifacts
 __pycache__/
 *.pyc

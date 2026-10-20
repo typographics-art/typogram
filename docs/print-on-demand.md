@@ -85,12 +85,19 @@ headroom. Every figure and the Gelato product UIDs are in `gallery/pricing.json`
 ## Selling them
 
 The print partner is **Gelato** (posters, framed, canvas, mugs, apparel, totes — one supplier, local EU/CH
-production); the API key is set in Infisical and the catalog carries each product's Gelato UID. The remaining
-setup is the operator's and AstrionCore's (accounts, money, placement): a storefront — Gelato's own store or
-a connected shop — and the product catalog on `zentrale.astrioncore.app`, which can ingest `catalog.csv`
-directly. Creating the products on Gelato needs each master reachable at a URL Gelato can fetch (the masters
-are not web-hosted yet — hosting them, unlisted, is the next concrete step and needs Cloudflare/bucket write
-access). This repo produces the masters, the overview sheet and the priced, Gelato-ready catalog.
+production); the API key is in Infisical (`/gelato`) and the catalog carries each product's Gelato UID and
+the master's URL.
+
+**Hosting the masters.** Gelato fetches the print file from a URL, so the masters are served at
+`https://typographics-art.org/prints/<id>.png` by a **separate** Cloudflare worker (`wrangler-prints.jsonc`,
+deploy with `node scripts/deploy-prints.mjs`). It is deployed independently of the main site, so a site
+deploy never removes the masters; the files are `X-Robots-Tag: noindex` (fetchable by Gelato, not surfaced
+in search). Re-deploy after regenerating the masters.
+
+**To go live** (operator): create a **Gelato Store** in the Gelato dashboard (Stores → create a Gelato
+Store). Once it exists, the products — every work × the catalog's products, using each work's master URL and
+Gelato UID — are created through the Gelato e-commerce API. The storefront and payment are then the
+operator's and AstrionCore's to run; `zentrale.astrioncore.app` can ingest `catalog.csv` directly.
 
 **Not a free download.** The print masters are the sellable product, so they are **not** offered for free
 download on the website. The artwork is already openly available there as the vector SVG on each `/work`
