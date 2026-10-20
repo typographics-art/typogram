@@ -25,6 +25,7 @@ import { buildRegistry, verifyRegistry, verifiedMap, fetchIssuerKeyfile, validat
 import { buildArchive, archiveToText, readArchive, archiveFiles, scanSecrets, ORIGINS } from './handoff.mjs';
 import { stampSvg, sealGeometry, SEAL_GREEN } from '../src/stamp.js';
 import { pictureLayerProblems } from '../src/picture-lint.js';
+import { pdfPaintProblems } from './pdf-lint.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -167,6 +168,7 @@ async function evaluate(file) {
   // lint: the hash covers the TEXT, not the paint — an SVG picture layer must hold only glyphs (src/picture-lint.js), else
   // a shape or a recoloured glyph can show a reader something other than the signed words while the signature still checks
   if (kind === 'svg') for (const p of pictureLayerProblems(text)) problems.push(`picture layer: ${p}`);
+  else if (kind === 'pdf') for (const p of await pdfPaintProblems(file)) problems.push(`picture layer: ${p}`);
 
   if (problems.length) return { ...base, state: 'TAMPERED', problems };
 
