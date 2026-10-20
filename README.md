@@ -332,6 +332,8 @@ Already shipping (not a plan): the **sealed-media adapter** — point any ordina
 
 Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); please follow the [code of conduct](CODE_OF_CONDUCT.md).
 
+Accessibility — what we measured, what does not work yet and how to report a barrier: [ACCESSIBILITY.md](ACCESSIBILITY.md).
+
 Want to anchor keys in another log or chain? The anchor plugins are pluggable — see [`anchors/README.md`](anchors/README.md); DigiByte is a good first task.
 
 ```sh

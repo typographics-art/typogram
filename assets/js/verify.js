@@ -39,6 +39,8 @@ function render(res, name) {
   detail.replaceChildren();
   for (const [k, v] of rows) { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; detail.append(dt, dd); }
   result.classList.add('show');
+  // announce the verdict: the result block appears via display, which screen readers do not reliably announce
+  document.getElementById('status').textContent = `${badge.textContent}${reason.textContent ? ' — ' + reason.textContent : ''}`;
 }
 
 async function check(text, name) {

@@ -1,0 +1,39 @@
+name: Accessibility barrier
+description: Something got in the way of reading, navigating or using Typographics Art
+labels: [accessibility]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for telling us. You do not need to share any personal details or say anything about a disability. See [ACCESSIBILITY.md](../blob/main/ACCESSIBILITY.md) for what to expect.
+  - type: textarea
+    id: task
+    attributes:
+      label: What were you trying to do, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where (page URL, file or command)
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce (if you know them)
+  - type: input
+    id: setup
+    attributes:
+      label: Browser, operating system and assistive technology, with versions (if you are comfortable sharing)
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How much did it get in the way? (we confirm this when we triage)
+      options:
+        - I could not do the task at all
+        - Very hard, but I found a workaround
+        - Annoying or inconsistent
+        - Minor
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else (a screenshot or recording is optional)

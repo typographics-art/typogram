@@ -34,3 +34,5 @@ Thanks for helping. Contributions of every size are welcome: a typo fix, a trans
 ## Reporting security issues
 
 See [SECURITY.md](SECURITY.md).
+
+Accessibility barriers and what we expect of changes to the site, the generator and the docs: [ACCESSIBILITY.md](ACCESSIBILITY.md).
