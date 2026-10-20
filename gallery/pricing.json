@@ -1,0 +1,24 @@
+{
+  "currency": "CHF",
+  "basis": "Market-anchored retail for Switzerland/EU — set to what art and literary prints and merchandise actually sell for, not cost-plus (cost-plus on print-on-demand underprices art). The margin shown is retail minus an APPROXIMATE supplier base cost and is a floor: it holds at any plausible base cost.",
+  "verify": "Exact base costs must be read from the Gelato / Printful dashboard at setup — both hide per-item cost behind a logged-in calculator, so the approxBase figures here are industry ballparks to confirm, not quotes.",
+  "shippingCH": "Printful to Switzerland (printful.com/shipping, fetched 2026-10-20): roughly CHF 4.5–10 for the first item plus ~CHF 1–2 per extra item (EFTA rate is the closest Swiss match, unconfirmed). Charged on top of the item price, or absorbed into a free-shipping threshold. Verify at checkout.",
+  "feesNote": "Retail is before shipping and before platform/payment fees (card ~2.9% + fixed; Printful premium placement ~USD 1). Keep a few CHF of headroom for these.",
+  "products": [
+    { "key": "poster-30x40", "label": "Poster", "size": "30×40 cm", "supplier": "Gelato", "retail": 29, "approxBase": 8 },
+    { "key": "poster-50x70", "label": "Poster", "size": "50×70 cm", "supplier": "Gelato", "retail": 45, "approxBase": 14 },
+    { "key": "poster-61x91", "label": "Poster", "size": "61×91 cm (24×36 in)", "supplier": "Gelato", "retail": 69, "approxBase": 22 },
+    { "key": "framed-50x70", "label": "Framed poster", "size": "50×70 cm", "supplier": "Gelato", "retail": 99, "approxBase": 45 },
+    { "key": "canvas-50x70", "label": "Canvas", "size": "50×70 cm", "supplier": "Gelato", "retail": 119, "approxBase": 42 },
+    { "key": "mug-11", "label": "Mug", "size": "11 oz", "supplier": "Printful / Gelato", "retail": 22, "approxBase": 8 },
+    { "key": "mug-15", "label": "Mug", "size": "15 oz", "supplier": "Printful", "retail": 25, "approxBase": 9 },
+    { "key": "tshirt", "label": "T-shirt", "size": "unisex S–XXL", "supplier": "Printful", "retail": 39, "approxBase": 14 },
+    { "key": "tote", "label": "Tote bag", "size": "standard", "supplier": "Printful", "retail": 29, "approxBase": 11 },
+    { "key": "pillow-45", "label": "Cushion", "size": "45×45 cm", "supplier": "Printful", "retail": 45, "approxBase": 18 }
+  ],
+  "appliesTo": {
+    "all": ["poster-30x40", "poster-50x70", "poster-61x91", "framed-50x70", "canvas-50x70", "mug-11", "mug-15", "tshirt", "tote"],
+    "squareOnly": ["pillow-45"]
+  },
+  "resolutionNote": "The master is 7200 px on the long side = 24 in at 300 DPI. 30×40 cm prints at ~450 DPI, 50×70 at ~260 DPI, 61×91 cm (24×36 in) at ~200 DPI (large wall poster, viewed at a distance). The cushion is offered only for the square works; other products fit any aspect (the platform places each work in the matching orientation at listing time)."
+}
