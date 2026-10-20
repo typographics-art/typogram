@@ -9,7 +9,10 @@ import { createInterface } from 'node:readline';
 import { SEAL_FRACTION } from '../src/stamp.js';
 
 const SEAL_COLOR = '.122 .541 .298'; // SEAL_GREEN #1f8a4c as MuPDF prints it
-const FORBIDDEN = new Set(['fill_image', 'fill_image_mask', 'fill_shade', 'clip_text', 'clip_stroke_text', 'clip_stroke_path', 'ignore_text', 'stroke_text', 'begin_mask', 'begin_tile', 'begin_layer']);
+// ALLOWLIST of the draw-trace elements a generated page contains; any other (images, shadings, masks, tiles, invisible or
+// clipping text, clipped images …) is reported by name, so an operator this check has never seen can not slip through
+const KNOWN = new Set(['document', 'page', 'set_default_colorspaces', 'group', 'clip_path', 'pop_clip', 'fill_path', 'stroke_path', 'moveto', 'lineto', 'curveto', 'closepath', 'fill_text', 'span', 'g']);
+const MIN_GLYPH_PT = 0.5; // effective glyph size on the page; the smallest the generator makes is ~1.4 pt (EU AI Act one-pager)
 const CELL = 8; // points; glyph origins are bucketed on this grid so "any glyph under this shape?" is a few lookups
 
 const num = (s) => s.split(/\s+/).map(Number);
@@ -24,7 +27,12 @@ export function pdfPaintProblems(file) {
   return new Promise((resolve) => {
     const out = [];
     const add = (p) => { if (out.length < 8 && !out.includes(p)) out.push(p); };
-    const child = spawn('mutool', ['trace', file], { stdio: ['ignore', 'pipe', 'ignore'] });
+    const child = spawn('mutool', ['trace', file], { stdio: ['ignore', 'pipe', 'pipe'] });
+    let stderr = '', exitCode = null, pages = 0, pagesClosed = 0;
+    child.stderr.on('data', (d) => { if (stderr.length < 2000) stderr += d; });
+    let doneParts = 0;
+    const part = () => { if (++doneParts === 2) finish(); };
+    child.on('close', (code, sig) => { exitCode = sig ? 'signal' : code; part(); });
     const rl = createInterface({ input: child.stdout, crlfDelay: Infinity });
 
     let page = null;                 // { w, h, glyphs: Map(cell -> glyph origins), paper: [{box, color}] }
@@ -68,13 +76,14 @@ export function pdfPaintProblems(file) {
       const m = /^\s*<(\/?)([a-z_]+)\b/.exec(line);
       if (!m) return;
       const [, closing, op] = m;
-      if (op === 'page') { page = null; const mb = attr(line, 'mediabox'); if (mb) { const b = num(mb); page = { w: b[2] - b[0], h: b[3] - b[1], glyphs: new Map(), paper: [] }; } clips = []; return; }
+      if (!KNOWN.has(op)) { add(`<${op}> in the page trace (${/image|shade|mask|tile|layer/.test(op) ? 'an image, shading or mask can cover or fake words' : /text/.test(op) ? 'invisible or clipping text' : 'not something a generated page contains'})`); return; }
+      const alpha = attr(line, 'alpha'), blend = attr(line, 'blendmode');
+      if (alpha != null && Number(alpha) !== 1) add('transparency (alpha below 1) fades what is under it or the glyphs themselves');
+      if (blend != null && blend !== 'Normal') add(`blend mode ${blend} changes how glyphs are painted`);
+      if (closing && op === 'page') pagesClosed++;
+      if (op === 'page' && !closing) { pages++; page = null; const mb = attr(line, 'mediabox'); if (mb) { const b = num(mb); page = { w: b[2] - b[0], h: b[3] - b[1], glyphs: new Map(), paper: [] }; } clips = []; return; }
       if (!page) return;
-      if (FORBIDDEN.has(op)) { add(`<${op}> in the page (${op.includes('text') ? 'invisible or masking text' : 'an image, shading or mask can cover or fake words'})`); return; }
       if (op === 'group' && !closing) {
-        const alpha = attr(line, 'alpha'), blend = attr(line, 'blendmode');
-        if (alpha != null && Number(alpha) !== 1) add('a transparency group fades what is under it');
-        if (blend != null && blend !== 'Normal') add(`blend mode ${blend} changes how glyphs are painted`);
         clips.push(null); return;
       }
       if (op === 'group' && closing) { clips.pop(); return; }
@@ -95,11 +104,16 @@ export function pdfPaintProblems(file) {
         page.curText = { t, color };
         return;
       }
+      if (op === 'span' && !closing && page.curText) { page.curText.size = Math.abs(num(attr(line, 'trm') || '0 0 0 0')[0]) * Math.abs(page.curText.t[0]); return; }
       if (op === 'g' && page.curText) {
         const [x, y] = apply(page.curText.t, Number(attr(line, 'x')), Number(attr(line, 'y')));
         const key = Math.floor(x / CELL) * 100003 + Math.floor(y / CELL);
         const cell = page.glyphs.get(key); if (cell) cell.push(x, y); else page.glyphs.set(key, [x, y]);
         glyphsTotal++;
+        if (!(page.curText.size >= MIN_GLYPH_PT)) add('a glyph is scaled down to nothing (it reads back but is not visible)');
+        const cb = clipBox();
+        if (x < -1 || y < -1 || x > page.w + 1 || y > page.h + 1) add('a glyph sits outside the page, so the text reads back but is not on it');
+        else if (x < cb[0] - 1 || x > cb[2] + 1 || y < cb[1] - 1 || y > cb[3] + 1) add('a clip hides a glyph: it reads back but is cut away on the page');
         // a glyph in exactly the colour of the paper under it is invisible
         for (let i = page.paper.length - 1; i >= 0; i--) {
           const p = page.paper[i];
@@ -108,6 +122,14 @@ export function pdfPaintProblems(file) {
       }
     });
     child.on('error', () => resolve(['could not run MuPDF to check the painted page']));
-    rl.on('close', () => { if (!glyphsTotal) add('the PDF paints no text at all'); resolve(out); });
+    // fail closed: a trace that did not finish cleanly, or MuPDF complaining about the page, is not a clean page
+    rl.on('close', part);
+    const finish = () => {
+      if (exitCode !== 0) add('MuPDF could not trace the page cleanly (exit ' + exitCode + ')');
+      if (stderr.trim()) add('MuPDF reported problems reading the page: ' + stderr.trim().split('\n')[0].slice(0, 120));
+      if (!pages || pagesClosed !== pages) add('the page trace is incomplete');
+      if (!glyphsTotal) add('the PDF paints no text at all');
+      resolve(out);
+    };
   });
 }
