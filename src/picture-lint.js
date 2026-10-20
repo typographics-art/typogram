@@ -21,7 +21,10 @@ const MIN_FONT_SIZE = 1; // user units; the smallest type the generator makes is
 // one whole tag, attribute-aware: a ">" or "<" inside a quoted value cannot end or split it
 const ATTR = String.raw`\s+[\w:.-]+\s*=\s*(?:"[^"<>]*"|'[^'<>]*')`;
 const TAG = new RegExp(String.raw`<(/?)([a-zA-Z][\w:-]*)((?:${ATTR})*)\s*(/?)>`, 'y');
+// attribute values are checked as written, so an entity ("&#59;" for ";") could disguise a value from every check: the
+// only entity the generator writes in an attribute is &quot; (inside a style), anything else is refused outright
 const attrsOf = (s) => [...s.matchAll(/([\w:.-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)].map((m) => [m[1], m[2] ?? m[3]]);
+const hasEntity = (v) => /&/.test(String(v).replace(/&quot;/g, ''));
 const colour = (v) => { const m = OPAQUE.exec(String(v || '').trim()); if (!m) return null; const c = [+m[1], +m[2], +m[3]]; return c.every((n) => n <= 255) ? c : null; };
 
 /**
@@ -40,13 +43,28 @@ export function pictureLayerProblems(svgText) {
   // 2. the root, then the data layer — which must be the generator's block, directly after the root, ended at its real end
   const root = /^\s*(?:<\?xml[^>]*\?>\s*)?<svg((?:\s+[\w:.-]+\s*=\s*(?:"[^"<>]*"|'[^'<>]*'))*)\s*>/.exec(src);
   if (!root) return [...out, "not the generator's SVG picture layer (root element)"];
+  if (attrsOf(root[1]).some(([, v]) => hasEntity(v))) add('an entity inside an attribute value (it can disguise the value from the check)');
   for (const [k] of attrsOf(root[1])) if (!ROOT_ATTRS.has(k)) add(`the root <svg> carries "${k}", which can change how the whole picture is painted`);
-  const vb = /viewBox\s*=\s*"\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)\s*"/.exec(root[1]);
+  // fail closed: the page box every position check below is measured against must be the generator's `0 0 W H`
+  const vb = /\bviewBox\s*=\s*"0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/.exec(root[1]);
+  if (!vb) return [...out, 'the picture has no viewBox of the form "0 0 W H" (every glyph position is measured against it)'];
+  vb.splice(1, 0, '0', '0'); // keep the vb[3]/vb[4] = width/height indexing used below
   let rest = src.slice(root[0].length);
   const meta = /^<metadata><tgart:source\b[^>]*><!\[CDATA\[/.exec(rest);
   if (!meta) return [...out, 'the data layer is not the first thing in the picture (it may hide markup from the check)'];
-  const cdataEnd = rest.indexOf(']]></tgart:source>', meta[0].length);
-  const metaEnd = cdataEnd < 0 ? -1 : rest.indexOf('</metadata>', cdataEnd);
+  // the CDATA ends at the FIRST "]]>" (as in an XML parser); the generator splits a "]]>" in the source into "]]]]><![CDATA[>",
+  // so the only thing that may follow one is a re-opened CDATA or the end of the source element. Anything else is rejected.
+  let pos = meta[0].length, cdataEnd = -1;
+  for (let guard = 0; guard < 1e6; guard++) {
+    const e = rest.indexOf(']]>', pos);
+    if (e < 0) break;
+    const after = e + 3;
+    if (rest.startsWith('<![CDATA[', after)) { pos = after + 9; continue; }
+    if (rest.startsWith('</tgart:source>', after)) cdataEnd = e;
+    break;
+  }
+  if (cdataEnd < 0) return [...out, 'the data layer does not end the way the generator writes it (markup after its CDATA can hide shapes)'];
+  const metaEnd = rest.indexOf('</metadata>', cdataEnd);
   if (metaEnd < 0) return [...out, 'the data layer is not closed'];
   // between the source and </metadata> only the JSON-LD record may sit (a <script> never paints)
   const tail = rest.slice(cdataEnd + ']]></tgart:source>'.length, metaEnd);
@@ -79,6 +97,7 @@ export function pictureLayerProblems(svgText) {
     i = TAG.lastIndex;
     const [, closing, tag, rawAttrs, selfClose] = m;
     const attrs = attrsOf(rawAttrs);
+    if (attrs.some(([, v]) => hasEntity(v))) add('an entity inside an attribute value (it can disguise the value from the check)');
     if (closing) {
       if (tag === 'text') { inText = false; closedText++; } else if (tag === 'tspan') inTspan = false;
       continue;
@@ -89,7 +108,7 @@ export function pictureLayerProblems(svgText) {
       const close = rest.indexOf('</g>', lt);
       const seal = close < 0 ? '' : rest.slice(lt, close + 4);
       let ok = false;
-      if (vb && seal && !sealSeen && rest.slice(close + 4).trim() === '</svg>') {
+      if (seal && !sealSeen && rest.slice(close + 4).trim() === '</svg>') {
         const g = sealGeometry(parseFloat(vb[3]), parseFloat(vb[4]));
         ok = seal === `<g id="${SEAL_ID}" aria-label="signed Typogram">`
           + `<path d="M ${g.triangle.split(' ').map((p) => p.replace(',', ' ')).join(' L ')} Z" fill="${SEAL_GREEN}"/>`
@@ -125,7 +144,7 @@ export function pictureLayerProblems(svgText) {
         if (!TSPAN_ATTRS.has(k)) { add(`a glyph carries "${k}", which can move, hide or fade it`); continue; }
         if (k === 'x' || k === 'y') {
           // one plain number: a list (x="1 2 3") would move the glyphs after the first, and off-page glyphs are not on the picture
-          const lim = vb ? parseFloat(vb[k === 'x' ? 3 : 4]) : Infinity;
+          const lim = parseFloat(vb[k === 'x' ? 3 : 4]);
           if (!NUM.test(v) || !(parseFloat(v) >= 0 && parseFloat(v) <= lim)) add('a glyph position is not one number on the page, so the text reads back but is not on the picture');
         } else if (k === 'font-size') { if (!(NUM.test(v) && parseFloat(v) >= MIN_FONT_SIZE)) add('a glyph has no visible font size'); }
         else if (k === 'style') { if (!STYLE_OK.test(v.replace(/&quot;/g, '"'))) add('a glyph style changes more than type features (opacity, visibility, transform … can hide it)'); }

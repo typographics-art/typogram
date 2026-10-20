@@ -53,6 +53,10 @@ const CASES = {
   'a comment hiding a cover from a naive data-layer strip': (s) => '<!-- <metadata> -->'.length && s.replace(/<metadata>/, '<!-- <metadata> --><rect width="100%" height="100%" fill="#fff"/><metadata>'),
   'a ">" inside an attribute value hiding a later attribute': (s) => s.replace(/(<text [^>]*?)font-family="/, '$1font-family="a>b" opacity="0" data-x="'),
   'a DOCTYPE with an entity': (s) => '<!DOCTYPE svg [<!ENTITY a "b">]>' + s,
+  'an entity-encoded semicolon hiding a declaration in a style': (s) => s.replace(/(<text [^>]*?style=")/, '$1font-kerning:none&#59;opacity:0&#59;font-variant-ligatures:'),
+  'an entity-encoded fill value': (s) => s.replace(/<tspan x=/, '<tspan fill="rgb(1,2,3&#41;" x='),
+  'a CDATA closed early so a shape sits in the data layer block': (s) => s.replace(']]></tgart:source>', ']]><rect width="100%" height="100%" fill="#fff"/><![CDATA[]]></tgart:source>'),
+  'a missing viewBox (positions unmeasurable)': (s) => s.replace(/ viewBox="[^"]*"/, ''),
   'a glyph recoloured to the background': (s) => s.replace(/<tspan x="([^"]*)" y="([^"]*)"/, `<tspan fill="${bgOf(s)}" x="$1" y="$2"`),
   'a fake signed seal that is really a cover': (s) => end(s, '<g id="tgart-signed-seal"><rect width="100%" height="100%" fill="#fff"/></g>'),
 };
