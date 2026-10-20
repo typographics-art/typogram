@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { makeOnePage } from './onepage-core.mjs';
+import { pictureLayerProblems } from '../src/picture-lint.js';
 import { canonicalText, sha256Hex, markupText, readJsonld, readDataMarkdown, withJsonld } from '../src/index.js';
 import { signHash, verifyHash, verifyKeyStatement, SIG_SPEC } from '../src/sign.js';
 
@@ -100,6 +101,8 @@ export async function verifyBundle(dir, { loadKeyfile }) {
     if (tg.hash !== imgHash) { issues.push(`${path}: image and stored hash differ`); return 'TAMPERED'; }
     const dl = readDataMarkdown(text); // the picture and the embedded source must be the same text (as `tg verify` requires)
     if (dl && dl.markdown != null && (await sha256Hex(canonicalText(dl.markdown))) !== imgHash) { issues.push(`${path}: the embedded source and the picture disagree`); return 'TAMPERED'; }
+    const paint = pictureLayerProblems(text); // the hash covers the text, not the paint (src/picture-lint.js)
+    if (paint.length) { issues.push(`${path}: picture layer: ${paint[0]}`); return 'TAMPERED'; }
     if (!tg.signature) { issues.push(`${path}: unsigned`); return 'UNSIGNED'; }
     // Mirror `tg verify`: find the key statement, reject revoked kids, verify the statement's own signature (so a forged
     // key file does not pass), check the issuer matches, then verify the work's signature with that key.

@@ -8,6 +8,7 @@ import { canonicalText } from './secret.js';
 import { sha256Hex } from './structure.js';
 import { markupText } from './work-text.js';
 import { readJsonld } from './typogram.js';
+import { pictureLayerProblems } from './picture-lint.js';
 
 const b64urlToBytes = (s) => Uint8Array.from(atob(String(s).replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
 const HEX64 = /^[0-9a-f]{64}$/;
@@ -28,6 +29,10 @@ export async function verifyTypogram(text, { fetchKeyfile } = {}) {
   const storedHash = tg.hash;
   if (storedHash && (!HEX64.test(String(storedHash)) || storedHash !== hash)) {
     return { state: 'TAMPERED', reason: 'the stored hash does not match the text', hash, storedHash: String(storedHash) };
+  }
+  if (container === 'svg') { // the hash covers the text, not the paint: a shape or recoloured glyph must not pass (picture-lint.js)
+    const paint = pictureLayerProblems(text);
+    if (paint.length) return { state: 'TAMPERED', reason: `picture layer: ${paint[0]}`, hash, storedHash: storedHash ? String(storedHash) : undefined };
   }
   if (!tg.signature) return { state: 'UNSIGNED', hash, issuer: tg.issuer || null };
 

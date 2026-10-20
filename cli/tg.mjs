@@ -24,6 +24,7 @@ import { generateX25519Identity, identityToRecipient } from '../vendor/age-encry
 import { buildRegistry, verifyRegistry, verifiedMap, fetchIssuerKeyfile, validateKeyfile } from './keys-registry.mjs';
 import { buildArchive, archiveToText, readArchive, archiveFiles, scanSecrets, ORIGINS } from './handoff.mjs';
 import { stampSvg, sealGeometry, SEAL_GREEN } from '../src/stamp.js';
+import { pictureLayerProblems } from '../src/picture-lint.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
@@ -162,6 +163,10 @@ async function evaluate(file) {
   const title = visibleTitle(kind, text), heading = firstHeading(dl.markdown);
   if (title && heading && canonicalText(title) !== canonicalText(heading))
     problems.push(`the visible title ${JSON.stringify(title)} is not the start of the data layer (first heading ${JSON.stringify(heading)})`);
+
+  // lint: the hash covers the TEXT, not the paint — an SVG picture layer must hold only glyphs (src/picture-lint.js), else
+  // a shape or a recoloured glyph can show a reader something other than the signed words while the signature still checks
+  if (kind === 'svg') for (const p of pictureLayerProblems(text)) problems.push(`picture layer: ${p}`);
 
   if (problems.length) return { ...base, state: 'TAMPERED', problems };
 

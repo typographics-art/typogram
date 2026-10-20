@@ -132,6 +132,17 @@ sig.signature: CsESxGVwGYddLmBK9otg9XqrExe5PbirsVU2_qESx7-LEMJSBmnrNGoUlLUSao-78
 
 - It proves the **picture and the source carry one text**, and (when signed) **who published it and that it is unchanged** since
   the signed date. It does **not** prove the signer is honest, nor that any reader or agent actually runs the check.
+- **The signature covers the text, not the paint — so the picture layer is linted too.** A signed text can be shown wrongly
+  without touching a character: a shape drawn over words, a glyph recoloured to the background, a glyph moved off the page, a
+  stylesheet or `opacity` that fades the picture. We measured all of these passing `tg verify` as VERIFIED before the check
+  existed (reported on Moltbook, 2026-10-20). `src/picture-lint.js` now binds the *painted* layer to the text: an SVG picture
+  layer may contain only the background rectangle, one `<text>` of `<tspan>` glyphs (`x`, `y`, size, weight, width, colour, type
+  features) and the signer's corner seal, byte-for-byte as drawn. Anything else — another shape, `<image>`, `<foreignObject>`,
+  a transform, an opacity, a glyph coloured exactly like the background or placed outside the page — makes the work
+  `TAMPERED` in `tg verify`, in bundles and in the web verifier. It is a structural check (no browser, runs everywhere) and
+  it is not a pixel proof: it cannot tell a faint-but-legal glyph from a hidden one beyond the exact background colour.
+  HTML and PDF pictures are **not** linted yet (their text still binds to the hash, their paint does not); a vision model
+  comparing the render to the text, as suggested in the thread, remains a useful independent check there.
 - It is **whitespace- and invisibles-insensitive by design** (canonical-text.md): two Typograms that differ only in line wrapping
   share a hash and a signature.
 - Authenticity depends on the **domain binding** — that key `K` is `example.org`'s — which comes from the key file at the issuer's
