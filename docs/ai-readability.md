@@ -101,6 +101,16 @@ Earlier versions of this page blamed Poppler's losses on Chrome's Type 3 fonts; 
 
 **Current state (measured 2026-10-27).** The table above is the A4 measurement. The examples are now set on bigger paper, so that their type stays above the 3 × 3 unit limit: A2 for most, A1 for the Swiss constitution and the Basic Law, A0 for the EU AI Act and the agent library (`examples/build.mjs`). With the default `pdftotext`, 24 of 32 examples now read completely. The EU AI Act still misses 13 836 words, and the agent library 2 283, even on A0; for those two use `pdftotext -r 600` or MuPDF. Six small examples miss 2 to 8 words each; the cause is not yet isolated, so they are not claimed as complete.
 
+## Where the complete text is, and how to check it
+
+Every one-pager carries its complete source text, so a reader does not have to scrape the page:
+
+- **SVG:** in the data layer, inside the `tgart:source` element (CDATA). `tg extract <file.svg> --markdown` prints it.
+- **PDF:** as the embedded attachment `source.md` (the structured examples) or `source.txt` (the plain-text ones). `pdfdetach -saveall <file.pdf> -o <dir>` writes it out; `tg extract <file.pdf> --markdown` prints it.
+- **Check:** `tg verify <file>` on the SVG or the PDF. VERIFIED means the visible picture, the embedded source and the signature all cover one text. UNSIGNED or TAMPERED means the text is not the one signed by typographics-art.org.
+
+The page's own text layer is only the visible picture; reading it with Poppler at default settings can drop text on the densest one-pagers, as the table above shows.
+
 ## Recommendations
 
 - **To hand a work to an AI, use HTML or SVG.** The text is exact at every setting. PDF is exact too when read in stored order; with legibility *high* it is exact for layout-reconstructing tools as well.

@@ -85,7 +85,7 @@ Wir behaupten es nicht nur. Jede Zahl unten ist gemessen und nachvollziehbar ([M
 
 Also: **Gib Maschinen das HTML oder SVG**, dann bekommen sie den Text fehlerfrei, bei jeder künstlerischen Einstellung. PDF ebenso, wenn es in gespeicherter Reihenfolge gelesen wird, und mit jedem Werkzeug bei Lesbarkeit *hoch*. Reist nur ein Bild (Screenshot, Social-Media-Post), wähle Lesbarkeit *hoch*, dann übersteht der Text sogar reine Bilderkennung. In einer ersten Stichprobe las ein Bild-Sprachmodell jedes Wort, sogar bei *frei*, wo klassische Texterkennung stolpert. Mehr Modelle und grössere Stichproben: [Hilfe ist willkommen](CONTRIBUTING.md).
 
-Eine Einschränkung bei PDF: Poppler-`pdftotext` behält pro Seite nur die ersten 50 000 kleinen Zeichen. Bei Seiten mit mehr Text (ein One-Pager eines langen Dokuments) liest man das PDF mit MuPDF oder ruft `pdftotext -r 600` auf ([Einzelheiten](docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely), Englisch).
+Der vollständige Text steckt außerdem in jedem One-Pager-PDF als Anhang (`pdfdetach -saveall` oder `tg extract`), und `tg verify` prüft, dass es der signierte Text ist. Eine Einschränkung bei PDF: Poppler-`pdftotext` behält pro Seite nur die ersten 50 000 kleinen Zeichen. Bei Seiten mit mehr Text (ein One-Pager eines langen Dokuments) liest man das PDF mit MuPDF oder ruft `pdftotext -r 600` auf ([Einzelheiten](docs/ai-readability.md#which-pdf-extractors-read-a-one-pager-completely), Englisch).
 
 ## One-Pager: ein ganzes Dokument auf einer Seite
 
