@@ -12,7 +12,7 @@ type. People see what the page contains, machines read every word from the PDF's
 
   --title <text>       large title (default: file name)
   --subtitle <text>    smaller line below the title (default: page and word count)
-  --paper <a4|a3|a2|letter>   page size (default a4)
+  --paper <a4|a3|a2|a1|a0|letter>   page size (default a4)
   --motif <image>      form a picture (JPEG/PNG/WebP) above the title instead of the title alone;
                        works from about 20 000 characters on, shorter texts are too coarse
   --weights <1-10>     use at most this many font weights: every weight × width × size is a separate

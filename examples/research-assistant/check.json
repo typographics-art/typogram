@@ -11,13 +11,13 @@
   "characters": 2625,
   "words": 444,
   "lines": 111,
-  "paper": "a4",
-  "fontSizeMm": 1.5,
+  "paper": "a2",
+  "fontSizeMm": 3.001,
   "overflow": false,
   "toneFidelity": 0.709,
   "dynamicRange": 0.397,
   "paperTone": "dark",
-  "layoutMs": 290,
+  "layoutMs": 402,
   "check": {
     "extractor": "mutool draw -F txt",
     "pages": 1,
@@ -27,8 +27,8 @@
     "sha256Source": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
     "sha256ReadBack": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9"
   },
-  "pdfBytes": 102311,
-  "pdfBytesUnoptimized": 164909,
+  "pdfBytes": 102321,
+  "pdfBytesUnoptimized": 164921,
   "printStrips": 1,
   "reprints": 0,
   "pdfStats": {
@@ -37,7 +37,7 @@
     "outlines": 250,
     "fonts": 10
   },
-  "sizeFactor": 38.75,
+  "sizeFactor": 38.76,
   "motif": null,
   "motifCredit": null,
   "structured": false,

@@ -99,6 +99,8 @@ A known quirk: Chrome draws a character the font lacks (for example "→" in Rob
 
 Earlier versions of this page blamed Poppler's losses on Chrome's Type 3 fonts; that was wrong. A plain page of 120 000 characters in an ordinary font shows the same cut at 50 000.
 
+**Current state (measured 2026-10-27).** The table above is the A4 measurement. The examples are now set on bigger paper, so that their type stays above the 3 × 3 unit limit: A2 for most, A1 for the Swiss constitution and the Basic Law, A0 for the EU AI Act and the agent library (`examples/build.mjs`). With the default `pdftotext`, 24 of 32 examples now read completely. The EU AI Act still misses 13 836 words, and the agent library 2 283, even on A0; for those two use `pdftotext -r 600` or MuPDF. Six small examples miss 2 to 8 words each; the cause is not yet isolated, so they are not claimed as complete.
+
 ## Recommendations
 
 - **To hand a work to an AI, use HTML or SVG.** The text is exact at every setting. PDF is exact too when read in stored order; with legibility *high* it is exact for layout-reconstructing tools as well.

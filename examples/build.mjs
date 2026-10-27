@@ -21,6 +21,10 @@ const CACHE = join(DIR, '.cache');
 mkdirSync(CACHE, { recursive: true });
 const all = JSON.parse(readFileSync(join(DIR, 'sources.json'), 'utf8'));
 const only = process.argv.slice(2);
+// Texts of 100 000+ characters need one size up: their type is still under 3 pt on A2 (see docs/ai-readability.md).
+const BIG_TEXTS = ['eu-ai-act', 'de-grundgesetz', 'ch-bundesverfassung', 'agent-bibliothek'];
+const HUGE_TEXTS = ['eu-ai-act', 'agent-bibliothek']; // still short on A1 (measured: 35 434 and 14 516 words missing)
+const paperFor = (id) => (HUGE_TEXTS.includes(id) ? 'a0' : BIG_TEXTS.includes(id) ? 'a1' : 'a2');
 const sha = (b) => createHash('sha256').update(b).digest('hex');
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 
@@ -70,7 +74,7 @@ try {
     // Official source + "Stand" for the signed record: the committed gate skeleton carries the authoritative version.
     const os = existsSync(join(out, 'official-structure.json')) ? JSON.parse(readFileSync(join(out, 'official-structure.json'), 'utf8')) : null;
     const r = await makeOnePage(session, {
-      text: doc.text, title: ex.title, subtitle: ex.subtitle, paper: ex.paper || 'a4', motif, options, source, hasPart,
+      text: doc.text, title: ex.title, subtitle: ex.subtitle, paper: ex.paper || paperFor(ex.id), motif, options, source, hasPart,
       meta: source ? { title: ex.document, inLanguage: ex.inLanguage || null, license: ex.licence, sourceUrl: ex.url || null,
         ...(os ? { isBasedOn: { '@type': 'Legislation', name: os.official, ...(os.officialUrl ? { url: os.officialUrl } : {}) }, sourceVersion: os.asOf } : {}) } : undefined,
       svg: ex.structured ? join(out, 'onepage.svg') : undefined,

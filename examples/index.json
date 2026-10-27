@@ -8,7 +8,7 @@
     "sourcePages": null,
     "words": 17894,
     "characters": 132347,
-    "fontSizeMm": 0.981,
+    "fontSizeMm": 2.774,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -18,7 +18,7 @@
       "sha256Source": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690",
       "sha256ReadBack": "0c3924bda565384722133fb7b45f76f63be984d43e0ec2cc10edb54b6c683690"
     },
-    "pdfBytes": 1418936,
+    "pdfBytes": 1402440,
     "sourceBytes": 135747,
     "motifCredit": "Lithograph celebrating the revised Federal Constitution, 19 April 1874 (imprint: Oelfarbendruck-Anstalt Hindermann & Siegmund). Public domain (more than 150 years old).",
     "text": "source.txt",
@@ -26,7 +26,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/ch-bundesverfassung-1874.jpg",
     "title": "Bundesverfassung",
-    "rev": "e93b5dc514",
+    "rev": "96df7b77ef",
     "signed": true
   },
   {
@@ -38,7 +38,7 @@
     "sourcePages": null,
     "words": 23973,
     "characters": 176995,
-    "fontSizeMm": 0.871,
+    "fontSizeMm": 2.466,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -48,7 +48,7 @@
       "sha256Source": "09d8a1770cfac067a346ec27a8f09a7b91f9dbfe0208f99cb0457366a702b1a9",
       "sha256ReadBack": "09d8a1770cfac067a346ec27a8f09a7b91f9dbfe0208f99cb0457366a702b1a9"
     },
-    "pdfBytes": 799405,
+    "pdfBytes": 800376,
     "sourceBytes": 180628,
     "motifCredit": null,
     "text": "source.txt",
@@ -56,7 +56,7 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Grundgesetz",
-    "rev": "d9a17ee149",
+    "rev": "8f6926f657",
     "signed": true
   },
   {
@@ -68,7 +68,7 @@
     "sourcePages": null,
     "words": 7701,
     "characters": 45071,
-    "fontSizeMm": 1.732,
+    "fontSizeMm": 3.464,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -78,7 +78,7 @@
       "sha256Source": "4b3cd9be54a2539588b8ed6026a65394f9ff3d7db38fe7ec0ada82be01607cba",
       "sha256ReadBack": "4b3cd9be54a2539588b8ed6026a65394f9ff3d7db38fe7ec0ada82be01607cba"
     },
-    "pdfBytes": 512660,
+    "pdfBytes": 512673,
     "sourceBytes": 45305,
     "motifCredit": "Henry Hintermeister, \"The Foundation of American Government\" (1925), Library of Congress. Public domain in the United States (published 1925).",
     "text": "source.txt",
@@ -98,7 +98,7 @@
     "sourcePages": null,
     "words": 45987,
     "characters": 294115,
-    "fontSizeMm": 0.704,
+    "fontSizeMm": 2.819,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -108,7 +108,7 @@
       "sha256Source": "de4270889c9fa641c598f1d1e1c0e7e6f3eac2246070e042f70f9a1b13a2e83d",
       "sha256ReadBack": "de4270889c9fa641c598f1d1e1c0e7e6f3eac2246070e042f70f9a1b13a2e83d"
     },
-    "pdfBytes": 1615080,
+    "pdfBytes": 1634477,
     "sourceBytes": 296050,
     "motifCredit": "Drawn for this project (gallery/recipes.js, aiActNetwork; image: motifs/eu-ai-act-network.png), MIT.",
     "text": "source.txt",
@@ -116,7 +116,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AI Act",
-    "rev": "34330743ac",
+    "rev": "9074bbc935",
     "signed": true
   },
   {
@@ -128,7 +128,7 @@
     "sourcePages": null,
     "words": 1811,
     "characters": 10858,
-    "fontSizeMm": 1.24,
+    "fontSizeMm": 2.479,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -138,7 +138,7 @@
       "sha256Source": "e93aaa99e8e07dcbe57dba7f96f53bd58ca53adb88a4cd13978c8ee438d92e95",
       "sha256ReadBack": "e93aaa99e8e07dcbe57dba7f96f53bd58ca53adb88a4cd13978c8ee438d92e95"
     },
-    "pdfBytes": 162794,
+    "pdfBytes": 162806,
     "sourceBytes": 10921,
     "motifCredit": null,
     "text": "source.txt",
@@ -158,7 +158,7 @@
     "sourcePages": null,
     "words": 7153,
     "characters": 47409,
-    "fontSizeMm": 1.704,
+    "fontSizeMm": 3.409,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -168,7 +168,7 @@
       "sha256Source": "1259db379a8b2859b92a63cea4c7d399d042e48e590e1f1cc713168a01257118",
       "sha256ReadBack": "1259db379a8b2859b92a63cea4c7d399d042e48e590e1f1cc713168a01257118"
     },
-    "pdfBytes": 355668,
+    "pdfBytes": 355681,
     "sourceBytes": 50796,
     "motifCredit": null,
     "text": "source.txt",
@@ -176,8 +176,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "PEP 8",
-    "rev": "40c47f8461",
-    "signed": true
+    "rev": "0c324c2995",
+    "signed": false
   },
   {
     "id": "code-review-agent",
@@ -188,7 +188,7 @@
     "sourcePages": null,
     "words": 594,
     "characters": 3514,
-    "fontSizeMm": 3.186,
+    "fontSizeMm": 6.373,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -198,7 +198,7 @@
       "sha256Source": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3",
       "sha256ReadBack": "ccfdf6c955cb64b0032307706d83e27918554b237d5565b004bd919d53044ec3"
     },
-    "pdfBytes": 115976,
+    "pdfBytes": 115986,
     "sourceBytes": 3531,
     "motifCredit": null,
     "text": "source.txt",
@@ -206,8 +206,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AI",
-    "rev": "4f1e5a991f",
-    "signed": true
+    "rev": "6470456f85",
+    "signed": false
   },
   {
     "id": "support-assistant",
@@ -218,7 +218,7 @@
     "sourcePages": null,
     "words": 557,
     "characters": 3165,
-    "fontSizeMm": 1.586,
+    "fontSizeMm": 3.172,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -228,7 +228,7 @@
       "sha256Source": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533",
       "sha256ReadBack": "9ca46f06c84527b34c4c0490fd49d94442b90ce9104e0c4c6ed4cfcb344c8533"
     },
-    "pdfBytes": 117574,
+    "pdfBytes": 117587,
     "sourceBytes": 3183,
     "motifCredit": null,
     "text": "source.txt",
@@ -236,8 +236,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Support",
-    "rev": "9593c6d5fc",
-    "signed": true
+    "rev": "614de76768",
+    "signed": false
   },
   {
     "id": "research-assistant",
@@ -248,7 +248,7 @@
     "sourcePages": null,
     "words": 444,
     "characters": 2625,
-    "fontSizeMm": 1.5,
+    "fontSizeMm": 3.001,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -258,7 +258,7 @@
       "sha256Source": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9",
       "sha256ReadBack": "5662aa2164dea5c6c83f22de186e1e223b34824e35cb6aa3b73042b4ae5dcde9"
     },
-    "pdfBytes": 102311,
+    "pdfBytes": 102321,
     "sourceBytes": 2640,
     "motifCredit": null,
     "text": "source.txt",
@@ -266,8 +266,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "Research",
-    "rev": "7d7759fa91",
-    "signed": true
+    "rev": "bca2a6cb35",
+    "signed": false
   },
   {
     "id": "agents-md",
@@ -278,7 +278,7 @@
     "sourcePages": null,
     "words": 671,
     "characters": 4495,
-    "fontSizeMm": 1.141,
+    "fontSizeMm": 2.282,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -288,7 +288,7 @@
       "sha256Source": "b63249cea347a2cf3e04fa1cb74bbbd5419ac580019c408676ec10b9a2df0f6a",
       "sha256ReadBack": "b63249cea347a2cf3e04fa1cb74bbbd5419ac580019c408676ec10b9a2df0f6a"
     },
-    "pdfBytes": 149294,
+    "pdfBytes": 149306,
     "sourceBytes": 4614,
     "motifCredit": null,
     "text": "source.txt",
@@ -296,8 +296,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENTS.md",
-    "rev": "fe03237d43",
-    "signed": true
+    "rev": "491e97ff0f",
+    "signed": false
   },
   {
     "id": "agent-bibliothek",
@@ -308,7 +308,7 @@
     "sourcePages": null,
     "words": 30205,
     "characters": 225554,
-    "fontSizeMm": 0.784,
+    "fontSizeMm": 3.14,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -318,7 +318,7 @@
       "sha256Source": "32419a48b02767c5c6deeea55cfc121bb5e1f96780a98193f46e9b1367615ccc",
       "sha256ReadBack": "32419a48b02767c5c6deeea55cfc121bb5e1f96780a98193f46e9b1367615ccc"
     },
-    "pdfBytes": 1038510,
+    "pdfBytes": 1040289,
     "sourceBytes": 229791,
     "motifCredit": null,
     "text": "source.txt",
@@ -326,8 +326,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "AGENT",
-    "rev": "be2096e56b",
-    "signed": true
+    "rev": "64c29cf748",
+    "signed": false
   },
   {
     "id": "agent-library-readme",
@@ -338,7 +338,7 @@
     "sourcePages": null,
     "words": 950,
     "characters": 7350,
-    "fontSizeMm": 1.821,
+    "fontSizeMm": 3.642,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -348,7 +348,7 @@
       "sha256Source": "60c208a49776f9fbf2f087585331b8b60a7b95629486a5e6f045e2d29c0c7772",
       "sha256ReadBack": "60c208a49776f9fbf2f087585331b8b60a7b95629486a5e6f045e2d29c0c7772"
     },
-    "pdfBytes": 175765,
+    "pdfBytes": 175775,
     "sourceBytes": 7449,
     "motifCredit": null,
     "text": "source.txt",
@@ -356,8 +356,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "LIB",
-    "rev": "038b247b03",
-    "signed": true
+    "rev": "b9015c612d",
+    "signed": false
   },
   {
     "id": "agent-library-wissen",
@@ -368,7 +368,7 @@
     "sourcePages": null,
     "words": 1094,
     "characters": 8441,
-    "fontSizeMm": 2.018,
+    "fontSizeMm": 4.036,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -378,7 +378,7 @@
       "sha256Source": "caf999df5bccc8aaa732cdc2f66ccd988a0cc6f8090faa275f942b059a1448ec",
       "sha256ReadBack": "caf999df5bccc8aaa732cdc2f66ccd988a0cc6f8090faa275f942b059a1448ec"
     },
-    "pdfBytes": 184151,
+    "pdfBytes": 184161,
     "sourceBytes": 8582,
     "motifCredit": null,
     "text": "source.txt",
@@ -386,8 +386,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "W",
-    "rev": "99a4e184a1",
-    "signed": true
+    "rev": "6dba3fca50",
+    "signed": false
   },
   {
     "id": "agent-regel-quellen",
@@ -398,7 +398,7 @@
     "sourcePages": null,
     "words": 639,
     "characters": 4432,
-    "fontSizeMm": 2.556,
+    "fontSizeMm": 5.111,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -408,7 +408,7 @@
       "sha256Source": "325999344a2aa8429255665cb0e3ecab48f01f7de62f4c3e27a433271c62954e",
       "sha256ReadBack": "325999344a2aa8429255665cb0e3ecab48f01f7de62f4c3e27a433271c62954e"
     },
-    "pdfBytes": 141696,
+    "pdfBytes": 141703,
     "sourceBytes": 4504,
     "motifCredit": null,
     "text": "source.txt",
@@ -416,8 +416,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§1",
-    "rev": "7bdc669636",
-    "signed": true
+    "rev": "f57f9610ff",
+    "signed": false
   },
   {
     "id": "agent-regel-unsicherheit",
@@ -428,7 +428,7 @@
     "sourcePages": null,
     "words": 584,
     "characters": 4022,
-    "fontSizeMm": 2.909,
+    "fontSizeMm": 5.819,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -438,7 +438,7 @@
       "sha256Source": "2b1198caf9771a56a1dbea5177c25bce6645b0d2c7ceb9d9046e71dd127c60df",
       "sha256ReadBack": "2b1198caf9771a56a1dbea5177c25bce6645b0d2c7ceb9d9046e71dd127c60df"
     },
-    "pdfBytes": 136324,
+    "pdfBytes": 136332,
     "sourceBytes": 4093,
     "motifCredit": null,
     "text": "source.txt",
@@ -446,8 +446,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§2",
-    "rev": "5b5c2a509c",
-    "signed": true
+    "rev": "df90d68d31",
+    "signed": false
   },
   {
     "id": "agent-regel-aufgaben",
@@ -458,7 +458,7 @@
     "sourcePages": null,
     "words": 567,
     "characters": 3984,
-    "fontSizeMm": 2.888,
+    "fontSizeMm": 5.775,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -468,7 +468,7 @@
       "sha256Source": "4fe3873261ba49c70a0b36739ed7102b5ce508a9e9dedc311421b40f05cebfd3",
       "sha256ReadBack": "4fe3873261ba49c70a0b36739ed7102b5ce508a9e9dedc311421b40f05cebfd3"
     },
-    "pdfBytes": 131709,
+    "pdfBytes": 131719,
     "sourceBytes": 4060,
     "motifCredit": null,
     "text": "source.txt",
@@ -476,8 +476,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§3",
-    "rev": "2ab4d43338",
-    "signed": true
+    "rev": "2359c9d9d2",
+    "signed": false
   },
   {
     "id": "agent-regel-berechtigungen",
@@ -488,7 +488,7 @@
     "sourcePages": null,
     "words": 521,
     "characters": 3625,
-    "fontSizeMm": 2.982,
+    "fontSizeMm": 5.965,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -498,7 +498,7 @@
       "sha256Source": "21717813aed0720f5ea0532bd009ceb0c8abb905ac68c99b4492618bb0b0d348",
       "sha256ReadBack": "21717813aed0720f5ea0532bd009ceb0c8abb905ac68c99b4492618bb0b0d348"
     },
-    "pdfBytes": 131059,
+    "pdfBytes": 131068,
     "sourceBytes": 3688,
     "motifCredit": null,
     "text": "source.txt",
@@ -506,8 +506,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§4",
-    "rev": "6b064949ad",
-    "signed": true
+    "rev": "67f9010e91",
+    "signed": false
   },
   {
     "id": "agent-regel-datenschutz",
@@ -518,7 +518,7 @@
     "sourcePages": null,
     "words": 509,
     "characters": 3768,
-    "fontSizeMm": 2.99,
+    "fontSizeMm": 5.979,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -528,7 +528,7 @@
       "sha256Source": "6e51c94a51d2519c0e47e42f1a0fb3c54d4ef91c8433b22df48a0f47a88863a6",
       "sha256ReadBack": "6e51c94a51d2519c0e47e42f1a0fb3c54d4ef91c8433b22df48a0f47a88863a6"
     },
-    "pdfBytes": 138615,
+    "pdfBytes": 138624,
     "sourceBytes": 3834,
     "motifCredit": null,
     "text": "source.txt",
@@ -536,8 +536,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§5",
-    "rev": "27ab02efc6",
-    "signed": true
+    "rev": "f5d5d7216f",
+    "signed": false
   },
   {
     "id": "agent-regel-qualitaet",
@@ -548,7 +548,7 @@
     "sourcePages": null,
     "words": 537,
     "characters": 3788,
-    "fontSizeMm": 2.966,
+    "fontSizeMm": 5.932,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -558,7 +558,7 @@
       "sha256Source": "fd594e4d8ddc29bd69ee9214d269f6067ae8c21ce43bd14e93bd75b2f57a68f5",
       "sha256ReadBack": "fd594e4d8ddc29bd69ee9214d269f6067ae8c21ce43bd14e93bd75b2f57a68f5"
     },
-    "pdfBytes": 128273,
+    "pdfBytes": 128282,
     "sourceBytes": 3885,
     "motifCredit": null,
     "text": "source.txt",
@@ -566,8 +566,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§6",
-    "rev": "78ff377e7c",
-    "signed": true
+    "rev": "41d2f547a9",
+    "signed": false
   },
   {
     "id": "agent-regel-ausgabe",
@@ -578,7 +578,7 @@
     "sourcePages": null,
     "words": 553,
     "characters": 3980,
-    "fontSizeMm": 2.78,
+    "fontSizeMm": 5.56,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -588,7 +588,7 @@
       "sha256Source": "797aefa9e2b9f27613317edf65dc0955965c0c67064004aa833b9699500090ed",
       "sha256ReadBack": "797aefa9e2b9f27613317edf65dc0955965c0c67064004aa833b9699500090ed"
     },
-    "pdfBytes": 144565,
+    "pdfBytes": 144576,
     "sourceBytes": 4061,
     "motifCredit": null,
     "text": "source.txt",
@@ -596,8 +596,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§7",
-    "rev": "96dd6f16b8",
-    "signed": true
+    "rev": "71c8dbf40f",
+    "signed": false
   },
   {
     "id": "agent-regel-fremdinhalte",
@@ -608,7 +608,7 @@
     "sourcePages": null,
     "words": 516,
     "characters": 3835,
-    "fontSizeMm": 2.949,
+    "fontSizeMm": 5.899,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -618,7 +618,7 @@
       "sha256Source": "cac1aa291b2345b96d4ede44c99dfc86549ce3799e798aa32c2d9459a3e5f11e",
       "sha256ReadBack": "cac1aa291b2345b96d4ede44c99dfc86549ce3799e798aa32c2d9459a3e5f11e"
     },
-    "pdfBytes": 129763,
+    "pdfBytes": 129773,
     "sourceBytes": 3887,
     "motifCredit": null,
     "text": "source.txt",
@@ -626,8 +626,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "§8",
-    "rev": "847ba98814",
-    "signed": true
+    "rev": "a9e1e46f64",
+    "signed": false
   },
   {
     "id": "agent-prompts-code",
@@ -638,7 +638,7 @@
     "sourcePages": null,
     "words": 2572,
     "characters": 19347,
-    "fontSizeMm": 2.638,
+    "fontSizeMm": 5.276,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -648,7 +648,7 @@
       "sha256Source": "158fca6875b57107fcc9ac5a219f3ea6b68b02bc0e4b286999364e13d164aea4",
       "sha256ReadBack": "158fca6875b57107fcc9ac5a219f3ea6b68b02bc0e4b286999364e13d164aea4"
     },
-    "pdfBytes": 229095,
+    "pdfBytes": 229110,
     "sourceBytes": 19703,
     "motifCredit": null,
     "text": "source.txt",
@@ -656,8 +656,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "CODE",
-    "rev": "ad594e3b0a",
-    "signed": true
+    "rev": "4d1c91e783",
+    "signed": false
   },
   {
     "id": "agent-prompts-sec",
@@ -668,7 +668,7 @@
     "sourcePages": null,
     "words": 1695,
     "characters": 13532,
-    "fontSizeMm": 1.232,
+    "fontSizeMm": 2.465,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -678,7 +678,7 @@
       "sha256Source": "6e8f8d377b1307327e950a8d5bcdee04080172ded7bc54746fb8619ccd7011d9",
       "sha256ReadBack": "6e8f8d377b1307327e950a8d5bcdee04080172ded7bc54746fb8619ccd7011d9"
     },
-    "pdfBytes": 231342,
+    "pdfBytes": 231344,
     "sourceBytes": 13747,
     "motifCredit": null,
     "text": "source.txt",
@@ -686,8 +686,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "SEC",
-    "rev": "f56dbc43e9",
-    "signed": true
+    "rev": "888b53e8d1",
+    "signed": false
   },
   {
     "id": "agent-prompts-recherche",
@@ -698,7 +698,7 @@
     "sourcePages": null,
     "words": 2548,
     "characters": 18980,
-    "fontSizeMm": 2.663,
+    "fontSizeMm": 5.327,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -708,7 +708,7 @@
       "sha256Source": "c24a2c96e67414b1ffe3c0496457c40d9ed2c12828d702210fe1e162fbde7e19",
       "sha256ReadBack": "c24a2c96e67414b1ffe3c0496457c40d9ed2c12828d702210fe1e162fbde7e19"
     },
-    "pdfBytes": 227975,
+    "pdfBytes": 227988,
     "sourceBytes": 19333,
     "motifCredit": null,
     "text": "source.txt",
@@ -716,8 +716,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "FAKT",
-    "rev": "2520c9434e",
-    "signed": true
+    "rev": "c48fa3baac",
+    "signed": false
   },
   {
     "id": "agent-prompts-dokumente",
@@ -728,7 +728,7 @@
     "sourcePages": null,
     "words": 2460,
     "characters": 18345,
-    "fontSizeMm": 2.714,
+    "fontSizeMm": 5.429,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -738,7 +738,7 @@
       "sha256Source": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d",
       "sha256ReadBack": "ec6bf002943724201bcaeee77baab42d6d0dda67583861e89472f961807c151d"
     },
-    "pdfBytes": 222987,
+    "pdfBytes": 222998,
     "sourceBytes": 18726,
     "motifCredit": null,
     "text": "source.txt",
@@ -746,8 +746,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "DOKU",
-    "rev": "4567776764",
-    "signed": true
+    "rev": "1049116a81",
+    "signed": false
   },
   {
     "id": "agent-prompts-daten",
@@ -758,7 +758,7 @@
     "sourcePages": null,
     "words": 2181,
     "characters": 16382,
-    "fontSizeMm": 0.93,
+    "fontSizeMm": 1.859,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -768,7 +768,7 @@
       "sha256Source": "202ff8d9bde4e93f3089f94da291e074c57232f1c23b479f0564ca289f3b0192",
       "sha256ReadBack": "202ff8d9bde4e93f3089f94da291e074c57232f1c23b479f0564ca289f3b0192"
     },
-    "pdfBytes": 238374,
+    "pdfBytes": 238399,
     "sourceBytes": 16655,
     "motifCredit": null,
     "text": "source.txt",
@@ -776,8 +776,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "DATA",
-    "rev": "0639878f77",
-    "signed": true
+    "rev": "424e75ffe8",
+    "signed": false
   },
   {
     "id": "agent-prompts-schreiben",
@@ -788,7 +788,7 @@
     "sourcePages": null,
     "words": 1966,
     "characters": 15008,
-    "fontSizeMm": 0.964,
+    "fontSizeMm": 1.929,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -798,7 +798,7 @@
       "sha256Source": "ef111849b89b943b7c8f7dcb5042f2a573eeac8f535b0c28ded51b1cd602afdc",
       "sha256ReadBack": "ef111849b89b943b7c8f7dcb5042f2a573eeac8f535b0c28ded51b1cd602afdc"
     },
-    "pdfBytes": 238917,
+    "pdfBytes": 238931,
     "sourceBytes": 15291,
     "motifCredit": null,
     "text": "source.txt",
@@ -806,8 +806,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "TEXT",
-    "rev": "a82510bc51",
-    "signed": true
+    "rev": "9755e17deb",
+    "signed": false
   },
   {
     "id": "agent-prompts-unternehmen",
@@ -818,7 +818,7 @@
     "sourcePages": null,
     "words": 2323,
     "characters": 17639,
-    "fontSizeMm": 2.74,
+    "fontSizeMm": 5.48,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -828,7 +828,7 @@
       "sha256Source": "7d47451bbc505b0d7b2a2656190d36ee1d2205c2f92d4fe0929e7dd043505cdb",
       "sha256ReadBack": "7d47451bbc505b0d7b2a2656190d36ee1d2205c2f92d4fe0929e7dd043505cdb"
     },
-    "pdfBytes": 234746,
+    "pdfBytes": 234760,
     "sourceBytes": 17928,
     "motifCredit": null,
     "text": "source.txt",
@@ -836,8 +836,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "BIZ",
-    "rev": "ed82467a89",
-    "signed": true
+    "rev": "3dc57a8007",
+    "signed": false
   },
   {
     "id": "agent-prompts-projekt",
@@ -848,7 +848,7 @@
     "sourcePages": null,
     "words": 2490,
     "characters": 18012,
-    "fontSizeMm": 2.74,
+    "fontSizeMm": 5.48,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -858,7 +858,7 @@
       "sha256Source": "5617e6bbc9d35a50b8e8c03fc3094d8b1b133acbeaca2a32145bfa36e6bd36b8",
       "sha256ReadBack": "5617e6bbc9d35a50b8e8c03fc3094d8b1b133acbeaca2a32145bfa36e6bd36b8"
     },
-    "pdfBytes": 222647,
+    "pdfBytes": 222658,
     "sourceBytes": 18369,
     "motifCredit": null,
     "text": "source.txt",
@@ -866,8 +866,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "PLAN",
-    "rev": "5749c6e92a",
-    "signed": true
+    "rev": "1064adeda1",
+    "signed": false
   },
   {
     "id": "agent-prompts-design",
@@ -878,7 +878,7 @@
     "sourcePages": null,
     "words": 2637,
     "characters": 20051,
-    "fontSizeMm": 2.567,
+    "fontSizeMm": 5.133,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -888,7 +888,7 @@
       "sha256Source": "bdbd3579031cf65af2862c12d01b7fb714835a6e68df3c78d6554af9045b4d1b",
       "sha256ReadBack": "bdbd3579031cf65af2862c12d01b7fb714835a6e68df3c78d6554af9045b4d1b"
     },
-    "pdfBytes": 255333,
+    "pdfBytes": 255340,
     "sourceBytes": 20449,
     "motifCredit": null,
     "text": "source.txt",
@@ -896,8 +896,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "UX",
-    "rev": "79fb5433a6",
-    "signed": true
+    "rev": "8ab48b7bda",
+    "signed": false
   },
   {
     "id": "agent-prompts-betrieb",
@@ -908,7 +908,7 @@
     "sourcePages": null,
     "words": 2771,
     "characters": 20107,
-    "fontSizeMm": 2.589,
+    "fontSizeMm": 5.177,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -918,7 +918,7 @@
       "sha256Source": "d605486e33169f9da895c79da9c4cdda94d5fd8f8794e1184cfe3e964215df36",
       "sha256ReadBack": "d605486e33169f9da895c79da9c4cdda94d5fd8f8794e1184cfe3e964215df36"
     },
-    "pdfBytes": 237119,
+    "pdfBytes": 237130,
     "sourceBytes": 20600,
     "motifCredit": null,
     "text": "source.txt",
@@ -926,8 +926,8 @@
     "textMatchesArt": true,
     "motifFile": null,
     "title": "OPS",
-    "rev": "0eaaaea0ae",
-    "signed": true
+    "rev": "acc234a518",
+    "signed": false
   },
   {
     "id": "agentic-engineering",
@@ -938,7 +938,7 @@
     "sourcePages": null,
     "words": 7297,
     "characters": 41662,
-    "fontSizeMm": 1.856,
+    "fontSizeMm": 3.711,
     "readBack": {
       "extractor": "mutool draw -F txt",
       "pages": 1,
@@ -948,7 +948,7 @@
       "sha256Source": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8",
       "sha256ReadBack": "cdf26fa3d6d8250092f5758558c283feee302ae65ec3946245bf6be231bd91e8"
     },
-    "pdfBytes": 359987,
+    "pdfBytes": 359998,
     "sourceBytes": 41910,
     "motifCredit": "Drawn for this project (gallery/recipes.js, agenticNetwork). MIT.",
     "text": "source.txt",
@@ -956,7 +956,7 @@
     "textMatchesArt": true,
     "motifFile": "motifs/eu-ai-act-network.png",
     "title": "AGENTIC",
-    "rev": "714a529722",
+    "rev": "b3e07d9de8",
     "signed": true
   }
 ]

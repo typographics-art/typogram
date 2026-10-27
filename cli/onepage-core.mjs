@@ -11,7 +11,7 @@ import { normalizeText, canonicalText, sha256Hex, buildJsonld } from '../src/ind
 import { visibleText, TOOL_TIMEOUT_MS } from './core.mjs';
 import { embedFontInSvg } from '../scripts/embed-font.mjs';
 
-export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], letter: [215.9, 279.4] };
+export const PAPERS_MM = { a4: [210, 297], a3: [297, 420], a2: [420, 594], a1: [594, 841], a0: [841, 1189], letter: [215.9, 279.4] };
 const HERE = dirname(fileURLToPath(import.meta.url));
 const sha = (s) => createHash('sha256').update(s).digest('hex');
 const has = (cmd) => spawnSync('which', [cmd]).status === 0;
