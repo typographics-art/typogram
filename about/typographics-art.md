@@ -96,16 +96,16 @@ One caveat for PDF: Poppler's `pdftotext` keeps only the first 50 000 small char
 
 | | | |
 |---|---|---|
-| Swiss Federal Constitution on one page **Swiss Federal Constitution** 102 pages, 228 576 characters | EU AI Act on one page **EU AI Act** 144 pages, 595 706 characters | Code review agent instructions on one page **AI instructions** a code review agent's rules |
+| Swiss Federal Constitution on one page **Swiss Federal Constitution** 232 articles, 132 347 characters | EU AI Act on one page **EU AI Act** Articles 1–113, 294 115 characters | Code review agent instructions on one page **AI instructions** a code review agent's rules |
 
-Every example is read back with MuPDF and compared with its source; every visible character matches. 31 examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](https://github.com/typographics-art/typogram/blob/main/AGENTS.md)) are in [examples/](https://github.com/typographics-art/typogram/tree/main/examples), each with its published source text.
+Every example is read back with MuPDF and compared with its source; every visible character matches. 32 examples (laws, declarations, PEP 8, AI agent instructions, this repository's [AGENTS.md](https://github.com/typographics-art/typogram/blob/main/AGENTS.md)) are in [examples/](https://github.com/typographics-art/typogram/tree/main/examples), each with its published source text.
 
 ```sh
 node cli/onepage.mjs document.pdf --title "Short title" -o onepage.pdf --png preview.jpg
 node cli/onepage.mjs document.pdf --title "Short title" --motif photo.jpg -o onepage.pdf
 ```
 
-**File size.** Every glyph can carry its own weight, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). Of the five examples with a PDF source (Swiss constitution, German Basic Law, US Constitution, EU AI Act, Universal Declaration of Human Rights), three are *smaller* than their source (US Constitution 1.6 MB from 3.8 MB, EU AI Act 2.2 MB from 2.5 MB, Declaration 137 KB from 191 KB); the Swiss constitution is 1.6 times and the Basic Law 2.8 times larger; short plain-text sources grow most (3 KB of instructions -> 67–105 KB). `--weights 2` makes a one-pager smaller still. The [examples table](https://github.com/typographics-art/typogram/blob/main/examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](https://typographics-art.org/examples/motifs/).
+**File size.** Every glyph can carry its own weight, size and colour, and a PDF embeds a font for every weight × width × size it uses. Measured and optimised in [docs/file-size.md](https://typographics-art.org/docs/file-size.md): outlines rounded, empty accessibility tags left out, one type size by default (which also makes the picture sharper). The five laws (Swiss constitution, German Basic Law, US Constitution, EU AI Act, Universal Declaration of Human Rights) are set from their official structured text, not from a PDF; against that plain text a one-pager is about 5 to 17 times larger, because it carries the fonts and every glyph's styling (Basic Law 176 KB -> 871 KB, EU AI Act 289 KB -> 1.7 MB, Swiss constitution 133 KB -> 1.5 MB, US Constitution 44 KB -> 544 KB, Declaration 11 KB -> 183 KB); short plain-text sources grow most (3 KB of instructions -> 121–148 KB). `--weights 2` makes a one-pager smaller still. The [examples table](https://github.com/typographics-art/typogram/blob/main/examples/README.md#file-size-honestly) lists every size; the original motif images are in [examples/motifs/](https://typographics-art.org/examples/motifs/).
 
 Share the PDF, not a picture of it: at this size, a plain image is grey texture to OCR and vision models. And keep it honest: the visible title must name the document, and tiny text must never hide instructions from the people who see the page.
 
@@ -334,6 +334,8 @@ Already shipping (not a plan): the **sealed-media adapter** — point any ordina
 ## Contributing
 
 Typographics Art is meant to become a shared technique, like ASCII art. Ideas, scripts Roboto Flex lacks, better algorithms, translations, benchmarks and artworks are all welcome. Start with [CONTRIBUTING.md](https://github.com/typographics-art/typogram/blob/main/CONTRIBUTING.md); please follow the [code of conduct](https://github.com/typographics-art/typogram/blob/main/CODE_OF_CONDUCT.md).
+
+Accessibility — what we measured, what does not work yet and how to report a barrier: [ACCESSIBILITY.md](https://github.com/typographics-art/typogram/blob/main/ACCESSIBILITY.md).
 
 Want to anchor keys in another log or chain? The anchor plugins are pluggable — see [`anchors/README.md`](https://github.com/typographics-art/typogram/blob/main/anchors/README.md); DigiByte is a good first task.
 
@@ -642,7 +644,7 @@ Measuring found two real defects, both fixed before these results:
 
 ## Which PDF extractors read a one-pager completely
 
-Measured on the ten core examples (the first ten of the 31 one-pagers in `examples/`) (`scripts/extractor-check.py`, results in `docs/extractor-check.json`; characters counted, exact text equality checked for MuPDF, which every build does):
+Measured on the ten core examples (the first ten of the 32 one-pagers in `examples/`) (`scripts/extractor-check.py`, results in `docs/extractor-check.json`; characters counted, exact text equality checked for MuPDF, which every build does):
 
 | Extractor | read completely | notes |
 |---|---|---|
@@ -1018,6 +1020,7 @@ Every page is checked by reading it back with MuPDF and comparing it with the so
 | agent-prompts-projekt | **[Agenten-Prompts: Projektmanagement (5 Prompts)](https://typographics-art.org/examples/agent-prompts-projekt/onepage.pdf)** | 2,490 words | 18,012 characters at 2.74 mm | 217 KB (original 18 KB) | yes every visible character identical (exact) |
 | agent-prompts-design | **[Agenten-Prompts: Design und Produkt (4 Prompts)](https://typographics-art.org/examples/agent-prompts-design/onepage.pdf)** | 2,637 words | 20,051 characters at 2.567 mm | 249 KB (original 20 KB) | yes every visible character identical (exact) |
 | agent-prompts-betrieb | **[Agenten-Prompts: Agentenbetrieb (5 Prompts)](https://typographics-art.org/examples/agent-prompts-betrieb/onepage.pdf)** | 2,771 words | 20,107 characters at 2.589 mm | 232 KB (original 20 KB) | yes every visible character identical (exact) |
+| agentic-engineering | **[Agentic Engineering: Building Multi-Agent Systems (a general, by-use-case build guide)](https://typographics-art.org/examples/agentic-engineering/onepage.pdf)** · [motif](https://typographics-art.org/examples/motifs/eu-ai-act-network.png) | 7,297 words | 41,662 characters at 1.856 mm | 352 KB (original 41 KB) | yes every visible character identical (exact) |
 
 ## File size, honestly
 
@@ -1071,6 +1074,7 @@ What is done about it, each step measured in [docs/file-size.md](https://typogra
 | agent-prompts-projekt | Written for this repository (MIT) |
 | agent-prompts-design | Written for this repository (MIT) |
 | agent-prompts-betrieb | Written for this repository (MIT) |
+| agentic-engineering | Original written synthesis by typographics-art.org. CC BY 4.0. |
 
 ## Why AI instructions?
 
