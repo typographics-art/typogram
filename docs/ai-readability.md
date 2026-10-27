@@ -85,7 +85,7 @@ Measuring found two real defects, both fixed before these results:
 
 ## Which PDF extractors read a one-pager completely
 
-Measured on the ten core examples (the first ten of the 31 one-pagers in `examples/`) (`scripts/extractor-check.py`, results in `docs/extractor-check.json`; characters counted, exact text equality checked for MuPDF, which every build does):
+Measured on the ten core examples (the first ten of the 32 one-pagers in `examples/`) (`scripts/extractor-check.py`, results in `docs/extractor-check.json`; characters counted, exact text equality checked for MuPDF, which every build does):
 
 | Extractor | read completely | notes |
 |---|---|---|

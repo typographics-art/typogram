@@ -12,6 +12,9 @@ the honest list of what works, what is coming, and what you could help with. Iss
   Range, in RAM, nothing to disk ([docs/encrypted-media-adapter.md](docs/encrypted-media-adapter.md)).
 - Structured data (TGD), sealed data and keys, a seed/vault key model, hidden messages — library, CLI, browser, tests.
 - One-pagers: a whole document on one page as a picture that a machine reads back exactly.
+- **Picture quality for photos**: an auto-levels tone map, subject-keyed paper polarity, and a dynamic-range metric
+  alongside the correlation one — a solid-set text block only inks ~11–35 % of a cell, so a portrait needs the full tonal
+  band and the right paper, not more fonts (measured).
 
 ## Coming soon — and the community could own these
 
@@ -26,9 +29,6 @@ the honest list of what works, what is coming, and what you could help with. Iss
 
 ## Open tasks (good places to start)
 
-- **Picture quality for photos** (in progress): an auto-levels tone map, subject-keyed paper polarity, and a
-  dynamic-range metric alongside the correlation one — a solid-set text block only inks ~11–35 % of a cell, so a portrait
-  needs the full tonal band and the right paper, not more fonts (measured).
 - **Optical-size consistency**: the coverage model and the PNG preview use canvas `ctx.font`, which ignores
   `font-variation-settings`, so the pinned `opsz` shapes the SVG/PDF export but not the measured coverage or the raster
   preview. Make the tone model and the export agree on the optical size.
